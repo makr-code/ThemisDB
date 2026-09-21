@@ -1,0 +1,447 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_rotary_embedding" kind="class" language="C++" prot="public">
+    <compoundname>themis::RotaryEmbedding</compoundname>
+    <derivedcompoundref refid="classthemis_1_1_learnable_rotary_embedding" prot="public" virt="non-virtual">themis::LearnableRotaryEmbedding</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1_lo_r_a_rotary_embedding" prot="public" virt="non-virtual">themis::LoRARotaryEmbedding</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1_rotary_embedding_g_p_u" prot="public" virt="non-virtual">themis::RotaryEmbeddingGPU</derivedcompoundref>
+    <includes refid="rotary__embeddings_8h" local="no">rotary_embeddings.h</includes>
+    <innerclass refid="structthemis_1_1_rotary_embedding_1_1_rotation_stats" prot="public">themis::RotaryEmbedding::RotationStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_1a0ddaadc990248a4477c2f549f933fb13" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_rotation_config" kindref="compound">RotationConfig</ref></type>
+        <definition>RotationConfig themis::RotaryEmbedding::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::RotaryEmbedding::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="113" column="20" bodyfile="include/index/rotary_embeddings.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_1add12001d8ce7585c894ef4960c8e0c9b" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::RotaryEmbedding::relation_cache_</definition>
+        <argsstring></argsstring>
+        <name>relation_cache_</name>
+        <qualifiedname>themis::RotaryEmbedding::relation_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="116" column="32" bodyfile="include/index/rotary_embeddings.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_1a9068f60aa7cf4102341d4ef77b98c2dd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::RotaryEmbedding::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::RotaryEmbedding::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="117" column="24" bodyfile="include/index/rotary_embeddings.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_1aa3e83fe5e8176141ba83d37798f9f0bc" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RotaryEmbedding::total_rotated_entities_</definition>
+        <argsstring></argsstring>
+        <name>total_rotated_entities_</name>
+        <qualifiedname>themis::RotaryEmbedding::total_rotated_entities_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="118" column="22" bodyfile="include/index/rotary_embeddings.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_1a414bef03612de94bb4bb8d8469e756fb" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RotaryEmbedding::total_relational_rotations_</definition>
+        <argsstring></argsstring>
+        <name>total_relational_rotations_</name>
+        <qualifiedname>themis::RotaryEmbedding::total_relational_rotations_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="119" column="22" bodyfile="include/index/rotary_embeddings.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rotary_embedding_1a693e4eee1c69dc5e1a716536192747c0" prot="private" static="no" mutable="yes">
+        <type>double</type>
+        <definition>double themis::RotaryEmbedding::total_rotation_time_us_</definition>
+        <argsstring></argsstring>
+        <name>total_rotation_time_us_</name>
+        <qualifiedname>themis::RotaryEmbedding::total_rotation_time_us_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="120" column="20" bodyfile="include/index/rotary_embeddings.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a521359d8e492d96e07e05e7dc1cb054f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RotaryEmbedding::RotaryEmbedding</definition>
+        <argsstring>(const RotationConfig &amp;config)</argsstring>
+        <name>RotaryEmbedding</name>
+        <qualifiedname>themis::RotaryEmbedding::RotaryEmbedding</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_rotation_config" kindref="compound">RotationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="71" column="14" bodyfile="src/index/rotary_embeddings.cpp" bodystart="51" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a2c9143e53742074762cb82daf7927042" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::RotaryEmbedding::rotate</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, size_t position) const</argsstring>
+        <name>rotate</name>
+        <qualifiedname>themis::RotaryEmbedding::rotate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Rotate embedding by position Applies 2D rotations to coordinate pairs: R(x, θ) = [x₀ cos(θ) - x₁ sin(θ), x₀ sin(θ) + x₁ cos(θ)] For position m: f(x_m) = R(x_m, mθ₀) ⊕ R(x_m, mθ₁) ⊕ ... ⊕ R(x_m, mθ_{d/2-1}) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="78" column="17" bodyfile="src/index/rotary_embeddings.cpp" bodystart="67" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a53c07bf4a0d724c5489ecb0083274ba9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::RotaryEmbedding::rotateInverse</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, size_t position) const</argsstring>
+        <name>rotateInverse</name>
+        <qualifiedname>themis::RotaryEmbedding::rotateInverse</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+<para>Apply inverse rotation (for decoding/reconstruction). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="84" column="17" bodyfile="src/index/rotary_embeddings.cpp" bodystart="127" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1ac17198c4d4fe645c09f0d133fcaade42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::RotaryEmbedding::rotateBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;embeddings, const std::vector&lt; size_t &gt; &amp;positions) const</argsstring>
+        <name>rotateBatch</name>
+        <qualifiedname>themis::RotaryEmbedding::rotateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>embeddings</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>positions</declname>
+        </param>
+        <briefdescription>
+<para>Rotate multiple embeddings with corresponding positions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="92" column="17" bodyfile="src/index/rotary_embeddings.cpp" bodystart="163" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a6c29186ae0026d91b8c114b8f8cc0af8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::RotaryEmbedding::rotateRelational</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, const std::string &amp;relation_type) const</argsstring>
+        <name>rotateRelational</name>
+        <qualifiedname>themis::RotaryEmbedding::rotateRelational</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relation_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply relational rotation based on relation type Uses hash of relation_type to determine rotation angle Enables TransE-like translational embeddings in vector space </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="102" column="17" bodyfile="src/index/rotary_embeddings.cpp" bodystart="184" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a26a58fabc6a707462466dc379e598451" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_rotation_config" kindref="compound">RotationConfig</ref> &amp;</type>
+        <definition>const RotationConfig &amp; themis::RotaryEmbedding::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::RotaryEmbedding::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="109" column="26" bodyfile="include/index/rotary_embeddings.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a145991c63f923097b7539100c0686c68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_rotary_embedding_1_1_rotation_stats" kindref="compound">RotationStats</ref></type>
+        <definition>RotaryEmbedding::RotationStats themis::RotaryEmbedding::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::RotaryEmbedding::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="110" column="19" bodyfile="src/index/rotary_embeddings.cpp" bodystart="203" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a552c1bd0e5a2c173d1f5882770e043d8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RotaryEmbedding::rotateCoordinatePair</definition>
+        <argsstring>(float &amp;x, float &amp;y, double cos_theta, double sin_theta) const</argsstring>
+        <name>rotateCoordinatePair</name>
+        <qualifiedname>themis::RotaryEmbedding::rotateCoordinatePair</qualifiedname>
+        <param>
+          <type>float &amp;</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float &amp;</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cos_theta</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sin_theta</declname>
+        </param>
+        <briefdescription>
+<para>Rotate a single coordinate pair in 2D. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="125" column="10" bodyfile="src/index/rotary_embeddings.cpp" bodystart="219" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a672b8a41d1036d6c61d6a935171547f4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; double, double &gt;</type>
+        <definition>std::pair&lt; double, double &gt; themis::RotaryEmbedding::computeRotationAngles</definition>
+        <argsstring>(size_t position, size_t pair_idx) const</argsstring>
+        <name>computeRotationAngles</name>
+        <qualifiedname>themis::RotaryEmbedding::computeRotationAngles</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pair_idx</declname>
+        </param>
+        <briefdescription>
+<para>Compute cos and sin for rotation at given position and pair index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="131" column="15" bodyfile="src/index/rotary_embeddings.cpp" bodystart="233" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a87c70aada2eec5f9cfe72a6a66ff24f3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::RotaryEmbedding::hashRelationType</definition>
+        <argsstring>(const std::string &amp;relation_type) const</argsstring>
+        <name>hashRelationType</name>
+        <qualifiedname>themis::RotaryEmbedding::hashRelationType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relation_type</declname>
+        </param>
+        <briefdescription>
+<para>Hash relation type to rotation index (for relational embeddings). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="136" column="12" bodyfile="src/index/rotary_embeddings.cpp" bodystart="250" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1a9e2d75393cf3c0305cc30b83ebe172bd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RotaryEmbedding::normalizeL2</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;vec) const</argsstring>
+        <name>normalizeL2</name>
+        <qualifiedname>themis::RotaryEmbedding::normalizeL2</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Normalize vector to unit length (L2 normalization). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="139" column="10" bodyfile="src/index/rotary_embeddings.cpp" bodystart="273" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rotary_embedding_1ac26202b77a75f5e1520f6d4d4ebc1731" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::RotaryEmbedding::rotateImpl</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, size_t position, bool is_relational) const</argsstring>
+        <name>rotateImpl</name>
+        <qualifiedname>themis::RotaryEmbedding::rotateImpl</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_relational</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings.h" line="141" column="17" bodyfile="src/index/rotary_embeddings.cpp" bodystart="74" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Rotary Position Embeddings Implementation</para>
+<para>Implements rotation-based positional encoding for transformer models, adapted for use in ThemisDB&apos;s vector storage layer. Enables:<itemizedlist>
+<listitem><para>Positional awareness for sequential entities</para>
+</listitem><listitem><para>Relational embeddings for knowledge graph operations</para>
+</listitem><listitem><para>Temporal encoding for time-series data</para>
+</listitem><listitem><para>Multi-relational vector search</para>
+</listitem></itemizedlist>
+</para>
+<para>Sources:<itemizedlist>
+<listitem><para>RoFormer Paper: Su, J., et al. (2021). arXiv:2104.09864</para>
+</listitem><listitem><para>Original Concept: Rotary Position Embedding (RoPE)</para>
+</listitem><listitem><para>ThemisDB Integration: ThemisDB Core Team </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::LearnableRotaryEmbedding</label>
+        <link refid="classthemis_1_1_learnable_rotary_embedding"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::LoRARotaryEmbedding</label>
+        <link refid="classthemis_1_1_lo_r_a_rotary_embedding"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::RotaryEmbedding</label>
+        <link refid="classthemis_1_1_rotary_embedding"/>
+      </node>
+      <node id="4">
+        <label>themis::RotaryEmbeddingGPU</label>
+        <link refid="classthemis_1_1_rotary_embedding_g_p_u"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/index/rotary_embeddings.h" line="63" column="1" bodyfile="include/index/rotary_embeddings.h" bodystart="63" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_rotary_embedding_1a672b8a41d1036d6c61d6a935171547f4" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>computeRotationAngles</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a0ddaadc990248a4477c2f549f933fb13" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a26a58fabc6a707462466dc379e598451" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a145991c63f923097b7539100c0686c68" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a87c70aada2eec5f9cfe72a6a66ff24f3" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>hashRelationType</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a9e2d75393cf3c0305cc30b83ebe172bd" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>normalizeL2</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1add12001d8ce7585c894ef4960c8e0c9b" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>relation_cache_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a521359d8e492d96e07e05e7dc1cb054f" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>RotaryEmbedding</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a2c9143e53742074762cb82daf7927042" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>rotate</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1ac17198c4d4fe645c09f0d133fcaade42" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>rotateBatch</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a552c1bd0e5a2c173d1f5882770e043d8" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>rotateCoordinatePair</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1ac26202b77a75f5e1520f6d4d4ebc1731" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>rotateImpl</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a53c07bf4a0d724c5489ecb0083274ba9" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>rotateInverse</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a6c29186ae0026d91b8c114b8f8cc0af8" prot="public" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>rotateRelational</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a9068f60aa7cf4102341d4ef77b98c2dd" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a414bef03612de94bb4bb8d8469e756fb" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>total_relational_rotations_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1aa3e83fe5e8176141ba83d37798f9f0bc" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>total_rotated_entities_</name></member>
+      <member refid="classthemis_1_1_rotary_embedding_1a693e4eee1c69dc5e1a716536192747c0" prot="private" virt="non-virtual"><scope>themis::RotaryEmbedding</scope><name>total_rotation_time_us_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

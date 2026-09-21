@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_dimension_rubric" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::DimensionRubric</compoundname>
+    <includes refid="rubric__evaluator_8h" local="no">rubric_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1ad26168ce77f805c55d57eb77fbae1ab2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::DimensionRubric::dimension_name</definition>
+        <argsstring></argsstring>
+        <name>dimension_name</name>
+        <qualifiedname>themis::rag::judge::DimensionRubric::dimension_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="34" column="17" bodyfile="include/rag/rubric_evaluator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a3a28095a92f57e87e27d0ef8fff1a0fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::DimensionRubric::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::rag::judge::DimensionRubric::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="35" column="17" bodyfile="include/rag/rubric_evaluator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a1a6742aafba6c1f74cef36643d812077" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DimensionRubric::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::rag::judge::DimensionRubric::weight</qualifiedname>
+        <briefdescription>
+<para>Weight in overall score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="36" column="12" bodyfile="include/rag/rubric_evaluator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1aec66ff04790bc418eab5c8f865b9e23a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_level" kindref="compound">RubricLevel</ref> &gt;</type>
+        <definition>std::vector&lt;RubricLevel&gt; themis::rag::judge::DimensionRubric::levels</definition>
+        <argsstring></argsstring>
+        <name>levels</name>
+        <qualifiedname>themis::rag::judge::DimensionRubric::levels</qualifiedname>
+        <briefdescription>
+<para>Scoring levels (1-5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="37" column="17" bodyfile="include/rag/rubric_evaluator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Rubric for a specific dimension. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rubric_evaluator.h" line="33" column="1" bodyfile="include/rag/rubric_evaluator.h" bodystart="33" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a3a28095a92f57e87e27d0ef8fff1a0fe" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionRubric</scope><name>description</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1ad26168ce77f805c55d57eb77fbae1ab2" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionRubric</scope><name>dimension_name</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1aec66ff04790bc418eab5c8f865b9e23a" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionRubric</scope><name>levels</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a1a6742aafba6c1f74cef36643d812077" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionRubric</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_rag_quality_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::RagQualityMonitor</compoundname>
+    <includes refid="rag__quality__monitor_8h" local="no">rag_quality_monitor.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_rag_quality_monitor_1_1_stats" prot="private">themis::rag::RagQualityMonitor::Stats</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_rag_quality_monitor_1a26de9b7079bdec31ccb0d215d6c5aec9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::RagQualityMonitor::kWindowSize</definition>
+        <argsstring></argsstring>
+        <name>kWindowSize</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::kWindowSize</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Maximum samples retained in the rolling window (≈ 5 min at 1 Hz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="77" column="34" bodyfile="include/rag/rag_quality_monitor.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_rag_quality_monitor_1aad89a16adcd567e7472130f144b65a93" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::RagQualityMonitor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="123" column="36" bodyfile="include/rag/rag_quality_monitor.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_rag_quality_monitor_1aa8955e301b7df843db470e9fa491088d" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1rag_1_1_layer_quality_metrics" kindref="compound">LayerQualityMetrics</ref> &gt;</type>
+        <definition>std::deque&lt;LayerQualityMetrics&gt; themis::rag::RagQualityMonitor::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="124" column="16" bodyfile="include/rag/rag_quality_monitor.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_rag_quality_monitor_1a85e8fddd7ab91d6bee87c58881a9e319" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::RagQualityMonitor::RagQualityMonitor</definition>
+        <argsstring>()=default</argsstring>
+        <name>RagQualityMonitor</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::RagQualityMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_rag_quality_monitor_1a65da225729a7f75dc44ff5bd218be565" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::RagQualityMonitor::recordMetrics</definition>
+        <argsstring>(const LayerQualityMetrics &amp;m)</argsstring>
+        <name>recordMetrics</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::recordMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_layer_quality_metrics" kindref="compound">LayerQualityMetrics</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Records a quality sample into the rolling ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Metrics.</para>
+<para>If the buffer already holds kWindowSize samples the oldest entry is evicted (FIFO). Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metrics sample to record.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="89" column="10" bodyfile="src/rag/rag_quality_monitor.cpp" bodystart="26" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_rag_quality_monitor_1a2d4c744e048b10a67b065e8e0918bc33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::RagQualityMonitor::emitPrometheusGauges</definition>
+        <argsstring>() const</argsstring>
+        <name>emitPrometheusGauges</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::emitPrometheusGauges</qualifiedname>
+        <briefdescription>
+<para>Emits the most-recent sample as Prometheus gauge lines to THEMIS_INFO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emits in the standard text exposition format (no external library): <verbatim>* # HELP rag_ann_recall_at_10 ANN Recall@10 over rolling window
+* # TYPE rag_ann_recall_at_10 gauge
+* rag_ann_recall_at_10 0.85
+* </verbatim></para>
+<para>No-op when the ring buffer is empty. Thread-safe (takes shared lock). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="104" column="10" bodyfile="src/rag/rag_quality_monitor.cpp" bodystart="44" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_rag_quality_monitor_1a067b368d5740bcd3c7f0f2a7aae2b696" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::RagQualityMonitor::checkAnomalies</definition>
+        <argsstring>() const</argsstring>
+        <name>checkAnomalies</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::checkAnomalies</qualifiedname>
+        <briefdescription>
+<para>Computes per-metric rolling z-scores and returns root-cause hints for any metric whose latest sample deviates by ≥ 3 standard deviations from the window mean. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Root-cause hint mapping:<itemizedlist>
+<listitem><para><computeroutput>ann_recall_at_10</computeroutput> low → <computeroutput>&quot;low_recall&quot;</computeroutput> </para>
+</listitem><listitem><para><computeroutput>query_latency_ms</computeroutput> high → <computeroutput>&quot;high_latency&quot;</computeroutput> </para>
+</listitem><listitem><para><computeroutput>guardrail_deny_rate</computeroutput> high → <computeroutput>&quot;guardrail_deny_rate&quot;</computeroutput> </para>
+</listitem></itemizedlist>
+</para>
+<para>THEMIS_WARN is emitted for each detected anomaly. Thread-safe.</para>
+<para><simplesect kind="return"><para>Vector of root-cause hint strings (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="120" column="17" bodyfile="src/rag/rag_quality_monitor.cpp" bodystart="121" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_rag_quality_monitor_1ab380fd23c79915bad6e83867ccbcdee5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Selector</type>
+          </param>
+        </templateparamlist>
+        <type>Stats</type>
+        <definition>RagQualityMonitor::Stats themis::rag::RagQualityMonitor::computeStats</definition>
+        <argsstring>(Selector selector) const</argsstring>
+        <name>computeStats</name>
+        <qualifiedname>themis::rag::RagQualityMonitor::computeStats</qualifiedname>
+        <param>
+          <type>Selector</type>
+          <declname>selector</declname>
+        </param>
+        <briefdescription>
+<para>Computes mean and sample stddev for a metric extracted by <computeroutput>selector</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="132" column="11" bodyfile="src/rag/rag_quality_monitor.cpp" bodystart="97" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe RAG quality monitor with Prometheus gauge emission and rolling z-score anomaly detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">themis::rag::RagQualityMonitor<sp/>monitor;</highlight></codeline>
+<codeline><highlight class="normal">monitor.<ref refid="classthemis_1_1rag_1_1_rag_quality_monitor_1a65da225729a7f75dc44ff5bd218be565" kindref="member">recordMetrics</ref>({0.85f,<sp/>0.92f,<sp/>0.88f,<sp/>0.74f,<sp/>120.0f,<sp/>0.01f});</highlight></codeline>
+<codeline><highlight class="normal">monitor.<ref refid="classthemis_1_1rag_1_1_rag_quality_monitor_1a2d4c744e048b10a67b065e8e0918bc33" kindref="member">emitPrometheusGauges</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>anomalies<sp/>=<sp/>monitor.<ref refid="classthemis_1_1rag_1_1_rag_quality_monitor_1a067b368d5740bcd3c7f0f2a7aae2b696" kindref="member">checkAnomalies</ref>();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/rag_quality_monitor.h" line="74" column="1" bodyfile="include/rag/rag_quality_monitor.h" bodystart="74" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_rag_quality_monitor_1aa8955e301b7df843db470e9fa491088d" prot="private" virt="non-virtual"><scope>themis::rag::RagQualityMonitor</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1rag_1_1_rag_quality_monitor_1a067b368d5740bcd3c7f0f2a7aae2b696" prot="public" virt="non-virtual"><scope>themis::rag::RagQualityMonitor</scope><name>checkAnomalies</name></member>
+      <member refid="classthemis_1_1rag_1_1_rag_quality_monitor_1ab380fd23c79915bad6e83867ccbcdee5" prot="private" virt="non-virtual"><scope>themis::rag::RagQualityMonitor</scope><name>computeStats</name></member>
+      <member refid="classthemis_1_1rag_1_1_rag_quality_monitor_1a2d4c744e048b10a67b065e8e0918bc33" prot="public" virt="non-virtual"><scope>themis::rag::RagQualityMonitor</scope><name>emitPrometheusGauges</name></member>
+      <member refid="classthemis_1_1rag_1_1_rag_quality_monitor_1a26de9b7079bdec31ccb0d215d6c5aec9" prot="public" virt="non-virtual"><scope>themis::rag::RagQualityMonitor</scope><name>kWindowSize</name></member>
+      <member refid="classthemis_1_1rag_1_1_rag_quality_monitor_1aad89a16adcd567e7472130f144b65a93" prot="private" virt="non-virtual"><scope>themis::rag::RagQualityMonitor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1rag_1_1_rag_quality_monitor_1a85e8fddd7ab91d6bee87c58881a9e319" prot="public" virt="non-virtual"><scope>themis::rag::RagQualityMonitor</scope><name>RagQualityMonitor</name></member>
+      <member refid="classthemis_1_1rag_1_1_rag_quality_monitor_1a65da225729a7f75dc44ff5bd218be565" prot="public" virt="non-virtual"><scope>themis::rag::RagQualityMonitor</scope><name>recordMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geo__faiss__knn_8h" kind="file" language="C++">
+    <compoundname>geo_faiss_knn.h</compoundname>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="geo__faiss__knn_8cpp" local="yes">src/geo/geo_faiss_knn.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/geo/geo_faiss_knn.h</label>
+        <link refid="geo__faiss__knn_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/geo/geo_faiss_knn.h</label>
+        <link refid="geo__faiss__knn_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/geo/geo_faiss_knn.cpp</label>
+        <link refid="geo__faiss__knn_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_knn_result" prot="public">themis::geo::GeoKnnResult</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_geo_faiss_knn" prot="public">themis::geo::GeoFaissKnn</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" prot="public">themis::geo::GeoFaissKnn::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.9 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1geo_1_1_geo_knn_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_knn_result" kindref="compound">GeoKnnResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1geo_1_1_geo_knn_result_1a7c7880b875897ea41f0d71f54bb76869" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1geo_1_1_geo_knn_result_1a7c7880b875897ea41f0d71f54bb76869" kindref="member">index</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1geo_1_1_geo_knn_result_1a62cfdfb422508b74ec64014a9b915465" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_knn_result_1a62cfdfb422508b74ec64014a9b915465" kindref="member">dist_m</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1geo_1_1_geo_faiss_knn" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config_1a0799fc4ac7ba2959818bf463dbba6889" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config_1a0799fc4ac7ba2959818bf463dbba6889" kindref="member">cuda_device_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config_1a74fccd2a6c70e11230c78c487fbaae75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config_1a74fccd2a6c70e11230c78c487fbaae75" kindref="member">force_cpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg<sp/>=<sp/><ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" kindref="compound">Config</ref>{});</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a701c9f669587c4fcb4d88c32c5a87aaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a701c9f669587c4fcb4d88c32c5a87aaf" kindref="member">~GeoFaissKnn</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1geo_1_1_geo_faiss_knn_1abacb8007bcb29b4e4902f3853875f930" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1abacb8007bcb29b4e4902f3853875f930" kindref="member">GeoFaissKnn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a57101d93ce946a31b905c4abf6bd8c02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a57101d93ce946a31b905c4abf6bd8c02" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a923e4e82b9189743e7de1e7e8f50da99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a923e4e82b9189743e7de1e7e8f50da99" kindref="member">GeoFaissKnn</ref>(<ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a32ce7164deb039ea97eaec5b6ad5319c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1ae070f9fbba6bdd66527885db934d0ee3" kindref="member">build</ref>(const<sp/>std::vector&lt;GeometryInfo&gt;&amp;<sp/>dataset);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_knn_result" kindref="compound">GeoKnnResult</ref>&gt;<sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1ad41c26d44bfc45aa791f9a7596524c64" kindref="member">knnSearch</ref>(</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>GeometryInfo&amp;<sp/>query,<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)<sp/>const;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_knn_result" kindref="compound">GeoKnnResult</ref>&gt;<sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a6ea5d6576b2229847e34500ef27e241d" kindref="member">radiusSearch</ref>(</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>GeometryInfo&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>radius_m,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_results<sp/>=<sp/>0)<sp/>const;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a0a88df7bb915af6ac861f09ea3b6bfe3" kindref="member">isBuilt</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1ac1718b3d55ebb5e97b7f1f25f0bae974" kindref="member">size</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1af034d546c47e96940cfe46a4e3ab13fd" kindref="member">getBackendName</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/geo_faiss_knn.h"/>
+  </compounddef>
+</doxygen>

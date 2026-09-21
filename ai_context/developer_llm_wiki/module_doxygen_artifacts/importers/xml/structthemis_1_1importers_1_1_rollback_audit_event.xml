@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_rollback_audit_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::RollbackAuditEvent</compoundname>
+    <includes refid="audit__trail_8h" local="no">audit_trail.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_rollback_audit_event_1abccbb8684f09b41964d743cf5805b690" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a7a6ec751a2104dda68675ad8c103709d" kindref="member">RollbackReason</ref></type>
+        <definition>RollbackReason themis::importers::RollbackAuditEvent::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::importers::RollbackAuditEvent::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="71" column="20" bodyfile="include/importers/audit_trail.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_rollback_audit_event_1ace23630a1935865a21f7ffc0ad42ec9b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::RollbackAuditEvent::rows_attempted</definition>
+        <argsstring></argsstring>
+        <name>rows_attempted</name>
+        <qualifiedname>themis::importers::RollbackAuditEvent::rows_attempted</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="73" column="14" bodyfile="include/importers/audit_trail.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_rollback_audit_event_1a7bf036c86886080aa0fd7fc10992c4ad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::RollbackAuditEvent::rows_committed</definition>
+        <argsstring></argsstring>
+        <name>rows_committed</name>
+        <qualifiedname>themis::importers::RollbackAuditEvent::rows_committed</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="75" column="14" bodyfile="include/importers/audit_trail.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_rollback_audit_event_1a0fac10d95d4ab18f54f17a62b47f6660" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::RollbackAuditEvent::rows_rolled_back</definition>
+        <argsstring></argsstring>
+        <name>rows_rolled_back</name>
+        <qualifiedname>themis::importers::RollbackAuditEvent::rows_rolled_back</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="77" column="14" bodyfile="include/importers/audit_trail.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_rollback_audit_event_1a66328c93bee46f030c252cd94b44f045" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RollbackAuditEvent::failure_first_row_id</definition>
+        <argsstring></argsstring>
+        <name>failure_first_row_id</name>
+        <qualifiedname>themis::importers::RollbackAuditEvent::failure_first_row_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="79" column="17" bodyfile="include/importers/audit_trail.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_rollback_audit_event_1a86c127fa2b2c88ddc53dcaadd3cb8334" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RollbackAuditEvent::recovery_suggestion</definition>
+        <argsstring></argsstring>
+        <name>recovery_suggestion</name>
+        <qualifiedname>themis::importers::RollbackAuditEvent::recovery_suggestion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="81" column="17" bodyfile="include/importers/audit_trail.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_rollback_audit_event_1ae77cc543a1df06d1a7d0e2b260fd0175" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::RollbackAuditEvent::rollback_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>rollback_timestamp_ns</name>
+        <qualifiedname>themis::importers::RollbackAuditEvent::rollback_timestamp_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="83" column="14" bodyfile="include/importers/audit_trail.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_rollback_audit_event_1a2517a2ed34d2e3f9cc18769b866fd6c5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::RollbackAuditEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::RollbackAuditEvent::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="85" column="10" bodyfile="include/importers/audit_trail.h" bodystart="85" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/audit_trail.h" line="70" column="1" bodyfile="include/importers/audit_trail.h" bodystart="70" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_rollback_audit_event_1a66328c93bee46f030c252cd94b44f045" prot="public" virt="non-virtual"><scope>themis::importers::RollbackAuditEvent</scope><name>failure_first_row_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_rollback_audit_event_1abccbb8684f09b41964d743cf5805b690" prot="public" virt="non-virtual"><scope>themis::importers::RollbackAuditEvent</scope><name>reason</name></member>
+      <member refid="structthemis_1_1importers_1_1_rollback_audit_event_1a86c127fa2b2c88ddc53dcaadd3cb8334" prot="public" virt="non-virtual"><scope>themis::importers::RollbackAuditEvent</scope><name>recovery_suggestion</name></member>
+      <member refid="structthemis_1_1importers_1_1_rollback_audit_event_1ae77cc543a1df06d1a7d0e2b260fd0175" prot="public" virt="non-virtual"><scope>themis::importers::RollbackAuditEvent</scope><name>rollback_timestamp_ns</name></member>
+      <member refid="structthemis_1_1importers_1_1_rollback_audit_event_1ace23630a1935865a21f7ffc0ad42ec9b" prot="public" virt="non-virtual"><scope>themis::importers::RollbackAuditEvent</scope><name>rows_attempted</name></member>
+      <member refid="structthemis_1_1importers_1_1_rollback_audit_event_1a7bf036c86886080aa0fd7fc10992c4ad" prot="public" virt="non-virtual"><scope>themis::importers::RollbackAuditEvent</scope><name>rows_committed</name></member>
+      <member refid="structthemis_1_1importers_1_1_rollback_audit_event_1a0fac10d95d4ab18f54f17a62b47f6660" prot="public" virt="non-virtual"><scope>themis::importers::RollbackAuditEvent</scope><name>rows_rolled_back</name></member>
+      <member refid="structthemis_1_1importers_1_1_rollback_audit_event_1a2517a2ed34d2e3f9cc18769b866fd6c5" prot="public" virt="non-virtual"><scope>themis::importers::RollbackAuditEvent</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

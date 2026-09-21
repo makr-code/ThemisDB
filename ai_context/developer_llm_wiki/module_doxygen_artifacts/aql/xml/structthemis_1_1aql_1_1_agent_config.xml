@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_agent_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AgentConfig</compoundname>
+    <includes refid="aql__agent_8h" local="no">aql_agent.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_config_1a5540a42a7dc72d06ecc73ebe825b17be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AgentConfig::model_alias</definition>
+        <argsstring></argsstring>
+        <name>model_alias</name>
+        <qualifiedname>themis::aql::AgentConfig::model_alias</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="45" column="17" bodyfile="include/aql/aql_agent.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_config_1a3a9a10a1b2a84fabb2d4c2a393208a13" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::AgentConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::aql::AgentConfig::max_iterations</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="47" column="9" bodyfile="include/aql/aql_agent.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_config_1a37812556e5713e208ea5beff8edf8117" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AgentConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::aql::AgentConfig::temperature</qualifiedname>
+        <initializer>= 0.3f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="49" column="11" bodyfile="include/aql/aql_agent.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_config_1a9ae954bbfc310aba992fd74ab211b787" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::AgentConfig::max_tokens_per_step</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_step</name>
+        <qualifiedname>themis::aql::AgentConfig::max_tokens_per_step</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="51" column="9" bodyfile="include/aql/aql_agent.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_config_1a05b9b2d5189004b1cb47f712d01865d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AgentConfig::verbose</definition>
+        <argsstring></argsstring>
+        <name>verbose</name>
+        <qualifiedname>themis::aql::AgentConfig::verbose</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="53" column="10" bodyfile="include/aql/aql_agent.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_agent.h" line="44" column="1" bodyfile="include/aql/aql_agent.h" bodystart="44" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_agent_config_1a3a9a10a1b2a84fabb2d4c2a393208a13" prot="public" virt="non-virtual"><scope>themis::aql::AgentConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_config_1a9ae954bbfc310aba992fd74ab211b787" prot="public" virt="non-virtual"><scope>themis::aql::AgentConfig</scope><name>max_tokens_per_step</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_config_1a5540a42a7dc72d06ecc73ebe825b17be" prot="public" virt="non-virtual"><scope>themis::aql::AgentConfig</scope><name>model_alias</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_config_1a37812556e5713e208ea5beff8edf8117" prot="public" virt="non-virtual"><scope>themis::aql::AgentConfig</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_config_1a05b9b2d5189004b1cb47f712d01865d6" prot="public" virt="non-virtual"><scope>themis::aql::AgentConfig</scope><name>verbose</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

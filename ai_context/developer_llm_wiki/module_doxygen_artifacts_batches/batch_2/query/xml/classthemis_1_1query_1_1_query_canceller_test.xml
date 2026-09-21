@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_canceller_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryCancellerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_canceller_test_1a96e239c2471beb62ee611b8ac3f9aebe" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref></type>
+        <definition>QueryCanceller themis::query::QueryCancellerTest::canceller_</definition>
+        <argsstring></argsstring>
+        <name>canceller_</name>
+        <qualifiedname>themis::query::QueryCancellerTest::canceller_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_safety_fixes.cpp" line="230" column="20" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryCancellerTest</label>
+        <link refid="classthemis_1_1query_1_1_query_canceller_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::QueryCanceller</label>
+        <link refid="classthemis_1_1query_1_1_query_canceller"/>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryCancellerTest</label>
+        <link refid="classthemis_1_1query_1_1_query_canceller_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>canceller_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_safety_fixes.cpp" line="228" column="1" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="228" bodyend="231"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_canceller_test_1a96e239c2471beb62ee611b8ac3f9aebe" prot="protected" virt="non-virtual"><scope>themis::query::QueryCancellerTest</scope><name>canceller_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

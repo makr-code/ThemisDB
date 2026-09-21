@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_step_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::StepConfig</compoundname>
+    <includes refid="ingestion__step_8h" local="no">ingestion_step.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_config_1acd268fe63f53864651f08b6942602de4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::StepConfig::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ingestion::StepConfig::name</qualifiedname>
+        <briefdescription>
+<para>Step name (unique within the workflow). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="49" column="18" bodyfile="include/ingestion/ingestion_step.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_config_1ae89466b082cfe2f63b4e8b96d99842bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::StepConfig::plugin</definition>
+        <argsstring></argsstring>
+        <name>plugin</name>
+        <qualifiedname>themis::ingestion::StepConfig::plugin</qualifiedname>
+        <briefdescription>
+<para>Fully qualified plugin name (e.g. &quot;builtin.parse_text&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="50" column="18" bodyfile="include/ingestion/ingestion_step.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_config_1a0c36c4659c2373fe47b5e3f16a4caca5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::StepConfig::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themis::ingestion::StepConfig::condition</qualifiedname>
+        <briefdescription>
+<para>Optional guard expression; empty means &quot;always run&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="51" column="18" bodyfile="include/ingestion/ingestion_step.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_config_1a8b4614ba32a04887330c34f7e83c5e04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::StepConfig::on_failure</definition>
+        <argsstring></argsstring>
+        <name>on_failure</name>
+        <qualifiedname>themis::ingestion::StepConfig::on_failure</qualifiedname>
+        <briefdescription>
+<para>&quot;skip&quot; | &quot;abort&quot; | &quot;quarantine&quot; (default: &quot;abort&quot;) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="52" column="18" bodyfile="include/ingestion/ingestion_step.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_config_1ad4444a056595a176037440046383a2ec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::StepConfig::parallel</definition>
+        <argsstring></argsstring>
+        <name>parallel</name>
+        <qualifiedname>themis::ingestion::StepConfig::parallel</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when this step may run concurrently with siblings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="53" column="18" bodyfile="include/ingestion/ingestion_step.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ingestion::StepConfig::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::ingestion::StepConfig::config</qualifiedname>
+        <briefdescription>
+<para>Raw JSON config block forwarded to the step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="54" column="20" bodyfile="include/ingestion/ingestion_step.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_step_config_1a47574b161b0e1286e5fe63050c3f36ff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::StepConfig::skipOnFailure</definition>
+        <argsstring>() const</argsstring>
+        <name>skipOnFailure</name>
+        <qualifiedname>themis::ingestion::StepConfig::skipOnFailure</qualifiedname>
+        <briefdescription>
+<para>Returns true when <computeroutput><ref refid="structthemis_1_1ingestion_1_1_step_config_1a8b4614ba32a04887330c34f7e83c5e04" kindref="member">on_failure</ref> == "skip"</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="57" column="10" bodyfile="include/ingestion/ingestion_step.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_step_config_1ad624ec0c25ba256db310b712555fe356" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::StepConfig::quarantineOnFailure</definition>
+        <argsstring>() const</argsstring>
+        <name>quarantineOnFailure</name>
+        <qualifiedname>themis::ingestion::StepConfig::quarantineOnFailure</qualifiedname>
+        <briefdescription>
+<para>Returns true when <computeroutput><ref refid="structthemis_1_1ingestion_1_1_step_config_1a8b4614ba32a04887330c34f7e83c5e04" kindref="member">on_failure</ref> == "quarantine"</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_step.h" line="59" column="10" bodyfile="include/ingestion/ingestion_step.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for a single workflow step. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>In the YAML profile each step entry looks like: <programlisting><codeline><highlight class="normal">-<sp/><ref refid="structthemis_1_1ingestion_1_1_step_config_1acd268fe63f53864651f08b6942602de4" kindref="member">name</ref>:<sp/>parse_text</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config_1ae89466b082cfe2f63b4e8b96d99842bc" kindref="member">plugin</ref>:<sp/>builtin.parse_text</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config_1a0c36c4659c2373fe47b5e3f16a4caca5" kindref="member">condition</ref>:<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>optional<sp/>JMESPath-like<sp/>expression</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config_1a8b4614ba32a04887330c34f7e83c5e04" kindref="member">on_failure</ref>:<sp/>skip<sp/><sp/><sp/><sp/><sp/>#<sp/></highlight><highlight class="stringliteral">&quot;skip&quot;</highlight><highlight class="normal"><sp/>|<sp/></highlight><highlight class="stringliteral">&quot;abort&quot;</highlight><highlight class="normal"><sp/>|<sp/></highlight><highlight class="stringliteral">&quot;quarantine&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config_1ad4444a056595a176037440046383a2ec" kindref="member">parallel</ref>:<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" kindref="member">config</ref>:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ocr_enabled:<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ocr_language:<sp/></highlight><highlight class="stringliteral">&quot;deu+eng&quot;</highlight></codeline>
+</programlisting></para>
+<para>The <computeroutput><ref refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" kindref="member">config</ref></computeroutput> sub-object is passed as raw JSON to the step so that each step can parse only the fields it needs without a shared coupling to a central config type. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_step.h" line="48" column="1" bodyfile="include/ingestion/ingestion_step.h" bodystart="48" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_step_config_1a0c36c4659c2373fe47b5e3f16a4caca5" prot="public" virt="non-virtual"><scope>themis::ingestion::StepConfig</scope><name>condition</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" prot="public" virt="non-virtual"><scope>themis::ingestion::StepConfig</scope><name>config</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_config_1acd268fe63f53864651f08b6942602de4" prot="public" virt="non-virtual"><scope>themis::ingestion::StepConfig</scope><name>name</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_config_1a8b4614ba32a04887330c34f7e83c5e04" prot="public" virt="non-virtual"><scope>themis::ingestion::StepConfig</scope><name>on_failure</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_config_1ad4444a056595a176037440046383a2ec" prot="public" virt="non-virtual"><scope>themis::ingestion::StepConfig</scope><name>parallel</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_config_1ae89466b082cfe2f63b4e8b96d99842bc" prot="public" virt="non-virtual"><scope>themis::ingestion::StepConfig</scope><name>plugin</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_config_1ad624ec0c25ba256db310b712555fe356" prot="public" virt="non-virtual"><scope>themis::ingestion::StepConfig</scope><name>quarantineOnFailure</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_config_1a47574b161b0e1286e5fe63050c3f36ff" prot="public" virt="non-virtual"><scope>themis::ingestion::StepConfig</scope><name>skipOnFailure</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

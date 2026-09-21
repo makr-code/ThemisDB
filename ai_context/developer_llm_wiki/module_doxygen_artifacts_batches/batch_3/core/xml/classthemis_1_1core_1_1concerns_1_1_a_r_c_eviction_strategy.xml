@@ -1,0 +1,434 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::ARCEvictionStrategy</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" prot="public" virt="non-virtual">themis::core::concerns::IEvictionStrategy</basecompoundref>
+    <includes refid="eviction__strategies_8h" local="no">eviction_strategies.h</includes>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a45b0ab0c290ca49e4121bf1f08621066" prot="private" static="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>using themis::core::concerns::ARCEvictionStrategy::List = std::list&lt;std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>List</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::List</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="426" column="5" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1aad28290dc71d3b0b3776278067b515ed" prot="private" static="no">
+        <type>std::unordered_map&lt; std::string, std::list&lt; std::string &gt;::iterator &gt;</type>
+        <definition>using themis::core::concerns::ARCEvictionStrategy::Map = std::unordered_map&lt;std::string, std::list&lt;std::string&gt;::iterator&gt;</definition>
+        <argsstring></argsstring>
+        <name>Map</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::Map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="427" column="5" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1aaf8961dce2bd67ca779ce696d0319adf" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ARCEvictionStrategy::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="429" column="12" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a2ee1ff021e81d6b46f6dd8fe5f2a7a87" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ARCEvictionStrategy::p_</definition>
+        <argsstring></argsstring>
+        <name>p_</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::p_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="430" column="12" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ab8cb151f7df51c9c28d4872e6212a89d" prot="private" static="no" mutable="no">
+        <type>List</type>
+        <definition>List themis::core::concerns::ARCEvictionStrategy::t1_list_</definition>
+        <argsstring></argsstring>
+        <name>t1_list_</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::t1_list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="432" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="432" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ae2ef9e63ba90394bbd7b25acbdbccb6b" prot="private" static="no" mutable="no">
+        <type>List</type>
+        <definition>List themis::core::concerns::ARCEvictionStrategy::t2_list_</definition>
+        <argsstring></argsstring>
+        <name>t2_list_</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::t2_list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="432" column="19" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="432" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a1eb48f017f730a9d6f8c814223e2da7d" prot="private" static="no" mutable="no">
+        <type>Map</type>
+        <definition>Map themis::core::concerns::ARCEvictionStrategy::t1_map_</definition>
+        <argsstring></argsstring>
+        <name>t1_map_</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::t1_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="433" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="433" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a6419c994f6922f28f025bec4851ba7cc" prot="private" static="no" mutable="no">
+        <type>Map</type>
+        <definition>Map themis::core::concerns::ARCEvictionStrategy::t2_map_</definition>
+        <argsstring></argsstring>
+        <name>t2_map_</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::t2_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="433" column="19" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="433" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1abdb324c15ee89b2113948369129ac8a3" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::core::concerns::ARCEvictionStrategy::b1_set_</definition>
+        <argsstring></argsstring>
+        <name>b1_set_</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::b1_set_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="434" column="24" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a836db9ade853000fc198118fe10f2c0d" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::core::concerns::ARCEvictionStrategy::b2_set_</definition>
+        <argsstring></argsstring>
+        <name>b2_set_</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::b2_set_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="434" column="32" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="434" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a6ab65287d64161ccbb39cf12e6e08e02" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ARCEvictionStrategy::ARCEvictionStrategy</definition>
+        <argsstring>(size_t capacity=128)</argsstring>
+        <name>ARCEvictionStrategy</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::ARCEvictionStrategy</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+          <defval>128</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="298" column="14" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="298" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1af65953d142b138122ab7491605789f65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ARCEvictionStrategy::onAccess</definition>
+        <argsstring>(std::string_view key) override</argsstring>
+        <name>onAccess</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::onAccess</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a943d6e51f95142703fad164a6d7152f9">onAccess</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>K. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="301" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="301" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a17671e767fe8a418c9d831f9990d8774" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ARCEvictionStrategy::onInsert</definition>
+        <argsstring>(std::string_view key, uint64_t) override</argsstring>
+        <name>onInsert</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::onInsert</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a4b9d6ecaefe1c6e5dbdd8890036b7156">onInsert</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>On Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>K. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="324" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="324" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ab487dc95f31acf9c743dea30843d4a23" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ARCEvictionStrategy::onRemove</definition>
+        <argsstring>(std::string_view key) override</argsstring>
+        <name>onRemove</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::onRemove</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a26c64327ca3715d29df363534725672f">onRemove</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>K. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="364" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="364" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a41bfe6e3b9a7a8ab6ad48e2f03546859" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::core::concerns::ARCEvictionStrategy::selectVictim</definition>
+        <argsstring>() override</argsstring>
+        <name>selectVictim</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::selectVictim</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a212782df993db6a7333d63ddf0a95d5a">selectVictim</reimplements>
+        <briefdescription>
+<para>Select Victim. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="398" column="19" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="398" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1afb311d653731c3afe0970f1435f3bc12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ARCEvictionStrategy::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::clear</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a9d52f4309c92ddf5cdee5bbcfddf3af3">clear</reimplements>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="412" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="412" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ad444f5e65166168e22fa8485c136be5e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ARCEvictionStrategy::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::size</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1ac0a5c2d7082b48f576f1ba960a392e5e">size</reimplements>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="419" column="12" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="419" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1af2b20b7ce08c52acce2d7af10f5b8ce0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::ARCEvictionStrategy::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::core::concerns::ARCEvictionStrategy::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a54c4cabb9da4de4d92a74594e4e16b9e">getName</reimplements>
+        <briefdescription>
+<para>Get Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="423" column="22" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="423" bodyend="423"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::core::concerns::ARCEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::IEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::core::concerns::ARCEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::IEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/eviction_strategies.h" line="296" column="1" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="296" bodyend="435"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a6ab65287d64161ccbb39cf12e6e08e02" prot="public" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>ARCEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1abdb324c15ee89b2113948369129ac8a3" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>b1_set_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a836db9ade853000fc198118fe10f2c0d" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>b2_set_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1aaf8961dce2bd67ca779ce696d0319adf" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>capacity_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1afb311d653731c3afe0970f1435f3bc12" prot="public" virt="virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>clear</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1af2b20b7ce08c52acce2d7af10f5b8ce0" prot="public" virt="virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>getName</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a45b0ab0c290ca49e4121bf1f08621066" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>List</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1aad28290dc71d3b0b3776278067b515ed" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>Map</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1af65953d142b138122ab7491605789f65" prot="public" virt="virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>onAccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a17671e767fe8a418c9d831f9990d8774" prot="public" virt="virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>onInsert</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ab487dc95f31acf9c743dea30843d4a23" prot="public" virt="virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>onRemove</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a2ee1ff021e81d6b46f6dd8fe5f2a7a87" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>p_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a41bfe6e3b9a7a8ab6ad48e2f03546859" prot="public" virt="virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>selectVictim</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ad444f5e65166168e22fa8485c136be5e" prot="public" virt="virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ab8cb151f7df51c9c28d4872e6212a89d" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>t1_list_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a1eb48f017f730a9d6f8c814223e2da7d" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>t1_map_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ae2ef9e63ba90394bbd7b25acbdbccb6b" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>t2_list_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a6419c994f6922f28f025bec4851ba7cc" prot="private" virt="non-virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>t2_map_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a3652ac2ccfef517f32a0071347ebf080" prot="public" virt="virtual"><scope>themis::core::concerns::ARCEvictionStrategy</scope><name>~IEvictionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="coordinated__update__manager_8h" kind="file" language="C++">
+    <compoundname>coordinated_update_manager.h</compoundname>
+    <includes refid="hot__reload__engine_8h" local="yes">updates/hot_reload_engine.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__updates__coordinated__hardening_8cpp" local="yes">benchmarks/updates/bench_updates_coordinated_hardening.cpp</includedby>
+    <includedby refid="coordinated__update__manager_8cpp" local="yes">src/updates/coordinated_update_manager.cpp</includedby>
+    <includedby refid="test__updates__cluster__scheduling__stress__focused_8cpp" local="yes">tests/updates/test_updates_cluster_scheduling_stress_focused.cpp</includedby>
+    <includedby refid="test__updates__rollback__hardening__focused_8cpp" local="yes">tests/updates/test_updates_rollback_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/coordinated_update_manager.h</label>
+        <link refid="coordinated__update__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>updates/hot_reload_engine.h</label>
+        <link refid="hot__reload__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>updates/manifest_database.h</label>
+        <link refid="manifest__database_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>updates/release_manifest.h</label>
+        <link refid="release__manifest_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>updates/update_history_logger.h</label>
+        <link refid="update__history__logger_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/plugin_security.h</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>utils/update_checker.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/updates/bench_updates_coordinated_hardening.cpp</label>
+        <link refid="bench__updates__coordinated__hardening_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/updates/coordinated_update_manager.h</label>
+        <link refid="coordinated__update__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/updates/coordinated_update_manager.cpp</label>
+        <link refid="coordinated__update__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/updates/test_updates_cluster_scheduling_stress_focused.cpp</label>
+        <link refid="test__updates__cluster__scheduling__stress__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/updates/test_updates_rollback_hardening_focused.cpp</label>
+        <link refid="test__updates__rollback__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_node_descriptor" prot="public">themis::updates::NodeDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_coordinated_update_config" prot="public">themis::updates::CoordinatedUpdateConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_node_update_status" prot="public">themis::updates::NodeUpdateStatus</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_coordinated_update_result" prot="public">themis::updates::CoordinatedUpdateResult</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_coordinated_update_manager" prot="public">themis::updates::CoordinatedUpdateManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hot__reload__engine_8h" kindref="compound">updates/hot_reload_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1updates_1_1_node_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_node_descriptor" kindref="compound">NodeDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1updates_1_1_node_descriptor_1aee826818bcdb28c5f9e9a224c54196e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_node_descriptor_1aee826818bcdb28c5f9e9a224c54196e8" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1updates_1_1_node_descriptor_1a2a97e290aae4dc4b7d8d5eada495c42a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1updates_1_1_node_descriptor_1a2a97e290aae4dc4b7d8d5eada495c42a" kindref="member">sequence_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1updates_1_1_node_descriptor_1a7209a7d184d6e6bcf791819636b68637" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_node_descriptor_1a7209a7d184d6e6bcf791819636b68637" kindref="member">is_leader</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1updates_1_1_coordinated_update_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NodeDescriptor&gt;<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1updates_1_1_coordinated_update_config_1ae95ea6e8d320fc57942beda20aa79874" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ae95ea6e8d320fc57942beda20aa79874" kindref="member">rollback_on_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1updates_1_1_coordinated_update_config_1ac45b03f1a6343582b8885c7aad627c6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ac45b03f1a6343582b8885c7aad627c6c" kindref="member">leader_last</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1updates_1_1_coordinated_update_config_1a94c91740c4f8b3c676cb2a96e8fa85c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a94c91740c4f8b3c676cb2a96e8fa85c5" kindref="member">wait_timeout</ref>{30000};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410" kindref="member">NodeUpdateState</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410ac69f06e1a9b016d133907b4e5f5864d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410aca69f96c768067fbff6c911ca87bccc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410aca69f96c768067fbff6c911ca87bccc9" kindref="member">IN_PROGRESS</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410aed701d1c3d474e00c7a2f416f8d6858c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0aed701d1c3d474e00c7a2f416f8d6858c" kindref="member">ROLLED_BACK</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1updates_1_1_node_update_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1updates_1_1_node_update_status_1afb7c0b797ac05ade7d35c2623a21f481" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_node_update_status_1afb7c0b797ac05ade7d35c2623a21f481" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1updates_1_1_node_update_status_1ae43f9dc70904569e24f8444fcdc28c11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410" kindref="member">NodeUpdateState</ref><sp/><ref refid="structthemis_1_1updates_1_1_node_update_status_1ae43f9dc70904569e24f8444fcdc28c11" kindref="member">state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">NodeUpdateState::PENDING</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1updates_1_1_node_update_status_1ac10d77c85d7d146a19630d7a6100594c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_node_update_status_1ac10d77c85d7d146a19630d7a6100594c" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1updates_1_1_node_update_status_1a4297a8c15153c51f6c3349d351bd53df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_node_update_status_1a4297a8c15153c51f6c3349d351bd53df" kindref="member">rollback_id</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1updates_1_1_node_update_status_1a1854d5e43ee7c767b067c17417b3c30c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1updates_1_1_node_update_status_1a1854d5e43ee7c767b067c17417b3c30c" kindref="member">sequence_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1updates_1_1_node_update_status_1a422ae2b386c2aa78c4e29c09e2ecec8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_node_update_status_1a422ae2b386c2aa78c4e29c09e2ecec8b" kindref="member">is_local</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1updates_1_1_coordinated_update_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_coordinated_update_result" kindref="compound">CoordinatedUpdateResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1updates_1_1_coordinated_update_result_1a280774a30790d518e48dc3f52c3c6137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_result_1a280774a30790d518e48dc3f52c3c6137" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1updates_1_1_coordinated_update_result_1ac105b90714d7c4af5e3227cd8fefb08d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_result_1ac105b90714d7c4af5e3227cd8fefb08d" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1updates_1_1_coordinated_update_result_1a02e1159739edf846ad9a20bd13b4ee4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NodeUpdateStatus&gt;<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_result_1a02e1159739edf846ad9a20bd13b4ee4d" kindref="member">node_statuses</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1updates_1_1_coordinated_update_result_1a89316cde8c15637a2cd9dcb421028e53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_result_1a89316cde8c15637a2cd9dcb421028e53" kindref="member">nodes_updated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1updates_1_1_coordinated_update_result_1ab03e8a8af80f2d5c475d324b0126bcc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_result_1ab03e8a8af80f2d5c475d324b0126bcc1" kindref="member">nodes_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1updates_1_1_coordinated_update_result_1a8d4a94c378d24f2aac7e267136481468" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_result_1a8d4a94c378d24f2aac7e267136481468" kindref="member">nodes_rolled_back</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1updates_1_1_coordinated_update_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" kindref="member">CoordinatedUpdateManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" kindref="member">WaitForPreviousFunc</ref><sp/>=</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prev_node_id,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout)&gt;;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" kindref="member">SignalReadyFunc</ref><sp/>=</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_node_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success)&gt;;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6169e1448edf2901d33aae58220a4e59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6169e1448edf2901d33aae58220a4e59" kindref="member">ProgressCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(uint32_t<sp/>nodes_done,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>nodes_total,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)&gt;;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" kindref="member">CoordinatedUpdateManager</ref>(std::shared_ptr&lt;HotReloadEngine&gt;<sp/>engine,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a4ac6ae06ce98a5223268e92bc84db027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a4ac6ae06ce98a5223268e92bc84db027" kindref="member">~CoordinatedUpdateManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a358e98da3d0205426ceafc2a7a670e1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a358e98da3d0205426ceafc2a7a670e1d" kindref="member">CoordinatedUpdateManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" kindref="member">CoordinatedUpdateManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a4053fdc27988d6af177f971fd0bb9764" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" kindref="member">CoordinatedUpdateManager</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a4053fdc27988d6af177f971fd0bb9764" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" kindref="member">CoordinatedUpdateManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Core<sp/>update<sp/>operation<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_result" kindref="compound">CoordinatedUpdateResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1acd19aaa92355c06f7a17dbf9ef77c543" kindref="member">applyLocalUpdate</ref>();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af3442f7313fcf08bafc7d9881b2f7c59" kindref="member">rollback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Coordinated<sp/>rollback<sp/>enhancements<sp/>(v1.8.1<sp/>–<sp/>Q3<sp/>2026)<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1aa61665e4930c28617c7beafa6d9bb40d" kindref="member">coordinatedRollback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_result" kindref="compound">CoordinatedUpdateResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1acfe4eb67bbd491059686f68676d0efca" kindref="member">coordinatedRollbackWithIsolation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6bef58ec2ca5a6d560cfd1392ea91c88" kindref="member">hasIsolatedNodes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1ab31a173c0c5ca51dacd556e64ca95bbf" kindref="member">isolatedNodeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Accessors<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af789b1613cf8a398ec009cd371b4589b" kindref="member">localSequenceNumber</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a2ba1e7e8a78f308cc5daa113796eceac" kindref="member">totalNodes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a177e813f78597d93bee40d0a2c585c75" kindref="member">isLeader</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NodeUpdateStatus&gt;<sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a16d58b3573b6e5135dd2ce9092540abb" kindref="member">nodeStatuses</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Callback<sp/>registration<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a3a41c559bc3e29377eb191f0fb7c040b" kindref="member">setWaitForPreviousFunc</ref>(<ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" kindref="member">WaitForPreviousFunc</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1abebd4eda747a7605a566588adf38bd64" kindref="member">setSignalReadyFunc</ref>(<ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" kindref="member">SignalReadyFunc</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1ac5a48ba108da5c13d61e4ec28308793e" kindref="member">setProgressCallback</ref>(<ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6169e1448edf2901d33aae58220a4e59" kindref="member">ProgressCallback</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref>*<sp/>localStatus();</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref>*<sp/>localStatus()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_node_descriptor" kindref="compound">NodeDescriptor</ref>*<sp/>localDescriptor()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_node_descriptor" kindref="compound">NodeDescriptor</ref>*<sp/>predecessorDescriptor()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>performNodeRollback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_node_descriptor" kindref="compound">NodeDescriptor</ref>&amp;<sp/>node,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>isolateNode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reportProgress(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HotReloadEngine&gt;<sp/>engine_;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NodeDescriptor&gt;<sp/>sorted_nodes_;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NodeUpdateStatus&gt;<sp/>node_statuses_;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>local_rollback_id_;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_rolled_back_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>isolated_nodes_;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" kindref="member">WaitForPreviousFunc</ref><sp/>wait_for_previous_fn_;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" kindref="member">SignalReadyFunc</ref><sp/><sp/><sp/><sp/><sp/>signal_ready_fn_;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6169e1448edf2901d33aae58220a4e59" kindref="member">ProgressCallback</ref><sp/><sp/><sp/><sp/>progress_cb_;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/coordinated_update_manager.h"/>
+  </compounddef>
+</doxygen>

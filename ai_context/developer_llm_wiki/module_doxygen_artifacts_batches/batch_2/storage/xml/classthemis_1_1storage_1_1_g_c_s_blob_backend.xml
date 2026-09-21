@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_g_c_s_blob_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::GCSBlobBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" prot="public" virt="non-virtual">themis::storage::IBlobStorageBackend</basecompoundref>
+    <includes refid="blob__backend__gcs_8h" local="no">blob_backend_gcs.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl" prot="public">themis::storage::GCSBlobBackend::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a71ea1101b26875e0b9f97e017bb21183" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::storage::GCSBlobBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="52" column="21" bodyfile="include/storage/blob_backend_gcs.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1ac009767cf9073c3fc07a0ac631863518" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::GCSBlobBackend::GCSBlobBackend</definition>
+        <argsstring>(const std::string &amp;bucket, const std::string &amp;prefix=&quot;&quot;)</argsstring>
+        <name>GCSBlobBackend</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::GCSBlobBackend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bucket</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bucket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GCS bucket name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional object-name prefix (e.g. &quot;blobs/&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="39" column="14" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="70" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a96175d40b9334c38e3627d8e15a486b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::GCSBlobBackend::~GCSBlobBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~GCSBlobBackend</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::~GCSBlobBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a828b50dace19c714c2b3b22476a2e1f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &gt;</type>
+        <definition>Result&lt; BlobRef &gt; themis::storage::GCSBlobBackend::put</definition>
+        <argsstring>(const std::string &amp;blob_id, const std::vector&lt; uint8_t &gt; &amp;data) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::put</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a95f20c9781e8494ebd196b26fa907fe7">put</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" kindref="compound">IBlobStorageBackend</ref> interface ───────────────────────────────────────────────────────────────────────────── null_dereference/pointer_arithmetic/delete_no_nullptr scanner alerts (lines 91, 95, 104, 114, 129, 154, 214, 219, 239): all GCS API calls that dereference impl_-&gt;client are inside #ifdef THEMIS_ENABLE_GCS blocks that are only reached when impl_-&gt;available == true. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+impl_-&gt;available is set to true only after impl_-&gt;client is successfully constructed (see <ref refid="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a55af58d04dc79fb9df120a65d0e03305" kindref="member">Impl::Impl()</ref>). impl_-&gt;client is therefore always non-null at these call sites. The &quot;delete_no_nullptr&quot; alert at line 219 misidentifies the GCS API method DeleteObject() as a raw pointer delete — false positives. ───────────────────────────────────────────────────────────────────────────── Calls: lock(), objectName(), WriteObject(), write(), data(), size(), Close(), metadata(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="42" column="25" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="109" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1aa272b5138edf46927cddf3ff85464c9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::GCSBlobBackend::get</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::get</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1ad9be71e35853a3f8fa0eb3ca8cd720e0">get</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), objectName(), ReadObject(), status(), code(), THEMIS_WARN(), THEMIS_ERROR(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="44" column="12" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="158" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a4625bbfdb50dbc841f1db98041c6cf0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::storage::GCSBlobBackend::remove</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1adfcf671215efaedc0b1b8dcf3a04aaf4">remove</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), objectName(), DeleteObject(), ok(), THEMIS_ERROR(), message(), THEMIS_DEBUG(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="45" column="28" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="228" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a30ddde9fce3aecb4877f86e9a0b04dc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::GCSBlobBackend::exists</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::exists</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a12a0da5953ed62e43fd0c7781ea2bffb">exists</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), objectName(), GetObjectMetadata(), ok(), THEMIS_TRACE(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="46" column="34" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="262" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a83df7f4058dcf541ec95786e5d4ca516" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::GCSBlobBackend::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a2ca43ee09ac2171de91232e3791ef3b6">name</reimplements>
+        <briefdescription>
+<para>Get backend name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Backend name (e.g., &quot;filesystem&quot;, &quot;s3&quot;, &quot;webdav&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="47" column="34" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="279" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1aec87009306753d1ba2836ab122afadb1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::GCSBlobBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a7bca1f3bdefb0139f6988710880ef2c4">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if backend is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if backend can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="48" column="34" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="283" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a808c1728a5c0bc0cddd43e7e11c3a0a0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::GCSBlobBackend::computeSHA256</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::computeSHA256</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="54" column="24" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="78" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a0ebd9ba47bfc52c43a92100b1c8e717e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::GCSBlobBackend::objectName</definition>
+        <argsstring>(const std::string &amp;blob_id) const</argsstring>
+        <name>objectName</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::objectName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_gcs.h" line="55" column="17" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="90" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Google Cloud Storage (GCS) Blob Backend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores blobs in a GCS bucket using the google-cloud-cpp Storage SDK.</para>
+<para>Authentication uses Application Default Credentials (ADC) via the GOOGLE_APPLICATION_CREDENTIALS environment variable. The constructor fails-closed (marks the backend unavailable) when no valid credentials are present so that THEMIS_PRODUCTION_MODE safety guarantees are upheld.</para>
+<para>Thread-Safety: All methods are thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::storage::GCSBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_g_c_s_blob_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::storage::GCSBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_g_c_s_blob_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/blob_backend_gcs.h" line="33" column="1" bodyfile="include/storage/blob_backend_gcs.h" bodystart="33" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a808c1728a5c0bc0cddd43e7e11c3a0a0" prot="private" virt="non-virtual"><scope>themis::storage::GCSBlobBackend</scope><name>computeSHA256</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a30ddde9fce3aecb4877f86e9a0b04dc1" prot="public" virt="virtual"><scope>themis::storage::GCSBlobBackend</scope><name>exists</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1ac009767cf9073c3fc07a0ac631863518" prot="public" virt="non-virtual"><scope>themis::storage::GCSBlobBackend</scope><name>GCSBlobBackend</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1aa272b5138edf46927cddf3ff85464c9b" prot="public" virt="virtual"><scope>themis::storage::GCSBlobBackend</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a71ea1101b26875e0b9f97e017bb21183" prot="private" virt="non-virtual"><scope>themis::storage::GCSBlobBackend</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1aec87009306753d1ba2836ab122afadb1" prot="public" virt="virtual"><scope>themis::storage::GCSBlobBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a83df7f4058dcf541ec95786e5d4ca516" prot="public" virt="virtual"><scope>themis::storage::GCSBlobBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a0ebd9ba47bfc52c43a92100b1c8e717e" prot="private" virt="non-virtual"><scope>themis::storage::GCSBlobBackend</scope><name>objectName</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a828b50dace19c714c2b3b22476a2e1f0" prot="public" virt="virtual"><scope>themis::storage::GCSBlobBackend</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a4625bbfdb50dbc841f1db98041c6cf0e" prot="public" virt="virtual"><scope>themis::storage::GCSBlobBackend</scope><name>remove</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_c_s_blob_backend_1a96175d40b9334c38e3627d8e15a486b3" prot="public" virt="non-virtual"><scope>themis::storage::GCSBlobBackend</scope><name>~GCSBlobBackend</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a9298452bf506be5cc61866a8010e8cd5" prot="public" virt="virtual"><scope>themis::storage::GCSBlobBackend</scope><name>~IBlobStorageBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

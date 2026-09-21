@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::WireProtocolServer::RateLimitState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state_1ad3e2d89e983e2349e1a6ee2550d7ae85" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::RateLimitState::window_start_ms</definition>
+        <argsstring></argsstring>
+        <name>window_start_ms</name>
+        <qualifiedname>themis::network::WireProtocolServer::RateLimitState::window_start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="536" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="536" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state_1af1fbc1265cd063c6c23fb64b319b7327" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolServer::RateLimitState::minute_window_start_ms</definition>
+        <argsstring></argsstring>
+        <name>minute_window_start_ms</name>
+        <qualifiedname>themis::network::WireProtocolServer::RateLimitState::minute_window_start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="537" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="537" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state_1a5490b5aed7215d0c2f2e7a8a32f3336e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::RateLimitState::request_count_second</definition>
+        <argsstring></argsstring>
+        <name>request_count_second</name>
+        <qualifiedname>themis::network::WireProtocolServer::RateLimitState::request_count_second</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="538" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state_1a69155422e455781531dfe4821c2d0458" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::RateLimitState::request_count_minute</definition>
+        <argsstring></argsstring>
+        <name>request_count_minute</name>
+        <qualifiedname>themis::network::WireProtocolServer::RateLimitState::request_count_minute</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="539" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="539" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_server.h" line="535" column="5" bodyfile="include/network/wire_protocol_server.h" bodystart="535" bodyend="540"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state_1af1fbc1265cd063c6c23fb64b319b7327" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::RateLimitState</scope><name>minute_window_start_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state_1a69155422e455781531dfe4821c2d0458" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::RateLimitState</scope><name>request_count_minute</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state_1a5490b5aed7215d0c2f2e7a8a32f3336e" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::RateLimitState</scope><name>request_count_second</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state_1ad3e2d89e983e2349e1a6ee2550d7ae85" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::RateLimitState</scope><name>window_start_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f1ea29747172713cfd6a8dfbab81ff00" kind="dir">
+    <compoundname>tests/acceleration</compoundname>
+    <innerfile refid="test__acceleration_8cpp">test_acceleration.cpp</innerfile>
+    <innerfile refid="test__acceleration__coverage_8cpp">test_acceleration_coverage.cpp</innerfile>
+    <innerfile refid="test__acceleration__dispatch_8cpp">test_acceleration_dispatch.cpp</innerfile>
+    <innerfile refid="test__acceleration__failure__handling_8cpp">test_acceleration_failure_handling.cpp</innerfile>
+    <innerfile refid="test__acceleration__highcardinality__stress_8cpp">test_acceleration_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__acceleration__metrics_8cpp">test_acceleration_metrics.cpp</innerfile>
+    <innerfile refid="test__acceleration__performance__gates_8cpp">test_acceleration_performance_gates.cpp</innerfile>
+    <innerfile refid="test__acceleration__plugin__security__hardening_8cpp">test_acceleration_plugin_security_hardening.cpp</innerfile>
+    <innerfile refid="test__acceleration__regression_8cpp">test_acceleration_regression.cpp</innerfile>
+    <innerfile refid="test__acceleration__vllm__resource__manager__focused_8cpp">test_acceleration_vllm_resource_manager_focused.cpp</innerfile>
+    <innerfile refid="test__ai__hardware__dispatcher_8cpp">test_ai_hardware_dispatcher.cpp</innerfile>
+    <innerfile refid="test__backend__registry__thread__safety_8cpp">test_backend_registry_thread_safety.cpp</innerfile>
+    <innerfile refid="test__nccl__merge__topk_8cpp">test_nccl_merge_topk.cpp</innerfile>
+    <innerfile refid="test__vec__knn__insert_8cpp">test_vec_knn_insert.cpp</innerfile>
+    <innerfile refid="test__zluda__backend_8cpp">test_zluda_backend.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/acceleration/"/>
+  </compounddef>
+</doxygen>

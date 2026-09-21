@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mime_detector_ocr_test" kind="class" language="C++" prot="public">
+    <compoundname>MimeDetectorOcrTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_mime_detector_ocr_test_1a2ab595b89f15cd30f2b319c1eaff18d7" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_mime_detector" kindref="compound">MimeDetector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MimeDetector&gt; MimeDetectorOcrTest::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>MimeDetectorOcrTest::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="342" column="21" bodyfile="tests/content/test_content_policy.cpp" bodystart="342" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_mime_detector_ocr_test_1ab7df68c5875eb475dfa76a073908feea" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MimeDetectorOcrTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MimeDetectorOcrTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="334" column="10" bodyfile="tests/content/test_content_policy.cpp" bodystart="334" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MimeDetectorOcrTest</label>
+        <link refid="class_mime_detector_ocr_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MimeDetectorOcrTest</label>
+        <link refid="class_mime_detector_ocr_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_policy.cpp" line="332" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="332" bodyend="343"/>
+    <listofallmembers>
+      <member refid="class_mime_detector_ocr_test_1a2ab595b89f15cd30f2b319c1eaff18d7" prot="protected" virt="non-virtual"><scope>MimeDetectorOcrTest</scope><name>detector_</name></member>
+      <member refid="class_mime_detector_ocr_test_1ab7df68c5875eb475dfa76a073908feea" prot="protected" virt="non-virtual"><scope>MimeDetectorOcrTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

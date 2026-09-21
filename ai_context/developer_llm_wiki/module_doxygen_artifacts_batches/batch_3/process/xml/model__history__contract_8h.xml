@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="model__history__contract_8h" kind="file" language="C++">
+    <compoundname>model_history_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/model_history_contract.h</label>
+        <link refid="model__history__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_audit_record" prot="public">themis::process::AuditRecord</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_model_delta" prot="public">themis::process::ModelDelta</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_history_snapshot" prot="public">themis::process::HistorySnapshot</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_temporal_query" prot="public">themis::process::TemporalQuery</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_temporal_query_result" prot="public">themis::process::TemporalQueryResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_operation_log_query" prot="public">themis::process::OperationLogQuery</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_operation_log_query_result" prot="public">themis::process::OperationLogQueryResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_recover_model_request" prot="public">themis::process::RecoverModelRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_recover_model_result" prot="public">themis::process::RecoverModelResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_audit_retention_policy" prot="public">themis::process::AuditRetentionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_model_history_config" prot="public">themis::process::ModelHistoryConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Incremental model evolution with audit trails, temporal queries, and point-in-time recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.1.0-beta</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>Provides time-travel semantics for process models: query historical states, compute deltas, replay operations, and recover models to any point in their history. Enables compliance auditing (who changed what model, when, why) and debugging of model state issues.</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1architecture">
+<title>Architecture</title><para>Model history is built from immutable append-only operation log:<orderedlist>
+<listitem><para><bold>Operation Log:</bold> Sequence of {timestamp, actor, operation_type (import/link/delete), model_id, payload}</para>
+</listitem><listitem><para><bold>Snapshot Index:</bold> Periodic full snapshots for fast point-in-time queries (every N operations)</para>
+</listitem><listitem><para><bold>Delta Encoding:</bold> Efficient storage between snapshots (replaying deltas is faster than storing all snapshots)</para>
+</listitem><listitem><para><bold>Temporal Query:</bold> Given timestamp, find nearest snapshot + replay deltas to reconstruct model state</para>
+</listitem></orderedlist>
+</para>
+<para>Storage efficiency: Delta encoding reduces storage by ≥30% vs. full snapshots. Query latency: &lt; 100 ms P95 for queries within 30-day window (with index).</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1audit_trail">
+<title>Audit Trail Structure</title><para>Each operation on a process model is recorded in the audit trail: <programlisting><codeline><highlight class="normal">AuditRecord<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>timestamp_ns:<sp/>int64,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UTC,<sp/>nanoseconds<sp/>since<sp/>epoch</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>actor:<sp/>string,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Principal<sp/>ID<sp/>(user/service)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>operation:<sp/>string,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;import&quot;<sp/>|<sp/>&quot;link&quot;<sp/>|<sp/>&quot;delete&quot;<sp/>|<sp/>&quot;merge&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>model_id:<sp/>string,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Which<sp/>model<sp/>was<sp/>affected</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>shard_id:<sp/>string,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Which<sp/>shard<sp/>the<sp/>operation<sp/>ran<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>model_state_hash:<sp/>string,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>of<sp/>model<sp/>after<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>delta:<sp/>string,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>delta<sp/>(serialized<sp/>diff)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_resolved:<sp/>bool,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>conflict<sp/>resolution<sp/>was<sp/>triggered</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>trace_id:<sp/>string,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Correlation<sp/>ID<sp/>for<sp/>distributed<sp/>tracing</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Immutable: Records appended to audit log; no retroactive deletion. Optional external sink: SIEM, archive, or compliance system.</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1delta_encoding">
+<title>Delta Encoding Strategy</title><para><heading level="3">Operation-Log Deltas (Efficient)</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Store sequence of operations: {timestamp, operation_type, parameters}</para>
+</listitem><listitem><para>Example: &quot;import(model_id=&apos;proc1&apos;, version_hash=&apos;abc123&apos;)&quot;</para>
+</listitem><listitem><para>Replay: Iterate deltas from snapshot, apply each in order</para>
+</listitem><listitem><para>Size: ~100-500 bytes per operation (small)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Snapshot-Based Encoding (Fast recovery)</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Store full model snapshot every N operations (default N=100)</para>
+</listitem><listitem><para>Between snapshots: store operation-log deltas</para>
+</listitem><listitem><para>Recovery time: O(1) snapshot load + O(N&apos;) delta replay (N&apos; = operations since snapshot)</para>
+</listitem><listitem><para>Size: Hybrid (snapshots + deltas)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Compression</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Identify common substructures across consecutive versions (e.g., unchanged BPMN nodes)</para>
+</listitem><listitem><para>Store differences only: &quot;added nodes=[X, Y]&quot;, &quot;removed edges=[a-&gt;b]&quot;</para>
+</listitem><listitem><para>Compression ratio: ≥30% reduction vs. full snapshots</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1temporal_queries">
+<title>Temporal Query Types</title><para><table rows="6" cols="4"><row>
+<entry thead="yes"><para>Query  </para>
+</entry><entry thead="yes"><para>Semantics  </para>
+</entry><entry thead="yes"><para>Latency  </para>
+</entry><entry thead="yes"><para>Use Case  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>getHistoricalModel(id, ts)  </para>
+</entry><entry thead="no"><para>Model state at exact timestamp  </para>
+</entry><entry thead="no"><para>&lt; 100ms P95  </para>
+</entry><entry thead="no"><para>&quot;What did this model look like on 2026-08-01?&quot;  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>getDelta(id, ts1, ts2)  </para>
+</entry><entry thead="no"><para>Diff between two snapshots  </para>
+</entry><entry thead="no"><para>&lt; 100ms P95  </para>
+</entry><entry thead="no"><para>&quot;What changed between these two times?&quot;  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>getOperationLog(id, range)  </para>
+</entry><entry thead="no"><para>Sequence of operations in time range  </para>
+</entry><entry thead="no"><para>&lt; 1s  </para>
+</entry><entry thead="no"><para>&quot;Show me all modifications to this model last week&quot;  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>findRevisionAt(id, ts)  </para>
+</entry><entry thead="no"><para>Nearest revision at/before timestamp  </para>
+</entry><entry thead="no"><para>&lt; 100ms P95  </para>
+</entry><entry thead="no"><para>&quot;Which snapshot covers this timestamp?&quot;  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>replay(id, base_ts, operations)  </para>
+</entry><entry thead="no"><para>Apply operations to model at base_ts  </para>
+</entry><entry thead="no"><para>Varies  </para>
+</entry><entry thead="no"><para>&quot;What would model look like if I replayed ops X, Y, Z?&quot;  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1point_in_time_recovery">
+<title>Point-in-Time Recovery</title><para><bold>Use Case:</bold> Model corrupted or incorrect; recover to known-good state at timestamp T.</para>
+<para><bold>Procedure:</bold><orderedlist>
+<listitem><para>Call <computeroutput>recoverModel(model_id, target_timestamp)</computeroutput> → Returns model state at T</para>
+</listitem><listitem><para>Validate recovered model (schema check, cycle detection, etc.)</para>
+</listitem><listitem><para>If valid: overwrite current model with recovered version; emit audit record</para>
+</listitem><listitem><para>If invalid: query audit trail to understand what happened; manual remediation</para>
+</listitem></orderedlist>
+</para>
+<para><bold>Guarantees:</bold><itemizedlist>
+<listitem><para>Deterministic: identical timestamp always produces identical model</para>
+</listitem><listitem><para>Atomic: recovery is all-or-nothing (no partial updates)</para>
+</listitem><listitem><para>Preserves immutability: original audit trail unchanged; recovery recorded as new operation</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1retention_policy">
+<title>Retention Policy</title><para>Audit trail can grow unbounded; configure retention:<itemizedlist>
+<listitem><para><bold>Time-based:</bold> Keep operations from last N days (e.g., 90 days)</para>
+</listitem><listitem><para><bold>Operation-based:</bold> Keep last M operations per model (e.g., last 10,000)</para>
+</listitem><listitem><para><bold>Compliance holds:</bold> Marks preventing deletion (for legal hold, GDPR right to explain)</para>
+</listitem></itemizedlist>
+</para>
+<para>Old audit records can be archived to external storage; queries span live + archive.</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1conflict_audit">
+<title>Conflict Resolution Audit</title><para>When plugin resolves conflict or fallback LWW tiebreaker applies:<itemizedlist>
+<listitem><para>Audit record marks: conflict_resolved=true, merge_metadata={ strategy, local_version, remote_version }</para>
+</listitem><listitem><para>Enables forensics: &quot;Which conflicts occurred on this model? How were they resolved?&quot;</para>
+</listitem><listitem><para>Determinism verification: replaying same conflict path must produce same result</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1contract_freeze">
+<title>Contract Freeze</title><para>This contract is frozen for ThemisDB v2.1; breaking changes require v3.0. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit<sp/>Trail<sp/>Records</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1process_1_1_audit_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_audit_record" kindref="compound">AuditRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1process_1_1_audit_record_1a661a88b34b340dc252682e5dd5af3703" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a661a88b34b340dc252682e5dd5af3703" kindref="member">timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1process_1_1_audit_record_1a88096921dd92efc62182cb43f39014f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a88096921dd92efc62182cb43f39014f8" kindref="member">actor</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1process_1_1_audit_record_1a9b0a9b6daf09e4a6a5ca76b83fa22c23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a9b0a9b6daf09e4a6a5ca76b83fa22c23" kindref="member">operation_type</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1process_1_1_audit_record_1a0f85b605305401662f9c51c5fac54850" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a0f85b605305401662f9c51c5fac54850" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1process_1_1_audit_record_1a9c6a693237c3ed3460540818ad2cfc89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a9c6a693237c3ed3460540818ad2cfc89" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1process_1_1_audit_record_1a78606aa9160b7dca7b6f3dd0695bf4a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a78606aa9160b7dca7b6f3dd0695bf4a4" kindref="member">model_state_hash</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1process_1_1_audit_record_1a91e04ae42ded2f5228a207da84cc8508" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a91e04ae42ded2f5228a207da84cc8508" kindref="member">delta</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1process_1_1_audit_record_1ad60d78c9cae63c0e20ac4631165820da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_audit_record_1ad60d78c9cae63c0e20ac4631165820da" kindref="member">conflict_resolved</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1process_1_1_audit_record_1adb0fd5116b9ea9f161dcab0af9b2950f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1adb0fd5116b9ea9f161dcab0af9b2950f" kindref="member">merge_metadata</ref>;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1process_1_1_audit_record_1aaf32e4e4716c9d7ea8b431dcbf0147c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1aaf32e4e4716c9d7ea8b431dcbf0147c6" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1process_1_1_audit_record_1a188a8d68a61be08431eef1bf3c5286e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a188a8d68a61be08431eef1bf3c5286e0" kindref="member">legal_hold</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1process_1_1_audit_record_1a1ae25642a904c2323d9ccd4728f7faac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a1ae25642a904c2323d9ccd4728f7faac" kindref="member">compliance_marker</ref>;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1process_1_1_audit_record_1aa3204d0ecaaa9572329cf0934b85ffca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1aa3204d0ecaaa9572329cf0934b85ffca" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp_ns&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a661a88b34b340dc252682e5dd5af3703" kindref="member">timestamp_ns</ref>},</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;actor&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a88096921dd92efc62182cb43f39014f8" kindref="member">actor</ref>},</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;operation_type&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a9b0a9b6daf09e4a6a5ca76b83fa22c23" kindref="member">operation_type</ref>},</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;model_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a0f85b605305401662f9c51c5fac54850" kindref="member">model_id</ref>},</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a9c6a693237c3ed3460540818ad2cfc89" kindref="member">shard_id</ref>},</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;model_state_hash&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a78606aa9160b7dca7b6f3dd0695bf4a4" kindref="member">model_state_hash</ref>},</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;delta&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a91e04ae42ded2f5228a207da84cc8508" kindref="member">delta</ref>},</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;conflict_resolved&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1ad60d78c9cae63c0e20ac4631165820da" kindref="member">conflict_resolved</ref>},</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;merge_metadata&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1adb0fd5116b9ea9f161dcab0af9b2950f" kindref="member">merge_metadata</ref>},</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;trace_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1aaf32e4e4716c9d7ea8b431dcbf0147c6" kindref="member">trace_id</ref>},</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;legal_hold&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a188a8d68a61be08431eef1bf3c5286e0" kindref="member">legal_hold</ref>},</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;compliance_marker&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_audit_record_1a1ae25642a904c2323d9ccd4728f7faac" kindref="member">compliance_marker</ref>},</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Delta<sp/>Encoding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1process_1_1_model_delta" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_model_delta" kindref="compound">ModelDelta</ref><sp/>{</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1process_1_1_model_delta_1a9d7d6fb50c77f99b009e8cc6d36d27b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1a9d7d6fb50c77f99b009e8cc6d36d27b1" kindref="member">delta_type</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1process_1_1_model_delta_1a8d7156d7427a2b6de9f92430a5823c70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1a8d7156d7427a2b6de9f92430a5823c70" kindref="member">base_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="structthemis_1_1process_1_1_model_delta_1af0ebfb23c98154eb9a56548d7de136be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1af0ebfb23c98154eb9a56548d7de136be" kindref="member">target_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1process_1_1_model_delta_1a666e18e1d6ba149997664241bcdc27e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditRecord&gt;<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1a666e18e1d6ba149997664241bcdc27e5" kindref="member">operations</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1process_1_1_model_delta_1adf4aba9cff5d12a7a06e3dce202309a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1adf4aba9cff5d12a7a06e3dce202309a1" kindref="member">compressed_delta</ref>;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1process_1_1_model_delta_1acfe44937123110892e79e1efd5e00976" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1acfe44937123110892e79e1efd5e00976" kindref="member">added_nodes</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1process_1_1_model_delta_1abdcc0a713f77cd2471a57b720a1da912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1abdcc0a713f77cd2471a57b720a1da912" kindref="member">removed_nodes</ref>;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1process_1_1_model_delta_1a01fbc7e74b96cf26de03ff533a27184f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1a01fbc7e74b96cf26de03ff533a27184f" kindref="member">added_edges</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1process_1_1_model_delta_1a8d808fc713507190136633284e653f38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1a8d808fc713507190136633284e653f38" kindref="member">removed_edges</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1process_1_1_model_delta_1a8163c2cf5cf092bbfc6913673efd9ab5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_delta_1a8163c2cf5cf092bbfc6913673efd9ab5" kindref="member">compression_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1process_1_1_model_delta_1acbd4938c70be4a1aaa5a1ff686aa5b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_delta_1acbd4938c70be4a1aaa5a1ff686aa5b4b" kindref="member">estimatedSize</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size<sp/>=<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1adf4aba9cff5d12a7a06e3dce202309a1" kindref="member">compressed_delta</ref>.size();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>op<sp/>:<sp/><ref refid="structthemis_1_1process_1_1_model_delta_1a666e18e1d6ba149997664241bcdc27e5" kindref="member">operations</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size<sp/>+=<sp/>op.delta.size();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>size;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1process_1_1_history_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_history_snapshot" kindref="compound">HistorySnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="248" refid="structthemis_1_1process_1_1_history_snapshot_1a2b750666c5a99e15316f3e4c4b187323" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_history_snapshot_1a2b750666c5a99e15316f3e4c4b187323" kindref="member">snapshot_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1process_1_1_history_snapshot_1a9d8e5a9e666c4b108a6a1cdce7346374" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_history_snapshot_1a9d8e5a9e666c4b108a6a1cdce7346374" kindref="member">revision</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1process_1_1_history_snapshot_1a8b35da08c42c5cd1ef58cb7b3818ae23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_history_snapshot_1a8b35da08c42c5cd1ef58cb7b3818ae23" kindref="member">model_content</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1process_1_1_history_snapshot_1a68e59c1ec40df54bd8afd498624a733e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_history_snapshot_1a68e59c1ec40df54bd8afd498624a733e" kindref="member">model_state_hash</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1process_1_1_history_snapshot_1a988a3d70249fb9c02ba0294873c24627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_history_snapshot_1a988a3d70249fb9c02ba0294873c24627" kindref="member">snapshot_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="structthemis_1_1process_1_1_history_snapshot_1ada4de9266d497e675947490a6c400c0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ModelDelta&gt;<sp/><ref refid="structthemis_1_1process_1_1_history_snapshot_1ada4de9266d497e675947490a6c400c0f" kindref="member">deltas_to_next</ref>;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="structthemis_1_1process_1_1_history_snapshot_1a1744c42ee39089472bec86663d5cc51e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_history_snapshot_1a1744c42ee39089472bec86663d5cc51e" kindref="member">validated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Temporal<sp/>Query<sp/>Interfaces</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="structthemis_1_1process_1_1_temporal_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_temporal_query" kindref="compound">TemporalQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1process_1_1_temporal_query_1ac837cc2ca85033db105ec778e337471c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_1ac837cc2ca85033db105ec778e337471c" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="structthemis_1_1process_1_1_temporal_query_1aa6146b718261dd5eb1dbc26c0e883891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_1aa6146b718261dd5eb1dbc26c0e883891" kindref="member">target_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287" refid="structthemis_1_1process_1_1_temporal_query_1ab5881cc3ab6fa6f35dec9ba5d64fcf1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_temporal_query_1ab5881cc3ab6fa6f35dec9ba5d64fcf1b" kindref="member">nearest_before</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="structthemis_1_1process_1_1_temporal_query_1ac41f4985f953f4acef131487a0b42907" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_1ac41f4985f953f4acef131487a0b42907" kindref="member">max_age_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="structthemis_1_1process_1_1_temporal_query_1aa1c34450fc53c35357a65c45e171cd1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_1aa1c34450fc53c35357a65c45e171cd1e" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="structthemis_1_1process_1_1_temporal_query_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_temporal_query_result" kindref="compound">TemporalQueryResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="303" refid="structthemis_1_1process_1_1_temporal_query_result_1aa3d404fbf0d12833320be52a49dcc177" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_temporal_query_result_1aa3d404fbf0d12833320be52a49dcc177" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="structthemis_1_1process_1_1_temporal_query_result_1a6223612129b0978c976fe470b3e6c48d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_result_1a6223612129b0978c976fe470b3e6c48d" kindref="member">model_content</ref>;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="structthemis_1_1process_1_1_temporal_query_result_1afa463c49f8ef04c43ac3869d3b60fd84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_result_1afa463c49f8ef04c43ac3869d3b60fd84" kindref="member">actual_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312" refid="structthemis_1_1process_1_1_temporal_query_result_1aae04ca4431fb339943db669f3bec149d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_result_1aae04ca4431fb339943db669f3bec149d" kindref="member">revision</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="structthemis_1_1process_1_1_temporal_query_result_1a0811103b80e62ebbc876701e8030fc60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_result_1a0811103b80e62ebbc876701e8030fc60" kindref="member">deltas_replayed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="structthemis_1_1process_1_1_temporal_query_result_1a99a6c04d9f101a934a32e7222f3d8b3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_result_1a99a6c04d9f101a934a32e7222f3d8b3a" kindref="member">reconstruction_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1process_1_1_temporal_query_result_1ae42696814b5edaec00a4dad2856b1074" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_temporal_query_result_1ae42696814b5edaec00a4dad2856b1074" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1process_1_1_temporal_query_result_1ad8b41e834a7fe7025517595cc00ff8a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_temporal_query_result_1ad8b41e834a7fe7025517595cc00ff8a7" kindref="member">confidence</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="structthemis_1_1process_1_1_operation_log_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_operation_log_query" kindref="compound">OperationLogQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="334" refid="structthemis_1_1process_1_1_operation_log_query_1a09432eb1bbc72662a53798c14a50a821" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_1a09432eb1bbc72662a53798c14a50a821" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337" refid="structthemis_1_1process_1_1_operation_log_query_1af46412b17efdf1a9050a78a26d6aab66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_1af46412b17efdf1a9050a78a26d6aab66" kindref="member">start_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340" refid="structthemis_1_1process_1_1_operation_log_query_1a9443c30de5360606c5655f531405e527" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_1a9443c30de5360606c5655f531405e527" kindref="member">end_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343" refid="structthemis_1_1process_1_1_operation_log_query_1a95ebe9f383434049a765ff0093556ef1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_1a95ebe9f383434049a765ff0093556ef1" kindref="member">actor_filter</ref>;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="structthemis_1_1process_1_1_operation_log_query_1a7d5f6b02295b1a2ff825061670a2f5e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_1a7d5f6b02295b1a2ff825061670a2f5e3" kindref="member">operation_type_filter</ref>;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349" refid="structthemis_1_1process_1_1_operation_log_query_1a6f26c9c628b8953dff2700de49ea93cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_1a6f26c9c628b8953dff2700de49ea93cb" kindref="member">limit</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352" refid="structthemis_1_1process_1_1_operation_log_query_1a6f99d44ee5c90a977ca875a8440d6a9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_1a6f99d44ee5c90a977ca875a8440d6a9f" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358" refid="structthemis_1_1process_1_1_operation_log_query_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_operation_log_query_result" kindref="compound">OperationLogQueryResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="360" refid="structthemis_1_1process_1_1_operation_log_query_result_1a70c17228bcd85816bd9e4c08e24787ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_result_1a70c17228bcd85816bd9e4c08e24787ed" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363" refid="structthemis_1_1process_1_1_operation_log_query_result_1a85e061406d0897c85b037a5bf0998089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditRecord&gt;<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_result_1a85e061406d0897c85b037a5bf0998089" kindref="member">records</ref>;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366" refid="structthemis_1_1process_1_1_operation_log_query_result_1a3b249c525e4ee6ec63033d1fc368cbaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_result_1a3b249c525e4ee6ec63033d1fc368cbaf" kindref="member">total_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369" refid="structthemis_1_1process_1_1_operation_log_query_result_1aff3bc1e3c745690d39d6a20e8f9aad59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_result_1aff3bc1e3c745690d39d6a20e8f9aad59" kindref="member">query_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372" refid="structthemis_1_1process_1_1_operation_log_query_result_1a3a40bf7c5d1341e8815cd0e3fedaf418" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_operation_log_query_result_1a3a40bf7c5d1341e8815cd0e3fedaf418" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Recovery<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382" refid="structthemis_1_1process_1_1_recover_model_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_recover_model_request" kindref="compound">RecoverModelRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="384" refid="structthemis_1_1process_1_1_recover_model_request_1afa7a88356d70e8c61d83c2640550b1a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_recover_model_request_1afa7a88356d70e8c61d83c2640550b1a6" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387" refid="structthemis_1_1process_1_1_recover_model_request_1abcc2fbc82b80ab21a15d66006e034aa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_recover_model_request_1abcc2fbc82b80ab21a15d66006e034aa5" kindref="member">target_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390" refid="structthemis_1_1process_1_1_recover_model_request_1abe099c2c239785bcbf30e54cec23338a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_recover_model_request_1abe099c2c239785bcbf30e54cec23338a" kindref="member">actor</ref>;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393" refid="structthemis_1_1process_1_1_recover_model_request_1a3c3e6a3ca49d2244b477987f4563a47e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_recover_model_request_1a3c3e6a3ca49d2244b477987f4563a47e" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396" refid="structthemis_1_1process_1_1_recover_model_request_1a4cccb7e840614a21b3060bf9a5a24660" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_recover_model_request_1a4cccb7e840614a21b3060bf9a5a24660" kindref="member">validate_before_apply</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399" refid="structthemis_1_1process_1_1_recover_model_request_1aecdf0ff7fd0b20791b9ce9e675fa71d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_recover_model_request_1aecdf0ff7fd0b20791b9ce9e675fa71d1" kindref="member">create_backup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402" refid="structthemis_1_1process_1_1_recover_model_request_1a9a71fc7c69a38c3f4d1e8e31d4c43531" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_recover_model_request_1a9a71fc7c69a38c3f4d1e8e31d4c43531" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408" refid="structthemis_1_1process_1_1_recover_model_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_recover_model_result" kindref="compound">RecoverModelResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="410" refid="structthemis_1_1process_1_1_recover_model_result_1a983d8aaa7f45562be5c7580ee66c6aab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_recover_model_result_1a983d8aaa7f45562be5c7580ee66c6aab" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413" refid="structthemis_1_1process_1_1_recover_model_result_1a6fb318da874de53dcd2568cce2567d6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_recover_model_result_1a6fb318da874de53dcd2568cce2567d6a" kindref="member">recovered_model_content</ref>;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416" refid="structthemis_1_1process_1_1_recover_model_result_1a1194589e7bb59c39e7f7d53599668396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_recover_model_result_1a1194589e7bb59c39e7f7d53599668396" kindref="member">actual_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419" refid="structthemis_1_1process_1_1_recover_model_result_1a5b90d176134dca9f2380d9d2df7fd39d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_recover_model_result_1a5b90d176134dca9f2380d9d2df7fd39d" kindref="member">backup_model_id</ref>;</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422" refid="structthemis_1_1process_1_1_recover_model_result_1afe243f8af0e2df4bdfb230783e6a9913" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_recover_model_result_1afe243f8af0e2df4bdfb230783e6a9913" kindref="member">audit_record_id</ref>;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425" refid="structthemis_1_1process_1_1_recover_model_result_1aea58e4d24f36ba269ad67d1a32c8a7fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_recover_model_result_1aea58e4d24f36ba269ad67d1a32c8a7fd" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428" refid="structthemis_1_1process_1_1_recover_model_result_1a205c2d5e3e32d0497e7926099f575df2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_recover_model_result_1a205c2d5e3e32d0497e7926099f575df2" kindref="member">recovery_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retention<sp/>and<sp/>Compliance<sp/>Policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440" refid="structthemis_1_1process_1_1_audit_retention_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="442" refid="structthemis_1_1process_1_1_audit_retention_policy_1aa6b26ef6c36b0b402be5d1206508ffe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_audit_retention_policy_1aa6b26ef6c36b0b402be5d1206508ffe4" kindref="member">retention_days</ref><sp/>=<sp/>90;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445" refid="structthemis_1_1process_1_1_audit_retention_policy_1a3cf16fb1be9976c730e6f339f7641e1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_audit_retention_policy_1a3cf16fb1be9976c730e6f339f7641e1e" kindref="member">operations_per_model</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="448" refid="structthemis_1_1process_1_1_audit_retention_policy_1a6ab920a392e98ba6211f12a2113aa9a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_audit_retention_policy_1a6ab920a392e98ba6211f12a2113aa9a7" kindref="member">archive_endpoint</ref>;</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451" refid="structthemis_1_1process_1_1_audit_retention_policy_1a833ef9b3b32495272d2ef7aec9fb8405" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_audit_retention_policy_1a833ef9b3b32495272d2ef7aec9fb8405" kindref="member">archive_with_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454" refid="structthemis_1_1process_1_1_audit_retention_policy_1ac2433c13dcbe4d0e4ed312b3c82f5c76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_audit_retention_policy_1ac2433c13dcbe4d0e4ed312b3c82f5c76" kindref="member">min_legal_hold_days</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457" refid="structthemis_1_1process_1_1_audit_retention_policy_1a4359f752d0621d0088d912bbc00c70f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_audit_retention_policy_1a4359f752d0621d0088d912bbc00c70f0" kindref="member">soft_delete_grace_period_days</ref><sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Model<sp/>History<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467" refid="structthemis_1_1process_1_1_model_history_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_model_history_config" kindref="compound">ModelHistoryConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="469" refid="structthemis_1_1process_1_1_model_history_config_1a28623d1a9b9ff81d7d5faaf2336d51de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_history_config_1a28623d1a9b9ff81d7d5faaf2336d51de" kindref="member">enable_history</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472" refid="structthemis_1_1process_1_1_model_history_config_1a97e8eb21259f5fdc998e68262f14a6d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_model_history_config_1a97e8eb21259f5fdc998e68262f14a6d9" kindref="member">snapshot_frequency</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475" refid="structthemis_1_1process_1_1_model_history_config_1a6ff4ffa06fc3b89cca331e600fecf23f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_history_config_1a6ff4ffa06fc3b89cca331e600fecf23f" kindref="member">delta_encoding</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;auto&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="478" refid="structthemis_1_1process_1_1_model_history_config_1afd33f937a00dc0bdd9d6896778d8902f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_history_config_1afd33f937a00dc0bdd9d6896778d8902f" kindref="member">compression_algorithm</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="481" refid="structthemis_1_1process_1_1_model_history_config_1a9e94f4dcb3156c565b3304139a743135" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref><sp/><ref refid="structthemis_1_1process_1_1_model_history_config_1a9e94f4dcb3156c565b3304139a743135" kindref="member">retention_policy</ref>;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484" refid="structthemis_1_1process_1_1_model_history_config_1a759cd92dc43602d519e6658394798540" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_model_history_config_1a759cd92dc43602d519e6658394798540" kindref="member">cache_size_mb</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487" refid="structthemis_1_1process_1_1_model_history_config_1a0a53e3161534c941a7bc8d4c985b5ba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_history_config_1a0a53e3161534c941a7bc8d4c985b5ba6" kindref="member">audit_queries</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight></codeline>
+<codeline lineno="490" refid="structthemis_1_1process_1_1_model_history_config_1a83c5a4e0fadb5f119c91982c81adbc31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_history_config_1a83c5a4e0fadb5f119c91982c81adbc31" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="491"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/model_history_contract.h"/>
+  </compounddef>
+</doxygen>

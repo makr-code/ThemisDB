@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator::AggResult</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result_1aaa1fbb604b0946da6a82d401c72ae176" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUQueryAccelerator::AggResult::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::AggResult::value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="129" column="16" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result_1abf1981abc455cb0da7fc0229f6fe532c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::AggResult::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::AggResult::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="130" column="16" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result_1a6b3f221bc10e19174e2ba7d183ea1dc1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUQueryAccelerator::AggResult::used_gpu</definition>
+        <argsstring></argsstring>
+        <name>used_gpu</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::AggResult::used_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="131" column="16" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="128" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="128" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result_1abf1981abc455cb0da7fc0229f6fe532c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::AggResult</scope><name>count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result_1a6b3f221bc10e19174e2ba7d183ea1dc1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::AggResult</scope><name>used_gpu</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_agg_result_1aaa1fbb604b0946da6a82d401c72ae176" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::AggResult</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

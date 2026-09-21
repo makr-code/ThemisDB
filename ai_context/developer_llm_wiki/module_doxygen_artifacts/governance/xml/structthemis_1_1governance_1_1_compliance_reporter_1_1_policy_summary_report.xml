@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceReporter::PolicySummaryReport</compoundname>
+    <basecompoundref refid="structthemis_1_1governance_1_1_i_compliance_report" prot="public" virt="non-virtual">themis::governance::IComplianceReport</basecompoundref>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aef71cb542bf6bd56ad5ad36236ffb673" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceReporter::PolicySummaryReport::total_rules</definition>
+        <argsstring></argsstring>
+        <name>total_rules</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::total_rules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="232" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a6c349a7cfc4d1adfd5347654d9a040b4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceReporter::PolicySummaryReport::enabled_rules</definition>
+        <argsstring></argsstring>
+        <name>enabled_rules</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::enabled_rules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="233" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1af23fbe0dfa35b671913fd74d88d8b413" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceReporter::PolicySummaryReport::disabled_rules</definition>
+        <argsstring></argsstring>
+        <name>disabled_rules</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::disabled_rules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="234" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a2b1caf20dc9c7c44f20bbdb6b0aae46d" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::ComplianceReporter::PolicySummaryReport::rules_by_classification</definition>
+        <argsstring></argsstring>
+        <name>rules_by_classification</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::rules_by_classification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="235" column="28" bodyfile="include/governance/compliance_reporting.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1ade6ed4d24aac491a85c35f7380b5f4c5" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::ComplianceReporter::PolicySummaryReport::rules_requiring_encryption</definition>
+        <argsstring></argsstring>
+        <name>rules_requiring_encryption</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::rules_requiring_encryption</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="236" column="28" bodyfile="include/governance/compliance_reporting.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a4392dbeec15007b4f969b24490bfd2d9" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::ComplianceReporter::PolicySummaryReport::rules_with_audit</definition>
+        <argsstring></argsstring>
+        <name>rules_with_audit</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::rules_with_audit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="237" column="28" bodyfile="include/governance/compliance_reporting.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a267fb5e21efaf237792e9ac76a073707" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceReporter::PolicySummaryReport::generated_at</definition>
+        <argsstring></argsstring>
+        <name>generated_at</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::generated_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="238" column="17" bodyfile="include/governance/compliance_reporting.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aab346f8fa6d54e43e01ed73a137543b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceReporter::PolicySummaryReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="244" column="24" bodyfile="src/governance/compliance_reporting.cpp" bodystart="734" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aad7e0bd3448f7676478b8e7b3e712e4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::PolicySummaryReport::toCSV</definition>
+        <argsstring>() const override</argsstring>
+        <name>toCSV</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::toCSV</qualifiedname>
+        <reimplements refid="structthemis_1_1governance_1_1_i_compliance_report_1a3113e39baa131903fa65a0c2cd4463e9">toCSV</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="245" column="21" bodyfile="src/governance/compliance_reporting.cpp" bodystart="746" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a931a532fab7a6a335b40e11783d33513" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::PolicySummaryReport::toHTML</definition>
+        <argsstring>() const</argsstring>
+        <name>toHTML</name>
+        <qualifiedname>themis::governance::ComplianceReporter::PolicySummaryReport::toHTML</qualifiedname>
+        <briefdescription>
+<para>To HTML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="250" column="21" bodyfile="src/governance/compliance_reporting.cpp" bodystart="767" bodyend="791"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::ComplianceReporter::PolicySummaryReport</label>
+        <link refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceReport</label>
+        <link refid="structthemis_1_1governance_1_1_i_compliance_report"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::ComplianceReporter::PolicySummaryReport</label>
+        <link refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceReport</label>
+        <link refid="structthemis_1_1governance_1_1_i_compliance_report"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/compliance_reporting.h" line="231" column="5" bodyfile="include/governance/compliance_reporting.h" bodystart="231" bodyend="251"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1af23fbe0dfa35b671913fd74d88d8b413" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>disabled_rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a6c349a7cfc4d1adfd5347654d9a040b4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>enabled_rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a267fb5e21efaf237792e9ac76a073707" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>generated_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a2b1caf20dc9c7c44f20bbdb6b0aae46d" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>rules_by_classification</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1ade6ed4d24aac491a85c35f7380b5f4c5" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>rules_requiring_encryption</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a4392dbeec15007b4f969b24490bfd2d9" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>rules_with_audit</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aad7e0bd3448f7676478b8e7b3e712e4e" prot="public" virt="virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>toCSV</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a931a532fab7a6a335b40e11783d33513" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>toHTML</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aab346f8fa6d54e43e01ed73a137543b5" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aef71cb542bf6bd56ad5ad36236ffb673" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>total_rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_i_compliance_report_1aa1e5ebc86266f46d6aff958a6e9e0366" prot="public" virt="virtual"><scope>themis::governance::ComplianceReporter::PolicySummaryReport</scope><name>~IComplianceReport</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

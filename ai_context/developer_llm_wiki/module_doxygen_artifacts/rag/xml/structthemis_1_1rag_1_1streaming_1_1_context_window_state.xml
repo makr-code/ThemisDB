@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::streaming::ContextWindowState</compoundname>
+    <includes refid="streaming__retriever_8h" local="no">streaming_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1ae4872ef65f97f9eb0d7252040a691596" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;StreamedDocument&gt; themis::rag::streaming::ContextWindowState::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowState::documents</qualifiedname>
+        <briefdescription>
+<para>Documents currently in context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="40" column="17" bodyfile="include/rag/streaming_retriever.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1aca6226dea762cc95853d5f1ad038891f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::ContextWindowState::total_tokens_used</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_used</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowState::total_tokens_used</qualifiedname>
+        <briefdescription>
+<para>Tokens consumed so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="41" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a7bf4b879a2469f3513e0eda333b128ea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::ContextWindowState::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowState::max_tokens</qualifiedname>
+        <briefdescription>
+<para>Configured budget. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="42" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a13487a19f1090f72668526a58abcdb69" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::streaming::ContextWindowState::fill_ratio</definition>
+        <argsstring></argsstring>
+        <name>fill_ratio</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowState::fill_ratio</qualifiedname>
+        <briefdescription>
+<para>total_tokens_used / max_tokens </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="43" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a236d8bd2672bd85c0c4470ec6b4ac897" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::streaming::ContextWindowState::is_full</definition>
+        <argsstring></argsstring>
+        <name>is_full</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowState::is_full</qualifiedname>
+        <briefdescription>
+<para>True when no more docs can fit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="44" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of the context window at a point in time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/streaming_retriever.h" line="39" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="39" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1ae4872ef65f97f9eb0d7252040a691596" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowState</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a13487a19f1090f72668526a58abcdb69" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowState</scope><name>fill_ratio</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a236d8bd2672bd85c0c4470ec6b4ac897" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowState</scope><name>is_full</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a7bf4b879a2469f3513e0eda333b128ea" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowState</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1aca6226dea762cc95853d5f1ad038891f" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowState</scope><name>total_tokens_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

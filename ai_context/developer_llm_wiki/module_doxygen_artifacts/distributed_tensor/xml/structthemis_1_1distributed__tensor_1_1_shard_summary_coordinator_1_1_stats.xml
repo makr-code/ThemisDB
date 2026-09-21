@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ShardSummaryCoordinator::Stats</compoundname>
+    <includes refid="shard__summary__coordinator_8h" local="no">shard_summary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ac72c1aa48d8cd5a0acf15340e0eab188" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_refreshes</definition>
+        <argsstring></argsstring>
+        <name>total_refreshes</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_refreshes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="326" column="18" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a5dd9df97c480a3fe60273a54eec540fc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_refresh_failures</definition>
+        <argsstring></argsstring>
+        <name>total_refresh_failures</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_refresh_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="328" column="18" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ab4d1d60964a2b9ccfe785ca319ee9b11" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_routing_decisions</definition>
+        <argsstring></argsstring>
+        <name>total_routing_decisions</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_routing_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="330" column="18" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ad43443e29cc1530bcd4ffc6beb951d6c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_escalations</definition>
+        <argsstring></argsstring>
+        <name>total_escalations</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_escalations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="332" column="18" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a67f346ee01e9da936f105e945a879ae9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_exact_fetches</definition>
+        <argsstring></argsstring>
+        <name>total_exact_fetches</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_exact_fetches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="334" column="18" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a0b3f9f15bd0a21257bff7a564abbb7f2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_exact_fetch_successes</definition>
+        <argsstring></argsstring>
+        <name>total_exact_fetch_successes</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Stats::total_exact_fetch_successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="336" column="18" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="325" column="5" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="325" bodyend="337"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ad43443e29cc1530bcd4ffc6beb951d6c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Stats</scope><name>total_escalations</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a0b3f9f15bd0a21257bff7a564abbb7f2" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Stats</scope><name>total_exact_fetch_successes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a67f346ee01e9da936f105e945a879ae9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Stats</scope><name>total_exact_fetches</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1a5dd9df97c480a3fe60273a54eec540fc" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Stats</scope><name>total_refresh_failures</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ac72c1aa48d8cd5a0acf15340e0eab188" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Stats</scope><name>total_refreshes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_stats_1ab4d1d60964a2b9ccfe785ca319ee9b11" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Stats</scope><name>total_routing_decisions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

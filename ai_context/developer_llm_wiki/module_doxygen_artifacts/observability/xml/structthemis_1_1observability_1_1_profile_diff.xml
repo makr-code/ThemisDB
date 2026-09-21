@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_profile_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ProfileDiff</compoundname>
+    <includes refid="continuous__profiler_8h" local="no">continuous_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_profile_diff_1a2b3e92f4c3ec6ba6238666dd257400a8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ProfileDiff::cpu_regression_percent</definition>
+        <argsstring></argsstring>
+        <name>cpu_regression_percent</name>
+        <qualifiedname>themis::observability::ProfileDiff::cpu_regression_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Positive = regression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="80" column="12" bodyfile="include/observability/continuous_profiler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_profile_diff_1a855bfa78ab3a909a5d2d5f1ca8abe076" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ProfileDiff::memory_regression_percent</definition>
+        <argsstring></argsstring>
+        <name>memory_regression_percent</name>
+        <qualifiedname>themis::observability::ProfileDiff::memory_regression_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Positive = regression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="81" column="12" bodyfile="include/observability/continuous_profiler.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_profile_diff_1ab081b99c73974302908a46be29786a9b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::ProfileDiff::new_hotspots</definition>
+        <argsstring></argsstring>
+        <name>new_hotspots</name>
+        <qualifiedname>themis::observability::ProfileDiff::new_hotspots</qualifiedname>
+        <briefdescription>
+<para>Frames that appeared in current. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="82" column="17" bodyfile="include/observability/continuous_profiler.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_profile_diff_1a9be39704b2ded6844bf966e517ab679b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::ProfileDiff::removed_hotspots</definition>
+        <argsstring></argsstring>
+        <name>removed_hotspots</name>
+        <qualifiedname>themis::observability::ProfileDiff::removed_hotspots</qualifiedname>
+        <briefdescription>
+<para>Frames absent from current. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="83" column="17" bodyfile="include/observability/continuous_profiler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_profile_diff_1a8840c120859c59c3c31a40224083e10a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::ProfileDiff::changed_hotspots</definition>
+        <argsstring></argsstring>
+        <name>changed_hotspots</name>
+        <qualifiedname>themis::observability::ProfileDiff::changed_hotspots</qualifiedname>
+        <briefdescription>
+<para>Frames whose sample count changed significantly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="84" column="17" bodyfile="include/observability/continuous_profiler.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_profile_diff_1a5ab821f30d616745393c24c1c3db258c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::ProfileDiff::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::ProfileDiff::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialize to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="87" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="245" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Differential comparison result between two <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> objects. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/continuous_profiler.h" line="79" column="1" bodyfile="include/observability/continuous_profiler.h" bodystart="79" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_profile_diff_1a8840c120859c59c3c31a40224083e10a" prot="public" virt="non-virtual"><scope>themis::observability::ProfileDiff</scope><name>changed_hotspots</name></member>
+      <member refid="structthemis_1_1observability_1_1_profile_diff_1a2b3e92f4c3ec6ba6238666dd257400a8" prot="public" virt="non-virtual"><scope>themis::observability::ProfileDiff</scope><name>cpu_regression_percent</name></member>
+      <member refid="structthemis_1_1observability_1_1_profile_diff_1a855bfa78ab3a909a5d2d5f1ca8abe076" prot="public" virt="non-virtual"><scope>themis::observability::ProfileDiff</scope><name>memory_regression_percent</name></member>
+      <member refid="structthemis_1_1observability_1_1_profile_diff_1ab081b99c73974302908a46be29786a9b" prot="public" virt="non-virtual"><scope>themis::observability::ProfileDiff</scope><name>new_hotspots</name></member>
+      <member refid="structthemis_1_1observability_1_1_profile_diff_1a9be39704b2ded6844bf966e517ab679b" prot="public" virt="non-virtual"><scope>themis::observability::ProfileDiff</scope><name>removed_hotspots</name></member>
+      <member refid="structthemis_1_1observability_1_1_profile_diff_1a5ab821f30d616745393c24c1c3db258c" prot="public" virt="non-virtual"><scope>themis::observability::ProfileDiff</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

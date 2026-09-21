@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardRPCServer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a8f99302ce1f1ed5c93471fb0070f7fdc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRPCServer::Impl::listen_address</definition>
+        <argsstring></argsstring>
+        <name>listen_address</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Impl::listen_address</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/shard_rpc_server.cpp" line="232" column="17" bodyfile="src/sharding/shard_rpc_server.cpp" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a4426e2040101f5b19702e00135409a89" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler" kindref="compound">RequestHandler</ref> *</type>
+        <definition>RequestHandler* themis::sharding::ShardRPCServer::Impl::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Impl::handler</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/shard_rpc_server.cpp" line="233" column="20" bodyfile="src/sharding/shard_rpc_server.cpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a4dabf9e912c72f5ed1a38e24bec73b7e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config" kindref="compound">ShardRPCServer::Config</ref></type>
+        <definition>ShardRPCServer::Config themis::sharding::ShardRPCServer::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/shard_rpc_server.cpp" line="234" column="28" bodyfile="src/sharding/shard_rpc_server.cpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a8cf99ec5ef563f80964a8ba2f90c1ca4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRPCServer::Impl::Impl</definition>
+        <argsstring>(const std::string &amp;addr)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Impl::Impl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/shard_rpc_server.cpp" line="241" column="14" bodyfile="src/sharding/shard_rpc_server.cpp" bodystart="241" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a5218f2c0dede326f910283d27bab917f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRPCServer::Impl::Impl</definition>
+        <argsstring>(const ShardRPCServer::Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config" kindref="compound">ShardRPCServer::Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/shard_rpc_server.cpp" line="245" column="14" bodyfile="src/sharding/shard_rpc_server.cpp" bodystart="245" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::sharding::ShardRPCServer::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ShardRPCServer::Impl</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>handler</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ShardRPCServer::RequestHandler</label>
+        <link refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/sharding/shard_rpc_server.cpp" line="231" column="1" bodyfile="src/sharding/shard_rpc_server.cpp" bodystart="231" bodyend="246"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a4dabf9e912c72f5ed1a38e24bec73b7e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a4426e2040101f5b19702e00135409a89" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Impl</scope><name>handler</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a8cf99ec5ef563f80964a8ba2f90c1ca4" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a5218f2c0dede326f910283d27bab917f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_impl_1a8f99302ce1f1ed5c93471fb0070f7fdc" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Impl</scope><name>listen_address</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

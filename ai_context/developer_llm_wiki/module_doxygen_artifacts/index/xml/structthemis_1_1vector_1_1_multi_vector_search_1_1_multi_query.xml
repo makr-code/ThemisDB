@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::vector::MultiVectorSearch::MultiQuery</compoundname>
+    <includes refid="multi__vector__search_8h" local="no">multi_vector_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a8b0f2fead6f8447f4d7fb8d88ab1b06b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::vector::MultiVectorSearch::MultiQuery::vectors</definition>
+        <argsstring></argsstring>
+        <name>vectors</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::MultiQuery::vectors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="86" column="21" bodyfile="include/index/multi_vector_search.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a97e5e7e0a715c8438b7490048c7f4df3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::vector::MultiVectorSearch::MultiQuery::weights</definition>
+        <argsstring></argsstring>
+        <name>weights</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::MultiQuery::weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="87" column="21" bodyfile="include/index/multi_vector_search.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a327231aca6875ba46ee6bb05c6b6ca72" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::vector::MultiVectorSearch::MultiQuery::field_names</definition>
+        <argsstring></argsstring>
+        <name>field_names</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::MultiQuery::field_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="90" column="21" bodyfile="include/index/multi_vector_search.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a54b6966365208d294e14ad52c05915f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::vector::MultiVectorSearch::MultiQuery::require_all_fields</definition>
+        <argsstring></argsstring>
+        <name>require_all_fields</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::MultiQuery::require_all_fields</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="93" column="14" bodyfile="include/index/multi_vector_search.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query specification for multi-vector search. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/multi_vector_search.h" line="84" column="5" bodyfile="include/index/multi_vector_search.h" bodystart="84" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a327231aca6875ba46ee6bb05c6b6ca72" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::MultiQuery</scope><name>field_names</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a54b6966365208d294e14ad52c05915f8" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::MultiQuery</scope><name>require_all_fields</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a8b0f2fead6f8447f4d7fb8d88ab1b06b" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::MultiQuery</scope><name>vectors</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_multi_query_1a97e5e7e0a715c8438b7490048c7f4df3" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::MultiQuery</scope><name>weights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

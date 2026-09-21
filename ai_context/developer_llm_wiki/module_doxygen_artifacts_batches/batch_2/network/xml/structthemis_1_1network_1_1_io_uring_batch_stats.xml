@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_io_uring_batch_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::IoUringBatchStats</compoundname>
+    <includes refid="io__uring__batcher_8h" local="no">io_uring_batcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batch_stats_1a535546d85dba060429b96a74aabb7e5e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::IoUringBatchStats::sqes_submitted</definition>
+        <argsstring></argsstring>
+        <name>sqes_submitted</name>
+        <qualifiedname>themis::network::IoUringBatchStats::sqes_submitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>SQEs queued in this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="31" column="14" bodyfile="include/network/io_uring_batcher.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batch_stats_1a3be7106984f30228d1ca6e7235952e96" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::IoUringBatchStats::cqes_reaped</definition>
+        <argsstring></argsstring>
+        <name>cqes_reaped</name>
+        <qualifiedname>themis::network::IoUringBatchStats::cqes_reaped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CQEs reaped (completed operations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="32" column="14" bodyfile="include/network/io_uring_batcher.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batch_stats_1a16826d3be8dd142930fb19208386027d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::IoUringBatchStats::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::network::IoUringBatchStats::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes confirmed written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="33" column="14" bodyfile="include/network/io_uring_batcher.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batch_stats_1a8836ec5de43696bcfc61130d91790367" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::IoUringBatchStats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::network::IoUringBatchStats::errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Operations that returned an error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="34" column="14" bodyfile="include/network/io_uring_batcher.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batch_stats_1aa6040e9b2cdb58c03523be500cea47a5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringBatchStats::rounds</definition>
+        <argsstring></argsstring>
+        <name>rounds</name>
+        <qualifiedname>themis::network::IoUringBatchStats::rounds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total submitAndWait() calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="35" column="14" bodyfile="include/network/io_uring_batcher.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for a single submit-and-reap round. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/io_uring_batcher.h" line="30" column="1" bodyfile="include/network/io_uring_batcher.h" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_io_uring_batch_stats_1a16826d3be8dd142930fb19208386027d" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchStats</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batch_stats_1a3be7106984f30228d1ca6e7235952e96" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchStats</scope><name>cqes_reaped</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batch_stats_1a8836ec5de43696bcfc61130d91790367" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchStats</scope><name>errors</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batch_stats_1aa6040e9b2cdb58c03523be500cea47a5" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchStats</scope><name>rounds</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batch_stats_1a535546d85dba060429b96a74aabb7e5e" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchStats</scope><name>sqes_submitted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

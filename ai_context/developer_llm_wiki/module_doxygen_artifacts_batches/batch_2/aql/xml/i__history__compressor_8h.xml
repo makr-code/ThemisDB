@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="i__history__compressor_8h" kind="file" language="C++">
+    <compoundname>i_history_compressor.h</compoundname>
+    <includes local="yes">llm/i_history_compressor.h</includes>
+    <includedby refid="aql__conversation__context_8h" local="yes">include/aql/aql_conversation_context.h</includedby>
+    <includedby refid="test__p2__d05__runtime__integration_8cpp" local="yes">tests/aql/test_p2_d05_runtime_integration.cpp</includedby>
+    <includedby refid="test__p2__d06__benchmarks_8cpp" local="yes">tests/aql/test_p2_d06_benchmarks.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/i_history_compressor.h</label>
+        <link refid="i__history__compressor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/i_history_compressor.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/aql/aql_conversation_context.h</label>
+        <link refid="aql__conversation__context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/i_history_compressor.h</label>
+        <link refid="i__history__compressor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/aql/aql_conversation_context.cpp</label>
+        <link refid="aql__conversation__context_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/aql/test_aql_conversation_context.cpp</label>
+        <link refid="test__aql__conversation__context_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/aql/test_p2_d05_runtime_integration.cpp</label>
+        <link refid="test__p2__d05__runtime__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/aql/test_p2_d06_benchmarks.cpp</label>
+        <link refid="test__p2__d06__benchmarks_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <briefdescription>
+<para>Compatibility wrapper for historical include path changes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Some translation units include this header as &quot;aql/i_history_compressor.h&quot; while the canonical interface currently lives under &quot;llm/i_history_compressor.h&quot;. This wrapper forwards the real definition to avoid include-path breakage during incremental refactors. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/i_history_compressor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Preserve<sp/>original<sp/>namespace<sp/>placement<sp/>(the<sp/>concrete<sp/>interface<sp/>declares</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>types<sp/>in<sp/>`themis::aql`)<sp/>so<sp/>no<sp/>additional<sp/>declarations<sp/>are<sp/>required<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/i_history_compressor.h"/>
+  </compounddef>
+</doxygen>

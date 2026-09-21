@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_join_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::JoinSpec</compoundname>
+    <includes refid="adaptive__join_8h" local="no">adaptive_join.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_join_spec_1af8aee32ff61dfbc36c98797672f4527c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::JoinSpec::left_key</definition>
+        <argsstring></argsstring>
+        <name>left_key</name>
+        <qualifiedname>themis::JoinSpec::left_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="63" column="17" bodyfile="include/query/adaptive_join.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_join_spec_1a3fa75936c738f4b4eaf28442c6ed98dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::JoinSpec::right_key</definition>
+        <argsstring></argsstring>
+        <name>right_key</name>
+        <qualifiedname>themis::JoinSpec::right_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="65" column="17" bodyfile="include/query/adaptive_join.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_join_spec_1a4f6f44029d1868b86d1a022188a369ea" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const <ref refid="namespacethemis_1af141136067e6bab28010b6591e8acbcc" kindref="member">RowValue</ref> &amp;, const <ref refid="namespacethemis_1af141136067e6bab28010b6591e8acbcc" kindref="member">RowValue</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const RowValue&amp;, const RowValue&amp;)&gt; themis::JoinSpec::filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <qualifiedname>themis::JoinSpec::filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="67" column="19" bodyfile="include/query/adaptive_join.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_join.h" line="62" column="1" bodyfile="include/query/adaptive_join.h" bodystart="62" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_join_spec_1a4f6f44029d1868b86d1a022188a369ea" prot="public" virt="non-virtual"><scope>themis::JoinSpec</scope><name>filter</name></member>
+      <member refid="structthemis_1_1_join_spec_1af8aee32ff61dfbc36c98797672f4527c" prot="public" virt="non-virtual"><scope>themis::JoinSpec</scope><name>left_key</name></member>
+      <member refid="structthemis_1_1_join_spec_1a3fa75936c738f4b4eaf28442c6ed98dd" prot="public" virt="non-virtual"><scope>themis::JoinSpec</scope><name>right_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

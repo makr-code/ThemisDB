@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_request_coalescer_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::RequestCoalescer::Result</compoundname>
+    <includes refid="request__coalescer_8h" local="no">request_coalescer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_request_coalescer_1_1_result_1aaf08aa2085fac6026fba98ec44291155" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::RequestCoalescer::Result::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::cache::RequestCoalescer::Result::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/request_coalescer.h" line="28" column="21" bodyfile="include/cache/request_coalescer.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_request_coalescer_1_1_result_1aca186c0cb0675196ae9268c995a0d7a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RequestCoalescer::Result::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::cache::RequestCoalescer::Result::data</qualifiedname>
+        <briefdescription>
+<para>JSON payload returned by fn(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/request_coalescer.h" line="29" column="21" bodyfile="include/cache/request_coalescer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_request_coalescer_1_1_result_1afcdafa069249b3d39c96a9235eefc33a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::RequestCoalescer::Result::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::cache::RequestCoalescer::Result::version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/request_coalescer.h" line="30" column="21" bodyfile="include/cache/request_coalescer.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_request_coalescer_1_1_result_1a494b645ec5ea87618c2e7e882d290fd0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RequestCoalescer::Result::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::cache::RequestCoalescer::Result::error</qualifiedname>
+        <briefdescription>
+<para>Exception message when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/request_coalescer.h" line="31" column="21" bodyfile="include/cache/request_coalescer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/request_coalescer.h" line="27" column="5" bodyfile="include/cache/request_coalescer.h" bodystart="27" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_request_coalescer_1_1_result_1aca186c0cb0675196ae9268c995a0d7a8" prot="public" virt="non-virtual"><scope>themis::cache::RequestCoalescer::Result</scope><name>data</name></member>
+      <member refid="structthemis_1_1cache_1_1_request_coalescer_1_1_result_1a494b645ec5ea87618c2e7e882d290fd0" prot="public" virt="non-virtual"><scope>themis::cache::RequestCoalescer::Result</scope><name>error</name></member>
+      <member refid="structthemis_1_1cache_1_1_request_coalescer_1_1_result_1aaf08aa2085fac6026fba98ec44291155" prot="public" virt="non-virtual"><scope>themis::cache::RequestCoalescer::Result</scope><name>success</name></member>
+      <member refid="structthemis_1_1cache_1_1_request_coalescer_1_1_result_1afcdafa069249b3d39c96a9235eefc33a" prot="public" virt="non-virtual"><scope>themis::cache::RequestCoalescer::Result</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

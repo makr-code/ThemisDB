@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_passkey_assertion_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::PasskeyAssertionResponse</compoundname>
+    <includes refid="passkey__authenticator_8h" local="no">passkey_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_assertion_response_1a017ac65ca6d7d457791a4fca224c6658" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PasskeyAssertionResponse::credential_id</definition>
+        <argsstring></argsstring>
+        <name>credential_id</name>
+        <qualifiedname>themis::auth::PasskeyAssertionResponse::credential_id</qualifiedname>
+        <briefdescription>
+<para>Base64url-encoded credential ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="58" column="17" bodyfile="include/auth/passkey_authenticator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_assertion_response_1afed5c3b78344d7434e0fe58d412eb5bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PasskeyAssertionResponse::authenticator_data_b64</definition>
+        <argsstring></argsstring>
+        <name>authenticator_data_b64</name>
+        <qualifiedname>themis::auth::PasskeyAssertionResponse::authenticator_data_b64</qualifiedname>
+        <briefdescription>
+<para>Base64url-encoded authenticatorData. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="59" column="17" bodyfile="include/auth/passkey_authenticator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_assertion_response_1a0cb227fc339e83ab4190d98bd5aa2ba4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PasskeyAssertionResponse::client_data_json_b64</definition>
+        <argsstring></argsstring>
+        <name>client_data_json_b64</name>
+        <qualifiedname>themis::auth::PasskeyAssertionResponse::client_data_json_b64</qualifiedname>
+        <briefdescription>
+<para>Base64url-encoded clientDataJSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="60" column="17" bodyfile="include/auth/passkey_authenticator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_assertion_response_1a8cff3f8393f85029d76cc205253d71cf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PasskeyAssertionResponse::signature_b64</definition>
+        <argsstring></argsstring>
+        <name>signature_b64</name>
+        <qualifiedname>themis::auth::PasskeyAssertionResponse::signature_b64</qualifiedname>
+        <briefdescription>
+<para>Base64url-encoded assertion signature. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="61" column="17" bodyfile="include/auth/passkey_authenticator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_assertion_response_1abe5da4bef4a6b505b2751df82e552b4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PasskeyAssertionResponse::user_handle_b64</definition>
+        <argsstring></argsstring>
+        <name>user_handle_b64</name>
+        <qualifiedname>themis::auth::PasskeyAssertionResponse::user_handle_b64</qualifiedname>
+        <briefdescription>
+<para>Base64url-encoded userHandle (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="62" column="17" bodyfile="include/auth/passkey_authenticator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/passkey_authenticator.h" line="57" column="1" bodyfile="include/auth/passkey_authenticator.h" bodystart="57" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_passkey_assertion_response_1afed5c3b78344d7434e0fe58d412eb5bc" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyAssertionResponse</scope><name>authenticator_data_b64</name></member>
+      <member refid="structthemis_1_1auth_1_1_passkey_assertion_response_1a0cb227fc339e83ab4190d98bd5aa2ba4" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyAssertionResponse</scope><name>client_data_json_b64</name></member>
+      <member refid="structthemis_1_1auth_1_1_passkey_assertion_response_1a017ac65ca6d7d457791a4fca224c6658" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyAssertionResponse</scope><name>credential_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_passkey_assertion_response_1a8cff3f8393f85029d76cc205253d71cf" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyAssertionResponse</scope><name>signature_b64</name></member>
+      <member refid="structthemis_1_1auth_1_1_passkey_assertion_response_1abe5da4bef4a6b505b2751df82e552b4b" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyAssertionResponse</scope><name>user_handle_b64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

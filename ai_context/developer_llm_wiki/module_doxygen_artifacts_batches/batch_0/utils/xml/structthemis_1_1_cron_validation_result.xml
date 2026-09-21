@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_cron_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CronValidationResult</compoundname>
+    <includes refid="cron__parser_8h" local="no">cron_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_cron_validation_result_1ab5d1a1e292ba64db9ff332033ac2f930" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::CronValidationResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::CronValidationResult::is_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="25" column="10" bodyfile="include/utils/cron_parser.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cron_validation_result_1a99f73bde7c022bc42cb20c5cfd1a984c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CronValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::CronValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="26" column="17" bodyfile="include/utils/cron_parser.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_cron_validation_result_1a501a67e13ca18d5253a938241bff6c38" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::CronValidationResult::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::CronValidationResult::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="28" column="5" bodyfile="include/utils/cron_parser.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> of cron expression validation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/cron_parser.h" line="24" column="1" bodyfile="include/utils/cron_parser.h" bodystart="24" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_cron_validation_result_1a99f73bde7c022bc42cb20c5cfd1a984c" prot="public" virt="non-virtual"><scope>themis::CronValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1_cron_validation_result_1ab5d1a1e292ba64db9ff332033ac2f930" prot="public" virt="non-virtual"><scope>themis::CronValidationResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1_cron_validation_result_1a501a67e13ca18d5253a938241bff6c38" prot="public" virt="non-virtual"><scope>themis::CronValidationResult</scope><name>operator bool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

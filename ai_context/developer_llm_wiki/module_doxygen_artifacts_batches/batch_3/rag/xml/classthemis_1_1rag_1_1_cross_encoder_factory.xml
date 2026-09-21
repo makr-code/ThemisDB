@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_cross_encoder_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::CrossEncoderFactory</compoundname>
+    <includes refid="reranker_8h" local="no">reranker.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_factory_1ae01653b8f63e244301f3e26dc6dbfeae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CrossEncoderReranker &gt; themis::rag::CrossEncoderFactory::createFast</definition>
+        <argsstring>()</argsstring>
+        <name>createFast</name>
+        <qualifiedname>themis::rag::CrossEncoderFactory::createFast</qualifiedname>
+        <briefdescription>
+<para>Fast heuristic reranker (no model required, &lt;5 ms / 100 docs). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Fast.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createFast without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="239" column="28" bodyfile="src/rag/reranker.cpp" bodystart="650" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_factory_1a8febbcee00ab8ce79451e133579d4c18" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CrossEncoderReranker &gt; themis::rag::CrossEncoderFactory::createBalanced</definition>
+        <argsstring>(const std::string &amp;model_path=&quot;&quot;)</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::CrossEncoderFactory::createBalanced</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Balanced ONNX reranker (MiniLM-L6, good speed/accuracy). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Balanced.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to MiniLM cross-encoder ONNX file</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="245" column="28" bodyfile="src/rag/reranker.cpp" bodystart="664" bodyend="679"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_factory_1a4285f62c1cad2ca4ba1d1a64c57c773c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CrossEncoderReranker &gt; themis::rag::CrossEncoderFactory::createAccurate</definition>
+        <argsstring>(const std::string &amp;model_path=&quot;&quot;)</argsstring>
+        <name>createAccurate</name>
+        <qualifiedname>themis::rag::CrossEncoderFactory::createAccurate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>High-accuracy ONNX reranker (RoBERTa-base, best accuracy). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Accurate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to RoBERTa cross-encoder ONNX file</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="252" column="28" bodyfile="src/rag/reranker.cpp" bodystart="686" bodyend="701"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common cross-encoder configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/reranker.h" line="234" column="1" bodyfile="include/rag/reranker.h" bodystart="234" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_factory_1a4285f62c1cad2ca4ba1d1a64c57c773c" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderFactory</scope><name>createAccurate</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_factory_1a8febbcee00ab8ce79451e133579d4c18" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_factory_1ae01653b8f63e244301f3e26dc6dbfeae" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderFactory</scope><name>createFast</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

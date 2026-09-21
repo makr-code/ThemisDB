@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_model_cache_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::ModelCacheConfig</compoundname>
+    <includes refid="voice__model__cache_8h" local="no">voice_model_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_config_1aa55fd1294332a7146e776155b924d4cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ModelCacheConfig::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::voice::ModelCacheConfig::max_memory_bytes</qualifiedname>
+        <initializer>= 4ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="48" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_config_1a4602a82b0f128727946c798bc78f366f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ModelCacheConfig::max_models</definition>
+        <argsstring></argsstring>
+        <name>max_models</name>
+        <qualifiedname>themis::voice::ModelCacheConfig::max_models</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="49" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_config_1a82fcf3389008a66542dca5c173feec21" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ModelCacheConfig::enable_lru_eviction</definition>
+        <argsstring></argsstring>
+        <name>enable_lru_eviction</name>
+        <qualifiedname>themis::voice::ModelCacheConfig::enable_lru_eviction</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="50" column="10" bodyfile="include/voice/voice_model_cache.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_config_1abdc5322516abe67d5dc89eee89dae562" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ModelCacheConfig::enable_prefetch</definition>
+        <argsstring></argsstring>
+        <name>enable_prefetch</name>
+        <qualifiedname>themis::voice::ModelCacheConfig::enable_prefetch</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="51" column="10" bodyfile="include/voice/voice_model_cache.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_config_1a4860797acf1389353de9d67c065fa8eb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::ModelCacheConfig::ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>ttl_ms</name>
+        <qualifiedname>themis::voice::ModelCacheConfig::ttl_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="52" column="13" bodyfile="include/voice/voice_model_cache.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_config_1a9c77ac40cde67a320210ed781eff1448" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ModelCacheConfig::pin_frequently_used</definition>
+        <argsstring></argsstring>
+        <name>pin_frequently_used</name>
+        <qualifiedname>themis::voice::ModelCacheConfig::pin_frequently_used</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="53" column="10" bodyfile="include/voice/voice_model_cache.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_config_1a744644f8d5f89180fe5c9685c509530a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ModelCacheConfig::pin_threshold</definition>
+        <argsstring></argsstring>
+        <name>pin_threshold</name>
+        <qualifiedname>themis::voice::ModelCacheConfig::pin_threshold</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="54" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_model_cache.h" line="47" column="1" bodyfile="include/voice/voice_model_cache.h" bodystart="47" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_model_cache_config_1a82fcf3389008a66542dca5c173feec21" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheConfig</scope><name>enable_lru_eviction</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_config_1abdc5322516abe67d5dc89eee89dae562" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheConfig</scope><name>enable_prefetch</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_config_1aa55fd1294332a7146e776155b924d4cd" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheConfig</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_config_1a4602a82b0f128727946c798bc78f366f" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheConfig</scope><name>max_models</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_config_1a9c77ac40cde67a320210ed781eff1448" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheConfig</scope><name>pin_frequently_used</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_config_1a744644f8d5f89180fe5c9685c509530a" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheConfig</scope><name>pin_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_config_1a4860797acf1389353de9d67c065fa8eb" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheConfig</scope><name>ttl_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

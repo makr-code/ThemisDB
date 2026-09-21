@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_retention_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RetentionStats</compoundname>
+    <includes refid="retention_8h" local="no">retention.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_retention_stats_1a38c2d3f59929df5138d1c07d1731400c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::RetentionStats::total_deleted</definition>
+        <argsstring></argsstring>
+        <name>total_deleted</name>
+        <qualifiedname>themis::RetentionStats::total_deleted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total data points deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="67" column="17" bodyfile="include/timeseries/retention.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_retention_stats_1a11fbdc5ca4c7c6ff25d1bbd3dda40165" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::RetentionStats::apply_count</definition>
+        <argsstring></argsstring>
+        <name>apply_count</name>
+        <qualifiedname>themis::RetentionStats::apply_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Times apply() ran. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="68" column="17" bodyfile="include/timeseries/retention.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_retention_stats_1ab7e08ce49fca5f9006327b922b3eaa96" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::RetentionStats::async_cycle_count</definition>
+        <argsstring></argsstring>
+        <name>async_cycle_count</name>
+        <qualifiedname>themis::RetentionStats::async_cycle_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Async background cycles run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="69" column="17" bodyfile="include/timeseries/retention.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_retention_stats_1a32279d567fc3b387c62a25f61b4f62bb" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::RetentionStats::total_space_reclaimed_est</definition>
+        <argsstring></argsstring>
+        <name>total_space_reclaimed_est</name>
+        <qualifiedname>themis::RetentionStats::total_space_reclaimed_est</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Estimated bytes freed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="70" column="17" bodyfile="include/timeseries/retention.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_retention_stats_1a995d8730b46091f62970142ee19ce0c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RetentionStats::RetentionStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>RetentionStats</name>
+        <qualifiedname>themis::RetentionStats::RetentionStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_retention_stats_1a08942890a4412e9de159b33a019a7dd6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RetentionStats::RetentionStats</definition>
+        <argsstring>(const RetentionStats &amp;o)</argsstring>
+        <name>RetentionStats</name>
+        <qualifiedname>themis::RetentionStats::RetentionStats</qualifiedname>
+        <param>
+          <type>const RetentionStats &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="73" column="5" bodyfile="include/timeseries/retention.h" bodystart="73" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retention statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/retention.h" line="66" column="1" bodyfile="include/timeseries/retention.h" bodystart="66" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_retention_stats_1a11fbdc5ca4c7c6ff25d1bbd3dda40165" prot="public" virt="non-virtual"><scope>themis::RetentionStats</scope><name>apply_count</name></member>
+      <member refid="structthemis_1_1_retention_stats_1ab7e08ce49fca5f9006327b922b3eaa96" prot="public" virt="non-virtual"><scope>themis::RetentionStats</scope><name>async_cycle_count</name></member>
+      <member refid="structthemis_1_1_retention_stats_1a995d8730b46091f62970142ee19ce0c7" prot="public" virt="non-virtual"><scope>themis::RetentionStats</scope><name>RetentionStats</name></member>
+      <member refid="structthemis_1_1_retention_stats_1a08942890a4412e9de159b33a019a7dd6" prot="public" virt="non-virtual"><scope>themis::RetentionStats</scope><name>RetentionStats</name></member>
+      <member refid="structthemis_1_1_retention_stats_1a38c2d3f59929df5138d1c07d1731400c" prot="public" virt="non-virtual"><scope>themis::RetentionStats</scope><name>total_deleted</name></member>
+      <member refid="structthemis_1_1_retention_stats_1a32279d567fc3b387c62a25f61b4f62bb" prot="public" virt="non-virtual"><scope>themis::RetentionStats</scope><name>total_space_reclaimed_est</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

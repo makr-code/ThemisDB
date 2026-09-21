@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_speculative_decode_bridge_test" kind="class" language="C++" prot="public">
+    <compoundname>SpeculativeDecodeBridgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_speculative_decode_bridge_test_1a15fa9123efd84d2c4fdb3acc6b2b5f96" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref></type>
+        <definition>InferenceEngineEnhanced SpeculativeDecodeBridgeTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>SpeculativeDecodeBridgeTest::engine_</qualifiedname>
+        <initializer>{<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">InferenceEngineEnhanced::Config</ref>{}}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave9_speculative_decode_bridges.cpp" line="36" column="29" bodyfile="tests/llm/test_wave9_speculative_decode_bridges.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_speculative_decode_bridge_test_1a534bc696f83f9d3a0d588d7f47f08fce" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpeculativeDecodeBridgeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SpeculativeDecodeBridgeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave9_speculative_decode_bridges.cpp" line="38" column="10" bodyfile="tests/llm/test_wave9_speculative_decode_bridges.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_speculative_decode_bridge_test_1a99cb5211ec871a779c0f953561fd8652" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpeculativeDecodeBridgeTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SpeculativeDecodeBridgeTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave9_speculative_decode_bridges.cpp" line="42" column="10" bodyfile="tests/llm/test_wave9_speculative_decode_bridges.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SpeculativeDecodeBridgeTest</label>
+        <link refid="class_speculative_decode_bridge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SpeculativeDecodeBridgeTest</label>
+        <link refid="class_speculative_decode_bridge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>engine_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::InferenceEngineEnhanced</label>
+        <link refid="classthemis_1_1llm_1_1_inference_engine_enhanced"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_wave9_speculative_decode_bridges.cpp" line="34" column="1" bodyfile="tests/llm/test_wave9_speculative_decode_bridges.cpp" bodystart="34" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_speculative_decode_bridge_test_1a15fa9123efd84d2c4fdb3acc6b2b5f96" prot="protected" virt="non-virtual"><scope>SpeculativeDecodeBridgeTest</scope><name>engine_</name></member>
+      <member refid="class_speculative_decode_bridge_test_1a534bc696f83f9d3a0d588d7f47f08fce" prot="protected" virt="non-virtual"><scope>SpeculativeDecodeBridgeTest</scope><name>SetUp</name></member>
+      <member refid="class_speculative_decode_bridge_test_1a99cb5211ec871a779c0f953561fd8652" prot="protected" virt="non-virtual"><scope>SpeculativeDecodeBridgeTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

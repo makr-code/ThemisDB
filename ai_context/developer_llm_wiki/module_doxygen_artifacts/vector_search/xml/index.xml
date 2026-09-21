@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="class_flat_vector_index" kind="class"><name>FlatVectorIndex</name>
+    <member refid="class_flat_vector_index_1a0bafd386bc21f3832d2575bd3f93ef29" kind="variable"><name>dim_</name></member>
+    <member refid="class_flat_vector_index_1a5956df371e2a4212fa0db4528be112b3" kind="variable"><name>mu_</name></member>
+    <member refid="class_flat_vector_index_1a952ca1f3a57302b4f512e47fd7458805" kind="variable"><name>entries_</name></member>
+    <member refid="class_flat_vector_index_1aadb2d3518ef685a5210eb69034dae629" kind="function"><name>FlatVectorIndex</name></member>
+    <member refid="class_flat_vector_index_1ab30eee891ec07bcd3307fbf19d3910d7" kind="function"><name>insert</name></member>
+    <member refid="class_flat_vector_index_1a177ee8e97a67fee825999723c22234e3" kind="function"><name>knn</name></member>
+    <member refid="class_flat_vector_index_1a3abf224f43f1457537dc0dc5e4ea02a8" kind="function"><name>size</name></member>
+  </compound>
+  <compound refid="namespace_0d133306050373163275064377246177363323300164302251" kind="namespace"><name>@133306050373163275064377246177363323300164302251</name>
+  </compound>
+  <compound refid="namespacestd_1_1chrono__literals" kind="namespace"><name>std::chrono_literals</name>
+  </compound>
+  <compound refid="bench__vector__search__dedicated__gates_8cpp" kind="file"><name>bench_vector_search_dedicated_gates.cpp</name>
+    <member refid="bench__vector__search__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="test__vector__search__highcardinality__stress_8cpp" kind="file"><name>test_vector_search_highcardinality_stress.cpp</name>
+    <member refid="test__vector__search__highcardinality__stress_8cpp_1aa571fd0bb93a181104a2ac26022df51a" kind="typedef"><name>Vec</name></member>
+    <member refid="test__vector__search__highcardinality__stress_8cpp_1a7758e7f7b00f85dc23af14f7e8dd9ac2" kind="function"><name>makeVec</name></member>
+    <member refid="test__vector__search__highcardinality__stress_8cpp_1ab668e35a1e14022688bb2e64cacd781a" kind="function"><name>l2sq</name></member>
+    <member refid="test__vector__search__highcardinality__stress_8cpp_1a0f96ca591e97261dd700db72a37ab874" kind="function"><name>TEST</name></member>
+    <member refid="test__vector__search__highcardinality__stress_8cpp_1ab780ad05e3e90e1668df7c949fe2be0b" kind="function"><name>TEST</name></member>
+    <member refid="test__vector__search__highcardinality__stress_8cpp_1ac44b2821c0df57a84b69d971b51b8669" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+  <compound refid="dir_a0da283be01686ef7c6d1833806efc22" kind="dir"><name>benchmarks/vector_search</name>
+  </compound>
+  <compound refid="dir_9025936aaea863812e3175c29bd0f6ef" kind="dir"><name>tests/vector_search</name>
+  </compound>
+</doxygenindex>

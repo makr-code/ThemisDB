@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_dictionary_codec_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::DictionaryCodec::Config</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_dictionary_codec_1_1_config_1a6e05c6025ed4f55af6891f8f22b68f5c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::DictionaryCodec::Config::max_dict_size</definition>
+        <argsstring></argsstring>
+        <name>max_dict_size</name>
+        <qualifiedname>themis::index::DictionaryCodec::Config::max_dict_size</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+<para>Maximum number of dictionary entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="85" column="16" bodyfile="include/index/index_compression.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_dictionary_codec_1_1_config_1a6786280120b81e1c9a01058319fdb574" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::DictionaryCodec::Config::min_frequency</definition>
+        <argsstring></argsstring>
+        <name>min_frequency</name>
+        <qualifiedname>themis::index::DictionaryCodec::Config::min_frequency</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Minimum occurrences to enter dictionary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="86" column="16" bodyfile="include/index/index_compression.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="84" column="5" bodyfile="include/index/index_compression.h" bodystart="84" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config_1a6e05c6025ed4f55af6891f8f22b68f5c" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec::Config</scope><name>max_dict_size</name></member>
+      <member refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config_1a6786280120b81e1c9a01058319fdb574" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec::Config</scope><name>min_frequency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

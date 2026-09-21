@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_span_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::SpanEvent</compoundname>
+    <includes refid="trace__context_8h" local="no">trace_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_span_event_1aec3bdb685c74a9aac379c7ed6102961c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::modules::SpanEvent::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::modules::SpanEvent::context</qualifiedname>
+        <briefdescription>
+<para>The trace context this event belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="136" column="18" bodyfile="include/themis/base/trace_context.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_span_event_1a28bdb974f279b61059192419153c7aea" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::modules::SpanEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::modules::SpanEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>Monotonic wall-clock timestamp of the event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="139" column="43" bodyfile="include/themis/base/trace_context.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_span_event_1add8d68bdaa4b78a255fc19ab1117d47c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::SpanEvent::is_start</definition>
+        <argsstring></argsstring>
+        <name>is_start</name>
+        <qualifiedname>themis::modules::SpanEvent::is_start</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>True when this is a span-start event; false for span-end. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="142" column="10" bodyfile="include/themis/base/trace_context.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_span_event_1ab6ef0b41c82f828ce3cc2fc550c4f4f5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::SpanEvent::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::modules::SpanEvent::error_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Optional error code (0 = success). Set on span-end for errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="145" column="9" bodyfile="include/themis/base/trace_context.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_span_event_1a7968c40e2c38b1635ab3bacec9ac5cf5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::SpanEvent::error_detail</definition>
+        <argsstring></argsstring>
+        <name>error_detail</name>
+        <qualifiedname>themis::modules::SpanEvent::error_detail</qualifiedname>
+        <briefdescription>
+<para>Optional error detail string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="148" column="17" bodyfile="include/themis/base/trace_context.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Payload passed to <computeroutput><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref></computeroutput> callbacks. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::modules::SpanEvent</label>
+        <link refid="structthemis_1_1modules_1_1_span_event"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>context</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::modules::TraceContext</label>
+        <link refid="structthemis_1_1modules_1_1_trace_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/base/trace_context.h" line="134" column="1" bodyfile="include/themis/base/trace_context.h" bodystart="134" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_span_event_1aec3bdb685c74a9aac379c7ed6102961c" prot="public" virt="non-virtual"><scope>themis::modules::SpanEvent</scope><name>context</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_event_1ab6ef0b41c82f828ce3cc2fc550c4f4f5" prot="public" virt="non-virtual"><scope>themis::modules::SpanEvent</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_event_1a7968c40e2c38b1635ab3bacec9ac5cf5" prot="public" virt="non-virtual"><scope>themis::modules::SpanEvent</scope><name>error_detail</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_event_1add8d68bdaa4b78a255fc19ab1117d47c" prot="public" virt="non-virtual"><scope>themis::modules::SpanEvent</scope><name>is_start</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_event_1a28bdb974f279b61059192419153c7aea" prot="public" virt="non-virtual"><scope>themis::modules::SpanEvent</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

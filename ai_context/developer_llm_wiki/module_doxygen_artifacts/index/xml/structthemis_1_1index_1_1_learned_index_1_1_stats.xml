@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_learned_index_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::LearnedIndex::Stats</compoundname>
+    <includes refid="learned__index_8h" local="no">learned_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_1_1_stats_1a5967e81ccc861a8694cce2f53f0fe15f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::LearnedIndex&lt; KeyT &gt;::Stats::num_keys</definition>
+        <argsstring></argsstring>
+        <name>num_keys</name>
+        <qualifiedname>themis::index::LearnedIndex::Stats::num_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="230" column="17" bodyfile="include/index/learned_index.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_1_1_stats_1a59a76c48ad3788e2cd1f67ddfb7e09cf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::LearnedIndex&lt; KeyT &gt;::Stats::num_experts</definition>
+        <argsstring></argsstring>
+        <name>num_experts</name>
+        <qualifiedname>themis::index::LearnedIndex::Stats::num_experts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="231" column="17" bodyfile="include/index/learned_index.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_1_1_stats_1a077898e971fe9fff15c93a1cf170b57e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::index::LearnedIndex&lt; KeyT &gt;::Stats::max_error</definition>
+        <argsstring></argsstring>
+        <name>max_error</name>
+        <qualifiedname>themis::index::LearnedIndex::Stats::max_error</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="232" column="17" bodyfile="include/index/learned_index.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_1_1_stats_1a79774f4699967bc998c0026ec5a2aa69" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::LearnedIndex&lt; KeyT &gt;::Stats::mean_error</definition>
+        <argsstring></argsstring>
+        <name>mean_error</name>
+        <qualifiedname>themis::index::LearnedIndex::Stats::mean_error</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="233" column="17" bodyfile="include/index/learned_index.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_1_1_stats_1a7a4c313a34b35aa92061b983a17ed7fb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::LearnedIndex&lt; KeyT &gt;::Stats::trained</definition>
+        <argsstring></argsstring>
+        <name>trained</name>
+        <qualifiedname>themis::index::LearnedIndex::Stats::trained</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="234" column="17" bodyfile="include/index/learned_index.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_1_1_stats_1ac77c8cfe76ec2b1c9240d1f4750f4a7f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::LearnedIndex&lt; KeyT &gt;::Stats::stale</definition>
+        <argsstring></argsstring>
+        <name>stale</name>
+        <qualifiedname>themis::index::LearnedIndex::Stats::stale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="235" column="17" bodyfile="include/index/learned_index.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/learned_index.h" line="229" column="5" bodyfile="include/index/learned_index.h" bodystart="229" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_learned_index_1_1_stats_1a077898e971fe9fff15c93a1cf170b57e" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex::Stats</scope><name>max_error</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_1_1_stats_1a79774f4699967bc998c0026ec5a2aa69" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex::Stats</scope><name>mean_error</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_1_1_stats_1a59a76c48ad3788e2cd1f67ddfb7e09cf" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex::Stats</scope><name>num_experts</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_1_1_stats_1a5967e81ccc861a8694cce2f53f0fe15f" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex::Stats</scope><name>num_keys</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_1_1_stats_1ac77c8cfe76ec2b1c9240d1f4750f4a7f" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex::Stats</scope><name>stale</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_1_1_stats_1a7a4c313a34b35aa92061b983a17ed7fb" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndex::Stats</scope><name>trained</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

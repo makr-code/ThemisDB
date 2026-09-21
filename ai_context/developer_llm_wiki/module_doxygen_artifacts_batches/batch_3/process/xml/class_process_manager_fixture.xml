@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_manager_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ProcessManagerFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_process_manager_fixture_1a9432ec0db075fe4a55a90fa45f65258f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ProcessManagerFixture::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ProcessManagerFixture::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_import_retrieval.cpp" line="186" column="42" bodyfile="benchmarks/process/bench_process_import_retrieval.cpp" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_manager_fixture_1af1771f52d05df96748b69e6c6ab15546" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ProcessManagerFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ProcessManagerFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_import_retrieval.cpp" line="187" column="26" bodyfile="benchmarks/process/bench_process_import_retrieval.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_manager_fixture_1a547db8876ee58d56957e2a58e7aa8d8a" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ProcessModelManager&gt; ProcessManagerFixture::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>ProcessManagerFixture::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_import_retrieval.cpp" line="188" column="21" bodyfile="benchmarks/process/bench_process_import_retrieval.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_process_manager_fixture_1ab85e736c762eb58805dd702007913824" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessManagerFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProcessManagerFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_import_retrieval.cpp" line="164" column="10" bodyfile="benchmarks/process/bench_process_import_retrieval.cpp" bodystart="164" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_manager_fixture_1a4b06b4e407e27d8946c91e7a16184423" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessManagerFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProcessManagerFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_import_retrieval.cpp" line="179" column="10" bodyfile="benchmarks/process/bench_process_import_retrieval.cpp" bodystart="179" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProcessManagerFixture</label>
+        <link refid="class_process_manager_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessManagerFixture</label>
+        <link refid="class_process_manager_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/process/bench_process_import_retrieval.cpp" line="162" column="1" bodyfile="benchmarks/process/bench_process_import_retrieval.cpp" bodystart="162" bodyend="189"/>
+    <listofallmembers>
+      <member refid="class_process_manager_fixture_1af1771f52d05df96748b69e6c6ab15546" prot="public" virt="non-virtual"><scope>ProcessManagerFixture</scope><name>db_</name></member>
+      <member refid="class_process_manager_fixture_1a9432ec0db075fe4a55a90fa45f65258f" prot="public" virt="non-virtual"><scope>ProcessManagerFixture</scope><name>db_path_</name></member>
+      <member refid="class_process_manager_fixture_1a547db8876ee58d56957e2a58e7aa8d8a" prot="public" virt="non-virtual"><scope>ProcessManagerFixture</scope><name>mgr_</name></member>
+      <member refid="class_process_manager_fixture_1ab85e736c762eb58805dd702007913824" prot="public" virt="non-virtual"><scope>ProcessManagerFixture</scope><name>SetUp</name></member>
+      <member refid="class_process_manager_fixture_1a4b06b4e407e27d8946c91e7a16184423" prot="public" virt="non-virtual"><scope>ProcessManagerFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

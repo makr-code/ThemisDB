@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::KVPrefixTransferManager</compoundname>
+    <includes refid="kv__prefix__transfer__manager_8h" local="no">kv_prefix_transfer_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a2aba823d7f55beab7a0f686b01947041" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_i_k_v_state_serializer" kindref="compound">IKVStateSerializer</ref> &gt;()&gt;</type>
+        <definition>using themis::llm::KVPrefixTransferManager::SerializerFactoryFn = std::function&lt;std::unique_ptr&lt;IKVStateSerializer&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>SerializerFactoryFn</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::SerializerFactoryFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="161" column="5" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1ab9e537e96f5f3f8ef22fe1d0b00e38fc" prot="private" static="no" mutable="no">
+        <type>::themis::sharding::RemoteExecutor &amp;</type>
+        <definition>::themis::sharding::RemoteExecutor&amp; themis::llm::KVPrefixTransferManager::remote_executor_</definition>
+        <argsstring></argsstring>
+        <name>remote_executor_</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::remote_executor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="196" column="40" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a31b15d41109bf0e2b9b476d82087d6e5" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_i_k_v_state_serializer" kindref="compound">IKVStateSerializer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IKVStateSerializer&gt; themis::llm::KVPrefixTransferManager::serializer_</definition>
+        <argsstring></argsstring>
+        <name>serializer_</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::serializer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="197" column="21" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a51a0b6503cacd68baac7aa1856b4cfa1" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t themis::llm::KVPrefixTransferManager::min_prefix_tokens_</definition>
+        <argsstring></argsstring>
+        <name>min_prefix_tokens_</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::min_prefix_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="198" column="23" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a8d86935b3bafc7ec476201ee5e5eedb9" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::llm::KVPrefixTransferManager::attempt_count_</definition>
+        <argsstring></argsstring>
+        <name>attempt_count_</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::attempt_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="200" column="25" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1aecd1522db329c1b4e88b940dca8e6e2e" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::llm::KVPrefixTransferManager::success_count_</definition>
+        <argsstring></argsstring>
+        <name>success_count_</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::success_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="201" column="25" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a972281d06355b87e697a9344780911f3" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::KVPrefixTransferManager::kCharsPerToken</definition>
+        <argsstring></argsstring>
+        <name>kCharsPerToken</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::kCharsPerToken</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="203" column="34" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a1273a0cba59b71dd9f603320d679331a" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::llm::KVPrefixTransferManager::kIngestPath</definition>
+        <argsstring></argsstring>
+        <name>kIngestPath</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::kIngestPath</qualifiedname>
+        <initializer>= &quot;/api/v1/kv-prefix/ingest&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="205" column="33" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a89811d4e603138eae30a21608957c908" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::KVPrefixTransferManager::setDefaultSerializerFactory</definition>
+        <argsstring>(SerializerFactoryFn fn)</argsstring>
+        <name>setDefaultSerializerFactory</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::setDefaultSerializerFactory</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a2aba823d7f55beab7a0f686b01947041" kindref="member">SerializerFactoryFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Default Serializer Factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), serializerFactoryMutex(), serializerFactoryStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="167" column="17" bodyfile="src/llm/kv_prefix_transfer_manager.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a57965519013346ca5f3b736edd769313" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::KVPrefixTransferManager::KVPrefixTransferManager</definition>
+        <argsstring>(::themis::sharding::RemoteExecutor &amp;remote_executor, std::unique_ptr&lt; IKVStateSerializer &gt; serializer=nullptr, std::size_t min_prefix_tokens=256)</argsstring>
+        <name>KVPrefixTransferManager</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::KVPrefixTransferManager</qualifiedname>
+        <param>
+          <type>::themis::sharding::RemoteExecutor &amp;</type>
+          <declname>remote_executor</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_i_k_v_state_serializer" kindref="compound">IKVStateSerializer</ref> &gt;</type>
+          <declname>serializer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>min_prefix_tokens</declname>
+          <defval>256</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="169" column="14" bodyfile="src/llm/kv_prefix_transfer_manager.cpp" bodystart="45" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a3a9d8f778fce7c610d569000c26d109d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::KVPrefixTransferManager::~KVPrefixTransferManager</definition>
+        <argsstring>()</argsstring>
+        <name>~KVPrefixTransferManager</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::~KVPrefixTransferManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="174" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1aa3f09c57837073ab9ecbe30abf0af294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::KVPrefixTransferManager::KVPrefixTransferManager</definition>
+        <argsstring>(const KVPrefixTransferManager &amp;)=delete</argsstring>
+        <name>KVPrefixTransferManager</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::KVPrefixTransferManager</qualifiedname>
+        <param>
+          <type>const KVPrefixTransferManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a73c56ed70437a3cb1e210d53c8d491f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a57965519013346ca5f3b736edd769313" kindref="member">KVPrefixTransferManager</ref> &amp;</type>
+        <definition>KVPrefixTransferManager &amp; themis::llm::KVPrefixTransferManager::operator=</definition>
+        <argsstring>(const KVPrefixTransferManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a57965519013346ca5f3b736edd769313" kindref="member">KVPrefixTransferManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="176" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a9353c53e20e26241fcffab181b07cdf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::KVPrefixTransferManager::transferIfBeneficial</definition>
+        <argsstring>(const ::themis::sharding::ShardInfo &amp;target_shard, const std::string &amp;prefix_text, const std::string &amp;model_id, std::size_t estimated_tokens=0)</argsstring>
+        <name>transferIfBeneficial</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::transferIfBeneficial</qualifiedname>
+        <param>
+          <type>const ::themis::sharding::ShardInfo &amp;</type>
+          <declname>target_shard</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix_text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>estimated_tokens</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Transfer If Beneficial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="178" column="10" bodyfile="src/llm/kv_prefix_transfer_manager.cpp" bodystart="85" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1aa51d9d8aade800d1a2f2fd1360b7716c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::KVPrefixTransferManager::transferAttemptCount</definition>
+        <argsstring>() const</argsstring>
+        <name>transferAttemptCount</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::transferAttemptCount</qualifiedname>
+        <briefdescription>
+<para>Transfer Attempt Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="187" column="17" bodyfile="src/llm/kv_prefix_transfer_manager.cpp" bodystart="135" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1ab3253b2c6f46d73aa92c35acf5e1d957" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::KVPrefixTransferManager::transferSuccessCount</definition>
+        <argsstring>() const</argsstring>
+        <name>transferSuccessCount</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::transferSuccessCount</qualifiedname>
+        <briefdescription>
+<para>Transfer Success Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="193" column="17" bodyfile="src/llm/kv_prefix_transfer_manager.cpp" bodystart="140" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1ae70b32ea06a08b530f5cafdca787c11f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>std::mutex &amp; themis::llm::KVPrefixTransferManager::serializerFactoryMutex</definition>
+        <argsstring>()</argsstring>
+        <name>serializerFactoryMutex</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::serializerFactoryMutex</qualifiedname>
+        <briefdescription>
+<para>Serializer Factory Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements serializerFactoryMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="211" column="23" bodyfile="src/llm/kv_prefix_transfer_manager.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a1d4c3304204e30bf2fc67012cdf7c4f3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a2aba823d7f55beab7a0f686b01947041" kindref="member">SerializerFactoryFn</ref> &amp;</type>
+        <definition>KVPrefixTransferManager::SerializerFactoryFn &amp; themis::llm::KVPrefixTransferManager::serializerFactoryStorage</definition>
+        <argsstring>()</argsstring>
+        <name>serializerFactoryStorage</name>
+        <qualifiedname>themis::llm::KVPrefixTransferManager::serializerFactoryStorage</qualifiedname>
+        <briefdescription>
+<para>Serializer Factory Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_prefix_transfer_manager.h" line="216" column="32" bodyfile="src/llm/kv_prefix_transfer_manager.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kv_prefix_transfer_manager.h" line="159" column="1" bodyfile="include/llm/kv_prefix_transfer_manager.h" bodystart="159" bodyend="217"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a8d86935b3bafc7ec476201ee5e5eedb9" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>attempt_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a972281d06355b87e697a9344780911f3" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>kCharsPerToken</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a1273a0cba59b71dd9f603320d679331a" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>kIngestPath</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a57965519013346ca5f3b736edd769313" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>KVPrefixTransferManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1aa3f09c57837073ab9ecbe30abf0af294" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>KVPrefixTransferManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a51a0b6503cacd68baac7aa1856b4cfa1" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>min_prefix_tokens_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a73c56ed70437a3cb1e210d53c8d491f2" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1ab9e537e96f5f3f8ef22fe1d0b00e38fc" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>remote_executor_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a31b15d41109bf0e2b9b476d82087d6e5" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>serializer_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a2aba823d7f55beab7a0f686b01947041" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>SerializerFactoryFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1ae70b32ea06a08b530f5cafdca787c11f" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>serializerFactoryMutex</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a1d4c3304204e30bf2fc67012cdf7c4f3" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>serializerFactoryStorage</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a89811d4e603138eae30a21608957c908" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>setDefaultSerializerFactory</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1aecd1522db329c1b4e88b940dca8e6e2e" prot="private" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>success_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1aa51d9d8aade800d1a2f2fd1360b7716c" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>transferAttemptCount</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a9353c53e20e26241fcffab181b07cdf8" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>transferIfBeneficial</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1ab3253b2c6f46d73aa92c35acf5e1d957" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>transferSuccessCount</name></member>
+      <member refid="classthemis_1_1llm_1_1_k_v_prefix_transfer_manager_1a3a9d8f778fce7c610d569000c26d109d" prot="public" virt="non-virtual"><scope>themis::llm::KVPrefixTransferManager</scope><name>~KVPrefixTransferManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

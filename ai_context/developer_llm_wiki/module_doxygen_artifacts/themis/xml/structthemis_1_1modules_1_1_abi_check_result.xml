@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_abi_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::AbiCheckResult</compoundname>
+    <includes refid="module__sandbox_8h" local="no">module_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_abi_check_result_1afdfec3139a20278f3c6f832edf6b3072" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::AbiCheckResult::compatible</definition>
+        <argsstring></argsstring>
+        <name>compatible</name>
+        <qualifiedname>themis::modules::AbiCheckResult::compatible</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="57" column="12" bodyfile="include/themis/base/module_sandbox.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_abi_check_result_1a3df1332f6942ab9672f5ed908c4007ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::AbiCheckResult::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::modules::AbiCheckResult::summary</qualifiedname>
+        <briefdescription>
+<para>Human-readable one-liner. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="58" column="17" bodyfile="include/themis/base/module_sandbox.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_abi_check_result_1a67f712c07c096eaeae0df9e78348364a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::AbiCheckResult::issues</definition>
+        <argsstring></argsstring>
+        <name>issues</name>
+        <qualifiedname>themis::modules::AbiCheckResult::issues</qualifiedname>
+        <briefdescription>
+<para>Detailed per-issue descriptions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="59" column="17" bodyfile="include/themis/base/module_sandbox.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_abi_check_result_1afe7647860ebc23c11924f5c984dde47e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::AbiCheckResult::hasIssues</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasIssues</name>
+        <qualifiedname>themis::modules::AbiCheckResult::hasIssues</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="61" column="10" bodyfile="include/themis/base/module_sandbox.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of an ABI compatibility check. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/module_sandbox.h" line="56" column="1" bodyfile="include/themis/base/module_sandbox.h" bodystart="56" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_abi_check_result_1afdfec3139a20278f3c6f832edf6b3072" prot="public" virt="non-virtual"><scope>themis::modules::AbiCheckResult</scope><name>compatible</name></member>
+      <member refid="structthemis_1_1modules_1_1_abi_check_result_1afe7647860ebc23c11924f5c984dde47e" prot="public" virt="non-virtual"><scope>themis::modules::AbiCheckResult</scope><name>hasIssues</name></member>
+      <member refid="structthemis_1_1modules_1_1_abi_check_result_1a67f712c07c096eaeae0df9e78348364a" prot="public" virt="non-virtual"><scope>themis::modules::AbiCheckResult</scope><name>issues</name></member>
+      <member refid="structthemis_1_1modules_1_1_abi_check_result_1a3df1332f6942ab9672f5ed908c4007ef" prot="public" virt="non-virtual"><scope>themis::modules::AbiCheckResult</scope><name>summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

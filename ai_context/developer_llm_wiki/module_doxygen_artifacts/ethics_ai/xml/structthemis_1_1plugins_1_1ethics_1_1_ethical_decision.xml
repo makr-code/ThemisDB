@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicalDecision</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a5d9cf1e72978381289f0c47c8b01c553" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalDecision::decision_id</definition>
+        <argsstring></argsstring>
+        <name>decision_id</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::decision_id</qualifiedname>
+        <briefdescription>
+<para>Decision identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="101" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a4ed8ae21f98dba50b44ed823b5d1a765" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalDecision::dilemma_id</definition>
+        <argsstring></argsstring>
+        <name>dilemma_id</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::dilemma_id</qualifiedname>
+        <briefdescription>
+<para>Associated dilemma. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="102" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a47895e7f901d9153672ab6bd5aee442b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalDecision::decision_text</definition>
+        <argsstring></argsstring>
+        <name>decision_text</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::decision_text</qualifiedname>
+        <briefdescription>
+<para>The decision text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="103" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a48f1a2b53c98c69ae1bbc4c0dbd693f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalDecision::primary_philosophy</definition>
+        <argsstring></argsstring>
+        <name>primary_philosophy</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::primary_philosophy</qualifiedname>
+        <briefdescription>
+<para>Primary philosophy used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="104" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1ad93c7b95924ded3106beb4293c87dffa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicalDecision::supporting_philosophies</definition>
+        <argsstring></argsstring>
+        <name>supporting_philosophies</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::supporting_philosophies</qualifiedname>
+        <briefdescription>
+<para>Supporting philosophies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="105" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a03e1172b7649953a34800b4e67cfc840" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicalDecision::argument_chain_ids</definition>
+        <argsstring></argsstring>
+        <name>argument_chain_ids</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::argument_chain_ids</qualifiedname>
+        <briefdescription>
+<para>Argument chains used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="106" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1ab819070fd7400a5418dfe0525778357c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicalDecision::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::confidence</qualifiedname>
+        <briefdescription>
+<para>Confidence score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="107" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a089fefd581e5e8e4d05531c29d109421" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicalDecision::consensus_level</definition>
+        <argsstring></argsstring>
+        <name>consensus_level</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::consensus_level</qualifiedname>
+        <briefdescription>
+<para>Multi-philosophy consensus (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="108" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a9b756dbf965d002928ba78a435b1c27c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::ethics::EthicalDecision::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="109" column="43" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a8123174be0040f564e7c1eaa7e9cc3e8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::ethics::EthicalDecision::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="110" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a9e3e9e08ddf2168410bf486e4bfc9fdf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicalDecision::EthicalDecision</definition>
+        <argsstring>()</argsstring>
+        <name>EthicalDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDecision::EthicalDecision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="112" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="112" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="100" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="100" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a03e1172b7649953a34800b4e67cfc840" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>argument_chain_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1ab819070fd7400a5418dfe0525778357c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a089fefd581e5e8e4d05531c29d109421" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>consensus_level</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a9b756dbf965d002928ba78a435b1c27c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a5d9cf1e72978381289f0c47c8b01c553" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>decision_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a47895e7f901d9153672ab6bd5aee442b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>decision_text</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a4ed8ae21f98dba50b44ed823b5d1a765" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>dilemma_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a9e3e9e08ddf2168410bf486e4bfc9fdf" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>EthicalDecision</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a8123174be0040f564e7c1eaa7e9cc3e8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a48f1a2b53c98c69ae1bbc4c0dbd693f1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>primary_philosophy</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1ad93c7b95924ded3106beb4293c87dffa" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDecision</scope><name>supporting_philosophies</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

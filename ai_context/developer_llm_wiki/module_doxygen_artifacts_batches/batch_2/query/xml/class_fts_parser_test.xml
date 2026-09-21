@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fts_parser_test" kind="class" language="C++" prot="public">
+    <compoundname>FtsParserTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_fts_parser_test_1a482b03dede103cc71d1cd2c8c7a7585e" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref></type>
+        <definition>AQLParser FtsParserTest::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>FtsParserTest::parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="38" column="15" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_fts_parser_test_1a99b5d26f6cd765c031327af6cd1aca79" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Query &gt; FtsParserTest::parse_ok</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>parse_ok</name>
+        <qualifiedname>FtsParserTest::parse_ok</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Parse a query and assert success; return the query AST. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="41" column="21" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="41" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fts_parser_test_1a7485283a5fef9999b75073a3b41d4904" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FtsParserTest::parse_err</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>parse_err</name>
+        <qualifiedname>FtsParserTest::parse_err</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Parse a query and assert parse failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="53" column="10" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="53" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FtsParserTest</label>
+        <link refid="class_fts_parser_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FtsParserTest</label>
+        <link refid="class_fts_parser_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::AQLParser</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_aql_fts_parser_focused.cpp" line="36" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="36" bodyend="58"/>
+    <listofallmembers>
+      <member refid="class_fts_parser_test_1a7485283a5fef9999b75073a3b41d4904" prot="protected" virt="non-virtual"><scope>FtsParserTest</scope><name>parse_err</name></member>
+      <member refid="class_fts_parser_test_1a99b5d26f6cd765c031327af6cd1aca79" prot="protected" virt="non-virtual"><scope>FtsParserTest</scope><name>parse_ok</name></member>
+      <member refid="class_fts_parser_test_1a482b03dede103cc71d1cd2c8c7a7585e" prot="protected" virt="non-virtual"><scope>FtsParserTest</scope><name>parser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

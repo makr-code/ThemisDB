@@ -1,0 +1,799 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_security_evidence_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SecurityEvidenceCollector</compoundname>
+    <includes refid="security__evidence__collector_8h" local="no">security_evidence_collector.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_security_evidence_collector_1_1_config" prot="public">themis::security::SecurityEvidenceCollector::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_security_evidence_collector_1aa26b4c87a4fbcff11d3737c6725fe344" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_security_evidence_collector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::SecurityEvidenceCollector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="351" column="12" bodyfile="include/security/security_evidence_collector.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_security_evidence_collector_1a6a97ad4f56cbdbe860bdf71f98ac3061" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::security::SecurityEvidenceCollector::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="352" column="21" bodyfile="include/security/security_evidence_collector.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_security_evidence_collector_1a696c62bafe46e0b0a4e884f53ea5f9db" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> *</type>
+        <definition>RBAC* themis::security::SecurityEvidenceCollector::rbac_</definition>
+        <argsstring></argsstring>
+        <name>rbac_</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::rbac_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="353" column="24" bodyfile="include/security/security_evidence_collector.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_security_evidence_collector_1a441b1fc287581a84ea7d49b7a6eb719c" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::security::SecurityEvidenceCollector::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="354" column="24" bodyfile="include/security/security_evidence_collector.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_security_evidence_collector_1a896ed0f3950c499a66c748af10658ebb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::SecurityEvidenceCollector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="355" column="25" bodyfile="include/security/security_evidence_collector.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_security_evidence_collector_1a83c122b9a4f97068f977ffde7f23eea7" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1security_1_1_export_metrics" kindref="compound">ExportMetrics</ref></type>
+        <definition>ExportMetrics themis::security::SecurityEvidenceCollector::last_export_metrics_</definition>
+        <argsstring></argsstring>
+        <name>last_export_metrics_</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::last_export_metrics_</qualifiedname>
+        <briefdescription>
+<para>Metrics from last export operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="356" column="27" bodyfile="include/security/security_evidence_collector.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a3405ce5607122a5ef5eb744cb31fbde7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SecurityEvidenceCollector::SecurityEvidenceCollector</definition>
+        <argsstring>(Config config, std::shared_ptr&lt; KeyProvider &gt; key_provider, RBAC *rbac=nullptr, utils::AuditLogger *audit_logger=nullptr)</argsstring>
+        <name>SecurityEvidenceCollector</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::SecurityEvidenceCollector</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_security_evidence_collector_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> &gt;</type>
+          <declname>key_provider</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> *</type>
+          <declname>rbac</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>audit_logger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1security_1_1_security_evidence_collector" kindref="compound">SecurityEvidenceCollector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retention and storage settings. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key-management provider (must not be null). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rbac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> registry (may be null; access-control section will be empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit logger (may be null; audit-log section will be empty). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="263" column="14" bodyfile="src/security/security_evidence_collector.cpp" bodystart="141" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a3050750b90521d404c4c353ca1e68dff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SecurityEvidenceCollector::~SecurityEvidenceCollector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SecurityEvidenceCollector</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::~SecurityEvidenceCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="269" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1aa1aec8be4ed3dcdf3d3c16ca29a441da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SecurityEvidenceCollector::SecurityEvidenceCollector</definition>
+        <argsstring>(const SecurityEvidenceCollector &amp;)=delete</argsstring>
+        <name>SecurityEvidenceCollector</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::SecurityEvidenceCollector</qualifiedname>
+        <param>
+          <type>const SecurityEvidenceCollector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="272" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a7372b46ace7b8593e203688e182bfce0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_security_evidence_collector_1a3405ce5607122a5ef5eb744cb31fbde7" kindref="member">SecurityEvidenceCollector</ref> &amp;</type>
+        <definition>SecurityEvidenceCollector &amp; themis::security::SecurityEvidenceCollector::operator=</definition>
+        <argsstring>(const SecurityEvidenceCollector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_security_evidence_collector_1a3405ce5607122a5ef5eb744cb31fbde7" kindref="member">SecurityEvidenceCollector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="273" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a2ee09d18c0d34be74a5480a43894ba96" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SecurityEvidenceCollector::SecurityEvidenceCollector</definition>
+        <argsstring>(SecurityEvidenceCollector &amp;&amp;) noexcept=default</argsstring>
+        <name>SecurityEvidenceCollector</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::SecurityEvidenceCollector</qualifiedname>
+        <param>
+          <type>SecurityEvidenceCollector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="274" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1aea2144d1730790bf69823a603a7ce129" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_security_evidence_collector_1a3405ce5607122a5ef5eb744cb31fbde7" kindref="member">SecurityEvidenceCollector</ref> &amp;</type>
+        <definition>SecurityEvidenceCollector &amp; themis::security::SecurityEvidenceCollector::operator=</definition>
+        <argsstring>(SecurityEvidenceCollector &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_security_evidence_collector_1a3405ce5607122a5ef5eb744cb31fbde7" kindref="member">SecurityEvidenceCollector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="275" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a9eeabb994cf4b8c94ed91458fc1d244d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_security_evidence_bundle" kindref="compound">SecurityEvidenceBundle</ref></type>
+        <definition>SecurityEvidenceBundle themis::security::SecurityEvidenceCollector::collect</definition>
+        <argsstring>(std::chrono::system_clock::time_point from, std::chrono::system_clock::time_point to) const</argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::collect</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Collect all SOC 2 evidence for the given time window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of the evidence window (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of the evidence window (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1security_1_1_security_evidence_bundle" kindref="compound">SecurityEvidenceBundle</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="284" column="28" bodyfile="src/security/security_evidence_collector.cpp" bodystart="437" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a3a652b840655a715395865cb71b89883" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SecurityEvidenceCollector::exportToFile</definition>
+        <argsstring>(const SecurityEvidenceBundle &amp;bundle, const std::string &amp;path) const</argsstring>
+        <name>exportToFile</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::exportToFile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_security_evidence_bundle" kindref="compound">SecurityEvidenceBundle</ref> &amp;</type>
+          <declname>bundle</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Export a <ref refid="structthemis_1_1security_1_1_security_evidence_bundle" kindref="compound">SecurityEvidenceBundle</ref> to a JSON file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The file is written atomically (written to a <computeroutput>.tmp</computeroutput> file first, then renamed). Existing files at <computeroutput>path</computeroutput> are overwritten.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bundle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bundle to export. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination file path. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on I/O error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ensure parent directory exists <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ml. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="298" column="10" bodyfile="src/security/security_evidence_collector.cpp" bodystart="476" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a5d8478b36b7c06d1aa2a00b62425164e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SecurityEvidenceCollector::verifyRetention</definition>
+        <argsstring>(const std::string &amp;evidence_store_path) const</argsstring>
+        <name>verifyRetention</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::verifyRetention</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>evidence_store_path</declname>
+        </param>
+        <briefdescription>
+<para>Verify that the evidence store path contains bundles within the configured retention window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks that the oldest bundle in the store is not older than <computeroutput>now - retention_period</computeroutput>. A fresh store with no files passes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>evidence_store_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory containing exported bundle files. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if retention is satisfied (no gaps detected), false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="311" column="10" bodyfile="src/security/security_evidence_collector.cpp" bodystart="545" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a2b09d443773276052ef121b3e1d169d8" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SecurityEvidenceCollector::export_atomicity_guarantee</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>export_atomicity_guarantee</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::export_atomicity_guarantee</qualifiedname>
+        <briefdescription>
+<para>Verify export atomicity: all-or-nothing delivery semantics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when the export implementation guarantees that either all events are successfully exported or none are, preventing partial/corrupt evidence exports.</para>
+<para><simplesect kind="return"><para>true if export atomicity is guaranteed, false otherwise. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="323" column="10" bodyfile="src/security/security_evidence_collector.cpp" bodystart="597" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1aefde5a0f128a9ce925ee650b523e3ceb" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SecurityEvidenceCollector::export_idempotency_check</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>export_idempotency_check</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::export_idempotency_check</qualifiedname>
+        <briefdescription>
+<para>Verify export idempotency: duplicate detection on retry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when the export implementation detects and deduplicates retried exports, preventing duplicate events in the evidence store across export retry attempts.</para>
+<para><simplesect kind="return"><para>true if export idempotency checking is enabled, false otherwise. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="335" column="10" bodyfile="src/security/security_evidence_collector.cpp" bodystart="604" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a841157ed0f8d4e534b27cab932239c95" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_export_metrics" kindref="compound">ExportMetrics</ref></type>
+        <definition>ExportMetrics themis::security::SecurityEvidenceCollector::lastExportMetrics</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastExportMetrics</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::lastExportMetrics</qualifiedname>
+        <briefdescription>
+<para>Get export metrics from the last export operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Provides timing and event counts for reliability analysis and performance gate validation. Updated after each export operation.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_export_metrics" kindref="compound">ExportMetrics</ref> from the last export, or default-constructed if no export yet. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="346" column="19" bodyfile="src/security/security_evidence_collector.cpp" bodystart="614" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a563e298fba32fe05be732caa906f3cc0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_security_evidence_collector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::security::SecurityEvidenceCollector::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="348" column="18" bodyfile="include/security/security_evidence_collector.h" bodystart="348" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a6bfe24e03f62ae891549f8f2b539322e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_audit_log_export" kindref="compound">AuditLogExport</ref></type>
+        <definition>AuditLogExport themis::security::SecurityEvidenceCollector::collectAuditLog</definition>
+        <argsstring>(std::chrono::system_clock::time_point from, std::chrono::system_clock::time_point to) const</argsstring>
+        <name>collectAuditLog</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::collectAuditLog</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Collect Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="364" column="28" bodyfile="src/security/security_evidence_collector.cpp" bodystart="203" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a2d4c658e59d9dd3a4ab4835133ebb220" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_security_metrics_snapshot" kindref="compound">SecurityMetricsSnapshot</ref></type>
+        <definition>SecurityMetricsSnapshot themis::security::SecurityEvidenceCollector::collectMetrics</definition>
+        <argsstring>(std::chrono::system_clock::time_point at) const</argsstring>
+        <name>collectMetrics</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::collectMetrics</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>at</declname>
+        </param>
+        <briefdescription>
+<para>Collect Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="373" column="29" bodyfile="src/security/security_evidence_collector.cpp" bodystart="240" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a35ab3f17a60184e12a792360305ba20f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1_key_rotation_record" kindref="compound">KeyRotationRecord</ref> &gt;</type>
+        <definition>std::vector&lt; KeyRotationRecord &gt; themis::security::SecurityEvidenceCollector::collectKeyRotations</definition>
+        <argsstring>(std::chrono::system_clock::time_point from, std::chrono::system_clock::time_point to) const</argsstring>
+        <name>collectKeyRotations</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::collectKeyRotations</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Collect Key Rotations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="382" column="17" bodyfile="src/security/security_evidence_collector.cpp" bodystart="277" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a76fd0309c697bce3cf6fd9e668fe0684" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_access_control_report" kindref="compound">AccessControlReport</ref></type>
+        <definition>AccessControlReport themis::security::SecurityEvidenceCollector::collectAccessControl</definition>
+        <argsstring>() const</argsstring>
+        <name>collectAccessControl</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::collectAccessControl</qualifiedname>
+        <briefdescription>
+<para>Collect Access Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="390" column="25" bodyfile="src/security/security_evidence_collector.cpp" bodystart="341" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1af28dce632b73a93fc76a2910e838b619" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_network_controls_evidence" kindref="compound">NetworkControlsEvidence</ref></type>
+        <definition>NetworkControlsEvidence themis::security::SecurityEvidenceCollector::collectNetworkControls</definition>
+        <argsstring>() const</argsstring>
+        <name>collectNetworkControls</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::collectNetworkControls</qualifiedname>
+        <briefdescription>
+<para>Collect Network Controls. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="396" column="29" bodyfile="src/security/security_evidence_collector.cpp" bodystart="381" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1abf112d3eecca5631be7a32469c557ad3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_change_management_evidence" kindref="compound">ChangeManagementEvidence</ref></type>
+        <definition>ChangeManagementEvidence themis::security::SecurityEvidenceCollector::collectChangeManagement</definition>
+        <argsstring>(std::chrono::system_clock::time_point from, std::chrono::system_clock::time_point to) const</argsstring>
+        <name>collectChangeManagement</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::collectChangeManagement</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Collect Change Management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="404" column="30" bodyfile="src/security/security_evidence_collector.cpp" bodystart="405" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1a4f695f622ccd0af3eb3fde6b193d7a1f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::SecurityEvidenceCollector::generateBundleId</definition>
+        <argsstring>()</argsstring>
+        <name>generateBundleId</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::generateBundleId</qualifiedname>
+        <briefdescription>
+<para>Generate Bundle Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Helpers ─────────────────────────────────────────────────────────────────</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: RAND_bytes(), THEMIS_WARN(), ERR_error_string(), ERR_get_error(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="412" column="24" bodyfile="src/security/security_evidence_collector.cpp" bodystart="162" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_evidence_collector_1abc5fe1c271ed941c519ee6960923ea1a" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::SecurityEvidenceCollector::toMs</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp) noexcept</argsstring>
+        <name>toMs</name>
+        <qualifiedname>themis::security::SecurityEvidenceCollector::toMs</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>To Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="419" column="20" bodyfile="src/security/security_evidence_collector.cpp" bodystart="195" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SOC 2 Type II compliance evidence collector for the security module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Aggregates evidence from the audit log, key-management subsystem, and <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> registry into a structured bundle ready for external auditors.</para>
+<sect1 id="classthemis_1_1security_1_1_security_evidence_collector_1autotoc_md2_1s1"><sect2 id="classthemis_1_1security_1_1_security_evidence_collector_1autotoc_md2">
+<title>Retention policy</title><para>The default retention period is 365 days (12 months). <computeroutput><ref refid="classthemis_1_1security_1_1_security_evidence_collector_1a9eeabb994cf4b8c94ed91458fc1d244d" kindref="member">collect()</ref></computeroutput> sets <computeroutput><ref refid="structthemis_1_1security_1_1_security_evidence_bundle_1aa070bd0a612c0e68f6c1dd543bf315e0" kindref="member">SecurityEvidenceBundle::within_retention_window</ref> = false</computeroutput> when the requested window extends beyond <computeroutput>now - retention_period</computeroutput>, signalling that evidence in that range may have been purged.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1security_1_1_security_evidence_collector_1autotoc_md3_1s1"><sect2 id="classthemis_1_1security_1_1_security_evidence_collector_1autotoc_md3">
+<title>Thread safety</title><para>All public methods are thread-safe.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1security_1_1_security_evidence_collector_1autotoc_md4_1s1"><sect2 id="classthemis_1_1security_1_1_security_evidence_collector_1autotoc_md4">
+<title>Usage</title><para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1security_1_1_security_evidence_collector_1a3405ce5607122a5ef5eb744cb31fbde7" kindref="member">SecurityEvidenceCollector</ref><sp/>collector(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{.retention_period<sp/>=<sp/>std::chrono::hours(365<sp/>*<sp/>24)},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>key_provider,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>rbac,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&amp;audit_logger</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>from<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/>std::chrono::hours(30<sp/>*<sp/>24);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>to<sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bundle<sp/>=<sp/>collector.collect(from,<sp/>to);</highlight></codeline>
+<codeline><highlight class="normal">collector.exportToFile(bundle,<sp/></highlight><highlight class="stringliteral">&quot;/audit/soc2-evidence-2026-q1.json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/security/security_evidence_collector.h" line="241" column="1" bodyfile="include/security/security_evidence_collector.h" bodystart="241" bodyend="420"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a441b1fc287581a84ea7d49b7a6eb719c" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a9eeabb994cf4b8c94ed91458fc1d244d" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>collect</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a76fd0309c697bce3cf6fd9e668fe0684" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>collectAccessControl</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a6bfe24e03f62ae891549f8f2b539322e" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>collectAuditLog</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1abf112d3eecca5631be7a32469c557ad3" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>collectChangeManagement</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a35ab3f17a60184e12a792360305ba20f" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>collectKeyRotations</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a2d4c658e59d9dd3a4ab4835133ebb220" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>collectMetrics</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1af28dce632b73a93fc76a2910e838b619" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>collectNetworkControls</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a563e298fba32fe05be732caa906f3cc0" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>config</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1aa26b4c87a4fbcff11d3737c6725fe344" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a2b09d443773276052ef121b3e1d169d8" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>export_atomicity_guarantee</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1aefde5a0f128a9ce925ee650b523e3ceb" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>export_idempotency_check</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a3a652b840655a715395865cb71b89883" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>exportToFile</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a4f695f622ccd0af3eb3fde6b193d7a1f" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>generateBundleId</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a6a97ad4f56cbdbe860bdf71f98ac3061" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a83c122b9a4f97068f977ffde7f23eea7" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>last_export_metrics_</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a841157ed0f8d4e534b27cab932239c95" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>lastExportMetrics</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a896ed0f3950c499a66c748af10658ebb" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a7372b46ace7b8593e203688e182bfce0" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1aea2144d1730790bf69823a603a7ce129" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a696c62bafe46e0b0a4e884f53ea5f9db" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>rbac_</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a3405ce5607122a5ef5eb744cb31fbde7" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>SecurityEvidenceCollector</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1aa1aec8be4ed3dcdf3d3c16ca29a441da" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>SecurityEvidenceCollector</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a2ee09d18c0d34be74a5480a43894ba96" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>SecurityEvidenceCollector</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1abc5fe1c271ed941c519ee6960923ea1a" prot="private" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>toMs</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a5d8478b36b7c06d1aa2a00b62425164e" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>verifyRetention</name></member>
+      <member refid="classthemis_1_1security_1_1_security_evidence_collector_1a3050750b90521d404c4c353ca1e68dff" prot="public" virt="non-virtual"><scope>themis::security::SecurityEvidenceCollector</scope><name>~SecurityEvidenceCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

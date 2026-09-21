@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::GeoKernelFallbackDispatcher</compoundname>
+    <includes refid="kernel__fallback__dispatcher_8h" local="no">kernel_fallback_dispatcher.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1aa2989a834e73b748cc30e5b853c7e38e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::GeoKernelFallbackDispatcher::primary_</definition>
+        <argsstring></argsstring>
+        <name>primary_</name>
+        <qualifiedname>themis::acceleration::GeoKernelFallbackDispatcher::primary_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="306" column="23" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1ab609fe8960230a064e75d117f13bb3f6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::GeoKernelFallbackDispatcher::fallback_</definition>
+        <argsstring></argsstring>
+        <name>fallback_</name>
+        <qualifiedname>themis::acceleration::GeoKernelFallbackDispatcher::fallback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="307" column="23" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1a50b9af30f6b2d58f7e34f0b0754b8f8b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_retry_policy" kindref="compound">RetryPolicy</ref></type>
+        <definition>RetryPolicy themis::acceleration::GeoKernelFallbackDispatcher::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::acceleration::GeoKernelFallbackDispatcher::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="308" column="23" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1aa66ae42fd5b5257581a34613e4ca6913" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::GeoKernelFallbackDispatcher::GeoKernelFallbackDispatcher</definition>
+        <argsstring>(GeoKernelDispatch primary, GeoKernelDispatch fallback, RetryPolicy policy={}) noexcept</argsstring>
+        <name>GeoKernelFallbackDispatcher</name>
+        <qualifiedname>themis::acceleration::GeoKernelFallbackDispatcher::GeoKernelFallbackDispatcher</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+          <declname>primary</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+          <declname>fallback</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_retry_policy" kindref="compound">RetryPolicy</ref></type>
+          <declname>policy</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="246" column="5" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="246" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1a99809f9386e7f78e385fbbd37ae18d90" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::GeoKernelFallbackDispatcher::resolvedDispatch</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>resolvedDispatch</name>
+        <qualifiedname>themis::acceleration::GeoKernelFallbackDispatcher::resolvedDispatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="251" column="24" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="251" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1a052d345d2a479ec74d314c7b59738681" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::acceleration::GeoKernelFallbackDispatcher::launchDistance</definition>
+        <argsstring>(const double *lats1, const double *lons1, const double *lats2, const double *lons2, float *out, int count, GeoDistanceFormula formula, void *stream)</argsstring>
+        <name>launchDistance</name>
+        <qualifiedname>themis::acceleration::GeoKernelFallbackDispatcher::launchDistance</qualifiedname>
+        <param>
+          <type>const double *</type>
+          <declname>lats1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lons1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lats2</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lons2</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8" kindref="member">GeoDistanceFormula</ref></type>
+          <declname>formula</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Launch Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lats1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lons1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lats2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lons2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">formula</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1acceleration_1_1detail_1a689541ad9891eb7e5a5695a768e607b7" kindref="member">detail::invokeWithFallback()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="275" column="9" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="275" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1ac39852da485ecc7b4e7c2d902e5cf205" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::acceleration::GeoKernelFallbackDispatcher::launchContainment</definition>
+        <argsstring>(const double *pLats, const double *pLons, int numPoints, const double *polygon, int numVertices, uint8_t *results, void *stream)</argsstring>
+        <name>launchContainment</name>
+        <qualifiedname>themis::acceleration::GeoKernelFallbackDispatcher::launchContainment</qualifiedname>
+        <param>
+          <type>const double *</type>
+          <declname>pLats</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>pLons</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numPoints</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>polygon</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Launch Containment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pLats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pLons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1acceleration_1_1detail_1a689541ad9891eb7e5a5695a768e607b7" kindref="member">detail::invokeWithFallback()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="296" column="9" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="296" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_fallback_dispatcher.h" line="244" column="1" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="244" bodyend="309"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1ab609fe8960230a064e75d117f13bb3f6" prot="private" virt="non-virtual"><scope>themis::acceleration::GeoKernelFallbackDispatcher</scope><name>fallback_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1aa66ae42fd5b5257581a34613e4ca6913" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelFallbackDispatcher</scope><name>GeoKernelFallbackDispatcher</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1ac39852da485ecc7b4e7c2d902e5cf205" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelFallbackDispatcher</scope><name>launchContainment</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1a052d345d2a479ec74d314c7b59738681" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelFallbackDispatcher</scope><name>launchDistance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1a50b9af30f6b2d58f7e34f0b0754b8f8b" prot="private" virt="non-virtual"><scope>themis::acceleration::GeoKernelFallbackDispatcher</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1aa2989a834e73b748cc30e5b853c7e38e" prot="private" virt="non-virtual"><scope>themis::acceleration::GeoKernelFallbackDispatcher</scope><name>primary_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_geo_kernel_fallback_dispatcher_1a99809f9386e7f78e385fbbd37ae18d90" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelFallbackDispatcher</scope><name>resolvedDispatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

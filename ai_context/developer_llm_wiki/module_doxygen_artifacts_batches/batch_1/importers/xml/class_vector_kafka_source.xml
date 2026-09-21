@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_vector_kafka_source" kind="class" language="C++" prot="public">
+    <compoundname>VectorKafkaSource</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_kafka_consumer_source" prot="public" virt="non-virtual">themis::importers::IKafkaConsumerSource</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_vector_kafka_source_1ad5e3ec0bd4ee3177b2a92aac33ee9f27" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_kafka_record" kindref="compound">KafkaRecord</ref> &gt;</type>
+        <definition>std::vector&lt;KafkaRecord&gt; VectorKafkaSource::records_</definition>
+        <argsstring></argsstring>
+        <name>records_</name>
+        <qualifiedname>VectorKafkaSource::records_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="201" column="17" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_vector_kafka_source_1ae411cab66cfaf5e9f7e6e6b3539abc8f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t VectorKafkaSource::cursor_</definition>
+        <argsstring></argsstring>
+        <name>cursor_</name>
+        <qualifiedname>VectorKafkaSource::cursor_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="202" column="30" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_vector_kafka_source_1a9282ab901453b95d48da18b0c3c67fb6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool VectorKafkaSource::closed_</definition>
+        <argsstring></argsstring>
+        <name>closed_</name>
+        <qualifiedname>VectorKafkaSource::closed_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="203" column="30" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_vector_kafka_source_1a692bc04d8b76309a055495a3f054138c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_kafka_offset" kindref="compound">KafkaOffset</ref></type>
+        <definition>KafkaOffset VectorKafkaSource::last_committed_</definition>
+        <argsstring></argsstring>
+        <name>last_committed_</name>
+        <qualifiedname>VectorKafkaSource::last_committed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="204" column="30" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_vector_kafka_source_1af24820983f819164fffa5dc0d07c3c09" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>VectorKafkaSource::VectorKafkaSource</definition>
+        <argsstring>(std::vector&lt; KafkaRecord &gt; records)</argsstring>
+        <name>VectorKafkaSource</name>
+        <qualifiedname>VectorKafkaSource::VectorKafkaSource</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_kafka_record" kindref="compound">KafkaRecord</ref> &gt;</type>
+          <declname>records</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="168" column="14" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="168" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_kafka_source_1a0d03d4ea5c552dec2e03543bfb36e2af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_kafka_batch" kindref="compound">KafkaBatch</ref></type>
+        <definition>KafkaBatch VectorKafkaSource::poll</definition>
+        <argsstring>(std::chrono::milliseconds, KafkaError &amp;err) override</argsstring>
+        <name>poll</name>
+        <qualifiedname>VectorKafkaSource::poll</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1aa18206c8ae192d11206646eeea48f994">poll</reimplements>
+        <param>
+          <type>std::chrono::milliseconds</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a21dd5b252aa6e2a86ba8cf29452d324e" kindref="member">KafkaError</ref> &amp;</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="171" column="16" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="171" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_kafka_source_1a8d1017c9bce05dfa2cc836868999d45e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a21dd5b252aa6e2a86ba8cf29452d324e" kindref="member">KafkaError</ref></type>
+        <definition>KafkaError VectorKafkaSource::commitOffset</definition>
+        <argsstring>(const KafkaOffset &amp;offset) override</argsstring>
+        <name>commitOffset</name>
+        <qualifiedname>VectorKafkaSource::commitOffset</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1ae31f1661fea9122097dda480ebcc2053">commitOffset</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_kafka_offset" kindref="compound">KafkaOffset</ref> &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="185" column="16" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="185" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_kafka_source_1a9044922a188d54dda24b4f0fdaaa6f26" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int64_t</type>
+        <definition>int64_t VectorKafkaSource::lag</definition>
+        <argsstring>() const override</argsstring>
+        <name>lag</name>
+        <qualifiedname>VectorKafkaSource::lag</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1ae1c289b6bdb10a4c36ee5ea117988ec7">lag</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="190" column="13" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="190" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_kafka_source_1a78099029207a30154d8170312c663960" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void VectorKafkaSource::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <qualifiedname>VectorKafkaSource::close</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1a612a4becc28eaaefff3b48994ae44fd1">close</reimplements>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="194" column="10" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_kafka_source_1affc56ecb05bfabe03fe698ceccaf9acb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool VectorKafkaSource::closed</definition>
+        <argsstring>() const</argsstring>
+        <name>closed</name>
+        <qualifiedname>VectorKafkaSource::closed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="197" column="26" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_kafka_source_1a626728677267aa2910ff38dfc5d0aa00" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1importers_1_1_kafka_offset" kindref="compound">KafkaOffset</ref> &amp;</type>
+        <definition>const KafkaOffset &amp; VectorKafkaSource::lastCommitted</definition>
+        <argsstring>() const</argsstring>
+        <name>lastCommitted</name>
+        <qualifiedname>VectorKafkaSource::lastCommitted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="198" column="25" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="198" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>VectorKafkaSource</label>
+        <link refid="class_vector_kafka_source"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IKafkaConsumerSource</label>
+        <link refid="classthemis_1_1importers_1_1_i_kafka_consumer_source"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>VectorKafkaSource</label>
+        <link refid="class_vector_kafka_source"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IKafkaConsumerSource</label>
+        <link refid="classthemis_1_1importers_1_1_i_kafka_consumer_source"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_interfaces.cpp" line="166" column="1" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="166" bodyend="205"/>
+    <listofallmembers>
+      <member refid="class_vector_kafka_source_1a78099029207a30154d8170312c663960" prot="public" virt="virtual"><scope>VectorKafkaSource</scope><name>close</name></member>
+      <member refid="class_vector_kafka_source_1affc56ecb05bfabe03fe698ceccaf9acb" prot="public" virt="non-virtual"><scope>VectorKafkaSource</scope><name>closed</name></member>
+      <member refid="class_vector_kafka_source_1a9282ab901453b95d48da18b0c3c67fb6" prot="private" virt="non-virtual"><scope>VectorKafkaSource</scope><name>closed_</name></member>
+      <member refid="class_vector_kafka_source_1a8d1017c9bce05dfa2cc836868999d45e" prot="public" virt="virtual"><scope>VectorKafkaSource</scope><name>commitOffset</name></member>
+      <member refid="class_vector_kafka_source_1ae411cab66cfaf5e9f7e6e6b3539abc8f" prot="private" virt="non-virtual"><scope>VectorKafkaSource</scope><name>cursor_</name></member>
+      <member refid="class_vector_kafka_source_1a9044922a188d54dda24b4f0fdaaa6f26" prot="public" virt="virtual"><scope>VectorKafkaSource</scope><name>lag</name></member>
+      <member refid="class_vector_kafka_source_1a692bc04d8b76309a055495a3f054138c" prot="private" virt="non-virtual"><scope>VectorKafkaSource</scope><name>last_committed_</name></member>
+      <member refid="class_vector_kafka_source_1a626728677267aa2910ff38dfc5d0aa00" prot="public" virt="non-virtual"><scope>VectorKafkaSource</scope><name>lastCommitted</name></member>
+      <member refid="class_vector_kafka_source_1a0d03d4ea5c552dec2e03543bfb36e2af" prot="public" virt="virtual"><scope>VectorKafkaSource</scope><name>poll</name></member>
+      <member refid="class_vector_kafka_source_1ad5e3ec0bd4ee3177b2a92aac33ee9f27" prot="private" virt="non-virtual"><scope>VectorKafkaSource</scope><name>records_</name></member>
+      <member refid="class_vector_kafka_source_1af24820983f819164fffa5dc0d07c3c09" prot="public" virt="non-virtual"><scope>VectorKafkaSource</scope><name>VectorKafkaSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1a1d92adda8d69086dfd1b093d77b53ac9" prot="public" virt="virtual"><scope>VectorKafkaSource</scope><name>~IKafkaConsumerSource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

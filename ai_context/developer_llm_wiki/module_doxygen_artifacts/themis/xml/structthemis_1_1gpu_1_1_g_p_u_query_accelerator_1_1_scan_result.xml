@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator::ScanResult</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result_1a29956ef9fa179310f451e721073904ef" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt;</type>
+        <definition>std::vector&lt;Row&gt; themis::gpu::GPUQueryAccelerator::ScanResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::ScanResult::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="117" column="21" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result_1a5210eb23d131050266d3efe4e1d0df20" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::ScanResult::rows_scanned</definition>
+        <argsstring></argsstring>
+        <name>rows_scanned</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::ScanResult::rows_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="118" column="26" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result_1afdaab5250f963dba48049a94e0a6a7aa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::ScanResult::rows_passed</definition>
+        <argsstring></argsstring>
+        <name>rows_passed</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::ScanResult::rows_passed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="119" column="26" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result_1aa51773444c995312c03c0177b0ba8805" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUQueryAccelerator::ScanResult::used_gpu</definition>
+        <argsstring></argsstring>
+        <name>used_gpu</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::ScanResult::used_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="120" column="26" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="116" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="116" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result_1a29956ef9fa179310f451e721073904ef" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::ScanResult</scope><name>rows</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result_1afdaab5250f963dba48049a94e0a6a7aa" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::ScanResult</scope><name>rows_passed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result_1a5210eb23d131050266d3efe4e1d0df20" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::ScanResult</scope><name>rows_scanned</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_scan_result_1aa51773444c995312c03c0177b0ba8805" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::ScanResult</scope><name>used_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

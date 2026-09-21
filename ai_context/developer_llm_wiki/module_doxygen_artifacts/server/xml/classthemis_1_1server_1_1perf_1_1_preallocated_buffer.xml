@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::PreallocatedBuffer</compoundname>
+    <includes refid="performance__helpers_8h" local="no">performance_helpers.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a67fb50555b8549d593a3f4ed04f15cde" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::PreallocatedBuffer::INITIAL_CAPACITY</definition>
+        <argsstring></argsstring>
+        <name>INITIAL_CAPACITY</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::INITIAL_CAPACITY</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="216" column="29" bodyfile="include/server/performance_helpers.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a1e534ab02fbf6ad83540148d47f94122" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::perf::PreallocatedBuffer::GROWTH_FACTOR</definition>
+        <argsstring></argsstring>
+        <name>GROWTH_FACTOR</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::GROWTH_FACTOR</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="217" column="29" bodyfile="include/server/performance_helpers.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1aaced7a8931b39957dfa444f2fcf40a20" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::server::perf::PreallocatedBuffer::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="298" column="17" bodyfile="include/server/performance_helpers.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a53e8e44fecef939f31094d180a361019" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::PreallocatedBuffer::PreallocatedBuffer</definition>
+        <argsstring>(size_t initial_capacity=INITIAL_CAPACITY)</argsstring>
+        <name>PreallocatedBuffer</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::PreallocatedBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>initial_capacity</declname>
+          <defval><ref refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a67fb50555b8549d593a3f4ed04f15cde" kindref="member">INITIAL_CAPACITY</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="219" column="14" bodyfile="include/server/performance_helpers.h" bodystart="219" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a6fd52a1531629095106f65b60807cf21" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::PreallocatedBuffer::append</definition>
+        <argsstring>(const void *data, size_t len)</argsstring>
+        <name>append</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::append</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Append. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a7a96fe87717369f4182a69ad3459158d" kindref="member">size()</ref>, <ref refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a107ff8e8c0feff3293386535d76bf6c6" kindref="member">capacity()</ref>, <ref refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1acdaddb16fd11d81bad29d96f037c47ee" kindref="member">reserve()</ref>, insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="230" column="10" bodyfile="include/server/performance_helpers.h" bodystart="230" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a74fe830320d6793593a40438aa70dbd6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::PreallocatedBuffer::append</definition>
+        <argsstring>(std::string_view sv)</argsstring>
+        <name>append</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::append</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sv</declname>
+        </param>
+        <briefdescription>
+<para>Append. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1ad5a5e4520538dbe99854af8403817b34" kindref="member">data()</ref>, <ref refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a7a96fe87717369f4182a69ad3459158d" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="259" column="10" bodyfile="include/server/performance_helpers.h" bodystart="259" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1acdaddb16fd11d81bad29d96f037c47ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::PreallocatedBuffer::reserve</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>reserve</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::reserve</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Reserve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="268" column="10" bodyfile="include/server/performance_helpers.h" bodystart="268" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1ad5a5e4520538dbe99854af8403817b34" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>std::vector&lt; uint8_t &gt; &amp; themis::server::perf::PreallocatedBuffer::data</definition>
+        <argsstring>()</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::data</qualifiedname>
+        <briefdescription>
+<para>Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements data without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="277" column="17" bodyfile="include/server/performance_helpers.h" bodystart="277" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a14a56b0d0ac734ea1da0c95ffec05f97" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>const std::vector&lt; uint8_t &gt; &amp; themis::server::perf::PreallocatedBuffer::data</definition>
+        <argsstring>() const</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="278" column="23" bodyfile="include/server/performance_helpers.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1afe5b81075ff59bfc12c3b6dbba6ac55f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::PreallocatedBuffer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="284" column="10" bodyfile="include/server/performance_helpers.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1af7ce2e0886f8d2e72b6571564c97941e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::perf::PreallocatedBuffer::extract</definition>
+        <argsstring>()</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::extract</qualifiedname>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="291" column="17" bodyfile="include/server/performance_helpers.h" bodystart="291" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a7a96fe87717369f4182a69ad3459158d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::PreallocatedBuffer::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="293" column="12" bodyfile="include/server/performance_helpers.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a107ff8e8c0feff3293386535d76bf6c6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::PreallocatedBuffer::capacity</definition>
+        <argsstring>() const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::server::perf::PreallocatedBuffer::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="295" column="12" bodyfile="include/server/performance_helpers.h" bodystart="295" bodyend="295"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/performance_helpers.h" line="214" column="1" bodyfile="include/server/performance_helpers.h" bodystart="214" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a6fd52a1531629095106f65b60807cf21" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>append</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a74fe830320d6793593a40438aa70dbd6" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>append</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1aaced7a8931b39957dfa444f2fcf40a20" prot="private" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a107ff8e8c0feff3293386535d76bf6c6" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1afe5b81075ff59bfc12c3b6dbba6ac55f" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>clear</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1ad5a5e4520538dbe99854af8403817b34" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>data</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a14a56b0d0ac734ea1da0c95ffec05f97" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>data</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1af7ce2e0886f8d2e72b6571564c97941e" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>extract</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a1e534ab02fbf6ad83540148d47f94122" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>GROWTH_FACTOR</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a67fb50555b8549d593a3f4ed04f15cde" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>INITIAL_CAPACITY</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a53e8e44fecef939f31094d180a361019" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>PreallocatedBuffer</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1acdaddb16fd11d81bad29d96f037c47ee" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>reserve</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_preallocated_buffer_1a7a96fe87717369f4182a69ad3459158d" prot="public" virt="non-virtual"><scope>themis::server::perf::PreallocatedBuffer</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

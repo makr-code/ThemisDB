@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_schema_validation_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::SchemaValidationException</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_exporter_exception" prot="public" virt="non-virtual">themis::exporters::ExporterException</basecompoundref>
+    <includes refid="exporter__errors_8h" local="no">exporter_errors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_schema_validation_exception_1a94c1a9cab37685ba4495c93c750e68eb" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::SchemaValidationException::entity_id_</definition>
+        <argsstring></argsstring>
+        <name>entity_id_</name>
+        <qualifiedname>themis::exporters::SchemaValidationException::entity_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="58" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_schema_validation_exception_1afb8f391162bc636b69351992def1968b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::SchemaValidationException::validation_error_</definition>
+        <argsstring></argsstring>
+        <name>validation_error_</name>
+        <qualifiedname>themis::exporters::SchemaValidationException::validation_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="59" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_schema_validation_exception_1a6a1cf6c30a3ad138e809c3913f646d23" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::SchemaValidationException::SchemaValidationException</definition>
+        <argsstring>(const std::string &amp;message, const std::string &amp;entity_id=&quot;&quot;, const std::string &amp;validation_error=&quot;&quot;)</argsstring>
+        <name>SchemaValidationException</name>
+        <qualifiedname>themis::exporters::SchemaValidationException::SchemaValidationException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>validation_error</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="42" column="14" bodyfile="include/exporters/exporter_errors.h" bodystart="42" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_schema_validation_exception_1a1449dd3200e4ece0abdf7399633abace" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::SchemaValidationException::getEntityId</definition>
+        <argsstring>() const</argsstring>
+        <name>getEntityId</name>
+        <qualifiedname>themis::exporters::SchemaValidationException::getEntityId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="54" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_schema_validation_exception_1a240d10d093deed557ec2002bd3f46864" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::SchemaValidationException::getValidationError</definition>
+        <argsstring>() const</argsstring>
+        <name>getValidationError</name>
+        <qualifiedname>themis::exporters::SchemaValidationException::getValidationError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="55" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Schema validation error. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::SchemaValidationException</label>
+        <link refid="classthemis_1_1exporters_1_1_schema_validation_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::SchemaValidationException</label>
+        <link refid="classthemis_1_1exporters_1_1_schema_validation_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/exporter_errors.h" line="40" column="1" bodyfile="include/exporters/exporter_errors.h" bodystart="40" bodyend="60"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a65232c8890228b0b1a9c31d335809c93" prot="protected" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>context_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_schema_validation_exception_1a94c1a9cab37685ba4495c93c750e68eb" prot="private" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>entity_id_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a1a80681187a67958b179e691695209fb" prot="protected" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1aaca93f87150fcb5c565671227d2a9ffd" prot="public" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>ExporterException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a2137749c86cb8b65f22035426c15ff94" prot="public" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1exporters_1_1_schema_validation_exception_1a1449dd3200e4ece0abdf7399633abace" prot="public" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>getEntityId</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a40e41cf979adc5dbb8ab0efc86dd5bb4" prot="public" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>getErrorCode</name></member>
+      <member refid="classthemis_1_1exporters_1_1_schema_validation_exception_1a240d10d093deed557ec2002bd3f46864" prot="public" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>getValidationError</name></member>
+      <member refid="classthemis_1_1exporters_1_1_schema_validation_exception_1a6a1cf6c30a3ad138e809c3913f646d23" prot="public" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>SchemaValidationException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_schema_validation_exception_1afb8f391162bc636b69351992def1968b" prot="private" virt="non-virtual"><scope>themis::exporters::SchemaValidationException</scope><name>validation_error_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

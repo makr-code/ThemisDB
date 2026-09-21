@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1_prom_write_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::PromWriteRequest</compoundname>
+    <includes refid="prometheus__remote__write_8h" local="no">prometheus_remote_write.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_prom_write_request_1ad65490117cbe7fbc3ff38eb8e937f948" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1_prom_time_series" kindref="compound">PromTimeSeries</ref> &gt;</type>
+        <definition>std::vector&lt;PromTimeSeries&gt; themis::timeseries::PromWriteRequest::timeseries</definition>
+        <argsstring></argsstring>
+        <name>timeseries</name>
+        <qualifiedname>themis::timeseries::PromWriteRequest::timeseries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="88" column="17" bodyfile="include/timeseries/prometheus_remote_write.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_prom_write_request_1a939216d0f0e6ffd93efd94b5f32cd241" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1timeseries_1_1_prom_write_request" kindref="compound">PromWriteRequest</ref> &gt;</type>
+        <definition>Result&lt; PromWriteRequest &gt; themis::timeseries::PromWriteRequest::decode</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::timeseries::PromWriteRequest::decode</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode a raw (uncompressed) protobuf-encoded WriteRequest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the beginning of the serialised bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>Returns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an error when the payload is malformed, including invalid/truncated protobuf wire start for the first timeseries field. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decoded request or an error string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: proto::readVarint64(), proto::readLenDelim(), proto::decodeWriteRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="101" column="19" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="362" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_prom_write_request_1a0262b6a9c44a45890c103aaeffe016b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1timeseries_1_1_prom_write_request" kindref="compound">PromWriteRequest</ref> &gt;</type>
+        <definition>Result&lt; PromWriteRequest &gt; themis::timeseries::PromWriteRequest::decodeSnappy</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>decodeSnappy</name>
+        <qualifiedname>themis::timeseries::PromWriteRequest::decodeSnappy</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Decode Snappy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode a snappy-compressed protobuf-encoded WriteRequest.</para>
+<para>Prometheus remote-write clients always compress with snappy before sending; this is the primary entry-point used by the HTTP handler.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the beginning of the snappy-compressed bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decoded request or an error string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: snappy::GetUncompressedLength(), resize(), snappy::RawUncompress(), <ref refid="structthemis_1_1timeseries_1_1_prom_write_request_1a939216d0f0e6ffd93efd94b5f32cd241" kindref="member">decode()</ref>, data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="114" column="19" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="409" bodyend="453"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Decoded Prometheus WriteRequest. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/prometheus_remote_write.h" line="87" column="1" bodyfile="include/timeseries/prometheus_remote_write.h" bodystart="87" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1_prom_write_request_1a939216d0f0e6ffd93efd94b5f32cd241" prot="public" virt="non-virtual"><scope>themis::timeseries::PromWriteRequest</scope><name>decode</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_prom_write_request_1a0262b6a9c44a45890c103aaeffe016b2" prot="public" virt="non-virtual"><scope>themis::timeseries::PromWriteRequest</scope><name>decodeSnappy</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_prom_write_request_1ad65490117cbe7fbc3ff38eb8e937f948" prot="public" virt="non-virtual"><scope>themis::timeseries::PromWriteRequest</scope><name>timeseries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

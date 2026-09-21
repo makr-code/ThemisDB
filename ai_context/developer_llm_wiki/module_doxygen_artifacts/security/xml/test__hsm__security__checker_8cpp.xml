@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__hsm__security__checker_8cpp" kind="file" language="C++">
+    <compoundname>test_hsm_security_checker.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="hsm__provider_8h" local="yes">security/hsm_provider.h</includes>
+    <includes refid="hsm__security__checker_8h" local="yes">security/hsm_security_checker.h</includes>
+    <includes local="no">cstdlib</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>security/hsm_security_checker.h</label>
+        <link refid="hsm__security__checker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_hsm_security_checker.cpp</label>
+        <link refid="test__hsm__security__checker_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>cstdlib</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>utils/logger.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_h_s_m_security_checker_test" prot="public">HSMSecurityCheckerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ProductionModeDetection_NotSet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ProductionModeDetection_NotSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="47" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1aa64017e81d1569886e23502e880b7594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ProductionModeDetection_True)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ProductionModeDetection_True</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="54" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1aec3510f44f5275b8063593d9fd69cb3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ProductionModeDetection_One)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ProductionModeDetection_One</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="59" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1aad3e2e3c8da97c8621610e8e3d5133bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ProductionModeDetection_Production)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ProductionModeDetection_Production</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="64" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1abb262ab0bc27e132d2f525ef1c22382b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ProductionModeDetection_EnvironmentVar)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ProductionModeDetection_EnvironmentVar</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="69" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="69" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1a7ff95524c9e32c6ce342f0218f607034" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ProductionModeDetection_EnvironmentProd)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ProductionModeDetection_EnvironmentProd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="75" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1aa7cf1acade46a53c9f1dfcf47d9dc3b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ProductionModeDetection_Development)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ProductionModeDetection_Development</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="81" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1a9acdbcde0abaa612f3d1f78185e2ffb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, AllowStubFlag_NotPresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>AllowStubFlag_NotPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="86" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="86" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1a2faf91dd2f85278f46cabb35b13af5ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, AllowStubFlag_Present)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>AllowStubFlag_Present</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="93" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="93" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1a78872009e7cda01c0cb6a80138628950" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, AllowStubFlag_LastArg)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>AllowStubFlag_LastArg</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="100" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1af20e538f480729c04d2fd5bb50ac6c4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ValidateProductionSafety_DevelopmentMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateProductionSafety_DevelopmentMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="107" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="107" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1aa1a4071e28efcd18b483a77285975826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ValidateProductionSafety_ProductionWithStubBlocked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateProductionSafety_ProductionWithStubBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="122" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="122" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1a37a97aa585c38eb441d11c993f9edbff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, ValidateProductionSafety_ProductionWithStubOverride)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateProductionSafety_ProductionWithStubOverride</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="137" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="137" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1a1641629dff2dbfbc2e90878b98af66cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, PeriodicWarning_DevelopmentMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>PeriodicWarning_DevelopmentMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="152" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="152" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1a5cc1aba873b2359d61e8039e490b5be7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, PeriodicWarning_ProductionWithStub)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>PeriodicWarning_ProductionWithStub</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="165" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="165" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__security__checker_8cpp_1aa8b0233b01180223321eebc9a7ce5488" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMSecurityCheckerTest, IntegrationExample)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>IntegrationExample</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_checker.cpp" line="180" column="1" bodyfile="tests/security/test_hsm_security_checker.cpp" bodystart="180" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__provider_8h" kindref="compound">security/hsm_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__security__checker_8h" kindref="compound">security/hsm_security_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>setenv(name,<sp/>value,<sp/>overwrite)<sp/>_putenv_s(name,<sp/>value)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>unsetenv(name)<sp/>_putenv_s(name,<sp/>&quot;&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="class_h_s_m_security_checker_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_h_s_m_security_checker_test_1a42173069dd930089916dd7936dac09c4" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>original<sp/>environment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_security_checker_test_1a6dfb4561f61021128825c92aa11b1413" kindref="member">saved_prod_mode_</ref><sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_security_checker_test_1aa69e394e19bfb4f554eb16ca374b48cc" kindref="member">saved_environment_</ref><sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_h_s_m_security_checker_test_1aca28ac953d3cdd461ed893f29d067dba" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore<sp/>original<sp/>environment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_h_s_m_security_checker_test_1a6dfb4561f61021128825c92aa11b1413" kindref="member">saved_prod_mode_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_h_s_m_security_checker_test_1a6dfb4561f61021128825c92aa11b1413" kindref="member">saved_prod_mode_</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_h_s_m_security_checker_test_1aa69e394e19bfb4f554eb16ca374b48cc" kindref="member">saved_environment_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_h_s_m_security_checker_test_1aa69e394e19bfb4f554eb16ca374b48cc" kindref="member">saved_environment_</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="class_h_s_m_security_checker_test_1a6dfb4561f61021128825c92aa11b1413" kindref="member">saved_prod_mode_</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="class_h_s_m_security_checker_test_1aa69e394e19bfb4f554eb16ca374b48cc" kindref="member">saved_environment_</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ProductionModeDetection_NotSet)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">HSMSecurityChecker::isProductionMode</ref>());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ProductionModeDetection_True)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">HSMSecurityChecker::isProductionMode</ref>());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ProductionModeDetection_One)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">HSMSecurityChecker::isProductionMode</ref>());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ProductionModeDetection_Production)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">HSMSecurityChecker::isProductionMode</ref>());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ProductionModeDetection_EnvironmentVar)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">HSMSecurityChecker::isProductionMode</ref>());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ProductionModeDetection_EnvironmentProd)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;prod&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">HSMSecurityChecker::isProductionMode</ref>());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ProductionModeDetection_Development)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">HSMSecurityChecker::isProductionMode</ref>());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>AllowStubFlag_NotPresent)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;config.yaml&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a843296d2d2e3f7c5e8f4c41888898023" kindref="member">HSMSecurityChecker::hasAllowStubFlag</ref>(argc,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>AllowStubFlag_Present)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--allow-stub-hsm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;config.yaml&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a843296d2d2e3f7c5e8f4c41888898023" kindref="member">HSMSecurityChecker::hasAllowStubFlag</ref>(argc,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>AllowStubFlag_LastArg)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;config.yaml&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--allow-stub-hsm&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a843296d2d2e3f7c5e8f4c41888898023" kindref="member">HSMSecurityChecker::hasAllowStubFlag</ref>(argc,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ValidateProductionSafety_DevelopmentMode)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>always<sp/>pass<sp/>in<sp/>development<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" kindref="member">HSMSecurityChecker::validateProductionSafety</ref>(hsm,<sp/>argc,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ValidateProductionSafety_ProductionWithStubBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>in<sp/>production<sp/>with<sp/>stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" kindref="member">HSMSecurityChecker::validateProductionSafety</ref>(hsm,<sp/>argc,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>ValidateProductionSafety_ProductionWithStubOverride)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--allow-stub-hsm&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>pass<sp/>with<sp/>override<sp/>flag<sp/>(but<sp/>log<sp/>warnings)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" kindref="member">HSMSecurityChecker::validateProductionSafety</ref>(hsm,<sp/>argc,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>PeriodicWarning_DevelopmentMode)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>warning<sp/>in<sp/>development<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a2f088184c4cace6bbf9e0234492346ac" kindref="member">HSMSecurityChecker::getPeriodicWarning</ref>(hsm);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(warning.empty());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>PeriodicWarning_ProductionWithStub)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>warning<sp/>message<sp/>in<sp/>production<sp/>with<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a2f088184c4cace6bbf9e0234492346ac" kindref="member">HSMSecurityChecker::getPeriodicWarning</ref>(hsm);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(warning.empty());</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(warning.find(</highlight><highlight class="stringliteral">&quot;PRODUCTION<sp/>SECURITY<sp/>ALERT&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(warning.find(</highlight><highlight class="stringliteral">&quot;HSM<sp/>stub<sp/>provider&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__hsm__security__checker_8cpp_1a72fae3524cfb1e9ae2feb80f65b265d7" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_security_checker_test" kindref="compound">HSMSecurityCheckerTest</ref>,<sp/>IntegrationExample)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>demonstrates<sp/>the<sp/>complete<sp/>flow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Set<sp/>production<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Create<sp/>stub<sp/>HSM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(hsm.initialize());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(hsm.isStubProvider());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Without<sp/>override<sp/>flag<sp/>-<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" kindref="member">HSMSecurityChecker::validateProductionSafety</ref>(hsm,<sp/>argc,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>With<sp/>override<sp/>flag<sp/>-<sp/>should<sp/>pass<sp/>but<sp/>warn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--allow-stub-hsm&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" kindref="member">HSMSecurityChecker::validateProductionSafety</ref>(hsm,<sp/>argc,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>Periodic<sp/>warning<sp/>should<sp/>be<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a2f088184c4cace6bbf9e0234492346ac" kindref="member">HSMSecurityChecker::getPeriodicWarning</ref>(hsm);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(warning.empty());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_hsm_security_checker.cpp"/>
+  </compounddef>
+</doxygen>

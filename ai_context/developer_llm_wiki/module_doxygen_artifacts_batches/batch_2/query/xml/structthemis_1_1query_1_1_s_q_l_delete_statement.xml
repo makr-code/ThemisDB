@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_delete_statement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLDeleteStatement</compoundname>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_delete_statement_1a779670ea22ae78b264e68903b01f6e07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLDeleteStatement::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::query::SQLDeleteStatement::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="148" column="17" bodyfile="include/query/sql_parser.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_delete_statement_1aec5c3f6d27470b34c440a958306317de" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref> &gt; &gt;</type>
+        <definition>std::optional&lt;std::shared_ptr&lt;SQLExpr&gt; &gt; themis::query::SQLDeleteStatement::where</definition>
+        <argsstring></argsstring>
+        <name>where</name>
+        <qualifiedname>themis::query::SQLDeleteStatement::where</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="149" column="19" bodyfile="include/query/sql_parser.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sql_parser.h" line="147" column="1" bodyfile="include/query/sql_parser.h" bodystart="147" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_delete_statement_1a779670ea22ae78b264e68903b01f6e07" prot="public" virt="non-virtual"><scope>themis::query::SQLDeleteStatement</scope><name>table</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_delete_statement_1aec5c3f6d27470b34c440a958306317de" prot="public" virt="non-virtual"><scope>themis::query::SQLDeleteStatement</scope><name>where</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_fallback_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FallbackConfig</compoundname>
+    <includes refid="lora__router_8h" local="no">lora_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fallback_config_1a5117cfdc926e6b6f20fa3b439183f6ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FallbackConfig::default_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>default_adapter_id</name>
+        <qualifiedname>themis::llm::FallbackConfig::default_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="62" column="17" bodyfile="include/llm/lora_router.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fallback_config_1ae047a2990fb5974075c8cad80dd31942" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::FallbackConfig::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::llm::FallbackConfig::similarity_threshold</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="63" column="11" bodyfile="include/llm/lora_router.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fallback_config_1a3e3b716027af3af451ef66056985db66" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FallbackConfig::enable_fallback</definition>
+        <argsstring></argsstring>
+        <name>enable_fallback</name>
+        <qualifiedname>themis::llm::FallbackConfig::enable_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="64" column="10" bodyfile="include/llm/lora_router.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_router.h" line="61" column="1" bodyfile="include/llm/lora_router.h" bodystart="61" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_fallback_config_1a5117cfdc926e6b6f20fa3b439183f6ff" prot="public" virt="non-virtual"><scope>themis::llm::FallbackConfig</scope><name>default_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_fallback_config_1a3e3b716027af3af451ef66056985db66" prot="public" virt="non-virtual"><scope>themis::llm::FallbackConfig</scope><name>enable_fallback</name></member>
+      <member refid="structthemis_1_1llm_1_1_fallback_config_1ae047a2990fb5974075c8cad80dd31942" prot="public" virt="non-virtual"><scope>themis::llm::FallbackConfig</scope><name>similarity_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_change_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyChangeManager</compoundname>
+    <includes refid="policy__change__manager_8h" local="no">policy_change_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_change_manager_1a330ca27221604f8ceea46ee984c5321b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::PolicyChangeManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="286" column="24" bodyfile="include/governance/policy_change_manager.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_change_manager_1a829629ddc5a581f087f7ff9cb5378858" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyManager&gt; themis::governance::PolicyChangeManager::policy_manager_</definition>
+        <argsstring></argsstring>
+        <name>policy_manager_</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::policy_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="288" column="21" bodyfile="include/governance/policy_change_manager.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_change_manager_1aa8571fe3e9efd4083982e7ca8465dd11" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_version_history" kindref="compound">PolicyVersionHistory</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyVersionHistory&gt; themis::governance::PolicyChangeManager::version_history_</definition>
+        <argsstring></argsstring>
+        <name>version_history_</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::version_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="289" column="21" bodyfile="include/governance/policy_change_manager.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_change_manager_1a05f53394c039ab0eea8943706132869f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_dependency" kindref="compound">PolicyDependency</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;PolicyDependency&gt; &gt; themis::governance::PolicyChangeManager::dependencies_</definition>
+        <argsstring></argsstring>
+        <name>dependencies_</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::dependencies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="292" column="24" bodyfile="include/governance/policy_change_manager.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_change_manager_1a7d90b2ce874a64b804c687a777c4ab95" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_dependency" kindref="compound">PolicyDependency</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;PolicyDependency&gt; &gt; themis::governance::PolicyChangeManager::reverse_dependencies_</definition>
+        <argsstring></argsstring>
+        <name>reverse_dependencies_</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::reverse_dependencies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="293" column="24" bodyfile="include/governance/policy_change_manager.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_change_manager_1ac502d38c751223cf788ccb107459be0d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref> &gt;</type>
+        <definition>std::vector&lt;RollbackOperation&gt; themis::governance::PolicyChangeManager::rollback_history_</definition>
+        <argsstring></argsstring>
+        <name>rollback_history_</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::rollback_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="296" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_change_manager_1ac297b7fd023261deef902561f89de0b8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::governance::PolicyChangeManager::in_progress_rollbacks_</definition>
+        <argsstring></argsstring>
+        <name>in_progress_rollbacks_</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::in_progress_rollbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="299" column="24" bodyfile="include/governance/policy_change_manager.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a72d4d0fda8157bf234ba1648193ad8a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyChangeManager::PolicyChangeManager</definition>
+        <argsstring>()</argsstring>
+        <name>PolicyChangeManager</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::PolicyChangeManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="114" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1aaad1240b623c872d30a20ec3c93bf2be" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyChangeManager::PolicyChangeManager</definition>
+        <argsstring>(std::shared_ptr&lt; PolicyManager &gt; policy_manager, std::shared_ptr&lt; PolicyVersionHistory &gt; version_history)</argsstring>
+        <name>PolicyChangeManager</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::PolicyChangeManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+          <declname>policy_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_version_history" kindref="compound">PolicyVersionHistory</ref> &gt;</type>
+          <declname>version_history</declname>
+        </param>
+        <briefdescription>
+<para>Policy Change Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_history</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="122" column="14" bodyfile="src/governance/policy_change_manager.cpp" bodystart="179" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a01bd0c2f0f0a38c118ed3db2eb507016" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyChangeManager::registerDependency</definition>
+        <argsstring>(const std::string &amp;dependent_rule_id, const std::string &amp;dependency_rule_id, const std::string &amp;dependency_type, const std::string &amp;reason)</argsstring>
+        <name>registerDependency</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::registerDependency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dependent_rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dependency_rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dependency_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Register Dependency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dependent_rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the dependent rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependency_rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the dependency rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependency_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependent_rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the dependent rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependency_rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the dependency rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependency_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="134" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="194" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a4ba3d7368d452baf7f31205534177351" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_dependency" kindref="compound">PolicyDependency</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyDependency &gt; themis::governance::PolicyChangeManager::getDependencies</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getDependencies</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::getDependencies</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="146" column="17" bodyfile="src/governance/policy_change_manager.cpp" bodystart="212" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1af4e81dbdcc1d64f8e4658a86f2298f5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_dependency" kindref="compound">PolicyDependency</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyDependency &gt; themis::governance::PolicyChangeManager::getReverseDependencies</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getReverseDependencies</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::getReverseDependencies</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Reverse Dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="153" column="17" bodyfile="src/governance/policy_change_manager.cpp" bodystart="230" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a37bc54f2b7f1300827434a762a245211" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_rollback_safety_report" kindref="compound">RollbackSafetyReport</ref></type>
+        <definition>RollbackSafetyReport themis::governance::PolicyChangeManager::checkRollbackSafety</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;target_version)</argsstring>
+        <name>checkRollbackSafety</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::checkRollbackSafety</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <briefdescription>
+<para>Check Rollback Safety. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(), getVersion(), fmt::format(), hasCircularDependency(), findAffectedRules(), <ref refid="classthemis_1_1governance_1_1_policy_change_manager_1af4e81dbdcc1d64f8e4658a86f2298f5d" kindref="member">getReverseDependencies()</ref>, empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="161" column="26" bodyfile="src/governance/policy_change_manager.cpp" bodystart="255" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1ac1a2469531ccc4579def4fee4a9fcb82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_rollback_safety_report" kindref="compound">RollbackSafetyReport</ref></type>
+        <definition>RollbackSafetyReport themis::governance::PolicyChangeManager::previewRollback</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;target_version)</argsstring>
+        <name>previewRollback</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::previewRollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <briefdescription>
+<para>Preview Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_policy_change_manager_1a37bc54f2b7f1300827434a762a245211" kindref="member">checkRollbackSafety()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="172" column="26" bodyfile="src/governance/policy_change_manager.cpp" bodystart="311" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1adfa3b38d64ab7c299e43c5b8f65b6f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref></type>
+        <definition>RollbackOperation themis::governance::PolicyChangeManager::performRollback</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;target_version, const std::string &amp;operator_user, const std::string &amp;reason)</argsstring>
+        <name>performRollback</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::performRollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_user</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Perform Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateOperationId(), std::chrono::system_clock::now(), time_since_epoch(), count(), executeRollback(), erase(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="185" column="23" bodyfile="src/governance/policy_change_manager.cpp" bodystart="327" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1ae5f46804a8def47a384e734fb190cb14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref></type>
+        <definition>RollbackOperation themis::governance::PolicyChangeManager::performCoordinatedRollback</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;rule_ids, const std::string &amp;target_version, const std::string &amp;operator_user, const std::string &amp;reason)</argsstring>
+        <name>performCoordinatedRollback</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::performCoordinatedRollback</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>rule_ids</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_user</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Perform Coordinated Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), generateOperationId(), std::chrono::system_clock::now(), time_since_epoch(), count(), executeRollback(), fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="200" column="23" bodyfile="src/governance/policy_change_manager.cpp" bodystart="378" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a9caf88859711b8588dec98f4d56563ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref></type>
+        <definition>RollbackOperation themis::governance::PolicyChangeManager::rollbackToPrevious</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;operator_user, const std::string &amp;reason)</argsstring>
+        <name>rollbackToPrevious</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::rollbackToPrevious</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_user</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Rollback To Previous. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getPreviousVersion(), <ref refid="classthemis_1_1governance_1_1_policy_change_manager_1adfa3b38d64ab7c299e43c5b8f65b6f83" kindref="member">performRollback()</ref>, value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="214" column="23" bodyfile="src/governance/policy_change_manager.cpp" bodystart="443" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a53ccb8e4c8f43db335ac63d7725daf65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref> &gt;</type>
+        <definition>std::optional&lt; RollbackOperation &gt; themis::governance::PolicyChangeManager::reverseRollback</definition>
+        <argsstring>(const std::string &amp;operation_id, const std::string &amp;operator_user)</argsstring>
+        <name>reverseRollback</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::reverseRollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_user</declname>
+        </param>
+        <briefdescription>
+<para>Reverse Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::find_if(), begin(), end(), generateOperationId(), fmt::format(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="226" column="19" bodyfile="src/governance/policy_change_manager.cpp" bodystart="473" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a23c38939254fc953ad04e5d6c33d87fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref> &gt;</type>
+        <definition>std::vector&lt; RollbackOperation &gt; themis::governance::PolicyChangeManager::getRollbackHistory</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;rule_id=std::nullopt, const std::optional&lt; int64_t &gt; &amp;start_time=std::nullopt, const std::optional&lt; int64_t &gt; &amp;end_time=std::nullopt) const</argsstring>
+        <name>getRollbackHistory</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::getRollbackHistory</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>rule_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; int64_t &gt; &amp;</type>
+          <declname>start_time</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; int64_t &gt; &amp;</type>
+          <declname>end_time</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="231" column="17" bodyfile="src/governance/policy_change_manager.cpp" bodystart="522" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a438a142ad4b1da746d98bfd55acedd91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref> &gt;</type>
+        <definition>std::optional&lt; RollbackOperation &gt; themis::governance::PolicyChangeManager::getRollbackOperation</definition>
+        <argsstring>(const std::string &amp;operation_id) const</argsstring>
+        <name>getRollbackOperation</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::getRollbackOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Rollback Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="242" column="19" bodyfile="src/governance/policy_change_manager.cpp" bodystart="553" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a0cdebdd2fb4e1bd3651441b759a0c79d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyChangeManager::isRollbackInProgress</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>isRollbackInProgress</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::isRollbackInProgress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Rollback In Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="251" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="578" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a515eb4a8038e5cb8ca18ce3dda5e110d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyChangeManager::exportChangeData</definition>
+        <argsstring>() const</argsstring>
+        <name>exportChangeData</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::exportChangeData</qualifiedname>
+        <briefdescription>
+<para>Export Change Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="257" column="20" bodyfile="src/governance/policy_change_manager.cpp" bodystart="589" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a2dd8b8dce1bcd728fe9ee10bfb2a0a8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyChangeManager::importChangeData</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>importChangeData</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::importChangeData</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Import Change Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), contains(), <ref refid="classthemis_1_1governance_1_1_policy_change_manager_1a6924e4a6e260b714accd07dd9c4a4736" kindref="member">clear()</ref>, items(), <ref refid="structthemis_1_1governance_1_1_policy_dependency_1a0ae0a4844e950eaea26cf09cb4aba62f" kindref="member">PolicyDependency::fromJson()</ref>, push_back(), <ref refid="structthemis_1_1governance_1_1_rollback_operation_1a1bb93bf81d5c74549c714709738d37f7" kindref="member">RollbackOperation::fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="264" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="621" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a3291471c10abff15a9f3b84509c8aca0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyChangeManager::saveToFile</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>saveToFile</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::saveToFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Save To File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="271" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="647" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1acc525224a3f36f2ced97f8518618ffe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyChangeManager::loadFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), close(), <ref refid="classthemis_1_1governance_1_1_policy_change_manager_1a2dd8b8dce1bcd728fe9ee10bfb2a0a8a" kindref="member">importChangeData()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="278" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="670" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a6924e4a6e260b714accd07dd9c4a4736" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyChangeManager::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="283" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="686" bodyend="693"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a4a33da2d9cd83ac7c35e36cb4c334477" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyChangeManager::generateOperationId</definition>
+        <argsstring>()</argsstring>
+        <name>generateOperationId</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::generateOperationId</qualifiedname>
+        <briefdescription>
+<para>Generate Operation Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fmt::format(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="305" column="17" bodyfile="src/governance/policy_change_manager.cpp" bodystart="700" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a19fd2f620b15b36474e071cc5142e5b5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyChangeManager::hasCircularDependency</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>hasCircularDependency</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::hasCircularDependency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Has Circular Dependency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="312" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="707" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1aae034627e94c8daaf6892c828ba328ec" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::PolicyChangeManager::findAffectedRules</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>findAffectedRules</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::findAffectedRules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Find Affected Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="319" column="17" bodyfile="src/governance/policy_change_manager.cpp" bodystart="736" bodyend="749"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1af9a954f1a14f1697b7de0620125e1df1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyChangeManager::canApplyAtomically</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;target_version)</argsstring>
+        <name>canApplyAtomically</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::canApplyAtomically</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <briefdescription>
+<para>Can Apply Atomically. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getVersion(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="327" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="758" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_change_manager_1a602effc37a18ab5584dff686b2cf860b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyChangeManager::executeRollback</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;target_version, RollbackOperation &amp;operation)</argsstring>
+        <name>executeRollback</name>
+        <qualifiedname>themis::governance::PolicyChangeManager::executeRollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref> &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Execute Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: canApplyAtomically(), getLatestVersion(), empty(), rollbackToVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="336" column="10" bodyfile="src/governance/policy_change_manager.cpp" bodystart="779" bodyend="807"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_change_manager.h" line="112" column="1" bodyfile="include/governance/policy_change_manager.h" bodystart="112" bodyend="341"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1af9a954f1a14f1697b7de0620125e1df1" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>canApplyAtomically</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a37bc54f2b7f1300827434a762a245211" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>checkRollbackSafety</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a6924e4a6e260b714accd07dd9c4a4736" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>clear</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a05f53394c039ab0eea8943706132869f" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>dependencies_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a602effc37a18ab5584dff686b2cf860b" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>executeRollback</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a515eb4a8038e5cb8ca18ce3dda5e110d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>exportChangeData</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1aae034627e94c8daaf6892c828ba328ec" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>findAffectedRules</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a4a33da2d9cd83ac7c35e36cb4c334477" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>generateOperationId</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a4ba3d7368d452baf7f31205534177351" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>getDependencies</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1af4e81dbdcc1d64f8e4658a86f2298f5d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>getReverseDependencies</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a23c38939254fc953ad04e5d6c33d87fb" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>getRollbackHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a438a142ad4b1da746d98bfd55acedd91" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>getRollbackOperation</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a19fd2f620b15b36474e071cc5142e5b5" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>hasCircularDependency</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a2dd8b8dce1bcd728fe9ee10bfb2a0a8a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>importChangeData</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1ac297b7fd023261deef902561f89de0b8" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>in_progress_rollbacks_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a0cdebdd2fb4e1bd3651441b759a0c79d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>isRollbackInProgress</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1acc525224a3f36f2ced97f8518618ffe7" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a330ca27221604f8ceea46ee984c5321b" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1ae5f46804a8def47a384e734fb190cb14" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>performCoordinatedRollback</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1adfa3b38d64ab7c299e43c5b8f65b6f83" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>performRollback</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a829629ddc5a581f087f7ff9cb5378858" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>policy_manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a72d4d0fda8157bf234ba1648193ad8a4" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>PolicyChangeManager</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1aaad1240b623c872d30a20ec3c93bf2be" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>PolicyChangeManager</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1ac1a2469531ccc4579def4fee4a9fcb82" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>previewRollback</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a01bd0c2f0f0a38c118ed3db2eb507016" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>registerDependency</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a7d90b2ce874a64b804c687a777c4ab95" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>reverse_dependencies_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a53ccb8e4c8f43db335ac63d7725daf65" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>reverseRollback</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1ac502d38c751223cf788ccb107459be0d" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>rollback_history_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a9caf88859711b8588dec98f4d56563ed" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>rollbackToPrevious</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1a3291471c10abff15a9f3b84509c8aca0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>saveToFile</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_change_manager_1aa8571fe3e9efd4083982e7ca8465dd11" prot="private" virt="non-virtual"><scope>themis::governance::PolicyChangeManager</scope><name>version_history_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

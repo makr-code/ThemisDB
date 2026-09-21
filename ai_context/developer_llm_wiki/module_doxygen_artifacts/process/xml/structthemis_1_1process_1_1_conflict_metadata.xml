@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_conflict_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConflictMetadata</compoundname>
+    <includes refid="process__conflict__resolution__callback_8h" local="no">process_conflict_resolution_callback.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1a907159942452f03274e8d3c5bdd30ef3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictMetadata::v1_id</definition>
+        <argsstring></argsstring>
+        <name>v1_id</name>
+        <qualifiedname>themis::process::ConflictMetadata::v1_id</qualifiedname>
+        <briefdescription>
+<para>First model version ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="80" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1a4d3b03c03d24e61c36ecb1093e895e41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictMetadata::v2_id</definition>
+        <argsstring></argsstring>
+        <name>v2_id</name>
+        <qualifiedname>themis::process::ConflictMetadata::v2_id</qualifiedname>
+        <briefdescription>
+<para>Second model version ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="83" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1ab39a5490a4977a9667f1b80ce47b74b2" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::process::ConflictMetadata::v1_timestamp</definition>
+        <argsstring></argsstring>
+        <name>v1_timestamp</name>
+        <qualifiedname>themis::process::ConflictMetadata::v1_timestamp</qualifiedname>
+        <briefdescription>
+<para>Version 1 timestamp (from version clock). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="86" column="41" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1ad39ad5ef1b29981324c4d0f6ddebe06b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::process::ConflictMetadata::v2_timestamp</definition>
+        <argsstring></argsstring>
+        <name>v2_timestamp</name>
+        <qualifiedname>themis::process::ConflictMetadata::v2_timestamp</qualifiedname>
+        <briefdescription>
+<para>Version 2 timestamp (from version clock). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="89" column="41" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1a067cdfba6a255cb4edf1370b4ee2effc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictMetadata::v1_sender_node_id</definition>
+        <argsstring></argsstring>
+        <name>v1_sender_node_id</name>
+        <qualifiedname>themis::process::ConflictMetadata::v1_sender_node_id</qualifiedname>
+        <briefdescription>
+<para>Version 1 source node ID (for deterministic tie-breaking). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="92" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1ad4b7a9c96dfbe257071edea62d603f20" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictMetadata::v2_sender_node_id</definition>
+        <argsstring></argsstring>
+        <name>v2_sender_node_id</name>
+        <qualifiedname>themis::process::ConflictMetadata::v2_sender_node_id</qualifiedname>
+        <briefdescription>
+<para>Version 2 source node ID (for deterministic tie-breaking). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="95" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1ac2f96f89d91a2b381c63992617db2294" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictMetadata::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::ConflictMetadata::model_id</qualifiedname>
+        <briefdescription>
+<para>Model ID that experienced conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="98" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1aeaa3f2a669da9aba4e236f2bc64b1b16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictMetadata::operation_type</definition>
+        <argsstring></argsstring>
+        <name>operation_type</name>
+        <qualifiedname>themis::process::ConflictMetadata::operation_type</qualifiedname>
+        <briefdescription>
+<para>Operation type that caused conflict (insert, update, delete). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="101" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1abfd8af2352eae67888c230c359d34e0b" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::process::ConflictMetadata::v1_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>v1_size_bytes</name>
+        <qualifiedname>themis::process::ConflictMetadata::v1_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Model size (bytes) for both versions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="104" column="17" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1a0f28cf69016def8b84b0a9909f7fec11" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::process::ConflictMetadata::v2_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>v2_size_bytes</name>
+        <qualifiedname>themis::process::ConflictMetadata::v2_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="105" column="17" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1aef631fddd8e790e9dc7ffe2d09beb779" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::process::ConflictMetadata::detection_confidence</definition>
+        <argsstring></argsstring>
+        <name>detection_confidence</name>
+        <qualifiedname>themis::process::ConflictMetadata::detection_confidence</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Confidence in conflict detection (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="108" column="9" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_metadata_1aec4061640476751075b37c34c8c54223" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictMetadata::context_json</definition>
+        <argsstring></argsstring>
+        <name>context_json</name>
+        <qualifiedname>themis::process::ConflictMetadata::context_json</qualifiedname>
+        <briefdescription>
+<para>Additional context as JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="111" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata for conflict resolution decision. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Passed to callback during conflict detection. Contains all information needed to make resolution decision without external lookups. </para>
+    </detaileddescription>
+    <location file="include/process/process_conflict_resolution_callback.h" line="78" column="1" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="78" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1aec4061640476751075b37c34c8c54223" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>context_json</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1aef631fddd8e790e9dc7ffe2d09beb779" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>detection_confidence</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1ac2f96f89d91a2b381c63992617db2294" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1aeaa3f2a669da9aba4e236f2bc64b1b16" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>operation_type</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1a907159942452f03274e8d3c5bdd30ef3" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>v1_id</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1a067cdfba6a255cb4edf1370b4ee2effc" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>v1_sender_node_id</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1abfd8af2352eae67888c230c359d34e0b" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>v1_size_bytes</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1ab39a5490a4977a9667f1b80ce47b74b2" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>v1_timestamp</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1a4d3b03c03d24e61c36ecb1093e895e41" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>v2_id</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1ad4b7a9c96dfbe257071edea62d603f20" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>v2_sender_node_id</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1a0f28cf69016def8b84b0a9909f7fec11" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>v2_size_bytes</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_metadata_1ad39ad5ef1b29981324c4d0f6ddebe06b" prot="public" virt="non-virtual"><scope>themis::process::ConflictMetadata</scope><name>v2_timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

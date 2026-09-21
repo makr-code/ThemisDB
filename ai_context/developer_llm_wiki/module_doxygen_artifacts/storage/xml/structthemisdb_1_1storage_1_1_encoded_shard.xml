@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_encoded_shard" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::storage::EncodedShard</compoundname>
+    <includes refid="erasure__coding__backend_8h" local="no">erasure_coding_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_encoded_shard_1acfaf3aebf7c42d05da7770bb51cdeb19" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::EncodedShard::shard_index</definition>
+        <argsstring></argsstring>
+        <name>shard_index</name>
+        <qualifiedname>themisdb::storage::EncodedShard::shard_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Position in the stripe (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/erasure_coding_backend.h" line="51" column="15" bodyfile="include/storage/erasure_coding_backend.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_encoded_shard_1a39b2bc41be3fee258d53213cbb3820b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::storage::EncodedShard::is_parity</definition>
+        <argsstring></argsstring>
+        <name>is_parity</name>
+        <qualifiedname>themisdb::storage::EncodedShard::is_parity</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true for parity shards (index &gt;= data_shards) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/erasure_coding_backend.h" line="52" column="15" bodyfile="include/storage/erasure_coding_backend.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_encoded_shard_1a2ccc9a24f166ff8cb14cd456d408b85e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::EncodedShard::original_size</definition>
+        <argsstring></argsstring>
+        <name>original_size</name>
+        <qualifiedname>themisdb::storage::EncodedShard::original_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Original blob size (bytes) before padding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/erasure_coding_backend.h" line="53" column="15" bodyfile="include/storage/erasure_coding_backend.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_encoded_shard_1a7fc181f6b6f3a26c2d40924aa718030b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::storage::EncodedShard::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::storage::EncodedShard::data</qualifiedname>
+        <briefdescription>
+<para>Shard payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/erasure_coding_backend.h" line="54" column="17" bodyfile="include/storage/erasure_coding_backend.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Encoded blob: the individual shards produced by <ref refid="classthemisdb_1_1storage_1_1_erasure_coding_backend_1a50b8ce0562b6483a4fa33d9dd3fea336" kindref="member">ErasureCodingBackend::encode()</ref>.</para>
+<para>Each shard carries its absolute index within the stripe (0 … k+m-1) so that the decoder can reconstruct the original data even when only a subset of shards is available. </para>
+    </detaileddescription>
+    <location file="include/storage/erasure_coding_backend.h" line="50" column="1" bodyfile="include/storage/erasure_coding_backend.h" bodystart="50" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_encoded_shard_1a7fc181f6b6f3a26c2d40924aa718030b" prot="public" virt="non-virtual"><scope>themisdb::storage::EncodedShard</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_encoded_shard_1a39b2bc41be3fee258d53213cbb3820b3" prot="public" virt="non-virtual"><scope>themisdb::storage::EncodedShard</scope><name>is_parity</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_encoded_shard_1a2ccc9a24f166ff8cb14cd456d408b85e" prot="public" virt="non-virtual"><scope>themisdb::storage::EncodedShard</scope><name>original_size</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_encoded_shard_1acfaf3aebf7c42d05da7770bb51cdeb19" prot="public" virt="non-virtual"><scope>themisdb::storage::EncodedShard</scope><name>shard_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

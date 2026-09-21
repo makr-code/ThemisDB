@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptInjectionDetector::DetectionResult</compoundname>
+    <includes refid="prompt__injection__detector_8h" local="no">prompt_injection_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a0720abf6d32f78244de867ef32f059a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptInjectionDetector::DetectionResult::is_injection</definition>
+        <argsstring></argsstring>
+        <name>is_injection</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::DetectionResult::is_injection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the overall risk score meets or exceeds the configured threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="62" column="14" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a002ba94d9dba1a715a5a62636c06456b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::prompt_engineering::PromptInjectionDetector::DetectionResult::risk_score</definition>
+        <argsstring></argsstring>
+        <name>risk_score</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::DetectionResult::risk_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Composite risk score in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="64" column="15" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1ac2862404600fc1b36fec311cacf92f7f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::PromptInjectionDetector::DetectionResult::matched_patterns</definition>
+        <argsstring></argsstring>
+        <name>matched_patterns</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::DetectionResult::matched_patterns</qualifiedname>
+        <briefdescription>
+<para>Human-readable list of patterns that contributed to the score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="66" column="21" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1abcc76ba6229a43444952a8ce6e43664b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptInjectionDetector::DetectionResult::sanitized_text</definition>
+        <argsstring></argsstring>
+        <name>sanitized_text</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::DetectionResult::sanitized_text</qualifiedname>
+        <briefdescription>
+<para>Version of the input with injection patterns replaced by &quot;[REDACTED]&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="68" column="21" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a5a13bbe52dca5ac92419479d5aa617ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptInjectionDetector::DetectionResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::DetectionResult::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON for audit logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="71" column="24" bodyfile="src/prompt_engineering/prompt_injection_detector.cpp" bodystart="25" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of an injection detection pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_injection_detector.h" line="60" column="5" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="60" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a0720abf6d32f78244de867ef32f059a6" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::DetectionResult</scope><name>is_injection</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1ac2862404600fc1b36fec311cacf92f7f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::DetectionResult</scope><name>matched_patterns</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a002ba94d9dba1a715a5a62636c06456b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::DetectionResult</scope><name>risk_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1abcc76ba6229a43444952a8ce6e43664b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::DetectionResult</scope><name>sanitized_text</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a5a13bbe52dca5ac92419479d5aa617ae" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::DetectionResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::MultiModelConflictScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario_1a64ed89aab868ece319833db34652b045" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::MultiModelConflictScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::MultiModelConflictScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="187" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario_1a54afddd8c26f0318f9934a4ec89ddaca" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::MultiModelConflictScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::MultiModelConflictScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="188" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="188" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Conflict Resolution Scenario 4: Multi-Model Conflicts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests simultaneous conflicts on multiple models.</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5 models, each with 100 versions</para>
+</listitem><listitem><para>Concurrent updates to multiple models from different nodes</para>
+</listitem><listitem><para>Conflicts on 3+ models simultaneously</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Replica 1 updates models M1, M2, M3 at same timestamp</para>
+</listitem><listitem><para>Replica 2 updates same models at same timestamp (concurrent)</para>
+</listitem><listitem><para>Detect conflicts on all 3 models</para>
+</listitem><listitem><para>Invoke callbacks for each conflict independently</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>All 3 conflicts resolved deterministically</para>
+</listitem><listitem><para>No interference between conflict resolutions</para>
+</listitem><listitem><para>Each model has unique winner (not cross-contaminated)</para>
+</listitem><listitem><para>Callback ordering consistent across replicas</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;100ms total for 3 simultaneous conflicts </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="185" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="185" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario_1a54afddd8c26f0318f9934a4ec89ddaca" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::MultiModelConflictScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario_1a64ed89aab868ece319833db34652b045" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::MultiModelConflictScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

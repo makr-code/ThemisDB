@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_hybrid_entity_matcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::HybridEntityMatcher</compoundname>
+    <includes refid="entity__matcher_8h" local="no">entity_matcher.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MatchStrategy</name>
+        <qualifiedname>themis::importers::HybridEntityMatcher::MatchStrategy</qualifiedname>
+        <enumvalue id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40da8aabf87604bc12fadb954886f5b164c1" prot="public">
+          <name>DETERMINISTIC_FIRST</name>
+          <briefdescription>
+<para>Exact match first, then fuzzy fallback. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40da064995b38dca3971c0f375a227f771aa" prot="public">
+          <name>SEMANTIC_FIRST</name>
+          <briefdescription>
+<para>Fuzzy first, then exact confirmation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40da4550830672a2a891c55aa43fff8a2d33" prot="public">
+          <name>WEIGHTED_ENSEMBLE</name>
+          <briefdescription>
+<para>Both in parallel, weighted combination. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="293" column="5" bodyfile="include/importers/entity_matcher.h" bodystart="293" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a3e6f9b7174fa2d0b68b713183ff4e8fa" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_deterministic_matcher" kindref="compound">DeterministicMatcher</ref></type>
+        <definition>DeterministicMatcher themis::importers::HybridEntityMatcher::det_matcher_</definition>
+        <argsstring></argsstring>
+        <name>det_matcher_</name>
+        <qualifiedname>themis::importers::HybridEntityMatcher::det_matcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="320" column="26" bodyfile="include/importers/entity_matcher.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1aa43195801fbc30ab9e57e43538c42e8b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_semantic_matcher" kindref="compound">SemanticMatcher</ref></type>
+        <definition>SemanticMatcher themis::importers::HybridEntityMatcher::sem_matcher_</definition>
+        <argsstring></argsstring>
+        <name>sem_matcher_</name>
+        <qualifiedname>themis::importers::HybridEntityMatcher::sem_matcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="321" column="27" bodyfile="include/importers/entity_matcher.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a64faaabd91dd59405e055622269d103d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::HybridEntityMatcher::HybridEntityMatcher</definition>
+        <argsstring>()=default</argsstring>
+        <name>HybridEntityMatcher</name>
+        <qualifiedname>themis::importers::HybridEntityMatcher::HybridEntityMatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="299" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1ae51d0dd07d2e08a6c42d83109c45d4ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_hybrid_match_result" kindref="compound">HybridMatchResult</ref> &gt;</type>
+        <definition>std::vector&lt; HybridMatchResult &gt; themis::importers::HybridEntityMatcher::findMatchingEntities</definition>
+        <argsstring>(const json &amp;incoming_entity, const std::vector&lt; json &gt; &amp;existing_entities, const std::vector&lt; std::string &gt; &amp;key_fields, MatchStrategy strategy, const SemanticMatchConfig &amp;sem_config, double threshold=0.85) const</argsstring>
+        <name>findMatchingEntities</name>
+        <qualifiedname>themis::importers::HybridEntityMatcher::findMatchingEntities</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>incoming_entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>existing_entities</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>key_fields</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40d" kindref="member">MatchStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_semantic_match_config" kindref="compound">SemanticMatchConfig</ref> &amp;</type>
+          <declname>sem_config</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+          <defval>0.85</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="301" column="17" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="639" bodyend="790"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a250949f51e8e506603cf4300deccaaf2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40d" kindref="member">MatchStrategy</ref></type>
+        <definition>HybridEntityMatcher::MatchStrategy themis::importers::HybridEntityMatcher::selectOptimalStrategy</definition>
+        <argsstring>(const std::vector&lt; FieldCharacteristics &gt; &amp;field_stats)</argsstring>
+        <name>selectOptimalStrategy</name>
+        <qualifiedname>themis::importers::HybridEntityMatcher::selectOptimalStrategy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_field_characteristics" kindref="compound">FieldCharacteristics</ref> &gt; &amp;</type>
+          <declname>field_stats</declname>
+        </param>
+        <briefdescription>
+<para>Select Optimal Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="315" column="26" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="793" bodyend="817"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/entity_matcher.h" line="291" column="1" bodyfile="include/importers/entity_matcher.h" bodystart="291" bodyend="322"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a3e6f9b7174fa2d0b68b713183ff4e8fa" prot="private" virt="non-virtual"><scope>themis::importers::HybridEntityMatcher</scope><name>det_matcher_</name></member>
+      <member refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1ae51d0dd07d2e08a6c42d83109c45d4ea" prot="public" virt="non-virtual"><scope>themis::importers::HybridEntityMatcher</scope><name>findMatchingEntities</name></member>
+      <member refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a64faaabd91dd59405e055622269d103d" prot="public" virt="non-virtual"><scope>themis::importers::HybridEntityMatcher</scope><name>HybridEntityMatcher</name></member>
+      <member refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40d" prot="public" virt="non-virtual"><scope>themis::importers::HybridEntityMatcher</scope><name>MatchStrategy</name></member>
+      <member refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a250949f51e8e506603cf4300deccaaf2" prot="public" virt="non-virtual"><scope>themis::importers::HybridEntityMatcher</scope><name>selectOptimalStrategy</name></member>
+      <member refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1aa43195801fbc30ab9e57e43538c42e8b" prot="private" virt="non-virtual"><scope>themis::importers::HybridEntityMatcher</scope><name>sem_matcher_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

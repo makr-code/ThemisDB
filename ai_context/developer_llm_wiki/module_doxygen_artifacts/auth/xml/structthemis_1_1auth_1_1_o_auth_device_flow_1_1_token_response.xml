@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::OAuthDeviceFlow::TokenResponse</compoundname>
+    <includes refid="oauth__device__flow_8h" local="no">oauth_device_flow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a16da990af351c2816e6a9c6121943c6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::TokenResponse::access_token</definition>
+        <argsstring></argsstring>
+        <name>access_token</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::TokenResponse::access_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="48" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a3325d8ec288b0593d40043e6aaccdac6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::TokenResponse::token_type</definition>
+        <argsstring></argsstring>
+        <name>token_type</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::TokenResponse::token_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="49" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a8becd1bab9061e43a9eb3fcf07a89a09" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::OAuthDeviceFlow::TokenResponse::expires_in</definition>
+        <argsstring></argsstring>
+        <name>expires_in</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::TokenResponse::expires_in</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="50" column="13" bodyfile="include/auth/oauth_device_flow.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a9f31d74a53cea4587fe37a2cbeaf8269" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::TokenResponse::refresh_token</definition>
+        <argsstring></argsstring>
+        <name>refresh_token</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::TokenResponse::refresh_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="51" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a823c40f5bd4e3632dba76d09dae52bbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::TokenResponse::scope</definition>
+        <argsstring></argsstring>
+        <name>scope</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::TokenResponse::scope</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="52" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a06a9605b20d8522a94707acac0e9b9b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::TokenResponse::id_token</definition>
+        <argsstring></argsstring>
+        <name>id_token</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::TokenResponse::id_token</qualifiedname>
+        <briefdescription>
+<para>OIDC id_token (if requested). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="53" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oauth_device_flow.h" line="47" column="5" bodyfile="include/auth/oauth_device_flow.h" bodystart="47" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a16da990af351c2816e6a9c6121943c6b" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::TokenResponse</scope><name>access_token</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a8becd1bab9061e43a9eb3fcf07a89a09" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::TokenResponse</scope><name>expires_in</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a06a9605b20d8522a94707acac0e9b9b9" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::TokenResponse</scope><name>id_token</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a9f31d74a53cea4587fe37a2cbeaf8269" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::TokenResponse</scope><name>refresh_token</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a823c40f5bd4e3632dba76d09dae52bbb" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::TokenResponse</scope><name>scope</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response_1a3325d8ec288b0593d40043e6aaccdac6" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::TokenResponse</scope><name>token_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FeedbackStore::ListOptions</compoundname>
+    <includes refid="feedback__store_8h" local="no">feedback_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a9a050c52f80edbc312dcfbc246bce48c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::ListOptions::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::llm::FeedbackStore::ListOptions::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="89" column="16" bodyfile="include/llm/feedback_store.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a99213d3671166e53c469228ad43a8e53" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::FeedbackStore::ListOptions::start_after_id</definition>
+        <argsstring></argsstring>
+        <name>start_after_id</name>
+        <qualifiedname>themis::llm::FeedbackStore::ListOptions::start_after_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="90" column="23" bodyfile="include/llm/feedback_store.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1af629372276557f84f1a41d70f9132a24" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017f" kindref="member">FeedbackType</ref> &gt;</type>
+        <definition>std::optional&lt;FeedbackType&gt; themis::llm::FeedbackStore::ListOptions::filter_type</definition>
+        <argsstring></argsstring>
+        <name>filter_type</name>
+        <qualifiedname>themis::llm::FeedbackStore::ListOptions::filter_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="91" column="23" bodyfile="include/llm/feedback_store.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1aafde95a84fb8f0113927f14d5c881a6b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1llm_1a154e8e11e190ff2a2ea67005dac56c9e" kindref="member">ValidationStatus</ref> &gt;</type>
+        <definition>std::optional&lt;ValidationStatus&gt; themis::llm::FeedbackStore::ListOptions::filter_status</definition>
+        <argsstring></argsstring>
+        <name>filter_status</name>
+        <qualifiedname>themis::llm::FeedbackStore::ListOptions::filter_status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="92" column="23" bodyfile="include/llm/feedback_store.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a11b1c7831cc0315f7589bdfb3f3d5cd2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::FeedbackStore::ListOptions::filter_model</definition>
+        <argsstring></argsstring>
+        <name>filter_model</name>
+        <qualifiedname>themis::llm::FeedbackStore::ListOptions::filter_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="93" column="23" bodyfile="include/llm/feedback_store.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a7548c170d1f1cac27bf890ba0f612b6b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::FeedbackStore::ListOptions::filter_adapter</definition>
+        <argsstring></argsstring>
+        <name>filter_adapter</name>
+        <qualifiedname>themis::llm::FeedbackStore::ListOptions::filter_adapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="94" column="23" bodyfile="include/llm/feedback_store.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a4330eb919277861e1d91e9fe171644e0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::llm::FeedbackStore::ListOptions::since_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>since_timestamp_ms</name>
+        <qualifiedname>themis::llm::FeedbackStore::ListOptions::since_timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="95" column="23" bodyfile="include/llm/feedback_store.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1ab856da0bdc4fe1f1dc9bbd8f866119bd" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; bool &gt;</type>
+        <definition>std::optional&lt;bool&gt; themis::llm::FeedbackStore::ListOptions::unused_for_training</definition>
+        <argsstring></argsstring>
+        <name>unused_for_training</name>
+        <qualifiedname>themis::llm::FeedbackStore::ListOptions::unused_for_training</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="96" column="23" bodyfile="include/llm/feedback_store.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/feedback_store.h" line="88" column="5" bodyfile="include/llm/feedback_store.h" bodystart="88" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a7548c170d1f1cac27bf890ba0f612b6b" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::ListOptions</scope><name>filter_adapter</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a11b1c7831cc0315f7589bdfb3f3d5cd2" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::ListOptions</scope><name>filter_model</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1aafde95a84fb8f0113927f14d5c881a6b" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::ListOptions</scope><name>filter_status</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1af629372276557f84f1a41d70f9132a24" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::ListOptions</scope><name>filter_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a9a050c52f80edbc312dcfbc246bce48c" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::ListOptions</scope><name>limit</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a4330eb919277861e1d91e9fe171644e0" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::ListOptions</scope><name>since_timestamp_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1a99213d3671166e53c469228ad43a8e53" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::ListOptions</scope><name>start_after_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options_1ab856da0bdc4fe1f1dc9bbd8f866119bd" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::ListOptions</scope><name>unused_for_training</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_subscription_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::SubscriptionEvent</compoundname>
+    <includes refid="subscription__multiplexer_8h" local="no">subscription_multiplexer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_subscription_event_1aa551c53164c27397935fac31930f83bd" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::api::SubscriptionEvent::event_id</definition>
+        <argsstring></argsstring>
+        <name>event_id</name>
+        <qualifiedname>themis::api::SubscriptionEvent::event_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="68" column="17" bodyfile="include/api/subscription_multiplexer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_subscription_event_1a2349410127e0702078955022d34f9bec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SubscriptionEvent::topic</definition>
+        <argsstring></argsstring>
+        <name>topic</name>
+        <qualifiedname>themis::api::SubscriptionEvent::topic</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="69" column="17" bodyfile="include/api/subscription_multiplexer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_subscription_event_1a3cc98d6e78800c5c7ef22e8a3096e03f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SubscriptionEvent::payload_json</definition>
+        <argsstring></argsstring>
+        <name>payload_json</name>
+        <qualifiedname>themis::api::SubscriptionEvent::payload_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="70" column="17" bodyfile="include/api/subscription_multiplexer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_subscription_event_1ac7922d71ad59741dd6751b67692b6b1d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::api::SubscriptionEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::api::SubscriptionEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/subscription_multiplexer.h" line="71" column="43" bodyfile="include/api/subscription_multiplexer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/subscription_multiplexer.h" line="67" column="1" bodyfile="include/api/subscription_multiplexer.h" bodystart="67" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_subscription_event_1aa551c53164c27397935fac31930f83bd" prot="public" virt="non-virtual"><scope>themis::api::SubscriptionEvent</scope><name>event_id</name></member>
+      <member refid="structthemis_1_1api_1_1_subscription_event_1a3cc98d6e78800c5c7ef22e8a3096e03f" prot="public" virt="non-virtual"><scope>themis::api::SubscriptionEvent</scope><name>payload_json</name></member>
+      <member refid="structthemis_1_1api_1_1_subscription_event_1ac7922d71ad59741dd6751b67692b6b1d" prot="public" virt="non-virtual"><scope>themis::api::SubscriptionEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1api_1_1_subscription_event_1a2349410127e0702078955022d34f9bec" prot="public" virt="non-virtual"><scope>themis::api::SubscriptionEvent</scope><name>topic</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_recover_model_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::RecoverModelRequest</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_request_1afa7a88356d70e8c61d83c2640550b1a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RecoverModelRequest::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::RecoverModelRequest::model_id</qualifiedname>
+        <briefdescription>
+<para>Model ID to recover. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="384" column="17" bodyfile="include/process/model_history_contract.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_request_1abcc2fbc82b80ab21a15d66006e034aa5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::RecoverModelRequest::target_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>target_timestamp_ns</name>
+        <qualifiedname>themis::process::RecoverModelRequest::target_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Target timestamp (UTC, nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="387" column="13" bodyfile="include/process/model_history_contract.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_request_1abe099c2c239785bcbf30e54cec23338a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RecoverModelRequest::actor</definition>
+        <argsstring></argsstring>
+        <name>actor</name>
+        <qualifiedname>themis::process::RecoverModelRequest::actor</qualifiedname>
+        <briefdescription>
+<para>Principal ID performing recovery (for audit trail). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="390" column="17" bodyfile="include/process/model_history_contract.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_request_1a3c3e6a3ca49d2244b477987f4563a47e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RecoverModelRequest::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::process::RecoverModelRequest::reason</qualifiedname>
+        <briefdescription>
+<para>Reason for recovery (for audit trail). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="393" column="17" bodyfile="include/process/model_history_contract.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_request_1a4cccb7e840614a21b3060bf9a5a24660" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::RecoverModelRequest::validate_before_apply</definition>
+        <argsstring></argsstring>
+        <name>validate_before_apply</name>
+        <qualifiedname>themis::process::RecoverModelRequest::validate_before_apply</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>If true: validate recovered model before applying. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="396" column="10" bodyfile="include/process/model_history_contract.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_request_1aecdf0ff7fd0b20791b9ce9e675fa71d1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::RecoverModelRequest::create_backup</definition>
+        <argsstring></argsstring>
+        <name>create_backup</name>
+        <qualifiedname>themis::process::RecoverModelRequest::create_backup</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>If true: create backup of current model before overwriting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="399" column="10" bodyfile="include/process/model_history_contract.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_request_1a9a71fc7c69a38c3f4d1e8e31d4c43531" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RecoverModelRequest::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::RecoverModelRequest::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="402" column="17" bodyfile="include/process/model_history_contract.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Request to recover a model to a specific point in time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="382" column="1" bodyfile="include/process/model_history_contract.h" bodystart="382" bodyend="403"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_recover_model_request_1abe099c2c239785bcbf30e54cec23338a" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelRequest</scope><name>actor</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_request_1aecdf0ff7fd0b20791b9ce9e675fa71d1" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelRequest</scope><name>create_backup</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_request_1afa7a88356d70e8c61d83c2640550b1a6" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelRequest</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_request_1a3c3e6a3ca49d2244b477987f4563a47e" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelRequest</scope><name>reason</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_request_1abcc2fbc82b80ab21a15d66006e034aa5" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelRequest</scope><name>target_timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_request_1a9a71fc7c69a38c3f4d1e8e31d4c43531" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelRequest</scope><name>trace_id</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_request_1a4cccb7e840614a21b3060bf9a5a24660" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelRequest</scope><name>validate_before_apply</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

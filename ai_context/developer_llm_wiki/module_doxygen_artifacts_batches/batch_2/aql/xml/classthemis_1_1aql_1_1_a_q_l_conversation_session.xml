@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_conversation_session" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLConversationSession</compoundname>
+    <includes refid="llm__aql__handler_8h" local="no">llm_aql_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_conversation_session_1ae0bbf8af6176ddbc07de6ac32303eca0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_conversation_turn" kindref="compound">ConversationTurn</ref> &gt;</type>
+        <definition>std::vector&lt;ConversationTurn&gt; themis::aql::AQLConversationSession::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::aql::AQLConversationSession::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="104" column="17" bodyfile="include/aql/llm_aql_handler.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a730edc9dce58058dbde263fb7af5cec3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLConversationSession::addTurn</definition>
+        <argsstring>(const std::string &amp;nl_query, const std::string &amp;aql_result)</argsstring>
+        <name>addTurn</name>
+        <qualifiedname>themis::aql::AQLConversationSession::addTurn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_result</declname>
+        </param>
+        <briefdescription>
+<para>Add Turn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nl_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nl_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="78" column="10" bodyfile="src/aql/llm_aql_handler.cpp" bodystart="510" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a0c0c65d7d49d9a875ccd56f45763da99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_conversation_turn" kindref="compound">ConversationTurn</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; ConversationTurn &gt; &amp; themis::aql::AQLConversationSession::getHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themis::aql::AQLConversationSession::getHistory</qualifiedname>
+        <briefdescription>
+<para>Return a bounded slice of the recent retention action history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Most recent actions, or the full history when the limit is zero or oversized. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="84" column="23" bodyfile="src/aql/llm_aql_handler.cpp" bodystart="514" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a4e99c59fa8dedbadbee32909abc92f4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLConversationSession::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::aql::AQLConversationSession::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="89" column="10" bodyfile="src/aql/llm_aql_handler.cpp" bodystart="522" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a3dfdaae436ed695dcfb4cae840cd896d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLConversationSession::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::aql::AQLConversationSession::empty</qualifiedname>
+        <briefdescription>
+<para>Empty. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="95" column="10" bodyfile="src/aql/llm_aql_handler.cpp" bodystart="526" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_conversation_session_1af1fc2cb67bba20df3ff05dcde363a9fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLConversationSession::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::aql::AQLConversationSession::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="101" column="17" bodyfile="src/aql/llm_aql_handler.cpp" bodystart="530" bodyend="532"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_aql_handler.h" line="71" column="1" bodyfile="include/aql/llm_aql_handler.h" bodystart="71" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a730edc9dce58058dbde263fb7af5cec3" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationSession</scope><name>addTurn</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a4e99c59fa8dedbadbee32909abc92f4a" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationSession</scope><name>clear</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a3dfdaae436ed695dcfb4cae840cd896d" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationSession</scope><name>empty</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a0c0c65d7d49d9a875ccd56f45763da99" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationSession</scope><name>getHistory</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1ae0bbf8af6176ddbc07de6ac32303eca0" prot="private" virt="non-virtual"><scope>themis::aql::AQLConversationSession</scope><name>history_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1af1fc2cb67bba20df3ff05dcde363a9fa" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationSession</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

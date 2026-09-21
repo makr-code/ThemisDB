@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_raft_vote_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::RaftVoteRequest</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_request_1ae219f57a5af847b20a81d2feaf4f3349" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::RaftVoteRequest::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themis::process::RaftVoteRequest::term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Election term (monotonically increasing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="264" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_request_1a55c60fd56f819b57c3a1b9a890cd8f53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RaftVoteRequest::candidate_id</definition>
+        <argsstring></argsstring>
+        <name>candidate_id</name>
+        <qualifiedname>themis::process::RaftVoteRequest::candidate_id</qualifiedname>
+        <briefdescription>
+<para>Shard ID of the candidate requesting vote. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="267" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_request_1ab8533877ca318356a8c496a68cdbda5e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::RaftVoteRequest::last_log_index</definition>
+        <argsstring></argsstring>
+        <name>last_log_index</name>
+        <qualifiedname>themis::process::RaftVoteRequest::last_log_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index of candidate&apos;s last log entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="270" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_request_1aaacc6001219e2459ec06d52e6fb95485" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::RaftVoteRequest::last_log_term</definition>
+        <argsstring></argsstring>
+        <name>last_log_term</name>
+        <qualifiedname>themis::process::RaftVoteRequest::last_log_term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Term of candidate&apos;s last log entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="273" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_request_1ad725c37afca966e698776f61fbb444c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RaftVoteRequest::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::RaftVoteRequest::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="276" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vote request for Raft leader election. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federated_consensus_contract.h" line="262" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="262" bodyend="277"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_raft_vote_request_1a55c60fd56f819b57c3a1b9a890cd8f53" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteRequest</scope><name>candidate_id</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_vote_request_1ab8533877ca318356a8c496a68cdbda5e" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteRequest</scope><name>last_log_index</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_vote_request_1aaacc6001219e2459ec06d52e6fb95485" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteRequest</scope><name>last_log_term</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_vote_request_1ae219f57a5af847b20a81d2feaf4f3349" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteRequest</scope><name>term</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_vote_request_1ad725c37afca966e698776f61fbb444c8" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteRequest</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

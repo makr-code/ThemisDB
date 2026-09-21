@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_migrator_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalMigratorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_migrator_test_1a63d55fd6db81cf1b0c85bae5af4f35d7" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator" kindref="compound">TemporalMigrator</ref></type>
+        <definition>TemporalMigrator TemporalMigratorTest::migrator</definition>
+        <argsstring></argsstring>
+        <name>migrator</name>
+        <qualifiedname>TemporalMigratorTest::migrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_migrator.cpp" line="29" column="22" bodyfile="tests/temporal/test_temporal_migrator.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_temporal_migrator_test_1a3d19147f1aa9cb85f038b8aebfcc119e" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &gt;</type>
+        <definition>static std::unordered_map&lt; std::string, Document &gt; TemporalMigratorTest::makeSourceDocs</definition>
+        <argsstring>(int n=5, const std::string &amp;prefix=&quot;emp&quot;)</argsstring>
+        <name>makeSourceDocs</name>
+        <qualifiedname>TemporalMigratorTest::makeSourceDocs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+          <defval>5</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;emp&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_migrator.cpp" line="32" column="31" bodyfile="tests/temporal/test_temporal_migrator.cpp" bodystart="32" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_temporal_migrator_test_1a524fb60516a7d8e6ea81c8ea8eabbff9" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>static std::vector&lt; VersionedDocument &gt; TemporalMigratorTest::makeHistory</definition>
+        <argsstring>(const std::string &amp;key, int versions)</argsstring>
+        <name>makeHistory</name>
+        <qualifiedname>TemporalMigratorTest::makeHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>versions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_migrator.cpp" line="48" column="24" bodyfile="tests/temporal/test_temporal_migrator.cpp" bodystart="48" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalMigratorTest</label>
+        <link refid="class_temporal_migrator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalMigratorTest</label>
+        <link refid="class_temporal_migrator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>migrator</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalMigrator</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_migrator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_migrator.cpp" line="27" column="1" bodyfile="tests/temporal/test_temporal_migrator.cpp" bodystart="27" bodyend="63"/>
+    <listofallmembers>
+      <member refid="class_temporal_migrator_test_1a524fb60516a7d8e6ea81c8ea8eabbff9" prot="protected" virt="non-virtual"><scope>TemporalMigratorTest</scope><name>makeHistory</name></member>
+      <member refid="class_temporal_migrator_test_1a3d19147f1aa9cb85f038b8aebfcc119e" prot="protected" virt="non-virtual"><scope>TemporalMigratorTest</scope><name>makeSourceDocs</name></member>
+      <member refid="class_temporal_migrator_test_1a63d55fd6db81cf1b0c85bae5af4f35d7" prot="protected" virt="non-virtual"><scope>TemporalMigratorTest</scope><name>migrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

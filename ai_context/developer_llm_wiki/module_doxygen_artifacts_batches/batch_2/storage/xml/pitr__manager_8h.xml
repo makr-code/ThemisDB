@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="pitr__manager_8h" kind="file" language="C++">
+    <compoundname>pitr_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">cdc/changefeed.h</includes>
+    <includes local="yes">transaction/snapshot_manager.h</includes>
+    <includedby refid="pitr__manager_8cpp" local="yes">src/storage/pitr_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/pitr_manager.h</label>
+        <link refid="pitr__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>cdc/changefeed.h</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>transaction/snapshot_manager.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/pitr_manager.h</label>
+        <link refid="pitr__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/pitr_manager.cpp</label>
+        <link refid="pitr__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_p_i_t_r_manager" prot="public">themis::PITRManager</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" prot="public">themis::PITRManager::RestoreOptions</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" prot="public">themis::PITRManager::RestorePreview</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" prot="public">themis::PITRManager::RestoreProgress</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_manager_1_1_status" prot="public">themis::PITRManager::Status</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cdc/changefeed.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/snapshot_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1transaction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">transaction</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SnapshotManager;<sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1_p_i_t_r_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a97e850ab6b054f79c269c3a73c18f629" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a97e850ab6b054f79c269c3a73c18f629" kindref="member">dry_run</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Preview<sp/>only,<sp/>don&apos;t<sp/>apply<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a8d40d6d197ca70c1b77ba9bb74977765" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a8d40d6d197ca70c1b77ba9bb74977765" kindref="member">create_backup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-backup<sp/>before<sp/>restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a7432980924b2301fdc0d1b6aedc9af3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a7432980924b2301fdc0d1b6aedc9af3d" kindref="member">abort_on_first_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>immediately<sp/>on<sp/>first<sp/>replay<sp/>error;<sp/>otherwise<sp/>continue<sp/>scanning<sp/>but<sp/>still<sp/>fail<sp/>closed<sp/>at<sp/>end</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a1882e0c8323b104ed3d204775b5ae2cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a1882e0c8323b104ed3d204775b5ae2cd" kindref="member">tables</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>=<sp/>all<sp/>tables,<sp/>otherwise<sp/>selective</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a36aff18382560cf461c64aff4d24063c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a36aff18382560cf461c64aff4d24063c" kindref="member">max_events_to_replay</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>unlimited,<sp/>otherwise<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1ac617ce5e43fe4542ff141a3d52e84f91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1ac617ce5e43fe4542ff141a3d52e84f91" kindref="member">backup_tag</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;before_pitr_restore&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Tag<sp/>name<sp/>for<sp/>auto-backup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" kindref="compound">RestorePreview</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a8040978862bdd90b1537f3ca245de4b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a8040978862bdd90b1537f3ca245de4b9" kindref="member">target_sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>sequence<sp/>to<sp/>restore<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a22ecbccbb6b14d8a5fcd997a66831ef4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a22ecbccbb6b14d8a5fcd997a66831ef4" kindref="member">current_sequence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>sequence<sp/>before<sp/>restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ae813fcb0a1b02bfd4d323409429f2c8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ae813fcb0a1b02bfd4d323409429f2c8e" kindref="member">events_to_replay</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>events<sp/>to<sp/>replay<sp/>backward</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1acd8d0abe020a0f5b923da5552a0abee9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1acd8d0abe020a0f5b923da5552a0abee9" kindref="member">affected_tables</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tables<sp/>that<sp/>will<sp/>be<sp/>affected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ab3579b54ab4d3429be7efba52e37a54b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ab3579b54ab4d3429be7efba52e37a54b" kindref="member">affected_keys</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sample<sp/>of<sp/>keys<sp/>(first<sp/>100)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ad0363f1b7bc98ba357a1fefdb0e92f79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ad0363f1b7bc98ba357a1fefdb0e92f79" kindref="member">estimated_duration_sec</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>time<sp/>to<sp/>complete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a2c34e13279b67db0e261d2c6f9a62865" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a2c34e13279b67db0e261d2c6f9a62865" kindref="member">estimated_size_bytes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>data<sp/>size<sp/>to<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884" kindref="member">Phase</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a06972acc3aafeb3a65dbd996c8dedc73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a06972acc3aafeb3a65dbd996c8dedc73" kindref="member">NOT_STARTED</ref>,</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aaa62496d863cb93243a9846e93632c34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aaa62496d863cb93243a9846e93632c34" kindref="member">CREATING_BACKUP</ref>,</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aff9726ecf722ce2a076e7cf705a073f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aff9726ecf722ce2a076e7cf705a073f7" kindref="member">VALIDATING</ref>,</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a25c8863aff7d586f2ac40cb218555a5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a25c8863aff7d586f2ac40cb218555a5c" kindref="member">REPLAYING_EVENTS</ref>,</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a001d8fa76b26eee4f6d7c8a8d44c73ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a001d8fa76b26eee4f6d7c8a8d44c73ef" kindref="member">COMMITTING</ref>,</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aed701d1c3d474e00c7a2f416f8d6858c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aed701d1c3d474e00c7a2f416f8d6858c" kindref="member">ROLLED_BACK</ref></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a96cf50617cf6fb4d82449c8c913d340f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884" kindref="member">Phase</ref><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a96cf50617cf6fb4d82449c8c913d340f" kindref="member">phase</ref><sp/>=<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a06972acc3aafeb3a65dbd996c8dedc73" kindref="member">Phase::NOT_STARTED</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1aea3129a70def7bb67654bfe4e33a7127" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1aea3129a70def7bb67654bfe4e33a7127" kindref="member">events_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a9fce2be30495d0191418769f37d0b1f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a9fce2be30495d0191418769f37d0b1f2" kindref="member">total_events</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a4fbdcdffeaad09f6d42f03724c6cb105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a4fbdcdffeaad09f6d42f03724c6cb105" kindref="member">current_table</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ad3fcda2b8750ea3b051d89f3a6cdbc2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ad3fcda2b8750ea3b051d89f3a6cdbc2e" kindref="member">last_error</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a8be7101ccdd09195181fc94635609798" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a8be7101ccdd09195181fc94635609798" kindref="member">start_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ac7224ed2cf9ec979ffce3503117d8649" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ac7224ed2cf9ec979ffce3503117d8649" kindref="member">end_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a7046b9b33d5b35cf5d5b7e5cc931af61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a7046b9b33d5b35cf5d5b7e5cc931af61" kindref="member">getProgressPercent</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a9fce2be30495d0191418769f37d0b1f2" kindref="member">total_events</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1aea3129a70def7bb67654bfe4e33a7127" kindref="member">events_processed</ref>)<sp/>/<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a9fce2be30495d0191418769f37d0b1f2" kindref="member">total_events</ref>)<sp/>*<sp/>100.0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1abc428d42f7a18aa37336e33aab31b2d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1abc428d42f7a18aa37336e33aab31b2d1" kindref="member">getElapsedMs</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a8be7101ccdd09195181fc94635609798" kindref="member">start_time_ms</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>end<sp/>=<sp/>(<ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ac7224ed2cf9ec979ffce3503117d8649" kindref="member">end_time_ms</ref><sp/>&gt;<sp/>0)<sp/>?<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ac7224ed2cf9ec979ffce3503117d8649" kindref="member">end_time_ms</ref><sp/>:<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a3f209f61543409753e38c70867086678" kindref="member">getCurrentTimeMs</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>end<sp/>-<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a8be7101ccdd09195181fc94635609798" kindref="member">start_time_ms</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a3f209f61543409753e38c70867086678" kindref="member">getCurrentTimeMs</ref>();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_p_i_t_r_manager_1_1_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a50a5601c74090dab96c045f30a46da38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a50a5601c74090dab96c045f30a46da38" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1ad0cbfbf1ba6340d70b55630f91188360" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1ad0cbfbf1ba6340d70b55630f91188360" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1af05eab883b4e226aa11fb03b8cd75b63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;RestoreProgress&gt;<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1af05eab883b4e226aa11fb03b8cd75b63" kindref="member">progress</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0199f41d79364eece738a10932b90ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0199f41d79364eece738a10932b90ced" kindref="member">OK</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>std::nullopt};<sp/>}</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg),<sp/>std::nullopt};<sp/>}</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0811b6982b205c47c4e64e1abf7d1f6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0811b6982b205c47c4e64e1abf7d1f6d" kindref="member">WithProgress</ref>(<ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref><sp/>prog)<sp/>{<sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{prog.<ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a96cf50617cf6fb4d82449c8c913d340f" kindref="member">phase</ref><sp/>==<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">RestoreProgress::Phase::COMPLETED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>prog};<sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>*<sp/>db,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Changefeed*<sp/>changefeed,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transaction::SnapshotManager*<sp/>snapshot_mgr);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1_p_i_t_r_manager_1a6d60f0a96ed7702a2104b402903afb0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a6d60f0a96ed7702a2104b402903afb0e" kindref="member">~PITRManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1_p_i_t_r_manager_1a69e099e5344539931fe1c0139b910df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a69e099e5344539931fe1c0139b910df9" kindref="member">PITRManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1_p_i_t_r_manager_1aa5497e8ce033346ddd53239f190b82c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref>&amp;<sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1aa5497e8ce033346ddd53239f190b82c8" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1_p_i_t_r_manager_1a15d237bd58f0552736659827551f4203" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a15d237bd58f0552736659827551f4203" kindref="member">PITRManager</ref>(<ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1_p_i_t_r_manager_1a038fe6176d607c43eb111851b2296560" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a2fdb16b40ee69ef9eb6d7001e5ce12a0" kindref="member">restoreToSequence</ref>(uint64_t<sp/>target_sequence,<sp/>const<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref>&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a2fdb16b40ee69ef9eb6d7001e5ce12a0" kindref="member">restoreToSequence</ref>(uint64_t<sp/>target_sequence);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a705ca4b5a3743c8e674a6747c880ba99" kindref="member">restoreToTag</ref>(const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>tag_name,<sp/>const<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref>&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a705ca4b5a3743c8e674a6747c880ba99" kindref="member">restoreToTag</ref>(const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>tag_name);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1ababb9690b93bb30763c0807f9095ede7" kindref="member">restoreToTimestamp</ref>(int64_t<sp/>timestamp_ms,<sp/>const<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref>&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1ababb9690b93bb30763c0807f9095ede7" kindref="member">restoreToTimestamp</ref>(int64_t<sp/>timestamp_ms);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" kindref="compound">RestorePreview</ref><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a2529ff6a3a53720a520ec888e1af62e4" kindref="member">previewRestore</ref>(uint64_t<sp/>target_sequence,<sp/>const<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref>&amp;<sp/>options)<sp/>const;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" kindref="compound">RestorePreview</ref><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a2529ff6a3a53720a520ec888e1af62e4" kindref="member">previewRestore</ref>(uint64_t<sp/>target_sequence)<sp/>const;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;<ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref>&gt;<sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1ac47ac9a78a0459bf32ce145ecbc55731" kindref="member">getProgress</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a739a849a09c75663af9e89ce56fbb688" kindref="member">isRestoreInProgress</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1a267a4d4ebd540b0900515d1d27aff7fc" kindref="member">getSequenceForTag</ref>(const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>tag_name)<sp/>const;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1_p_i_t_r_manager_1affe52a821ad8039d522c8a40e25bbf15" kindref="member">getSequenceForTimestamp</ref>(int64_t<sp/>timestamp_ms)<sp/>const;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>*<sp/>db_;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>Changefeed*<sp/>changefeed_;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction" kindref="compound">transaction</ref>::SnapshotManager*<sp/>snapshot_mgr_;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Progress<sp/>tracking<sp/>(mutable<sp/>for<sp/>thread-safe<sp/>updates)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref><sp/>progress_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;uint64_t&gt;<sp/>findSequenceForTimestamp(int64_t<sp/>timestamp_ms)<sp/>const;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/>replayBackward(uint64_t<sp/>from_sequence,<sp/>uint64_t<sp/>to_sequence,<sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref>&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/>applyEventReverse(const<sp/>Changefeed::ChangeEvent&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/>createAutoBackup(const<sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref>&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref><sp/>validate(uint64_t<sp/>target_sequence,<sp/>uint64_t<sp/>current_sequence)<sp/>const;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateProgress(<ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref>::Phase<sp/>phase,<sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/pitr_manager.h"/>
+  </compounddef>
+</doxygen>

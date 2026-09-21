@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::training::RLAIFTrainerFactory</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory_1a8f3dfbe62655fbde2191e25dbddeae27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref></type>
+        <definition>RLAIFTrainer themis::rag::training::RLAIFTrainerFactory::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerFactory::createDefault</qualifiedname>
+        <briefdescription>
+<para>Create a standard trainer with default principles and heuristic judge. Suitable for testing and offline dataset generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Default.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefault without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="525" column="25" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="677" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory_1a6d378f9aa815fa2b1a5f9d50b5f6b29d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref></type>
+        <definition>RLAIFTrainer themis::rag::training::RLAIFTrainerFactory::createStrict</definition>
+        <argsstring>(std::shared_ptr&lt; IAIJudge &gt; judge=nullptr)</argsstring>
+        <name>createStrict</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerFactory::createStrict</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge" kindref="compound">IAIJudge</ref> &gt;</type>
+          <declname>judge</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a strict trainer: 5 revision iterations, high quality threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Strict.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional AI judge; nullptr uses heuristic.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: trainer(), std::move(), loadDefaultPrinciples(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="532" column="25" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="688" bodyend="698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory_1a4375e270ef69e4a2aeb105e09e83d41e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref></type>
+        <definition>RLAIFTrainer themis::rag::training::RLAIFTrainerFactory::createFast</definition>
+        <argsstring>(std::shared_ptr&lt; IAIJudge &gt; judge=nullptr)</argsstring>
+        <name>createFast</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerFactory::createFast</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge" kindref="compound">IAIJudge</ref> &gt;</type>
+          <declname>judge</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a fast trainer: 1 revision iteration, lower threshold. Optimised for throughput over quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Fast.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional AI judge; nullptr uses heuristic.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: trainer(), std::move(), loadDefaultPrinciples(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="540" column="25" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="706" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory_1a2d4d39bc343a9074ce5a535697b3192b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref></type>
+        <definition>RLAIFTrainer themis::rag::training::RLAIFTrainerFactory::createWithJudge</definition>
+        <argsstring>(std::shared_ptr&lt; IAIJudge &gt; judge, const RLAIFConfig &amp;config={})</argsstring>
+        <name>createWithJudge</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerFactory::createWithJudge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge" kindref="compound">IAIJudge</ref> &gt;</type>
+          <declname>judge</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" kindref="compound">RLAIFConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a trainer with a custom AI judge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create With Judge.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AI judge implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: trainer(), std::move(), getPrinciples(), empty(), loadDefaultPrinciples(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="548" column="25" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="725" bodyend="733"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="519" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="519" bodyend="551"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory_1a8f3dfbe62655fbde2191e25dbddeae27" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerFactory</scope><name>createDefault</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory_1a4375e270ef69e4a2aeb105e09e83d41e" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerFactory</scope><name>createFast</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory_1a6d378f9aa815fa2b1a5f9d50b5f6b29d" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerFactory</scope><name>createStrict</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory_1a2d4d39bc343a9074ce5a535697b3192b" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerFactory</scope><name>createWithJudge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

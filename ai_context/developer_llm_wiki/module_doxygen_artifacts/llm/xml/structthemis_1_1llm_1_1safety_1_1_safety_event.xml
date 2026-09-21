@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1safety_1_1_safety_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::safety::SafetyEvent</compoundname>
+    <includes refid="monitoring_8h" local="no">monitoring.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_event_1aac7e20626cfb5e7849b537ad10bb9e76" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::safety::SafetyEvent::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::llm::safety::SafetyEvent::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="30" column="17" bodyfile="include/llm/safety/monitoring.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_event_1ab829f7f5d0204e77c6d60d87a328c506" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5" kindref="member">SafetyEventType</ref></type>
+        <definition>SafetyEventType themis::llm::safety::SafetyEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::safety::SafetyEvent::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a9725825c796122ef40f01b2d8794f902" kindref="member">SafetyEventType::ALLOWED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="31" column="21" bodyfile="include/llm/safety/monitoring.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_event_1a631185e0de2f514c537ab809053ed195" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::safety::SafetyEvent::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::safety::SafetyEvent::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="32" column="17" bodyfile="include/llm/safety/monitoring.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_event_1aa5463c1477926ac5d4da9eda423130dc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::safety::SafetyEvent::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::llm::safety::SafetyEvent::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="33" column="12" bodyfile="include/llm/safety/monitoring.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_event_1a6b91e9c3948e51c182e69d60a07b80cc" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::llm::safety::SafetyEvent::unix_ms</definition>
+        <argsstring></argsstring>
+        <name>unix_ms</name>
+        <qualifiedname>themis::llm::safety::SafetyEvent::unix_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="34" column="18" bodyfile="include/llm/safety/monitoring.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/safety/monitoring.h" line="29" column="1" bodyfile="include/llm/safety/monitoring.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1aa5463c1477926ac5d4da9eda423130dc" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyEvent</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1a631185e0de2f514c537ab809053ed195" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyEvent</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1aac7e20626cfb5e7849b537ad10bb9e76" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyEvent</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1ab829f7f5d0204e77c6d60d87a328c506" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyEvent</scope><name>type</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1a6b91e9c3948e51c182e69d60a07b80cc" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyEvent</scope><name>unix_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::RateLimiter</compoundname>
+    <includes refid="cache__metrics_8h" local="no">cache_metrics.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_rate_limiter_1_1_config" prot="public">themis::cache::RateLimiter::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_rate_limiter_1a18302f77e5ee10abb105cba8d665006f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_rate_limiter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::cache::RateLimiter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cache::RateLimiter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="477" column="12" bodyfile="include/cache/cache_metrics.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_rate_limiter_1a44d8f2ae9f19817466511039f0efc0cd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::cache::RateLimiter::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::cache::RateLimiter::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="478" column="17" bodyfile="include/cache/cache_metrics.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_rate_limiter_1a914fd47869c7177229c47cbee2480f95" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::chrono::steady_clock::time_point &gt;</type>
+        <definition>std::atomic&lt;std::chrono::steady_clock::time_point&gt; themis::cache::RateLimiter::last_refill_time_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_time_</name>
+        <qualifiedname>themis::cache::RateLimiter::last_refill_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="479" column="17" bodyfile="include/cache/cache_metrics.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_rate_limiter_1af462c074e75536d362fba138401d2e60" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::RateLimiter::RateLimiter</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>RateLimiter</name>
+        <qualifiedname>themis::cache::RateLimiter::RateLimiter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_rate_limiter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1cache_1_1_rate_limiter_1_1_config_1afd8433d0eb27292e8ce35ae097c87beb" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="414" column="14" bodyfile="include/cache/cache_metrics.h" bodystart="414" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_rate_limiter_1a367b3d15c8afa781a11d9377aaf49c77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RateLimiter::tryAcquire</definition>
+        <argsstring>()</argsstring>
+        <name>tryAcquire</name>
+        <qualifiedname>themis::cache::RateLimiter::tryAcquire</qualifiedname>
+        <briefdescription>
+<para>Try Acquire. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: refillTokens(), load(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="428" column="10" bodyfile="include/cache/cache_metrics.h" bodystart="428" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_rate_limiter_1a4c031574ceda0846024f9c54ed9252a4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::RateLimiter::availableTokens</definition>
+        <argsstring>() const</argsstring>
+        <name>availableTokens</name>
+        <qualifiedname>themis::cache::RateLimiter::availableTokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="440" column="14" bodyfile="include/cache/cache_metrics.h" bodystart="440" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_rate_limiter_1aa8f4e720621f3836da510010abe7f157" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RateLimiter::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::cache::RateLimiter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="448" column="10" bodyfile="include/cache/cache_metrics.h" bodystart="448" bodyend="451"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_rate_limiter_1ac9dce609120204080d218a63aa128d3f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RateLimiter::refillTokens</definition>
+        <argsstring>()</argsstring>
+        <name>refillTokens</name>
+        <qualifiedname>themis::cache::RateLimiter::refillTokens</qualifiedname>
+        <briefdescription>
+<para>Refill Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), load(), count(), std::min(), compare_exchange_strong(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="458" column="10" bodyfile="include/cache/cache_metrics.h" bodystart="458" bodyend="475"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_metrics.h" line="401" column="1" bodyfile="include/cache/cache_metrics.h" bodystart="401" bodyend="480"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_rate_limiter_1a4c031574ceda0846024f9c54ed9252a4" prot="public" virt="non-virtual"><scope>themis::cache::RateLimiter</scope><name>availableTokens</name></member>
+      <member refid="classthemis_1_1cache_1_1_rate_limiter_1a18302f77e5ee10abb105cba8d665006f" prot="private" virt="non-virtual"><scope>themis::cache::RateLimiter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cache_1_1_rate_limiter_1a914fd47869c7177229c47cbee2480f95" prot="private" virt="non-virtual"><scope>themis::cache::RateLimiter</scope><name>last_refill_time_</name></member>
+      <member refid="classthemis_1_1cache_1_1_rate_limiter_1af462c074e75536d362fba138401d2e60" prot="public" virt="non-virtual"><scope>themis::cache::RateLimiter</scope><name>RateLimiter</name></member>
+      <member refid="classthemis_1_1cache_1_1_rate_limiter_1ac9dce609120204080d218a63aa128d3f" prot="private" virt="non-virtual"><scope>themis::cache::RateLimiter</scope><name>refillTokens</name></member>
+      <member refid="classthemis_1_1cache_1_1_rate_limiter_1aa8f4e720621f3836da510010abe7f157" prot="public" virt="non-virtual"><scope>themis::cache::RateLimiter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1cache_1_1_rate_limiter_1a44d8f2ae9f19817466511039f0efc0cd" prot="private" virt="non-virtual"><scope>themis::cache::RateLimiter</scope><name>tokens_</name></member>
+      <member refid="classthemis_1_1cache_1_1_rate_limiter_1a367b3d15c8afa781a11d9377aaf49c77" prot="public" virt="non-virtual"><scope>themis::cache::RateLimiter</scope><name>tryAcquire</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

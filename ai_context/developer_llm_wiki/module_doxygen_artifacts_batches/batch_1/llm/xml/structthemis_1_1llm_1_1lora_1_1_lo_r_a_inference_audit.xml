@@ -1,0 +1,422 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAInferenceAudit</compoundname>
+    <includes refid="lora__audit__logger_8h" local="no">lora_audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a63bfb0d60db07f0e88599f3949978d40" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::lora::LoRAInferenceAudit::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="95" column="43" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a161f460daed757a8b92029894beb325e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::lora::LoRAInferenceAudit::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="96" column="31" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a6a743d9b5ed6f917222c8f5c31d89efc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="99" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a21a37abcb6066eca8d793ff2b2ce4e7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="100" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1acf19deb6087ef4ef4148b84e3ee764b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="101" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a4eddce198b4159c9b8cafdb0139d9db5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::base_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="104" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a287b55d7f7b042a8ea421a6a4c8be115" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::base_model_version</definition>
+        <argsstring></argsstring>
+        <name>base_model_version</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::base_model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="105" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a70e9e3af185f01fba1830150e577ecca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="106" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ac732279c9c3f0ef346abe993ed30d5b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::adapter_version</definition>
+        <argsstring></argsstring>
+        <name>adapter_version</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::adapter_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="107" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a49c50af06b50ea1a136420614b8d6051" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::adapter_hash</definition>
+        <argsstring></argsstring>
+        <name>adapter_hash</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::adapter_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="108" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a4c3494cd0d30a4d01dffe034063b539d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="111" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1af1b7d45aea0eb737880af89b9086f21c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="112" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ada43ec377b710cfb8bdff5178af04e94" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRAInferenceAudit::input_tokens</definition>
+        <argsstring></argsstring>
+        <name>input_tokens</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::input_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="113" column="9" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1aff91a3b6ed52198f85224c6590d7fb74" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRAInferenceAudit::output_tokens</definition>
+        <argsstring></argsstring>
+        <name>output_tokens</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::output_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="114" column="9" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ab6c8e11a2fba0b523d4d614b5ecdcf7b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRAInferenceAudit::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::confidence_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="117" column="11" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1aebd088135c81d1dfacbdf473ef1cce26" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRAInferenceAudit::perplexity</definition>
+        <argsstring></argsstring>
+        <name>perplexity</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::perplexity</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="118" column="11" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1aca41d25ab905a9f2e250d27b582cfd0f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAInferenceAudit::hallucination_detected</definition>
+        <argsstring></argsstring>
+        <name>hallucination_detected</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::hallucination_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="119" column="10" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ae6a2028e7c5d92947b1402e774500a30" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRAInferenceAudit::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::temperature</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="122" column="11" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ab8ca26fea7b62dbcd01bc60f0912872f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRAInferenceAudit::top_p</definition>
+        <argsstring></argsstring>
+        <name>top_p</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::top_p</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="123" column="11" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a081e0105f6226880344a19b1f94aa021" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRAInferenceAudit::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="124" column="9" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a8f7c97fd5690f8a7c0b3dceed4ef9ef9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRAInferenceAudit::lora_scaling</definition>
+        <argsstring></argsstring>
+        <name>lora_scaling</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::lora_scaling</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="125" column="11" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1af0f26845991ff9176892da014097e6ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAInferenceAudit::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::success</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="128" column="10" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a587ce50a2d30001e9a80765224902f11" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAInferenceAudit::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="129" column="17" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a48d067681b50e5695dd75ddce42f7037" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAInferenceAudit::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="132" column="10" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1aaaad3c1a8108e693090817b3534cac7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::LoRAInferenceAudit::~LoRAInferenceAudit</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LoRAInferenceAudit</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::~LoRAInferenceAudit</qualifiedname>
+        <briefdescription>
+<para>Lo RAInference Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="93" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a202da237057e9e04eac25028bf95d4ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAInferenceAudit::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAInferenceAudit::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="134" column="10" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="134" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_audit_logger.h" line="88" column="1" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="88" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a49c50af06b50ea1a136420614b8d6051" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>adapter_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a70e9e3af185f01fba1830150e577ecca" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ac732279c9c3f0ef346abe993ed30d5b1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>adapter_version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a4eddce198b4159c9b8cafdb0139d9db5" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a287b55d7f7b042a8ea421a6a4c8be115" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>base_model_version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ab6c8e11a2fba0b523d4d614b5ecdcf7b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a161f460daed757a8b92029894beb325e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a587ce50a2d30001e9a80765224902f11" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1aca41d25ab905a9f2e250d27b582cfd0f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>hallucination_detected</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ada43ec377b710cfb8bdff5178af04e94" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>input_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a8f7c97fd5690f8a7c0b3dceed4ef9ef9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>lora_scaling</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a081e0105f6226880344a19b1f94aa021" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a48d067681b50e5695dd75ddce42f7037" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1aff91a3b6ed52198f85224c6590d7fb74" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>output_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1aebd088135c81d1dfacbdf473ef1cce26" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>perplexity</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a4c3494cd0d30a4d01dffe034063b539d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a6a743d9b5ed6f917222c8f5c31d89efc" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1af1b7d45aea0eb737880af89b9086f21c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>response</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a21a37abcb6066eca8d793ff2b2ce4e7e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1af0f26845991ff9176892da014097e6ae" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ae6a2028e7c5d92947b1402e774500a30" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a63bfb0d60db07f0e88599f3949978d40" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1a202da237057e9e04eac25028bf95d4ca" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1ab8ca26fea7b62dbcd01bc60f0912872f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>top_p</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1acf19deb6087ef4ef4148b84e3ee764b3" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit_1aaaad3c1a8108e693090817b3534cac7b" prot="public" virt="virtual"><scope>themis::llm::lora::LoRAInferenceAudit</scope><name>~LoRAInferenceAudit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

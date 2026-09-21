@@ -1,0 +1,740 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1config_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::config::bench</compoundname>
+    <innerclass refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture" prot="public">themis::config::bench::ConfigEncryptedStoreHotPathFixture</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" prot="public">themis::config::bench::ConfigPathResolverBenchFixture</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture" prot="public">themis::config::bench::ConfigResolveHotPathFixture</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture" prot="public">themis::config::bench::ConfigValidateHotPathFixture</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture" prot="public">themis::config::bench::MigrationScannerBenchFixture</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1config_1_1bench_1a4b23015c35da04f1382c415cfd2f5eef" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::config::bench::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::config::bench::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="35" column="1" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1config_1_1bench_1a5b6c52f365989ef25419b0359c90b9d3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::config::bench::kCfgCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCfgCanonicalSeed</name>
+        <qualifiedname>themis::config::bench::kCfgCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical seed for reproducible benchmarks (matches kCanonicalRngSeed convention). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="42" column="32" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" prot="public" static="no" mutable="no">
+        <type>benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; themis::config::bench::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::config::bench::state</qualifiedname>
+        <initializer>{
+    <ref refid="namespacethemis_1_1config_1_1bench_1af4ac91d48483240fb74fb97d37bd6a12" kindref="member">for</ref> (auto _ : state) {
+        auto result = <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(test_path_);
+        benchmark::DoNotOptimize(result);
+    }
+    state.SetLabel(&quot;target: p99 ≤ 1 µs&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="85" column="18" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1_1bench_1ad297617f383299581652efe598e4d0fa" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::config::bench::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::config::bench::value</qualifiedname>
+        <initializer>= &quot;bench_value&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="178" column="23" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a5f4bd2659c649f97e230502a0d290356" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::writeFile</definition>
+        <argsstring>(const fs::path &amp;p, const std::string &amp;content)</argsstring>
+        <name>writeFile</name>
+        <qualifiedname>themis::config::bench::writeFile</qualifiedname>
+        <param>
+          <type>const fs::path &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="39" column="13" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="39" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1ac381a4093ce6cba821f5dc725e989558" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>fs::path</type>
+        <definition>static fs::path themis::config::bench::buildFileTree</definition>
+        <argsstring>(int num_files)</argsstring>
+        <name>buildFileTree</name>
+        <qualifiedname>themis::config::bench::buildFileTree</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_files</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="91" column="17" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="91" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a43dc08bf48ba97bc3aebe05a634b3901" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::BM_ShouldScanFile</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ShouldScanFile</name>
+        <qualifiedname>themis::config::bench::BM_ShouldScanFile</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="126" column="13" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="126" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1ada4c4208f23b72fbdbe64ddda4f40120" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK</definition>
+        <argsstring>(BM_ShouldScanFile) -&gt; Unit(benchmark::kNanosecond) -&gt;MinTime(0.5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::config::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_ShouldScanFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="148" column="1" declfile="benchmarks/config/bench_config_migration_scanner.cpp" declline="148" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1ace6463e9f5914b1f7112ec4746af9bb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(MigrationScannerBenchFixture, ScanSingleFile_NoMatch)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture" kindref="compound">MigrationScannerBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ScanSingleFile_NoMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="154" column="1" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="154" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1ab776038a82cd6f9ec8c0ced06b19686e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; MinTime(0.5)</argsstring>
+        <name>Unit</name>
+        <qualifiedname>themis::config::bench::Unit</qualifiedname>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="163" column="5" declfile="benchmarks/config/bench_config_migration_scanner.cpp" declline="163" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1adfb51f2a8dc92c5137fc627cf56ef6a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(MigrationScannerBenchFixture, ScanSingleFile_WithMatch)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture" kindref="compound">MigrationScannerBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ScanSingleFile_WithMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="170" column="1" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="170" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1af84141374d83fa56c29e7b805b8e3d27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::BM_ScanTree_1K</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ScanTree_1K</name>
+        <qualifiedname>themis::config::bench::BM_ScanTree_1K</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="186" column="13" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="186" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a1e780f00b649bf54ace5e96b8c738da5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK</definition>
+        <argsstring>(BM_ScanTree_1K) -&gt; Unit(benchmark::kMillisecond) -&gt;Iterations(1)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::config::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_ScanTree_1K</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="211" column="1" declfile="benchmarks/config/bench_config_migration_scanner.cpp" declline="211" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1ae7dd7604b0bd8f1798c8cb98a01a3a1e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::BM_ScanTree_10K</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ScanTree_10K</name>
+        <qualifiedname>themis::config::bench::BM_ScanTree_10K</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="217" column="13" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="217" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a5510476e4b19aaf26fa40d03aa6c5b7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK</definition>
+        <argsstring>(BM_ScanTree_10K) -&gt; Unit(benchmark::kSecond) -&gt;Iterations(1)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::config::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_ScanTree_10K</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="247" column="1" declfile="benchmarks/config/bench_config_migration_scanner.cpp" declline="247" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a9b334e71c778aead3a7afbe379a75bff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::writeFile</definition>
+        <argsstring>(const fs::path &amp;p, const char *content=&quot;key: value\n&quot;)</argsstring>
+        <name>writeFile</name>
+        <qualifiedname>themis::config::bench::writeFile</qualifiedname>
+        <param>
+          <type>const fs::path &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>content</declname>
+          <defval>&quot;key: value\n&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="24" column="13" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="24" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1afde549aedb699bd73689d5dc57ff2237" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, CacheHit_MappedPath)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>CacheHit_MappedPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="100" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a1a0320e234648e169fb6f0dcd6a362e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::Unit</definition>
+        <argsstring>(benchmark::kNanosecond) -&gt; MinTime(0.5)</argsstring>
+        <name>Unit</name>
+        <qualifiedname>themis::config::bench::Unit</qualifiedname>
+        <param>
+          <type>benchmark::kNanosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="114" column="5" declfile="benchmarks/config/bench_config_path_resolver.cpp" declline="114" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a606721af24defb77a33aff849d23ba65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, CacheHit_UnmappedPath)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>CacheHit_UnmappedPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="121" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="121" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1ab07cd550404801fd7831f475b577e7c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, CacheMiss_MappedPath)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>CacheMiss_MappedPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="138" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="138" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a05599b0b0ab68a7c5fd11b886b663a16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, CacheMiss_UnmappedPath)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>CacheMiss_UnmappedPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="159" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="159" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a9b6473d11cd9246f34e82788c11a3aba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, LegacyFallback)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>LegacyFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="179" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="179" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1aafe90c8dee670a4d4d3bc7460b6b214c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::BM_MapLegacyToNew</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MapLegacyToNew</name>
+        <qualifiedname>themis::config::bench::BM_MapLegacyToNew</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="202" column="13" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="202" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a731a4c51e6e9a8656fa3816fb89acdca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK</definition>
+        <argsstring>(BM_MapLegacyToNew) -&gt; Unit(benchmark::kNanosecond) -&gt;MinTime(0.5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::config::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_MapLegacyToNew</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="211" column="1" declfile="benchmarks/config/bench_config_path_resolver.cpp" declline="211" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1ad574eca8485464c747961948f4b0bfc1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::BM_MapLegacyToNew_Miss</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MapLegacyToNew_Miss</name>
+        <qualifiedname>themis::config::bench::BM_MapLegacyToNew_Miss</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="217" column="13" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="217" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1aa3d232746279d4a1cee4bf15d5a8ac6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK</definition>
+        <argsstring>(BM_MapLegacyToNew_Miss) -&gt; Unit(benchmark::kNanosecond) -&gt;MinTime(0.5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::config::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_MapLegacyToNew_Miss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="224" column="1" declfile="benchmarks/config/bench_config_path_resolver.cpp" declline="224" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a077e4b67c8a00756cdc05c0c05d61794" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, DeprecationAggregator_Overhead)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>DeprecationAggregator_Overhead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="239" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="239" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a38c4f83048eb6ceaaac1f797d4625e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, DeprecationReport_60Paths)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>DeprecationReport_60Paths</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="279" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="279" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a8c4b8bf41e53c8f423b2b892325f89b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, MetricsScrape)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>MetricsScrape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="324" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="324" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a4b1d62dbb451e5f33a915e62b5f0573d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, CacheHitRate_BulkAccess)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>CacheHitRate_BulkAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="349" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="349" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1abc242695fcbfb9c3551139a6cf27d8ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, ConcurrentCacheHit)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentCacheHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="393" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="393" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a23cc8e293dc81ccdf42e7543c4faae38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::Threads</definition>
+        <argsstring>(1) -&gt; Threads(2) -&gt;Threads(4) -&gt;Threads(8) -&gt;Unit(benchmark::kNanosecond) -&gt;MinTime(0.5)</argsstring>
+        <name>Threads</name>
+        <qualifiedname>themis::config::bench::Threads</qualifiedname>
+        <param>
+          <type>1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="404" column="5" declfile="benchmarks/config/bench_config_path_resolver.cpp" declline="404" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a6abce4557d880cc7a25530262cb825a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(ConfigPathResolverBenchFixture, Resolve_CacheHit)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::config::bench::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1config_1_1bench_1_1_config_path_resolver_bench_fixture" kindref="compound">ConfigPathResolverBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>Resolve_CacheHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_path_resolver.cpp" line="415" column="1" bodyfile="benchmarks/config/bench_config_path_resolver.cpp" bodystart="415" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1af4ac91d48483240fb74fb97d37bd6a12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <qualifiedname>themis::config::bench::for</qualifiedname>
+        <param>
+          <type>auto _ :<ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="179" column="5" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="179" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a10ebb63bcb93d8370e092d35af9be3a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref></type>
+        <definition>state themis::config::bench::SetLabel</definition>
+        <argsstring>(&quot;target: p99 ≤ 1 ms&quot;)</argsstring>
+        <name>SetLabel</name>
+        <qualifiedname>themis::config::bench::SetLabel</qualifiedname>
+        <param>
+          <type>&quot;target: p99 ≤ 1 ms&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="183" column="10" declfile="benchmarks/config/bench_config_release_gates.cpp" declline="183" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1ac2b5ee3597fa1ac05fede820a103aa34" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::BenchmarkGateCfg05WatcherPollInterval</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchmarkGateCfg05WatcherPollInterval</name>
+        <qualifiedname>themis::config::bench::BenchmarkGateCfg05WatcherPollInterval</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="195" column="13" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="195" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a4e44f60f01cb1546c9abf7c9a15feed7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK</definition>
+        <argsstring>(BenchmarkGateCfg05WatcherPollInterval) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::config::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchmarkGateCfg05WatcherPollInterval</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="217" column="1" declfile="benchmarks/config/bench_config_release_gates.cpp" declline="217" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a01f5343a81ba958a12d7fb2efcb2497f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::bench::BenchmarkGateCfg06MetricsOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchmarkGateCfg06MetricsOverhead</name>
+        <qualifiedname>themis::config::bench::BenchmarkGateCfg06MetricsOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="224" column="13" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="224" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1_1bench_1a5f1efee1a7e2bb12cb8b8aa10b0f600d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::bench::BENCHMARK</definition>
+        <argsstring>(BenchmarkGateCfg06MetricsOverhead) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::config::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchmarkGateCfg06MetricsOverhead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="239" column="1" declfile="benchmarks/config/bench_config_release_gates.cpp" declline="239" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="31" column="1"/>
+  </compounddef>
+</doxygen>

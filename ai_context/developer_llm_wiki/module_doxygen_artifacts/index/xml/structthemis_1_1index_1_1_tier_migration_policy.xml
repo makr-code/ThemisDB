@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_tier_migration_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::TierMigrationPolicy</compoundname>
+    <includes refid="tiered__index__manager_8h" local="no">tiered_index_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_tier_migration_policy_1a3398ba7af6519a3017b73b4457bd8c18" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::TierMigrationPolicy::hot_to_warm_idle_secs</definition>
+        <argsstring></argsstring>
+        <name>hot_to_warm_idle_secs</name>
+        <qualifiedname>themis::index::TierMigrationPolicy::hot_to_warm_idle_secs</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+<para>Seconds of inactivity before a HOT index is demoted to WARM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="94" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_tier_migration_policy_1ad0a086c6663cc96bcabbc97f2eb8b916" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::TierMigrationPolicy::warm_to_cold_idle_secs</definition>
+        <argsstring></argsstring>
+        <name>warm_to_cold_idle_secs</name>
+        <qualifiedname>themis::index::TierMigrationPolicy::warm_to_cold_idle_secs</qualifiedname>
+        <initializer>= 86400</initializer>
+        <briefdescription>
+<para>Seconds of inactivity before a WARM index is demoted to COLD. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="97" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_tier_migration_policy_1a8fa76a617207d7a076d734b13a743c37" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::TierMigrationPolicy::warm_to_hot_access_threshold</definition>
+        <argsstring></argsstring>
+        <name>warm_to_hot_access_threshold</name>
+        <qualifiedname>themis::index::TierMigrationPolicy::warm_to_hot_access_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Access-count threshold: when a WARM index is accessed at least this many times within <computeroutput><ref refid="structthemis_1_1index_1_1_tier_migration_policy_1ab1a5d480802abffbc35d9c9a10bf8239" kindref="member">promotion_window_secs</ref></computeroutput>, promote it to HOT. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="101" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_tier_migration_policy_1acab7ec18dae239eb1c1ea3836e0c9387" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::TierMigrationPolicy::cold_to_warm_access_threshold</definition>
+        <argsstring></argsstring>
+        <name>cold_to_warm_access_threshold</name>
+        <qualifiedname>themis::index::TierMigrationPolicy::cold_to_warm_access_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Access-count threshold: when a COLD index is accessed at least this many times within <computeroutput><ref refid="structthemis_1_1index_1_1_tier_migration_policy_1ab1a5d480802abffbc35d9c9a10bf8239" kindref="member">promotion_window_secs</ref></computeroutput>, promote it to WARM. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="105" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_tier_migration_policy_1ab1a5d480802abffbc35d9c9a10bf8239" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::TierMigrationPolicy::promotion_window_secs</definition>
+        <argsstring></argsstring>
+        <name>promotion_window_secs</name>
+        <qualifiedname>themis::index::TierMigrationPolicy::promotion_window_secs</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Time window (seconds) for the access-count promotion check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="108" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the automatic migration pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/tiered_index_manager.h" line="92" column="1" bodyfile="include/index/tiered_index_manager.h" bodystart="92" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_tier_migration_policy_1acab7ec18dae239eb1c1ea3836e0c9387" prot="public" virt="non-virtual"><scope>themis::index::TierMigrationPolicy</scope><name>cold_to_warm_access_threshold</name></member>
+      <member refid="structthemis_1_1index_1_1_tier_migration_policy_1a3398ba7af6519a3017b73b4457bd8c18" prot="public" virt="non-virtual"><scope>themis::index::TierMigrationPolicy</scope><name>hot_to_warm_idle_secs</name></member>
+      <member refid="structthemis_1_1index_1_1_tier_migration_policy_1ab1a5d480802abffbc35d9c9a10bf8239" prot="public" virt="non-virtual"><scope>themis::index::TierMigrationPolicy</scope><name>promotion_window_secs</name></member>
+      <member refid="structthemis_1_1index_1_1_tier_migration_policy_1ad0a086c6663cc96bcabbc97f2eb8b916" prot="public" virt="non-virtual"><scope>themis::index::TierMigrationPolicy</scope><name>warm_to_cold_idle_secs</name></member>
+      <member refid="structthemis_1_1index_1_1_tier_migration_policy_1a8fa76a617207d7a076d734b13a743c37" prot="public" virt="non-virtual"><scope>themis::index::TierMigrationPolicy</scope><name>warm_to_hot_access_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

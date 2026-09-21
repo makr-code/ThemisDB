@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_spatial_query_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::SpatialQueryPolicy</compoundname>
+    <includes refid="geo__policy_8h" local="no">geo_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_spatial_query_policy_1a6e3092c4bef440ec991c66613fc013e8" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::SpatialQueryPolicy::max_candidates</definition>
+        <argsstring></argsstring>
+        <name>max_candidates</name>
+        <qualifiedname>themis::geo::SpatialQueryPolicy::max_candidates</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+<para>Maximum number of R-Tree candidates returned by the index layer before the refinement pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Setting this to a smaller value limits worst-case memory allocation in the candidate buffer. A value of 0 means &quot;no limit&quot;.</para>
+<para>Default: 100 000. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_policy.h" line="58" column="17" bodyfile="include/geo/geo_policy.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_spatial_query_policy_1a8386ae5ee415154bb7c7b34ce841e089" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::geo::SpatialQueryPolicy::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::geo::SpatialQueryPolicy::max_depth</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum R-Tree traversal depth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Limits the recursion depth of tree descent when the underlying index implementation supports bounded traversal. A value of 0 means &quot;use the implementation default&quot;.</para>
+<para>Default: 64. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_policy.h" line="69" column="9" bodyfile="include/geo/geo_policy.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_spatial_query_policy_1a5dba3d4dadf168935f720d3ca08fed8b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::geo::SpatialQueryPolicy::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::geo::SpatialQueryPolicy::timeout</qualifiedname>
+        <initializer>{5&apos;000}</initializer>
+        <briefdescription>
+<para>Per-query wall-clock timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The query execution layer should abort a spatial query that exceeds this duration and return a <computeroutput><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da0e37b0e1d53bd8ff19b39d596c3c428f" kindref="member">GeoErrorCode::QUERY_TIMEOUT</ref></computeroutput> error. A value of zero disables timeout enforcement.</para>
+<para>Default: 5 000 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_policy.h" line="80" column="31" bodyfile="include/geo/geo_policy.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_spatial_query_policy_1a8d686866a2cf6a5fe50b9913ea9e92ce" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::SpatialQueryPolicy::max_result_pairs</definition>
+        <argsstring></argsstring>
+        <name>max_result_pairs</name>
+        <qualifiedname>themis::geo::SpatialQueryPolicy::max_result_pairs</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+<para>Maximum number of result pairs for spatial-join queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Spatial-join operations may produce O(n²) pairs in the worst case. This limit bounds the result set size and prevents runaway allocations. A value of 0 means &quot;no limit&quot; (use with caution).</para>
+<para>Default: 1 000 000. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_policy.h" line="91" column="17" bodyfile="include/geo/geo_policy.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_spatial_query_policy_1a2e5acf3abbe24964a0e695263bfd383b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::geo::SpatialQueryPolicy::allowed_collections</definition>
+        <argsstring></argsstring>
+        <name>allowed_collections</name>
+        <qualifiedname>themis::geo::SpatialQueryPolicy::allowed_collections</qualifiedname>
+        <briefdescription>
+<para>Explicit allowlist of collection names the query may access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When non-empty, the query execution layer MUST reject any attempt to query a collection whose name is not present in this list. An empty list means &quot;all collections are permitted&quot; (open policy).</para>
+<para><simplesect kind="note"><para>This is an advisory field — authoritative access control is enforced at the server boundary, not inside the geo module. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_policy.h" line="103" column="17" bodyfile="include/geo/geo_policy.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-query spatial resource quotas and collection access list. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields have safe, conservative defaults that allow a query to complete on typical datasets without triggering limits. Operators may tighten these limits to protect shared resources.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput><ref refid="structthemis_1_1geo_1_1_spatial_query_policy" kindref="compound">SpatialQueryPolicy</ref></computeroutput> instances are value types. Reading and writing from multiple threads is safe as long as the usual data-race rules are followed. </para>
+    </detaileddescription>
+    <location file="include/geo/geo_policy.h" line="48" column="1" bodyfile="include/geo/geo_policy.h" bodystart="48" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_spatial_query_policy_1a2e5acf3abbe24964a0e695263bfd383b" prot="public" virt="non-virtual"><scope>themis::geo::SpatialQueryPolicy</scope><name>allowed_collections</name></member>
+      <member refid="structthemis_1_1geo_1_1_spatial_query_policy_1a6e3092c4bef440ec991c66613fc013e8" prot="public" virt="non-virtual"><scope>themis::geo::SpatialQueryPolicy</scope><name>max_candidates</name></member>
+      <member refid="structthemis_1_1geo_1_1_spatial_query_policy_1a8386ae5ee415154bb7c7b34ce841e089" prot="public" virt="non-virtual"><scope>themis::geo::SpatialQueryPolicy</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1geo_1_1_spatial_query_policy_1a8d686866a2cf6a5fe50b9913ea9e92ce" prot="public" virt="non-virtual"><scope>themis::geo::SpatialQueryPolicy</scope><name>max_result_pairs</name></member>
+      <member refid="structthemis_1_1geo_1_1_spatial_query_policy_1a5dba3d4dadf168935f720d3ca08fed8b" prot="public" virt="non-virtual"><scope>themis::geo::SpatialQueryPolicy</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

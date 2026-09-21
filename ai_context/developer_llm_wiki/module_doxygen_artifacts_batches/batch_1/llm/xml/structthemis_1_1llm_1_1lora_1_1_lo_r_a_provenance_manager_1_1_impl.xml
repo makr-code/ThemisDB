@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAProvenanceManager::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1afde381dc4e360a7a4dd694a3b43f47a2" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::lora::LoRAProvenanceManager::Impl::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::Impl::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_provenance.cpp" line="308" column="24" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1af31cefbca684da7b8e5052da64aeaf00" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">LoRAProvenanceRecord</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LoRAProvenanceRecord&gt; themis::llm::lora::LoRAProvenanceManager::Impl::local_provenance</definition>
+        <argsstring></argsstring>
+        <name>local_provenance</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::Impl::local_provenance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_provenance.cpp" line="311" column="24" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1a01778dc4de6d20d3c3308aa90bb32b0c" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance" kindref="compound">ExternalAdapterProvenance</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ExternalAdapterProvenance&gt; themis::llm::lora::LoRAProvenanceManager::Impl::external_provenance</definition>
+        <argsstring></argsstring>
+        <name>external_provenance</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::Impl::external_provenance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_provenance.cpp" line="314" column="24" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1aa770840831fb49ff719a509755de6aff" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kindref="compound">AdapterSnapshot</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;AdapterSnapshot&gt; &gt; themis::llm::lora::LoRAProvenanceManager::Impl::snapshots</definition>
+        <argsstring></argsstring>
+        <name>snapshots</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::Impl::snapshots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_provenance.cpp" line="317" column="24" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1ada50c83c69d7530fba35a1ff2e5716df" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kindref="compound">AdapterSnapshot</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AdapterSnapshot&gt; themis::llm::lora::LoRAProvenanceManager::Impl::snapshot_by_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_by_id</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::Impl::snapshot_by_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_provenance.cpp" line="320" column="24" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1a82993ccb46a1a7a17ad434ef317bb73b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">InferenceAuditEntry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;InferenceAuditEntry&gt; &gt; themis::llm::lora::LoRAProvenanceManager::Impl::audit_logs</definition>
+        <argsstring></argsstring>
+        <name>audit_logs</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::Impl::audit_logs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_provenance.cpp" line="323" column="24" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/lora_provenance.cpp" line="307" column="1" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="307" bodyend="324"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1a82993ccb46a1a7a17ad434ef317bb73b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager::Impl</scope><name>audit_logs</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1a01778dc4de6d20d3c3308aa90bb32b0c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager::Impl</scope><name>external_provenance</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1af31cefbca684da7b8e5052da64aeaf00" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager::Impl</scope><name>local_provenance</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1afde381dc4e360a7a4dd694a3b43f47a2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager::Impl</scope><name>mu</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1ada50c83c69d7530fba35a1ff2e5716df" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager::Impl</scope><name>snapshot_by_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl_1aa770840831fb49ff719a509755de6aff" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager::Impl</scope><name>snapshots</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

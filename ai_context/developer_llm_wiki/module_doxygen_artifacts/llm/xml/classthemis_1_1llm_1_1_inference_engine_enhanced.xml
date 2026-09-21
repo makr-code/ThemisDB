@@ -1,0 +1,3069 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_inference_engine_enhanced" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceEngineEnhanced</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" prot="public">themis::llm::InferenceEngineEnhanced::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_statistics" prot="public">themis::llm::InferenceEngineEnhanced::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota" prot="public">themis::llm::InferenceEngineEnhanced::ModelResourceQuota</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info" prot="public">themis::llm::InferenceEngineEnhanced::ModelInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" prot="public">themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_lo_r_a_adapter_entry" prot="private">themis::llm::InferenceEngineEnhanced::LoRAAdapterEntry</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request" prot="private">themis::llm::InferenceEngineEnhanced::TrackedRequest</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1afb77e92a9f5034aa62240f61306f95e3" prot="public" static="no">
+        <type>std::function&lt; void(std::string_view token, bool is_final)&gt;</type>
+        <definition>using themis::llm::InferenceEngineEnhanced::TokenCallback = std::function&lt;void(std::string_view token, bool is_final)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenCallback</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::TokenCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="278" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aea0b78784d18bc4624d3320eb9fb1179" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; themis::rag::SelfRAGDocument &gt;( const std::string &amp;, size_t, const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::InferenceEngineEnhanced::SelfRAGRetrievalCallback = std::function&lt;
+       std::vector&lt;themis::rag::SelfRAGDocument&gt;(
+           const std::string&amp;,
+           size_t,
+           const InferenceRequest&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SelfRAGRetrievalCallback</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::SelfRAGRetrievalCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="363" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1af9afef8fbc5da05c910b822f2eb4c10b" prot="public" static="no">
+        <type>std::function&lt; double( const std::string &amp;, const themis::rag::SelfRAGDocument &amp;, const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::InferenceEngineEnhanced::SelfRAGCriticCallback = std::function&lt;
+       double(
+           const std::string&amp;,
+           const themis::rag::SelfRAGDocument&amp;,
+           const InferenceRequest&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SelfRAGCriticCallback</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::SelfRAGCriticCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="369" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab4b4d94dd8a95b8c9d4d25f6ee37ef8c" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::vector&lt; float &gt; &gt;( const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;, size_t, size_t, std::shared_ptr&lt; ILLMPlugin &gt;)&gt;</type>
+        <definition>using themis::llm::InferenceEngineEnhanced::TargetLogitsFn = std::function&lt;
+       std::vector&lt;std::vector&lt;float&gt;&gt;(
+           const InferenceRequest&amp;            ,
+           size_t                             ,
+           size_t                             ,
+           std::shared_ptr&lt;ILLMPlugin&gt;        )&gt;</definition>
+        <argsstring></argsstring>
+        <name>TargetLogitsFn</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::TargetLogitsFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="389" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a38da491d4283eecb1e0d7008235a2294" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; int &gt;(const std::string &amp;text, size_t vocab_size)&gt;</type>
+        <definition>using themis::llm::InferenceEngineEnhanced::TokenizerFn = std::function&lt;std::vector&lt;int&gt;(const std::string&amp; text,
+                                                      size_t             vocab_size)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenizerFn</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::TokenizerFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="404" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a6ee47856f169da5a4e056b6e92ace674" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::InferenceEngineEnhanced::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="419" column="12" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a665c770b5ea32057b685b59b7a41c45c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::InferenceEngineEnhanced::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="420" column="17" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="420" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aeb123119960f684be207f9c79ee1c2e8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_shared_worker_pool" kindref="compound">SharedWorkerPool</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SharedWorkerPool&gt; themis::llm::InferenceEngineEnhanced::shared_pool_</definition>
+        <argsstring></argsstring>
+        <name>shared_pool_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::shared_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="423" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a68e5645074be2ad80a4224f887a4a51f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache" kindref="compound">LLMPrefixCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMPrefixCache&gt; themis::llm::InferenceEngineEnhanced::prefix_cache_</definition>
+        <argsstring></argsstring>
+        <name>prefix_cache_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::prefix_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="426" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8d3778f9649b9eab5fb76969f956678c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="427" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a208b90f759a73d216e37f0ba9eb633dd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PagedKVCache&gt; themis::llm::InferenceEngineEnhanced::kv_cache_</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::kv_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="428" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a4682fd45a3bf2ac237c17929c4563214" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PagedBlockManager&gt; themis::llm::InferenceEngineEnhanced::block_manager_</definition>
+        <argsstring></argsstring>
+        <name>block_manager_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::block_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="429" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a0cc5124b7594200e11bf522e288e3572" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ContinuousBatchScheduler&gt; themis::llm::InferenceEngineEnhanced::batch_scheduler_</definition>
+        <argsstring></argsstring>
+        <name>batch_scheduler_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::batch_scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="430" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1af44e7e57ee27aecfa337bc0784394a5e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_speculative_decoder" kindref="compound">SpeculativeDecoder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SpeculativeDecoder&gt; themis::llm::InferenceEngineEnhanced::speculative_decoder_</definition>
+        <argsstring></argsstring>
+        <name>speculative_decoder_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::speculative_decoder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="434" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a067123bdd416a4e38dce75854d583cf7" prot="private" static="no" mutable="no">
+        <type>sharding::RemoteExecutor *</type>
+        <definition>sharding::RemoteExecutor* themis::llm::InferenceEngineEnhanced::remote_executor_</definition>
+        <argsstring></argsstring>
+        <name>remote_executor_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::remote_executor_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="438" column="30" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aac591a631ccf1860994ce0f9e895e1ff" prot="private" static="no" mutable="no">
+        <type>sharding::ShardInfo</type>
+        <definition>sharding::ShardInfo themis::llm::InferenceEngineEnhanced::remote_draft_shard_info_</definition>
+        <argsstring></argsstring>
+        <name>remote_draft_shard_info_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::remote_draft_shard_info_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="440" column="25" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a0ac2047826ecf4427bed59ab0f38998c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_federated_inference_backend" kindref="compound">IFederatedInferenceBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IFederatedInferenceBackend&gt; themis::llm::InferenceEngineEnhanced::federated_backend_</definition>
+        <argsstring></argsstring>
+        <name>federated_backend_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::federated_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="444" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a7a83c67667d94d8c6befb01043ac80b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::federated_backend_mutex_</definition>
+        <argsstring></argsstring>
+        <name>federated_backend_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::federated_backend_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="445" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1adfe41c6b84a8629c70949f4f9ad0bcf8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aea0b78784d18bc4624d3320eb9fb1179" kindref="member">SelfRAGRetrievalCallback</ref></type>
+        <definition>SelfRAGRetrievalCallback themis::llm::InferenceEngineEnhanced::self_rag_retrieval_cb_</definition>
+        <argsstring></argsstring>
+        <name>self_rag_retrieval_cb_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::self_rag_retrieval_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="446" column="30" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a23e819c6a7919bda6a0b56d21a675482" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1af9afef8fbc5da05c910b822f2eb4c10b" kindref="member">SelfRAGCriticCallback</ref></type>
+        <definition>SelfRAGCriticCallback themis::llm::InferenceEngineEnhanced::self_rag_critic_cb_</definition>
+        <argsstring></argsstring>
+        <name>self_rag_critic_cb_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::self_rag_critic_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="447" column="27" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a565eae8b5cba097020ee6b07c27933b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::self_rag_mutex_</definition>
+        <argsstring></argsstring>
+        <name>self_rag_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::self_rag_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="448" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8b20325eb875d056218f77a11a1d190b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab4b4d94dd8a95b8c9d4d25f6ee37ef8c" kindref="member">TargetLogitsFn</ref></type>
+        <definition>TargetLogitsFn themis::llm::InferenceEngineEnhanced::target_logits_fn_</definition>
+        <argsstring></argsstring>
+        <name>target_logits_fn_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::target_logits_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="450" column="20" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a51bd7844206a4d4da42da848800c90f1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::target_logits_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>target_logits_fn_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::target_logits_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="451" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ac65de875db2e12e714b23f2a22ee24a8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a38da491d4283eecb1e0d7008235a2294" kindref="member">TokenizerFn</ref></type>
+        <definition>TokenizerFn themis::llm::InferenceEngineEnhanced::tokenizer_fn_</definition>
+        <argsstring></argsstring>
+        <name>tokenizer_fn_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::tokenizer_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="453" column="17" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ae2895d502dfde005bd4a9518e3609719" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::tokenizer_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tokenizer_fn_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::tokenizer_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="454" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1abe6c93947a9921989fdc597c06e61695" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_lookup_decoder" kindref="compound">LookupDecoder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LookupDecoder&gt; themis::llm::InferenceEngineEnhanced::lookup_decoder_</definition>
+        <argsstring></argsstring>
+        <name>lookup_decoder_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::lookup_decoder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="458" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a574742483ac9f3da084376831b604eb0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdapterRegistry&gt; themis::llm::InferenceEngineEnhanced::adapter_registry_</definition>
+        <argsstring></argsstring>
+        <name>adapter_registry_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::adapter_registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="464" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a93e7c73983d516eed0ca69c0da991765" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_model_router" kindref="compound">ModelRouter</ref></type>
+        <definition>ModelRouter themis::llm::InferenceEngineEnhanced::model_router_</definition>
+        <argsstring></argsstring>
+        <name>model_router_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::model_router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="468" column="17" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="468" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1af02208a91387178a22c19fab359d5596" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ModelInfo&gt; themis::llm::InferenceEngineEnhanced::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="471" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a5d307fbd961a63ea433b02c8e14dbd10" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::models_mutex_</definition>
+        <argsstring></argsstring>
+        <name>models_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::models_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="472" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a0d0abed8fc1b2e78af55f0372df16637" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::InferenceEngineEnhanced::round_robin_index_</definition>
+        <argsstring></argsstring>
+        <name>round_robin_index_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::round_robin_index_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="473" column="17" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="473" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a468d50272d131d4dcbf1695a9eb7ce2c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, LoRAAdapterEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LoRAAdapterEntry&gt; themis::llm::InferenceEngineEnhanced::lora_adapters_</definition>
+        <argsstring></argsstring>
+        <name>lora_adapters_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::lora_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="481" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1acb4bba76f3cbd4867272a54ace9bbd8e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::lora_adapters_mutex_</definition>
+        <argsstring></argsstring>
+        <name>lora_adapters_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::lora_adapters_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="482" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8bd32662441a07cd5c32e8f77d8af070" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; TrackedRequest &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;TrackedRequest&gt; &gt; themis::llm::InferenceEngineEnhanced::tracked_requests_</definition>
+        <argsstring></argsstring>
+        <name>tracked_requests_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::tracked_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="495" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a85bd7abb4765a955e0a17c13fa1608cb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::requests_mutex_</definition>
+        <argsstring></argsstring>
+        <name>requests_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::requests_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="496" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ace0736ef65b4a053b08f0d3318bc65bf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::llm::InferenceEngineEnhanced::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="499" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="499" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8a6aaad6c5b66ee5161d49e83a47b6ee" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="500" column="24" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="500" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a33b3114af5ddf1fd0761b61924dd8bff" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::llm::InferenceEngineEnhanced::latency_samples_</definition>
+        <argsstring></argsstring>
+        <name>latency_samples_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::latency_samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="501" column="17" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="501" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a11535218a8473a0f7780c5206aae3899" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::InferenceEngineEnhanced::engine_start_time_</definition>
+        <argsstring></argsstring>
+        <name>engine_start_time_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::engine_start_time_</qualifiedname>
+        <initializer>{std::chrono::steady_clock::now()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="502" column="43" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="502" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8f0bba69c0def791ba99c0195dad9119" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::llm::InferenceEngineEnhanced::worker_threads_</definition>
+        <argsstring></argsstring>
+        <name>worker_threads_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::worker_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="505" column="17" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa9d10aabeb473ff19e561628c590095f" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::shared_ptr&lt; TrackedRequest &gt; &gt;</type>
+        <definition>std::queue&lt;std::shared_ptr&lt;TrackedRequest&gt; &gt; themis::llm::InferenceEngineEnhanced::request_queue_</definition>
+        <argsstring></argsstring>
+        <name>request_queue_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::request_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="506" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab47e7534c60206d22260119c8d5c7751" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InferenceEngineEnhanced::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="507" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aae568b502795ab515f9591cd72e4edf8" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::llm::InferenceEngineEnhanced::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="508" column="29" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a861f4ba041c30fb99dcf916332c440e4" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::llm::InferenceEngineEnhanced::timeout_thread_</definition>
+        <argsstring></argsstring>
+        <name>timeout_thread_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::timeout_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="511" column="17" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="511" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a51209c5bc4f1b8e713c05a9b621ab654" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::InferenceEngineEnhanced::request_counter_</definition>
+        <argsstring></argsstring>
+        <name>request_counter_</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::request_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="657" column="17" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="657" bodyend="657"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ac3d4a5b49d317bd454078f7854019ff5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InferenceEngineEnhanced::InferenceEngineEnhanced</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>InferenceEngineEnhanced</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::InferenceEngineEnhanced</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Inference Engine Enhanced. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="171" column="14" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="226" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a519186d776a990754170e6926c29a5db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InferenceEngineEnhanced::InferenceEngineEnhanced</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; SharedWorkerPool &gt; pool)</argsstring>
+        <name>InferenceEngineEnhanced</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::InferenceEngineEnhanced</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_shared_worker_pool" kindref="compound">SharedWorkerPool</ref> &gt;</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="173" column="5" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="311" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aabcf4c20e939121e379317c97f26989c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InferenceEngineEnhanced::~InferenceEngineEnhanced</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~InferenceEngineEnhanced</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::~InferenceEngineEnhanced</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="176" column="5" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="323" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aeec251a618695b10820d129c5498698e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::registerModel</definition>
+        <argsstring>(const std::string &amp;model_id, std::shared_ptr&lt; ILLMPlugin &gt; plugin)</argsstring>
+        <name>registerModel</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::registerModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Register Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Model Management ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::error(), lock(), spdlog::info(), emplace_back(), loadLoRA(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="185" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="439" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1af2a25cf1be6bf3b5fe779cf69271a9a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::unregisterModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>unregisterModel</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::unregisterModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="191" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="489" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1adc0c9eeacfd5809c9ee2df638a014e16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::InferenceEngineEnhanced::getAvailableModels</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableModels</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::getAvailableModels</qualifiedname>
+        <briefdescription>
+<para>Get Available Models. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="197" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="497" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa1b09ae68e3717bf7ecc3b3b15b9b6d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::setAdapterRegistry</definition>
+        <argsstring>(std::shared_ptr&lt; AdapterRegistry &gt; registry)</argsstring>
+        <name>setAdapterRegistry</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::setAdapterRegistry</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> &gt;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Set Adapter Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ LoRA Adapter Hot-Loading ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="203" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="545" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ad8cafa3eda128918b2bee5de2e02d8c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::swapModel</definition>
+        <argsstring>(const std::string &amp;model_id, std::shared_ptr&lt; ILLMPlugin &gt; new_plugin)</argsstring>
+        <name>swapModel</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::swapModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+          <declname>new_plugin</declname>
+        </param>
+        <briefdescription>
+<para>Swap Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::move(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="210" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="523" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a3d60e4e45bf0f299701a12c3b5a84644" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::loadLoRAAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;path, float scale=1.0f, const std::string &amp;model_id=&quot;&quot;)</argsstring>
+        <name>loadLoRAAdapter</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::loadLoRAAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>1.0f</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Load Lo RAAdapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), emplace_back(), loadLoRA(), spdlog::info(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="212" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="562" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1af58acc2c44cca51f6d576707e6346555" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::unloadLoRAAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;model_id=&quot;&quot;)</argsstring>
+        <name>unloadLoRAAdapter</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::unloadLoRAAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Unload Lo RAAdapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::debug(), erase(), empty(), emplace_back(), unloadLoRA(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="217" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="620" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a1fb6041f64987f60b87f6bfdb56e8126" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; themis::llm::InferenceEngineEnhanced::getLoadedLoRAAdapters</definition>
+        <argsstring>() const</argsstring>
+        <name>getLoadedLoRAAdapters</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::getLoadedLoRAAdapters</qualifiedname>
+        <briefdescription>
+<para>Get Loaded Lo RAAdapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_adapters_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="224" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="661" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a56acdb201b7fa5bad2cbfd21d6f669b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::setModelQuota</definition>
+        <argsstring>(const std::string &amp;model_id, const ModelResourceQuota &amp;quota)</argsstring>
+        <name>setModelQuota</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::setModelQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota" kindref="compound">ModelResourceQuota</ref> &amp;</type>
+          <declname>quota</declname>
+        </param>
+        <briefdescription>
+<para>Set Model Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quota</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quota</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="231" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="695" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a7952fb28622ce60aae81df17b933d964" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota" kindref="compound">ModelResourceQuota</ref></type>
+        <definition>InferenceEngineEnhanced::ModelResourceQuota themis::llm::InferenceEngineEnhanced::getModelQuota</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getModelQuota</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::getModelQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Model Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="238" column="24" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="709" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a3289ab588e16266d54be771d2456d86f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::addRoutingRule</definition>
+        <argsstring>(const RoutingRule &amp;rule)</argsstring>
+        <name>addRoutingRule</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::addRoutingRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_routing_rule" kindref="compound">RoutingRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>── Content-based / metadata-tag routing ──────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Content-based / metadata-tag routing ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: addRule(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="245" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2801" bodyend="2803"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a0b5dc7c52cc631ea6ea7c4dd72083650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::removeRoutingRule</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>removeRoutingRule</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::removeRoutingRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Routing Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: removeRule(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="252" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2811" bodyend="2813"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a23526f67465ad851c857bcf70652399a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_routing_rule" kindref="compound">RoutingRule</ref> &gt;</type>
+        <definition>std::vector&lt; RoutingRule &gt; themis::llm::InferenceEngineEnhanced::getRoutingRules</definition>
+        <argsstring>() const</argsstring>
+        <name>getRoutingRules</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::getRoutingRules</qualifiedname>
+        <briefdescription>
+<para>Get Routing Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="258" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2815" bodyend="2817"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a496641f6e44a59c33b2b80ebb16789de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::clearRoutingRules</definition>
+        <argsstring>()</argsstring>
+        <name>clearRoutingRules</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::clearRoutingRules</qualifiedname>
+        <briefdescription>
+<para>Clear Routing Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clearRules(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="263" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2823" bodyend="2825"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa3f8dcb26285b9795ce17893856569d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_handle" kindref="compound">InferenceHandle</ref></type>
+        <definition>InferenceHandle themis::llm::InferenceEngineEnhanced::submit</definition>
+        <argsstring>(const EnhancedInferenceRequest &amp;request)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::submit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">EnhancedInferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Submit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Inference Submission ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), get_future(), share(), lock(), size(), stats_lock(), push(), req_lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="271" column="21" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="733" bodyend="773"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a330b0d4ad6c91fc7c7c8d315a3f7ed77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::submitAsync</definition>
+        <argsstring>(const EnhancedInferenceRequest &amp;request, std::function&lt; void(const InferenceResponse &amp;)&gt; callback)</argsstring>
+        <name>submitAsync</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::submitAsync</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">EnhancedInferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Stats lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Req lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requests_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Stats lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="273" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="775" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a58b9691be534e98481f7195f9644d422" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_inference_handle" kindref="compound">InferenceHandle</ref></type>
+        <definition>InferenceHandle themis::llm::InferenceEngineEnhanced::submitStreaming</definition>
+        <argsstring>(const EnhancedInferenceRequest &amp;request, TokenCallback callback)</argsstring>
+        <name>submitStreaming</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::submitStreaming</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">EnhancedInferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1afb77e92a9f5034aa62240f61306f95e3" kindref="member">TokenCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Submit Streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), std::move(), load(), compare_exchange_strong(), get_future(), share(), lock(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="286" column="21" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="842" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a491abb3d6620ceed5b3a2f1139e69b45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::cancel</definition>
+        <argsstring>(const std::string &amp;request_id)</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::cancel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), store(), set_exception(), std::make_exception_ptr(), std::runtime_error(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="297" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="922" bodyend="947"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1adc6fc0b81a87fec67e329a30f50b8893" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::reprioritize</definition>
+        <argsstring>(const std::string &amp;request_id, int new_priority)</argsstring>
+        <name>reprioritize</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::reprioritize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>new_priority</declname>
+        </param>
+        <briefdescription>
+<para>Reprioritize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="305" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="956" bodyend="968"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a11e739923c60d270f3b3963e24451dcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Cache Management ═══════════════════════════════════════════════════════════</para>
+<para>Calls: get(), clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="311" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="975" bodyend="982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8e0c2fd6f689f9f6fd3f249a5d80f461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::prewarmCache</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;common_prompts)</argsstring>
+        <name>prewarmCache</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::prewarmCache</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>common_prompts</declname>
+        </param>
+        <briefdescription>
+<para>Prewarm Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">common_prompts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">common_prompts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(), spdlog::info(), size(), computeEmbeddingForCache(), estimateTokenSequence(), put(), spdlog::debug(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="317" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="989" bodyend="1015"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a4094e6a29492b7105685d0abd1648aff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>InferenceEngineEnhanced::Statistics themis::llm::InferenceEngineEnhanced::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="324" column="16" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1021" bodyend="1078"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a12c34a6a8ec99b61515bdeb65e8e261d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::InferenceEngineEnhanced::getDetailedMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getDetailedMetrics</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::getDetailedMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Detailed Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="329" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1080" bodyend="1146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8db89919782c5e3acd2c054a0788a286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Lifecycle ═══════════════════════════════════════════════════════════</para>
+<para>Calls: load(), store(), emplace_back(), spdlog::info(), numThreads(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="335" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1153" bodyend="1184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab06f36c642ecb043d43746fe63b0ebc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), spdlog::info(), store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="340" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1190" bodyend="1218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa1518f60a0a373644f48f8c38f475e2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::isRunning</qualifiedname>
+        <briefdescription>
+<para>Is Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="345" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1220" bodyend="1222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aaaa5a87ee98a9de5ef45446fd6867957" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::setRemoteExecutor</definition>
+        <argsstring>(sharding::RemoteExecutor *exec, const sharding::ShardInfo &amp;draft_shard)</argsstring>
+        <name>setRemoteExecutor</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::setRemoteExecutor</qualifiedname>
+        <param>
+          <type>sharding::RemoteExecutor *</type>
+          <declname>exec</declname>
+        </param>
+        <param>
+          <type>const sharding::ShardInfo &amp;</type>
+          <declname>draft_shard</declname>
+        </param>
+        <briefdescription>
+<para>Set Remote Executor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">exec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="352" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="340" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa795ddf3376e0c74dbf4d21a553c01d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::setFederatedBackend</definition>
+        <argsstring>(std::shared_ptr&lt; IFederatedInferenceBackend &gt; backend)</argsstring>
+        <name>setFederatedBackend</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::setFederatedBackend</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_federated_inference_backend" kindref="compound">IFederatedInferenceBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Set Federated Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">federated_backend_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="359" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="365" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a5edff4e64b273965ff4f58e3e15ab587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::setSelfRAGRetrievalCallback</definition>
+        <argsstring>(SelfRAGRetrievalCallback cb)</argsstring>
+        <name>setSelfRAGRetrievalCallback</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::setSelfRAGRetrievalCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aea0b78784d18bc4624d3320eb9fb1179" kindref="member">SelfRAGRetrievalCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set Self RAGRetrieval Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="379" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="388" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8b7483191b9c01192458eb4a0a21c72b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::setSelfRAGCriticCallback</definition>
+        <argsstring>(SelfRAGCriticCallback cb)</argsstring>
+        <name>setSelfRAGCriticCallback</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::setSelfRAGCriticCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1af9afef8fbc5da05c910b822f2eb4c10b" kindref="member">SelfRAGCriticCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set Self RAGCritic Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="385" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="398" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a54bfecc6b3c7f5fb53a21d09726ce28e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::setTargetLogitsFn</definition>
+        <argsstring>(TargetLogitsFn fn)</argsstring>
+        <name>setTargetLogitsFn</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::setTargetLogitsFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab4b4d94dd8a95b8c9d4d25f6ee37ef8c" kindref="member">TargetLogitsFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Target Logits Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── setTargetLogitsFn ────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="400" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="408" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a79fac96322233889a46ea2bb0f18a4ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::setTokenizerFn</definition>
+        <argsstring>(TokenizerFn fn)</argsstring>
+        <name>setTokenizerFn</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::setTokenizerFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a38da491d4283eecb1e0d7008235a2294" kindref="member">TokenizerFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Tokenizer Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── setTokenizerFn / clearTokenizerFn ────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="411" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="418" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a2e32d42c0f8e3510bef15429dcbf2046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::clearTokenizerFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearTokenizerFn</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::clearTokenizerFn</qualifiedname>
+        <briefdescription>
+<para>Clear Tokenizer Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="416" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="427" bodyend="430"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a5fb4211397af2e111ac2c249d28fce33" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::workerLoop</definition>
+        <argsstring>(size_t worker_id)</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::workerLoop</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>worker_id</declname>
+        </param>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Internal Methods - Worker Loop ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">worker_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the worker.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">worker_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the worker.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), load(), lock(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), wait_until(), empty(), formBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="518" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1230" bodyend="1271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a53e9c0887ed814f63824c40e1620d2be" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::timeoutMonitorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>timeoutMonitorLoop</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::timeoutMonitorLoop</qualifiedname>
+        <briefdescription>
+<para>Timeout Monitor Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Internal Methods - Timeout Monitoring ═══════════════════════════════════════════════════════════</para>
+<para>Calls: spdlog::debug(), load(), checkAndHandleTimeouts(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="522" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1334" bodyend="1347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1acdaf0ba10a102b448a83739c8a47ea0c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::processBatch</definition>
+        <argsstring>(const std::vector&lt; std::shared_ptr&lt; TrackedRequest &gt; &gt; &amp;batch)</argsstring>
+        <name>processBatch</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::processBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::shared_ptr&lt; TrackedRequest &gt; &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Process Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Internal Methods - Batch Processing ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), size(), std::chrono::steady_clock::now(), load(), callback(), set_exception(), std::make_exception_ptr(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="527" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1409" bodyend="1913"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a53af0fbff36cec4ca4f340763e0a482c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::batchCoordinatorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>batchCoordinatorLoop</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::batchCoordinatorLoop</qualifiedname>
+        <briefdescription>
+<para>Batch coordinator used when a shared pool is provided. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Internal Methods - Batch Coordinator (shared-pool path) ═══════════════════════════════════════════════════════════</para>
+<para>Forms batches from the internal queue and submits processBatch() tasks to shared_pool_ rather than executing them inline.</para>
+<para>Calls: spdlog::debug(), load(), lock(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), wait_until(), empty(), formBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="533" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1278" bodyend="1327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1abba3a2df79f3b8a2fd00c97339687ea0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &gt;</type>
+        <definition>std::optional&lt; InferenceResponse &gt; themis::llm::InferenceEngineEnhanced::checkCache</definition>
+        <argsstring>(const InferenceRequest &amp;request)</argsstring>
+        <name>checkCache</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::checkCache</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Check Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Internal Methods - Cache Operations ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get(), computeEmbeddingForCache(), empty(), size(), spdlog::warn(), clear(), recordCacheHit(), recordCacheMiss(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="541" column="19" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1966" bodyend="2014"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a74cd73dc30caa13800927b74fba849e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::updateCache</definition>
+        <argsstring>(const InferenceRequest &amp;request, const InferenceResponse &amp;response)</argsstring>
+        <name>updateCache</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::updateCache</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Update Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(), empty(), computeEmbeddingForCache(), size(), spdlog::warn(), clear(), estimateTokenSequence(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="547" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2022" bodyend="2051"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a646015e8d848696855ec713d54e52767" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::selectModel</definition>
+        <argsstring>(const EnhancedInferenceRequest &amp;request)</argsstring>
+        <name>selectModel</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::selectModel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">EnhancedInferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Select Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Internal Methods - Load Balancing ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), route(), find(), end(), spdlog::debug(), empty(), push_back(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="555" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2116" bodyend="2215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a17a03315d2834ac06a1e61d7e87ad070" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::updateModelStats</definition>
+        <argsstring>(const std::string &amp;model_id, double latency_ms, bool success)</argsstring>
+        <name>updateModelStats</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::updateModelStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Update Model Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="562" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2224" bodyend="2247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a22c344f4c7695be140eb5b906d6f0c7f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; TrackedRequest &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; InferenceEngineEnhanced::TrackedRequest &gt; &gt; themis::llm::InferenceEngineEnhanced::formBatch</definition>
+        <argsstring>()</argsstring>
+        <name>formBatch</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::formBatch</qualifiedname>
+        <briefdescription>
+<para>Form Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="569" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1916" bodyend="1940"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ae3c365c3226c12821805e6a58f3b7687" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::canAddToBatch</definition>
+        <argsstring>(const std::shared_ptr&lt; TrackedRequest &gt; &amp;req, size_t current_batch_tokens)</argsstring>
+        <name>canAddToBatch</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::canAddToBatch</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; TrackedRequest &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current_batch_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Can Add To Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_batch_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_batch_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="576" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1949" bodyend="1957"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a470fe5e62e7bcbe3eeb3aef6bdb35248" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::checkAndHandleTimeouts</definition>
+        <argsstring>()</argsstring>
+        <name>checkAndHandleTimeouts</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::checkAndHandleTimeouts</qualifiedname>
+        <briefdescription>
+<para>Check And Handle Timeouts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), lock(), load(), push_back(), spdlog::warn(), find(), end(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="582" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="1353" bodyend="1400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa9fb3df7f630816a44a1b9460bb3957a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::InferenceEngineEnhanced::computeEmbeddingForCache</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>computeEmbeddingForCache</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::computeEmbeddingForCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Embedding helper for cache operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Embedding For Cache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Uses the first available plugin (see implementation for selection rationale). Returns an empty vector when no plugin is registered or embedding fails (graceful degradation: falls back to exact-key matching only).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), embed(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="590" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2059" bodyend="2088"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ae9d790889884c2815405507b2dbc66b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::recordCacheHit</definition>
+        <argsstring>(size_t tokens_saved)</argsstring>
+        <name>recordCacheHit</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::recordCacheHit</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>tokens_saved</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Internal Methods - <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_statistics" kindref="compound">Statistics</ref> ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens_saved</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens_saved</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="605" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2255" bodyend="2259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab41e34f11758c9563805a54443c81863" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::recordCacheMiss</definition>
+        <argsstring>()</argsstring>
+        <name>recordCacheMiss</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::recordCacheMiss</qualifiedname>
+        <briefdescription>
+<para>Record Cache Miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="609" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2265" bodyend="2268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a6dc0473cb7514ce8a9b4e653e3f77f8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::recordBatchCompletion</definition>
+        <argsstring>(size_t batch_size)</argsstring>
+        <name>recordBatchCompletion</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::recordBatchCompletion</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Record Batch Completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="614" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2275" bodyend="2291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a7543e93a3df42f111065b1be2cbf5b90" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::recordRequestCompletion</definition>
+        <argsstring>(double latency_ms, const std::string &amp;model_id, size_t tokens_generated=0)</argsstring>
+        <name>recordRequestCompletion</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::recordRequestCompletion</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>tokens_generated</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Record Request Completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens_generated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(), std::accumulate(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="615" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2300" bodyend="2329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a65fda976a81ea232c4390f05211f4560" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::recordRequestTimeout</definition>
+        <argsstring>()</argsstring>
+        <name>recordRequestTimeout</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::recordRequestTimeout</qualifiedname>
+        <briefdescription>
+<para>Record Request Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="620" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2335" bodyend="2338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a19f3ec8cbed851b1410f37261be44b26" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceEngineEnhanced::recordSpeculativeStep</definition>
+        <argsstring>(const SpeculativeDecoder::VerifyResult &amp;result)</argsstring>
+        <name>recordSpeculativeStep</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::recordSpeculativeStep</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result" kindref="compound">SpeculativeDecoder::VerifyResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Record Speculative Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="625" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2345" bodyend="2362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1ae15d07c63387d4e26f90b6c288977825" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::trySpeculativeGeneration</definition>
+        <argsstring>(const InferenceRequest &amp;request, std::shared_ptr&lt; ILLMPlugin &gt; target_plugin, std::shared_ptr&lt; ILLMPlugin &gt; draft_plugin, InferenceResponse &amp;response)</argsstring>
+        <name>trySpeculativeGeneration</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::trySpeculativeGeneration</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+          <declname>target_plugin</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+          <declname>draft_plugin</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Speculative decoding helpers Returns true and fills <computeroutput>response</computeroutput> when speculative generation succeeds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Speculative Generation Helper ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Returns false to fall back to standard generation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), getModelInfo(), max(), lk(), getConfig(), empty(), post(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="636" column="10" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2374" bodyend="2776"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a2b3a7fac0c1abd4839867a7e2bcb02f2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::resolveDraftModelId</definition>
+        <argsstring>(const std::string &amp;target_model_id) const</argsstring>
+        <name>resolveDraftModelId</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::resolveDraftModelId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve the draft model ID for a given target model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Returns config_.speculative_draft_model_id when non-empty. Otherwise, if adapter_registry_ is set, queries it for a DRAFT adapter matching the target model&apos;s family (architecture field); returns the matching adapter_id when the corresponding model is registered, or an empty string when no suitable draft model is found. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="649" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2831" bodyend="2914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a61b000d981eaa53331472cd3a75a188a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::generateRequestId</definition>
+        <argsstring>()</argsstring>
+        <name>generateRequestId</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::generateRequestId</qualifiedname>
+        <briefdescription>
+<para>Generate Request Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Helper Methods ═══════════════════════════════════════════════════════════</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="656" column="17" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2784" bodyend="2793"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_engine_enhanced_1a48c58f169c23784eb980b0e820570dc2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::InferenceEngineEnhanced::estimateTokenSequence</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>estimateTokenSequence</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::estimateTokenSequence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Build a token-ID sequence for a given prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Uses the rough heuristic of 4 chars ≈ 1 token as a lightweight approximation. A real tokenizer call would be required for exact counts, but the <ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" kindref="compound">ILLMPlugin</ref> interface does not expose a standalone tokenize() method at this level of abstraction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), tokens(), std::iota(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="598" column="24" bodyfile="src/llm/inference_engine_enhanced.cpp" bodystart="2096" bodyend="2106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inference_engine_enhanced.h" line="42" column="1" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="42" bodyend="658"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a574742483ac9f3da084376831b604eb0" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>adapter_registry_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a3289ab588e16266d54be771d2456d86f" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>addRoutingRule</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a0cc5124b7594200e11bf522e288e3572" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>batch_scheduler_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a53af0fbff36cec4ca4f340763e0a482c" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>batchCoordinatorLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a4682fd45a3bf2ac237c17929c4563214" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>block_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8d3778f9649b9eab5fb76969f956678c" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ae3c365c3226c12821805e6a58f3b7687" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>canAddToBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a491abb3d6620ceed5b3a2f1139e69b45" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a470fe5e62e7bcbe3eeb3aef6bdb35248" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>checkAndHandleTimeouts</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1abba3a2df79f3b8a2fd00c97339687ea0" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>checkCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a11e739923c60d270f3b3963e24451dcb" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a496641f6e44a59c33b2b80ebb16789de" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>clearRoutingRules</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a2e32d42c0f8e3510bef15429dcbf2046" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>clearTokenizerFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa9fb3df7f630816a44a1b9460bb3957a" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>computeEmbeddingForCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a6ee47856f169da5a4e056b6e92ace674" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a11535218a8473a0f7780c5206aae3899" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>engine_start_time_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a48c58f169c23784eb980b0e820570dc2" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>estimateTokenSequence</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a0ac2047826ecf4427bed59ab0f38998c" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>federated_backend_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a7a83c67667d94d8c6befb01043ac80b9" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>federated_backend_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a22c344f4c7695be140eb5b906d6f0c7f" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>formBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a61b000d981eaa53331472cd3a75a188a" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>generateRequestId</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1adc0c9eeacfd5809c9ee2df638a014e16" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>getAvailableModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a12c34a6a8ec99b61515bdeb65e8e261d" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>getDetailedMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a1fb6041f64987f60b87f6bfdb56e8126" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>getLoadedLoRAAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a7952fb28622ce60aae81df17b933d964" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>getModelQuota</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a23526f67465ad851c857bcf70652399a" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>getRoutingRules</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a4094e6a29492b7105685d0abd1648aff" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ac3d4a5b49d317bd454078f7854019ff5" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>InferenceEngineEnhanced</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a519186d776a990754170e6926c29a5db" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>InferenceEngineEnhanced</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa1518f60a0a373644f48f8c38f475e2b" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a208b90f759a73d216e37f0ba9eb633dd" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>kv_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a33b3114af5ddf1fd0761b61924dd8bff" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>latency_samples_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a3d60e4e45bf0f299701a12c3b5a84644" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>loadLoRAAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1abe6c93947a9921989fdc597c06e61695" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>lookup_decoder_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a468d50272d131d4dcbf1695a9eb7ce2c" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>lora_adapters_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1acb4bba76f3cbd4867272a54ace9bbd8e" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>lora_adapters_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a93e7c73983d516eed0ca69c0da991765" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>model_router_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1af02208a91387178a22c19fab359d5596" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>models_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a5d307fbd961a63ea433b02c8e14dbd10" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>models_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a68e5645074be2ad80a4224f887a4a51f" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>prefix_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8e0c2fd6f689f9f6fd3f249a5d80f461" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>prewarmCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1acdaf0ba10a102b448a83739c8a47ea0c" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>processBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aae568b502795ab515f9591cd72e4edf8" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>queue_cv_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab47e7534c60206d22260119c8d5c7751" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a6dc0473cb7514ce8a9b4e653e3f77f8d" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>recordBatchCompletion</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ae9d790889884c2815405507b2dbc66b6" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>recordCacheHit</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab41e34f11758c9563805a54443c81863" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>recordCacheMiss</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a7543e93a3df42f111065b1be2cbf5b90" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>recordRequestCompletion</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a65fda976a81ea232c4390f05211f4560" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>recordRequestTimeout</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a19f3ec8cbed851b1410f37261be44b26" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>recordSpeculativeStep</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aeec251a618695b10820d129c5498698e" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>registerModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aac591a631ccf1860994ce0f9e895e1ff" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>remote_draft_shard_info_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a067123bdd416a4e38dce75854d583cf7" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>remote_executor_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a0b5dc7c52cc631ea6ea7c4dd72083650" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>removeRoutingRule</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1adc6fc0b81a87fec67e329a30f50b8893" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>reprioritize</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a51209c5bc4f1b8e713c05a9b621ab654" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>request_counter_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa9d10aabeb473ff19e561628c590095f" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>request_queue_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a85bd7abb4765a955e0a17c13fa1608cb" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>requests_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a2b3a7fac0c1abd4839867a7e2bcb02f2" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>resolveDraftModelId</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a0d0abed8fc1b2e78af55f0372df16637" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>round_robin_index_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a665c770b5ea32057b685b59b7a41c45c" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>running_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a646015e8d848696855ec713d54e52767" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>selectModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a23e819c6a7919bda6a0b56d21a675482" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>self_rag_critic_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a565eae8b5cba097020ee6b07c27933b9" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>self_rag_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1adfe41c6b84a8629c70949f4f9ad0bcf8" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>self_rag_retrieval_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1af9afef8fbc5da05c910b822f2eb4c10b" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>SelfRAGCriticCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aea0b78784d18bc4624d3320eb9fb1179" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>SelfRAGRetrievalCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa1b09ae68e3717bf7ecc3b3b15b9b6d5" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>setAdapterRegistry</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa795ddf3376e0c74dbf4d21a553c01d6" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>setFederatedBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a56acdb201b7fa5bad2cbfd21d6f669b7" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>setModelQuota</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aaaa5a87ee98a9de5ef45446fd6867957" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>setRemoteExecutor</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8b7483191b9c01192458eb4a0a21c72b" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>setSelfRAGCriticCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a5edff4e64b273965ff4f58e3e15ab587" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>setSelfRAGRetrievalCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a54bfecc6b3c7f5fb53a21d09726ce28e" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>setTargetLogitsFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a79fac96322233889a46ea2bb0f18a4ee" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>setTokenizerFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aeb123119960f684be207f9c79ee1c2e8" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>shared_pool_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab06f36c642ecb043d43746fe63b0ebc8" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1af44e7e57ee27aecfa337bc0784394a5e" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>speculative_decoder_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8db89919782c5e3acd2c054a0788a286" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>start</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ace0736ef65b4a053b08f0d3318bc65bf" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8a6aaad6c5b66ee5161d49e83a47b6ee" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aa3f8dcb26285b9795ce17893856569d3" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>submit</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a330b0d4ad6c91fc7c7c8d315a3f7ed77" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>submitAsync</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a58b9691be534e98481f7195f9644d422" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>submitStreaming</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ad8cafa3eda128918b2bee5de2e02d8c2" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>swapModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8b20325eb875d056218f77a11a1d190b" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>target_logits_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a51bd7844206a4d4da42da848800c90f1" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>target_logits_fn_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab4b4d94dd8a95b8c9d4d25f6ee37ef8c" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>TargetLogitsFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a861f4ba041c30fb99dcf916332c440e4" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>timeout_thread_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a53e9c0887ed814f63824c40e1620d2be" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>timeoutMonitorLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1afb77e92a9f5034aa62240f61306f95e3" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>TokenCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ac65de875db2e12e714b23f2a22ee24a8" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>tokenizer_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ae2895d502dfde005bd4a9518e3609719" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>tokenizer_fn_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a38da491d4283eecb1e0d7008235a2294" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>TokenizerFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8bd32662441a07cd5c32e8f77d8af070" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>tracked_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ae15d07c63387d4e26f90b6c288977825" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>trySpeculativeGeneration</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1af58acc2c44cca51f6d576707e6346555" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>unloadLoRAAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1af2a25cf1be6bf3b5fe779cf69271a9a5" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>unregisterModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a74cd73dc30caa13800927b74fba849e4" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>updateCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a17a03315d2834ac06a1e61d7e87ad070" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>updateModelStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a8f0bba69c0def791ba99c0195dad9119" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>worker_threads_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a5fb4211397af2e111ac2c249d28fce33" prot="private" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>workerLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1aabcf4c20e939121e379317c97f26989c" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced</scope><name>~InferenceEngineEnhanced</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

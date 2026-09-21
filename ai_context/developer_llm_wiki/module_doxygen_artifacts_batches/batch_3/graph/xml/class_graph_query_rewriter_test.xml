@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_query_rewriter_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphQueryRewriterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_query_rewriter_test_1a56d6153bb47f123cd4246975106c566d" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter" kindref="compound">GraphQueryRewriter</ref></type>
+        <definition>GraphQueryRewriter GraphQueryRewriterTest::rewriter_</definition>
+        <argsstring></argsstring>
+        <name>rewriter_</name>
+        <qualifiedname>GraphQueryRewriterTest::rewriter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_rewriter.cpp" line="44" column="24" bodyfile="tests/graph/test_graph_query_rewriter.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_graph_query_rewriter_test_1aeba5cc842ffcf01507af9d6b5213d799" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="test__graph__edge__encryption_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>static json GraphQueryRewriterTest::makeFilter</definition>
+        <argsstring>(const std::string &amp;field, const std::string &amp;op, const std::string &amp;value)</argsstring>
+        <name>makeFilter</name>
+        <qualifiedname>GraphQueryRewriterTest::makeFilter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_rewriter.cpp" line="48" column="17" bodyfile="tests/graph/test_graph_query_rewriter.cpp" bodystart="48" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_rewriter_test_1af0ffefc05db99493a54ee5af86bda3bc" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="test__graph__edge__encryption_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>static json GraphQueryRewriterTest::makeTraversal</definition>
+        <argsstring>(const std::string &amp;graph_id, const std::string &amp;start, int max_depth=2, const std::string &amp;dir=&quot;OUTBOUND&quot;, json filters=json::array())</argsstring>
+        <name>makeTraversal</name>
+        <qualifiedname>GraphQueryRewriterTest::makeTraversal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+          <defval>2</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dir</declname>
+          <defval>&quot;OUTBOUND&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="test__graph__edge__encryption_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+          <declname>filters</declname>
+          <defval>json::array()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_rewriter.cpp" line="58" column="17" bodyfile="tests/graph/test_graph_query_rewriter.cpp" bodystart="58" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphQueryRewriterTest</label>
+        <link refid="class_graph_query_rewriter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphQueryRewriterTest</label>
+        <link refid="class_graph_query_rewriter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>rewriter_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::graph::GraphQueryRewriter</label>
+        <link refid="classthemis_1_1graph_1_1_graph_query_rewriter"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_query_rewriter.cpp" line="42" column="1" bodyfile="tests/graph/test_graph_query_rewriter.cpp" bodystart="42" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_graph_query_rewriter_test_1aeba5cc842ffcf01507af9d6b5213d799" prot="protected" virt="non-virtual"><scope>GraphQueryRewriterTest</scope><name>makeFilter</name></member>
+      <member refid="class_graph_query_rewriter_test_1af0ffefc05db99493a54ee5af86bda3bc" prot="protected" virt="non-virtual"><scope>GraphQueryRewriterTest</scope><name>makeTraversal</name></member>
+      <member refid="class_graph_query_rewriter_test_1a56d6153bb47f123cd4246975106c566d" prot="protected" virt="non-virtual"><scope>GraphQueryRewriterTest</scope><name>rewriter_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

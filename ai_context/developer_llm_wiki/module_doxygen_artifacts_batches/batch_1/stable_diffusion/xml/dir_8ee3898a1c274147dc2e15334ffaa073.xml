@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8ee3898a1c274147dc2e15334ffaa073" kind="dir">
+    <compoundname>include/stable_diffusion</compoundname>
+    <innerfile refid="sd__config_8h">sd_config.h</innerfile>
+    <innerfile refid="sd__generator_8h">sd_generator.h</innerfile>
+    <innerfile refid="sd__plugin_8h">sd_plugin.h</innerfile>
+    <innerfile refid="sd__plugin__registrar_8h">sd_plugin_registrar.h</innerfile>
+    <innerfile refid="sd__prompt__sanitizer_8h">sd_prompt_sanitizer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/stable_diffusion/"/>
+  </compounddef>
+</doxygen>

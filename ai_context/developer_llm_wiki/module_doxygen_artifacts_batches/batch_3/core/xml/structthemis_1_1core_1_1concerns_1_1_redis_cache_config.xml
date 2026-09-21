@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::RedisCacheConfig</compoundname>
+    <includes refid="redis__cache_8h" local="no">redis_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1ac1c01b9892a853c597dd0ee06b9742b6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::core::concerns::RedisCacheConfig::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::nodes</qualifiedname>
+        <initializer>= {&quot;127.0.0.1:6379&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="65" column="17" bodyfile="include/core/concerns/redis_cache.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a1fbd6c36fa8aa461fe310b44595a6a92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::RedisCacheConfig::password</definition>
+        <argsstring></argsstring>
+        <name>password</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="67" column="17" bodyfile="include/core/concerns/redis_cache.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a9b4d722087ffb067c5229d970c43c2d5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::core::concerns::RedisCacheConfig::db_index</definition>
+        <argsstring></argsstring>
+        <name>db_index</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::db_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="69" column="9" bodyfile="include/core/concerns/redis_cache.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a661cbb20b4872ded6e9f03a1cb2802fa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::core::concerns::RedisCacheConfig::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::connect_timeout_ms</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="71" column="9" bodyfile="include/core/concerns/redis_cache.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1adb73b8720274aa5ab62d346a2ef02cb0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::core::concerns::RedisCacheConfig::reconnect_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>reconnect_interval_ms</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::reconnect_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="73" column="9" bodyfile="include/core/concerns/redis_cache.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a21b7dd7b961eebe2238ce866c1e06fbf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::RedisCacheConfig::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::key_prefix</qualifiedname>
+        <initializer>= &quot;themis:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="75" column="17" bodyfile="include/core/concerns/redis_cache.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a3509f0e77fdf275432cfbdac4b76d62d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::core::concerns::RedisCacheConfig::virtual_nodes_per_node</definition>
+        <argsstring></argsstring>
+        <name>virtual_nodes_per_node</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::virtual_nodes_per_node</qualifiedname>
+        <initializer>= 150</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="77" column="9" bodyfile="include/core/concerns/redis_cache.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a1e5f5c1350e1ce5f311f02b2dd77fe70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::RedisCacheConfig::invalidation_channel</definition>
+        <argsstring></argsstring>
+        <name>invalidation_channel</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::invalidation_channel</qualifiedname>
+        <initializer>= &quot;themis:cache:invalidations&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="79" column="17" bodyfile="include/core/concerns/redis_cache.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1aab085242d1e454347a6441234d62be57" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::RedisCacheConfig::default_ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>default_ttl_ms</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::default_ttl_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="81" column="14" bodyfile="include/core/concerns/redis_cache.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a698c4efcd3cb61a0b2dbb8c1638caff0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::RedisCacheConfig::max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <qualifiedname>themis::core::concerns::RedisCacheConfig::max_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="83" column="12" bodyfile="include/core/concerns/redis_cache.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/redis_cache.h" line="64" column="1" bodyfile="include/core/concerns/redis_cache.h" bodystart="64" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a661cbb20b4872ded6e9f03a1cb2802fa" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a9b4d722087ffb067c5229d970c43c2d5" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>db_index</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1aab085242d1e454347a6441234d62be57" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>default_ttl_ms</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a1e5f5c1350e1ce5f311f02b2dd77fe70" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>invalidation_channel</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a21b7dd7b961eebe2238ce866c1e06fbf" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a698c4efcd3cb61a0b2dbb8c1638caff0" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>max_size</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1ac1c01b9892a853c597dd0ee06b9742b6" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a1fbd6c36fa8aa461fe310b44595a6a92" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>password</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1adb73b8720274aa5ab62d346a2ef02cb0" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>reconnect_interval_ms</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config_1a3509f0e77fdf275432cfbdac4b76d62d" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCacheConfig</scope><name>virtual_nodes_per_node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

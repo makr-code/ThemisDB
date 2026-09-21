@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d324134255235275077073135253325054114265312363335" kind="namespace" language="C++">
+    <compoundname>@324134255235275077073135253325054114265312363335</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="44" column="1"/>
+  </compounddef>
+</doxygen>

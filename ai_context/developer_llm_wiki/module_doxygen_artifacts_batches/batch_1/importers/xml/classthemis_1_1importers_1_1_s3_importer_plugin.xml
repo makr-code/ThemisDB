@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_s3_importer_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::S3ImporterPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">plugins::IThemisPlugin</basecompoundref>
+    <includes refid="s3__importer_8h" local="no">s3_importer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_s3_importer_plugin_1abfaee331a4bddf530f733432c9c55e3d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_s3_importer" kindref="compound">S3Importer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;S3Importer&gt; themis::importers::S3ImporterPlugin::importer_</definition>
+        <argsstring></argsstring>
+        <name>importer_</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::importer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="177" column="21" bodyfile="include/importers/s3_importer.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1a75a1fcfceb49db0fbdf6f5321ac66c6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::S3ImporterPlugin::S3ImporterPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>S3ImporterPlugin</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::S3ImporterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="163" column="5" bodyfile="src/importers/s3_importer.cpp" bodystart="858" bodyend="859"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1ae782a9a1528f90c2807e567fc03bf924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::S3ImporterPlugin::~S3ImporterPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~S3ImporterPlugin</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::~S3ImporterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="164" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1ab01d19b92235589fcb064989f625f8dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::S3ImporterPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="166" column="16" bodyfile="include/importers/s3_importer.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1a5c62f54aa3ef4f9069559dde7ae449a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::S3ImporterPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="167" column="16" bodyfile="include/importers/s3_importer.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1a6a44c3dc64f95381f9c3ea190b3a1672" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginType</type>
+        <definition>plugins::PluginType themis::importers::S3ImporterPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="168" column="25" bodyfile="include/importers/s3_importer.h" bodystart="168" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1ad2dfca57a28d46dc5515fdc53cc3ce98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::importers::S3ImporterPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="171" column="33" bodyfile="src/importers/s3_importer.cpp" bodystart="861" bodyend="867"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1aef2560c494a2e6674c871e214231ff94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::S3ImporterPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="172" column="10" bodyfile="src/importers/s3_importer.cpp" bodystart="875" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1a07acbeb751ccd38ffc910ba2f62d9e2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::S3ImporterPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cancel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="173" column="10" bodyfile="src/importers/s3_importer.cpp" bodystart="886" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s3_importer_plugin_1a8ace72cb87b088a5afa4e6338739da14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::importers::S3ImporterPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::importers::S3ImporterPlugin::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="174" column="10" bodyfile="include/importers/s3_importer.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::S3ImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_s3_importer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::S3ImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_s3_importer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/s3_importer.h" line="161" column="1" bodyfile="include/importers/s3_importer.h" bodystart="161" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1ad2dfca57a28d46dc5515fdc53cc3ce98" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1a8ace72cb87b088a5afa4e6338739da14" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1ab01d19b92235589fcb064989f625f8dc" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1a6a44c3dc64f95381f9c3ea190b3a1672" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1a5c62f54aa3ef4f9069559dde7ae449a7" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1abfaee331a4bddf530f733432c9c55e3d" prot="private" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>importer_</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1aef2560c494a2e6674c871e214231ff94" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1a75a1fcfceb49db0fbdf6f5321ac66c6f" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>S3ImporterPlugin</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1a07acbeb751ccd38ffc910ba2f62d9e2f" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1importers_1_1_s3_importer_plugin_1ae782a9a1528f90c2807e567fc03bf924" prot="public" virt="non-virtual"><scope>themis::importers::S3ImporterPlugin</scope><name>~S3ImporterPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

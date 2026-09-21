@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_statistical_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::StatisticalAggregator</compoundname>
+    <includes refid="statistical__aggregator_8h" local="no">statistical_aggregator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1a3f5834840f46a5cbca80104df14d63a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::StatisticalAggregator::StatisticalAggregator</definition>
+        <argsstring>()=default</argsstring>
+        <name>StatisticalAggregator</name>
+        <qualifiedname>themis::query::StatisticalAggregator::StatisticalAggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="26" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1aa948f67fdf4e8ef13a0a01645c974065" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculatePercentile</definition>
+        <argsstring>(std::vector&lt; double &gt; values, double percentile)</argsstring>
+        <name>calculatePercentile</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculatePercentile</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Percentile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), fmt::format(), std::sort(), begin(), end(), size(), Ok(), nlohmann::json(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="34" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="32" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1a1ca5edc595a789d3de43d0faf57801ba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculateMedian</definition>
+        <argsstring>(std::vector&lt; double &gt; values)</argsstring>
+        <name>calculateMedian</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateMedian</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Median. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_statistical_aggregator_1aa948f67fdf4e8ef13a0a01645c974065" kindref="member">calculatePercentile()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="44" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1ad2d056fdd60d49115484eb6789b5602b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculateStdDev</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>calculateStdDev</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateStdDev</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Std Dev. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_statistical_aggregator_1ac03f3c3358ea5786fd4c998091bd8e70" kindref="member">calculateVariance()</ref>, Ok(), nlohmann::json(), std::sqrt(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="51" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="162" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1a2889b8989af5ff3e904b047af6d96e12" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculateStdDevPop</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>calculateStdDevPop</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateStdDevPop</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Std Dev Pop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_statistical_aggregator_1a1d38988a85f9f25fee7347d101384bbb" kindref="member">calculateVariancePop()</ref>, Ok(), nlohmann::json(), std::sqrt(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="58" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1ac03f3c3358ea5786fd4c998091bd8e70" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculateVariance</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>calculateVariance</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateVariance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Variance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), fmt::format(), calculateMean(), Ok(), nlohmann::json(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="65" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="106" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1a1d38988a85f9f25fee7347d101384bbb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculateVariancePop</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>calculateVariancePop</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateVariancePop</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Variance Pop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), Ok(), nlohmann::json(), calculateMean(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="72" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="132" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1ad12ba59cf37aa99ae7b53458570cacfe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculateRange</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>calculateRange</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateRange</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::minmax_element(), begin(), end(), Ok(), nlohmann::json(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="79" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1a84419cd7dd587afbc9d23ec496e0d473" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculateIQR</definition>
+        <argsstring>(std::vector&lt; double &gt; values)</argsstring>
+        <name>calculateIQR</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateIQR</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate IQR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), fmt::format(), <ref refid="classthemis_1_1query_1_1_statistical_aggregator_1aa948f67fdf4e8ef13a0a01645c974065" kindref="member">calculatePercentile()</ref>, Ok(), nlohmann::json(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="86" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="212" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1a6226ae0390da3647ea7f7327ff531814" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::query::StatisticalAggregator::calculateMAD</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>calculateMAD</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateMAD</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate MAD. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), calculateMean(), std::abs(), Ok(), nlohmann::json(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="93" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="239" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1aa00d5aeb350fa0812aae230ac4b8b3c8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::StatisticalAggregator::calculateMean</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>calculateMean</name>
+        <qualifiedname>themis::query::StatisticalAggregator::calculateMean</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Mean. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::accumulate(), begin(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="101" column="19" bodyfile="src/query/statistical_aggregator.cpp" bodystart="91" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_statistical_aggregator_1ac099b93beda4d23c4ba1a2a5c195139c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::query::StatisticalAggregator::extractNumericValues</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;jsonValues)</argsstring>
+        <name>extractNumericValues</name>
+        <qualifiedname>themis::query::StatisticalAggregator::extractNumericValues</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>jsonValues</declname>
+        </param>
+        <briefdescription>
+<para>Extract Numeric Values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jsonValues</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jsonValues</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), is_number(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/statistical_aggregator.h" line="108" column="24" bodyfile="src/query/statistical_aggregator.cpp" bodystart="265" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/statistical_aggregator.h" line="24" column="1" bodyfile="include/query/statistical_aggregator.h" bodystart="24" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1a84419cd7dd587afbc9d23ec496e0d473" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateIQR</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1a6226ae0390da3647ea7f7327ff531814" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateMAD</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1aa00d5aeb350fa0812aae230ac4b8b3c8" prot="private" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateMean</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1a1ca5edc595a789d3de43d0faf57801ba" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateMedian</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1aa948f67fdf4e8ef13a0a01645c974065" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculatePercentile</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1ad12ba59cf37aa99ae7b53458570cacfe" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateRange</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1ad2d056fdd60d49115484eb6789b5602b" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateStdDev</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1a2889b8989af5ff3e904b047af6d96e12" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateStdDevPop</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1ac03f3c3358ea5786fd4c998091bd8e70" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateVariance</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1a1d38988a85f9f25fee7347d101384bbb" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>calculateVariancePop</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1ac099b93beda4d23c4ba1a2a5c195139c" prot="private" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>extractNumericValues</name></member>
+      <member refid="classthemis_1_1query_1_1_statistical_aggregator_1a3f5834840f46a5cbca80104df14d63a7" prot="public" virt="non-virtual"><scope>themis::query::StatisticalAggregator</scope><name>StatisticalAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

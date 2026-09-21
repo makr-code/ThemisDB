@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EmbeddingAnomalyDetector::Config</compoundname>
+    <includes refid="lora__security__validator_8h" local="no">lora_security_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config_1ab344a5b58483abe02643b1c701db1692" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EmbeddingAnomalyDetector::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="322" column="14" bodyfile="include/llm/lora_security_validator.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config_1a03bfdd750ad8e2f7b2667ae85bc1a87c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EmbeddingAnomalyDetector::Config::outlier_threshold</definition>
+        <argsstring></argsstring>
+        <name>outlier_threshold</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::Config::outlier_threshold</qualifiedname>
+        <initializer>= 3.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="323" column="15" bodyfile="include/llm/lora_security_validator.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config_1a59a0e7eb39574ad2a37282829031e503" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::EmbeddingAnomalyDetector::Config::min_samples</definition>
+        <argsstring></argsstring>
+        <name>min_samples</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::Config::min_samples</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="324" column="16" bodyfile="include/llm/lora_security_validator.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config_1a4e5de590dfb6ce3dac5e5df14ed83cdc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EmbeddingAnomalyDetector::Config::use_isolation_forest</definition>
+        <argsstring></argsstring>
+        <name>use_isolation_forest</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::Config::use_isolation_forest</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="325" column="14" bodyfile="include/llm/lora_security_validator.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_security_validator.h" line="321" column="5" bodyfile="include/llm/lora_security_validator.h" bodystart="321" bodyend="326"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config_1ab344a5b58483abe02643b1c701db1692" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config_1a59a0e7eb39574ad2a37282829031e503" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector::Config</scope><name>min_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config_1a03bfdd750ad8e2f7b2667ae85bc1a87c" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector::Config</scope><name>outlier_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config_1a4e5de590dfb6ce3dac5e5df14ed83cdc" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector::Config</scope><name>use_isolation_forest</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

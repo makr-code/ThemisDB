@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_mock_a_q_l_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::MockAQLBridge</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_mock_a_q_l_bridge_1adfd1ba65ff7f68eaef06ca6d76a6b189" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_a_q_l_bridge_result" kindref="compound">AQLBridgeResult</ref></type>
+        <definition>AQLBridgeResult themis::aql::MockAQLBridge::executeWithBridge</definition>
+        <argsstring>(const std::string &amp;aql_query)</argsstring>
+        <name>executeWithBridge</name>
+        <qualifiedname>themis::aql::MockAQLBridge::executeWithBridge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="129" column="21" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="129" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="127" column="1" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="127" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_mock_a_q_l_bridge_1adfd1ba65ff7f68eaef06ca6d76a6b189" prot="public" virt="non-virtual"><scope>themis::aql::MockAQLBridge</scope><name>executeWithBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

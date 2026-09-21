@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_document_lifecycle_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::DocumentLifecycleEvent</compoundname>
+    <includes refid="document__lifecycle_8h" local="no">document_lifecycle.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_lifecycle_event_1a90644f53fef83f3a52a45203a862f6d5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref></type>
+        <definition>DocumentId themis::document::DocumentLifecycleEvent::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::document::DocumentLifecycleEvent::document_id</qualifiedname>
+        <briefdescription>
+<para>Document being acted upon. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="51" column="23" bodyfile="include/document/document_lifecycle.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_lifecycle_event_1a8527ba15c8d5829131cca0facb397d2c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>CollectionId themis::document::DocumentLifecycleEvent::collection_id</definition>
+        <argsstring></argsstring>
+        <name>collection_id</name>
+        <qualifiedname>themis::document::DocumentLifecycleEvent::collection_id</qualifiedname>
+        <briefdescription>
+<para>Owning collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="52" column="23" bodyfile="include/document/document_lifecycle.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_lifecycle_event_1a8f393756ab1d269591e902c2dfb0e151" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abe" kindref="member">DocumentEventType</ref></type>
+        <definition>DocumentEventType themis::document::DocumentLifecycleEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::document::DocumentLifecycleEvent::type</qualifiedname>
+        <briefdescription>
+<para>Lifecycle phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="53" column="23" bodyfile="include/document/document_lifecycle.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_lifecycle_event_1ab73555255b8b1467f21235965bff6211" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::document::DocumentLifecycleEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::document::DocumentLifecycleEvent::timestamp_ms</qualifiedname>
+        <briefdescription>
+<para>Unix epoch milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="54" column="23" bodyfile="include/document/document_lifecycle.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_lifecycle_event_1a6e5bfa89d69e196021a42ed8a0ad4c9b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::DocumentLifecycleEvent::actor</definition>
+        <argsstring></argsstring>
+        <name>actor</name>
+        <qualifiedname>themis::document::DocumentLifecycleEvent::actor</qualifiedname>
+        <briefdescription>
+<para>Identity of the requesting actor (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="55" column="23" bodyfile="include/document/document_lifecycle.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_lifecycle.h" line="50" column="1" bodyfile="include/document/document_lifecycle.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_document_lifecycle_event_1a6e5bfa89d69e196021a42ed8a0ad4c9b" prot="public" virt="non-virtual"><scope>themis::document::DocumentLifecycleEvent</scope><name>actor</name></member>
+      <member refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8527ba15c8d5829131cca0facb397d2c" prot="public" virt="non-virtual"><scope>themis::document::DocumentLifecycleEvent</scope><name>collection_id</name></member>
+      <member refid="structthemis_1_1document_1_1_document_lifecycle_event_1a90644f53fef83f3a52a45203a862f6d5" prot="public" virt="non-virtual"><scope>themis::document::DocumentLifecycleEvent</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1document_1_1_document_lifecycle_event_1ab73555255b8b1467f21235965bff6211" prot="public" virt="non-virtual"><scope>themis::document::DocumentLifecycleEvent</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8f393756ab1d269591e902c2dfb0e151" prot="public" virt="non-virtual"><scope>themis::document::DocumentLifecycleEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_node_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::NodeDescriptor</compoundname>
+    <includes refid="coordinated__update__manager_8h" local="no">coordinated_update_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_node_descriptor_1aee826818bcdb28c5f9e9a224c54196e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::NodeDescriptor::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::updates::NodeDescriptor::node_id</qualifiedname>
+        <briefdescription>
+<para>Stable unique identifier for this node (hostname, UUID, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="34" column="17" bodyfile="include/updates/coordinated_update_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_node_descriptor_1a2a97e290aae4dc4b7d8d5eada495c42a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::NodeDescriptor::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themis::updates::NodeDescriptor::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0-based position in the update sequence (lower = updated sooner). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="37" column="14" bodyfile="include/updates/coordinated_update_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_node_descriptor_1a7209a7d184d6e6bcf791819636b68637" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::NodeDescriptor::is_leader</definition>
+        <argsstring></argsstring>
+        <name>is_leader</name>
+        <qualifiedname>themis::updates::NodeDescriptor::is_leader</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True for the replication leader. When <ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ac45b03f1a6343582b8885c7aad627c6c" kindref="member">CoordinatedUpdateConfig::leader_last</ref> is true the leader is unconditionally assigned the highest sequence slot. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="41" column="10" bodyfile="include/updates/coordinated_update_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Identifies one node that participates in a coordinated update. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Nodes are updated strictly in ascending sequence_number order. The replication leader (highest sequence_number, or the node explicitly marked is_leader) is updated last to preserve replication safety. </para>
+    </detaileddescription>
+    <location file="include/updates/coordinated_update_manager.h" line="32" column="1" bodyfile="include/updates/coordinated_update_manager.h" bodystart="32" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_node_descriptor_1a7209a7d184d6e6bcf791819636b68637" prot="public" virt="non-virtual"><scope>themis::updates::NodeDescriptor</scope><name>is_leader</name></member>
+      <member refid="structthemis_1_1updates_1_1_node_descriptor_1aee826818bcdb28c5f9e9a224c54196e8" prot="public" virt="non-virtual"><scope>themis::updates::NodeDescriptor</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_node_descriptor_1a2a97e290aae4dc4b7d8d5eada495c42a" prot="public" virt="non-virtual"><scope>themis::updates::NodeDescriptor</scope><name>sequence_number</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

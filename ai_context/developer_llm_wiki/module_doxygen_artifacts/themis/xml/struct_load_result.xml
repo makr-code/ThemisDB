@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_load_result" kind="struct" language="C++" prot="public">
+    <compoundname>LoadResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_load_result_1a831be5bcc0a104477375261f2fd6d660" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool LoadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>LoadResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="41" column="13" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_load_result_1ace4dd5165ca980ee293086a1f64ea882" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t LoadResult::trust_level</definition>
+        <argsstring></argsstring>
+        <name>trust_level</name>
+        <qualifiedname>LoadResult::trust_level</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="42" column="13" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="40" column="1" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="40" bodyend="43"/>
+    <listofallmembers>
+      <member refid="struct_load_result_1a831be5bcc0a104477375261f2fd6d660" prot="public" virt="non-virtual"><scope>LoadResult</scope><name>success</name></member>
+      <member refid="struct_load_result_1ace4dd5165ca980ee293086a1f64ea882" prot="public" virt="non-virtual"><scope>LoadResult</scope><name>trust_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

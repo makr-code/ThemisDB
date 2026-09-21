@@ -1,0 +1,632 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_multi_tier_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphMultiTierCache</compoundname>
+    <includes refid="graph__cache__manager_8h" local="no">graph_cache_manager.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config" prot="public">themis::graph::GraphMultiTierCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics" prot="public">themis::graph::GraphMultiTierCache::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_entry" prot="private">themis::graph::GraphMultiTierCache::Entry</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_tier" prot="private">themis::graph::GraphMultiTierCache::Tier</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a2504e0d393ab1b3592b73ce735e62553" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::GraphMultiTierCache&lt; K, V &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="294" column="24" bodyfile="include/graph/graph_cache_manager.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1aa7d28470e26aaa48ef3787072c8fd3d9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::graph::GraphMultiTierCache&lt; K, V &gt;::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="295" column="12" bodyfile="include/graph/graph_cache_manager.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a9fb934c72adfa8967a7802441af5ee7b" prot="private" static="no" mutable="no">
+        <type>Tier</type>
+        <definition>Tier themis::graph::GraphMultiTierCache&lt; K, V &gt;::hot_</definition>
+        <argsstring></argsstring>
+        <name>hot_</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::hot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="296" column="12" bodyfile="include/graph/graph_cache_manager.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae35ad3a45ddd5260bf2f9af5fd873a44" prot="private" static="no" mutable="no">
+        <type>Tier</type>
+        <definition>Tier themis::graph::GraphMultiTierCache&lt; K, V &gt;::warm_</definition>
+        <argsstring></argsstring>
+        <name>warm_</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::warm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="297" column="12" bodyfile="include/graph/graph_cache_manager.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ac920c5e8433295dabb8fa9731c375a08" prot="private" static="no" mutable="no">
+        <type>Tier</type>
+        <definition>Tier themis::graph::GraphMultiTierCache&lt; K, V &gt;::cold_</definition>
+        <argsstring></argsstring>
+        <name>cold_</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::cold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="298" column="12" bodyfile="include/graph/graph_cache_manager.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a3768a94765b173178a2c335c6577c4d6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::graph::GraphMultiTierCache&lt; K, V &gt;::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="299" column="13" bodyfile="include/graph/graph_cache_manager.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae690134c804d22fa1111e58baaa45402" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphMultiTierCache&lt; K, V &gt;::GraphMultiTierCache</definition>
+        <argsstring>(Config cfg=Config{})</argsstring>
+        <name>GraphMultiTierCache</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::GraphMultiTierCache</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+          <defval><ref refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="64" column="14" bodyfile="include/graph/graph_cache_manager.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae4fc199cd061bafcb9ec3e41e2ba92b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt; V &gt; themis::graph::GraphMultiTierCache&lt; K, V &gt;::get</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::get</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), promote(), evictFromTier(), insertToTier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="72" column="19" bodyfile="include/graph/graph_cache_manager.h" bodystart="72" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a8b9976d8a740061b7ad82bf2b018c8f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphMultiTierCache&lt; K, V &gt;::put</definition>
+        <argsstring>(const K &amp;key, V value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::put</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), removeFromAll(), insertToTier(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="109" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="109" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae6c443e9fb5bfbf86894b93b4a11048e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphMultiTierCache&lt; K, V &gt;::remove</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::remove</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), removeFromAll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="122" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ad0ebf9140bf985f2f7f9893e441b0890" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphMultiTierCache&lt; K, V &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="131" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="131" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a291d4c08f165968c7ff184c0659b325d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="138" column="12" bodyfile="include/graph/graph_cache_manager.h" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae320dcd133695f4a342a8290f5c831f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::hotSize</definition>
+        <argsstring>() const</argsstring>
+        <name>hotSize</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::hotSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="148" column="12" bodyfile="include/graph/graph_cache_manager.h" bodystart="148" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a168a903594ec242f5b2dde4529ad70d4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::warmSize</definition>
+        <argsstring>() const</argsstring>
+        <name>warmSize</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::warmSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="158" column="12" bodyfile="include/graph/graph_cache_manager.h" bodystart="158" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a27d265217c3e52702c2d62e6af5a47f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::coldSize</definition>
+        <argsstring>() const</argsstring>
+        <name>coldSize</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::coldSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="168" column="12" bodyfile="include/graph/graph_cache_manager.h" bodystart="168" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a7f16a3036d353991c01c91b73ce9a8ab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::graph::GraphMultiTierCache&lt; K, V &gt;::metrics</definition>
+        <argsstring>() const</argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="178" column="13" bodyfile="include/graph/graph_cache_manager.h" bodystart="178" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a5ce66539fe65131db0e287812016bccc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphMultiTierCache&lt; K, V &gt;::reconfigure</definition>
+        <argsstring>(Config cfg)</argsstring>
+        <name>reconfigure</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::reconfigure</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Reconfigure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), trimTier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="193" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="193" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a34eb2353e139e19034b0c260bb127273" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphMultiTierCache&lt; K, V &gt;::promote</definition>
+        <argsstring>(Tier &amp;tier, const K &amp;key, typename std::unordered_map&lt; K, Entry &gt;::iterator it)</argsstring>
+        <name>promote</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::promote</qualifiedname>
+        <param>
+          <type>Tier &amp;</type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>typename std::unordered_map&lt; K, Entry &gt;::iterator</type>
+          <declname>it</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="213" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="213" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1aa629e3e938f6b6b96e4a813dd9ba352b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphMultiTierCache&lt; K, V &gt;::evictFromTier</definition>
+        <argsstring>(Tier &amp;tier, typename std::unordered_map&lt; K, Entry &gt;::iterator it)</argsstring>
+        <name>evictFromTier</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::evictFromTier</qualifiedname>
+        <param>
+          <type>Tier &amp;</type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>typename std::unordered_map&lt; K, Entry &gt;::iterator</type>
+          <declname>it</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="221" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="221" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a003ffd7a35d7f0515cb9aed218936976" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphMultiTierCache&lt; K, V &gt;::insertToTier</definition>
+        <argsstring>(Tier &amp;tier, size_t capacity, const K &amp;key, V value, Tier *demote_to)</argsstring>
+        <name>insertToTier</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::insertToTier</qualifiedname>
+        <param>
+          <type>Tier &amp;</type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Tier *</type>
+          <declname>demote_to</declname>
+        </param>
+        <briefdescription>
+<para>Insert into a tier, demoting the LRU entry to <computeroutput>demote_to</computeroutput> if at capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">demote_to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+If <computeroutput>demote_to</computeroutput> is nullptr the evicted entry is discarded. Calls: <ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a291d4c08f165968c7ff184c0659b325d" kindref="member">size()</ref>, back(), std::move(), at(), push_front(), emplace(), begin(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="236" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="236" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a63dbaf1148850caf5ae87eed46203e4b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphMultiTierCache&lt; K, V &gt;::removeFromAll</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>removeFromAll</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::removeFromAll</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove key from all tiers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Returns true if found anywhere. Calls: find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="264" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="264" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ab4386c4368e341107d05b9d8e64a9e1e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphMultiTierCache&lt; K, V &gt;::trimTier</definition>
+        <argsstring>(Tier &amp;tier, size_t capacity)</argsstring>
+        <name>trimTier</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::trimTier</qualifiedname>
+        <param>
+          <type>Tier &amp;</type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>Trim a tier to at most <computeroutput>capacity</computeroutput> entries by evicting LRU entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a291d4c08f165968c7ff184c0659b325d" kindref="member">size()</ref>, back(), erase(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="282" column="10" bodyfile="include/graph/graph_cache_manager.h" bodystart="282" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_cache_manager.h" line="39" column="1" bodyfile="include/graph/graph_cache_manager.h" bodystart="39" bodyend="300"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1aa7d28470e26aaa48ef3787072c8fd3d9" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ad0ebf9140bf985f2f7f9893e441b0890" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ac920c5e8433295dabb8fa9731c375a08" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>cold_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a27d265217c3e52702c2d62e6af5a47f1" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>coldSize</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1aa629e3e938f6b6b96e4a813dd9ba352b" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>evictFromTier</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae4fc199cd061bafcb9ec3e41e2ba92b0" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae690134c804d22fa1111e58baaa45402" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>GraphMultiTierCache</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a9fb934c72adfa8967a7802441af5ee7b" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>hot_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae320dcd133695f4a342a8290f5c831f5" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>hotSize</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a003ffd7a35d7f0515cb9aed218936976" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>insertToTier</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a7f16a3036d353991c01c91b73ce9a8ab" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>metrics</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a3768a94765b173178a2c335c6577c4d6" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a2504e0d393ab1b3592b73ce735e62553" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a34eb2353e139e19034b0c260bb127273" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>promote</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a8b9976d8a740061b7ad82bf2b018c8f6" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a5ce66539fe65131db0e287812016bccc" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>reconfigure</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae6c443e9fb5bfbf86894b93b4a11048e" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>remove</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a63dbaf1148850caf5ae87eed46203e4b" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>removeFromAll</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a291d4c08f165968c7ff184c0659b325d" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ab4386c4368e341107d05b9d8e64a9e1e" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>trimTier</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1ae35ad3a45ddd5260bf2f9af5fd873a44" prot="private" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>warm_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a168a903594ec242f5b2dde4529ad70d4" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache</scope><name>warmSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

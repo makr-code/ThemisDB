@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::replication::test::MockGCounter</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::int64_t &gt;</type>
+        <definition>std::map&lt;std::string, std::int64_t&gt; themis::replication::test::MockGCounter::counters</definition>
+        <argsstring></argsstring>
+        <name>counters</name>
+        <qualifiedname>themis::replication::test::MockGCounter::counters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="67" column="14" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab7955ca2dad6cafdb54e46e8dbe1f2ed" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::replication::test::MockGCounter::value</definition>
+        <argsstring>() const</argsstring>
+        <name>value</name>
+        <qualifiedname>themis::replication::test::MockGCounter::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="69" column="18" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="69" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1a33bf1eb4e629d325d12fdd202f2615f3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::replication::test::MockGCounter::operator==</definition>
+        <argsstring>(const MockGCounter &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::replication::test::MockGCounter::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="85" column="10" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref></type>
+        <definition>static MockGCounter themis::replication::test::MockGCounter::merge</definition>
+        <argsstring>(const MockGCounter &amp;a, const MockGCounter &amp;b)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::replication::test::MockGCounter::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="77" column="25" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="77" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple GCounter mock: maps node-ID → increment count. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="66" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="66" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" prot="public" virt="non-virtual"><scope>themis::replication::test::MockGCounter</scope><name>counters</name></member>
+      <member refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" prot="public" virt="non-virtual"><scope>themis::replication::test::MockGCounter</scope><name>merge</name></member>
+      <member refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1a33bf1eb4e629d325d12fdd202f2615f3" prot="public" virt="non-virtual"><scope>themis::replication::test::MockGCounter</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab7955ca2dad6cafdb54e46e8dbe1f2ed" prot="public" virt="non-virtual"><scope>themis::replication::test::MockGCounter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

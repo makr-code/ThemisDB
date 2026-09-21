@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_unary_op_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::UnaryOpExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_expression" prot="public" virt="non-virtual">themis::query::Expression</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_unary_op_expr_1a1266bae1032d79604e1212b42dfb8eac" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a894c6228010763e429dffaf0d4dac4a6" kindref="member">UnaryOperator</ref></type>
+        <definition>UnaryOperator themis::query::UnaryOpExpr::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::UnaryOpExpr::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="237" column="19" bodyfile="include/query/aql_parser.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_unary_op_expr_1a672802dc987dca8e7459c74ab02ef93a" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::UnaryOpExpr::operand</definition>
+        <argsstring></argsstring>
+        <name>operand</name>
+        <qualifiedname>themis::query::UnaryOpExpr::operand</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="238" column="21" bodyfile="include/query/aql_parser.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_unary_op_expr_1a2316d4719c3f6c1ee25532d9482fb725" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::UnaryOpExpr::UnaryOpExpr</definition>
+        <argsstring>(UnaryOperator o, std::shared_ptr&lt; Expression &gt; e)</argsstring>
+        <name>UnaryOpExpr</name>
+        <qualifiedname>themis::query::UnaryOpExpr::UnaryOpExpr</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a894c6228010763e429dffaf0d4dac4a6" kindref="member">UnaryOperator</ref></type>
+          <declname>o</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="240" column="5" bodyfile="include/query/aql_parser.h" bodystart="240" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_unary_op_expr_1a7e165d3e2f984af5f6e8916cb9cc849d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::UnaryOpExpr::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::UnaryOpExpr::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1aca4fd2bf776bf08dc9b0462450184d89">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="243" column="17" bodyfile="include/query/aql_parser.h" bodystart="243" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_unary_op_expr_1a9a911dcbb70bdce389801e1f9a37cc80" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::UnaryOpExpr::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::UnaryOpExpr::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1a50a0c87d39931ce188c1391b61794e20">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="244" column="20" bodyfile="src/query/aql_parser_json.cpp" bodystart="82" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::UnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_unary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::UnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_unary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="236" column="1" bodyfile="include/query/aql_parser.h" bodystart="236" bodyend="245"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_unary_op_expr_1a7e165d3e2f984af5f6e8916cb9cc849d" prot="public" virt="virtual"><scope>themis::query::UnaryOpExpr</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_unary_op_expr_1a1266bae1032d79604e1212b42dfb8eac" prot="public" virt="non-virtual"><scope>themis::query::UnaryOpExpr</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_unary_op_expr_1a672802dc987dca8e7459c74ab02ef93a" prot="public" virt="non-virtual"><scope>themis::query::UnaryOpExpr</scope><name>operand</name></member>
+      <member refid="structthemis_1_1query_1_1_unary_op_expr_1a9a911dcbb70bdce389801e1f9a37cc80" prot="public" virt="virtual"><scope>themis::query::UnaryOpExpr</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_unary_op_expr_1a2316d4719c3f6c1ee25532d9482fb725" prot="public" virt="non-virtual"><scope>themis::query::UnaryOpExpr</scope><name>UnaryOpExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>themis::query::UnaryOpExpr</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

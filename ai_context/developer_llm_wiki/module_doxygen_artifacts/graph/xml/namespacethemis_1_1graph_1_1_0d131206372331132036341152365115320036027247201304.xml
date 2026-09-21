@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1graph_1_1_0d131206372331132036341152365115320036027247201304" kind="namespace" language="C++">
+    <compoundname>themis::graph::@131206372331132036341152365115320036027247201304</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1_1_0d131206372331132036341152365115320036027247201304_1ad539226213d4dcfc6ff4e90edbf34411" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JournalLoadStatus</name>
+        <qualifiedname>themis::graph::@131206372331132036341152365115320036027247201304::JournalLoadStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1_1_0d131206372331132036341152365115320036027247201304_1ad539226213d4dcfc6ff4e90edbf34411a2aee0be2678ee90fd327cc186826438e" prot="public">
+          <name>Missing</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1_1_0d131206372331132036341152365115320036027247201304_1ad539226213d4dcfc6ff4e90edbf34411a7381d487d18845b379422325c0a768d6" prot="public">
+          <name>Loaded</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1_1_0d131206372331132036341152365115320036027247201304_1ad539226213d4dcfc6ff4e90edbf34411a5a5d4793fa0f5510a023c6cbe66e3491" prot="public">
+          <name>InvalidReset</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/tensor_deduplication_manager.cpp" line="523" column="1" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="523" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1_1_0d131206372331132036341152365115320036027247201304_1a650a46d00afecdf1b8e7c8421ed78068" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>MutationJournalEntryType</name>
+        <qualifiedname>themis::graph::@131206372331132036341152365115320036027247201304::MutationJournalEntryType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1_1_0d131206372331132036341152365115320036027247201304_1a650a46d00afecdf1b8e7c8421ed78068ac4ead0b03a124a25304b4c9cf7b7be1a" prot="public">
+          <name>Upsert</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1_1_0d131206372331132036341152365115320036027247201304_1a650a46d00afecdf1b8e7c8421ed78068af2a6c498fb90ee345d997f888fce3b18" prot="public">
+          <name>Delete</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/tensor_deduplication_manager.cpp" line="525" column="1" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="525" bodyend="528"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/graph/tensor_deduplication_manager.cpp" line="511" column="1"/>
+  </compounddef>
+</doxygen>

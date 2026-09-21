@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d105275376016100126222064321234142101330060045126" kind="namespace" language="C++">
+    <compoundname>@105275376016100126222064321234142101330060045126</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d105275376016100126222064321234142101330060045126_1a84c1123479a851cfa7499c2230d3ad74" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackendHealth</name>
+        <qualifiedname>@105275376016100126222064321234142101330060045126::BackendHealth</qualifiedname>
+        <enumvalue id="namespace_0d105275376016100126222064321234142101330060045126_1a84c1123479a851cfa7499c2230d3ad74af068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d105275376016100126222064321234142101330060045126_1a84c1123479a851cfa7499c2230d3ad74a0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d105275376016100126222064321234142101330060045126_1a84c1123479a851cfa7499c2230d3ad74ac4e0e4e3118472beeb2ae75827450f1f" prot="public">
+          <name>DOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="81" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d105275376016100126222064321234142101330060045126_1a530dc7bfb9d307729dfe332e73e2aa0e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LbRole</name>
+        <qualifiedname>@105275376016100126222064321234142101330060045126::LbRole</qualifiedname>
+        <enumvalue id="namespace_0d105275376016100126222064321234142101330060045126_1a530dc7bfb9d307729dfe332e73e2aa0ea428429ba9ea83e4841036fb0508fd6dc" prot="public">
+          <name>PRIMARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d105275376016100126222064321234142101330060045126_1a530dc7bfb9d307729dfe332e73e2aa0eaeea559d5c56d48e94e586f7fe000c0b1" prot="public">
+          <name>STANDBY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_routing_hardening_focused.cpp" line="134" column="1" bodyfile="tests/network/test_network_routing_hardening_focused.cpp" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_network_routing_hardening_focused.cpp" line="76" column="1"/>
+  </compounddef>
+</doxygen>

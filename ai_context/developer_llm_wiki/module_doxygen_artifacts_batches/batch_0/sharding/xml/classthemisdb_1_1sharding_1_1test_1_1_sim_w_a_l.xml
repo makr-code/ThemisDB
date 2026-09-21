@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::SimWAL</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a0a5b55a52f7b3858b614850ba2d1f6aa" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::test::SimWAL::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::test::SimWAL::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="120" column="27" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a4c04f129324dfd94b14cb8887799b436" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_wal_entry" kindref="compound">WalEntry</ref> &gt;</type>
+        <definition>std::vector&lt;WalEntry&gt; themisdb::sharding::test::SimWAL::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themisdb::sharding::test::SimWAL::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="121" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1aead15832e5a007c7d41133ad5064058c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimWAL::append</definition>
+        <argsstring>(const std::string &amp;op, const std::string &amp;txn_id, const std::string &amp;shard_id=&quot;&quot;)</argsstring>
+        <name>append</name>
+        <qualifiedname>themisdb::sharding::test::SimWAL::append</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="70" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a0053e27763a535024bfb5db85270a3b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::SimWAL::contains</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;op) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themisdb::sharding::test::SimWAL::contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="80" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1ac23f24d6b4bd1d0b6fc6f3e30ee645e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_wal_entry" kindref="compound">WalEntry</ref> &gt;</type>
+        <definition>std::vector&lt; WalEntry &gt; themisdb::sharding::test::SimWAL::entriesFor</definition>
+        <argsstring>(const std::string &amp;txn_id) const</argsstring>
+        <name>entriesFor</name>
+        <qualifiedname>themisdb::sharding::test::SimWAL::entriesFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all entries for a given transaction in insertion order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="93" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="93" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a5005562d6d6cd35bfd5d037ac2038d9c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_wal_entry" kindref="compound">WalEntry</ref> &gt;</type>
+        <definition>std::vector&lt; WalEntry &gt; themisdb::sharding::test::SimWAL::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themisdb::sharding::test::SimWAL::snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="104" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="104" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a2a22cfe3acd5cd5abc56ed65798f1581" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::test::SimWAL::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>themisdb::sharding::test::SimWAL::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="109" column="12" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a148ca576157d1754fdbf9888709a2fb6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimWAL::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themisdb::sharding::test::SimWAL::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="114" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="114" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-process simulated Write-Ahead Log. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="68" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="68" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1aead15832e5a007c7d41133ad5064058c" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimWAL</scope><name>append</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a148ca576157d1754fdbf9888709a2fb6" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimWAL</scope><name>clear</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a0053e27763a535024bfb5db85270a3b9" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimWAL</scope><name>contains</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a2a22cfe3acd5cd5abc56ed65798f1581" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimWAL</scope><name>count</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a4c04f129324dfd94b14cb8887799b436" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimWAL</scope><name>entries_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1ac23f24d6b4bd1d0b6fc6f3e30ee645e7" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimWAL</scope><name>entriesFor</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a0a5b55a52f7b3858b614850ba2d1f6aa" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimWAL</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l_1a5005562d6d6cd35bfd5d037ac2038d9c" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimWAL</scope><name>snapshot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

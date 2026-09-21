@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d277050062105246002320356034132300151157174154021" kind="namespace" language="C++">
+    <compoundname>@277050062105246002320356034132300151157174154021</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_category_b_parity_bfs.cpp" line="15" column="1"/>
+  </compounddef>
+</doxygen>

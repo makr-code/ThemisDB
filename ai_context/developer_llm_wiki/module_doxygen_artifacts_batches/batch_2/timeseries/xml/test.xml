@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a8ccd3ee014a37a32f328657782b3633d" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH01_EmptyEndpointReturnsValidationError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>TEH-01: Empty endpoint URL returns REMOTE_WRITE_VALIDATION_ERROR.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a5ef50406e58b8ee9183cda1a55c0440e" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH02_InvalidProtocolReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>TEH-02: Non-http/https URL returns REMOTE_WRITE_VALIDATION_ERROR.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1af684dac32f62aa5dfcf455aa2c5a4aed" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH03_ValidHttpsEndpointReturnsSuccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>TEH-03: Valid https URL returns success (nullopt).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a22a0c5585d3c8d7898e8913c5c674359" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH04_TooLongEndpointReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>TEH-04: URL exceeding kMaxEndpointLength returns REMOTE_WRITE_VALIDATION_ERROR.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1afdbcdc3c202bafbaebdf27603a4f1d71" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH05_TimeoutHandlerReturnsRetriesExhausted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>TEH-05: Timeout handler returns REMOTE_WRITE_RETRIES_EXHAUSTED.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a7e448bbc40c10fee8ddf141a3804f2de" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH06_TimeoutCounterIncrementsPerCall)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>TEH-06: Each timeout call increments the timeout counter.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a5fcd46f09a327f51fe850de5c575c7da" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH07_IncidentCallbackInvokedOnTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>TEH-07: <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> callback is invoked on remote-write timeout.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a6afa9785b72222b62b78090d0527fe8d" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH08_ControlCharInUrlReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>TEH-08: URL containing control characters returns REMOTE_WRITE_VALIDATION_ERROR.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a01ad3c86e1f1a29fa14d9a2ee7dcec5b" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH09_NullKeyReturnsEncryptionError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>TEH-09: Null key pointer returns ENCRYPTION_STATE_INVALID.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1ae1d121d0a648f864961e3920ed7c8fb0" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH10_ZeroLengthKeyReturnsEncryptionError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>TEH-10: Zero-length key returns ENCRYPTION_STATE_INVALID.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a5153589a51110cbee3d4bb8a79ecd89d" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH11_InvalidKeyLengthReturnsEncryptionError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>TEH-11: Invalid key length (e.g. 20 bytes) returns ENCRYPTION_STATE_INVALID.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a250b280e15cc6567af928a7bcd5e0545" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH12_ValidKeyLengthsReturnSuccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>TEH-12: Valid AES key lengths (16/24/32) return success (nullopt).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a35d3ac9f928de6a3f5b413eac678a5f5" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH13_RotationWithInvalidKeyReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>TEH-13: Rotation with invalid new key returns ENCRYPTION_KEY_NOT_FOUND.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a6a6363901c692a524210aed7e1fa5a97" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH14_RotationWithValidKeySucceeds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>TEH-14: Rotation with valid 32-byte key returns success and increments counter.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a1e4bc95f7475464b713e8bcf060e633e" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH15_IncidentCallbackInvokedOnValidRotation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>TEH-15: <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> callback is invoked on successful key rotation.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1ad1339fef5ebddc13d6dc895fa6faa84f" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH16_MultipleRotationsIncrementCounter)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>TEH-16: Multiple successful rotations increment counter correctly.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1af42a32cb19f1ef7e7443d2eb10019aa8" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH17_BufferBelowCapacityNoFlushRequired)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>TEH-17: Buffer below kMaxOutOfOrderBuffer does not require flush.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a801d582cdb2bb6c71ab11cc63c95d8dc" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH18_BufferAtCapacityRequiresFlush)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>TEH-18: Buffer at kMaxOutOfOrderBuffer triggers flush requirement.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a7467035b714133fbdf5fae996f59dcd1" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH19_OperatorDiagnosticsRecordsIncidentCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>TEH-19: <ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics" kindref="compound">TsOperatorDiagnostics</ref> records incident with correct severity.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1timeseries_1_1test_1a471e8b6df2ab5ad966fd36aefd324bb6" kindref="member">themis::timeseries::test::TEST</ref>  (TimeseriesQ4Hardening, TEH20_FormatSummaryIncludesIncidentDetails)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>TEH-20: formatSummary includes incident ID and severity. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

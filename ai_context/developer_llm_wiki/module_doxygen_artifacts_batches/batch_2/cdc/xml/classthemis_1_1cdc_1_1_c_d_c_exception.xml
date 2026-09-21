@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_c_d_c_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::CDCException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="cdc__error_8h" local="no">cdc_error.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_exception_1aa33fd54ef340deee2637eb375dc294c6" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode themis::cdc::CDCException::code_</definition>
+        <argsstring></argsstring>
+        <name>code_</name>
+        <qualifiedname>themis::cdc::CDCException::code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="154" column="15" bodyfile="include/cdc/cdc_error.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a2ba51fae5ee63616686c56a8a1e7a087" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7" kindref="member">ErrorSeverity</ref></type>
+        <definition>ErrorSeverity themis::cdc::CDCException::severity_</definition>
+        <argsstring></argsstring>
+        <name>severity_</name>
+        <qualifiedname>themis::cdc::CDCException::severity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="155" column="19" bodyfile="include/cdc/cdc_error.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_exception_1ad458540aba3182e470cbc6631f44f343" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::CDCException::message_</definition>
+        <argsstring></argsstring>
+        <name>message_</name>
+        <qualifiedname>themis::cdc::CDCException::message_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="156" column="17" bodyfile="include/cdc/cdc_error.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a368f499c27aa33ab176c17cba68b5bd6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::CDCException::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::cdc::CDCException::context_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="157" column="17" bodyfile="include/cdc/cdc_error.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a919963445a2841eaf484ad28ed360ed5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CDCException::CDCException</definition>
+        <argsstring>(ErrorCode code, ErrorSeverity severity, const std::string &amp;message, const std::string &amp;context=&quot;&quot;)</argsstring>
+        <name>CDCException</name>
+        <qualifiedname>themis::cdc::CDCException::CDCException</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576" kindref="member">ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7" kindref="member">ErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="107" column="5" bodyfile="include/cdc/cdc_error.h" bodystart="107" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a835ba6b73c7594594d4bbd8c0ac6d367" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode themis::cdc::CDCException::code</definition>
+        <argsstring>() const</argsstring>
+        <name>code</name>
+        <qualifiedname>themis::cdc::CDCException::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="117" column="15" bodyfile="include/cdc/cdc_error.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a208027f8fc8302bfc2efa75866da8b43" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7" kindref="member">ErrorSeverity</ref></type>
+        <definition>ErrorSeverity themis::cdc::CDCException::severity</definition>
+        <argsstring>() const</argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::cdc::CDCException::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="118" column="19" bodyfile="include/cdc/cdc_error.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1ab95950a0a0f713e40ce97a9bd1592761" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::cdc::CDCException::message</definition>
+        <argsstring>() const</argsstring>
+        <name>message</name>
+        <qualifiedname>themis::cdc::CDCException::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="119" column="23" bodyfile="include/cdc/cdc_error.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a054a482c8a9e368f11abede9941a2740" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::cdc::CDCException::context</definition>
+        <argsstring>() const</argsstring>
+        <name>context</name>
+        <qualifiedname>themis::cdc::CDCException::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="120" column="23" bodyfile="include/cdc/cdc_error.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1ac2a4890a05424da18e60e2a97a6eb600" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::cdc::CDCException::codeValue</definition>
+        <argsstring>() const</argsstring>
+        <name>codeValue</name>
+        <qualifiedname>themis::cdc::CDCException::codeValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="122" column="9" bodyfile="include/cdc/cdc_error.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a3b04816eb49bffc75901c948f7b56bcb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::CDCException::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::CDCException::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="124" column="20" bodyfile="include/cdc/cdc_error.h" bodystart="124" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a074f05224e5f8995d904bfd621cc2804" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::CDCException::isRetryable</definition>
+        <argsstring>() const</argsstring>
+        <name>isRetryable</name>
+        <qualifiedname>themis::cdc::CDCException::isRetryable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="134" column="10" bodyfile="include/cdc/cdc_error.h" bodystart="134" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a9411c32f88f0f441f19c478cb6a58d54" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::CDCException::isDataLossRisk</definition>
+        <argsstring>() const</argsstring>
+        <name>isDataLossRisk</name>
+        <qualifiedname>themis::cdc::CDCException::isDataLossRisk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="147" column="10" bodyfile="include/cdc/cdc_error.h" bodystart="147" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a1e3b61253299b43acad679cf04fc90ba" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::CDCException::formatMessage</definition>
+        <argsstring>(ErrorCode code, ErrorSeverity severity, const std::string &amp;message, const std::string &amp;context)</argsstring>
+        <name>formatMessage</name>
+        <qualifiedname>themis::cdc::CDCException::formatMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576" kindref="member">ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7" kindref="member">ErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Format Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">severity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorCodeToString(), severityToString(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="168" column="24" bodyfile="include/cdc/cdc_error.h" bodystart="168" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a1b5e7b79f4b6d423fa63077a6635f217" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::CDCException::errorCodeToString</definition>
+        <argsstring>(ErrorCode code)</argsstring>
+        <name>errorCodeToString</name>
+        <qualifiedname>themis::cdc::CDCException::errorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a9c00cd69f44bc16551cd94bd812a7576" kindref="member">ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Error Code To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements errorCodeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="187" column="24" bodyfile="include/cdc/cdc_error.h" bodystart="187" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_exception_1a388eb4cc72b46829d12e3db6a4af4d07" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::CDCException::severityToString</definition>
+        <argsstring>(ErrorSeverity severity)</argsstring>
+        <name>severityToString</name>
+        <qualifiedname>themis::cdc::CDCException::severityToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a5158bb8cc6b7573d80e30727a640dad7" kindref="member">ErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <briefdescription>
+<para>Severity To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">severity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements severityToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="234" column="24" bodyfile="include/cdc/cdc_error.h" bodystart="234" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::cdc::CDCException</label>
+        <link refid="classthemis_1_1cdc_1_1_c_d_c_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::cdc::CDCException</label>
+        <link refid="classthemis_1_1cdc_1_1_c_d_c_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/cdc_error.h" line="105" column="1" bodyfile="include/cdc/cdc_error.h" bodystart="105" bodyend="243"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a919963445a2841eaf484ad28ed360ed5" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>CDCException</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a835ba6b73c7594594d4bbd8c0ac6d367" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>code</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1aa33fd54ef340deee2637eb375dc294c6" prot="private" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>code_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1ac2a4890a05424da18e60e2a97a6eb600" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>codeValue</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a054a482c8a9e368f11abede9941a2740" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>context</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a368f499c27aa33ab176c17cba68b5bd6" prot="private" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>context_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a1b5e7b79f4b6d423fa63077a6635f217" prot="private" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>errorCodeToString</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a1e3b61253299b43acad679cf04fc90ba" prot="private" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>formatMessage</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a9411c32f88f0f441f19c478cb6a58d54" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>isDataLossRisk</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a074f05224e5f8995d904bfd621cc2804" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>isRetryable</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1ab95950a0a0f713e40ce97a9bd1592761" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>message</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1ad458540aba3182e470cbc6631f44f343" prot="private" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>message_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a208027f8fc8302bfc2efa75866da8b43" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>severity</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a2ba51fae5ee63616686c56a8a1e7a087" prot="private" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>severity_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a388eb4cc72b46829d12e3db6a4af4d07" prot="private" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>severityToString</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_exception_1a3b04816eb49bffc75901c948f7b56bcb" prot="public" virt="non-virtual"><scope>themis::cdc::CDCException</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

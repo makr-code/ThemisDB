@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_task_scheduler" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TaskScheduler</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_task_scheduler_1aef2fd3eefc457ac6b6278077c5271452" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TaskScheduler::registered</definition>
+        <argsstring></argsstring>
+        <name>registered</name>
+        <qualifiedname>stubs::TaskScheduler::registered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="26" column="17" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_task_scheduler_1a13f42cd6d85d7eb5f910fdd19471949a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TaskScheduler::executed</definition>
+        <argsstring></argsstring>
+        <name>executed</name>
+        <qualifiedname>stubs::TaskScheduler::executed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="27" column="17" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_task_scheduler_1a2801cc07566a006e49617a6ff781c51a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TaskScheduler::listed</definition>
+        <argsstring></argsstring>
+        <name>listed</name>
+        <qualifiedname>stubs::TaskScheduler::listed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="28" column="17" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_task_scheduler_1a188c70c1b32d44a84b8300e9c25a2ca1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TaskScheduler::stats_queries</definition>
+        <argsstring></argsstring>
+        <name>stats_queries</name>
+        <qualifiedname>stubs::TaskScheduler::stats_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="29" column="17" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_task_scheduler_1a62522687b5426f9ffa793c0b4f7edb9b" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex stubs::TaskScheduler::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>stubs::TaskScheduler::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="31" column="28" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_task_scheduler_1a016f18283319c73340869a8cc465f3e5" prot="public" static="no" mutable="no">
+        <type>std::queue&lt; uint64_t &gt;</type>
+        <definition>std::queue&lt;uint64_t&gt; stubs::TaskScheduler::q</definition>
+        <argsstring></argsstring>
+        <name>q</name>
+        <qualifiedname>stubs::TaskScheduler::q</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="32" column="18" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_task_scheduler_1a5f3be99aaf7468775313345ddbaa8631" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TaskScheduler::register_task</definition>
+        <argsstring>(uint64_t id)</argsstring>
+        <name>register_task</name>
+        <qualifiedname>stubs::TaskScheduler::register_task</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="34" column="10" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="34" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="structstubs_1_1_task_scheduler_1a56c32262dfc8ecc98a5cdc3f6c3e36d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TaskScheduler::execute_next</definition>
+        <argsstring>()</argsstring>
+        <name>execute_next</name>
+        <qualifiedname>stubs::TaskScheduler::execute_next</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="43" column="10" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="43" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structstubs_1_1_task_scheduler_1a16883d503b5ea571072d7ee5bd4b1f09" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t stubs::TaskScheduler::list_tasks</definition>
+        <argsstring>()</argsstring>
+        <name>list_tasks</name>
+        <qualifiedname>stubs::TaskScheduler::list_tasks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="51" column="14" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structstubs_1_1_task_scheduler_1a395506fbae438dd0687fad18a6a21759" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t stubs::TaskScheduler::query_stats</definition>
+        <argsstring>()</argsstring>
+        <name>query_stats</name>
+        <qualifiedname>stubs::TaskScheduler::query_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="57" column="14" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" line="25" column="1" bodyfile="benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp" bodystart="25" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_task_scheduler_1a56c32262dfc8ecc98a5cdc3f6c3e36d6" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>execute_next</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1a13f42cd6d85d7eb5f910fdd19471949a" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>executed</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1a16883d503b5ea571072d7ee5bd4b1f09" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>list_tasks</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1a2801cc07566a006e49617a6ff781c51a" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>listed</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1a62522687b5426f9ffa793c0b4f7edb9b" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>mu</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1a016f18283319c73340869a8cc465f3e5" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>q</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1a395506fbae438dd0687fad18a6a21759" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>query_stats</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1a5f3be99aaf7468775313345ddbaa8631" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>register_task</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1aef2fd3eefc457ac6b6278077c5271452" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>registered</name></member>
+      <member refid="structstubs_1_1_task_scheduler_1a188c70c1b32d44a84b8300e9c25a2ca1" prot="public" virt="non-virtual"><scope>stubs::TaskScheduler</scope><name>stats_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

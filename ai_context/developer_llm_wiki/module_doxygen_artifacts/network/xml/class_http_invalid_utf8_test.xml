@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_invalid_utf8_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpInvalidUtf8Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_invalid_utf8_test_1a2c725d7a6ff436d0d26f37ac07b262c5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpInvalidUtf8Test::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpInvalidUtf8Test::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="108" column="21" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_invalid_utf8_test_1a05e8e71b5380d4acc72c13586ad2b065" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpInvalidUtf8Test::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpInvalidUtf8Test::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="109" column="21" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_invalid_utf8_test_1aca3418341d916dc58c55f41a8b5446b8" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpInvalidUtf8Test::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpInvalidUtf8Test::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="110" column="21" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_invalid_utf8_test_1a3d7c6debb015b2ff3bc8328e9b123439" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpInvalidUtf8Test::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpInvalidUtf8Test::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="111" column="21" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_invalid_utf8_test_1a0e779934c06cd423a9f34e9c2caa15c9" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpInvalidUtf8Test::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpInvalidUtf8Test::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="112" column="21" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_invalid_utf8_test_1ad65e548e25a7e28f6066ba0fce22b46b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpInvalidUtf8Test::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpInvalidUtf8Test::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="113" column="21" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_invalid_utf8_test_1ab9e5954d6e5914c766bf2b6336c1662e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpInvalidUtf8Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpInvalidUtf8Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="25" column="10" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="25" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_invalid_utf8_test_1a83dd064f6ad7d65687fa2f7b0a2eebc3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpInvalidUtf8Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpInvalidUtf8Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="57" column="10" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_invalid_utf8_test_1a541789106228e9bcdfc2b969c8058ea6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpInvalidUtf8Test::putRaw</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;body)</argsstring>
+        <name>putRaw</name>
+        <qualifiedname>HttpInvalidUtf8Test::putRaw</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="65" column="20" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_invalid_utf8_test_1a40d7307ac26ebad58841221a7cf81bbe" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpInvalidUtf8Test::postRaw</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;body)</argsstring>
+        <name>postRaw</name>
+        <qualifiedname>HttpInvalidUtf8Test::postRaw</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="70" column="20" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_invalid_utf8_test_1a6fdeee303a26244838f37395d8efa490" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpInvalidUtf8Test::sendRaw</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;body, http::verb method)</argsstring>
+        <name>sendRaw</name>
+        <qualifiedname>HttpInvalidUtf8Test::sendRaw</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>http::verb</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_invalid_utf8.cpp" line="75" column="20" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="75" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpInvalidUtf8Test</label>
+        <link refid="class_http_invalid_utf8_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpInvalidUtf8Test</label>
+        <link refid="class_http_invalid_utf8_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_invalid_utf8.cpp" line="23" column="1" bodyfile="tests/network/test_http_invalid_utf8.cpp" bodystart="23" bodyend="114"/>
+    <listofallmembers>
+      <member refid="class_http_invalid_utf8_test_1aca3418341d916dc58c55f41a8b5446b8" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>graph_index_</name></member>
+      <member refid="class_http_invalid_utf8_test_1a40d7307ac26ebad58841221a7cf81bbe" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>postRaw</name></member>
+      <member refid="class_http_invalid_utf8_test_1a541789106228e9bcdfc2b969c8058ea6" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>putRaw</name></member>
+      <member refid="class_http_invalid_utf8_test_1a05e8e71b5380d4acc72c13586ad2b065" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>secondary_index_</name></member>
+      <member refid="class_http_invalid_utf8_test_1a6fdeee303a26244838f37395d8efa490" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>sendRaw</name></member>
+      <member refid="class_http_invalid_utf8_test_1ad65e548e25a7e28f6066ba0fce22b46b" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>server_</name></member>
+      <member refid="class_http_invalid_utf8_test_1ab9e5954d6e5914c766bf2b6336c1662e" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>SetUp</name></member>
+      <member refid="class_http_invalid_utf8_test_1a2c725d7a6ff436d0d26f37ac07b262c5" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>storage_</name></member>
+      <member refid="class_http_invalid_utf8_test_1a83dd064f6ad7d65687fa2f7b0a2eebc3" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>TearDown</name></member>
+      <member refid="class_http_invalid_utf8_test_1a0e779934c06cd423a9f34e9c2caa15c9" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>tx_manager_</name></member>
+      <member refid="class_http_invalid_utf8_test_1a3d7c6debb015b2ff3bc8328e9b123439" prot="protected" virt="non-virtual"><scope>HttpInvalidUtf8Test</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

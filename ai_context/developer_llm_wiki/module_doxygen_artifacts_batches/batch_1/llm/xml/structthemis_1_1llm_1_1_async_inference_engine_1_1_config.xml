@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AsyncInferenceEngine::Config</compoundname>
+    <includes refid="async__inference__engine_8h" local="no">async_inference_engine.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackpressurePolicy</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Config::BackpressurePolicy</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a4d34f53389ed7f28ca91fc31ea360a66" prot="public">
+          <name>BLOCK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a0768201691a979ef7cee36b722fa99ce" prot="public">
+          <name>DROP_OLDEST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a59b228d9fec9b88833bfe5d812ed8ad4" prot="public">
+          <name>REJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="72" column="9" bodyfile="include/llm/async_inference_engine.h" bodystart="72" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a5f639d34497d83d89df9a9e5b3901fd5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AsyncInferenceEngine::Config::num_worker_threads</definition>
+        <argsstring></argsstring>
+        <name>num_worker_threads</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Config::num_worker_threads</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="67" column="16" bodyfile="include/llm/async_inference_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1aa13cbbae42dd04750368fcb5f890626d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AsyncInferenceEngine::Config::max_queue_size</definition>
+        <argsstring></argsstring>
+        <name>max_queue_size</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Config::max_queue_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="68" column="16" bodyfile="include/llm/async_inference_engine.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a0f4fb17a8c12fb5b7c6434e41621f4b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AsyncInferenceEngine::Config::enable_priorities</definition>
+        <argsstring></argsstring>
+        <name>enable_priorities</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Config::enable_priorities</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="69" column="14" bodyfile="include/llm/async_inference_engine.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a5d118b41433810c7d29d79a60a21d989" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472" kindref="member">BackpressurePolicy</ref></type>
+        <definition>BackpressurePolicy themis::llm::AsyncInferenceEngine::Config::backpressure</definition>
+        <argsstring></argsstring>
+        <name>backpressure</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Config::backpressure</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BackpressurePolicy::BLOCK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="77" column="28" bodyfile="include/llm/async_inference_engine.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ad6f30407cfe2c91caf69d9d34f8ed09a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AsyncInferenceEngine::Config::enable_dedup_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_dedup_cache</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Config::enable_dedup_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="80" column="14" bodyfile="include/llm/async_inference_engine.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae33628002c26d0420231e8a68b040ee5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config" kindref="compound">LLMResponseCache::Config</ref></type>
+        <definition>LLMResponseCache::Config themis::llm::AsyncInferenceEngine::Config::dedup_cache_config</definition>
+        <argsstring></argsstring>
+        <name>dedup_cache_config</name>
+        <qualifiedname>themis::llm::AsyncInferenceEngine::Config::dedup_cache_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/async_inference_engine.h" line="81" column="34" bodyfile="include/llm/async_inference_engine.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::AsyncInferenceEngine::Config</label>
+        <link refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>dedup_cache_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::LLMResponseCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>llm_ptr</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/async_inference_engine.h" line="66" column="5" bodyfile="include/llm/async_inference_engine.h" bodystart="66" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a5d118b41433810c7d29d79a60a21d989" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Config</scope><name>backpressure</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Config</scope><name>BackpressurePolicy</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae33628002c26d0420231e8a68b040ee5" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Config</scope><name>dedup_cache_config</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ad6f30407cfe2c91caf69d9d34f8ed09a" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Config</scope><name>enable_dedup_cache</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a0f4fb17a8c12fb5b7c6434e41621f4b8" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Config</scope><name>enable_priorities</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1aa13cbbae42dd04750368fcb5f890626d" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Config</scope><name>max_queue_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a5f639d34497d83d89df9a9e5b3901fd5" prot="public" virt="non-virtual"><scope>themis::llm::AsyncInferenceEngine::Config</scope><name>num_worker_threads</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

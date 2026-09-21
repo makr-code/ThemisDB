@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::TournamentModeSelector</compoundname>
+    <includes refid="tournament__mode__selector_8h" local="no">tournament_mode_selector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aac08e16b2edf4a8c0fc4faba7b4148cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::TournamentModeSelector::TournamentModeSelector</definition>
+        <argsstring>()=default</argsstring>
+        <name>TournamentModeSelector</name>
+        <qualifiedname>themis::plugins::ethics::TournamentModeSelector::TournamentModeSelector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aff966624ff3f15c1d2402724b4edc3b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result" kindref="compound">TournamentSelectionResult</ref></type>
+        <definition>TournamentSelectionResult themis::plugins::ethics::TournamentModeSelector::selectOpponents</definition>
+        <argsstring>(const std::string &amp;own_school_id, const std::vector&lt; EthicalArgument &gt; &amp;opponent_arguments, const std::vector&lt; SchoolTension &gt; &amp;tensions, const TournamentConfig &amp;config=TournamentConfig{}) const</argsstring>
+        <name>selectOpponents</name>
+        <qualifiedname>themis::plugins::ethics::TournamentModeSelector::selectOpponents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>own_school_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>opponent_arguments</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" kindref="compound">SchoolTension</ref> &gt; &amp;</type>
+          <declname>tensions</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config" kindref="compound">TournamentConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config" kindref="compound">TournamentConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="49" column="31" bodyfile="src/ethics_ai/tournament_mode_selector.cpp" bodystart="77" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aa4fa59c1536ae1a001d2fe9808bc9442" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result" kindref="compound">TournamentSelectionResult</ref> &gt;</type>
+        <definition>std::map&lt; std::string, TournamentSelectionResult &gt; themis::plugins::ethics::TournamentModeSelector::buildTournamentContext</definition>
+        <argsstring>(const std::vector&lt; EthicalArgument &gt; &amp;all_round_arguments, const std::map&lt; std::string, std::vector&lt; SchoolTension &gt; &gt; &amp;tensions_per_school, const TournamentConfig &amp;config=TournamentConfig{}) const</argsstring>
+        <name>buildTournamentContext</name>
+        <qualifiedname>themis::plugins::ethics::TournamentModeSelector::buildTournamentContext</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>all_round_arguments</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" kindref="compound">SchoolTension</ref> &gt; &gt; &amp;</type>
+          <declname>tensions_per_school</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config" kindref="compound">TournamentConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config" kindref="compound">TournamentConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="55" column="14" bodyfile="src/ethics_ai/tournament_mode_selector.cpp" bodystart="181" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1a49b91897647ce7c9d5067f4977fe6fb4" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::TournamentModeSelector::countTokens</definition>
+        <argsstring>(const std::string &amp;text) noexcept</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::plugins::ethics::TournamentModeSelector::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="67" column="24" bodyfile="src/ethics_ai/tournament_mode_selector.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1af7c3bccebbd6189bb34d0dad7f3a3604" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::TournamentModeSelector::buildHeadline</definition>
+        <argsstring>(const EthicalArgument &amp;arg)</argsstring>
+        <name>buildHeadline</name>
+        <qualifiedname>themis::plugins::ethics::TournamentModeSelector::buildHeadline</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+<para>Build Headline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="73" column="24" bodyfile="src/ethics_ai/tournament_mode_selector.cpp" bodystart="38" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/tournament_mode_selector.h" line="45" column="1" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="45" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1af7c3bccebbd6189bb34d0dad7f3a3604" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::TournamentModeSelector</scope><name>buildHeadline</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aa4fa59c1536ae1a001d2fe9808bc9442" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentModeSelector</scope><name>buildTournamentContext</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1a49b91897647ce7c9d5067f4977fe6fb4" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::TournamentModeSelector</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aff966624ff3f15c1d2402724b4edc3b5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentModeSelector</scope><name>selectOpponents</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aac08e16b2edf4a8c0fc4faba7b4148cb" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentModeSelector</scope><name>TournamentModeSelector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

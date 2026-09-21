@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::benchmark::MockStreamBuffer</compoundname>
+    <includes refid="benchmark__fixtures_8h" local="no">benchmark_fixtures.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a2a154a3db361048c596ef083fa2cf467" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::benchmark::MockStreamBuffer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="220" column="24" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a10038a7abc9e1a1e59f7d3dee42153db" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::voice::benchmark::MockStreamBuffer::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="221" column="29" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a94f597cb70ded313fa8700a24c6b6bb7" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::queue&lt;std::vector&lt;uint8_t&gt; &gt; themis::voice::benchmark::MockStreamBuffer::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="222" column="16" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a48344aec70be6b0f1fd83cb035e4a3e3" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::benchmark::MockStreamBuffer::max_size_</definition>
+        <argsstring></argsstring>
+        <name>max_size_</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::max_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="223" column="12" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a230f5e09fcaa6c82a046a3053a9006aa" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::benchmark::MockStreamBuffer::current_size_</definition>
+        <argsstring></argsstring>
+        <name>current_size_</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::current_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="224" column="12" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1afe64902f9c61baded960f5db20af1b06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::benchmark::MockStreamBuffer::MockStreamBuffer</definition>
+        <argsstring>(size_t max_size_bytes=kStreamBufferBytesBase)</argsstring>
+        <name>MockStreamBuffer</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::MockStreamBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_size_bytes</declname>
+          <defval>kStreamBufferBytesBase</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="179" column="5" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="179" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a2e0a6c887951c799ee4cf78f07a7eb83" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::benchmark::MockStreamBuffer::addChunk</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;chunk)</argsstring>
+        <name>addChunk</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::addChunk</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="183" column="10" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="183" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a56c2868d47ddd39db4d6da10c1b7557b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::benchmark::MockStreamBuffer::getChunk</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;chunk)</argsstring>
+        <name>getChunk</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::getChunk</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="195" column="10" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="195" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a571e0f802aa015d6526311c8cab68a0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::benchmark::MockStreamBuffer::getMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryUsage</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::getMemoryUsage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="206" column="12" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="206" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a5f9ef99ef85a1c9bdeb87a97cf53ae7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::benchmark::MockStreamBuffer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::voice::benchmark::MockStreamBuffer::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="211" column="10" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="211" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Mock streaming buffer for testing throughput and latency. </para>
+    </detaileddescription>
+    <location file="benchmarks/voice/benchmark_fixtures.h" line="177" column="1" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="177" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a2e0a6c887951c799ee4cf78f07a7eb83" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>addChunk</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a5f9ef99ef85a1c9bdeb87a97cf53ae7b" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>clear</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a230f5e09fcaa6c82a046a3053a9006aa" prot="private" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>current_size_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a10038a7abc9e1a1e59f7d3dee42153db" prot="private" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a56c2868d47ddd39db4d6da10c1b7557b" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>getChunk</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a571e0f802aa015d6526311c8cab68a0b" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>getMemoryUsage</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a48344aec70be6b0f1fd83cb035e4a3e3" prot="private" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>max_size_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1afe64902f9c61baded960f5db20af1b06" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>MockStreamBuffer</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a2a154a3db361048c596ef083fa2cf467" prot="private" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer_1a94f597cb70ded313fa8700a24c6b6bb7" prot="private" virt="non-virtual"><scope>themis::voice::benchmark::MockStreamBuffer</scope><name>queue_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

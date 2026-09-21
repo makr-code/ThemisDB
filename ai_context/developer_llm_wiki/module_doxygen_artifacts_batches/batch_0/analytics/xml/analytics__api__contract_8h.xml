@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="analytics__api__contract_8h" kind="file" language="C++">
+    <compoundname>analytics_api_contract.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="bench__analytics__release__gates_8cpp" local="yes">benchmarks/analytics/bench_analytics_release_gates.cpp</includedby>
+    <includedby refid="analytics__export_8h" local="yes">include/analytics/analytics_export.h</includedby>
+    <includedby refid="ml__serving_8h" local="yes">include/analytics/ml_serving.h</includedby>
+    <includedby refid="test__analytics__bounded__execution__policy_8cpp" local="yes">tests/analytics/test_analytics_bounded_execution_policy.cpp</includedby>
+    <includedby refid="test__analytics__contract__hardening__focused_8cpp" local="yes">tests/analytics/test_analytics_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__analytics__optional__fallback__focused_8cpp" local="yes">tests/analytics/test_analytics_optional_fallback_focused.cpp</includedby>
+    <includedby refid="test__analytics__streaming__limits__focused_8cpp" local="yes">tests/analytics/test_analytics_streaming_limits_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>benchmarks/analytics/bench_analytics_operability_paths.cpp</label>
+        <link refid="bench__analytics__operability__paths_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/analytics/bench_analytics_release_gates.cpp</label>
+        <link refid="bench__analytics__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/analytics/analytics_export.h</label>
+        <link refid="analytics__export_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/analytics/ml_serving.h</label>
+        <link refid="ml__serving_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/analytics/analytics_export.cpp</label>
+        <link refid="analytics__export_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/analytics/ml_serving.cpp</label>
+        <link refid="ml__serving_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/analytics/test_analytics_bounded_execution_policy.cpp</label>
+        <link refid="test__analytics__bounded__execution__policy_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/analytics/test_analytics_contract_hardening_focused.cpp</label>
+        <link refid="test__analytics__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/analytics/test_analytics_optional_fallback_focused.cpp</label>
+        <link refid="test__analytics__optional__fallback__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/analytics/test_analytics_serving_export_integration.cpp</label>
+        <link refid="test__analytics__serving__export__integration_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/analytics/test_analytics_streaming_limits_focused.cpp</label>
+        <link refid="test__analytics__streaming__limits__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/analytics/test_analytics_wave_d_operability.cpp</label>
+        <link refid="test__analytics__wave__d__operability_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/analytics/test_arrow_export.cpp</label>
+        <link refid="test__arrow__export_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/analytics/test_ml_serving.cpp</label>
+        <link refid="test__ml__serving_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1analytics_1_1_bounded_execution_policy" prot="public">themis::analytics::BoundedExecutionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" prot="public">themis::analytics::StreamingRuntimeLimits</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <briefdescription>
+<para>Frozen analytics runtime contract semantics for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the analytics module covering aggregation, streaming/CEP, OLAP plan stability, forecasting, and anomaly detection surfaces. All analytics module implementations must honour every contract defined here within the current major release line.</para>
+<sect1 id="analytics__api__contract_8h_1autotoc_md0_1s1"><sect2 id="analytics__api__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>The contracts below are binding for all components that participate in the ThemisDB analytics pipeline:<itemizedlist>
+<listitem><para>Aggregation engines (GROUP BY, SUM, COUNT, AVG, MIN, MAX)</para>
+</listitem><listitem><para>Streaming / CEP engines (TumblingWindow, SlidingWindow, SessionWindow)</para>
+</listitem><listitem><para>OLAP query planner / cost model</para>
+</listitem><listitem><para>Forecasting inference service (model loading, prediction)</para>
+</listitem><listitem><para>Anomaly detection pipeline (threshold evaluation, alert emission)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="analytics__api__contract_8h_1autotoc_md1_1s1"><sect2 id="analytics__api__contract_8h_1autotoc_md1">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/analytics/ROADMAP.md — Phase 1 contract item </para>
+</simplesect>
+<simplesect kind="see"><para>include/analytics/ROADMAP.md — Phase 6 documentation item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Aggregation<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GROUP<sp/>BY<sp/>ordering<sp/>guarantee:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>For<sp/>a<sp/>given<sp/>data<sp/>version<sp/>(unchanged<sp/>statistics,<sp/>unchanged<sp/>schema)<sp/>the<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>produced<sp/>by<sp/>a<sp/>GROUP<sp/>BY<sp/>query<sp/>are<sp/>returned<sp/>in<sp/>deterministic<sp/>key-order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NULL<sp/>handling:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>NULLs<sp/>are<sp/>EXCLUDED<sp/>from<sp/>all<sp/>aggregate<sp/>computations<sp/>(SUM,<sp/>AVG,<sp/>MIN,<sp/>MAX,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>COUNT(col))<sp/>by<sp/>default.<sp/><sp/>COUNT(*)<sp/>counts<sp/>all<sp/>rows<sp/>including<sp/>those<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>NULLs<sp/>in<sp/>projected<sp/>columns.<sp/><sp/>This<sp/>mirrors<sp/>SQL-standard<sp/>NULL<sp/>semantics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Overflow<sp/>handling:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>numeric<sp/>aggregate<sp/>(SUM,<sp/>running<sp/>total)<sp/>that<sp/>would<sp/>overflow<sp/>the<sp/>declared</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>result<sp/>type<sp/>raises<sp/>AGGREGATION_OVERFLOW<sp/>immediately.<sp/><sp/>Silent<sp/>truncation<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>wrap-around<sp/>is<sp/>PROHIBITED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1analytics_1a533cbe53eb670996811a8afc0ca9f50c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1analytics_1a533cbe53eb670996811a8afc0ca9f50c" kindref="member">kMaxGroupByKeys</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1analytics_1a1c8783757a458daa1b67d436ed7c7c5e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1analytics_1a1c8783757a458daa1b67d436ed7c7c5e" kindref="member">kMaxAggregationBatchRows</ref><sp/>=<sp/>10&apos;000&apos;000u;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Streaming<sp/>/<sp/>CEP<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Event<sp/>ordering:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Events<sp/>within<sp/>a<sp/>partition<sp/>are<sp/>processed<sp/>in<sp/>strict<sp/>arrival<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Out-of-order<sp/>delivery<sp/>across<sp/>partitions<sp/>is<sp/>not<sp/>guaranteed;<sp/>consumers<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>apply<sp/>their<sp/>own<sp/>ordering<sp/>if<sp/>cross-partition<sp/>ordering<sp/>is<sp/>required.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Window<sp/>semantics:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Tumbling<sp/>windows:<sp/>non-overlapping,<sp/>fixed-size<sp/>time<sp/>or<sp/>row<sp/>count<sp/>slices.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Sliding<sp/>windows:<sp/>overlapping<sp/>windows<sp/>advancing<sp/>by<sp/>the<sp/>configured<sp/>step.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Session<sp/>windows:<sp/>close<sp/>after<sp/>a<sp/>configurable<sp/>gap<sp/>of<sp/>inactivity.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Late-arrival<sp/>handling:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Events<sp/>arriving<sp/>after<sp/>the<sp/>watermark<sp/>boundary<sp/>are<sp/>NOT<sp/>silently<sp/>swallowed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>The<sp/>WINDOW_EXPIRED<sp/>code<sp/>is<sp/>returned<sp/>to<sp/>the<sp/>event<sp/>producer.<sp/><sp/>The<sp/>event<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>discarded;<sp/>no<sp/>partial<sp/>re-aggregation<sp/>is<sp/>attempted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backpressure<sp/>contract:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>When<sp/>the<sp/>internal<sp/>event<sp/>queue<sp/>is<sp/>full<sp/>the<sp/>producer<sp/>receives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>STREAM_BACKPRESSURE<sp/>immediately.<sp/><sp/>No<sp/>blocking<sp/>or<sp/>silent<sp/>drop<sp/>occurs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Alert-per-event<sp/>guarantee:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>The<sp/>anomaly<sp/>detection<sp/>subsystem<sp/>emits<sp/>exactly<sp/>one<sp/>alert<sp/>per<sp/>qualifying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>event.<sp/><sp/>Under<sp/>backpressure,<sp/>the<sp/>alert<sp/>is<sp/>queued<sp/>or<sp/>the<sp/>producer<sp/>is<sp/>signalled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>via<sp/>STREAM_BACKPRESSURE<sp/>—<sp/>events<sp/>are<sp/>NEVER<sp/>silently<sp/>dropped.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1analytics_1a547d389229207e90f7a5df568e60d556" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1analytics_1a547d389229207e90f7a5df568e60d556" kindref="member">kDefaultWindowSizeMs</ref><sp/>=<sp/>1&apos;000;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1analytics_1a9e71ecc9cd48eceb058b714a0fad1170" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1analytics_1a9e71ecc9cd48eceb058b714a0fad1170" kindref="member">kMaxOpenSessionWindows</ref><sp/>=<sp/>1&apos;000&apos;000u;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1analytics_1a8bb3efe83ab4b14f5d2cbfd3298b7f7f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1analytics_1a8bb3efe83ab4b14f5d2cbfd3298b7f7f" kindref="member">kMaxWindowRecords</ref><sp/>=<sp/>10&apos;000&apos;000u;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1analytics_1acdcb244ed011eb2b79ab4ef711eb61ee" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1analytics_1acdcb244ed011eb2b79ab4ef711eb61ee" kindref="member">kMaxCepPatternLength</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>OLAP<sp/>plan<sp/>stability<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>For<sp/>a<sp/>given<sp/>data<sp/>version<sp/>(same<sp/>table<sp/>statistics,<sp/>same<sp/>schema,<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>configuration<sp/>snapshot)<sp/>the<sp/>query<sp/>planner<sp/>MUST<sp/>produce<sp/>the<sp/>same<sp/>plan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(identical<sp/>cardinality<sp/>estimate<sp/>and<sp/>operator<sp/>tree)<sp/>for<sp/>the<sp/>same<sp/>SQL<sp/>text.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Operator<sp/>reordering<sp/>is<sp/>only<sp/>permitted<sp/>when<sp/>equivalence<sp/>is<sp/>provable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Plan<sp/>instability<sp/>across<sp/>identical<sp/>inputs<sp/>is<sp/>a<sp/>contract<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="namespacethemis_1_1analytics_1a4fddd10156052135c2533c2dae1d3f2c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a4fddd10156052135c2533c2dae1d3f2c" kindref="member">kPlanCostStabilityTolerance</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Forecasting<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inference<sp/>idempotency:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Calling<sp/>forecast()<sp/>with<sp/>the<sp/>same<sp/>model<sp/>handle,<sp/>the<sp/>same<sp/>input<sp/>series,<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>the<sp/>same<sp/>random<sp/>seed<sp/>returns<sp/>bit-identical<sp/>results.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NaN<sp/>/<sp/>Inf<sp/>input:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Any<sp/>NaN<sp/>or<sp/>Inf<sp/>value<sp/>present<sp/>in<sp/>the<sp/>input<sp/>time-series<sp/>causes<sp/>an<sp/>immediate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>FORECAST_INPUT_INVALID<sp/>error.<sp/><sp/>Silent<sp/>propagation<sp/>to<sp/>the<sp/>model<sp/>is<sp/>PROHIBITED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Model<sp/>lifecycle:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>call<sp/>that<sp/>references<sp/>a<sp/>model<sp/>handle<sp/>that<sp/>has<sp/>not<sp/>been<sp/>loaded<sp/>or<sp/>has<sp/>been</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>evicted<sp/>returns<sp/>FORECAST_MODEL_NOT_FOUND.<sp/><sp/>No<sp/>blocking<sp/>model<sp/>reload<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>attempted<sp/>inline;<sp/>the<sp/>caller<sp/>must<sp/>explicitly<sp/>reload.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Anomaly<sp/>detection<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Threshold<sp/>validity:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>threshold<sp/>of<sp/>exactly<sp/>0.0<sp/>is<sp/>treated<sp/>as<sp/>&quot;fire<sp/>on<sp/>every<sp/>event&quot;<sp/>(valid).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>negative<sp/>threshold<sp/>value<sp/>causes<sp/>ANOMALY_THRESHOLD_INVALID<sp/>immediately<sp/>at</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>configuration<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Alert<sp/>guarantee:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Every<sp/>event<sp/>whose<sp/>anomaly<sp/>score<sp/>meets<sp/>or<sp/>exceeds<sp/>the<sp/>configured<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>produces<sp/>exactly<sp/>one<sp/>alert<sp/>object.<sp/><sp/>No<sp/>deduplication<sp/>or<sp/>rate-limiting<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>applied<sp/>by<sp/>the<sp/>detection<sp/>engine<sp/>itself;<sp/>those<sp/>concerns<sp/>belong<sp/>to<sp/>the<sp/>caller.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>analytics<sp/>components<sp/>must<sp/>map<sp/>their<sp/>internal<sp/>error<sp/>states<sp/>to<sp/>one<sp/>of<sp/>these</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>canonical<sp/>codes.<sp/><sp/>This<sp/>enables<sp/>uniform<sp/>operator<sp/>diagnostics<sp/>and<sp/>consistent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>retry<sp/>/<sp/>fail-closed<sp/>policy<sp/>enforcement.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AGGREGATION_OVERFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca2dc516053b5943bb7bd68253dca9887a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca2dc516053b5943bb7bd68253dca9887a" kindref="member">WINDOW_EXPIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>101,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" kindref="member">STREAM_BACKPRESSURE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>102,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaaec388832358fff0270e64a369b20312" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaaec388832358fff0270e64a369b20312" kindref="member">FORECAST_MODEL_NOT_FOUND</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>103,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaa8bf17466a7fbaf87ece45e7bdab4180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaa8bf17466a7fbaf87ece45e7bdab4180" kindref="member">FORECAST_INPUT_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>104,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca404f8be3c07747ebc3879db18e013eee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca404f8be3c07747ebc3879db18e013eee" kindref="member">ANOMALY_THRESHOLD_INVALID</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>105,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca6c759284add8841902aa1db1e26fedb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca6c759284add8841902aa1db1e26fedb9" kindref="member">PLAN_CARDINALITY_UNSTABLE</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>106,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca4da23deccf713b9bd0fce96a1e500e7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca4da23deccf713b9bd0fce96a1e500e7a" kindref="member">CEP_PATTERN_INCOMPLETE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>107,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>199,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="namespacethemis_1_1analytics_1a85da03160c4f8c262eb5cd73aaa89d54" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a85da03160c4f8c262eb5cd73aaa89d54" kindref="member">isHardAnalyticsError</ref>(<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaa8bf17466a7fbaf87ece45e7bdab4180" kindref="member">AnalyticsErrorCode::FORECAST_INPUT_INVALID</ref></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca404f8be3c07747ebc3879db18e013eee" kindref="member">AnalyticsErrorCode::ANOMALY_THRESHOLD_INVALID</ref></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca6c759284add8841902aa1db1e26fedb9" kindref="member">AnalyticsErrorCode::PLAN_CARDINALITY_UNSTABLE</ref></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcae8c0c70879b5895c615677261d64a1ee" kindref="member">AnalyticsErrorCode::INTERNAL_ERROR</ref>;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="namespacethemis_1_1analytics_1a42fb7bf3deafa7182c5d0d79d4f7c77b" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a42fb7bf3deafa7182c5d0d79d4f7c77b" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca2dc516053b5943bb7bd68253dca9887a" kindref="member">AnalyticsErrorCode::WINDOW_EXPIRED</ref>;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Forecast<sp/>model<sp/>capability<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Model<sp/>adapters<sp/>must<sp/>declare<sp/>their<sp/>capabilities<sp/>before<sp/>any<sp/>inference<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>a<sp/>declared<sp/>capability<sp/>is<sp/>unavailable,<sp/>FORECAST_MODEL_NOT_FOUND<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>returned<sp/>rather<sp/>than<sp/>blocking<sp/>or<sp/>timing<sp/>out<sp/>silently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref><sp/>:<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="225" refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0u,</highlight></codeline>
+<codeline lineno="227" refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa0c42348f5e78b5831cba958452ba8296" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa0c42348f5e78b5831cba958452ba8296" kindref="member">GpuInference</ref><sp/><sp/><sp/>=<sp/>1u<sp/>&lt;&lt;<sp/>0,</highlight></codeline>
+<codeline lineno="229" refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa85b963c026f9e767bd8ef5a633a510d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa85b963c026f9e767bd8ef5a633a510d2" kindref="member">OnnxRuntime</ref><sp/><sp/><sp/><sp/>=<sp/>1u<sp/>&lt;&lt;<sp/>1,</highlight></codeline>
+<codeline lineno="231" refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa22d6da428bc4699459d55b781058e146" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa22d6da428bc4699459d55b781058e146" kindref="member">RemoteEndpoint</ref><sp/>=<sp/>1u<sp/>&lt;&lt;<sp/>2,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="namespacethemis_1_1analytics_1a5e02d7b8e375fddadd3b0bd476bd3bd2" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref><sp/><ref refid="namespacethemis_1_1analytics_1a5e02d7b8e375fddadd3b0bd476bd3bd2" kindref="member">operator|</ref>(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref><sp/>a,<sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref><sp/>b)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(a)<sp/>|<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b));</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="namespacethemis_1_1analytics_1a9f10b0c7e1f3b2d5aa95155ec930dc96" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a9f10b0c7e1f3b2d5aa95155ec930dc96" kindref="member">hasModelCapability</ref>(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref><sp/>set,<sp/><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref><sp/>flag)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(set)<sp/>&amp;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(flag))<sp/>!=<sp/>0u;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>8<sp/><sp/>Bounded<sp/>Execution<sp/>Policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Defines<sp/>resource<sp/>limits<sp/>applied<sp/>uniformly<sp/>to<sp/>ML-serving<sp/>inference<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(MLServingClient::infer())<sp/>and<sp/>analytics<sp/>export<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(IAnalyticsExporter::exportToFile()).<sp/><sp/>Enforcement<sp/>uses<sp/>the<sp/>existing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>circuit-breaker<sp/>infrastructure<sp/>as<sp/>the<sp/>back-end.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>Wave<sp/>B<sp/>/<sp/>Q4<sp/>2026.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="structthemis_1_1analytics_1_1_bounded_execution_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a73087ab1ab825a5f387038f7ccec68c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a73087ab1ab825a5f387038f7ccec68c6" kindref="member">max_latency_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="282" refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a15e6bca190e1d4c636a372a35265d1d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a15e6bca190e1d4c636a372a35265d1d0" kindref="member">max_concurrent_requests</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1ab08088a9cccf122eed08cbc4b4d47241" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1ab08088a9cccf122eed08cbc4b4d47241" kindref="member">queue_depth</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1aef276700dac4052924524e4fd7dc7c6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1aef276700dac4052924524e4fd7dc7c6f" kindref="member">isConstrained</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a73087ab1ab825a5f387038f7ccec68c6" kindref="member">max_latency_ms</ref><sp/>!=<sp/>0u</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a15e6bca190e1d4c636a372a35265d1d0" kindref="member">max_concurrent_requests</ref><sp/>!=<sp/>0u</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1ab08088a9cccf122eed08cbc4b4d47241" kindref="member">queue_depth</ref><sp/>!=<sp/>0u;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>9<sp/><sp/>Streaming<sp/>Runtime<sp/>Limits<sp/>(Phase<sp/>2<sp/>/<sp/>Wave<sp/>B<sp/>—<sp/>Q4<sp/>2026)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Applies<sp/>back-pressure<sp/>and<sp/>memory<sp/>guards<sp/>to<sp/>AnalyticsStreamingEngine<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedCoordinator<sp/>streaming<sp/>paths.<sp/><sp/>When<sp/>a<sp/>limit<sp/>is<sp/>reached<sp/>the<sp/>engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>applies<sp/>the<sp/>configured<sp/>BackPressureMode<sp/>instead<sp/>of<sp/>silently<sp/>dropping<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>or<sp/>blocking<sp/>indefinitely.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" kindref="member">BackPressureMode</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="307" refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">DROP</ref><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="311" refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BLOCK</ref><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="314" refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" kindref="member">SHED</ref><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>{</highlight></codeline>
+<codeline lineno="340" refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1ad5f0948f264ffdf025f935f25d51a7aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1ad5f0948f264ffdf025f935f25d51a7aa" kindref="member">max_events_per_window</ref><sp/><sp/><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="342" refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a8b1266fd78ac3b6c037055069a0939d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a8b1266fd78ac3b6c037055069a0939d4" kindref="member">max_window_memory_bytes</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="344" refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1af4c5f17b1f6f05e3f2b91e5a30576bc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" kindref="member">BackPressureMode</ref><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1af4c5f17b1f6f05e3f2b91e5a30576bc7" kindref="member">back_pressure_mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">BackPressureMode::DROP</ref>;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347" refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1ad5f0948f264ffdf025f935f25d51a7aa" kindref="member">max_events_per_window</ref><sp/>!=<sp/>0u<sp/>||<sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a8b1266fd78ac3b6c037055069a0939d4" kindref="member">max_window_memory_bytes</ref><sp/>!=<sp/>0u;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/analytics_api_contract.h"/>
+  </compounddef>
+</doxygen>

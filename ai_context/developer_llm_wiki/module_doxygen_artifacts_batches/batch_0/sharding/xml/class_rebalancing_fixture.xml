@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_rebalancing_fixture" kind="class" language="C++" prot="public">
+    <compoundname>RebalancingFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_rebalancing_fixture_1aebf427e387f5a8ea7cea28acf75344f4" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RebalancingFixture::num_entities_</definition>
+        <argsstring></argsstring>
+        <name>num_entities_</name>
+        <qualifiedname>RebalancingFixture::num_entities_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="583" column="9" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="583" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rebalancing_fixture_1ab8ff4265083c80ea42669a187f954470" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RebalancingFixture::batch_size_</definition>
+        <argsstring></argsstring>
+        <name>batch_size_</name>
+        <qualifiedname>RebalancingFixture::batch_size_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="584" column="9" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="584" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rebalancing_fixture_1a3cf88b75df1bbc46b12a0b215a4374f9" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; RebalancingFixture::entities_</definition>
+        <argsstring></argsstring>
+        <name>entities_</name>
+        <qualifiedname>RebalancingFixture::entities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="585" column="17" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="585" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_rebalancing_fixture_1a52b0eccbd95486097c1931067292b85d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RebalancingFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RebalancingFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="563" column="10" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="563" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rebalancing_fixture_1a3f3f46627f63e57cb2b82413d770dffb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RebalancingFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>RebalancingFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="578" column="10" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="578" bodyend="580"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RebalancingFixture</label>
+        <link refid="class_rebalancing_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RebalancingFixture</label>
+        <link refid="class_rebalancing_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="561" column="1" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="561" bodyend="586"/>
+    <listofallmembers>
+      <member refid="class_rebalancing_fixture_1ab8ff4265083c80ea42669a187f954470" prot="protected" virt="non-virtual"><scope>RebalancingFixture</scope><name>batch_size_</name></member>
+      <member refid="class_rebalancing_fixture_1a3cf88b75df1bbc46b12a0b215a4374f9" prot="protected" virt="non-virtual"><scope>RebalancingFixture</scope><name>entities_</name></member>
+      <member refid="class_rebalancing_fixture_1aebf427e387f5a8ea7cea28acf75344f4" prot="protected" virt="non-virtual"><scope>RebalancingFixture</scope><name>num_entities_</name></member>
+      <member refid="class_rebalancing_fixture_1a52b0eccbd95486097c1931067292b85d" prot="public" virt="non-virtual"><scope>RebalancingFixture</scope><name>SetUp</name></member>
+      <member refid="class_rebalancing_fixture_1a3f3f46627f63e57cb2b82413d770dffb" prot="public" virt="non-virtual"><scope>RebalancingFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

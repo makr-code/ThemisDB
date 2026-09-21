@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::testing::IntegrationTestSuite</compoundname>
+    <includes refid="production__validator_8h" local="no">production_validator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result" prot="public">themis::llm::testing::IntegrationTestSuite::TestResult</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ad8835b830037d49e57c526e9dd3c9986" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testLazyLoaderWithGPUMemory</definition>
+        <argsstring>()</argsstring>
+        <name>testLazyLoaderWithGPUMemory</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testLazyLoaderWithGPUMemory</qualifiedname>
+        <briefdescription>
+<para>Test Lazy Loader With GPUMemory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), mgr(), getStats(), spdlog::error(), allocateCPU(), freeCPU(), loader(), getOrLoadModel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="397" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1293" bodyend="1336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ad134386853c8168a4645a79cf023a562" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testSchedulerWithPagedAttention</definition>
+        <argsstring>()</argsstring>
+        <name>testSchedulerWithPagedAttention</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testSchedulerWithPagedAttention</qualifiedname>
+        <briefdescription>
+<para>Test Scheduler With Paged Attention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), scheduler(), start(), isRunning(), spdlog::error(), submitRequest(), empty(), stop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="402" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1343" bodyend="1395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a703d9d208496e829c59b344eabc51bc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testKernelFusionWithInference</definition>
+        <argsstring>()</argsstring>
+        <name>testKernelFusionWithInference</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testKernelFusionWithInference</qualifiedname>
+        <briefdescription>
+<para>Test Kernel Fusion With Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), kf_mgr(), shouldFuseLayerNormLinear(), shouldFuseQKV(), shouldFuseFFN(), estimateSpeedup(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="407" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1402" bodyend="1432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ac93f135132b638f7b016f8bd3ee41625" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testFullPipelineE2E</definition>
+        <argsstring>()</argsstring>
+        <name>testFullPipelineE2E</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testFullPipelineE2E</qualifiedname>
+        <briefdescription>
+<para>Test Full Pipeline E2 E. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), mgr(), loader(), scheduler(), start(), submitRequest(), empty(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="412" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1439" bodyend="1483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a20a0859c6db445b20a04447513258b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testMultiModelServing</definition>
+        <argsstring>()</argsstring>
+        <name>testMultiModelServing</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testMultiModelServing</qualifiedname>
+        <briefdescription>
+<para>Test Multi Model Serving. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), lora_mgr(), loadLoRA(), spdlog::error(), listLoRAs(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="419" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1490" bodyend="1519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a08610006712a6bd24680cf7eadbc77ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testModelSwitching</definition>
+        <argsstring>()</argsstring>
+        <name>testModelSwitching</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testModelSwitching</qualifiedname>
+        <briefdescription>
+<para>Test Model Switching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), loader(), getOrLoadModel(), spdlog::error(), listLoadedModels(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="424" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1526" bodyend="1551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a1e6be9643af4ffd60bfd2bb3354ba8cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testLoRAAdapterManagement</definition>
+        <argsstring>()</argsstring>
+        <name>testLoRAAdapterManagement</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testLoRAAdapterManagement</qualifiedname>
+        <briefdescription>
+<para>Test Lo RAAdapter Management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), mgr(), loadLoRA(), spdlog::error(), isLoRALoaded(), listLoRAs(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="429" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1558" bodyend="1587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a826c577dd070051da7cf6a53f69f67de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testGPUOutOfMemory</definition>
+        <argsstring>()</argsstring>
+        <name>testGPUOutOfMemory</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testGPUOutOfMemory</qualifiedname>
+        <briefdescription>
+<para>Test GPUOut Of Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), mgr(), allocateGPU(), freeGPU(), spdlog::error(), getStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="436" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1594" bodyend="1623"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a32e1dcecaab11a623d98e63ca070ca14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testModelLoadFailure</definition>
+        <argsstring>()</argsstring>
+        <name>testModelLoadFailure</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testModelLoadFailure</qualifiedname>
+        <briefdescription>
+<para>Test Model Load Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), loader(), getOrLoadModel(), spdlog::error(), listLoadedModels(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="441" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1630" bodyend="1651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1af264189d856d025b7946476779da03be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testRequestCancellation</definition>
+        <argsstring>()</argsstring>
+        <name>testRequestCancellation</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testRequestCancellation</qualifiedname>
+        <briefdescription>
+<para>Test Request Cancellation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), scheduler(), start(), submitRequest(), empty(), spdlog::error(), stop(), cancelRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="446" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1658" bodyend="1698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a025ad9107d5525d21e68a96c922979ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testPreemption</definition>
+        <argsstring>()</argsstring>
+        <name>testPreemption</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testPreemption</qualifiedname>
+        <briefdescription>
+<para>Test Preemption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), scheduler(), start(), submitRequest(), empty(), push_back(), preemptRequests(), resumeRequests(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="451" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1705" bodyend="1745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a3f10a44546c9f8b3b98801208c7cc8ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testHighConcurrency</definition>
+        <argsstring>()</argsstring>
+        <name>testHighConcurrency</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testHighConcurrency</qualifiedname>
+        <briefdescription>
+<para>Test High Concurrency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), scheduler(), start(), emplace_back(), submitRequest(), empty(), lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="458" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1752" bodyend="1810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a43dedf98353e68b9b62218f66c9a109c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testLongRunningRequests</definition>
+        <argsstring>()</argsstring>
+        <name>testLongRunningRequests</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testLongRunningRequests</qualifiedname>
+        <briefdescription>
+<para>Test Long Running Requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), scheduler(), start(), submitRequest(), empty(), spdlog::error(), stop(), getStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="463" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1817" bodyend="1852"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a404118f618b4811ff0dd381fd1358185" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::testing::IntegrationTestSuite::testBurstTraffic</definition>
+        <argsstring>()</argsstring>
+        <name>testBurstTraffic</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::testBurstTraffic</qualifiedname>
+        <briefdescription>
+<para>Test Burst Traffic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), scheduler(), start(), submitRequest(), empty(), push_back(), getStats(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="468" column="10" bodyfile="src/llm/production_validator.cpp" bodystart="1859" bodyend="1902"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a4f369e49919efbda04297ccc29c9114a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result" kindref="compound">TestResult</ref> &gt;</type>
+        <definition>std::vector&lt; IntegrationTestSuite::TestResult &gt; themis::llm::testing::IntegrationTestSuite::runAllTests</definition>
+        <argsstring>()</argsstring>
+        <name>runAllTests</name>
+        <qualifiedname>themis::llm::testing::IntegrationTestSuite::runAllTests</qualifiedname>
+        <briefdescription>
+<para>Run All Tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="481" column="17" bodyfile="src/llm/production_validator.cpp" bodystart="1905" bodyend="1959"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/production_validator.h" line="390" column="1" bodyfile="include/llm/production_validator.h" bodystart="390" bodyend="482"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a4f369e49919efbda04297ccc29c9114a" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>runAllTests</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a404118f618b4811ff0dd381fd1358185" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testBurstTraffic</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ac93f135132b638f7b016f8bd3ee41625" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testFullPipelineE2E</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a826c577dd070051da7cf6a53f69f67de" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testGPUOutOfMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a3f10a44546c9f8b3b98801208c7cc8ca" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testHighConcurrency</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a703d9d208496e829c59b344eabc51bc0" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testKernelFusionWithInference</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ad8835b830037d49e57c526e9dd3c9986" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testLazyLoaderWithGPUMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a43dedf98353e68b9b62218f66c9a109c" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testLongRunningRequests</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a1e6be9643af4ffd60bfd2bb3354ba8cb" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testLoRAAdapterManagement</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a32e1dcecaab11a623d98e63ca070ca14" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testModelLoadFailure</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a08610006712a6bd24680cf7eadbc77ba" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testModelSwitching</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a20a0859c6db445b20a04447513258b9c" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testMultiModelServing</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a025ad9107d5525d21e68a96c922979ab" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testPreemption</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1af264189d856d025b7946476779da03be" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testRequestCancellation</name></member>
+      <member refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ad134386853c8168a4645a79cf023a562" prot="public" virt="non-virtual"><scope>themis::llm::testing::IntegrationTestSuite</scope><name>testSchedulerWithPagedAttention</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_i_migration_storage" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::updates::IMigrationStorage</compoundname>
+    <includes refid="schema__migration_8h" local="no">schema_migration.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_storage_1aa9b0cd0a692754ca7a1720ef724a6801" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::updates::IMigrationStorage::~IMigrationStorage</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMigrationStorage</name>
+        <qualifiedname>themis::updates::IMigrationStorage::~IMigrationStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="134" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_storage_1ad5e71edf1c12775cbffe46f1adbbe1b4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::updates::IMigrationStorage::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)=0</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::updates::IMigrationStorage::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Store or overwrite a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Record key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialised record value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="142" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_storage_1aab859286150f2d8800faf3ae7c24aa0e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::updates::IMigrationStorage::get</definition>
+        <argsstring>(const std::string &amp;key, std::string &amp;value)=0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::updates::IMigrationStorage::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the value for a key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Record key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output parameter filled on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the key exists, false if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="150" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_storage_1adfa3a8ca0b7267590ab368d5d0e51955" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::updates::IMigrationStorage::remove</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::updates::IMigrationStorage::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Record key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success (including when the key did not exist). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="157" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_storage_1a86c64388c327923278851bc0dc699bcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::updates::IMigrationStorage::listKeys</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;out)</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::updates::IMigrationStorage::listKeys</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Enumerate all stored keys into <computeroutput>out</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This optional operation supports custom migration callbacks that need to scan records via <ref refid="structthemis_1_1updates_1_1_migration_context_1aae0cd027716f5b7fad893f7b4d5679e6" kindref="member">MigrationContext::createIterator()</ref>. Implementations that do not support key enumeration may leave <computeroutput>out</computeroutput> unchanged and return false; in that case, iterators over those implementations will yield no records.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination vector; keys are appended (not replaced). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if enumeration succeeded and <computeroutput>out</computeroutput> is complete. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="171" column="18" bodyfile="include/updates/schema_migration.h" bodystart="171" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal key-value storage interface for custom migration callbacks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations wrap the actual storage engine (e.g. RocksDBWrapper) so that custom migration lambdas remain testable without a real database. </para>
+    </detaileddescription>
+    <location file="include/updates/schema_migration.h" line="132" column="1" bodyfile="include/updates/schema_migration.h" bodystart="132" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_i_migration_storage_1aab859286150f2d8800faf3ae7c24aa0e" prot="public" virt="pure-virtual"><scope>themis::updates::IMigrationStorage</scope><name>get</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_migration_storage_1a86c64388c327923278851bc0dc699bcf" prot="public" virt="virtual"><scope>themis::updates::IMigrationStorage</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_migration_storage_1ad5e71edf1c12775cbffe46f1adbbe1b4" prot="public" virt="pure-virtual"><scope>themis::updates::IMigrationStorage</scope><name>put</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_migration_storage_1adfa3a8ca0b7267590ab368d5d0e51955" prot="public" virt="pure-virtual"><scope>themis::updates::IMigrationStorage</scope><name>remove</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_migration_storage_1aa9b0cd0a692754ca7a1720ef724a6801" prot="public" virt="virtual"><scope>themis::updates::IMigrationStorage</scope><name>~IMigrationStorage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

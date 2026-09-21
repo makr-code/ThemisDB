@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::AdapterRegistry</compoundname>
+    <includes refid="adapter__registry_8h" local="no">adapter_registry.h</includes>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle" prot="private">themis::core::concerns::AdapterRegistry::PluginHandle</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1acedf88783a9f1f8bf1d26ce80e490c02" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::core::concerns::AdapterRegistry::kHotSwapTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>kHotSwapTimeoutMs</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::kHotSwapTimeoutMs</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="53" column="48" bodyfile="include/core/concerns/adapter_registry.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4a4f346ef7e602b65182bae940549fe0" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::core::concerns::AdapterRegistry::registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>registry_mutex_</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::registry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="237" column="31" bodyfile="include/core/concerns/adapter_registry.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4019885fb20bb2946f412614d0b191c5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::type_index, std::shared_ptr&lt; void &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::type_index, std::shared_ptr&lt;void&gt; &gt; themis::core::concerns::AdapterRegistry::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="239" column="24" bodyfile="include/core/concerns/adapter_registry.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a93a28b11945d80a670c7135f84c71f04" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PluginHandle &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PluginHandle&gt; themis::core::concerns::AdapterRegistry::plugin_handles_</definition>
+        <argsstring></argsstring>
+        <name>plugin_handles_</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::plugin_handles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="241" column="24" bodyfile="include/core/concerns/adapter_registry.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a925a9c44f75522488e2ba8899444f35b" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127" kindref="member">AdapterTrustPolicy</ref></type>
+        <definition>AdapterTrustPolicy themis::core::concerns::AdapterRegistry::trust_policy_</definition>
+        <argsstring></argsstring>
+        <name>trust_policy_</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::trust_policy_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127a6e488759c508faa8f2c1df9c5403c8be" kindref="member">AdapterTrustPolicy::kTrustAll</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="243" column="24" bodyfile="include/core/concerns/adapter_registry.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a71f66af7c832697e3ec0bf54a31d9779" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::AdapterRegistry::AdapterRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>AdapterRegistry</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::AdapterRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a2ccffffe9ddbc11ff80ddb50db587949" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::AdapterRegistry::~AdapterRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>~AdapterRegistry</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::~AdapterRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="48" column="5" bodyfile="src/core/concerns/adapter_registry.cpp" bodystart="111" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::core::concerns::AdapterRegistry::registerAdapter</definition>
+        <argsstring>(std::string id, std::shared_ptr&lt; T &gt; adapter, AdapterValidator *validator=nullptr, AdapterMetadata meta={})</argsstring>
+        <name>registerAdapter</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::registerAdapter</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; T &gt;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator" kindref="compound">AdapterValidator</ref> *</type>
+          <declname>validator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref></type>
+          <declname>meta</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="60" column="10" bodyfile="include/core/concerns/adapter_registry.h" bodystart="60" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::shared_ptr&lt; T &gt;</type>
+        <definition>std::shared_ptr&lt; T &gt; themis::core::concerns::AdapterRegistry::resolve</definition>
+        <argsstring>() const</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::resolve</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="109" column="21" bodyfile="include/core/concerns/adapter_registry.h" bodystart="109" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1abe82a0afd569c8049317db62a73635db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::core::concerns::AdapterRegistry::hotSwap</definition>
+        <argsstring>(std::shared_ptr&lt; T &gt; new_adapter, AdapterMetadata meta={})</argsstring>
+        <name>hotSwap</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::hotSwap</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; T &gt;</type>
+          <declname>new_adapter</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref></type>
+          <declname>meta</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="128" column="10" bodyfile="include/core/concerns/adapter_registry.h" bodystart="128" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::AdapterRegistry::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::count</qualifiedname>
+        <briefdescription>
+<para>Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="177" column="12" bodyfile="src/core/concerns/adapter_registry.cpp" bodystart="132" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aee88d20409d399d10d4d81681b8913a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::AdapterRegistry::hasAdapter</definition>
+        <argsstring>(std::type_index type) const</argsstring>
+        <name>hasAdapter</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::hasAdapter</qualifiedname>
+        <param>
+          <type>std::type_index</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Has Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="184" column="10" bodyfile="src/core/concerns/adapter_registry.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a1b15d4f08ae43124f2d97074e618a5cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::AdapterRegistry::setTrustPolicy</definition>
+        <argsstring>(AdapterTrustPolicy policy)</argsstring>
+        <name>setTrustPolicy</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::setTrustPolicy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127" kindref="member">AdapterTrustPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Trust Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="194" column="10" bodyfile="src/core/concerns/adapter_registry.cpp" bodystart="165" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::AdapterRegistry::loadFromPlugin</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;adapter_id)</argsstring>
+        <name>loadFromPlugin</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::loadFromPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load From Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::filesystem::exists(), lock(), sig_file(), is_open(), std::getline(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="196" column="11" bodyfile="src/core/concerns/adapter_registry.cpp" bodystart="181" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/adapter_registry.h" line="40" column="1" bodyfile="include/core/concerns/adapter_registry.h" bodystart="40" bodyend="244"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a71f66af7c832697e3ec0bf54a31d9779" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>AdapterRegistry</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>count</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aee88d20409d399d10d4d81681b8913a7" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>hasAdapter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1abe82a0afd569c8049317db62a73635db" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>hotSwap</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1acedf88783a9f1f8bf1d26ce80e490c02" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>kHotSwapTimeoutMs</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>loadFromPlugin</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a93a28b11945d80a670c7135f84c71f04" prot="private" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>plugin_handles_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>registerAdapter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4019885fb20bb2946f412614d0b191c5" prot="private" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4a4f346ef7e602b65182bae940549fe0" prot="private" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>registry_mutex_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a1b15d4f08ae43124f2d97074e618a5cf" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>setTrustPolicy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a925a9c44f75522488e2ba8899444f35b" prot="private" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>trust_policy_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a2ccffffe9ddbc11ff80ddb50db587949" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry</scope><name>~AdapterRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

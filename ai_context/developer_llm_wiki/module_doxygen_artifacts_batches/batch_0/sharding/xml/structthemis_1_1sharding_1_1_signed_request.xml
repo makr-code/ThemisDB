@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_signed_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SignedRequest</compoundname>
+    <includes refid="signed__request_8h" local="no">signed_request.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1a014164b9d9df392e5af5a0191417db79" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::SignedRequest::kSignatureFormatV1</definition>
+        <argsstring></argsstring>
+        <name>kSignatureFormatV1</name>
+        <qualifiedname>themis::sharding::SignedRequest::kSignatureFormatV1</qualifiedname>
+        <initializer>= &quot;themis-shard-sig-v1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Versioned signature format identifier for canonicalization/verification. Current required value: &quot;themis-shard-sig-v1&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="45" column="33" bodyfile="include/sharding/signed_request.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1a4e5f0a3a6b0939b1c6861a0e3931fd59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequest::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::SignedRequest::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="47" column="17" bodyfile="include/sharding/signed_request.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1aae9772aff200a4d92fd96f8014c1ee35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequest::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::sharding::SignedRequest::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="48" column="17" bodyfile="include/sharding/signed_request.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1a5455dd7afb4d31b934eeb785b915c441" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequest::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::sharding::SignedRequest::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="49" column="17" bodyfile="include/sharding/signed_request.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1a6b4080e15b0f7924f036d29a36edf47a" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::SignedRequest::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::sharding::SignedRequest::body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="50" column="20" bodyfile="include/sharding/signed_request.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1a30247df5676c90caf08067bc2bd1e66c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SignedRequest::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::sharding::SignedRequest::timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="51" column="14" bodyfile="include/sharding/signed_request.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1aaa33133d9d47bb482366560b8a37faa7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SignedRequest::nonce</definition>
+        <argsstring></argsstring>
+        <name>nonce</name>
+        <qualifiedname>themis::sharding::SignedRequest::nonce</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="52" column="14" bodyfile="include/sharding/signed_request.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1a2c240e9e3be6d0e2b8729ecf56d1e2e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequest::signature_format</definition>
+        <argsstring></argsstring>
+        <name>signature_format</name>
+        <qualifiedname>themis::sharding::SignedRequest::signature_format</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1sharding_1_1_signed_request_1a014164b9d9df392e5af5a0191417db79" kindref="member">kSignatureFormatV1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="54" column="17" bodyfile="include/sharding/signed_request.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1aeaf74ebf8d40b0f61f5cffa16a85141b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequest::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::sharding::SignedRequest::key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="55" column="17" bodyfile="include/sharding/signed_request.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1a8db0ac6e4df4707bf99932f76beb1a3c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequest::signature_b64</definition>
+        <argsstring></argsstring>
+        <name>signature_b64</name>
+        <qualifiedname>themis::sharding::SignedRequest::signature_b64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="56" column="17" bodyfile="include/sharding/signed_request.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_1abe78fbbbd13ff80ebca4115be7b07fdb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequest::cert_serial</definition>
+        <argsstring></argsstring>
+        <name>cert_serial</name>
+        <qualifiedname>themis::sharding::SignedRequest::cert_serial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="57" column="17" bodyfile="include/sharding/signed_request.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_signed_request_1a5f4e0b8ba6f4bfaa85ed6cec3e2aea1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::SignedRequest::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::sharding::SignedRequest::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialize request to transport JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object containing all signing and payload fields. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="63" column="20" bodyfile="src/sharding/signed_request.cpp" bodystart="175" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_signed_request_1a20b3e998deed9b86fb5b0dd2e000c61a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequest::getCanonicalString</definition>
+        <argsstring>() const</argsstring>
+        <name>getCanonicalString</name>
+        <qualifiedname>themis::sharding::SignedRequest::getCanonicalString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get canonical string representation for signing</para>
+<para>Format (v1, strict): signature_format=&lt;format&gt;<linebreak/>
+shard_id=&lt;shard_id&gt;<linebreak/>
+operation=&lt;operation&gt;<linebreak/>
+path=&lt;path&gt;<linebreak/>
+body=&lt;normalized_json&gt;<linebreak/>
+timestamp_ms=&lt;timestamp_ms&gt;<linebreak/>
+nonce=&lt;nonce&gt;<linebreak/>
+key_id=&lt;key_id&gt;<linebreak/>
+cert_serial=&lt;cert_serial&gt;<linebreak/>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="86" column="17" bodyfile="src/sharding/signed_request.cpp" bodystart="219" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_signed_request_1ac4919deb0588d047c3c99ee13ef618c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_signed_request" kindref="compound">SignedRequest</ref> &gt;</type>
+        <definition>std::optional&lt; SignedRequest &gt; themis::sharding::SignedRequest::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::sharding::SignedRequest::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse request from transport JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From JSON.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input JSON object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed request, or std::nullopt when required fields are missing/invalid.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), value(), std::string(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="70" column="26" bodyfile="src/sharding/signed_request.cpp" bodystart="196" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Signed shard-to-shard request payload. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Signed Request Protocol</para>
+<para>Provides defense-in-depth security layer on top of mTLS. Requests are signed with the sender&apos;s private key and include:<itemizedlist>
+<listitem><para>Timestamp for freshness validation</para>
+</listitem><listitem><para>Nonce for replay protection</para>
+</listitem><listitem><para>Certificate serial for identity verification</para>
+</listitem></itemizedlist>
+</para>
+<para>This protects against:<itemizedlist>
+<listitem><para>Replay attacks</para>
+</listitem><listitem><para>Man-in-the-middle (additional layer beyond mTLS)</para>
+</listitem><listitem><para>Request tampering </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/signed_request.h" line="42" column="1" bodyfile="include/sharding/signed_request.h" bodystart="42" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a6b4080e15b0f7924f036d29a36edf47a" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>body</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1abe78fbbbd13ff80ebca4115be7b07fdb" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>cert_serial</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1ac4919deb0588d047c3c99ee13ef618c0" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a20b3e998deed9b86fb5b0dd2e000c61a" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>getCanonicalString</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1aeaf74ebf8d40b0f61f5cffa16a85141b" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a014164b9d9df392e5af5a0191417db79" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>kSignatureFormatV1</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1aaa33133d9d47bb482366560b8a37faa7" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>nonce</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1aae9772aff200a4d92fd96f8014c1ee35" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>operation</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a5455dd7afb4d31b934eeb785b915c441" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a4e5f0a3a6b0939b1c6861a0e3931fd59" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a8db0ac6e4df4707bf99932f76beb1a3c" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>signature_b64</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a2c240e9e3be6d0e2b8729ecf56d1e2e7" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>signature_format</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a30247df5676c90caf08067bc2bd1e66c" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_1a5f4e0b8ba6f4bfaa85ed6cec3e2aea1f" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequest</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

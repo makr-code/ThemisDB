@@ -1,0 +1,816 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ProvenanceHashLedger</compoundname>
+    <includes refid="lora__package__provenance_8h" local="no">lora_package_provenance.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl" prot="public">themis::llm::lora::ProvenanceHashLedger::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ad7cfa04a1ac0e82f894f1fbc1ce669c0" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::lora::ProvenanceHashLedger::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="593" column="21" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="593" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ada42a258a817a090f0671d10e99e2012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::ProvenanceHashLedger::ProvenanceHashLedger</definition>
+        <argsstring>()</argsstring>
+        <name>ProvenanceHashLedger</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::ProvenanceHashLedger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="361" column="5" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="498" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a25582cb53ff77c9ed4c632a55dd98c13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::ProvenanceHashLedger::~ProvenanceHashLedger</definition>
+        <argsstring>()</argsstring>
+        <name>~ProvenanceHashLedger</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::~ProvenanceHashLedger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="362" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a63601cc310bd819e7e0e70ef394a9d13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::ProvenanceHashLedger::ProvenanceHashLedger</definition>
+        <argsstring>(const ProvenanceHashLedger &amp;)=delete</argsstring>
+        <name>ProvenanceHashLedger</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::ProvenanceHashLedger</qualifiedname>
+        <param>
+          <type>const ProvenanceHashLedger &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="364" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a7f6b203a3d03af0e096a1d357dffa772" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ada42a258a817a090f0671d10e99e2012" kindref="member">ProvenanceHashLedger</ref> &amp;</type>
+        <definition>ProvenanceHashLedger &amp; themis::llm::lora::ProvenanceHashLedger::operator=</definition>
+        <argsstring>(const ProvenanceHashLedger &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ada42a258a817a090f0671d10e99e2012" kindref="member">ProvenanceHashLedger</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="365" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1aab74335cf19f83e1fafc8fa71fff5502" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref></type>
+        <definition>LoRAPackage themis::llm::lora::ProvenanceHashLedger::appendPackage</definition>
+        <argsstring>(LoRAPackage pkg)</argsstring>
+        <name>appendPackage</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::appendPackage</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref></type>
+          <declname>pkg</declname>
+        </param>
+        <briefdescription>
+<para>Register a new <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> version in the ledger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Package.</para>
+<para>Sets package_id (if empty), created_at (if empty), parent_hash (to the current head for this adapter_id), and package_hash. The package is appended to the per-adapter package chain.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pkg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Package to register. Fields package_id, parent_hash, created_at, and package_hash may be empty — they will be populated by this method. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> with all hash fields set.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pkg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), generateId_pkg(), nowISO8601_pkg(), back(), computeContentHash(), push_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="383" column="18" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="513" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a8381771b581de6bb611dc3120c6900ef" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAPackage &gt; themis::llm::lora::ProvenanceHashLedger::getPackageChain</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getPackageChain</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::getPackageChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve all <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> versions for an adapter, oldest first. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered vector of packages; empty if none registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="391" column="18" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="542" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a1a258f1fc0ce8e5abbb57722847bc668" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> &gt;</type>
+        <definition>std::optional&lt; LoRAPackage &gt; themis::llm::lora::ProvenanceHashLedger::getPackage</definition>
+        <argsstring>(const std::string &amp;package_id) const</argsstring>
+        <name>getPackage</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::getPackage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a specific <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> by its package_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>package_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Package identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Package if found; nullopt otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="400" column="20" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="553" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ae1eac2771821396775aa14648c8a8b6a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref></type>
+        <definition>AdapterProduct themis::llm::lora::ProvenanceHashLedger::appendProduct</definition>
+        <argsstring>(AdapterProduct product)</argsstring>
+        <name>appendProduct</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::appendProduct</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref></type>
+          <declname>product</declname>
+        </param>
+        <briefdescription>
+<para>Register a new <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> version in the ledger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Product.</para>
+<para>Sets product_id (if empty), created_at (if empty), parent_hash (to the current head for this package_id), and product_hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>product</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Product to register. Fields product_id, parent_hash, created_at, and product_hash may be empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> with all hash fields set.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">product</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), generateId_pkg(), nowISO8601_pkg(), back(), computeContentHash(), push_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="417" column="21" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="574" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a69b5de58b6a9cd49f3243d3bf31c1059" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterProduct &gt; themis::llm::lora::ProvenanceHashLedger::getProductChain</definition>
+        <argsstring>(const std::string &amp;package_id) const</argsstring>
+        <name>getProductChain</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::getProductChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve all <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> versions for a package, oldest first. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>package_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Package identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered vector of products; empty if none registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="425" column="18" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="601" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a77b3367798590056a018a26b68a92461" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterProduct &gt; themis::llm::lora::ProvenanceHashLedger::getProduct</definition>
+        <argsstring>(const std::string &amp;product_id) const</argsstring>
+        <name>getProduct</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::getProduct</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>product_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a specific <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> by its product_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>product_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Product identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Product if found; nullopt otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="434" column="20" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="612" bodyend="621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1aa23c6ebf6c040941320b98c933363570" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref></type>
+        <definition>DistributionReceipt themis::llm::lora::ProvenanceHashLedger::appendReceipt</definition>
+        <argsstring>(DistributionReceipt receipt)</argsstring>
+        <name>appendReceipt</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::appendReceipt</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref></type>
+          <declname>receipt</declname>
+        </param>
+        <briefdescription>
+<para>Append a <ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref> to the artifact&apos;s receipt chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Receipt.</para>
+<para>Populates receipt_id (if empty), distribution_timestamp (if empty), parent_receipt_hash (to the current chain head for this artifact_id), and receipt_hash. Creates the receipt chain if it does not yet exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>receipt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receipt to append. artifact_id must be non-empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref> with all hash fields set. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when receipt.artifact_id is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">receipt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), generateId_pkg(), nowISO8601_pkg(), <ref refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a2bc19df1e97716782a038d5635d1d24a" kindref="member">sha256Hex()</ref>, computeContentHash(), push_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="452" column="26" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="634" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ae0bbb2edb858811f0d414cdedc513e09" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain" kindref="compound">ReceiptChain</ref></type>
+        <definition>ReceiptChain themis::llm::lora::ProvenanceHashLedger::getReceiptChain</definition>
+        <argsstring>(const std::string &amp;artifact_id) const</argsstring>
+        <name>getReceiptChain</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::getReceiptChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the full <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain" kindref="compound">ReceiptChain</ref> for an artifact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Package or product identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain" kindref="compound">ReceiptChain</ref>; entries is empty if none registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="460" column="19" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="671" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ab096bd1f236cd9e2099ba8ed4e54989d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ProvenanceHashLedger::verifyReceiptChain</definition>
+        <argsstring>(const std::string &amp;artifact_id) const</argsstring>
+        <name>verifyReceiptChain</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::verifyReceiptChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify the integrity of the receipt chain for an artifact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recomputes each receipt&apos;s content hash and verifies that parent_receipt_hash links match. Returns false at the first broken link.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Artifact whose chain to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the entire chain is intact; false on any violation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="473" column="11" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="685" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1aea26bf91e49b0b518a5a4e71ac71c624" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" kindref="compound">ReceiptManifest</ref></type>
+        <definition>ReceiptManifest themis::llm::lora::ProvenanceHashLedger::createManifest</definition>
+        <argsstring>(const std::string &amp;event_type, const std::string &amp;artifact_id, std::vector&lt; DistributionReceipt &gt; receipts)</argsstring>
+        <name>createManifest</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::createManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref> &gt;</type>
+          <declname>receipts</declname>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" kindref="compound">ReceiptManifest</ref> for a batch distribution event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Manifest.</para>
+<para>Appends each receipt in <computeroutput>receipts</computeroutput> to the artifact&apos;s chain (via <ref refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1aa23c6ebf6c040941320b98c933363570" kindref="member">appendReceipt()</ref>), computes the Merkle root and manifest hash, and stores the resulting manifest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distribution event type string. Must be non-empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Artifact being distributed. Must be non-empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>receipts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-recipient receipts (artifact_id should match). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" kindref="compound">ReceiptManifest</ref> with merkle_root and manifest_hash set. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when event_type or artifact_id is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">receipts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="492" column="22" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="732" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a31e92dd2b6425aec5f73aa23498a61e5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" kindref="compound">ReceiptManifest</ref> &gt;</type>
+        <definition>std::optional&lt; ReceiptManifest &gt; themis::llm::lora::ProvenanceHashLedger::getManifest</definition>
+        <argsstring>(const std::string &amp;manifest_id) const</argsstring>
+        <name>getManifest</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::getManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifest_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" kindref="compound">ReceiptManifest</ref> by its manifest_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manifest identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Manifest if found; nullopt otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="503" column="20" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="783" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a3ea4847fde7d62fc68ca8338d9dec334" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ProvenanceHashLedger::validateManifest</definition>
+        <argsstring>(const ReceiptManifest &amp;manifest) const</argsstring>
+        <name>validateManifest</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::validateManifest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" kindref="compound">ReceiptManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Validate a <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" kindref="compound">ReceiptManifest</ref>: verify Merkle root and manifest hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recomputes the Merkle root from the receipts&apos; receipt_hash values and recomputes the manifest_hash. Both must match the stored values.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manifest to validate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when both checks pass; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="515" column="11" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="794" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a8c2f3f9032e7813c61e9456b8df0c865" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref></type>
+        <definition>ShardLedgerEntry themis::llm::lora::ProvenanceHashLedger::appendShardEntry</definition>
+        <argsstring>(ShardLedgerEntry entry)</argsstring>
+        <name>appendShardEntry</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::appendShardEntry</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append a <ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref> to the artifact&apos;s shard ledger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Shard Entry.</para>
+<para>Populates entry_id (if empty), placement_timestamp (if empty), prev_entry_hash (to the current shard-ledger head for this artifact_id), and entry_hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entry to append. artifact_id must be non-empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref> with all hash fields set. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when entry.artifact_id is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), generateId_pkg(), nowISO8601_pkg(), back(), <ref refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a2bc19df1e97716782a038d5635d1d24a" kindref="member">sha256Hex()</ref>, computeContentHash(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="532" column="23" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="827" bodyend="857"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ac8d86697bfc049342a8d83d6ced72bc2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref> &gt;</type>
+        <definition>std::vector&lt; ShardLedgerEntry &gt; themis::llm::lora::ProvenanceHashLedger::getShardLedger</definition>
+        <argsstring>(const std::string &amp;artifact_id) const</argsstring>
+        <name>getShardLedger</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::getShardLedger</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve all ShardLedgerEntries for an artifact, oldest first. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Artifact identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered vector of entries; empty if none registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="540" column="18" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="859" bodyend="868"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a1d278363eb8ea753fea42ea87600355d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ProvenanceHashLedger::verifyShardLedger</definition>
+        <argsstring>(const std::string &amp;artifact_id) const</argsstring>
+        <name>verifyShardLedger</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::verifyShardLedger</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify the integrity of the shard ledger chain for an artifact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recomputes each entry&apos;s content hash and verifies prev_entry_hash linkage. Returns false at the first broken link.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Artifact whose ledger to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the full shard ledger chain is intact. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="552" column="11" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="870" bodyend="903"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a58fa27f766e72d698326a70e18cbb311" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::ProvenanceHashLedger::exportAuditPath</definition>
+        <argsstring>(const std::string &amp;artifact_id) const</argsstring>
+        <name>exportAuditPath</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::exportAuditPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Export the full audit path for an artifact as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Accepts an <computeroutput>artifact_id</computeroutput> that may be an adapter_id, package_id, or product_id. The method resolves the identity to its canonical adapter and package context:<itemizedlist>
+<listitem><para>adapter_id → all packages for that adapter; products for every package in the adapter&apos;s chain.</para>
+</listitem><listitem><para>package_id → the full package chain for the owning adapter; products scoped to the given package.</para>
+</listitem><listitem><para>product_id → the full package chain for the owning adapter; products scoped to the owning package.</para>
+</listitem></itemizedlist>
+</para>
+<para>The receipt chain, manifests, and shard ledger sections are always looked up directly by the supplied <computeroutput>artifact_id</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter, package, or product identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON document with keys: &quot;artifact_id&quot;, &quot;packages&quot;, &quot;products&quot;, &quot;receipt_chain&quot;, &quot;manifests&quot;, &quot;shard_ledger&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="578" column="11" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="909" bodyend="1016"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a2bc19df1e97716782a038d5635d1d24a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ProvenanceHashLedger::sha256Hex</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute the SHA-256 hash of a string and return as lowercase hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>64-character lowercase hex string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="589" column="25" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hash-based provenance ledger for <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> and <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <ref refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger" kindref="compound">ProvenanceHashLedger</ref> is the central authority for all Phase-4 provenance artefacts. It:<orderedlist>
+<listitem><para>Maintains the hash-chained version history of every <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> and <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> registered with it.</para>
+</listitem><listitem><para>Builds and stores ReceiptChains (one per artifact) from appended DistributionReceipts.</para>
+</listitem><listitem><para>Creates and validates ReceiptManifests for batch distribution events.</para>
+</listitem><listitem><para>Maintains a per-artifact ShardLedger whose entries are chained by prev_entry_hash for RAID-Merkle-Proof integration.</para>
+</listitem><listitem><para>Exports full audit paths as JSON for CLI / REST consumption.</para>
+</listitem></orderedlist>
+</para>
+<para>Thread safety: all public methods are protected by a single shared mutex. Reads and writes from multiple threads are safe. </para>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_package_provenance.h" line="359" column="1" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="359" bodyend="594"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1aab74335cf19f83e1fafc8fa71fff5502" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>appendPackage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ae1eac2771821396775aa14648c8a8b6a" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>appendProduct</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1aa23c6ebf6c040941320b98c933363570" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>appendReceipt</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a8c2f3f9032e7813c61e9456b8df0c865" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>appendShardEntry</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1aea26bf91e49b0b518a5a4e71ac71c624" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>createManifest</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a58fa27f766e72d698326a70e18cbb311" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>exportAuditPath</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a31e92dd2b6425aec5f73aa23498a61e5" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>getManifest</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a1a258f1fc0ce8e5abbb57722847bc668" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>getPackage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a8381771b581de6bb611dc3120c6900ef" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>getPackageChain</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a77b3367798590056a018a26b68a92461" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>getProduct</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a69b5de58b6a9cd49f3243d3bf31c1059" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>getProductChain</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ae0bbb2edb858811f0d414cdedc513e09" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>getReceiptChain</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ac8d86697bfc049342a8d83d6ced72bc2" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>getShardLedger</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ad7cfa04a1ac0e82f894f1fbc1ce669c0" prot="private" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a7f6b203a3d03af0e096a1d357dffa772" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ada42a258a817a090f0671d10e99e2012" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>ProvenanceHashLedger</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a63601cc310bd819e7e0e70ef394a9d13" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>ProvenanceHashLedger</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a2bc19df1e97716782a038d5635d1d24a" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>sha256Hex</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a3ea4847fde7d62fc68ca8338d9dec334" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>validateManifest</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1ab096bd1f236cd9e2099ba8ed4e54989d" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>verifyReceiptChain</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a1d278363eb8ea753fea42ea87600355d" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>verifyShardLedger</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1a25582cb53ff77c9ed4c632a55dd98c13" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger</scope><name>~ProvenanceHashLedger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

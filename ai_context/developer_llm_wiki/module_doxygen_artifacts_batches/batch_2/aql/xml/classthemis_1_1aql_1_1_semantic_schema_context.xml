@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_semantic_schema_context" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::aql::SemanticSchemaContext</compoundname>
+    <includes refid="llm__semantic__validator_8h" local="no">llm_semantic_validator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_semantic_schema_context_1ab0273b462e63a7fd1afd520f2d61d717" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::aql::SemanticSchemaContext::~SemanticSchemaContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SemanticSchemaContext</name>
+        <qualifiedname>themis::aql::SemanticSchemaContext::~SemanticSchemaContext</qualifiedname>
+        <briefdescription>
+<para>Semantic Schema Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="70" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_semantic_schema_context_1a932afc86fc346d9bc337d05161591a6f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1aql_1_1_attribute_type_info" kindref="compound">AttributeTypeInfo</ref> &gt;</type>
+        <definition>virtual std::optional&lt; AttributeTypeInfo &gt; themis::aql::SemanticSchemaContext::getAttributeType</definition>
+        <argsstring>(const std::string &amp;collection_name, const std::string &amp;attribute_name) const =0</argsstring>
+        <name>getAttributeType</name>
+        <qualifiedname>themis::aql::SemanticSchemaContext::getAttributeType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>attribute_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Attribute Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attribute_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the attribute. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="78" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_semantic_schema_context_1abbe33c10229f932bbe190fd0aa160295" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::aql::SemanticSchemaContext::listCollections</definition>
+        <argsstring>() const =0</argsstring>
+        <name>listCollections</name>
+        <qualifiedname>themis::aql::SemanticSchemaContext::listCollections</qualifiedname>
+        <briefdescription>
+<para>List Collections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="86" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_semantic_schema_context_1af3f998b99775092939f7b38c4dd1383b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::aql::SemanticSchemaContext::isFunctionDefined</definition>
+        <argsstring>(const std::string &amp;function_name) const =0</argsstring>
+        <name>isFunctionDefined</name>
+        <qualifiedname>themis::aql::SemanticSchemaContext::isFunctionDefined</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>function_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Function Defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">function_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the function. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="93" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_semantic_schema_context_1a2e67ec2291e52c3540bbfd5537c85056" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>virtual std::optional&lt; size_t &gt; themis::aql::SemanticSchemaContext::getCollectionCardinality</definition>
+        <argsstring>(const std::string &amp;collection_name) const =0</argsstring>
+        <name>getCollectionCardinality</name>
+        <qualifiedname>themis::aql::SemanticSchemaContext::getCollectionCardinality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Collection Cardinality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="100" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_semantic_validator.h" line="64" column="1" bodyfile="include/aql/llm_semantic_validator.h" bodystart="64" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_semantic_schema_context_1a932afc86fc346d9bc337d05161591a6f" prot="public" virt="pure-virtual"><scope>themis::aql::SemanticSchemaContext</scope><name>getAttributeType</name></member>
+      <member refid="classthemis_1_1aql_1_1_semantic_schema_context_1a2e67ec2291e52c3540bbfd5537c85056" prot="public" virt="pure-virtual"><scope>themis::aql::SemanticSchemaContext</scope><name>getCollectionCardinality</name></member>
+      <member refid="classthemis_1_1aql_1_1_semantic_schema_context_1af3f998b99775092939f7b38c4dd1383b" prot="public" virt="pure-virtual"><scope>themis::aql::SemanticSchemaContext</scope><name>isFunctionDefined</name></member>
+      <member refid="classthemis_1_1aql_1_1_semantic_schema_context_1abbe33c10229f932bbe190fd0aa160295" prot="public" virt="pure-virtual"><scope>themis::aql::SemanticSchemaContext</scope><name>listCollections</name></member>
+      <member refid="classthemis_1_1aql_1_1_semantic_schema_context_1ab0273b462e63a7fd1afd520f2d61d717" prot="public" virt="virtual"><scope>themis::aql::SemanticSchemaContext</scope><name>~SemanticSchemaContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

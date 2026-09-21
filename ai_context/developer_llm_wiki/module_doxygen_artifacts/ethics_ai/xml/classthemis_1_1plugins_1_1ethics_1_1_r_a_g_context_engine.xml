@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::RAGContextEngine</compoundname>
+    <includes refid="rag__context__engine_8h" local="no">rag_context_engine.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a06a9c1ccbcda454b6e605c54894c1244" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ArgumentStore&gt; themis::plugins::ethics::RAGContextEngine::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="75" column="21" bodyfile="src/ethics_ai/rag_context_engine.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a0450a202939390d0388fdd768cd16ede" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::RAGContextEngine::legal_db_available_</definition>
+        <argsstring></argsstring>
+        <name>legal_db_available_</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::legal_db_available_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="76" column="10" bodyfile="src/ethics_ai/rag_context_engine.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1acd3a4571b647c5eb117daa5284c1196f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::RAGContextEngine::store_access_mutex_</definition>
+        <argsstring></argsstring>
+        <name>store_access_mutex_</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::store_access_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="78" column="24" bodyfile="src/ethics_ai/rag_context_engine.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1ad6b19e478b8c4b5cc20e23ed82595811" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::RAGContextEngine::RAGContextEngine</definition>
+        <argsstring>(std::shared_ptr&lt; ArgumentStore &gt; store)</argsstring>
+        <name>RAGContextEngine</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::RAGContextEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &gt;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context" kindref="compound">RAGContext</ref> Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="30" column="14" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a3fb1bb4a8ac7ad871916197a5bc315ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::RAGContextEngine::~RAGContextEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RAGContextEngine</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::~RAGContextEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="31" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1ad33dcf848f844e6894e6bd86696a8ea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context" kindref="compound">RAGContext</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; RAGContext, Status &gt; themis::plugins::ethics::RAGContextEngine::buildContext</definition>
+        <argsstring>(const std::string &amp;dilemma_description, const std::vector&lt; std::string &gt; &amp;philosophy_schools, const std::string &amp;category)</argsstring>
+        <name>buildContext</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::buildContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>philosophy_schools</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="33" column="18" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="30" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a00510196bc12f4f689d1bbd55ace2079" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; std::vector&lt; std::string &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; std::string &gt;, Status &gt; themis::plugins::ethics::RAGContextEngine::findSimilarDilemmas</definition>
+        <argsstring>(const std::string &amp;query_text, double threshold, size_t limit)</argsstring>
+        <name>findSimilarDilemmas</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::findSimilarDilemmas</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="39" column="18" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="79" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a80fcacff093e5f755196ad682dfebd6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; std::vector&lt; std::string &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; std::string &gt;, Status &gt; themis::plugins::ethics::RAGContextEngine::getBestPractices</definition>
+        <argsstring>(const std::string &amp;category, double min_satisfaction, size_t limit)</argsstring>
+        <name>getBestPractices</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::getBestPractices</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_satisfaction</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="45" column="18" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="115" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a1d21acb79ba0973c8fddda8c1e417da6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; std::vector&lt; std::pair&lt; std::string, double &gt; &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; std::pair&lt; std::string, double &gt; &gt;, Status &gt; themis::plugins::ethics::RAGContextEngine::vectorSemanticSearch</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, const std::string &amp;philosophy_school, size_t limit)</argsstring>
+        <name>vectorSemanticSearch</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::vectorSemanticSearch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy_school</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="52" column="5" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="167" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a9ae280cef8f48da670c87c56b6451fb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; std::vector&lt; std::string &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; std::string &gt;, Status &gt; themis::plugins::ethics::RAGContextEngine::traverseArgumentChain</definition>
+        <argsstring>(const std::string &amp;start_argument_id, size_t max_depth, const std::string &amp;direction)</argsstring>
+        <name>traverseArgumentChain</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::traverseArgumentChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_argument_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>direction</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="58" column="18" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="210" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a4cbd09f1b97bdcccfbe550471d21405b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref></type>
+        <definition>LegalGrounding themis::plugins::ethics::RAGContextEngine::retrieveLegalGrounding</definition>
+        <argsstring>(const std::string &amp;dilemma_description) const</argsstring>
+        <name>retrieveLegalGrounding</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::retrieveLegalGrounding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="64" column="21" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="343" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1affd8d8fc0e84ea1816dfcea0b5ff2165" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::RAGContextEngine::setLegalDbAvailable</definition>
+        <argsstring>(bool available) noexcept</argsstring>
+        <name>setLegalDbAvailable</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::setLegalDbAvailable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+<para>Set Legal Db Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">available</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="72" column="10" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="382" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a8d291024c0cb08fb8d1880e7544cdd5b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RAGContextEngine::calculateTextSimilarity</definition>
+        <argsstring>(const std::string &amp;text1, const std::string &amp;text2)</argsstring>
+        <name>calculateTextSimilarity</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::calculateTextSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text2</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Text Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), iss(), std::transform(), begin(), end(), std::isalpha(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="87" column="12" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="266" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a707f10a48a929a12c6b40f0c54ecdb08" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::plugins::ethics::RAGContextEngine::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::plugins::ethics::RAGContextEngine::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: emb(), empty(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/rag_context_engine.h" line="93" column="17" bodyfile="src/ethics_ai/rag_context_engine.cpp" bodystart="316" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/rag_context_engine.h" line="23" column="1" bodyfile="src/ethics_ai/rag_context_engine.h" bodystart="23" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1ad33dcf848f844e6894e6bd86696a8ea3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>buildContext</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a8d291024c0cb08fb8d1880e7544cdd5b" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>calculateTextSimilarity</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a00510196bc12f4f689d1bbd55ace2079" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>findSimilarDilemmas</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a707f10a48a929a12c6b40f0c54ecdb08" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a80fcacff093e5f755196ad682dfebd6a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>getBestPractices</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a0450a202939390d0388fdd768cd16ede" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>legal_db_available_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1ad6b19e478b8c4b5cc20e23ed82595811" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>RAGContextEngine</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a4cbd09f1b97bdcccfbe550471d21405b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>retrieveLegalGrounding</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1affd8d8fc0e84ea1816dfcea0b5ff2165" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>setLegalDbAvailable</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a06a9c1ccbcda454b6e605c54894c1244" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>store_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1acd3a4571b647c5eb117daa5284c1196f" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>store_access_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a9ae280cef8f48da670c87c56b6451fb0" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>traverseArgumentChain</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a1d21acb79ba0973c8fddda8c1e417da6" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>vectorSemanticSearch</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a3fb1bb4a8ac7ad871916197a5bc315ff" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContextEngine</scope><name>~RAGContextEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

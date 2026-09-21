@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_integrity_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoRAIntegrityResult</compoundname>
+    <includes refid="lora__security__validator_8h" local="no">lora_security_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1a2330cb31a53982049009cac013d53e80" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRAIntegrityResult::is_intact</definition>
+        <argsstring></argsstring>
+        <name>is_intact</name>
+        <qualifiedname>themis::llm::LoRAIntegrityResult::is_intact</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="40" column="10" bodyfile="include/llm/lora_security_validator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1ab2cbd2f8d8856fcc63f8bfe56cad83ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRAIntegrityResult::checksum_algorithm</definition>
+        <argsstring></argsstring>
+        <name>checksum_algorithm</name>
+        <qualifiedname>themis::llm::LoRAIntegrityResult::checksum_algorithm</qualifiedname>
+        <initializer>= &quot;SHA-256&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="41" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1ae20596114aa44d575ed0606abb4a8b20" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRAIntegrityResult::calculated_checksum</definition>
+        <argsstring></argsstring>
+        <name>calculated_checksum</name>
+        <qualifiedname>themis::llm::LoRAIntegrityResult::calculated_checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="42" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1a939cd50b69ad9b8d5ac43533c24b144b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRAIntegrityResult::expected_checksum</definition>
+        <argsstring></argsstring>
+        <name>expected_checksum</name>
+        <qualifiedname>themis::llm::LoRAIntegrityResult::expected_checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="43" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1a0b82253ca99d0ee975276ed16105d583" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::LoRAIntegrityResult::anomalies</definition>
+        <argsstring></argsstring>
+        <name>anomalies</name>
+        <qualifiedname>themis::llm::LoRAIntegrityResult::anomalies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="44" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_security_validator.h" line="39" column="1" bodyfile="include/llm/lora_security_validator.h" bodystart="39" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1a0b82253ca99d0ee975276ed16105d583" prot="public" virt="non-virtual"><scope>themis::llm::LoRAIntegrityResult</scope><name>anomalies</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1ae20596114aa44d575ed0606abb4a8b20" prot="public" virt="non-virtual"><scope>themis::llm::LoRAIntegrityResult</scope><name>calculated_checksum</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1ab2cbd2f8d8856fcc63f8bfe56cad83ae" prot="public" virt="non-virtual"><scope>themis::llm::LoRAIntegrityResult</scope><name>checksum_algorithm</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1a939cd50b69ad9b8d5ac43533c24b144b" prot="public" virt="non-virtual"><scope>themis::llm::LoRAIntegrityResult</scope><name>expected_checksum</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_integrity_result_1a2330cb31a53982049009cac013d53e80" prot="public" virt="non-virtual"><scope>themis::llm::LoRAIntegrityResult</scope><name>is_intact</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

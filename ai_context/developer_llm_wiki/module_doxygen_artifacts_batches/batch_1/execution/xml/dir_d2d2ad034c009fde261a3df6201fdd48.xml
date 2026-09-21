@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d2d2ad034c009fde261a3df6201fdd48" kind="dir">
+    <compoundname>include/execution</compoundname>
+    <innerfile refid="query__scheduler_8h">query_scheduler.h</innerfile>
+    <innerfile refid="thread__pool__manager_8h">thread_pool_manager.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/"/>
+  </compounddef>
+</doxygen>

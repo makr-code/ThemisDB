@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_graph_traversal_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUGraphTraversalTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_p_u_graph_traversal_test_1a905900a4a582ddb38c4292333ea517e1" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GPUGraphTraversalTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GPUGraphTraversalTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="79" column="17" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_graph_traversal_test_1a6d8208a89175325a18fce78b5b130987" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; GPUGraphTraversalTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GPUGraphTraversalTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="80" column="21" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_graph_traversal_test_1a52edd22e3f152a9d9d4656b215144a94" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; GPUGraphTraversalTest::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>GPUGraphTraversalTest::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="81" column="21" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_graph_traversal_test_1a9b9af6c46664cae52dde63482393a8ee" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::graph::GPUGraphTraversal &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::GPUGraphTraversal&gt; GPUGraphTraversalTest::trav_</definition>
+        <argsstring></argsstring>
+        <name>trav_</name>
+        <qualifiedname>GPUGraphTraversalTest::trav_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="82" column="21" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_graph_traversal_test_1a9d7945ce6bef42c60eff99d3f439ae4e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUGraphTraversalTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUGraphTraversalTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="20" column="10" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="20" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_graph_traversal_test_1a1e81529ef4e2ac9f2c8c47f97b15ec87" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUGraphTraversalTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUGraphTraversalTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="40" column="10" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="40" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_graph_traversal_test_1a608ad71195d51e76dc6a673a6ace2b56" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUGraphTraversalTest::buildTestGraph</definition>
+        <argsstring>()</argsstring>
+        <name>buildTestGraph</name>
+        <qualifiedname>GPUGraphTraversalTest::buildTestGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test graph topology: A -&gt; B -&gt; C -&gt; D A -&gt; C E -&gt; F Two connected components: {A,B,C,D} and {E,F}. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="54" column="10" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="54" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_graph_traversal_test_1aea3d3d08567bfa2b83a316b31fbbc933" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUGraphTraversalTest::loadGraph</definition>
+        <argsstring>()</argsstring>
+        <name>loadGraph</name>
+        <qualifiedname>GPUGraphTraversalTest::loadGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="74" column="10" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUGraphTraversalTest</label>
+        <link refid="class_g_p_u_graph_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUGraphTraversalTest</label>
+        <link refid="class_g_p_u_graph_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="18" column="1" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="18" bodyend="83"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_graph_traversal_test_1a608ad71195d51e76dc6a673a6ace2b56" prot="protected" virt="non-virtual"><scope>GPUGraphTraversalTest</scope><name>buildTestGraph</name></member>
+      <member refid="class_g_p_u_graph_traversal_test_1a6d8208a89175325a18fce78b5b130987" prot="protected" virt="non-virtual"><scope>GPUGraphTraversalTest</scope><name>db_</name></member>
+      <member refid="class_g_p_u_graph_traversal_test_1a52edd22e3f152a9d9d4656b215144a94" prot="protected" virt="non-virtual"><scope>GPUGraphTraversalTest</scope><name>graph_mgr_</name></member>
+      <member refid="class_g_p_u_graph_traversal_test_1aea3d3d08567bfa2b83a316b31fbbc933" prot="protected" virt="non-virtual"><scope>GPUGraphTraversalTest</scope><name>loadGraph</name></member>
+      <member refid="class_g_p_u_graph_traversal_test_1a9d7945ce6bef42c60eff99d3f439ae4e" prot="protected" virt="non-virtual"><scope>GPUGraphTraversalTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_graph_traversal_test_1a1e81529ef4e2ac9f2c8c47f97b15ec87" prot="protected" virt="non-virtual"><scope>GPUGraphTraversalTest</scope><name>TearDown</name></member>
+      <member refid="class_g_p_u_graph_traversal_test_1a905900a4a582ddb38c4292333ea517e1" prot="protected" virt="non-virtual"><scope>GPUGraphTraversalTest</scope><name>test_db_path_</name></member>
+      <member refid="class_g_p_u_graph_traversal_test_1a9b9af6c46664cae52dde63482393a8ee" prot="protected" virt="non-virtual"><scope>GPUGraphTraversalTest</scope><name>trav_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

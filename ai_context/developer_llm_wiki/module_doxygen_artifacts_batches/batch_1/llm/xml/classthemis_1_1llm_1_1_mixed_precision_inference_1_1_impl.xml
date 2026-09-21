@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_mixed_precision_inference_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MixedPrecisionInference::Impl</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1_1_impl_1ac207ce3a8e638a26115e830fd21182ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MixedPrecisionInference::Impl::Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/mixed_precision_inference.cpp" line="25" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1_1_impl_1a2193896aa9e14232f84c6a9520722324" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MixedPrecisionInference::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/mixed_precision_inference.cpp" line="26" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/mixed_precision_inference.cpp" line="23" column="1" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="23" bodyend="27"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1_1_impl_1ac207ce3a8e638a26115e830fd21182ec" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1_1_impl_1a2193896aa9e14232f84c6a9520722324" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

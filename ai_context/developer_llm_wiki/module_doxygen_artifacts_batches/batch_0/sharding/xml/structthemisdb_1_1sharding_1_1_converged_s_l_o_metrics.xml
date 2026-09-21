@@ -1,0 +1,752 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConvergedSLOMetrics</compoundname>
+    <includes refid="converged__slo__metrics_8h" local="no">converged_slo_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a9a2ad8a576f33d32bd1aae5d8fd1814c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::total_operations</definition>
+        <argsstring></argsstring>
+        <name>total_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::total_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="242" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a95f55fb3566fd89f008edc169f3b944d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::successful_operations</definition>
+        <argsstring></argsstring>
+        <name>successful_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::successful_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="243" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a8b18a6f921fd246c505f6b6da6a85a51" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::failed_operations</definition>
+        <argsstring></argsstring>
+        <name>failed_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::failed_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="244" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a754cbc4f4b637d0c203d999ea50084db" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::read_operations</definition>
+        <argsstring></argsstring>
+        <name>read_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::read_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="247" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ab24b03adb0bb197fb2d8650516c36908" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::write_operations</definition>
+        <argsstring></argsstring>
+        <name>write_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::write_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="248" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a3a6bcdd5e72c844bff08c56cd3401c52" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::inference_operations</definition>
+        <argsstring></argsstring>
+        <name>inference_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::inference_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="249" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a28d5d6acfb02d6e18de39c9e5e5ba8b5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::rag_operations</definition>
+        <argsstring></argsstring>
+        <name>rag_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::rag_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="250" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a894b3131b08e4848090db2fd10d2be28" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::sync_operations</definition>
+        <argsstring></argsstring>
+        <name>sync_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::sync_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="251" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aab68a7918769da1976836c8c72378609" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::cross_layer_version_mismatch</definition>
+        <argsstring></argsstring>
+        <name>cross_layer_version_mismatch</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::cross_layer_version_mismatch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="257" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a4d56093a6583582a938ab6ee63f75925" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::cross_layer_consensus_failed</definition>
+        <argsstring></argsstring>
+        <name>cross_layer_consensus_failed</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::cross_layer_consensus_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="258" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ad49cf3a2c1a5e792eb6577c2a24c305c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::cross_layer_sync_timeout</definition>
+        <argsstring></argsstring>
+        <name>cross_layer_sync_timeout</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::cross_layer_sync_timeout</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="259" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1acb8f49dc188b3eb6d0ccecee623e002d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::cross_shard_kv_stale</definition>
+        <argsstring></argsstring>
+        <name>cross_shard_kv_stale</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::cross_shard_kv_stale</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="260" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a00d446828f26c29f27db4f6a491bafba" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::cross_shard_inconsistent_read</definition>
+        <argsstring></argsstring>
+        <name>cross_shard_inconsistent_read</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::cross_shard_inconsistent_read</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="261" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aec173c0dba1aeae8a2d1679b30912813" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::cross_shard_quorum_failed</definition>
+        <argsstring></argsstring>
+        <name>cross_shard_quorum_failed</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::cross_shard_quorum_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="262" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a0287199feb9e406d88eff332a88838c3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::inference_preemption</definition>
+        <argsstring></argsstring>
+        <name>inference_preemption</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::inference_preemption</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="263" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aeab4fd1684eb0a0498b86162b163ea50" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::inference_timeout</definition>
+        <argsstring></argsstring>
+        <name>inference_timeout</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::inference_timeout</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="264" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ae4053c031c52485fe5fd325929445d7f" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::inference_oom</definition>
+        <argsstring></argsstring>
+        <name>inference_oom</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::inference_oom</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="265" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a5a7c0527e2833e31e3a7fdcdb691c281" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::inference_gpu_error</definition>
+        <argsstring></argsstring>
+        <name>inference_gpu_error</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::inference_gpu_error</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="266" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ab29240b3266d66d6e2ac0fbeeff551f3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::grounding_audit_failed</definition>
+        <argsstring></argsstring>
+        <name>grounding_audit_failed</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::grounding_audit_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="267" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aaf1dd7facd8e1310eba2fc4615d85bf3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::grounding_version_gap</definition>
+        <argsstring></argsstring>
+        <name>grounding_version_gap</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::grounding_version_gap</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="268" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a073677cadb0f19c7f62bcd7294427afb" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::ConvergedSLOMetrics::latency_mutex</definition>
+        <argsstring></argsstring>
+        <name>latency_mutex</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::latency_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="274" column="16" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a5faafbbc98fad37b190ee7df8a91cb61" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::sharding::ConvergedSLOMetrics::cross_layer_sync_latencies</definition>
+        <argsstring></argsstring>
+        <name>cross_layer_sync_latencies</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::cross_layer_sync_latencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="275" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1af91d6a3c1097b6df7dfebe345156cce7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::sharding::ConvergedSLOMetrics::dual_consensus_latencies</definition>
+        <argsstring></argsstring>
+        <name>dual_consensus_latencies</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::dual_consensus_latencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="276" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a1d0f5aaf4fa1f7837f6ce55ce111a1c0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::sharding::ConvergedSLOMetrics::inference_latencies</definition>
+        <argsstring></argsstring>
+        <name>inference_latencies</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::inference_latencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="277" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a53b5291e7fc807116ea3f659721916ad" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::sharding::ConvergedSLOMetrics::rag_latencies</definition>
+        <argsstring></argsstring>
+        <name>rag_latencies</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::rag_latencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="278" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a5fce1acb34d7e857129233e6dc4e5bb9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ConvergedSLOMetrics::max_latency_samples</definition>
+        <argsstring></argsstring>
+        <name>max_latency_samples</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::max_latency_samples</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="280" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a4e20524428f6aea3af26fe954ddec3d9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::consistent_operations</definition>
+        <argsstring></argsstring>
+        <name>consistent_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::consistent_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="286" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1abbb37214f6b0e1a76d0f49ec456bdbf9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::inconsistent_operations</definition>
+        <argsstring></argsstring>
+        <name>inconsistent_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::inconsistent_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="287" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aa990b942e64f39ffadcea0931c4e3faa" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themisdb::sharding::ConvergedSLOMetrics::avg_version_spread</definition>
+        <argsstring></argsstring>
+        <name>avg_version_spread</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::avg_version_spread</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="288" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ad43d535f53119342b650b2c478421fd5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themisdb::sharding::ConvergedSLOMetrics::max_version_spread</definition>
+        <argsstring></argsstring>
+        <name>max_version_spread</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::max_version_spread</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="289" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a2e04c0173493924e5c6be44efdcd6677" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::auditable_operations</definition>
+        <argsstring></argsstring>
+        <name>auditable_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::auditable_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="295" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ad8ee9de0b5b688939da55d95bb1ad622" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::non_auditable_operations</definition>
+        <argsstring></argsstring>
+        <name>non_auditable_operations</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::non_auditable_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="296" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a3f87a646d0697be808bf4a6dd843cedb" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::total_tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_generated</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::total_tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="302" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a91aa8a7881715ac77c4d082656446f02" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::total_bytes_read</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_read</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::total_bytes_read</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="303" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aaa37eb608cece52d0448d5bc8487a271" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::total_bytes_written</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_written</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::total_bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="304" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a2f20ee83eb85962eeb9470e7f8c884b6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::ConvergedSLOMetrics::total_gpu_memory_used</definition>
+        <argsstring></argsstring>
+        <name>total_gpu_memory_used</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::total_gpu_memory_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="305" column="17" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a696237fd4bd03ea0d65f1392f67a46e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedSLOMetrics::recordOperation</definition>
+        <argsstring>(const ConvergedOperationMetrics &amp;metrics)</argsstring>
+        <name>recordOperation</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::recordOperation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Record a Converged operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="312" column="10" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="312" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a6dc4aa9ea584cb87f5647190bbe2c93e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOMetrics::getErrorRate</definition>
+        <argsstring>(ConvergedErrorType error_type) const</argsstring>
+        <name>getErrorRate</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::getErrorRate</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1" kindref="member">ConvergedErrorType</ref></type>
+          <declname>error_type</declname>
+        </param>
+        <briefdescription>
+<para>Get error rate for a specific error type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="389" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="389" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ab463bef11c2f2bd76cb9541d4f10b592" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOMetrics::getAvailability</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailability</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::getAvailability</qualifiedname>
+        <briefdescription>
+<para>Get availability ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="411" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="411" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a0c245e5a7fde81d8737a088007b5e1e3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOMetrics::getConsistencyRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>getConsistencyRatio</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::getConsistencyRatio</qualifiedname>
+        <briefdescription>
+<para>Get consistency ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="418" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="418" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a104d5e3c6d4ea9af6031c421d50a5e9f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOMetrics::getGroundingAuditCoverage</definition>
+        <argsstring>() const</argsstring>
+        <name>getGroundingAuditCoverage</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::getGroundingAuditCoverage</qualifiedname>
+        <briefdescription>
+<para>Get grounding audit coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="425" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="425" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1adefe0aa72c2ccee78c98e2c966b6fda2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOMetrics::getLatencyP50</definition>
+        <argsstring>(const std::string &amp;op_type) const</argsstring>
+        <name>getLatencyP50</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::getLatencyP50</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_type</declname>
+        </param>
+        <briefdescription>
+<para>Get p50 latency for a specific operation type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="432" column="12" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="24" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a67f86a4628b1e1776cc71c1c07ed4085" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOMetrics::getLatencyP99</definition>
+        <argsstring>(const std::string &amp;op_type) const</argsstring>
+        <name>getLatencyP99</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::getLatencyP99</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_type</declname>
+        </param>
+        <briefdescription>
+<para>Get p99 latency for a specific operation type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="435" column="12" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="49" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aafc303f5186c7c7e8ce1e2ad8e10e38d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedSLOMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="438" column="10" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="81" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a0ecad5ca80d35945629dd7d402ac54f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ConvergedSLOMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>Get all metrics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="441" column="20" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="130" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated SLO metrics for Converged Storage-Inference. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/converged_slo_metrics.h" line="237" column="1" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="237" bodyend="442"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a2e04c0173493924e5c6be44efdcd6677" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>auditable_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aa990b942e64f39ffadcea0931c4e3faa" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>avg_version_spread</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a4e20524428f6aea3af26fe954ddec3d9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>consistent_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a4d56093a6583582a938ab6ee63f75925" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>cross_layer_consensus_failed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a5faafbbc98fad37b190ee7df8a91cb61" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>cross_layer_sync_latencies</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ad49cf3a2c1a5e792eb6577c2a24c305c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>cross_layer_sync_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aab68a7918769da1976836c8c72378609" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>cross_layer_version_mismatch</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a00d446828f26c29f27db4f6a491bafba" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>cross_shard_inconsistent_read</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1acb8f49dc188b3eb6d0ccecee623e002d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>cross_shard_kv_stale</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aec173c0dba1aeae8a2d1679b30912813" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>cross_shard_quorum_failed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1af91d6a3c1097b6df7dfebe345156cce7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>dual_consensus_latencies</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a8b18a6f921fd246c505f6b6da6a85a51" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>failed_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ab463bef11c2f2bd76cb9541d4f10b592" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>getAvailability</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a0c245e5a7fde81d8737a088007b5e1e3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>getConsistencyRatio</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a6dc4aa9ea584cb87f5647190bbe2c93e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>getErrorRate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a104d5e3c6d4ea9af6031c421d50a5e9f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>getGroundingAuditCoverage</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1adefe0aa72c2ccee78c98e2c966b6fda2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>getLatencyP50</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a67f86a4628b1e1776cc71c1c07ed4085" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>getLatencyP99</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ab29240b3266d66d6e2ac0fbeeff551f3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>grounding_audit_failed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aaf1dd7facd8e1310eba2fc4615d85bf3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>grounding_version_gap</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1abbb37214f6b0e1a76d0f49ec456bdbf9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>inconsistent_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a5a7c0527e2833e31e3a7fdcdb691c281" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>inference_gpu_error</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a1d0f5aaf4fa1f7837f6ce55ce111a1c0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>inference_latencies</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ae4053c031c52485fe5fd325929445d7f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>inference_oom</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a3a6bcdd5e72c844bff08c56cd3401c52" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>inference_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a0287199feb9e406d88eff332a88838c3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>inference_preemption</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aeab4fd1684eb0a0498b86162b163ea50" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>inference_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a073677cadb0f19c7f62bcd7294427afb" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>latency_mutex</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a5fce1acb34d7e857129233e6dc4e5bb9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>max_latency_samples</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ad43d535f53119342b650b2c478421fd5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>max_version_spread</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ad8ee9de0b5b688939da55d95bb1ad622" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>non_auditable_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a53b5291e7fc807116ea3f659721916ad" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>rag_latencies</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a28d5d6acfb02d6e18de39c9e5e5ba8b5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>rag_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a754cbc4f4b637d0c203d999ea50084db" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>read_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a696237fd4bd03ea0d65f1392f67a46e8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>recordOperation</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aafc303f5186c7c7e8ce1e2ad8e10e38d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>reset</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a95f55fb3566fd89f008edc169f3b944d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>successful_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a894b3131b08e4848090db2fd10d2be28" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>sync_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a0ecad5ca80d35945629dd7d402ac54f1" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a91aa8a7881715ac77c4d082656446f02" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>total_bytes_read</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1aaa37eb608cece52d0448d5bc8487a271" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>total_bytes_written</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a2f20ee83eb85962eeb9470e7f8c884b6" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>total_gpu_memory_used</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a9a2ad8a576f33d32bd1aae5d8fd1814c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>total_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1a3f87a646d0697be808bf4a6dd843cedb" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>total_tokens_generated</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics_1ab24b03adb0bb197fb2d8650516c36908" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMetrics</scope><name>write_operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

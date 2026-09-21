@@ -1,0 +1,551 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__document__serialization__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_document_serialization_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/document/bench_document_serialization_gates.cpp</label>
+        <link refid="bench__document__serialization__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>sstream</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__document__serialization__gates_8cpp_1a85027aa30e6337c71ba66a86a9bf956a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kGateDOCBM01_SerializationP95_us</definition>
+        <argsstring></argsstring>
+        <name>kGateDOCBM01_SerializationP95_us</name>
+        <initializer>= 500.0</initializer>
+        <briefdescription>
+<para>DOC-BM-01: document serialization p95 latency ≤ 500 µs per document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="45" column="25" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__document__serialization__gates_8cpp_1a3781ffb57f78cf91983fbcec3a6865e8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kGateDOCBM02_ListReadP95_OpsPerSec</definition>
+        <argsstring></argsstring>
+        <name>kGateDOCBM02_ListReadP95_OpsPerSec</name>
+        <initializer>= 50&apos;000.0</initializer>
+        <briefdescription>
+<para>DOC-BM-02: list-read p95 throughput ≥ 50 000 ops/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="48" column="25" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__document__serialization__gates_8cpp_1ab5c81a9606486e5e1ea24ef31a2044f3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kGateDOCBM03_DiffP95_us</definition>
+        <argsstring></argsstring>
+        <name>kGateDOCBM03_DiffP95_us</name>
+        <initializer>= 1&apos;000.0</initializer>
+        <briefdescription>
+<para>DOC-BM-03: diff p95 latency ≤ 1 000 µs per diff pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="51" column="25" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__document__serialization__gates_8cpp_1afe9fb1004002b5be178583f1f51d2d37" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kGateDOCBM04_MergeP95_us</definition>
+        <argsstring></argsstring>
+        <name>kGateDOCBM04_MergeP95_us</name>
+        <initializer>= 2&apos;000.0</initializer>
+        <briefdescription>
+<para>DOC-BM-04: merge p95 latency ≤ 2 000 µs per three-way merge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="54" column="25" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__document__serialization__gates_8cpp_1abc81b424d4f27a7c19253819462719ff" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t kDocSeed</definition>
+        <argsstring></argsstring>
+        <name>kDocSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="69" column="27" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a7a48b018463f9a69dc19a8d98d61e7b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string makeDocBody</definition>
+        <argsstring>(uint64_t idx)</argsstring>
+        <name>makeDocBody</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Build a deterministic document JSON body of ~200 bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="72" column="20" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="72" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a5e96395dba9cc6fa676930f38ae715c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string stubSerialize</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;body)</argsstring>
+        <name>stubSerialize</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Stub serializer: returns a serialized string (mirrors DocumentStore write path). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="83" column="20" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a001545419534fb17fd72b69a82790e83" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t stubListRead</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;entries)</argsstring>
+        <name>stubListRead</name>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Stub list-read: scans a vector of pre-built entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="90" column="20" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="90" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1ab5ae5b79c15933a9b50de1bcd2eb1de2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string stubDiff</definition>
+        <argsstring>(const std::string &amp;from, const std::string &amp;to)</argsstring>
+        <name>stubDiff</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Stub diff: produces a deterministic patch string for two distinct bodies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="100" column="20" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1ae7d07377d38b080479ed1e4b0e80ae1d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string stubMerge</definition>
+        <argsstring>(const std::string &amp;base, const std::string &amp;, const std::string &amp;)</argsstring>
+        <name>stubMerge</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Stub merge: conflict-free three-way merge for non-overlapping field sets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="108" column="20" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1ab304df4e1264dd2d6fbb45cce06d2ec8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DOCBM01_SerializationP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DOCBM01_SerializationP95</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DOC-BM-01 — document serialization p95 latency gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Serializes a single document (key + ~200-byte JSON body) per iteration. Gate: p95 latency ≤ 500 µs. Counter: &quot;gate_threshold_serialization_p95_us&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="123" column="13" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="123" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a495698254a2dbb5d474c101afe76002d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_DOCBM01_SerializationP95) -&gt; UseRealTime() -&gt;MinTime(1.0)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_DOCBM01_SerializationP95</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="135" column="1" declfile="benchmarks/document/bench_document_serialization_gates.cpp" declline="135" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a435dce7097549eeba6c4000b91fd8f7b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DOCBM02_ListReadP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DOCBM02_ListReadP95</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DOC-BM-02 — document list-read p95 throughput gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scans a pre-built list of 1000 document entries per iteration. Gate: throughput ≥ 50 000 ops/s. Counter: &quot;gate_threshold_list_read_p95_ops_per_sec&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="146" column="13" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="146" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a2182f9a438ce898d38b678a0b899b45b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_DOCBM02_ListReadP95) -&gt; UseRealTime() -&gt;MinTime(1.0)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_DOCBM02_ListReadP95</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="164" column="1" declfile="benchmarks/document/bench_document_serialization_gates.cpp" declline="164" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a8d0a20a4bbf222862fabfd2a46967448" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DOCBM03_DiffP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DOCBM03_DiffP95</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DOC-BM-03 — document diff p95 latency gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes a diff between two distinct document bodies per iteration. Gate: p95 latency ≤ 1 000 µs. Counter: &quot;gate_threshold_diff_p95_us&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="175" column="13" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="175" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a740bc4a95dd0a1216a85f3488ac304ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_DOCBM03_DiffP95) -&gt; UseRealTime() -&gt;MinTime(1.0)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_DOCBM03_DiffP95</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="187" column="1" declfile="benchmarks/document/bench_document_serialization_gates.cpp" declline="187" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a95be161964af60fc8232863c632b9fc4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DOCBM04_MergeP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DOCBM04_MergeP95</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>DOC-BM-04 — document merge p95 latency gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a three-way (base + two branches) merge per iteration. Gate: p95 latency ≤ 2 000 µs. Counter: &quot;gate_threshold_merge_p95_us&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="198" column="13" bodyfile="benchmarks/document/bench_document_serialization_gates.cpp" bodystart="198" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__document__serialization__gates_8cpp_1a6d52774d73103ee03e0b2f74f58caff6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_DOCBM04_MergeP95) -&gt; UseRealTime() -&gt;MinTime(1.0)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_DOCBM04_MergeP95</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_serialization_gates.cpp" line="211" column="1" declfile="benchmarks/document/bench_document_serialization_gates.cpp" declline="211" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Document serialization benchmark gates — DOC-BM-01 through DOC-BM-04. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Locks p95 performance envelopes for the four document module hot paths: serialization, list-read, diff, and merge. Gate thresholds are emitted as benchmark counters so CI tooling can validate results from JSON output:</para>
+<para>bench_document_serialization_gates \ <ndash/>benchmark_format=json <ndash/>benchmark_out=doc_gates.json</para>
+<sect1 id="bench__document__serialization__gates_8cpp_1autotoc_md2_1s1"><sect2 id="bench__document__serialization__gates_8cpp_1autotoc_md2">
+<title>Benchmark identifiers</title><para>DOC-BM-01 SerializationP95 — document serialization p95 latency gate DOC-BM-02 ListReadP95 — document list-read p95 throughput gate DOC-BM-03 DiffP95 — document diff p95 latency gate DOC-BM-04 MergeP95 — document merge p95 latency gate</para>
+</sect2></sect1>
+<sect1 id="bench__document__serialization__gates_8cpp_1autotoc_md3_1s1"><sect2 id="bench__document__serialization__gates_8cpp_1autotoc_md3">
+<title>Measurement hygiene</title><para><itemizedlist>
+<listitem><para>All registrations use UseRealTime().MinTime(1.0).</para>
+</listitem><listitem><para>Thresholds emitted as &quot;gate_threshold_*&quot; counters for CI tooling.</para>
+</listitem><listitem><para>benchmark::DoNotOptimize() applied to all results.</para>
+</listitem><listitem><para>PauseTiming() / ResumeTiming() used to isolate fixture setup.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="see"><para>src/document/ROADMAP.md — Mid-term benchmark gates (DOC-BM-01..04) </para>
+</simplesect>
+<simplesect kind="see"><para>benchmarks/MEASUREMENT_HYGIENE.md — hygiene standards </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>gate<sp/>thresholds<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kGateDOCBM01_SerializationP95_us<sp/>=<sp/>500.0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kGateDOCBM02_ListReadP95_OpsPerSec<sp/>=<sp/>50&apos;000.0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kGateDOCBM03_DiffP95_us<sp/>=<sp/>1&apos;000.0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kGateDOCBM04_MergeP95_us<sp/>=<sp/>2&apos;000.0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>in-process<sp/>stub<sp/>helpers<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>stubs<sp/>replace<sp/>the<sp/>live<sp/>document<sp/>serialization,<sp/>list/read,<sp/>diff,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>merge<sp/>paths<sp/>so<sp/>no<sp/>external<sp/>store<sp/>or<sp/>schema<sp/>backend<sp/>is<sp/>required.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Their<sp/>performance<sp/>characteristics<sp/>model<sp/>the<sp/>real<sp/>document<sp/>module<sp/>hot<sp/>paths:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Serialization<sp/>cost<sp/>is<sp/>proportional<sp/>to<sp/>content<sp/>size<sp/>(O(n)<sp/>string<sp/>ops)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>List-read<sp/>is<sp/>O(k)<sp/>map<sp/>traversal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Diff<sp/>is<sp/>O(n)<sp/>string<sp/>comparison<sp/>producing<sp/>a<sp/>deterministic<sp/>patch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Merge<sp/>is<sp/>O(1)<sp/>stub<sp/>(non-overlapping<sp/>field<sp/>model)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>stubs<sp/>MUST<sp/>NOT<sp/>be<sp/>used<sp/>in<sp/>production<sp/>code<sp/>paths.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kDocSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeDocBody(uint64_t<sp/>idx)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;id&quot;:)&quot;<sp/>&lt;&lt;<sp/>idx</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;(,&quot;title&quot;:&quot;doc_)&quot;<sp/>&lt;&lt;<sp/>idx</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;(&quot;,&quot;schema_version&quot;:1,&quot;content&quot;:&quot;)&quot;</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;content_body_for_document_&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>idx<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;_with_enough_chars_to_model_real_payload&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;(&quot;})&quot;;</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>stubSerialize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;key\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>key<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,\&quot;body\&quot;:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>body<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>stubListRead(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>entries)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>entries)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(e);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>stubDiff(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(from<sp/>==<sp/>to)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;diff[&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>from.size()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-&gt;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>to.size()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;]&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>stubMerge(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*branch_a*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*branch_b*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>base<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_merged&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>DOC-BM-01:<sp/>SerializationP95<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DOCBM01_SerializationP95(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc-bm01-key-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(kDocSeed);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>body<sp/>=<sp/>makeDocBody(kDocSeed);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>serialized<sp/>=<sp/>stubSerialize(key,<sp/>body);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(serialized);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_threshold_serialization_p95_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>kGateDOCBM01_SerializationP95_us;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="bench__document__serialization__gates_8cpp_1a495698254a2dbb5d474c101afe76002d" kindref="member">BENCHMARK</ref>(BM_DOCBM01_SerializationP95)-&gt;UseRealTime()-&gt;MinTime(1.0);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>DOC-BM-02:<sp/>ListReadP95<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DOCBM02_ListReadP95(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kListSize<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>entries;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>entries.reserve(kListSize);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kListSize;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entries.push_back(stubSerialize(</highlight><highlight class="stringliteral">&quot;key-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>makeDocBody(i)));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>count<sp/>=<sp/>stubListRead(entries);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(count);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>iteration<sp/>processes<sp/>kListSize<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kListSize));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_threshold_list_read_p95_ops_per_sec&quot;</highlight><highlight class="normal">]<sp/>=<sp/>kGateDOCBM02_ListReadP95_OpsPerSec;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="bench__document__serialization__gates_8cpp_1a495698254a2dbb5d474c101afe76002d" kindref="member">BENCHMARK</ref>(BM_DOCBM02_ListReadP95)-&gt;UseRealTime()-&gt;MinTime(1.0);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>DOC-BM-03:<sp/>DiffP95<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DOCBM03_DiffP95(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>from_body<sp/>=<sp/>makeDocBody(0);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>to_body<sp/><sp/><sp/>=<sp/>makeDocBody(1);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>patch<sp/>=<sp/>stubDiff(from_body,<sp/>to_body);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(patch);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_threshold_diff_p95_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>kGateDOCBM03_DiffP95_us;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="bench__document__serialization__gates_8cpp_1a495698254a2dbb5d474c101afe76002d" kindref="member">BENCHMARK</ref>(BM_DOCBM03_DiffP95)-&gt;UseRealTime()-&gt;MinTime(1.0);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>DOC-BM-04:<sp/>MergeP95<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DOCBM04_MergeP95(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>base<sp/><sp/><sp/><sp/><sp/>=<sp/>makeDocBody(0);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>branch_a<sp/>=<sp/>makeDocBody(1);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>branch_b<sp/>=<sp/>makeDocBody(2);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>merged<sp/>=<sp/>stubMerge(base,<sp/>branch_a,<sp/>branch_b);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(merged);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_threshold_merge_p95_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>kGateDOCBM04_MergeP95_us;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="bench__document__serialization__gates_8cpp_1a495698254a2dbb5d474c101afe76002d" kindref="member">BENCHMARK</ref>(BM_DOCBM04_MergeP95)-&gt;UseRealTime()-&gt;MinTime(1.0);</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/document/bench_document_serialization_gates.cpp"/>
+  </compounddef>
+</doxygen>

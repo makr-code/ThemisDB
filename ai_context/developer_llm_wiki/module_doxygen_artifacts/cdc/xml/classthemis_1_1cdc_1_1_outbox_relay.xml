@@ -1,0 +1,635 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_outbox_relay" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::OutboxRelay</compoundname>
+    <includes refid="outbox_8h" local="no">outbox.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1a25d024285eba66b748a811b186d321bf" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::cdc::OutboxRelay::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="217" column="33" bodyfile="include/cdc/outbox.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1a098b45ee3ca85350c34f955c077c40de" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::cdc::OutboxRelay::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="218" column="33" bodyfile="include/cdc/outbox.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1a584dd05841d07fbd839ac7a9c0b2431c" prot="private" static="no" mutable="no">
+        <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> &amp;</type>
+        <definition>Changefeed&amp; themis::cdc::OutboxRelay::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="219" column="33" bodyfile="include/cdc/outbox.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1a44df3d4d1b2d384d525aecf896935380" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_outbox_relay_config" kindref="compound">OutboxRelayConfig</ref></type>
+        <definition>OutboxRelayConfig themis::cdc::OutboxRelay::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="220" column="34" bodyfile="include/cdc/outbox.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1ab5b4565694604bd45ef33b8265cbee9d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cdc::OutboxRelay::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="222" column="23" bodyfile="include/cdc/outbox.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1aaba0b13cd951cfa7a4108d69fb5f1feb" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::cdc::OutboxRelay::relay_thread_</definition>
+        <argsstring></argsstring>
+        <name>relay_thread_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::relay_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="223" column="29" bodyfile="include/cdc/outbox.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1a701113305276233af418d7e7442f29d5" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::cdc::OutboxRelay::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="224" column="29" bodyfile="include/cdc/outbox.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1ae2d7df0b3be40a4a1b1d71918803386a" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::OutboxRelay::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::cv_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="225" column="29" bodyfile="include/cdc/outbox.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1ac9dfb58ae098437dd13db97ac5e1e8cf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::OutboxRelay::total_relayed_</definition>
+        <argsstring></argsstring>
+        <name>total_relayed_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::total_relayed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="227" column="19" bodyfile="include/cdc/outbox.h" bodystart="227" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1ae65d8b025c68d9160e9039765f1eab1c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::OutboxRelay::total_failed_</definition>
+        <argsstring></argsstring>
+        <name>total_failed_</name>
+        <qualifiedname>themis::cdc::OutboxRelay::total_failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="228" column="19" bodyfile="include/cdc/outbox.h" bodystart="228" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1a4aea995cb1154f27757134f540c95da7" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::OutboxRelay::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::cdc::OutboxRelay::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;cdc_outbox:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="230" column="33" bodyfile="include/cdc/outbox.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_relay_1a48dcf90cf11a4ed68e34bd8c6f95dabe" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::OutboxRelay::SEQUENCE_KEY</definition>
+        <argsstring></argsstring>
+        <name>SEQUENCE_KEY</name>
+        <qualifiedname>themis::cdc::OutboxRelay::SEQUENCE_KEY</qualifiedname>
+        <initializer>= &quot;cdc_outbox_sequence&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="231" column="33" bodyfile="include/cdc/outbox.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1ad3c0ab950bbde10c5745c8942c880747" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::OutboxRelay::OutboxRelay</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf, Changefeed &amp;changefeed, OutboxRelayConfig config={})</argsstring>
+        <name>OutboxRelay</name>
+        <qualifiedname>themis::cdc::OutboxRelay::OutboxRelay</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+        </param>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> &amp;</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1cdc_1_1_outbox_relay_config" kindref="compound">OutboxRelayConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="160" column="14" bodyfile="src/cdc/outbox.cpp" bodystart="259" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1a92c3b487371c96922b551298cf8bf5e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::OutboxRelay::~OutboxRelay</definition>
+        <argsstring>()</argsstring>
+        <name>~OutboxRelay</name>
+        <qualifiedname>themis::cdc::OutboxRelay::~OutboxRelay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="165" column="5" bodyfile="src/cdc/outbox.cpp" bodystart="267" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1ac037add13de4e36da8b7d73302b24d9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::OutboxRelay::OutboxRelay</definition>
+        <argsstring>(const OutboxRelay &amp;)=delete</argsstring>
+        <name>OutboxRelay</name>
+        <qualifiedname>themis::cdc::OutboxRelay::OutboxRelay</qualifiedname>
+        <param>
+          <type>const OutboxRelay &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="167" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1ab232285cd111725f1477973a994dc680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_outbox_relay_1ad3c0ab950bbde10c5745c8942c880747" kindref="member">OutboxRelay</ref> &amp;</type>
+        <definition>OutboxRelay &amp; themis::cdc::OutboxRelay::operator=</definition>
+        <argsstring>(const OutboxRelay &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::OutboxRelay::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cdc_1_1_outbox_relay_1ad3c0ab950bbde10c5745c8942c880747" kindref="member">OutboxRelay</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="168" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1ab112567ca3474a20d489820429b9a9d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::OutboxRelay::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::cdc::OutboxRelay::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: compare_exchange_strong(), std::thread(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="173" column="10" bodyfile="src/cdc/outbox.cpp" bodystart="407" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1af45bf02c335838ed73b224b627de8ae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::OutboxRelay::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::cdc::OutboxRelay::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), notify_all(), joinable(), join(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="178" column="10" bodyfile="src/cdc/outbox.cpp" bodystart="420" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1aea2c805fff18e377e22688c2bd4623cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::OutboxRelay::relayOnce</definition>
+        <argsstring>()</argsstring>
+        <name>relayOnce</name>
+        <qualifiedname>themis::cdc::OutboxRelay::relayOnce</qualifiedname>
+        <briefdescription>
+<para>Relay Once. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================ <ref refid="classthemis_1_1cdc_1_1_outbox_relay_1aea2c805fff18e377e22688c2bd4623cd" kindref="member">OutboxRelay::relayOnce</ref> ============================================================</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scanRecords(), empty(), recordEvent(), std::chrono::system_clock::now(), time_since_epoch(), count(), updateRecord(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="184" column="12" bodyfile="src/cdc/outbox.cpp" bodystart="334" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1af32517572d90546a166e55a620e51343" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_outbox_record" kindref="compound">OutboxRecord</ref> &gt;</type>
+        <definition>std::vector&lt; OutboxRecord &gt; themis::cdc::OutboxRelay::listRecords</definition>
+        <argsstring>(OutboxState state, size_t limit=0) const</argsstring>
+        <name>listRecords</name>
+        <qualifiedname>themis::cdc::OutboxRelay::listRecords</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a15334ba4925585a3bf9d69ed9b202171" kindref="member">OutboxState</ref></type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="186" column="17" bodyfile="src/cdc/outbox.cpp" bodystart="435" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1ad4ee8260739737ea6133b08f7c798306" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_outbox_record" kindref="compound">OutboxRecord</ref> &gt;</type>
+        <definition>std::vector&lt; OutboxRecord &gt; themis::cdc::OutboxRelay::listAllRecords</definition>
+        <argsstring>(size_t limit=0) const</argsstring>
+        <name>listAllRecords</name>
+        <qualifiedname>themis::cdc::OutboxRelay::listAllRecords</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="189" column="17" bodyfile="src/cdc/outbox.cpp" bodystart="439" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1a5a98a05d9ef1af9dd358f36843298235" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::OutboxRelay::removeRecord</definition>
+        <argsstring>(uint64_t outbox_sequence)</argsstring>
+        <name>removeRecord</name>
+        <qualifiedname>themis::cdc::OutboxRelay::removeRecord</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>outbox_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Remove Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outbox_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outbox_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), Delete(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="196" column="10" bodyfile="src/cdc/outbox.cpp" bodystart="449" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1afc3bccd5f10704e8593d2d9904c18c51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::OutboxRelay::purgePublished</definition>
+        <argsstring>()</argsstring>
+        <name>purgePublished</name>
+        <qualifiedname>themis::cdc::OutboxRelay::purgePublished</qualifiedname>
+        <briefdescription>
+<para>Purge Published. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scanRecords(), <ref refid="classthemis_1_1cdc_1_1_outbox_relay_1a5a98a05d9ef1af9dd358f36843298235" kindref="member">removeRecord()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="202" column="12" bodyfile="src/cdc/outbox.cpp" bodystart="466" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1a91b9591267d628d6e7b26da7e3354bb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::OutboxRelay::totalRelayed</definition>
+        <argsstring>() const</argsstring>
+        <name>totalRelayed</name>
+        <qualifiedname>themis::cdc::OutboxRelay::totalRelayed</qualifiedname>
+        <briefdescription>
+<para>Total Relayed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="208" column="14" bodyfile="src/cdc/outbox.cpp" bodystart="477" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1a5d3e89ee9a516f12bbdaaa2e913fe001" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::OutboxRelay::totalFailed</definition>
+        <argsstring>() const</argsstring>
+        <name>totalFailed</name>
+        <qualifiedname>themis::cdc::OutboxRelay::totalFailed</qualifiedname>
+        <briefdescription>
+<para>Total Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="214" column="14" bodyfile="src/cdc/outbox.cpp" bodystart="481" bodyend="483"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1ac8a0e72a25da0327ba4d381b1d75ee81" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::OutboxRelay::makeKey</definition>
+        <argsstring>(uint64_t seq) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::cdc::OutboxRelay::makeKey</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="238" column="17" bodyfile="src/cdc/outbox.cpp" bodystart="271" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1aa679788c0a1535c4b66a8aa21fd4b386" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::OutboxRelay::relayThreadFunc</definition>
+        <argsstring>()</argsstring>
+        <name>relayThreadFunc</name>
+        <qualifiedname>themis::cdc::OutboxRelay::relayThreadFunc</qualifiedname>
+        <briefdescription>
+<para>Relay Thread Func. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), <ref refid="classthemis_1_1cdc_1_1_outbox_relay_1aea2c805fff18e377e22688c2bd4623cd" kindref="member">relayOnce()</ref>, lock(), wait_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="242" column="17" bodyfile="src/cdc/outbox.cpp" bodystart="394" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1aaa6897f45df02d9fb91e6bd7cea1d554" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::OutboxRelay::updateRecord</definition>
+        <argsstring>(const OutboxRecord &amp;rec)</argsstring>
+        <name>updateRecord</name>
+        <qualifiedname>themis::cdc::OutboxRelay::updateRecord</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_outbox_record" kindref="compound">OutboxRecord</ref> &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+<para>Update Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeKey(), toJson(), dump(), Put(), ok(), THEMIS_WARN(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="247" column="17" bodyfile="src/cdc/outbox.cpp" bodystart="282" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_relay_1a314013635a6aa10cae6df55d7e0d03d2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_outbox_record" kindref="compound">OutboxRecord</ref> &gt;</type>
+        <definition>std::vector&lt; OutboxRecord &gt; themis::cdc::OutboxRelay::scanRecords</definition>
+        <argsstring>(size_t limit, OutboxState filter_state, bool all_states) const</argsstring>
+        <name>scanRecords</name>
+        <qualifiedname>themis::cdc::OutboxRelay::scanRecords</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a15334ba4925585a3bf9d69ed9b202171" kindref="member">OutboxState</ref></type>
+          <declname>filter_state</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>all_states</declname>
+        </param>
+        <briefdescription>
+<para>Scan Records. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">all_states</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="255" column="17" bodyfile="src/cdc/outbox.cpp" bodystart="298" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/outbox.h" line="158" column="1" bodyfile="include/cdc/outbox.h" bodystart="158" bodyend="258"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a098b45ee3ca85350c34f955c077c40de" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a584dd05841d07fbd839ac7a9c0b2431c" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a44df3d4d1b2d384d525aecf896935380" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a701113305276233af418d7e7442f29d5" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ae2d7df0b3be40a4a1b1d71918803386a" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>cv_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a25d024285eba66b748a811b186d321bf" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>db_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a4aea995cb1154f27757134f540c95da7" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ad4ee8260739737ea6133b08f7c798306" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>listAllRecords</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1af32517572d90546a166e55a620e51343" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>listRecords</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ac8a0e72a25da0327ba4d381b1d75ee81" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ab232285cd111725f1477973a994dc680" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ad3c0ab950bbde10c5745c8942c880747" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>OutboxRelay</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ac037add13de4e36da8b7d73302b24d9f" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>OutboxRelay</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1afc3bccd5f10704e8593d2d9904c18c51" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>purgePublished</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1aaba0b13cd951cfa7a4108d69fb5f1feb" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>relay_thread_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1aea2c805fff18e377e22688c2bd4623cd" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>relayOnce</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1aa679788c0a1535c4b66a8aa21fd4b386" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>relayThreadFunc</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a5a98a05d9ef1af9dd358f36843298235" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>removeRecord</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ab5b4565694604bd45ef33b8265cbee9d" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>running_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a314013635a6aa10cae6df55d7e0d03d2" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>scanRecords</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a48dcf90cf11a4ed68e34bd8c6f95dabe" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>SEQUENCE_KEY</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ab112567ca3474a20d489820429b9a9d5" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>start</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1af45bf02c335838ed73b224b627de8ae4" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>stop</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ae65d8b025c68d9160e9039765f1eab1c" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>total_failed_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1ac9dfb58ae098437dd13db97ac5e1e8cf" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>total_relayed_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a5d3e89ee9a516f12bbdaaa2e913fe001" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>totalFailed</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a91b9591267d628d6e7b26da7e3354bb7" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>totalRelayed</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1aaa6897f45df02d9fb91e6bd7cea1d554" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>updateRecord</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_relay_1a92c3b487371c96922b551298cf8bf5e5" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelay</scope><name>~OutboxRelay</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

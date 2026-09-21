@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cross__shard__fk__validator_8h" kind="file" language="C++">
+    <compoundname>cross_shard_fk_validator.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="cross__shard__transaction_8h" local="yes">include/sharding/cross_shard_transaction.h</includedby>
+    <includedby refid="cross__shard__fk__validator_8cpp" local="yes">src/sharding/cross_shard_fk_validator.cpp</includedby>
+    <includedby refid="test__cross__shard__fk__validator_8cpp" local="yes">tests/sharding/test_cross_shard_fk_validator.cpp</includedby>
+    <includedby refid="test__sharding__cross__shard__fk_8cpp" local="yes">tests/sharding/test_sharding_cross_shard_fk.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/cross_shard_fk_validator.h</label>
+        <link refid="cross__shard__fk__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>benchmarks/sharding/bench_distributed_coordinator.cpp</label>
+        <link refid="bench__distributed__coordinator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/sharding/cross_shard_fk_validator.h</label>
+        <link refid="cross__shard__fk__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/cross_shard_transaction.h</label>
+        <link refid="cross__shard__transaction_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/sharding/distributed_coordinator.h</label>
+        <link refid="distributed__coordinator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/sharding/gossip_consensus_adapter.h</label>
+        <link refid="gossip__consensus__adapter_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/sharding/orphan_detector.h</label>
+        <link refid="orphan__detector_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/sharding/consensus_factory.cpp</label>
+        <link refid="consensus__factory_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/sharding/cross_shard_fk_validator.cpp</label>
+        <link refid="cross__shard__fk__validator_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/sharding/cross_shard_transaction.cpp</label>
+        <link refid="cross__shard__transaction_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/sharding/distributed_coordinator.cpp</label>
+        <link refid="distributed__coordinator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/sharding/gossip_consensus_adapter.cpp</label>
+        <link refid="gossip__consensus__adapter_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/sharding/orphan_detector.cpp</label>
+        <link refid="orphan__detector_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/sharding/test_cross_shard_fk_validator.cpp</label>
+        <link refid="test__cross__shard__fk__validator_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/sharding/test_sharding_cross_shard_fk.cpp</label>
+        <link refid="test__sharding__cross__shard__fk_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/sharding/test_sharding_uncovered.cpp</label>
+        <link refid="test__sharding__uncovered_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/sharding/test_three_phase_commit.cpp</label>
+        <link refid="test__three__phase__commit_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" prot="public">themisdb::sharding::CrossShardFKConstraint</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_f_k_violation" prot="public">themisdb::sharding::FKViolation</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator" prot="public">themisdb::sharding::CrossShardForeignKeyValidator</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Cross-shard foreign-key constraint validation for ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This module implements the Two-Phase Check for distributed referential integrity (issue #5392). During the 2PC prepare phase, the coordinator invokes CrossShardForeignKeyValidator::validate() which:</para>
+<para><itemizedlist>
+<listitem><para>For <bold>INSERT / UPDATE</bold> on a child table: confirms the referenced parent key exists on the designated parent shard.</para>
+</listitem><listitem><para>For <bold>DELETE / UPDATE</bold> on a parent table: confirms no child shard holds a referencing row (RESTRICT semantics).</para>
+</listitem></itemizedlist>
+</para>
+<para>Operations are supplied as JSON strings (one per participant shard) using the format: <programlisting><codeline><highlight class="normal">{</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;INSERT&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">:{</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">{</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Callers inject shard-lookup callbacks via setKeyExistsCallback() and setChildExistsCallback() so the validator remains transport-agnostic and fully testable without live shards.</para>
+<para><heading level="3">Trade-off notes</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Synchronous validation inside prepare() increases commit latency by one round-trip per FK constraint per shard. For latency-sensitive workloads use <computeroutput>deferrable = true</computeroutput> on constraints; violations will be reported post-commit as eventual-consistency findings only.</para>
+</listitem><listitem><para>Temporary inconsistencies are still possible after shard failover if the callback cannot reach the parent shard (the validator aborts the transaction in that case unless <computeroutput>deferrable = true</computeroutput>). </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossShardFKConstraint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a7f34b5f07dbbdad132917fa0170c2a4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a7f34b5f07dbbdad132917fa0170c2a4d" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1afa631cfb7558e58bb4991c3d592859b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1afa631cfb7558e58bb4991c3d592859b2" kindref="member">child_table</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a506c94a7ceb886964ceca1438e5fbf6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a506c94a7ceb886964ceca1438e5fbf6c" kindref="member">child_column</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a74fcc8a1ff32c895edd37db97af2f20b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a74fcc8a1ff32c895edd37db97af2f20b" kindref="member">parent_table</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a6ab528a2d3450ab49784bd85bf20c70c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a6ab528a2d3450ab49784bd85bf20c70c" kindref="member">parent_column</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1aaeb3943d861379f91bb1e8117dfdae1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1aaeb3943d861379f91bb1e8117dfdae1b" kindref="member">parent_shard_id</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1adc393a31dfc1dec2baf102bfa0259f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1adc393a31dfc1dec2baf102bfa0259f40" kindref="member">deferrable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FKViolation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemisdb_1_1sharding_1_1_f_k_violation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_f_k_violation" kindref="compound">FKViolation</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a5d6737fa9a8a332ff194e4aba4bdc34c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a5d6737fa9a8a332ff194e4aba4bdc34c" kindref="member">constraint_name</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemisdb_1_1sharding_1_1_f_k_violation_1ac001d3f837f92dfadb3ca032bf67de5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_f_k_violation_1ac001d3f837f92dfadb3ca032bf67de5b" kindref="member">table</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a4d3ac153cca376babae6d9370c7fd811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a4d3ac153cca376babae6d9370c7fd811" kindref="member">column</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1sharding_1_1_f_k_violation_1aba83df21a5d77007fa5f6c0d8f511b12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_f_k_violation_1aba83df21a5d77007fa5f6c0d8f511b12" kindref="member">key_value</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a252e861b63e189ca3984b533c6687506" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a252e861b63e189ca3984b533c6687506" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a1c1b5cb716756a219e17501cef8754a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a1c1b5cb716756a219e17501cef8754a3" kindref="member">deferrable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_f_k_violation_1ad219140869be03e70843cf9b8cb71955" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossShardForeignKeyValidator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="171" refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a993d23b11d7427a00e8de03351563663" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a993d23b11d7427a00e8de03351563663" kindref="member">KeyExistsCallback</ref><sp/>=<sp/>std::function&lt;bool(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>column,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_value</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>)&gt;;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a600f8674f053423e8963bbb769a7d20c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a600f8674f053423e8963bbb769a7d20c" kindref="member">ChildExistsCallback</ref><sp/>=<sp/>std::function&lt;bool(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>child_table,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>child_column,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>parent_value</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>)&gt;;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a52421d00f8292918ab7f4cc18cfbccae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a52421d00f8292918ab7f4cc18cfbccae" kindref="member">CrossShardForeignKeyValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203" refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ae737b3da1c42e04d6bae23c1b133a163" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ae737b3da1c42e04d6bae23c1b133a163" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204" refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a53f85588b56042b154610932f6532056" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a53f85588b56042b154610932f6532056" kindref="member">CrossShardForeignKeyValidator</ref>(<ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="205" refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a09886cc788d4139c51e230383acbb59a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4bae34d465c37776bfe9e660f1c285c9" kindref="member">registerConstraint</ref>(const<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref>&amp;<sp/>constraint);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ac5f01cbd406aebc85dbdccbf833a4644" kindref="member">removeConstraint</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>constraint_name);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a003e37377cd3ba246b59ca4469f2f07c" kindref="member">setKeyExistsCallback</ref>(<ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a993d23b11d7427a00e8de03351563663" kindref="member">KeyExistsCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1aee31a7ba2234f88a26b4fd1041e91d28" kindref="member">setChildExistsCallback</ref>(<ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a600f8674f053423e8963bbb769a7d20c" kindref="member">ChildExistsCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a6c97e6ce0da0d7a8864e6e5bfff6fe67" kindref="member">setAllShardIds</ref>(std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/>shard_ids);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemisdb_1_1sharding_1_1_f_k_violation" kindref="compound">FKViolation</ref>&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" kindref="member">validate</ref>(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>transaction_id,</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&gt;&amp;<sp/>shard_operations</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4f56a5f9ef2075e96b91cf9978b64ad7" kindref="member">constraintCount</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;<ref refid="structthemisdb_1_1sharding_1_1_f_k_violation" kindref="compound">FKViolation</ref>&gt;<sp/>checkParentExists(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref>&amp;<sp/>constraint,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fk_value,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>txn_id</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;<ref refid="structthemisdb_1_1sharding_1_1_f_k_violation" kindref="compound">FKViolation</ref>&gt;<sp/>checkNoChildExists(</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref>&amp;<sp/>constraint,</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>parent_value,</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>txn_id</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref>&gt;<sp/>constraints_;<sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a993d23b11d7427a00e8de03351563663" kindref="member">KeyExistsCallback</ref><sp/>key_exists_cb_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a600f8674f053423e8963bbb769a7d20c" kindref="member">ChildExistsCallback</ref><sp/>child_exists_cb_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/>all_shard_ids_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/cross_shard_fk_validator.h"/>
+  </compounddef>
+</doxygen>

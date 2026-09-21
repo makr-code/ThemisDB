@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_field_def" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::FieldDef</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_field_def_1a1253bf5cdfa2b2df01935643dbdcdf8f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::FieldDef::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::FieldDef::name</qualifiedname>
+        <briefdescription>
+<para>Field name (e.g. &quot;email&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="944" column="17" bodyfile="include/query/aql_parser.h" bodystart="944" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_field_def_1a63fb08c23da6bd768e2b14c7ee1bd391" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::FieldDef::type_hint</definition>
+        <argsstring></argsstring>
+        <name>type_hint</name>
+        <qualifiedname>themis::query::FieldDef::type_hint</qualifiedname>
+        <briefdescription>
+<para>Optional type hint (e.g. &quot;string&quot;, &quot;number&quot;, &quot;geo&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="945" column="17" bodyfile="include/query/aql_parser.h" bodystart="945" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_field_def_1ac4c1da232cbf3c0cff2a897173aa757a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::FieldDef::nullable</definition>
+        <argsstring></argsstring>
+        <name>nullable</name>
+        <qualifiedname>themis::query::FieldDef::nullable</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether the field may be null/absent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="946" column="17" bodyfile="include/query/aql_parser.h" bodystart="946" bodyend="946"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="943" column="1" bodyfile="include/query/aql_parser.h" bodystart="943" bodyend="947"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_field_def_1a1253bf5cdfa2b2df01935643dbdcdf8f" prot="public" virt="non-virtual"><scope>themis::query::FieldDef</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_field_def_1ac4c1da232cbf3c0cff2a897173aa757a" prot="public" virt="non-virtual"><scope>themis::query::FieldDef</scope><name>nullable</name></member>
+      <member refid="structthemis_1_1query_1_1_field_def_1a63fb08c23da6bd768e2b14c7ee1bd391" prot="public" virt="non-virtual"><scope>themis::query::FieldDef</scope><name>type_hint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

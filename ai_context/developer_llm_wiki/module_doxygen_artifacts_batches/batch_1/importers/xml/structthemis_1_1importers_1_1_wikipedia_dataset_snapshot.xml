@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaDatasetSnapshot</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a38525a61fe93760979a2ef7aaa302ec1" prot="public" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, <ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref> &gt;</type>
+        <definition>std::map&lt;uint64_t, WikipediaPageRecord&gt; themis::importers::WikipediaDatasetSnapshot::pages</definition>
+        <argsstring></argsstring>
+        <name>pages</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::pages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="268" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a7b462fb08ddb2423925934a7d4ca83d1" prot="public" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, <ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref> &gt;</type>
+        <definition>std::map&lt;uint64_t, WikipediaRevisionRecord&gt; themis::importers::WikipediaDatasetSnapshot::revisions</definition>
+        <argsstring></argsstring>
+        <name>revisions</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::revisions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="269" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1add9b716517987e963718997229d0cb78" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_link_record" kindref="compound">WikipediaLinkRecord</ref> &gt;</type>
+        <definition>std::vector&lt;WikipediaLinkRecord&gt; themis::importers::WikipediaDatasetSnapshot::links</definition>
+        <argsstring></argsstring>
+        <name>links</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::links</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="270" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a28b5d9939024d5fd72ee84a55e240d22" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_category_record" kindref="compound">WikipediaCategoryRecord</ref> &gt;</type>
+        <definition>std::vector&lt;WikipediaCategoryRecord&gt; themis::importers::WikipediaDatasetSnapshot::categories</definition>
+        <argsstring></argsstring>
+        <name>categories</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::categories</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="271" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a9bf0aa20f46397f5cfc65b1da3afdaa2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_redirect_record" kindref="compound">WikipediaRedirectRecord</ref> &gt;</type>
+        <definition>std::vector&lt;WikipediaRedirectRecord&gt; themis::importers::WikipediaDatasetSnapshot::redirects</definition>
+        <argsstring></argsstring>
+        <name>redirects</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::redirects</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="272" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1ac2aad6c1ffa7ba4a25da4ca22a1ded36" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_dead_letter_record" kindref="compound">WikipediaDeadLetterRecord</ref> &gt;</type>
+        <definition>std::vector&lt;WikipediaDeadLetterRecord&gt; themis::importers::WikipediaDatasetSnapshot::dead_letters</definition>
+        <argsstring></argsstring>
+        <name>dead_letters</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::dead_letters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="273" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1aa8b8dc52bf181e76b532cf19ad582b33" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_graph_edge" kindref="compound">WikipediaGraphEdge</ref> &gt;</type>
+        <definition>std::vector&lt;WikipediaGraphEdge&gt; themis::importers::WikipediaDatasetSnapshot::graph_edges</definition>
+        <argsstring></argsstring>
+        <name>graph_edges</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::graph_edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="274" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1ae51cfd9d4a5fec7da6e953f1d313835b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_vector_record" kindref="compound">WikipediaVectorRecord</ref> &gt;</type>
+        <definition>std::vector&lt;WikipediaVectorRecord&gt; themis::importers::WikipediaDatasetSnapshot::vector_records</definition>
+        <argsstring></argsstring>
+        <name>vector_records</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::vector_records</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="275" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1abe0fbd9c35ec586c3257f68e1a085a4f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_process_event" kindref="compound">WikipediaProcessEvent</ref> &gt;</type>
+        <definition>std::vector&lt;WikipediaProcessEvent&gt; themis::importers::WikipediaDatasetSnapshot::process_events</definition>
+        <argsstring></argsstring>
+        <name>process_events</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::process_events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="276" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1afe850a6d915992b4ae51047415ae8647" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_time_series_metric" kindref="compound">WikipediaTimeSeriesMetric</ref> &gt;</type>
+        <definition>std::vector&lt;WikipediaTimeSeriesMetric&gt; themis::importers::WikipediaDatasetSnapshot::timeseries_metrics</definition>
+        <argsstring></argsstring>
+        <name>timeseries_metrics</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::timeseries_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="277" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a4d29fa0a06605884869110555f5e3469" prot="public" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, std::string &gt;</type>
+        <definition>std::map&lt;uint64_t, std::string&gt; themis::importers::WikipediaDatasetSnapshot::dirty_pages</definition>
+        <argsstring></argsstring>
+        <name>dirty_pages</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::dirty_pages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="278" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1af10cb2c91c656e6eb0346099ed4961c2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaDatasetSnapshot::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaDatasetSnapshot::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="280" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="280" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory, portable representation of the canonical core and all projections. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="267" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="267" bodyend="350"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a28b5d9939024d5fd72ee84a55e240d22" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>categories</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1ac2aad6c1ffa7ba4a25da4ca22a1ded36" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>dead_letters</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a4d29fa0a06605884869110555f5e3469" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>dirty_pages</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1aa8b8dc52bf181e76b532cf19ad582b33" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>graph_edges</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1add9b716517987e963718997229d0cb78" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>links</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a38525a61fe93760979a2ef7aaa302ec1" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>pages</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1abe0fbd9c35ec586c3257f68e1a085a4f" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>process_events</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a9bf0aa20f46397f5cfc65b1da3afdaa2" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>redirects</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1a7b462fb08ddb2423925934a7d4ca83d1" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>revisions</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1afe850a6d915992b4ae51047415ae8647" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>timeseries_metrics</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1af10cb2c91c656e6eb0346099ed4961c2" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot_1ae51cfd9d4a5fec7da6e953f1d313835b" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDatasetSnapshot</scope><name>vector_records</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

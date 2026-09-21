@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::AdaptiveQueryCache::TenantMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics_1ac2a9a21d82bc5d3dc2e33560af95058a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::TenantMetrics::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::AdaptiveQueryCache::TenantMetrics::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>cache hits attributed to this tenant </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="470" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics_1a096171861b8c2eaa69cf2ab356c37252" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::TenantMetrics::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::AdaptiveQueryCache::TenantMetrics::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>cache misses attributed to this tenant </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="471" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics_1a770af4eed75b7dd7b7f9cc194b2a5b8d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::TenantMetrics::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::AdaptiveQueryCache::TenantMetrics::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>entries evicted (via invalidateTenant) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="472" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics_1afdf2f0d517c6d01820f0c0f919ef9fcd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::TenantMetrics::bytes_used</definition>
+        <argsstring></argsstring>
+        <name>bytes_used</name>
+        <qualifiedname>themis::AdaptiveQueryCache::TenantMetrics::bytes_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>estimated bytes currently consumed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="473" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="473" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_query_cache.h" line="469" column="5" bodyfile="include/cache/adaptive_query_cache.h" bodystart="469" bodyend="474"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics_1afdf2f0d517c6d01820f0c0f919ef9fcd" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::TenantMetrics</scope><name>bytes_used</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics_1a770af4eed75b7dd7b7f9cc194b2a5b8d" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::TenantMetrics</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics_1ac2a9a21d82bc5d3dc2e33560af95058a" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::TenantMetrics</scope><name>hits</name></member>
+      <member refid="structthemis_1_1_adaptive_query_cache_1_1_tenant_metrics_1a096171861b8c2eaa69cf2ab356c37252" prot="public" virt="non-virtual"><scope>themis::AdaptiveQueryCache::TenantMetrics</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

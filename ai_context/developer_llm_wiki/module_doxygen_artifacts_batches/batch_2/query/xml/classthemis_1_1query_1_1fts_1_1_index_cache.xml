@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1fts_1_1_index_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::fts::IndexCache</compoundname>
+    <includes refid="index__cache_8h" local="no">index_cache.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_config" prot="public">themis::query::fts::IndexCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_stats" prot="public">themis::query::fts::IndexCache::Stats</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_entry" prot="private">themis::query::fts::IndexCache::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_index_cache_1aaca6659df8d66137ccb2557eaaa6401f" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::query::fts::IndexCache::lock_</definition>
+        <argsstring></argsstring>
+        <name>lock_</name>
+        <qualifiedname>themis::query::fts::IndexCache::lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="95" column="29" bodyfile="include/query/index_cache.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a390d0de506eb7c1cee883dbf547fbb8b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::fts::IndexCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::fts::IndexCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="96" column="10" bodyfile="include/query/index_cache.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_index_cache_1ac98f2eb922ad44d9ac65fac74a22ea97" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, Entry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Entry&gt; themis::query::fts::IndexCache::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::query::fts::IndexCache::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="97" column="30" bodyfile="include/query/index_cache.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a62dbc6e0a4c3a05cd8bc1ec3f474ec87" prot="private" static="no" mutable="yes">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::query::fts::IndexCache::lru_</definition>
+        <argsstring></argsstring>
+        <name>lru_</name>
+        <qualifiedname>themis::query::fts::IndexCache::lru_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="98" column="21" bodyfile="include/query/index_cache.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a254c2d62727b89e29ba70a520369baf2" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::query::fts::IndexCache::bloom_bits_</definition>
+        <argsstring></argsstring>
+        <name>bloom_bits_</name>
+        <qualifiedname>themis::query::fts::IndexCache::bloom_bits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="99" column="23" bodyfile="include/query/index_cache.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_index_cache_1ac396f783a6fb03c516266392683f5c0e" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themis::query::fts::IndexCache::current_size_bytes_</definition>
+        <argsstring></argsstring>
+        <name>current_size_bytes_</name>
+        <qualifiedname>themis::query::fts::IndexCache::current_size_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="100" column="18" bodyfile="include/query/index_cache.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a072e2a24da875d6c1970c2e1df9073fc" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::query::fts::IndexCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::query::fts::IndexCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="101" column="17" bodyfile="include/query/index_cache.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a1c3c381ce1dc9e98a321d7aad13a7410" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::fts::IndexCache::IndexCache</definition>
+        <argsstring>()</argsstring>
+        <name>IndexCache</name>
+        <qualifiedname>themis::query::fts::IndexCache::IndexCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="41" column="3" bodyfile="src/query/index_cache.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a6faed69c38766c77f01bc672313d3d28" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::fts::IndexCache::IndexCache</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>IndexCache</name>
+        <qualifiedname>themis::query::fts::IndexCache::IndexCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Index Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="47" column="12" bodyfile="src/query/index_cache.cpp" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a5b2f369bef66e96b85c7442f5c6f2ab6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1query_1_1fts_1ae576c8a5450ccd843e380412ffa3ce78" kindref="member">PostingList</ref> &gt;</type>
+        <definition>std::optional&lt; PostingList &gt; themis::query::fts::IndexCache::lookup</definition>
+        <argsstring>(const std::string &amp;term) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::query::fts::IndexCache::lookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+<para>Lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="54" column="17" bodyfile="src/query/index_cache.cpp" bodystart="47" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_index_cache_1acaee61412dfdb914189fde3d12c525ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::fts::IndexCache::insert</definition>
+        <argsstring>(const std::string &amp;term, PostingList &amp;&amp;list)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::query::fts::IndexCache::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1_1fts_1ae576c8a5450ccd843e380412ffa3ce78" kindref="member">PostingList</ref> &amp;&amp;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), estimatePostingListSize(), lock(), find(), end(), erase(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="62" column="8" bodyfile="src/query/index_cache.cpp" bodystart="100" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a5d4c0df2698cc329a3026f6b72732425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::fts::IndexCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::fts::IndexCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::fill(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="67" column="8" bodyfile="src/query/index_cache.cpp" bodystart="158" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_index_cache_1a0ed44f7d00c95a7edc030eabade13b2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>IndexCache::Stats themis::query::fts::IndexCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::query::fts::IndexCache::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/index_cache.h" line="86" column="9" bodyfile="src/query/index_cache.cpp" bodystart="167" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/index_cache.h" line="33" column="1" bodyfile="include/query/index_cache.h" bodystart="33" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a254c2d62727b89e29ba70a520369baf2" prot="private" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>bloom_bits_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a5d4c0df2698cc329a3026f6b72732425" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a390d0de506eb7c1cee883dbf547fbb8b" prot="private" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1ac396f783a6fb03c516266392683f5c0e" prot="private" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>current_size_bytes_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1ac98f2eb922ad44d9ac65fac74a22ea97" prot="private" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a0ed44f7d00c95a7edc030eabade13b2d" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a1c3c381ce1dc9e98a321d7aad13a7410" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>IndexCache</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a6faed69c38766c77f01bc672313d3d28" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>IndexCache</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1acaee61412dfdb914189fde3d12c525ca" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>insert</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1aaca6659df8d66137ccb2557eaaa6401f" prot="private" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>lock_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a5b2f369bef66e96b85c7442f5c6f2ab6" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a62dbc6e0a4c3a05cd8bc1ec3f474ec87" prot="private" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>lru_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_index_cache_1a072e2a24da875d6c1970c2e1df9073fc" prot="private" virt="non-virtual"><scope>themis::query::fts::IndexCache</scope><name>stats_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -14,6 +14,11 @@
 namespace themis {
 namespace gpu {
 
+GPUFeatureFlags& GPUFeatureFlags::GetInstance() {
+    static GPUFeatureFlags inst;
+    return inst;
+}
+
 // ============================================================================
 // Static helpers
 // ============================================================================

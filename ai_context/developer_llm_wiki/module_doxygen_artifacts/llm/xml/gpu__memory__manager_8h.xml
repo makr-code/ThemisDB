@@ -1,0 +1,395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__memory__manager_8h" kind="file" language="C++">
+    <compoundname>gpu_memory_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="llama__resource__manager_8h" local="yes">include/llm/llama_resource_manager.h</includedby>
+    <includedby refid="adaptive__batcher_8h" local="yes">include/llm/lora_framework/adaptive_batcher.h</includedby>
+    <includedby refid="gpu__training__loop_8h" local="yes">include/llm/lora_framework/gpu_training_loop.h</includedby>
+    <includedby refid="production__validator_8h" local="yes">include/llm/production_validator.h</includedby>
+    <includedby refid="active__vram__allocator_8cpp" local="yes">src/llm/active_vram_allocator.cpp</includedby>
+    <includedby refid="adapter__load__balancer_8cpp" local="yes">src/llm/adapter_load_balancer.cpp</includedby>
+    <includedby refid="gpu__memory__manager_8cpp" local="yes">src/llm/gpu_memory_manager.cpp</includedby>
+    <includedby refid="production__validator_8cpp" local="yes">src/llm/production_validator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/gpu_memory_manager.h</label>
+        <link refid="gpu__memory__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/llm/bench_llm_infrastructure.cpp</label>
+        <link refid="bench__llm__infrastructure_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/llm/gpu_memory_manager.h</label>
+        <link refid="gpu__memory__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/llama_resource_manager.h</label>
+        <link refid="llama__resource__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/lora_framework/adaptive_batcher.h</label>
+        <link refid="adaptive__batcher_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/llm/production_validator.h</label>
+        <link refid="production__validator_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>src/llm/active_vram_allocator.cpp</label>
+        <link refid="active__vram__allocator_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/llm/adapter_load_balancer.cpp</label>
+        <link refid="adapter__load__balancer_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/llm/gpu_memory_manager.cpp</label>
+        <link refid="gpu__memory__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/llama_resource_manager.cpp</label>
+        <link refid="llama__resource__manager_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/llm/lora_framework/adaptive_batcher.cpp</label>
+        <link refid="adaptive__batcher_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/production_validator.cpp</label>
+        <link refid="production__validator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" prot="public">themis::llm::GPUMemoryManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation" prot="public">themis::llm::GPUMemoryManager::MemoryAllocation</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" prot="public">themis::llm::GPUMemoryManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats" prot="public">themis::llm::GPUMemoryManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats" prot="public">themis::llm::GPUMemoryManager::GPUStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" prot="public">themis::llm::GPUMemoryManager::GPUHealth</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1detail">themis::llm::detail</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 82/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>for<sp/>internal<sp/>memory<sp/>holder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1_1detail" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1detail" kindref="compound">detail</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1detail_1_1_memory_holder" kindref="compound">MemoryHolder</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a7c1c4cab82bb14d9592a1c2fd3364f99" kindref="member">GPUMemoryManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" kindref="member">GPUTemperatureProviderFn</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&amp;<sp/>temperature_celsius)&gt;;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1ad08222ef9f1bee9b36b74102916e96d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1ad08222ef9f1bee9b36b74102916e96d2" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1a8b106e24dba2fdc6c7681b9d97decb64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1a8b106e24dba2fdc6c7681b9d97decb64" kindref="member">vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1a862a7b8c7bb39d199993112158c34d25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1a862a7b8c7bb39d199993112158c34d25" kindref="member">ram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1a27202c52af63566ac904deb4b49cc2d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1a27202c52af63566ac904deb4b49cc2d7" kindref="member">gpu_ptr</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1ad5ec8b2adfa7a2062756d59d3719dd51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1ad5ec8b2adfa7a2062756d59d3719dd51" kindref="member">cpu_ptr</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1afbd6d1418f7349b929db37c054515b76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1afbd6d1418f7349b929db37c054515b76" kindref="member">is_pinned</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1a84f4926c52c3a421dd6cce237978e92b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1a84f4926c52c3a421dd6cce237978e92b" kindref="member">gpu_device_id</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>v1.4.0:<sp/>Track<sp/>which<sp/>GPU<sp/>owns<sp/>this<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>RAII<sp/>holder<sp/>for<sp/>exception<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>ensures<sp/>memory<sp/>is<sp/>freed<sp/>even<sp/>if<sp/>exceptions<sp/>occur<sp/>during<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1af315e106eafadfcfd0324cabef63e63a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;detail::MemoryHolder&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation_1af315e106eafadfcfd0324cabef63e63a" kindref="member">holder</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1abaec0a02ac926cd0c7998c8e896192a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1abaec0a02ac926cd0c7998c8e896192a5" kindref="member">max_vram_bytes</ref><sp/>=<sp/>24ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>GB<sp/>(per<sp/>GPU<sp/>in<sp/>multi-GPU<sp/>mode)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a87aa69cce0d1da1e8d9e4fccd83b7bba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a87aa69cce0d1da1e8d9e4fccd83b7bba" kindref="member">max_ram_bytes</ref><sp/>=<sp/>64ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a8a3f8641a43b416a1f4182ef2f2d3a7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a8a3f8641a43b416a1f4182ef2f2d3a7c" kindref="member">min_free_vram_bytes</ref><sp/>=<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>GB<sp/>reserve</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1aaca05e439240cd07101161dd5fed0f54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1aaca05e439240cd07101161dd5fed0f54" kindref="member">enable_memory_pooling</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a24a452513f292551034c49413ad0e5d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a24a452513f292551034c49413ad0e5d7" kindref="member">enable_defragmentation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-GPU<sp/>support<sp/>(v1.4.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1af5e0f58b695b38aa5de7803b4fbaa16a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1af5e0f58b695b38aa5de7803b4fbaa16a" kindref="member">enable_multi_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1afdadc123ccc907fe9d36cf0cd1996e70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1afdadc123ccc907fe9d36cf0cd1996e70" kindref="member">gpu_devices</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>device<sp/>IDs<sp/>to<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a004ca4ade8c5c481ed65bbb52bce9493" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a004ca4ade8c5c481ed65bbb52bce9493" kindref="member">enable_peer_access</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>CUDA<sp/>peer-to-peer<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a362a0192df97ea7319c60c357ced2689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" kindref="member">GPUTemperatureProviderFn</ref><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a362a0192df97ea7319c60c357ced2689" kindref="member">temperature_provider_fn</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>temperature<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a7c1c4cab82bb14d9592a1c2fd3364f99" kindref="member">GPUMemoryManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1af46b4c74f21d7e6d4c14337986dbae15" kindref="member">~GPUMemoryManager</ref>();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a509ebb09058b91b19328afc3d6482d2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a509ebb09058b91b19328afc3d6482d2f" kindref="member">NvmlTemperatureFn</ref><sp/>=<sp/>std::function&lt;float(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*device_id*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf19ad34b166d85f310eaaddb7ce1042" kindref="member">setNvmlTemperatureFn</ref>(<ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a509ebb09058b91b19328afc3d6482d2f" kindref="member">NvmlTemperatureFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a31ef15fd28c68b9be80250c577a5f032" kindref="member">allocateGPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a9c74a9fdc7f7a01a2355f706fcb54968" kindref="member">allocateCPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>pinned<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-GPU<sp/>memory<sp/>allocation<sp/>(v1.4.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a31ef15fd28c68b9be80250c577a5f032" kindref="member">allocateGPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>deallocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a76fa01c884b57d2a7fefcdab59f200d9" kindref="member">freeGPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ac57a454ff4c3d4a18fc5569aad0603c4" kindref="member">freeCPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>all<sp/>memory<sp/>for<sp/>a<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1abcabeb615efb1bf1ab759fb863da0c5c" kindref="member">freeModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>model<sp/>memory<sp/>on<sp/>specific<sp/>GPU<sp/>(v1.4.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1abcabeb615efb1bf1ab759fb863da0c5c" kindref="member">freeModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1adad8aa534d8799f260e312f3ff34cf9d" kindref="member">getModelVRAM</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ab81a4d6c086251aeed14dfbe983fb5e2" kindref="member">getModelRAM</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a2cbd6b2d258deffc8078f011ef2fd1d3" kindref="member">getTotalVRAM</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a41743b16f28f03cc1388220e36999a6c" kindref="member">getTotalRAM</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf424d4ed6c45886031c5dddba10d211" kindref="member">getFreeVRAM</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae56901322f99a1ee36c7d36483d4ad48" kindref="member">getFreeRAM</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-GPU<sp/>memory<sp/>queries<sp/>(v1.4.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a08ebb9744fd909e610b6a3d591bf6a0f" kindref="member">getGPUVRAM</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Used<sp/>VRAM<sp/>on<sp/>specific<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a69bc3d5b39aac1de8aa609ba080c924d" kindref="member">getFreeGPUVRAM</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>VRAM<sp/>on<sp/>specific<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a8848193c36b9b40dd4bddd1e3fff8e6f" kindref="member">getAvailableGPUs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>of<sp/>runtime-available<sp/>GPU<sp/>IDs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1adb037eb136423d0a16b3073fbb0c5893" kindref="member">isGPUAvailable</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>GPU<sp/>is<sp/>runtime-available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capacity<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aac36515084c3ed28ebe0b5e162ed1592" kindref="member">canAllocate</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_bytes,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ram_bytes)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a0f5a7785b149a07fe404b80d3d66594e" kindref="member">getMemoryFragmentation</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>fragmentation<sp/>%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Defragmentation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf4145a27aab23ebff82c7f8e5b87bc4" kindref="member">defragment</ref>();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a813a3657c17bb04dd9fcd4c17589aa6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a813a3657c17bb04dd9fcd4c17589aa6e" kindref="member">total_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a2992bc929e149f171ccac54a4dd2c40f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a2992bc929e149f171ccac54a4dd2c40f" kindref="member">used_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1aeee79e93f4d8d6726cfce2a20129f755" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1aeee79e93f4d8d6726cfce2a20129f755" kindref="member">free_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a6ca05ea068914785b69eae0ebf33ddda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a6ca05ea068914785b69eae0ebf33ddda" kindref="member">total_ram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a85fe4b0bc0ffafc174bb1ac71c4e478c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a85fe4b0bc0ffafc174bb1ac71c4e478c" kindref="member">used_ram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1aee30e681ddadbbbac179210713de4e1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1aee30e681ddadbbbac179210713de4e1a" kindref="member">free_ram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a4adb4cccc7131cc04eb920cd313d0f13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a4adb4cccc7131cc04eb920cd313d0f13" kindref="member">num_allocations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1ab39e044fccfe339ecea0a8a71cd1e4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1ab39e044fccfe339ecea0a8a71cd1e4ed" kindref="member">num_models</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a32bb53d35e7209971bed5a9c64271973" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats_1a32bb53d35e7209971bed5a9c64271973" kindref="member">fragmentation_pct</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-GPU<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats" kindref="compound">GPUStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1aa4ea0b0b33706bef3b262c6138af0261" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1aa4ea0b0b33706bef3b262c6138af0261" kindref="member">device_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1aee2e1c2dc149f8fbb9ed67b101845412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1aee2e1c2dc149f8fbb9ed67b101845412" kindref="member">total_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1a27a27b4f68598d604a2901929a509e68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1a27a27b4f68598d604a2901929a509e68" kindref="member">used_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1a185f249b76a7f200189f7f378a3412c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1a185f249b76a7f200189f7f378a3412c1" kindref="member">free_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1ac1797d461882c1455daf2f151f3480eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1ac1797d461882c1455daf2f151f3480eb" kindref="member">num_allocations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1ae09cd260b073be64456e1e3bfa163424" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1ae09cd260b073be64456e1e3bfa163424" kindref="member">utilization_percent</ref><sp/>=<sp/>0.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>-<sp/>100.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1ad27d4524286a7075ca1e3b97bc3a840c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1ad27d4524286a7075ca1e3b97bc3a840c" kindref="member">temperature_celsius</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1afa16a002157e123e304ad9d731d357aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1afa16a002157e123e304ad9d731d357aa" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1a1122c184a75663f119d0fd47434ed565" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1a1122c184a75663f119d0fd47434ed565" kindref="member">loaded_models</ref>;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1a613de52286f702a5d68a37a5a565e8cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats_1a613de52286f702a5d68a37a5a565e8cb" kindref="member">loaded_adapters</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>Health<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" kindref="compound">GPUHealth</ref><sp/>{</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a4b25182818ef61aa525d0feb828da397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a4b25182818ef61aa525d0feb828da397" kindref="member">device_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ab495ada795747614228f0b9a69c99d92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ab495ada795747614228f0b9a69c99d92" kindref="member">is_available</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ad5a6cba906470cb7f281134043adb5db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ad5a6cba906470cb7f281134043adb5db" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a98e6b7aac7314943f9f48b7983474635" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a98e6b7aac7314943f9f48b7983474635" kindref="member">temperature_celsius</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ae9230e9559dbaf43a8dc5a9e4f71de7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ae9230e9559dbaf43a8dc5a9e4f71de7b" kindref="member">utilization_percent</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a1269a2be7717edd87995d17182f52c85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a1269a2be7717edd87995d17182f52c85" kindref="member">error_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ab269afaffbc08d96a100c91e61be7a9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1ab269afaffbc08d96a100c91e61be7a9d" kindref="member">last_error</ref>;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a7976eb94406e1c7fd6c3c046df012898" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health_1a7976eb94406e1c7fd6c3c046df012898" kindref="member">last_check_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5453e225d682af2cab639fcfee15c0ae" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aef290975587d514ce7edbdeff6bfb0f1" kindref="member">getLoadedModels</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-GPU<sp/>statistics<sp/>and<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats" kindref="compound">GPUStats</ref><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a093ab69b7e30a113adc6f6abdeaaa160" kindref="member">getGPUStats</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;GPUStats&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1f528d7ff0c7b13aee8e8cc393cea4c1" kindref="member">getAllGPUStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>Health<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" kindref="compound">GPUHealth</ref><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1af3507f3875053a5bfcd210d25a269008" kindref="member">getGPUHealth</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;GPUHealth&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa3853a30062159d80e593aa8886c42d6" kindref="member">getAllGPUHealth</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1e04b3eab42528af1cda290e8dda548e" kindref="member">isGPUHealthy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a0db91101e0c8527b45268d4a51a53995" kindref="member">markGPUUnhealthy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae87c90eda845b64d7307252d3f8939de" kindref="member">markGPUHealthy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>balancing<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a8c985939790e778d5f1d984732542704" kindref="member">getLeastLoadedGPU</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>GPU<sp/>with<sp/>lowest<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aabd0d9ed72c7f450169361ccd67d5854" kindref="member">getHealthyGPUs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>list<sp/>of<sp/>healthy<sp/>GPUs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5bbeaf71b8607b10f9869c458dc76a49" kindref="member">getAverageGPULoad</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Average<sp/>utilization<sp/>across<sp/>all<sp/>GPUs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a554275eb6837505de5e428d1bac523d0" kindref="member">needsLoadRebalancing</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>threshold)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>rebalancing<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-GPU<sp/>peer<sp/>access<sp/>(v1.4.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa58ca38ceaa177ee0f04a2034cb8ab39" kindref="member">enablePeerAccess</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_gpu,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_gpu);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1b4d482f25780eba07cd6635cfd397bf" kindref="member">disablePeerAccess</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_gpu,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_gpu);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ac408bab4173d6b2bc8d11a381a1cc0d4" kindref="member">canAccessPeer</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_gpu,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_gpu)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ad2dda734691f1b16f48ffda57799742f" kindref="member">setGPUTemperatureProviderFn</ref>(<ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" kindref="member">GPUTemperatureProviderFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa988b626ee1e313a1ef398eb4f5a4604" kindref="member">clearGPUTemperatureProviderFn</ref>();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;MemoryAllocation&gt;&gt;<sp/>allocations_;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_vram_used_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_ram_used_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>device<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id_<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Primary<sp/>GPU<sp/>(for<sp/>single-GPU<sp/>mode)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gpu_available_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-GPU<sp/>support<sp/>(v1.4.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>size_t&gt;<sp/>per_gpu_vram_used_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Per-GPU<sp/>VRAM<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>bool&gt;<sp/>gpu_health_status_;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>health<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>available_gpus_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>of<sp/>available<sp/>GPUs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enhanced<sp/>GPU<sp/>health<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>GPUHealth&gt;<sp/>gpu_health_data_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Detailed<sp/>health<sp/>data<sp/>per<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>float&gt;<sp/>gpu_temperatures_;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Temperature<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>float&gt;<sp/>gpu_utilizations_;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utilization<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>size_t&gt;<sp/>gpu_error_counts_;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>count<sp/>per<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" kindref="member">GPUTemperatureProviderFn</ref><sp/>temperature_provider_fn_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>tracking<sp/>for<sp/>load<sp/>balancing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::vector&lt;std::string&gt;&gt;<sp/>gpu_adapters_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Adapters<sp/>per<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::vector&lt;std::string&gt;&gt;<sp/>gpu_models_;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Models<sp/>per<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeGPU();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>shutdownGPU();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateMemoryStats();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateGPUHealth(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id);<sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>health<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkGPUHealth(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>health<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Defragmentation<sp/>helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>defragmentModelGPU(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MemoryAllocation&gt;&amp;<sp/>gpu_allocs);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>defragmentModelCPU(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MemoryAllocation&gt;&amp;<sp/>cpu_allocs);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/gpu_memory_manager.h"/>
+  </compounddef>
+</doxygen>

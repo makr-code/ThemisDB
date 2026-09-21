@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::content::ContentMetrics::LatencyStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1aab6fefabb4724b480e6570b95fa09406" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::content::ContentMetrics::LatencyStats::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::content::ContentMetrics::LatencyStats::samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="313" column="21" bodyfile="include/content/content_metrics.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1a24668ccb5ebc8e331b8140a4566f0731" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::ContentMetrics::LatencyStats::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::content::ContentMetrics::LatencyStats::sum</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="314" column="16" bodyfile="include/content/content_metrics.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1ad4c2a635f663ff434126912be56353b0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::LatencyStats::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::content::ContentMetrics::LatencyStats::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="315" column="18" bodyfile="include/content/content_metrics.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1a40f8686b6ecb6b3d182792d379692bb4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::ContentMetrics::LatencyStats::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::content::ContentMetrics::LatencyStats::min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="316" column="16" bodyfile="include/content/content_metrics.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1abc6db4778d0722103ff4b2f73eb396e9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::ContentMetrics::LatencyStats::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::content::ContentMetrics::LatencyStats::max</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="317" column="16" bodyfile="include/content/content_metrics.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_metrics.h" line="312" column="5" bodyfile="include/content/content_metrics.h" bodystart="312" bodyend="318"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1ad4c2a635f663ff434126912be56353b0" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics::LatencyStats</scope><name>count</name></member>
+      <member refid="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1abc6db4778d0722103ff4b2f73eb396e9" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics::LatencyStats</scope><name>max</name></member>
+      <member refid="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1a40f8686b6ecb6b3d182792d379692bb4" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics::LatencyStats</scope><name>min</name></member>
+      <member refid="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1aab6fefabb4724b480e6570b95fa09406" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics::LatencyStats</scope><name>samples</name></member>
+      <member refid="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats_1a24668ccb5ebc8e331b8140a4566f0731" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics::LatencyStats</scope><name>sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

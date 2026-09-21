@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_thread_bench_env" kind="class" language="C++" prot="public">
+    <compoundname>MultiThreadBenchEnv</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_multi_thread_bench_env_1ab90c97c5f32857fec86cbb0eb455a170" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; MultiThreadBenchEnv::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>MultiThreadBenchEnv::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="63" column="21" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_thread_bench_env_1a87c000eda892ee84d31cd06b171985b2" prot="private" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path MultiThreadBenchEnv::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>MultiThreadBenchEnv::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="64" column="27" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_thread_bench_env_1abe089ba4ae7bfd6dfa241e5bb6a1e881" prot="private" static="no" mutable="no">
+        <type><ref refid="class_deterministic_r_n_g" kindref="compound">DeterministicRNG</ref></type>
+        <definition>DeterministicRNG MultiThreadBenchEnv::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>MultiThreadBenchEnv::rng_</qualifiedname>
+        <initializer>{42}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="65" column="22" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_thread_bench_env_1a9181ef60754affac48067db3f6fd1a3e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MultiThreadBenchEnv::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>MultiThreadBenchEnv::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="66" column="10" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_thread_bench_env_1acc710e6d41e8a95324b9c3467d5a1134" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex MultiThreadBenchEnv::init_mutex_</definition>
+        <argsstring></argsstring>
+        <name>init_mutex_</name>
+        <qualifiedname>MultiThreadBenchEnv::init_mutex_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="67" column="16" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_multi_thread_bench_env_1a5059918d6abf2a457f54c135ccbc2272" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_multi_thread_bench_env" kindref="compound">MultiThreadBenchEnv</ref> &amp;</type>
+        <definition>static MultiThreadBenchEnv &amp; MultiThreadBenchEnv::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>MultiThreadBenchEnv::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="70" column="32" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="70" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_multi_thread_bench_env_1a3d590a4008e573d2fb9c17b4b5e7398b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiThreadBenchEnv::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>MultiThreadBenchEnv::initialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="75" column="10" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="75" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_thread_bench_env_1a9b9ca6a0e07167864595ce874461f2d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiThreadBenchEnv::warmup</definition>
+        <argsstring>()</argsstring>
+        <name>warmup</name>
+        <qualifiedname>MultiThreadBenchEnv::warmup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="105" column="10" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="105" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_thread_bench_env_1a5621e0cdb9d97b337dadf6b6cec8380e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt; RocksDBWrapper &gt; MultiThreadBenchEnv::getDB</definition>
+        <argsstring>()</argsstring>
+        <name>getDB</name>
+        <qualifiedname>MultiThreadBenchEnv::getDB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="116" column="21" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_thread_bench_env_1a999608387158f762c0ee1298b31eff7d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_deterministic_r_n_g" kindref="compound">DeterministicRNG</ref> &amp;</type>
+        <definition>DeterministicRNG &amp; MultiThreadBenchEnv::getRNG</definition>
+        <argsstring>()</argsstring>
+        <name>getRNG</name>
+        <qualifiedname>MultiThreadBenchEnv::getRNG</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="123" column="22" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_thread_bench_env_1a297904ba9af5809700b836e6067a7673" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MultiThreadBenchEnv::~MultiThreadBenchEnv</definition>
+        <argsstring>()</argsstring>
+        <name>~MultiThreadBenchEnv</name>
+        <qualifiedname>MultiThreadBenchEnv::~MultiThreadBenchEnv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="125" column="5" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="125" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/base/bench_multithreading_comprehensive.cpp" line="61" column="1" bodyfile="benchmarks/base/bench_multithreading_comprehensive.cpp" bodystart="61" bodyend="131"/>
+    <listofallmembers>
+      <member refid="class_multi_thread_bench_env_1ab90c97c5f32857fec86cbb0eb455a170" prot="private" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>db_</name></member>
+      <member refid="class_multi_thread_bench_env_1a87c000eda892ee84d31cd06b171985b2" prot="private" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>db_path_</name></member>
+      <member refid="class_multi_thread_bench_env_1a5621e0cdb9d97b337dadf6b6cec8380e" prot="public" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>getDB</name></member>
+      <member refid="class_multi_thread_bench_env_1a999608387158f762c0ee1298b31eff7d" prot="public" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>getRNG</name></member>
+      <member refid="class_multi_thread_bench_env_1acc710e6d41e8a95324b9c3467d5a1134" prot="private" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>init_mutex_</name></member>
+      <member refid="class_multi_thread_bench_env_1a3d590a4008e573d2fb9c17b4b5e7398b" prot="public" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>initialize</name></member>
+      <member refid="class_multi_thread_bench_env_1a9181ef60754affac48067db3f6fd1a3e" prot="private" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>initialized_</name></member>
+      <member refid="class_multi_thread_bench_env_1a5059918d6abf2a457f54c135ccbc2272" prot="public" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>instance</name></member>
+      <member refid="class_multi_thread_bench_env_1abe089ba4ae7bfd6dfa241e5bb6a1e881" prot="private" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>rng_</name></member>
+      <member refid="class_multi_thread_bench_env_1a9b9ca6a0e07167864595ce874461f2d9" prot="public" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>warmup</name></member>
+      <member refid="class_multi_thread_bench_env_1a297904ba9af5809700b836e6067a7673" prot="public" virt="non-virtual"><scope>MultiThreadBenchEnv</scope><name>~MultiThreadBenchEnv</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

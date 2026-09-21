@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation" kind="struct" language="C++" prot="private">
+    <compoundname>themis::rag::judge::BatchEvaluator::QueuedEvaluation</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation_1af35f409063742f213c8702605727e565" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref></type>
+        <definition>EvaluationInput themis::rag::judge::BatchEvaluator::QueuedEvaluation::input</definition>
+        <argsstring></argsstring>
+        <name>input</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::QueuedEvaluation::input</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="258" column="25" bodyfile="include/rag/batch_evaluator.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation_1a45e9f010cf835c53e8abf5e31a84ce48" prot="public" static="no" mutable="no">
+        <type>std::promise&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt;</type>
+        <definition>std::promise&lt;EvaluationResult&gt; themis::rag::judge::BatchEvaluator::QueuedEvaluation::promise</definition>
+        <argsstring></argsstring>
+        <name>promise</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::QueuedEvaluation::promise</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="259" column="22" bodyfile="include/rag/batch_evaluator.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation_1ae75c53be92627752fdf9c243da9a34b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::BatchEvaluator::QueuedEvaluation::has_promise</definition>
+        <argsstring></argsstring>
+        <name>has_promise</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::QueuedEvaluation::has_promise</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="260" column="14" bodyfile="include/rag/batch_evaluator.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation_1a17aa8c99601093c2381c052634b70d67" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const EvaluationResult&amp;)&gt; themis::rag::judge::BatchEvaluator::QueuedEvaluation::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluator::QueuedEvaluation::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="261" column="23" bodyfile="include/rag/batch_evaluator.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::judge::BatchEvaluator::QueuedEvaluation</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>input</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::EvaluationInput</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/batch_evaluator.h" line="257" column="5" bodyfile="include/rag/batch_evaluator.h" bodystart="257" bodyend="262"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation_1a17aa8c99601093c2381c052634b70d67" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator::QueuedEvaluation</scope><name>callback</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation_1ae75c53be92627752fdf9c243da9a34b5" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator::QueuedEvaluation</scope><name>has_promise</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation_1af35f409063742f213c8702605727e565" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator::QueuedEvaluation</scope><name>input</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation_1a45e9f010cf835c53e8abf5e31a84ce48" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluator::QueuedEvaluation</scope><name>promise</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

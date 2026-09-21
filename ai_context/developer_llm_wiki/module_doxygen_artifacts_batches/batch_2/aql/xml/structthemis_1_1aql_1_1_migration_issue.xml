@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_migration_issue" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::MigrationIssue</compoundname>
+    <includes refid="aql__migration__assistant_8h" local="no">aql_migration_assistant.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1aql_1_1_migration_issue_1a2bb97d92fd07a0b55e01cc39a326607e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Severity</name>
+        <qualifiedname>themis::aql::MigrationIssue::Severity</qualifiedname>
+        <enumvalue id="structthemis_1_1aql_1_1_migration_issue_1a2bb97d92fd07a0b55e01cc39a326607eabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+<para>Construct is unsupported and cannot be automatically migrated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_migration_issue_1a2bb97d92fd07a0b55e01cc39a326607ea059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+<para>Construct was rewritten but manual review is recommended. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_migration_issue_1a2bb97d92fd07a0b55e01cc39a326607ea551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+<para>Informational note about compatibility or style differences. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_migration_assistant.h" line="21" column="5" bodyfile="include/aql/aql_migration_assistant.h" bodystart="21" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_migration_issue_1a6e877b64de3ae7768a2dd84dd38a7309" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_migration_issue_1a2bb97d92fd07a0b55e01cc39a326607e" kindref="member">Severity</ref></type>
+        <definition>Severity themis::aql::MigrationIssue::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::aql::MigrationIssue::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_migration_assistant.h" line="27" column="17" bodyfile="include/aql/aql_migration_assistant.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_migration_issue_1aa3a1d37fcdd055bf2c832d3ee0907db4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::MigrationIssue::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::aql::MigrationIssue::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the issue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_migration_assistant.h" line="28" column="17" bodyfile="include/aql/aql_migration_assistant.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_migration_issue_1a2e8dc97a99883042c3d5c6144158bd61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::MigrationIssue::suggestion</definition>
+        <argsstring></argsstring>
+        <name>suggestion</name>
+        <qualifiedname>themis::aql::MigrationIssue::suggestion</qualifiedname>
+        <briefdescription>
+<para>Suggested alternative or manual action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_migration_assistant.h" line="29" column="17" bodyfile="include/aql/aql_migration_assistant.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_migration_assistant.h" line="20" column="1" bodyfile="include/aql/aql_migration_assistant.h" bodystart="20" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_migration_issue_1aa3a1d37fcdd055bf2c832d3ee0907db4" prot="public" virt="non-virtual"><scope>themis::aql::MigrationIssue</scope><name>message</name></member>
+      <member refid="structthemis_1_1aql_1_1_migration_issue_1a2bb97d92fd07a0b55e01cc39a326607e" prot="public" virt="non-virtual"><scope>themis::aql::MigrationIssue</scope><name>Severity</name></member>
+      <member refid="structthemis_1_1aql_1_1_migration_issue_1a6e877b64de3ae7768a2dd84dd38a7309" prot="public" virt="non-virtual"><scope>themis::aql::MigrationIssue</scope><name>severity</name></member>
+      <member refid="structthemis_1_1aql_1_1_migration_issue_1a2e8dc97a99883042c3d5c6144158bd61" prot="public" virt="non-virtual"><scope>themis::aql::MigrationIssue</scope><name>suggestion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

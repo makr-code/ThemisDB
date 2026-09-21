@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_scoped_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::ScopedTimer</compoundname>
+    <includes refid="cdc__metrics_8h" local="no">cdc_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_scoped_timer_1a155997f6d2b984d243c50ae2a7d11acc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref> &amp;</type>
+        <definition>LatencyHistogram&amp; themis::cdc::ScopedTimer::histogram_</definition>
+        <argsstring></argsstring>
+        <name>histogram_</name>
+        <qualifiedname>themis::cdc::ScopedTimer::histogram_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="333" column="22" bodyfile="include/cdc/cdc_metrics.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_scoped_timer_1a2c08ca2515468f6ccac9dd3da4bb735d" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cdc::ScopedTimer::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::cdc::ScopedTimer::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="334" column="43" bodyfile="include/cdc/cdc_metrics.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_scoped_timer_1acecfa5181398aa10605f0c0445374ac0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::ScopedTimer::ScopedTimer</definition>
+        <argsstring>(LatencyHistogram &amp;histogram)</argsstring>
+        <name>ScopedTimer</name>
+        <qualifiedname>themis::cdc::ScopedTimer::ScopedTimer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref> &amp;</type>
+          <declname>histogram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="322" column="5" bodyfile="include/cdc/cdc_metrics.h" bodystart="322" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_scoped_timer_1a1c2d8096d1f24d67a4d4c2430943e4d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::ScopedTimer::~ScopedTimer</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedTimer</name>
+        <qualifiedname>themis::cdc::ScopedTimer::~ScopedTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="326" column="5" bodyfile="include/cdc/cdc_metrics.h" bodystart="326" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_metrics.h" line="320" column="1" bodyfile="include/cdc/cdc_metrics.h" bodystart="320" bodyend="335"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_scoped_timer_1a155997f6d2b984d243c50ae2a7d11acc" prot="private" virt="non-virtual"><scope>themis::cdc::ScopedTimer</scope><name>histogram_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_scoped_timer_1acecfa5181398aa10605f0c0445374ac0" prot="public" virt="non-virtual"><scope>themis::cdc::ScopedTimer</scope><name>ScopedTimer</name></member>
+      <member refid="classthemis_1_1cdc_1_1_scoped_timer_1a2c08ca2515468f6ccac9dd3da4bb735d" prot="private" virt="non-virtual"><scope>themis::cdc::ScopedTimer</scope><name>start_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_scoped_timer_1a1c2d8096d1f24d67a4d4c2430943e4d8" prot="public" virt="non-virtual"><scope>themis::cdc::ScopedTimer</scope><name>~ScopedTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

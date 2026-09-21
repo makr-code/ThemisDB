@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_emotion_edge_case_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::EmotionEdgeCaseTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_emotion_edge_case_test_1a11a2677c5aec215f11449b0d2d4e9014" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_emotion_analyzer" kindref="compound">EmotionAnalyzer</ref></type>
+        <definition>EmotionAnalyzer themis::voice::EmotionEdgeCaseTest::analyzer</definition>
+        <argsstring></argsstring>
+        <name>analyzer</name>
+        <qualifiedname>themis::voice::EmotionEdgeCaseTest::analyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_phase3_error_handling.cpp" line="203" column="21" bodyfile="tests/voice/test_phase3_error_handling.cpp" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::EmotionEdgeCaseTest</label>
+        <link refid="classthemis_1_1voice_1_1_emotion_edge_case_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::voice::EmotionAnalyzer</label>
+        <link refid="classthemis_1_1voice_1_1_emotion_analyzer"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::EmotionEdgeCaseTest</label>
+        <link refid="classthemis_1_1voice_1_1_emotion_edge_case_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>analyzer</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_phase3_error_handling.cpp" line="201" column="1" bodyfile="tests/voice/test_phase3_error_handling.cpp" bodystart="201" bodyend="204"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_emotion_edge_case_test_1a11a2677c5aec215f11449b0d2d4e9014" prot="protected" virt="non-virtual"><scope>themis::voice::EmotionEdgeCaseTest</scope><name>analyzer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_chat_message" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ChatMessage</compoundname>
+    <includes refid="llama__wrapper_8h" local="no">llama_wrapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_chat_message_1a78b7e0c72503ecbfbc9228f549f90238" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ChatMessage::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::llm::ChatMessage::role</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="70" column="17" bodyfile="include/llm/llama_wrapper.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_chat_message_1a03ebbc3f3ab835ad78ff2ade0bb8d227" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ChatMessage::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::llm::ChatMessage::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="71" column="17" bodyfile="include/llm/llama_wrapper.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_chat_message_1afd39454a56446b2e6f643442f4b0bf21" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ChatMessage::ChatMessage</definition>
+        <argsstring>(ChatRole r, const std::string &amp;c)</argsstring>
+        <name>ChatMessage</name>
+        <qualifiedname>themis::llm::ChatMessage::ChatMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a5262d6099a84113e7e578b37c8cfbd11" kindref="member">ChatRole</ref></type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="74" column="5" bodyfile="include/llm/llama_wrapper.h" bodystart="74" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_chat_message_1ac26db3f0a401a15932f65a00dda554e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ChatMessage::ChatMessage</definition>
+        <argsstring>(const std::string &amp;r, const std::string &amp;c)</argsstring>
+        <name>ChatMessage</name>
+        <qualifiedname>themis::llm::ChatMessage::ChatMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="84" column="5" bodyfile="include/llm/llama_wrapper.h" bodystart="84" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_chat_message_1a153d43c6a75b7d3e3b446591ce70a1d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ChatMessage::ChatMessage</definition>
+        <argsstring>()=default</argsstring>
+        <name>ChatMessage</name>
+        <qualifiedname>themis::llm::ChatMessage::ChatMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="87" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_wrapper.h" line="69" column="1" bodyfile="include/llm/llama_wrapper.h" bodystart="69" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_chat_message_1afd39454a56446b2e6f643442f4b0bf21" prot="public" virt="non-virtual"><scope>themis::llm::ChatMessage</scope><name>ChatMessage</name></member>
+      <member refid="structthemis_1_1llm_1_1_chat_message_1ac26db3f0a401a15932f65a00dda554e7" prot="public" virt="non-virtual"><scope>themis::llm::ChatMessage</scope><name>ChatMessage</name></member>
+      <member refid="structthemis_1_1llm_1_1_chat_message_1a153d43c6a75b7d3e3b446591ce70a1d8" prot="public" virt="non-virtual"><scope>themis::llm::ChatMessage</scope><name>ChatMessage</name></member>
+      <member refid="structthemis_1_1llm_1_1_chat_message_1a03ebbc3f3ab835ad78ff2ade0bb8d227" prot="public" virt="non-virtual"><scope>themis::llm::ChatMessage</scope><name>content</name></member>
+      <member refid="structthemis_1_1llm_1_1_chat_message_1a78b7e0c72503ecbfbc9228f549f90238" prot="public" virt="non-virtual"><scope>themis::llm::ChatMessage</scope><name>role</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

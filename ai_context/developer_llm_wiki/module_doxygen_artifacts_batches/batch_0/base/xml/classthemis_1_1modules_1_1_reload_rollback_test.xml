@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_reload_rollback_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ReloadRollbackTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_reload_rollback_test_1a61862bb7e2632a14cbdd2b33ff143199" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HotReloadManager &gt;</type>
+        <definition>std::unique_ptr&lt;HotReloadManager&gt; themis::modules::ReloadRollbackTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::modules::ReloadRollbackTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="59" column="21" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_reload_rollback_test_1a08d8fbfe641c8534e5e99ade494340ef" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModuleLoader &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleLoader&gt; themis::modules::ReloadRollbackTest::loader_</definition>
+        <argsstring></argsstring>
+        <name>loader_</name>
+        <qualifiedname>themis::modules::ReloadRollbackTest::loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="60" column="25" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_reload_rollback_test_1aec583eb095d13c1c7774be0a392bfad2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ReloadRollbackTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::modules::ReloadRollbackTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="47" column="10" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="47" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::ReloadRollbackTest</label>
+        <link refid="classthemis_1_1modules_1_1_reload_rollback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::ReloadRollbackTest</label>
+        <link refid="classthemis_1_1modules_1_1_reload_rollback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_reload_regression.cpp" line="45" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="45" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_reload_rollback_test_1a08d8fbfe641c8534e5e99ade494340ef" prot="protected" virt="non-virtual"><scope>themis::modules::ReloadRollbackTest</scope><name>loader_</name></member>
+      <member refid="classthemis_1_1modules_1_1_reload_rollback_test_1a61862bb7e2632a14cbdd2b33ff143199" prot="protected" virt="non-virtual"><scope>themis::modules::ReloadRollbackTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1modules_1_1_reload_rollback_test_1aec583eb095d13c1c7774be0a392bfad2" prot="protected" virt="non-virtual"><scope>themis::modules::ReloadRollbackTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

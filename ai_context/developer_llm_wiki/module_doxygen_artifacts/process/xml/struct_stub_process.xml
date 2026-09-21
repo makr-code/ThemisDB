@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_process" kind="struct" language="C++" prot="public">
+    <compoundname>StubProcess</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stub_process_1a1d1d68f2da3e8d9b21b538e885f2334e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubProcess::pid</definition>
+        <argsstring></argsstring>
+        <name>pid</name>
+        <qualifiedname>StubProcess::pid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="42" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_process_1a926154cc41325c3ff2ed80a51c77829f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubProcess::running</definition>
+        <argsstring></argsstring>
+        <name>running</name>
+        <qualifiedname>StubProcess::running</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="43" column="10" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/test_process_highcardinality_stress.cpp" line="41" column="1" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="41" bodyend="44"/>
+    <listofallmembers>
+      <member refid="struct_stub_process_1a1d1d68f2da3e8d9b21b538e885f2334e" prot="public" virt="non-virtual"><scope>StubProcess</scope><name>pid</name></member>
+      <member refid="struct_stub_process_1a926154cc41325c3ff2ed80a51c77829f" prot="public" virt="non-virtual"><scope>StubProcess</scope><name>running</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

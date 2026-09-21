@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GPUMemoryManager::MemoryBlock</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block_1a04a0714698d7f0703d1813c350b8c448" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::GPUMemoryManager::MemoryBlock::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::GPUMemoryManager::MemoryBlock::ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="22" column="14" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block_1aad89990b6a57d2b2ca6d757de0b9b0d1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GPUMemoryManager::MemoryBlock::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::GPUMemoryManager::MemoryBlock::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="23" column="16" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block_1afd635ff2cdce50a59c995a6348b36dcb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::GPUMemoryManager::MemoryBlock::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::GPUMemoryManager::MemoryBlock::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="24" column="13" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="21" column="5" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="21" bodyend="25"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block_1afd635ff2cdce50a59c995a6348b36dcb" prot="public" virt="non-virtual"><scope>themis::GPUMemoryManager::MemoryBlock</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block_1a04a0714698d7f0703d1813c350b8c448" prot="public" virt="non-virtual"><scope>themis::GPUMemoryManager::MemoryBlock</scope><name>ptr</name></member>
+      <member refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block_1aad89990b6a57d2b2ca6d757de0b9b0d1" prot="public" virt="non-virtual"><scope>themis::GPUMemoryManager::MemoryBlock</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

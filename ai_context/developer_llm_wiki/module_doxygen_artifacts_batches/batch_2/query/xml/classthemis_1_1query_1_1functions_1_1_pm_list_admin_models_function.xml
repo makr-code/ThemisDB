@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::PmListAdminModelsFunction</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1functions_1_1_i_function" prot="public" virt="non-virtual">themis::query::functions::IFunction</basecompoundref>
+    <includes refid="process__mining__functions_8h" local="no">process_mining_functions.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1ad6c15164ad2250b6ee9d1971036663e8" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json()&gt;</type>
+        <definition>using themis::query::functions::PmListAdminModelsFunction::AdminModelListFn = std::function&lt;nlohmann::json()&gt;</definition>
+        <argsstring></argsstring>
+        <name>AdminModelListFn</name>
+        <qualifiedname>themis::query::functions::PmListAdminModelsFunction::AdminModelListFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_mining_functions.h" line="286" column="5" bodyfile="include/query/functions/process_mining_functions.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a8f2b74a4c25f667370fc68d838af6230" prot="private" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1ad6c15164ad2250b6ee9d1971036663e8" kindref="member">AdminModelListFn</ref></type>
+        <definition>PmListAdminModelsFunction::AdminModelListFn themis::query::functions::PmListAdminModelsFunction::admin_model_list_fn_</definition>
+        <argsstring></argsstring>
+        <name>admin_model_list_fn_</name>
+        <qualifiedname>themis::query::functions::PmListAdminModelsFunction::admin_model_list_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_mining_functions.h" line="313" column="29" bodyfile="include/query/functions/process_mining_functions.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a992bc42a9634e8e9ba01eafb1c412c38" prot="private" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::functions::PmListAdminModelsFunction::admin_model_list_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>admin_model_list_fn_mutex_</name>
+        <qualifiedname>themis::query::functions::PmListAdminModelsFunction::admin_model_list_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_mining_functions.h" line="314" column="29" bodyfile="include/query/functions/process_mining_functions.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a82016961049e382beba488a4cb3f756b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::PmListAdminModelsFunction::~PmListAdminModelsFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~PmListAdminModelsFunction</name>
+        <qualifiedname>themis::query::functions::PmListAdminModelsFunction::~PmListAdminModelsFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_mining_functions.h" line="285" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a43871a26a70bc8b4f57413d0d821aa38" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref></type>
+        <definition>FunctionSignature themis::query::functions::PmListAdminModelsFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::query::functions::PmListAdminModelsFunction::signature</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478">signature</reimplements>
+        <briefdescription>
+<para>Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_mining_functions.h" line="294" column="23" bodyfile="include/query/functions/process_mining_functions.h" bodystart="294" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a315a8dfb236a1e9c7bddfc940ab31a93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::query::functions::PmListAdminModelsFunction::execute</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;args, const FunctionContext &amp;ctx) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::functions::PmListAdminModelsFunction::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a7e3401607dd70b42df4da3a392e24c60">execute</reimplements>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_mining_functions.h" line="307" column="20" bodyfile="src/query/functions/process_mining_functions.cpp" bodystart="1182" bodyend="1186"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a288b28a922915d0a44e2abcce4d01c2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::PmListAdminModelsFunction::setAdminModelListFn</definition>
+        <argsstring>(AdminModelListFn fn)</argsstring>
+        <name>setAdminModelListFn</name>
+        <qualifiedname>themis::query::functions::PmListAdminModelsFunction::setAdminModelListFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1ad6c15164ad2250b6ee9d1971036663e8" kindref="member">AdminModelListFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Admin Model List Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_mining_functions.h" line="292" column="17" bodyfile="src/query/functions/process_mining_functions.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::PmListAdminModelsFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::PmListAdminModelsFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/process_mining_functions.h" line="283" column="1" bodyfile="include/query/functions/process_mining_functions.h" bodystart="283" bodyend="315"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a8f2b74a4c25f667370fc68d838af6230" prot="private" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>admin_model_list_fn_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a992bc42a9634e8e9ba01eafb1c412c38" prot="private" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>admin_model_list_fn_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1ad6c15164ad2250b6ee9d1971036663e8" prot="public" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>AdminModelListFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a315a8dfb236a1e9c7bddfc940ab31a93" prot="public" virt="virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" prot="protected" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>isGeometry</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" prot="protected" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>isVector</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a288b28a922915d0a44e2abcce4d01c2f" prot="public" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>setAdminModelListFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a43871a26a70bc8b4f57413d0d821aa38" prot="public" virt="virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>signature</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" prot="protected" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>toBool</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" prot="protected" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>toNumber</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" prot="protected" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>toString</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a3c825841f6247644e1301cbf65c2d8ad" prot="public" virt="virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>validateArgs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" prot="protected" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>validateArgType</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" prot="public" virt="virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>~IFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function_1a82016961049e382beba488a4cb3f756b" prot="public" virt="non-virtual"><scope>themis::query::functions::PmListAdminModelsFunction</scope><name>~PmListAdminModelsFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

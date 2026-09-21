@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_multi_tier_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MultiTierStats</compoundname>
+    <includes refid="multi__tier__replication_8h" local="no">multi_tier_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_tier_stats_1a7c2abf6a832858e66c58a301ea5025b7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MultiTierStats::collections_tier1</definition>
+        <argsstring></argsstring>
+        <name>collections_tier1</name>
+        <qualifiedname>themisdb::replication::MultiTierStats::collections_tier1</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Collections currently in Tier 1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="134" column="14" bodyfile="include/replication/multi_tier_replication.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_tier_stats_1a93dda9c5f9b4ca7bf82b64ae9a5e9160" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MultiTierStats::collections_tier2</definition>
+        <argsstring></argsstring>
+        <name>collections_tier2</name>
+        <qualifiedname>themisdb::replication::MultiTierStats::collections_tier2</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Collections currently in Tier 2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="135" column="14" bodyfile="include/replication/multi_tier_replication.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_tier_stats_1a7799af1c0f2aaf43defdc0c43b9c2ac9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MultiTierStats::collections_tier3</definition>
+        <argsstring></argsstring>
+        <name>collections_tier3</name>
+        <qualifiedname>themisdb::replication::MultiTierStats::collections_tier3</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Collections currently in Tier 3. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="136" column="14" bodyfile="include/replication/multi_tier_replication.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_tier_stats_1a580ccbf3edc8505c2b6772247a1ca5dc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiTierStats::total_promotions</definition>
+        <argsstring></argsstring>
+        <name>total_promotions</name>
+        <qualifiedname>themisdb::replication::MultiTierStats::total_promotions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime auto-tier promotion count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="137" column="14" bodyfile="include/replication/multi_tier_replication.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_tier_stats_1a611296c354d4e6929aecaf65c9fa69c1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiTierStats::total_demotions</definition>
+        <argsstring></argsstring>
+        <name>total_demotions</name>
+        <qualifiedname>themisdb::replication::MultiTierStats::total_demotions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime auto-tier demotion count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="138" column="14" bodyfile="include/replication/multi_tier_replication.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_tier_stats_1a07d9e7f9321408b5cea02497cfeed5b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MultiTierStats::auto_tiering_active</definition>
+        <argsstring></argsstring>
+        <name>auto_tiering_active</name>
+        <qualifiedname>themisdb::replication::MultiTierStats::auto_tiering_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="139" column="14" bodyfile="include/replication/multi_tier_replication.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Aggregate statistics for <ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager" kindref="compound">MultiTierReplicationManager</ref>. </para>
+    </detaileddescription>
+    <location file="include/replication/multi_tier_replication.h" line="133" column="1" bodyfile="include/replication/multi_tier_replication.h" bodystart="133" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a07d9e7f9321408b5cea02497cfeed5b9" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierStats</scope><name>auto_tiering_active</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a7c2abf6a832858e66c58a301ea5025b7" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierStats</scope><name>collections_tier1</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a93dda9c5f9b4ca7bf82b64ae9a5e9160" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierStats</scope><name>collections_tier2</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a7799af1c0f2aaf43defdc0c43b9c2ac9" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierStats</scope><name>collections_tier3</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a611296c354d4e6929aecaf65c9fa69c1" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierStats</scope><name>total_demotions</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a580ccbf3edc8505c2b6772247a1ca5dc" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierStats</scope><name>total_promotions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

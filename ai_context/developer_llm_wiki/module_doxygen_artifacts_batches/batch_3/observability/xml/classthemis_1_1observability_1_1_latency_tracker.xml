@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_latency_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::LatencyTracker</compoundname>
+    <includes refid="metrics__collector_8h" local="no">metrics_collector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_latency_tracker_1a1a4a0914696f6fe69bb98b005fc4a9b2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LatencyTracker::metric_name_</definition>
+        <argsstring></argsstring>
+        <name>metric_name_</name>
+        <qualifiedname>themis::observability::LatencyTracker::metric_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="313" column="17" bodyfile="include/observability/metrics_collector.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_latency_tracker_1ae01bea9ae27c2f09538965a16bd0d0fa" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::LatencyTracker::labels_</definition>
+        <argsstring></argsstring>
+        <name>labels_</name>
+        <qualifiedname>themis::observability::LatencyTracker::labels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="314" column="14" bodyfile="include/observability/metrics_collector.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_latency_tracker_1acb057dec40c503dd49f36d0f18e93178" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::observability::LatencyTracker::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::observability::LatencyTracker::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="315" column="43" bodyfile="include/observability/metrics_collector.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_latency_tracker_1a98266f448e7b6fc8ff0a9b5796cedfed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::LatencyTracker::LatencyTracker</definition>
+        <argsstring>(const std::string &amp;metric_name, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>LatencyTracker</name>
+        <qualifiedname>themis::observability::LatencyTracker::LatencyTracker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="305" column="5" bodyfile="src/observability/metrics_collector.cpp" bodystart="799" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_latency_tracker_1a6bd201fe30c3283935394bfd9f568e49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::LatencyTracker::~LatencyTracker</definition>
+        <argsstring>()</argsstring>
+        <name>~LatencyTracker</name>
+        <qualifiedname>themis::observability::LatencyTracker::~LatencyTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="307" column="5" bodyfile="src/observability/metrics_collector.cpp" bodystart="804" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_latency_tracker_1abf69c8e7afb23b4091f6e9a3a60a3e03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::LatencyTracker::elapsedMs</definition>
+        <argsstring>() const</argsstring>
+        <name>elapsedMs</name>
+        <qualifiedname>themis::observability::LatencyTracker::elapsedMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="310" column="12" bodyfile="src/observability/metrics_collector.cpp" bodystart="809" bodyend="812"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII helper for automatic latency tracking</para>
+<para>Usage: { <ref refid="classthemis_1_1observability_1_1_latency_tracker" kindref="compound">LatencyTracker</ref> tracker(&quot;tsstore_query&quot;, {{&quot;metric&quot;, &quot;cpu_usage&quot;}}); // ... work ... } // latency automatically recorded on destruction </para>
+    </detaileddescription>
+    <location file="include/observability/metrics_collector.h" line="303" column="1" bodyfile="include/observability/metrics_collector.h" bodystart="303" bodyend="316"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_latency_tracker_1abf69c8e7afb23b4091f6e9a3a60a3e03" prot="public" virt="non-virtual"><scope>themis::observability::LatencyTracker</scope><name>elapsedMs</name></member>
+      <member refid="classthemis_1_1observability_1_1_latency_tracker_1ae01bea9ae27c2f09538965a16bd0d0fa" prot="private" virt="non-virtual"><scope>themis::observability::LatencyTracker</scope><name>labels_</name></member>
+      <member refid="classthemis_1_1observability_1_1_latency_tracker_1a98266f448e7b6fc8ff0a9b5796cedfed" prot="public" virt="non-virtual"><scope>themis::observability::LatencyTracker</scope><name>LatencyTracker</name></member>
+      <member refid="classthemis_1_1observability_1_1_latency_tracker_1a1a4a0914696f6fe69bb98b005fc4a9b2" prot="private" virt="non-virtual"><scope>themis::observability::LatencyTracker</scope><name>metric_name_</name></member>
+      <member refid="classthemis_1_1observability_1_1_latency_tracker_1acb057dec40c503dd49f36d0f18e93178" prot="private" virt="non-virtual"><scope>themis::observability::LatencyTracker</scope><name>start_</name></member>
+      <member refid="classthemis_1_1observability_1_1_latency_tracker_1a6bd201fe30c3283935394bfd9f568e49" prot="public" virt="non-virtual"><scope>themis::observability::LatencyTracker</scope><name>~LatencyTracker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

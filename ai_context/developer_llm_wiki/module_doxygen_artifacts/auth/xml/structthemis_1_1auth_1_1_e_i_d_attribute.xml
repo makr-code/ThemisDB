@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_e_i_d_attribute" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::EIDAttribute</compoundname>
+    <includes refid="eid__authenticator_8h" local="no">eid_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_attribute_1a7ffdb78f06ae234b45d3adad4362ba02" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980" kindref="member">EIDAttributeType</ref></type>
+        <definition>EIDAttributeType themis::auth::EIDAttribute::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::auth::EIDAttribute::type</qualifiedname>
+        <briefdescription>
+<para>Attribute type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="98" column="22" bodyfile="include/auth/eid_authenticator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_attribute_1a397a4226d9248d1a56c6c0a8c92963a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAttribute::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::auth::EIDAttribute::value</qualifiedname>
+        <briefdescription>
+<para>Attribute value (string representation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="99" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_attribute_1a1415f3d2371dd4486e8ad0d1a166f849" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::EIDAttribute::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::auth::EIDAttribute::verified</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the value was verified by the eID-Server. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="100" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/eid_authenticator.h" line="97" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="97" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_attribute_1a7ffdb78f06ae234b45d3adad4362ba02" prot="public" virt="non-virtual"><scope>themis::auth::EIDAttribute</scope><name>type</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_attribute_1a397a4226d9248d1a56c6c0a8c92963a3" prot="public" virt="non-virtual"><scope>themis::auth::EIDAttribute</scope><name>value</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_attribute_1a1415f3d2371dd4486e8ad0d1a166f849" prot="public" virt="non-virtual"><scope>themis::auth::EIDAttribute</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

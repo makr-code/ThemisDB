@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__meeting__support_8h" kind="file" language="C++">
+    <compoundname>voice_meeting_support.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="voice__meeting__support_8cpp" local="yes">src/voice/voice_meeting_support.cpp</includedby>
+    <includedby refid="test__voice__coverage_8cpp" local="yes">tests/voice/test_voice_coverage.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_meeting_support.h</label>
+        <link refid="voice__meeting__support_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/voice/voice_meeting_support.h</label>
+        <link refid="voice__meeting__support_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/voice/voice_meeting_support.cpp</label>
+        <link refid="voice__meeting__support_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/voice/test_voice_coverage.cpp</label>
+        <link refid="test__voice__coverage_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_action_item" prot="public">themis::voice::ActionItem</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_meeting_segment" prot="public">themis::voice::MeetingSegment</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_meeting_protocol" prot="public">themis::voice::MeetingProtocol</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_compliance_record" prot="public">themis::voice::ComplianceRecord</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_meeting_support_config" prot="public">themis::voice::MeetingSupportConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_meeting_support" prot="public">themis::voice::VoiceMeetingSupport</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_realtime_meeting_session" prot="public">themis::voice::RealtimeMeetingSession</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.42 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phone<sp/>call<sp/>&amp;<sp/>meeting<sp/>support<sp/>–<sp/>Phase<sp/>4<sp/>production<sp/>readiness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Action<sp/>item<sp/>with<sp/>assignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1voice_1_1_action_item" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_action_item" kindref="compound">ActionItem</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1voice_1_1_action_item_1a8f198fe332f2c812f97548b59ef2ff14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1voice_1_1_action_item_1a1d0acdeb3d82b1bf4eb52f152709fd8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_action_item_1a1d0acdeb3d82b1bf4eb52f152709fd8b" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1voice_1_1_action_item_1ae5fb39bbde3ab526aef15c740da64959" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_action_item_1ae5fb39bbde3ab526aef15c740da64959" kindref="member">assignee</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extracted<sp/>or<sp/>assigned<sp/>name/email</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1voice_1_1_action_item_1aee31c737a973444de23c8c184fc1c769" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_action_item_1aee31c737a973444de23c8c184fc1c769" kindref="member">due_date</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extracted<sp/>or<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1voice_1_1_action_item_1abec5946b6df195ea688abae368cf38cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_action_item_1abec5946b6df195ea688abae368cf38cb" kindref="member">status</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;pending&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>pending/in_progress/done</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1voice_1_1_action_item_1adac3ac15b1d0314be6f33a94b31acce1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_action_item_1adac3ac15b1d0314be6f33a94b31acce1" kindref="member">confidence</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extraction<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1voice_1_1_action_item_1ae2cc1c700b3253db5bd38cb9f903b196" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_action_item_1ae2cc1c700b3253db5bd38cb9f903b196" kindref="member">source_timestamp_ms</ref><sp/>=<sp/>0;</highlight><highlight class="comment">//<sp/>When<sp/>in<sp/>the<sp/>meeting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1voice_1_1_action_item_1ad038e5666cc172a0a397b30794824709" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_action_item_1ad038e5666cc172a0a397b30794824709" kindref="member">source_speaker</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Who<sp/>assigned<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Meeting<sp/>structure<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40" kindref="member">MeetingSegmentType</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40abe306811f676b47308e928ec97d5f914" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40abe306811f676b47308e928ec97d5f914" kindref="member">AGENDA_ITEM</ref>,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a2a594d706fddf2bce76a40da173c7346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a2a594d706fddf2bce76a40da173c7346" kindref="member">DECISION</ref>,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a474c90c40357ec3b996c1599926f998f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a474c90c40357ec3b996c1599926f998f" kindref="member">ACTION_ITEM</ref>,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40ae42d1dda88b6048ea1e84874058da0eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40ae42d1dda88b6048ea1e84874058da0eb" kindref="member">DISCUSSION</ref>,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a5933ba40c36942af6d85eae2b87d1ac5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a5933ba40c36942af6d85eae2b87d1ac5" kindref="member">INTRODUCTION</ref>,</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40aa71a44c4c886bfc66b1edd511e6a677e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40aa71a44c4c886bfc66b1edd511e6a677e" kindref="member">CLOSING</ref>,</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a03570470bad94692ce93e32700d2e1cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a03570470bad94692ce93e32700d2e1cb" kindref="member">OTHER</ref></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1ab0e64904a1acbb6cb460238506cf75b0" kindref="member">meetingSegmentTypeToString</ref>(<ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40" kindref="member">MeetingSegmentType</ref><sp/>t);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Meeting<sp/>transcript<sp/>segment<sp/>with<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1voice_1_1_meeting_segment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_meeting_segment" kindref="compound">MeetingSegment</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1voice_1_1_meeting_segment_1aa763111d0f30298ef1f16c1c50e7f72d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40" kindref="member">MeetingSegmentType</ref><sp/><ref refid="structthemis_1_1voice_1_1_meeting_segment_1aa763111d0f30298ef1f16c1c50e7f72d" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a03570470bad94692ce93e32700d2e1cb" kindref="member">MeetingSegmentType::OTHER</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1voice_1_1_meeting_segment_1a38d9cf0243c76b0584cfbe2ab15a1027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_meeting_segment_1a38d9cf0243c76b0584cfbe2ab15a1027" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1voice_1_1_meeting_segment_1ac777e16fc8720374dfe0b5e16311f3e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_meeting_segment_1ac777e16fc8720374dfe0b5e16311f3e9" kindref="member">speaker</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1voice_1_1_meeting_segment_1a136f0e51d79076be4d46c3ba349c8e89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_meeting_segment_1a136f0e51d79076be4d46c3ba349c8e89" kindref="member">start_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1voice_1_1_meeting_segment_1a1225504453f77909ceca0994463694ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_meeting_segment_1a1225504453f77909ceca0994463694ea" kindref="member">end_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1voice_1_1_meeting_segment_1abbe44164f9c82e00dcc3f86bf130a716" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_meeting_segment_1abbe44164f9c82e00dcc3f86bf130a716" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1voice_1_1_meeting_segment_1afb35f3c362c341cc1fce87b890a84450" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_meeting_segment_1afb35f3c362c341cc1fce87b890a84450" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structured<sp/>meeting<sp/>protocol</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1voice_1_1_meeting_protocol" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1voice_1_1_meeting_protocol_1aa28319998e4e395ca8d4e5e81e4b8da9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1aa28319998e4e395ca8d4e5e81e4b8da9" kindref="member">meeting_id</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1voice_1_1_meeting_protocol_1a38abdd8db707d7feade0f82d8b018e64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1a38abdd8db707d7feade0f82d8b018e64" kindref="member">title</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1voice_1_1_meeting_protocol_1adf0b7e7d0d6eea6bf495fc25b6b37b72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1adf0b7e7d0d6eea6bf495fc25b6b37b72" kindref="member">start_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1voice_1_1_meeting_protocol_1a3015699e13136af4324163a60619b16d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1a3015699e13136af4324163a60619b16d" kindref="member">end_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1voice_1_1_meeting_protocol_1afc5e463973dc4a72730c5bdd6f4379aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1afc5e463973dc4a72730c5bdd6f4379aa" kindref="member">organizer</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1voice_1_1_meeting_protocol_1a2ade26380b26ef479b13d4dcd21446e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1a2ade26380b26ef479b13d4dcd21446e2" kindref="member">participants</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1voice_1_1_meeting_protocol_1aef3718a0da77fcfd80f4992c02d69249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1aef3718a0da77fcfd80f4992c02d69249" kindref="member">full_transcript</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1voice_1_1_meeting_protocol_1a29b704dcb062b5f0575475f20e155b09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MeetingSegment&gt;<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1a29b704dcb062b5f0575475f20e155b09" kindref="member">segments</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1voice_1_1_meeting_protocol_1ae51f34418367db696a710091c6b2b665" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1ae51f34418367db696a710091c6b2b665" kindref="member">decisions</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1voice_1_1_meeting_protocol_1a19cccfa023cac142479a77379b0befad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1a19cccfa023cac142479a77379b0befad" kindref="member">key_points</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1voice_1_1_meeting_protocol_1ac7dbf486b8968bbb16efc1045d629a1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ActionItem&gt;<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1ac7dbf486b8968bbb16efc1045d629a1c" kindref="member">action_items</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1voice_1_1_meeting_protocol_1ad628df2a63511b6aa5fe2e7730b90271" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1ad628df2a63511b6aa5fe2e7730b90271" kindref="member">speaker_word_counts</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1voice_1_1_meeting_protocol_1a14dd1b9c78e6350a515a5dd7d480e771" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol_1a14dd1b9c78e6350a515a5dd7d480e771" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Call<sp/>recording<sp/>compliance<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1voice_1_1_compliance_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_compliance_record" kindref="compound">ComplianceRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1voice_1_1_compliance_record_1a6e69956eb39c63c6c7f90b2686e12741" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1a6e69956eb39c63c6c7f90b2686e12741" kindref="member">call_id</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1voice_1_1_compliance_record_1ac24539dd4a6ba042892b7d6c705c1348" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1ac24539dd4a6ba042892b7d6c705c1348" kindref="member">recording_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;inbound&quot;,<sp/>&quot;outbound&quot;,<sp/>&quot;conference&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1voice_1_1_compliance_record_1a3d71e601af676a48128fe9cf5db2d0e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1a3d71e601af676a48128fe9cf5db2d0e6" kindref="member">consent_obtained</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1voice_1_1_compliance_record_1a72b44a4ef6bbd2bd87c74c0042d0005a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1a72b44a4ef6bbd2bd87c74c0042d0005a" kindref="member">consent_method</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;verbal&quot;,<sp/>&quot;ivr&quot;,<sp/>&quot;pre_agreed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1voice_1_1_compliance_record_1a16609663ed5332029d9d084d54b6a254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1a16609663ed5332029d9d084d54b6a254" kindref="member">disclosure_given</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;This<sp/>call<sp/>may<sp/>be<sp/>recorded...&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1voice_1_1_compliance_record_1ae9f1584f50c9ec9e20e8d7e59aeb9a8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1ae9f1584f50c9ec9e20e8d7e59aeb9a8d" kindref="member">jurisdiction</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;US&quot;,<sp/>&quot;EU&quot;,<sp/>&quot;UK&quot;,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1voice_1_1_compliance_record_1af5b1a61d08549fa8c2bd7ad5345630b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1af5b1a61d08549fa8c2bd7ad5345630b0" kindref="member">record_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1voice_1_1_compliance_record_1a9b31f9185b567cde5dde1b17ca1178c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1a9b31f9185b567cde5dde1b17ca1178c6" kindref="member">regulatory_flags</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1voice_1_1_compliance_record_1a1a81edea316088a4331f5b5f1011074f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1a1a81edea316088a4331f5b5f1011074f" kindref="member">gdpr_compliant</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1voice_1_1_compliance_record_1a2d79a000869b146aa96e7cead21c5233" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1a2d79a000869b146aa96e7cead21c5233" kindref="member">ccpa_compliant</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1voice_1_1_compliance_record_1acef0f93d79b99b027a89d1700fd5d3a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_compliance_record_1acef0f93d79b99b027a89d1700fd5d3a0" kindref="member">retention_policy</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;90days&quot;,<sp/>&quot;7years&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Meeting<sp/>action<sp/>item<sp/>extractor<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1voice_1_1_meeting_support_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_meeting_support_config" kindref="compound">MeetingSupportConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1voice_1_1_meeting_support_config_1aca80b676ae7cfd3eb6abf521468d4f72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config_1aca80b676ae7cfd3eb6abf521468d4f72" kindref="member">action_item_confidence_threshold</ref><sp/>=<sp/>0.4f;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1voice_1_1_meeting_support_config_1a0ea3f003c4f35325128682ef85b34d51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config_1a0ea3f003c4f35325128682ef85b34d51" kindref="member">decision_confidence_threshold</ref><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1voice_1_1_meeting_support_config_1a275fb28585011cfa634a28cef9b9f478" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config_1a275fb28585011cfa634a28cef9b9f478" kindref="member">auto_assign_action_items</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>try<sp/>to<sp/>extract<sp/>assignee<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1voice_1_1_meeting_support_config_1a28946efeb1df25ffe2608129cae86d02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config_1a28946efeb1df25ffe2608129cae86d02" kindref="member">detect_agenda_structure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1voice_1_1_meeting_support_config_1a5e414cd409cb24a8d778b176cce52eef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config_1a5e414cd409cb24a8d778b176cce52eef" kindref="member">max_action_items</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1voice_1_1_meeting_support_config_1a30bd091a2f9ce302bed2fbf674e88ba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config_1a30bd091a2f9ce302bed2fbf674e88ba2" kindref="member">action_item_triggers</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;will&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;should&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;needs<sp/>to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;must&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;action:&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;todo:&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follow<sp/>up&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;by<sp/>next&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;by<sp/>end<sp/>of&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;assigned<sp/>to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;take<sp/>care<sp/>of&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;responsible<sp/>for&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1voice_1_1_meeting_support_config_1a2a10d008d18929c38e0b8d22c0abfe59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config_1a2a10d008d18929c38e0b8d22c0abfe59" kindref="member">decision_triggers</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;decided&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;agreed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;resolved&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;approved&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rejected&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;we<sp/>will&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;we<sp/>have<sp/>decided&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>decision<sp/>is&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;consensus&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceMeetingSupport:<sp/>Phase<sp/>4<sp/>production<sp/>component</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1voice_1_1_voice_meeting_support" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a8936d3f3df1fdb364b306d6e888b685c" kindref="member">VoiceMeetingSupport</ref><sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a8936d3f3df1fdb364b306d6e888b685c" kindref="member">VoiceMeetingSupport</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config" kindref="compound">MeetingSupportConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1voice_1_1_voice_meeting_support_1aa71b29a8ececeb287d8fae6c0de90bf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1aa71b29a8ececeb287d8fae6c0de90bf5" kindref="member">~VoiceMeetingSupport</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Meeting<sp/>protocol<sp/>generation<sp/>from<sp/>transcript</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a899e705f4c8e5c8e031041edfe11a07b" kindref="member">analyzeTranscript</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transcript,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>meeting_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>known_participants<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Segment<sp/>classification<sp/>(classify<sp/>a<sp/>text<sp/>segment<sp/>by<sp/>type)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40" kindref="member">MeetingSegmentType</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a62c8c5da22e31fd2449b3ad12fd54e34" kindref="member">classifySegment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Action<sp/>item<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ActionItem&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a12dd266ce306cb6aa0b365066def9527" kindref="member">extractActionItems</ref>(</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transcript,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>known_participants<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Decision<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a12dac80b207bcf36a433e5e6ef334ee3" kindref="member">extractDecisions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transcript)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>points<sp/>extraction<sp/>(simple<sp/>heuristic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1af8df9136b83f8fbf6b0067a9de6c5c55" kindref="member">extractKeyPoints</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transcript)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Speaker<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a9a7e238094c6153e1122dbabd937532c" kindref="member">computeSpeakerWordCounts</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MeetingSegment&gt;&amp;<sp/>segments</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>recording<sp/>compliance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ComplianceRecord<sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1acc492a521d3dc767d1d4c754a46d4f57" kindref="member">createComplianceRecord</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>call_id,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>call_type,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>jurisdiction<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;US&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>consent_obtained<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>consent_method<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;verbal&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a4ca9d1442ce7ae2cc8ab38bb8c9fa459" kindref="member">isCompliantForJurisdiction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ComplianceRecord&amp;<sp/>record,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>jurisdiction)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>extract<sp/>assignee<sp/>from<sp/>action<sp/>item<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1abe78255678b68838688bd27c0a515332" kindref="member">extractAssignee</ref>(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>known_participants</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a6c49c5a0c2126b56e0cbac88f9526d74" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>MeetingSupportConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>meetings_analyzed_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>action_items_extracted_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>decisions_extracted_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>tokenizeSentences(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>containsTrigger(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>triggers)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateActionItemId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>toLower(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1voice_1_1_voice_meeting_support_1a37f0b072735e4680b99b55501a0c91c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_meeting_support_1a37f0b072735e4680b99b55501a0c91c6" kindref="member">RealtimeMeetingSession</ref>;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callback<sp/>invoked<sp/>for<sp/>each<sp/>new<sp/>action<sp/>item<sp/>extracted<sp/>during<sp/>a<sp/>real-time<sp/>session.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="namespacethemis_1_1voice_1a0dd039d4acc711338b91837d73e6f05e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0dd039d4acc711338b91837d73e6f05e" kindref="member">ActionItemCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_action_item" kindref="compound">ActionItem</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1voice_1_1_realtime_meeting_session" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref><sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref>(</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>meeting_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>participants<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config" kindref="compound">MeetingSupportConfig</ref>&amp;<sp/>config<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0dd039d4acc711338b91837d73e6f05e" kindref="member">ActionItemCallback</ref><sp/>on_action_item<sp/>=<sp/>nullptr</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d2239f0cc1021edff7e01b53739f6ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d2239f0cc1021edff7e01b53739f6ba" kindref="member">~RealtimeMeetingSession</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a3e130db2d8ec4e0fcd41f15a2f52dcbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a3e130db2d8ec4e0fcd41f15a2f52dcbc" kindref="member">RealtimeMeetingSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a845832668e02b3ac831d1fef13f2bbf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a845832668e02b3ac831d1fef13f2bbf2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1voice_1_1_realtime_meeting_session_1af92ad89465389e5574c9ae4c8079fe89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1af92ad89465389e5574c9ae4c8079fe89" kindref="member">RealtimeMeetingSession</ref>(<ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="213" refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a585a8ffd5a13e0cf010b0b6fc46d7893" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a473b1a4fde0186d1bdcafffd439d91de" kindref="member">addSegment</ref>(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>speaker<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_ms<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>end_ms<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1ad6db5611b7c9018a90ce4e0a1e4c9cd8" kindref="member">getCurrentProtocol</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ea18b771e0977ba855a85d2f8728726" kindref="member">finalize</ref>();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d74ea56de112ff2724bbdf81eed6be1" kindref="member">isFinalized</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ecda66175efb91640d156a0919f1f0f" kindref="member">segmentCount</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_meeting_support_config" kindref="compound">MeetingSupportConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref><sp/>protocol_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>finalized_<sp/>=<sp/>false;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reuse<sp/>VoiceMeetingSupport<sp/>helpers<sp/>via<sp/>composition.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_meeting_support" kindref="compound">VoiceMeetingSupport</ref><sp/>support_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0dd039d4acc711338b91837d73e6f05e" kindref="member">ActionItemCallback</ref><sp/>on_action_item_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_meeting_support.h"/>
+  </compounddef>
+</doxygen>

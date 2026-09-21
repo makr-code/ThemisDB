@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_link_consistency_determinism_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LinkConsistencyDeterminismSpec</compoundname>
+    <includes refid="process__determinism__spec_8h" local="no">process_determinism_spec.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_link_consistency_determinism_spec_1a1cde606f7b11d1ed6b01812d362e5ea1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref></type>
+        <definition>DeterminismClass themis::process::LinkConsistencyDeterminismSpec::determinism</definition>
+        <argsstring></argsstring>
+        <name>determinism</name>
+        <qualifiedname>themis::process::LinkConsistencyDeterminismSpec::determinism</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" kindref="member">DeterminismClass::SNAPSHOT_DETERMINISTIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="250" column="39" bodyfile="include/process/process_determinism_spec.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_link_consistency_determinism_spec_1aeec16dc22bd33a0088e84f6217adf56c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref></type>
+        <definition>ConflictScope themis::process::LinkConsistencyDeterminismSpec::conflict_scope</definition>
+        <argsstring></argsstring>
+        <name>conflict_scope</name>
+        <qualifiedname>themis::process::LinkConsistencyDeterminismSpec::conflict_scope</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictScope::NO_CONFLICTS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="251" column="36" bodyfile="include/process/process_determinism_spec.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_link_consistency_determinism_spec_1a8871727a3a0673ebf5245ac0e7f3cb5a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::LinkConsistencyDeterminismSpec::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::LinkConsistencyDeterminismSpec::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="253" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="253" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guarantees for link consistency under model deletion and churn. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Determinism:</bold> SNAPSHOT_DETERMINISTIC <linebreak/>
+ <bold>Staleness Detection:</bold> Read-time validation for broken references <linebreak/>
+ <bold>No Cascading Deletes:</bold> Manual cleanup required</para>
+<para>When a model is deleted:<itemizedlist>
+<listitem><para>Existing links to that model become stale (not corrupted)</para>
+</listitem><listitem><para>Stale links are detected when read and reported via RETRIEVAL_INCIDENT</para>
+</listitem><listitem><para>Operator must manually repair or delete stale links</para>
+</listitem><listitem><para>No automatic cascading delete (prevents accidental data loss)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="invariant"><para>Links persists even if target model is deleted </para>
+</simplesect>
+<simplesect kind="invariant"><para>Stale links are detectable at read-time </para>
+</simplesect>
+<simplesect kind="invariant"><para>No silent data loss or corruption </para>
+</simplesect>
+<simplesect kind="invariant"><para>Manual repair required; no automatic rollback </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_determinism_spec.h" line="249" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="249" bodyend="258"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1aeec16dc22bd33a0088e84f6217adf56c" prot="public" virt="non-virtual"><scope>themis::process::LinkConsistencyDeterminismSpec</scope><name>conflict_scope</name></member>
+      <member refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1a8871727a3a0673ebf5245ac0e7f3cb5a" prot="public" virt="non-virtual"><scope>themis::process::LinkConsistencyDeterminismSpec</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1a1cde606f7b11d1ed6b01812d362e5ea1" prot="public" virt="non-virtual"><scope>themis::process::LinkConsistencyDeterminismSpec</scope><name>determinism</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

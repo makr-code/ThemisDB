@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_synopsis_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::SynopsisStore</compoundname>
+    <includes refid="synopsis__store_8h" local="no">synopsis_store.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_synopsis_store_1a398f4bf466390da6efd05a93923588ef" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::SynopsisStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::query::SynopsisStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="55" column="35" bodyfile="include/query/synopsis_store.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_synopsis_store_1ad28077bfb6ba1d0e74354308937e4f73" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1query_1_1_synopsis_tuple" kindref="compound">SynopsisTuple</ref> &gt;</type>
+        <definition>std::deque&lt;SynopsisTuple&gt; themis::query::SynopsisStore::tuples_</definition>
+        <argsstring></argsstring>
+        <name>tuples_</name>
+        <qualifiedname>themis::query::SynopsisStore::tuples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="56" column="20" bodyfile="include/query/synopsis_store.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_synopsis_store_1af43c23d364edd3f801bb9054d0680004" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::SynopsisStore::total_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_</name>
+        <qualifiedname>themis::query::SynopsisStore::total_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="57" column="35" bodyfile="include/query/synopsis_store.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_synopsis_store_1a884388e9a0ac6eb25ccea115db1ab731" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::SynopsisStore::max_tuples_</definition>
+        <argsstring></argsstring>
+        <name>max_tuples_</name>
+        <qualifiedname>themis::query::SynopsisStore::max_tuples_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="58" column="35" bodyfile="include/query/synopsis_store.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_synopsis_store_1aca4c95ab36f12ac00de40308038a5f62" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::SynopsisStore::max_bytes_</definition>
+        <argsstring></argsstring>
+        <name>max_bytes_</name>
+        <qualifiedname>themis::query::SynopsisStore::max_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="59" column="35" bodyfile="include/query/synopsis_store.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_synopsis_store_1af54602b2a62f8810dd4528f6b5a8efc3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SynopsisStore::SynopsisStore</definition>
+        <argsstring>(size_t max_tuples=10 &apos;000 &apos;000, size_t max_bytes=1ULL&lt;&lt; 30)</argsstring>
+        <name>SynopsisStore</name>
+        <qualifiedname>themis::query::SynopsisStore::SynopsisStore</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_tuples</declname>
+          <defval>10 &apos;000 &apos;000</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_bytes</declname>
+          <defval>1ULL&lt;&lt; 30</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="31" column="14" bodyfile="src/query/synopsis_store.cpp" bodystart="19" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_synopsis_store_1ab58eee35a913f8ba258557178a364a50" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::SynopsisStore::insert</definition>
+        <argsstring>(SynopsisTuple tuple)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::query::SynopsisStore::insert</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_synopsis_tuple" kindref="compound">SynopsisTuple</ref></type>
+          <declname>tuple</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tuple</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1query_1_1_synopsis_store_1af5ebaecc8ded1f869872a2d541240355" kindref="member">size()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="34" column="11" bodyfile="src/query/synopsis_store.cpp" bodystart="28" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_synopsis_store_1a4bbb69d93666dc1451d0ee4533e6dd5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::deque&lt; <ref refid="structthemis_1_1query_1_1_synopsis_tuple" kindref="compound">SynopsisTuple</ref> &gt;</type>
+        <definition>std::deque&lt; SynopsisTuple &gt; themis::query::SynopsisStore::expire</definition>
+        <argsstring>(int64_t window_start_us)</argsstring>
+        <name>expire</name>
+        <qualifiedname>themis::query::SynopsisStore::expire</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>window_start_us</declname>
+        </param>
+        <briefdescription>
+<para>Expire. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window_start_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window_start_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), front(), <ref refid="classthemis_1_1query_1_1_synopsis_store_1af5ebaecc8ded1f869872a2d541240355" kindref="member">size()</ref>, push_back(), std::move(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="41" column="16" bodyfile="src/query/synopsis_store.cpp" bodystart="48" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_synopsis_store_1a3e6c7ae1272c279a8ae6847ca17338f6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::deque&lt; <ref refid="structthemis_1_1query_1_1_synopsis_tuple" kindref="compound">SynopsisTuple</ref> &gt;</type>
+        <definition>std::deque&lt; SynopsisTuple &gt; themis::query::SynopsisStore::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::query::SynopsisStore::snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="43" column="17" bodyfile="src/query/synopsis_store.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_synopsis_store_1af5ebaecc8ded1f869872a2d541240355" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::SynopsisStore::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::query::SynopsisStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="45" column="13" bodyfile="src/query/synopsis_store.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_synopsis_store_1acaf1305946fe0a7f16e7ec67bc1e7f1b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::SynopsisStore::bytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bytes</name>
+        <qualifiedname>themis::query::SynopsisStore::bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="47" column="13" bodyfile="src/query/synopsis_store.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_synopsis_store_1a40baa78942ecd51daf63ee4ee1c6a022" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SynopsisStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::SynopsisStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="52" column="10" bodyfile="src/query/synopsis_store.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/synopsis_store.h" line="29" column="1" bodyfile="include/query/synopsis_store.h" bodystart="29" bodyend="60"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1acaf1305946fe0a7f16e7ec67bc1e7f1b" prot="public" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>bytes</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1a40baa78942ecd51daf63ee4ee1c6a022" prot="public" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1a4bbb69d93666dc1451d0ee4533e6dd5a" prot="public" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>expire</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1ab58eee35a913f8ba258557178a364a50" prot="public" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>insert</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1aca4c95ab36f12ac00de40308038a5f62" prot="private" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>max_bytes_</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1a884388e9a0ac6eb25ccea115db1ab731" prot="private" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>max_tuples_</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1a398f4bf466390da6efd05a93923588ef" prot="private" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1af5ebaecc8ded1f869872a2d541240355" prot="public" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>size</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1a3e6c7ae1272c279a8ae6847ca17338f6" prot="public" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1af54602b2a62f8810dd4528f6b5a8efc3" prot="public" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>SynopsisStore</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1af43c23d364edd3f801bb9054d0680004" prot="private" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>total_bytes_</name></member>
+      <member refid="classthemis_1_1query_1_1_synopsis_store_1ad28077bfb6ba1d0e74354308937e4f73" prot="private" virt="non-virtual"><scope>themis::query::SynopsisStore</scope><name>tuples_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

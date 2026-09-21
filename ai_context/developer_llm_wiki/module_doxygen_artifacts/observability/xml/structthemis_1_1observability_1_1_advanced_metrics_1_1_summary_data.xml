@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_advanced_metrics_1_1_summary_data" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::AdvancedMetrics::SummaryData</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_advanced_metrics_1_1_summary_data_1a3adb7d628da38e1316ec5ee9354334ac" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::observability::AdvancedMetrics::SummaryData::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::SummaryData::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="254" column="20" bodyfile="include/observability/advanced_metrics.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_advanced_metrics_1_1_summary_data_1ae514a6115f223b848848e80e8d2b0e94" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::AdvancedMetrics::SummaryData::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::SummaryData::sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="255" column="16" bodyfile="include/observability/advanced_metrics.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/advanced_metrics.h" line="253" column="5" bodyfile="include/observability/advanced_metrics.h" bodystart="253" bodyend="256"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_summary_data_1ae514a6115f223b848848e80e8d2b0e94" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics::SummaryData</scope><name>sum</name></member>
+      <member refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_summary_data_1a3adb7d628da38e1316ec5ee9354334ac" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics::SummaryData</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

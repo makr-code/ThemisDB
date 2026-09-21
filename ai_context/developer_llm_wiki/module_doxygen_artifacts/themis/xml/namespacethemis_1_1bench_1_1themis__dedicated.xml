@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1themis__dedicated" kind="namespace" language="C++">
+    <compoundname>themis::bench::themis_dedicated</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1themis__dedicated_1ad9f5bde63a11564b146e4ca612d5f661" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::themis_dedicated::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::themis_dedicated::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="48" column="27" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1themis__dedicated_1a154c71036b39a26271821c029021d116" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::themis_dedicated::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::themis_dedicated::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="49" column="27" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1a74be717b9204ef0bb1ba5b57658e8a1b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>static uint8_t themis::bench::themis_dedicated::stubVerifyModule</definition>
+        <argsstring>(const std::string &amp;name) noexcept</argsstring>
+        <name>stubVerifyModule</name>
+        <qualifiedname>themis::bench::themis_dedicated::stubVerifyModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="53" column="16" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1adf52c0d4002b5bc76259d894415d55af" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::themis_dedicated::stubWireRequest</definition>
+        <argsstring>(uint64_t session_id) noexcept</argsstring>
+        <name>stubWireRequest</name>
+        <qualifiedname>themis::bench::themis_dedicated::stubWireRequest</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="57" column="13" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1a64cfec7bad46e7d1a6223c5244aa7f6e" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::themis_dedicated::stubDependencyResolve</definition>
+        <argsstring>(const std::string &amp;dep) noexcept</argsstring>
+        <name>stubDependencyResolve</name>
+        <qualifiedname>themis::bench::themis_dedicated::stubDependencyResolve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="62" column="13" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1ab700e8abc7d60d909737640046240f60" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::themis_dedicated::BM_Themis_ModuleVerify</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Themis_ModuleVerify</name>
+        <qualifiedname>themis::bench::themis_dedicated::BM_Themis_ModuleVerify</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="70" column="13" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1a0b99cc042cebc9114fee1fb68f313930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::themis_dedicated::Name</definition>
+        <argsstring>(&quot;TH-BM-01/ModuleVerify&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::themis_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TH-BM-01/ModuleVerify&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="79" column="5" declfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" declline="79" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1a8cdbdfd1d545699e7c1179a47eec0a51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::themis_dedicated::BM_Themis_WireSessionRequest</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Themis_WireSessionRequest</name>
+        <qualifiedname>themis::bench::themis_dedicated::BM_Themis_WireSessionRequest</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="86" column="13" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="86" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1aa0270d638ead2e87b91b617253647ef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::themis_dedicated::Name</definition>
+        <argsstring>(&quot;TH-BM-02/WireSessionRequest&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::themis_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TH-BM-02/WireSessionRequest&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="95" column="5" declfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" declline="95" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1a99e8a3594ed8944b0315bc81a491be68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::themis_dedicated::BM_Themis_DependencyResolve</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Themis_DependencyResolve</name>
+        <qualifiedname>themis::bench::themis_dedicated::BM_Themis_DependencyResolve</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="102" column="13" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="102" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1afc60ba312252a01ab8b236b9411012f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::themis_dedicated::Name</definition>
+        <argsstring>(&quot;TH-BM-03/DependencyResolve&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::themis_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TH-BM-03/DependencyResolve&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="111" column="5" declfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" declline="111" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1a0cf499ba720c0323903444f28b505c05" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::themis_dedicated::BM_Themis_BatchModuleVerify</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Themis_BatchModuleVerify</name>
+        <qualifiedname>themis::bench::themis_dedicated::BM_Themis_BatchModuleVerify</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="118" column="13" bodyfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" bodystart="118" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1themis__dedicated_1af1ac422563628644c76ae9158f76c88d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::themis_dedicated::Name</definition>
+        <argsstring>(&quot;TH-BM-04/BatchModuleVerify1000&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::themis_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TH-BM-04/BatchModuleVerify1000&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="131" column="5" declfile="benchmarks/themis/bench_themis_dedicated_gates.cpp" declline="131" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/themis/bench_themis_dedicated_gates.cpp" line="46" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_m_l_serving_request" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::MLServingRequest</compoundname>
+    <includes refid="ml__serving_8h" local="no">ml_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a3031da876101607383bbad78ee5cefbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::MLServingRequest::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themisdb::analytics::MLServingRequest::model_name</qualifiedname>
+        <briefdescription>
+<para>Model identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="96" column="30" bodyfile="include/analytics/ml_serving.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a2ba3a122ba299cdf0c84e72ce8704db8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::MLServingRequest::model_version</definition>
+        <argsstring></argsstring>
+        <name>model_version</name>
+        <qualifiedname>themisdb::analytics::MLServingRequest::model_version</qualifiedname>
+        <briefdescription>
+<para>Version tag (&quot;&quot; = latest). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="97" column="30" bodyfile="include/analytics/ml_serving.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_request_1aa5fe778a065831504383c7333a14ae7a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_m_l_tensor" kindref="compound">MLTensor</ref> &gt;</type>
+        <definition>std::vector&lt;MLTensor&gt; themisdb::analytics::MLServingRequest::inputs</definition>
+        <argsstring></argsstring>
+        <name>inputs</name>
+        <qualifiedname>themisdb::analytics::MLServingRequest::inputs</qualifiedname>
+        <briefdescription>
+<para>Named input tensors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="98" column="20" bodyfile="include/analytics/ml_serving.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/ml_serving.h" line="95" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="95" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1aa5fe778a065831504383c7333a14ae7a" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingRequest</scope><name>inputs</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a3031da876101607383bbad78ee5cefbb" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingRequest</scope><name>model_name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a2ba3a122ba299cdf0c84e72ce8704db8" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingRequest</scope><name>model_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

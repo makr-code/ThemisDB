@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="context__quality__metrics_8h" kind="file" language="C++">
+    <compoundname>context_quality_metrics.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="test__ssm__plugin__interface_8cpp" local="yes">tests/llm/test_ssm_plugin_interface.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/context_quality_metrics.h</label>
+        <link refid="context__quality__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/context_quality_metrics.h</label>
+        <link refid="context__quality__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/llm/test_ssm_plugin_interface.cpp</label>
+        <link refid="test__ssm__plugin__interface_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_context_quality_metrics" prot="public">themis::llm::ContextQualityMetrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>ContextQualityBudget extension with state-quality metrics (Phase 1 PoC). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0-alpha </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: EXPERIMENTAL </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 1 PoC </para>
+</simplesect>
+<simplesect kind="note"><para><bold>Metrics/Configuration Header</bold>: Defines metrics structures for context quality. No .cpp implementation needed. Used by consumers for state tracking. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_context_quality_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_context_quality_metrics" kindref="compound">ContextQualityMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_context_quality_metrics_1ac7ca2e4889b5521f649b6052298d35f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1ac7ca2e4889b5521f649b6052298d35f3" kindref="member">total_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_context_quality_metrics_1a2aaea0eb50f19cac6549b0008c9f2e19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1a2aaea0eb50f19cac6549b0008c9f2e19" kindref="member">l1_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_context_quality_metrics_1a2bc86106f87e4893ecd4be7a99f84b4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1a2bc86106f87e4893ecd4be7a99f84b4e" kindref="member">l2_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_context_quality_metrics_1ae9901ce09d7fdc54c5d90e2620f9809e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1ae9901ce09d7fdc54c5d90e2620f9809e" kindref="member">l3_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_context_quality_metrics_1ababfb4a03058bd7566aa13e8c4d3c50b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1ababfb4a03058bd7566aa13e8c4d3c50b" kindref="member">state_retention_score</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_context_quality_metrics_1acb7136f17d73f6df2a2732fff686dd6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1acb7136f17d73f6df2a2732fff686dd6b" kindref="member">factual_drift_estimate</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_context_quality_metrics_1a47282da2dbbbb536705069e59719a1d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1a47282da2dbbbb536705069e59719a1d1" kindref="member">tokens_since_last_retrieval</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_context_quality_metrics_1a1482329e33fa3efc92520861b07438a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1a1482329e33fa3efc92520861b07438a7" kindref="member">drift_threshold</ref><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1_context_quality_metrics_1aa9fc6681fd531ba98813569122daaff2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1aa9fc6681fd531ba98813569122daaff2" kindref="member">shouldRefreshRAG</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(1.0<sp/>-<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1acb7136f17d73f6df2a2732fff686dd6b" kindref="member">factual_drift_estimate</ref>)<sp/>&gt;<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1a1482329e33fa3efc92520861b07438a7" kindref="member">drift_threshold</ref><sp/>||</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1ababfb4a03058bd7566aa13e8c4d3c50b" kindref="member">state_retention_score</ref><sp/>&lt;<sp/>0.5;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_context_quality_metrics_1a99f4566cfc04ab316695760629a03eb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1a99f4566cfc04ab316695760629a03eb1" kindref="member">isTransformerQuality</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(1.0<sp/>-<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1acb7136f17d73f6df2a2732fff686dd6b" kindref="member">factual_drift_estimate</ref>)<sp/>&lt;<sp/>0.1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1ababfb4a03058bd7566aa13e8c4d3c50b" kindref="member">state_retention_score</ref><sp/>&gt;<sp/>0.7;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_context_quality_metrics_1a8ae6af70b9d6c19bb6379591bb00d62a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1a8ae6af70b9d6c19bb6379591bb00d62a" kindref="member">isInfiniQuality</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(1.0<sp/>-<sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1acb7136f17d73f6df2a2732fff686dd6b" kindref="member">factual_drift_estimate</ref>)<sp/>&lt;<sp/>0.2<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1ababfb4a03058bd7566aa13e8c4d3c50b" kindref="member">state_retention_score</ref><sp/>&gt;<sp/>0.5;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_context_quality_metrics_1aad946a2526f266b261f050a56819d10d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1aad946a2526f266b261f050a56819d10d" kindref="member">isSSMQuality</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SSM<sp/>can<sp/>operate<sp/>with<sp/>lower<sp/>retention<sp/>scores</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_context_quality_metrics_1ababfb4a03058bd7566aa13e8c4d3c50b" kindref="member">state_retention_score</ref><sp/>&gt;<sp/>0.3;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/context_quality_metrics.h"/>
+  </compounddef>
+</doxygen>

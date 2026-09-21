@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_meta_prompt_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MetaPromptResult</compoundname>
+    <includes refid="meta__prompt__generator_8h" local="no">meta_prompt_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_meta_prompt_result_1a2e7d99482c1dc54332d5ad91fc92c260" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MetaPromptResult::meta_prompt</definition>
+        <argsstring></argsstring>
+        <name>meta_prompt</name>
+        <qualifiedname>themis::llm::MetaPromptResult::meta_prompt</qualifiedname>
+        <briefdescription>
+<para>Generated meta-prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/meta_prompt_generator.h" line="28" column="17" bodyfile="include/llm/meta_prompt_generator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_meta_prompt_result_1aa638a45dd598174e931eaf42a007cafe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MetaPromptResult::improvement_suggestion</definition>
+        <argsstring></argsstring>
+        <name>improvement_suggestion</name>
+        <qualifiedname>themis::llm::MetaPromptResult::improvement_suggestion</qualifiedname>
+        <briefdescription>
+<para>Specific improvement suggestions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/meta_prompt_generator.h" line="29" column="17" bodyfile="include/llm/meta_prompt_generator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_meta_prompt_result_1af9996f3c8c298e39cbd3d3bd247d5f4e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::MetaPromptResult::key_insights</definition>
+        <argsstring></argsstring>
+        <name>key_insights</name>
+        <qualifiedname>themis::llm::MetaPromptResult::key_insights</qualifiedname>
+        <briefdescription>
+<para>Key insights for improvement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/meta_prompt_generator.h" line="30" column="17" bodyfile="include/llm/meta_prompt_generator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_meta_prompt_result_1ae0d5d01fca8cf76e2617990cc6e52a4c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::MetaPromptResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::MetaPromptResult::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/meta_prompt_generator.h" line="31" column="20" bodyfile="include/llm/meta_prompt_generator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/meta_prompt_generator.h" line="27" column="1" bodyfile="include/llm/meta_prompt_generator.h" bodystart="27" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_meta_prompt_result_1aa638a45dd598174e931eaf42a007cafe" prot="public" virt="non-virtual"><scope>themis::llm::MetaPromptResult</scope><name>improvement_suggestion</name></member>
+      <member refid="structthemis_1_1llm_1_1_meta_prompt_result_1af9996f3c8c298e39cbd3d3bd247d5f4e" prot="public" virt="non-virtual"><scope>themis::llm::MetaPromptResult</scope><name>key_insights</name></member>
+      <member refid="structthemis_1_1llm_1_1_meta_prompt_result_1a2e7d99482c1dc54332d5ad91fc92c260" prot="public" virt="non-virtual"><scope>themis::llm::MetaPromptResult</scope><name>meta_prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_meta_prompt_result_1ae0d5d01fca8cf76e2617990cc6e52a4c" prot="public" virt="non-virtual"><scope>themis::llm::MetaPromptResult</scope><name>metadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

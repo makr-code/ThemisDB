@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::user_storage_encrypted::test::StressTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1aec411594218ca17ef610651bb6204826" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::user_storage_encrypted::test::StressTest::kTestDataDir</definition>
+        <argsstring></argsstring>
+        <name>kTestDataDir</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::kTestDataDir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_stress_test_data&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="52" column="33" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a2150ac8dfb4cb739c4fcc3ded0fbe9f0" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::user_storage_encrypted::test::StressTest::kTestMntDir</definition>
+        <argsstring></argsstring>
+        <name>kTestMntDir</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::kTestMntDir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_stress_test_mnt&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="53" column="33" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a57eb1e851fce9db588c56df858a9bbca" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::user_storage_encrypted::test::StressTest::operation_count</definition>
+        <argsstring></argsstring>
+        <name>operation_count</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::operation_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="55" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1aad696264e51ce282d126409882f52def" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::user_storage_encrypted::test::StressTest::stop_operations</definition>
+        <argsstring></argsstring>
+        <name>stop_operations</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::stop_operations</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="56" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1ad72a9f7cd7e4070308d8cc229de66e6f" prot="protected" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::user_storage_encrypted::test::StressTest::error_mutex</definition>
+        <argsstring></argsstring>
+        <name>error_mutex</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::error_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="57" column="16" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a368ddff3749259311855515029e4360c" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::user_storage_encrypted::test::StressTest::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="58" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1ab3c02be71f7c8b5963f5799fdc2c9ea0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::user_storage_encrypted::test::StressTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="60" column="10" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a37d51c6fb1e234859fe4124a4ab6f19c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::user_storage_encrypted::test::StressTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="68" column="10" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a11ff0f1ec6192ccd3812aaee9423c011" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::user_storage_encrypted::test::StressTest::MakeTempContainer</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>MakeTempContainer</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::MakeTempContainer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="77" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a645e716995143c189673d3effed084ee" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::user_storage_encrypted::test::StressTest::MakeTempMountPoint</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>MakeTempMountPoint</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::MakeTempMountPoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="83" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a31849a2c6057b8fb03f7efa348a033ea" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::user_storage_encrypted::test::StressTest::RecordError</definition>
+        <argsstring>(const std::string &amp;error)</argsstring>
+        <name>RecordError</name>
+        <qualifiedname>themis::user_storage_encrypted::test::StressTest::RecordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="89" column="10" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::user_storage_encrypted::test::StressTest</label>
+        <link refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::user_storage_encrypted::test::StressTest</label>
+        <link refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="50" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="50" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1ad72a9f7cd7e4070308d8cc229de66e6f" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>error_mutex</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a368ddff3749259311855515029e4360c" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>errors</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1aec411594218ca17ef610651bb6204826" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>kTestDataDir</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a2150ac8dfb4cb739c4fcc3ded0fbe9f0" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>kTestMntDir</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a11ff0f1ec6192ccd3812aaee9423c011" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>MakeTempContainer</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a645e716995143c189673d3effed084ee" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>MakeTempMountPoint</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a57eb1e851fce9db588c56df858a9bbca" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>operation_count</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a31849a2c6057b8fb03f7efa348a033ea" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>RecordError</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1ab3c02be71f7c8b5963f5799fdc2c9ea0" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1aad696264e51ce282d126409882f52def" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>stop_operations</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a37d51c6fb1e234859fe4124a4ab6f19c" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::StressTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_route_table" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::RouteTable</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_route_table_1aa531b3a747e3c5e9cf4dc34c557b73ff" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::test::wave_d::RouteTable::table_</definition>
+        <argsstring></argsstring>
+        <name>table_</name>
+        <qualifiedname>themis::test::wave_d::RouteTable::table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="61" column="24" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_route_table_1ac829a8c9a4be74fa39c88f47dfcdef58" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::RouteTable::hits_</definition>
+        <argsstring></argsstring>
+        <name>hits_</name>
+        <qualifiedname>themis::test::wave_d::RouteTable::hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="62" column="25" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_route_table_1a04de1b597017e43ef5eed14ba168c08e" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::RouteTable::misses_</definition>
+        <argsstring></argsstring>
+        <name>misses_</name>
+        <qualifiedname>themis::test::wave_d::RouteTable::misses_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="63" column="25" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_route_table_1adf0d6a17e8423f499d0e5f2f752e8a07" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::RouteTable::RouteTable</definition>
+        <argsstring>(int n)</argsstring>
+        <name>RouteTable</name>
+        <qualifiedname>themis::test::wave_d::RouteTable::RouteTable</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="44" column="14" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_route_table_1a8a33629175fe4e78b9ac0b3a0df46d89" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::RouteTable::lookup</definition>
+        <argsstring>(const std::string &amp;route) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::test::wave_d::RouteTable::lookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>route</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="50" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_route_table_1a2c648bacf7025b0c34194fc1ede5b6f9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::RouteTable::hits</definition>
+        <argsstring>() const</argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::test::wave_d::RouteTable::hits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="57" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_route_table_1a513d7af633fa72f7bce5e141c701b5a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::RouteTable::misses</definition>
+        <argsstring>() const</argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::test::wave_d::RouteTable::misses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="58" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_highcardinality_stress.cpp" line="43" column="1" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="43" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_route_table_1a2c648bacf7025b0c34194fc1ede5b6f9" prot="public" virt="non-virtual"><scope>themis::test::wave_d::RouteTable</scope><name>hits</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_route_table_1ac829a8c9a4be74fa39c88f47dfcdef58" prot="private" virt="non-virtual"><scope>themis::test::wave_d::RouteTable</scope><name>hits_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_route_table_1a8a33629175fe4e78b9ac0b3a0df46d89" prot="public" virt="non-virtual"><scope>themis::test::wave_d::RouteTable</scope><name>lookup</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_route_table_1a513d7af633fa72f7bce5e141c701b5a7" prot="public" virt="non-virtual"><scope>themis::test::wave_d::RouteTable</scope><name>misses</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_route_table_1a04de1b597017e43ef5eed14ba168c08e" prot="private" virt="non-virtual"><scope>themis::test::wave_d::RouteTable</scope><name>misses_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_route_table_1adf0d6a17e8423f499d0e5f2f752e8a07" prot="public" virt="non-virtual"><scope>themis::test::wave_d::RouteTable</scope><name>RouteTable</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_route_table_1aa531b3a747e3c5e9cf4dc34c557b73ff" prot="private" virt="non-virtual"><scope>themis::test::wave_d::RouteTable</scope><name>table_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

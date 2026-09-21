@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacewave1__todo" kind="namespace" language="C++">
+    <compoundname>wave1_todo</compoundname>
+    <innerclass refid="structwave1__todo_1_1_annotation_audit_result" prot="public">wave1_todo::AnnotationAuditResult</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacewave1__todo_1abf4ddfc61aa72efb2b916e2bc3143191" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; <ref refid="structwave1__todo_1_1_annotation_audit_result" kindref="compound">AnnotationAuditResult</ref> &gt;</type>
+        <definition>const std::vector&lt;AnnotationAuditResult&gt; wave1_todo::kCriticalPathAudit</definition>
+        <argsstring></argsstring>
+        <name>kCriticalPathAudit</name>
+        <qualifiedname>wave1_todo::kCriticalPathAudit</qualifiedname>
+        <initializer>                                            = {
+    
+    {&quot;cross_shard_transaction: beginTransaction&quot;,   false, false, true},
+    {&quot;cross_shard_transaction: commit&quot;,             false, false, true},
+    {&quot;cross_shard_transaction: rollback&quot;,           false, false, true},
+    
+    {&quot;paxos_consensus: prepare&quot;,                    false, false, true},
+    {&quot;paxos_consensus: accept&quot;,                     false, false, true},
+    {&quot;paxos_consensus: learn&quot;,                      false, false, true},
+    
+    {&quot;shard_router: routeRequest&quot;,                  false, false, true},
+    {&quot;shard_router: selectShard&quot;,                   false, false, true},
+    
+    {&quot;replication_coordinator: write&quot;,              false, false, true},
+    {&quot;replication_coordinator: onAckReceived&quot;,      false, false, true},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Audit results for the CRITICAL production paths enumerated in MODULE_GAPS.md. These are code-review-driven assertions confirmed at Wave 1 closure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="628" column="26" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="628" bodyend="643"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="612" column="1"/>
+  </compounddef>
+</doxygen>

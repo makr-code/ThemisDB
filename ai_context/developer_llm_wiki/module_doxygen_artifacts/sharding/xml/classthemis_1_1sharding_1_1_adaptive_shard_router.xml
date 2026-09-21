@@ -1,0 +1,1510 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_adaptive_shard_router" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::AdaptiveShardRouter</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_shard_router" prot="public" virt="non-virtual">themis::sharding::ShardRouter</basecompoundref>
+    <includes refid="adaptive__shard__router_8h" local="no">adaptive_shard_router.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config" prot="public">themis::sharding::AdaptiveShardRouter::AdaptiveConfig</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_iteration_stats" prot="public">themis::sharding::AdaptiveShardRouter::IterationStats</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats" prot="public">themis::sharding::AdaptiveShardRouter::AdaptiveStats</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_shard_l_l_m_load" prot="private">themis::sharding::AdaptiveShardRouter::ShardLLMLoad</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a028db08306664fb2e77c2198abc95c19" prot="public" static="no">
+        <type>std::function&lt; void( const std::string &amp;query, <ref refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context" kindref="compound">CapabilityMatcher::QueryContext</ref> &amp;context)&gt;</type>
+        <definition>using themis::sharding::AdaptiveShardRouter::NlpContextFn = std::function&lt;void(
+       const std::string&amp; query,
+       CapabilityMatcher::QueryContext&amp; context
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>NlpContextFn</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::NlpContextFn</qualifiedname>
+        <briefdescription>
+<para>Inject NLP/ML query-context enrichment callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback receives the raw query text and the current query context (already populated with extracted keywords), and can enrich domains, regions, organizations, data types, or embeddings in-place.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>NLP/ML enrichment function. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="264" column="5" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a5c8ce2c0f6375204fff931390b054880" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context" kindref="compound">CapabilityMatcher::QueryContext</ref> &gt;( std::string_view query)&gt;</type>
+        <definition>using themis::sharding::AdaptiveShardRouter::LegacyNlpContextFn = std::function&lt;std::optional&lt;CapabilityMatcher::QueryContext&gt;(
+       std::string_view query
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>LegacyNlpContextFn</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::LegacyNlpContextFn</qualifiedname>
+        <briefdescription>
+<para>Backward-compatible NLP callback variant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback may return a fully prepared QueryContext. Returning std::nullopt keeps the existing heuristic/extracted context. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="275" column="5" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a6888bee272a5e3585dc8ee0a09b505d6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::sharding::AdaptiveShardRouter::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="291" column="21" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1aa91c835b153a7aeb5ef84400f79d1e9b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_capability_matcher" kindref="compound">CapabilityMatcher</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CapabilityMatcher&gt; themis::sharding::AdaptiveShardRouter::matcher_</definition>
+        <argsstring></argsstring>
+        <name>matcher_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::matcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="292" column="21" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1accb4c6ad000103b590682522cc63a5bc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config" kindref="compound">AdaptiveConfig</ref></type>
+        <definition>AdaptiveConfig themis::sharding::AdaptiveShardRouter::adaptive_config_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_config_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::adaptive_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="293" column="20" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a4c9c61427b2d2a64a9e9c985aa51c725" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; themis::distributed_knowledge::AdapterDomainType, double &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;themis::distributed_knowledge::AdapterDomainType, double&gt; &gt; themis::sharding::AdaptiveShardRouter::shard_domain_scores_</definition>
+        <argsstring></argsstring>
+        <name>shard_domain_scores_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::shard_domain_scores_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="299" column="9" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a8fdd9d79df94fed6880ec3b250ba246b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, ShardLLMLoad &gt;</type>
+        <definition>std::map&lt;std::string, ShardLLMLoad&gt; themis::sharding::AdaptiveShardRouter::shard_llm_load_</definition>
+        <argsstring></argsstring>
+        <name>shard_llm_load_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::shard_llm_load_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="308" column="14" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a9b04398039c037c64331fcb8b4c110a6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::AdaptiveShardRouter::domain_scores_mutex_</definition>
+        <argsstring></argsstring>
+        <name>domain_scores_mutex_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::domain_scores_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="310" column="24" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1aca22ba12983b08116754e85dead1946b" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a028db08306664fb2e77c2198abc95c19" kindref="member">NlpContextFn</ref> &gt;</type>
+        <definition>std::optional&lt;NlpContextFn&gt; themis::sharding::AdaptiveShardRouter::nlp_context_fn_</definition>
+        <argsstring></argsstring>
+        <name>nlp_context_fn_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::nlp_context_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="312" column="19" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1aa84dea3193607a4a6f76cf1ed08ecdbd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::AdaptiveShardRouter::nlp_context_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>nlp_context_fn_mutex_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::nlp_context_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="313" column="24" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a1a1cdeb8cfb90792fd537a3bb952de8c" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AdaptiveShardRouter::total_adaptive_queries_</definition>
+        <argsstring></argsstring>
+        <name>total_adaptive_queries_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::total_adaptive_queries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="316" column="25" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="316" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a78d50641a01e6ea52836f1b8ed2d3351" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AdaptiveShardRouter::iterations_saved_</definition>
+        <argsstring></argsstring>
+        <name>iterations_saved_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::iterations_saved_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="317" column="25" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="317" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a56de7c520ccfdc3abb806a4a0789c404" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AdaptiveShardRouter::early_stops_</definition>
+        <argsstring></argsstring>
+        <name>early_stops_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::early_stops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="318" column="25" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="318" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1aeb218f5109f6d4ff7bf5830e70f5cf62" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::AdaptiveShardRouter::fallback_to_scatter_gather_</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_scatter_gather_</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::fallback_to_scatter_gather_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="319" column="25" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="319" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a4ecae40325be15e8c3ca80a341e22684" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AdaptiveShardRouter::AdaptiveShardRouter</definition>
+        <argsstring>(std::shared_ptr&lt; URNResolver &gt; resolver, std::shared_ptr&lt; RemoteExecutor &gt; executor, std::shared_ptr&lt; ShardTopology &gt; topology, const Config &amp;config, const AdaptiveConfig &amp;adaptive_config, std::shared_ptr&lt; PrometheusMetrics &gt; metrics=nullptr, std::shared_ptr&lt; TrueTime &gt; truetime=nullptr)</argsstring>
+        <name>AdaptiveShardRouter</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveShardRouter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref> &gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_remote_executor" kindref="compound">RemoteExecutor</ref> &gt;</type>
+          <declname>executor</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config" kindref="compound">AdaptiveConfig</ref> &amp;</type>
+          <declname>adaptive_config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> &gt;</type>
+          <declname>truetime</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct adaptive shard router</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> resolver </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote executor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard topology (for capability access) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base router configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adaptive_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adaptive routing configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional Prometheus metrics </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="138" column="5" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="24" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a74152a86d3a88dc073dcf3bdc8fe2a17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AdaptiveShardRouter::AdaptiveShardRouter</definition>
+        <argsstring>(std::shared_ptr&lt; URNResolver &gt; resolver, std::shared_ptr&lt; RemoteExecutor &gt; executor, std::shared_ptr&lt; ShardTopology &gt; topology, const Config &amp;config, std::shared_ptr&lt; PrometheusMetrics &gt; metrics=nullptr, std::shared_ptr&lt; TrueTime &gt; truetime=nullptr)</argsstring>
+        <name>AdaptiveShardRouter</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveShardRouter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref> &gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_remote_executor" kindref="compound">RemoteExecutor</ref> &gt;</type>
+          <declname>executor</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> &gt;</type>
+          <declname>truetime</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="148" column="5" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="44" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a1f16bd4e6f9b6f310467778243572909" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdaptiveShardRouter::executeQuery</definition>
+        <argsstring>(const std::string &amp;query) override</argsstring>
+        <name>executeQuery</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::executeQuery</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_shard_router_1a047eb99023722c08b256840908805bc6">executeQuery</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute query with adaptive routing</para>
+<para>Overrides base <ref refid="classthemis_1_1sharding_1_1_shard_router_1a047eb99023722c08b256840908805bc6" kindref="member">ShardRouter::executeQuery()</ref> to use capability-based routing when enabled, falling back to scatter-gather otherwise.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1ac541ba531fc6e2aa3e5fa75b2091596a" kindref="member">executeAdaptiveQuery()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="166" column="20" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="185" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1ac541ba531fc6e2aa3e5fa75b2091596a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdaptiveShardRouter::executeAdaptiveQuery</definition>
+        <argsstring>(const std::string &amp;query, AdaptiveStats &amp;stats)</argsstring>
+        <name>executeAdaptiveQuery</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::executeAdaptiveQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats" kindref="compound">AdaptiveStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Execute Adaptive Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute query with adaptive iterative shard selection</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output: execution statistics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::to_string(), load(), prepareQueryContext(), getAllShards(), empty(), nlohmann::json::array(), match(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="175" column="20" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="203" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a03ac108d945695d632f23a49cfbc7ab6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdaptiveShardRouter::updateAdapterCapability</definition>
+        <argsstring>(const std::string &amp;shard_id, const themis::distributed_knowledge::AdapterCapabilityAnnouncement &amp;announcement)</argsstring>
+        <name>updateAdapterCapability</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::updateAdapterCapability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const themis::distributed_knowledge::AdapterCapabilityAnnouncement &amp;</type>
+          <declname>announcement</declname>
+        </param>
+        <briefdescription>
+<para>Update Adapter Capability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the domain-score map for a shard based on a gossip announcement.</para>
+<para>Called by the <computeroutput><ref refid="classthemis_1_1sharding_1_1_gossip_protocol" kindref="compound">GossipProtocol</ref></computeroutput> custom handler registered for <computeroutput>message_type = "adapter_capability"</computeroutput>. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Originating shard identifier (from <ref refid="structthemis_1_1sharding_1_1_gossip_message_1a5629ba62a6785ebbcdbfd74d3c113a74" kindref="member">GossipMessage::sender_id</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>announcement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Deserialized capability announcement</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">announcement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="189" column="10" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="69" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1aac964ef5c35a11fc0aad0847323d1263" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdaptiveShardRouter::updateShardLLMLoad</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t pending_requests, double avg_queue_ms)</argsstring>
+        <name>updateShardLLMLoad</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::updateShardLLMLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>pending_requests</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>avg_queue_ms</declname>
+        </param>
+        <briefdescription>
+<para>Update Shard LLMLoad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update per-shard LLM queue load snapshot used for LEAST_LOADED tie-breaking in <ref refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1ab7b13e240aea6d218d2c523c65a1d282" kindref="member">routeByDomain()</ref>.</para>
+<para>Called after each <computeroutput>ContinuousBatchScheduler::getLLMStats()</computeroutput> poll or whenever a <ref refid="structthemis_1_1sharding_1_1_shard_stats" kindref="compound">ShardStats</ref> gossip message is received. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pending_requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current waiting-request count on that shard </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>avg_queue_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current average queue wait time on that shard</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">avg_queue_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="205" column="10" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="84" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1ab7b13e240aea6d218d2c523c65a1d282" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AdaptiveShardRouter::routeByDomain</definition>
+        <argsstring>(themis::distributed_knowledge::AdapterDomainType domain) const</argsstring>
+        <name>routeByDomain</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::routeByDomain</qualifiedname>
+        <param>
+          <type>themis::distributed_knowledge::AdapterDomainType</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Route a query to the shard with the highest <computeroutput>accuracy_delta</computeroutput> for the given adapter domain.</para>
+<para>When two shards share the same best accuracy_delta the one with the lower <computeroutput>pending_llm_requests</computeroutput> (LEAST_LOADED) wins. Fallback: if no shard has registered a score for <computeroutput>domain</computeroutput>, the method returns an empty string and callers should use the default <computeroutput>route()</computeroutput> behaviour.</para>
+<para>Load tie-break semantics:<itemizedlist>
+<listitem><para>Fresh queue snapshots win over stale/missing snapshots.</para>
+</listitem><listitem><para>For equally fresh snapshots with equal score, lower pending queue wins.</para>
+</listitem><listitem><para>Remaining ties are resolved deterministically by lexical shard_id order.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain type to look up </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>shard_id of the best-scoring shard, or &quot;&quot; if no score exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain_scores_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="228" column="17" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="96" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1aefaf9a15ac8e28c6eb98f9d4302248bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::AdaptiveShardRouter::getAdapterAccuracyDelta</definition>
+        <argsstring>(const std::string &amp;shard_id, themis::distributed_knowledge::AdapterDomainType domain) const</argsstring>
+        <name>getAdapterAccuracyDelta</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::getAdapterAccuracyDelta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>themis::distributed_knowledge::AdapterDomainType</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the <computeroutput>accuracy_delta</computeroutput> registered for a specific shard + domain pair.</para>
+<para>Returns 0.0 when the shard is unknown or has no score for the domain (used by <computeroutput>FederatedRAGMerger</computeroutput> in DK-4). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain_scores_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="238" column="12" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="157" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a62ec28c8ee15bb39ed7f21349c228e9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdaptiveShardRouter::getAdaptiveStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdaptiveStatistics</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::getAdaptiveStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get adaptive routing statistics <simplesect kind="return"><para>Statistics JSON </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="247" column="20" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="360" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1af7dedde24eb2d9f5e11444ce5fb0ca10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdaptiveShardRouter::updateAdaptiveConfig</definition>
+        <argsstring>(const AdaptiveConfig &amp;config)</argsstring>
+        <name>updateAdaptiveConfig</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::updateAdaptiveConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config" kindref="compound">AdaptiveConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update Adaptive <ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update adaptive configuration at runtime <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="253" column="10" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="385" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a8afe9377a3e22e8d2d00c865c72462ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdaptiveShardRouter::setNlpContextFn</definition>
+        <argsstring>(NlpContextFn fn)</argsstring>
+        <name>setNlpContextFn</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::setNlpContextFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a028db08306664fb2e77c2198abc95c19" kindref="member">NlpContextFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Nlp Context Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="279" column="10" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="400" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a3fbbba81fe87c5f0a85c0841cf8c66f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::AdaptiveShardRouter::setNlpContextFn</definition>
+        <argsstring>(LegacyNlpContextFn fn)</argsstring>
+        <name>setNlpContextFn</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::setNlpContextFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a5c8ce2c0f6375204fff931390b054880" kindref="member">LegacyNlpContextFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Nlp Context Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), fn(), has_value(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="280" column="10" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="410" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a386ca0006c2e83545b79ceb2f983e3b6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_config" kindref="compound">AdaptiveConfig</ref></type>
+        <definition>AdaptiveConfig themis::sharding::AdaptiveShardRouter::getAdaptiveConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdaptiveConfig</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::getAdaptiveConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current adaptive configuration <simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="286" column="20" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="286" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a2efe523c3a3c7087291d79826451e81a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context" kindref="compound">CapabilityMatcher::QueryContext</ref></type>
+        <definition>CapabilityMatcher::QueryContext themis::sharding::AdaptiveShardRouter::prepareQueryContext</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>prepareQueryContext</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::prepareQueryContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Prepare Query Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prepare query context for capability matching</para>
+<para>Extracts keywords, detects domains/orgs/regions, etc.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Query context</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractKeywords(), lock(), has_value(), value(), spdlog::warn(), what(), std::transform(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="328" column="37" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="437" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1af0e4ec5256cf6fd6dde2297228a33c5f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::AdaptiveShardRouter::selectShardsForIteration</definition>
+        <argsstring>(const std::vector&lt; CapabilityMatchResult &gt; &amp;match_results, double threshold, size_t max_shards, const std::set&lt; std::string &gt; &amp;already_queried)</argsstring>
+        <name>selectShardsForIteration</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::selectShardsForIteration</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_capability_match_result" kindref="compound">CapabilityMatchResult</ref> &gt; &amp;</type>
+          <declname>match_results</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_shards</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>already_queried</declname>
+        </param>
+        <briefdescription>
+<para>Select Shards For Iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Select shards for an iteration based on capability scores</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>match_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All capability match results </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Score threshold for this iteration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum shards to select </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>already_queried</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set of already queried shard IDs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of shard IDs to query in this iteration</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">match_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">already_queried</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), find(), end(), std::isfinite(), getShard(), push_back(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="339" column="17" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="494" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a7fa819df94e01a0a4cf105716b2b173f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; themis::sharding::AdaptiveShardRouter::executeOnShards</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;shard_ids, uint32_t timeout_ms)</argsstring>
+        <name>executeOnShards</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::executeOnShards</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Execute On Shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute query on specific shards</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard IDs to query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout for this iteration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shard results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements executeOnShards without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="354" column="17" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="576" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1ac7b64c3dc7a1a88f4e7c9f5124da9eac" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; themis::sharding::AdaptiveShardRouter::executeOnShards</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;shard_ids) override</argsstring>
+        <name>executeOnShards</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::executeOnShards</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_shard_router_1aa9b3427d9a29f373b62de2ebc0d3ce89">executeOnShards</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Execute On Shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements executeOnShards without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="360" column="17" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="561" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a4e113f6b5410e8ea1ee9e93a36daecac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdaptiveShardRouter::shouldStop</definition>
+        <argsstring>(uint32_t current_results, uint32_t previous_results, uint64_t elapsed_ms, uint32_t iteration, std::string &amp;reason)</argsstring>
+        <name>shouldStop</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::shouldStop</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>current_results</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>previous_results</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>elapsed_ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>iteration</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Should Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if stop criteria are met</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current result count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>previous_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previous iteration result count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>elapsed_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total elapsed time </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iteration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current iteration number </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output: stop reason if stopping </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if should stop</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iteration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements shouldStop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="375" column="10" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="598" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1a28552fe478ebdcce7d608c488f8f527d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::AdaptiveShardRouter::mergeIterationResults</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; ShardResult &gt; &gt; &amp;all_results)</argsstring>
+        <name>mergeIterationResults</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::mergeIterationResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt; &gt; &amp;</type>
+          <declname>all_results</declname>
+        </param>
+        <briefdescription>
+<para>Merge Iteration Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge and deduplicate results from multiple iterations</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>all_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Results from all iterations </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merged results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">all_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::array(), is_array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="389" column="20" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="637" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_adaptive_shard_router_1aae68384ed95ef19fbaa4c50317101548" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_iteration_stats" kindref="compound">IterationStats</ref></type>
+        <definition>AdaptiveShardRouter::IterationStats themis::sharding::AdaptiveShardRouter::calculateIterationStats</definition>
+        <argsstring>(uint32_t iteration, const std::vector&lt; std::string &gt; &amp;shard_ids, const std::vector&lt; ShardResult &gt; &amp;results, const std::vector&lt; CapabilityMatchResult &gt; &amp;match_results, uint64_t iteration_time_ms)</argsstring>
+        <name>calculateIterationStats</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::calculateIterationStats</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>iteration</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_capability_match_result" kindref="compound">CapabilityMatchResult</ref> &gt; &amp;</type>
+          <declname>match_results</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>iteration_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Iteration Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate iteration statistics</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iteration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Iteration number </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Queried shard IDs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard results </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>match_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Capability match results </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iteration_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Iteration execution time </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Iteration statistics</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">iteration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">match_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iteration_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), is_array(), push_back(), empty(), std::min_element(), begin(), end(), std::max_element(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="403" column="20" bodyfile="src/sharding/adaptive_shard_router.cpp" bodystart="668" bodyend="712"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Adaptive Shard Router - Capability-based routing with iterative execution</para>
+<para>Extends <ref refid="classthemis_1_1sharding_1_1_shard_router" kindref="compound">ShardRouter</ref> with intelligent shard selection based on:<orderedlist>
+<listitem><para>Capability matching (domain, organization, region, data type)</para>
+</listitem><listitem><para>Iterative query execution (rounds with decreasing thresholds)</para>
+</listitem><listitem><para>Adaptive stop criteria (sufficient results, timeout, diminishing returns)</para>
+</listitem></orderedlist>
+</para>
+<para>Execution Model:<itemizedlist>
+<listitem><para>Iteration 1: Top-N shards (score &gt; initial_threshold)</para>
+</listitem><listitem><para>Iteration 2: Next-N shards (score &gt; intermediate_threshold) - only if needed</para>
+</listitem><listitem><para>Iteration 3+: Fallback shards (score &gt; fallback_threshold) - only if very needed</para>
+</listitem><listitem><para>Falls back to scatter-gather if feature disabled or no capability matches </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::sharding::AdaptiveShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_adaptive_shard_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_shard_router"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::AdaptiveShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_adaptive_shard_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_shard_router"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/adaptive_shard_router.h" line="47" column="1" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="47" bodyend="410"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1accb4c6ad000103b590682522cc63a5bc" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>adaptive_config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a4ecae40325be15e8c3ca80a341e22684" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>AdaptiveShardRouter</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a74152a86d3a88dc073dcf3bdc8fe2a17" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>AdaptiveShardRouter</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a53576ffb73df9d5709f2667308df570d" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>analyzeQuery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1aae68384ed95ef19fbaa4c50317101548" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>calculateIterationStats</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1af307284a1096993a51579acfbce1a15b" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>del</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a9b04398039c037c64331fcb8b4c110a6" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>domain_scores_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a56de7c520ccfdc3abb806a4a0789c404" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>early_stops_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1ac541ba531fc6e2aa3e5fa75b2091596a" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>executeAdaptiveQuery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1af122915f665ffb96d2903ffcd9bb7907" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>executeCrossShardJoin</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a02f4f65854a0283e976e85e2214ff80d" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>executeLocal</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1ad85f0426cd799034582902d682c88ba0" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>executeMultiShardExactConsistency</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a7fa819df94e01a0a4cf105716b2b173f" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>executeOnShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1ac7b64c3dc7a1a88f4e7c9f5124da9eac" prot="private" virt="virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>executeOnShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a1f16bd4e6f9b6f310467778243572909" prot="public" virt="virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>executeQuery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1aeb218f5109f6d4ff7bf5830e70f5cf62" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>fallback_to_scatter_gather_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a34258cf876e245a44ba451d3f787be8f" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>get</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1aefaf9a15ac8e28c6eb98f9d4302248bc" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>getAdapterAccuracyDelta</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a386ca0006c2e83545b79ceb2f983e3b6" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>getAdaptiveConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a62ec28c8ee15bb39ed7f21349c228e9d" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>getAdaptiveStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a115bf782561d58670fa79ed0f1228059" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>getResolver</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1ae92b58d50af281e5367ec13a0cf542c6" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>getResolver</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a4b24981bbd9489dbb56c50b45329d938" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1af0fc3ceb1b791456062872c300423db3" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>getTransactionCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a78d50641a01e6ea52836f1b8ed2d3351" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>iterations_saved_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a5c8ce2c0f6375204fff931390b054880" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>LegacyNlpContextFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1aa91c835b153a7aeb5ef84400f79d1e9b" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>matcher_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a28552fe478ebdcce7d608c488f8f527d" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>mergeIterationResults</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1aca22ba12983b08116754e85dead1946b" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>nlp_context_fn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1aa84dea3193607a4a6f76cf1ed08ecdbd" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>nlp_context_fn_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a028db08306664fb2e77c2198abc95c19" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>NlpContextFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a2efe523c3a3c7087291d79826451e81a" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>prepareQueryContext</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1aef98a3a3470699393bf30c7ebd8d766e" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>put</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1ab7b13e240aea6d218d2c523c65a1d282" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>routeByDomain</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a09d228128fc6c0221b8dceba35e2ecbd" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>routeRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1afc0d19dae886783415ebc7355badd42a" prot="public" virt="virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>scatterGather</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1af0e4ec5256cf6fd6dde2297228a33c5f" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>selectShardsForIteration</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a8afe9377a3e22e8d2d00c865c72462ca" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>setNlpContextFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a3fbbba81fe87c5f0a85c0841cf8c66f3" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>setNlpContextFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a8d824a506ec32efc8d4452dc5c980bd7" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>setTrueTime</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a4c9c61427b2d2a64a9e9c985aa51c725" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>shard_domain_scores_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a8fdd9d79df94fed6880ec3b250ba246b" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>shard_llm_load_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a4b1742e6ce3a0d2447eada7a20adc9f4" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>ShardRouter</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a4e113f6b5410e8ea1ee9e93a36daecac" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>shouldStop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a6888bee272a5e3585dc8ee0a09b505d6" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a1a1cdeb8cfb90792fd537a3bb952de8c" prot="private" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>total_adaptive_queries_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a03ac108d945695d632f23a49cfbc7ab6" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>updateAdapterCapability</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1af7dedde24eb2d9f5e11444ce5fb0ca10" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>updateAdaptiveConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1aac964ef5c35a11fc0aad0847323d1263" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>updateShardLLMLoad</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a5c23429360640489bcc7204edb5dedc7" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter</scope><name>validateMultiShardExactConsistency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

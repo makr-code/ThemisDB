@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_context_window_1_1_turn" kind="struct" language="C++" prot="private">
+    <compoundname>StubContextWindow::Turn</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stub_context_window_1_1_turn_1a641db08d9c6f739f50c0305efcbb3ce3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StubContextWindow::Turn::nl</definition>
+        <argsstring></argsstring>
+        <name>nl</name>
+        <qualifiedname>StubContextWindow::Turn::nl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="119" column="27" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_context_window_1_1_turn_1abea8e0d5c17de68b220d65eba5376c34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StubContextWindow::Turn::aql</definition>
+        <argsstring></argsstring>
+        <name>aql</name>
+        <qualifiedname>StubContextWindow::Turn::aql</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="119" column="42" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_context_window_1_1_turn_1ab4b94c324680423c485197aa02ec7e93" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StubContextWindow::Turn::cost</definition>
+        <argsstring></argsstring>
+        <name>cost</name>
+        <qualifiedname>StubContextWindow::Turn::cost</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="119" column="58" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="119" column="5" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="119" bodyend="119"/>
+    <listofallmembers>
+      <member refid="struct_stub_context_window_1_1_turn_1abea8e0d5c17de68b220d65eba5376c34" prot="public" virt="non-virtual"><scope>StubContextWindow::Turn</scope><name>aql</name></member>
+      <member refid="struct_stub_context_window_1_1_turn_1ab4b94c324680423c485197aa02ec7e93" prot="public" virt="non-virtual"><scope>StubContextWindow::Turn</scope><name>cost</name></member>
+      <member refid="struct_stub_context_window_1_1_turn_1a641db08d9c6f739f50c0305efcbb3ce3" prot="public" virt="non-virtual"><scope>StubContextWindow::Turn</scope><name>nl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

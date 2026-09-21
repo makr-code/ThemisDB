@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_483b32a6ce93291d0160e24fe223c96c" kind="dir">
+    <compoundname>src/transaction</compoundname>
+    <innerdir refid="dir_4617e5beba401a58dcb969624acfee51">src/transaction/saga_plugin</innerdir>
+    <innerfile refid="branch__manager_8cpp">branch_manager.cpp</innerfile>
+    <innerfile refid="compensation__log_8cpp">compensation_log.cpp</innerfile>
+    <innerfile refid="connection__resource__guard_8cpp">connection_resource_guard.cpp</innerfile>
+    <innerfile refid="crash__recovery__manager_8cpp">crash_recovery_manager.cpp</innerfile>
+    <innerfile refid="deadlock__predictor_8cpp">deadlock_predictor.cpp</innerfile>
+    <innerfile refid="distributed__saga_8cpp">distributed_saga.cpp</innerfile>
+    <innerfile refid="distributed__transaction__manager_8cpp">distributed_transaction_manager.cpp</innerfile>
+    <innerfile refid="global__transaction__manager_8cpp">global_transaction_manager.cpp</innerfile>
+    <innerfile refid="grpc__rpc__adapter_8cpp">grpc_rpc_adapter.cpp</innerfile>
+    <innerfile refid="lock__manager_8cpp">lock_manager.cpp</innerfile>
+    <innerfile refid="merge__engine_8cpp">merge_engine.cpp</innerfile>
+    <innerfile refid="saga_8cpp">saga.cpp</innerfile>
+    <innerfile refid="saga__orchestrator_8cpp">saga_orchestrator.cpp</innerfile>
+    <innerfile refid="saga__plugin__bridge_8cpp">saga_plugin_bridge.cpp</innerfile>
+    <innerfile refid="snapshot__manager_8cpp">snapshot_manager.cpp</innerfile>
+    <innerfile refid="transaction__auditor_8cpp">transaction_auditor.cpp</innerfile>
+    <innerfile refid="transaction__batcher_8cpp">transaction_batcher.cpp</innerfile>
+    <innerfile refid="transaction__manager_8cpp">transaction_manager.cpp</innerfile>
+    <innerfile refid="transaction__semantic__advisor_8cpp">transaction_semantic_advisor.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/transaction/"/>
+  </compounddef>
+</doxygen>

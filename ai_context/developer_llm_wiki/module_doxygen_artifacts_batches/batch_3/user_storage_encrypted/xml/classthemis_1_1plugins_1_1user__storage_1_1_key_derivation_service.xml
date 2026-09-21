@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::user_storage::KeyDerivationService</compoundname>
+    <derivedcompoundref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" prot="public" virt="non-virtual">themis::plugins::user_storage::Argon2idKeyDerivationService</derivedcompoundref>
+    <includes refid="key__derivation__service_8hpp" local="no">key_derivation_service.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1ad3f3dcc9c359238db5ef58233e8e5977" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::user_storage::KeyDerivationService::~KeyDerivationService</definition>
+        <argsstring>()=default</argsstring>
+        <name>~KeyDerivationService</name>
+        <qualifiedname>themis::plugins::user_storage::KeyDerivationService::~KeyDerivationService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="69" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1abf508cab4525d6e1524afb441aa505a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::plugins::user_storage::KeyDerivationService::derive</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;master_key, const std::string &amp;user_id, const std::string &amp;container_id, const std::vector&lt; uint8_t &gt; &amp;salt)=0</argsstring>
+        <name>derive</name>
+        <qualifiedname>themis::plugins::user_storage::KeyDerivationService::derive</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1aa4cb19e39968e18ba040e8de951e2f84">derive</reimplementedby>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>master_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>container_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>salt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="71" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1a8d83a4462949fca86c59d8fbf4c9ade6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::plugins::user_storage::KeyDerivationService::generateSalt</definition>
+        <argsstring>(size_t length)=0</argsstring>
+        <name>generateSalt</name>
+        <qualifiedname>themis::plugins::user_storage::KeyDerivationService::generateSalt</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a4d7396feff10cc27fe3c499637fc3c2f">generateSalt</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="78" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for per-container key derivation with domain separation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::user_storage::Argon2idKeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::plugins::user_storage::KeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="67" column="1" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="67" bodyend="79"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1abf508cab4525d6e1524afb441aa505a9" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::KeyDerivationService</scope><name>derive</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1a8d83a4462949fca86c59d8fbf4c9ade6" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::KeyDerivationService</scope><name>generateSalt</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1ad3f3dcc9c359238db5ef58233e8e5977" prot="public" virt="virtual"><scope>themis::plugins::user_storage::KeyDerivationService</scope><name>~KeyDerivationService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

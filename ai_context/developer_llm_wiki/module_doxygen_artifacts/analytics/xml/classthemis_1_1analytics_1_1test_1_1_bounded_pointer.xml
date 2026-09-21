@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::BoundedPointer</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ab43e5a76f322b87f709642d7089285b3" prot="private" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* themis::analytics::test::BoundedPointer&lt; T &gt;::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="96" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a2873789eb1fc88bfdbee4a59b3425be0" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::test::BoundedPointer&lt; T &gt;::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="97" column="12" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a5899f5a00771a0993bce797fca363d40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::BoundedPointer&lt; T &gt;::BoundedPointer</definition>
+        <argsstring>(T *ptr, size_t size)</argsstring>
+        <name>BoundedPointer</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::BoundedPointer</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="69" column="5" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a20ed7724d6504f1cf96366ebcaf11c97" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::analytics::test::BoundedPointer&lt; T &gt;::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="71" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1aa0216206c479a2372fb2eb22f4039e41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::analytics::test::BoundedPointer&lt; T &gt;::operator[]</definition>
+        <argsstring>(size_t index)</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="73" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ac1e706f184e68df7327e8c212d8b2b18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; themis::analytics::test::BoundedPointer&lt; T &gt;::operator[]</definition>
+        <argsstring>(size_t index) const</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="80" column="13" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ad969010656e216225c4ecb3d523a79b8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::test::BoundedPointer&lt; T &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="87" column="12" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a29b33ab086cbd6dab2b0b0f5d2018778" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::analytics::test::BoundedPointer&lt; T &gt;::begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="89" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ad10f02b929a3446fbd98c063e0a015bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::analytics::test::BoundedPointer&lt; T &gt;::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="90" column="7" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a67b920e305cc48637f1ecf4f52feb5c7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T *</type>
+        <definition>const T * themis::analytics::test::BoundedPointer&lt; T &gt;::begin</definition>
+        <argsstring>() const</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="92" column="13" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ab83aad759098690dd3836453b78c6870" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T *</type>
+        <definition>const T * themis::analytics::test::BoundedPointer&lt; T &gt;::end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::analytics::test::BoundedPointer::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="93" column="13" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Safe pointer with bounds checking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="67" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="67" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a29b33ab086cbd6dab2b0b0f5d2018778" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>begin</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a67b920e305cc48637f1ecf4f52feb5c7" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>begin</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a5899f5a00771a0993bce797fca363d40" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>BoundedPointer</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ad10f02b929a3446fbd98c063e0a015bc" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>end</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ab83aad759098690dd3836453b78c6870" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>end</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a20ed7724d6504f1cf96366ebcaf11c97" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>get</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1aa0216206c479a2372fb2eb22f4039e41" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ac1e706f184e68df7327e8c212d8b2b18" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ab43e5a76f322b87f709642d7089285b3" prot="private" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1ad969010656e216225c4ecb3d523a79b8" prot="public" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>size</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer_1a2873789eb1fc88bfdbee4a59b3425be0" prot="private" virt="non-virtual"><scope>themis::analytics::test::BoundedPointer</scope><name>size_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

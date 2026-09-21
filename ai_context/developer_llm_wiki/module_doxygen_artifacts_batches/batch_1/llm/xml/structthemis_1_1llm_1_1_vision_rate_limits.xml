@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_rate_limits" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionRateLimits</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_rate_limits_1a949eed89a7060ef3fb2741c9d2f0b75e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionRateLimits::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::VisionRateLimits::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Rate limiting enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="103" column="10" bodyfile="include/llm/vision_config.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_rate_limits_1a2cffb52bd9135ca5363dcaffd5d834f1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionRateLimits::requests_per_minute</definition>
+        <argsstring></argsstring>
+        <name>requests_per_minute</name>
+        <qualifiedname>themis::llm::VisionRateLimits::requests_per_minute</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests per minute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="104" column="12" bodyfile="include/llm/vision_config.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_rate_limits_1a8f2858b26f6527a31a3ef49891ba92e5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionRateLimits::requests_per_hour</definition>
+        <argsstring></argsstring>
+        <name>requests_per_hour</name>
+        <qualifiedname>themis::llm::VisionRateLimits::requests_per_hour</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests per hour. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="105" column="12" bodyfile="include/llm/vision_config.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_rate_limits_1acb8d0d7f6c10dfdba3589518da3170ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionRateLimits::requests_per_day</definition>
+        <argsstring></argsstring>
+        <name>requests_per_day</name>
+        <qualifiedname>themis::llm::VisionRateLimits::requests_per_day</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests per day. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="106" column="12" bodyfile="include/llm/vision_config.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_rate_limits_1a474849f743a9fdcb87fdd8a5a3a3cadc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionRateLimits::burst_size</definition>
+        <argsstring></argsstring>
+        <name>burst_size</name>
+        <qualifiedname>themis::llm::VisionRateLimits::burst_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Burst allowance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="107" column="12" bodyfile="include/llm/vision_config.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_rate_limits_1addc063ca1a5201c1c4215ad49aad2cb6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionRateLimits::on_limit_exceeded</definition>
+        <argsstring></argsstring>
+        <name>on_limit_exceeded</name>
+        <qualifiedname>themis::llm::VisionRateLimits::on_limit_exceeded</qualifiedname>
+        <briefdescription>
+<para>Behavior: reject, queue, throttle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="108" column="17" bodyfile="include/llm/vision_config.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_rate_limits_1af4c6ccd9bf326488411b7242641ca68e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::VisionRateLimits::~VisionRateLimits</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VisionRateLimits</name>
+        <qualifiedname>themis::llm::VisionRateLimits::~VisionRateLimits</qualifiedname>
+        <briefdescription>
+<para>Vision Rate Limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="102" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="97" column="1" bodyfile="include/llm/vision_config.h" bodystart="97" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_rate_limits_1a474849f743a9fdcb87fdd8a5a3a3cadc" prot="public" virt="non-virtual"><scope>themis::llm::VisionRateLimits</scope><name>burst_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_rate_limits_1a949eed89a7060ef3fb2741c9d2f0b75e" prot="public" virt="non-virtual"><scope>themis::llm::VisionRateLimits</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_rate_limits_1addc063ca1a5201c1c4215ad49aad2cb6" prot="public" virt="non-virtual"><scope>themis::llm::VisionRateLimits</scope><name>on_limit_exceeded</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_rate_limits_1acb8d0d7f6c10dfdba3589518da3170ab" prot="public" virt="non-virtual"><scope>themis::llm::VisionRateLimits</scope><name>requests_per_day</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_rate_limits_1a8f2858b26f6527a31a3ef49891ba92e5" prot="public" virt="non-virtual"><scope>themis::llm::VisionRateLimits</scope><name>requests_per_hour</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_rate_limits_1a2cffb52bd9135ca5363dcaffd5d834f1" prot="public" virt="non-virtual"><scope>themis::llm::VisionRateLimits</scope><name>requests_per_minute</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_rate_limits_1af4c6ccd9bf326488411b7242641ca68e" prot="public" virt="virtual"><scope>themis::llm::VisionRateLimits</scope><name>~VisionRateLimits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

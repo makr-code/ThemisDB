@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::aql_helpers::MockFewShotLibrary</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_example" prot="public">themis::bench::aql_helpers::MockFewShotLibrary::Example</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_retrieval_result" prot="public">themis::bench::aql_helpers::MockFewShotLibrary::RetrievalResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1a4152df649985196079e254b64694a080" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_example" kindref="compound">Example</ref> &gt;</type>
+        <definition>std::vector&lt;Example&gt; themis::bench::aql_helpers::MockFewShotLibrary::examples_</definition>
+        <argsstring></argsstring>
+        <name>examples_</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::examples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="187" column="17" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1a093ed08afbada75e83e257cec6ea1b01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_helpers::MockFewShotLibrary::MockFewShotLibrary</definition>
+        <argsstring>()</argsstring>
+        <name>MockFewShotLibrary</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::MockFewShotLibrary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="108" column="5" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="108" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1a13ec0621a958c13d9f9a7676496de247" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_retrieval_result" kindref="compound">RetrievalResult</ref></type>
+        <definition>RetrievalResult themis::bench::aql_helpers::MockFewShotLibrary::retrieveTopK</definition>
+        <argsstring>(const std::string &amp;nl_query, int k) const</argsstring>
+        <name>retrieveTopK</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::retrieveTopK</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="122" column="21" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="122" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1af4075b68a79822df42079b48920ddab8" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::bench::aql_helpers::MockFewShotLibrary::jaccardScore</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b)</argsstring>
+        <name>jaccardScore</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::jaccardScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="146" column="18" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="146" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1a78a0a6247eee97336e9f1d9e26c0a33e" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::aql_helpers::MockFewShotLibrary::tokenSet</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>tokenSet</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::tokenSet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="166" column="24" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="166" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="96" column="1" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="96" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1a4152df649985196079e254b64694a080" prot="private" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary</scope><name>examples_</name></member>
+      <member refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1af4075b68a79822df42079b48920ddab8" prot="private" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary</scope><name>jaccardScore</name></member>
+      <member refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1a093ed08afbada75e83e257cec6ea1b01" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary</scope><name>MockFewShotLibrary</name></member>
+      <member refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1a13ec0621a958c13d9f9a7676496de247" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary</scope><name>retrieveTopK</name></member>
+      <member refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1a78a0a6247eee97336e9f1d9e26c0a33e" prot="private" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary</scope><name>tokenSet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

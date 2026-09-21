@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_plan_cache_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphQueryOptimizer::PlanCacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_plan_cache_entry_1a434b3e2f0b1e87ceceac60d142264a48" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">OptimizationPlan</ref></type>
+        <definition>OptimizationPlan themis::graph::GraphQueryOptimizer::PlanCacheEntry::plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::PlanCacheEntry::plan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="873" column="26" bodyfile="include/graph/graph_query_optimizer.h" bodystart="873" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_plan_cache_entry_1a43477bef9623658050bde1919bf981da" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::graph::GraphQueryOptimizer::PlanCacheEntry::inserted_at</definition>
+        <argsstring></argsstring>
+        <name>inserted_at</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::PlanCacheEntry::inserted_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="874" column="47" bodyfile="include/graph/graph_query_optimizer.h" bodystart="874" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::graph::GraphQueryOptimizer::OptimizationPlan</label>
+        <link refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan"/>
+      </node>
+      <node id="1">
+        <label>themis::graph::GraphQueryOptimizer::PlanCacheEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>plan</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/graph_query_optimizer.h" line="872" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="872" bodyend="875"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_plan_cache_entry_1a43477bef9623658050bde1919bf981da" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::PlanCacheEntry</scope><name>inserted_at</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_plan_cache_entry_1a434b3e2f0b1e87ceceac60d142264a48" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::PlanCacheEntry</scope><name>plan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

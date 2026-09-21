@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_compaction_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::CompactionResult</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_compaction_result_1a3fb51916f4872d33bddfcd2e4fdbf960" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::CompactionResult::compactedSegments</definition>
+        <argsstring></argsstring>
+        <name>compactedSegments</name>
+        <qualifiedname>themis::utils::CompactionResult::compactedSegments</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of segments processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="455" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="455" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_compaction_result_1a4071d3bc9ff3c492dd531894e26774e3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::CompactionResult::bytesSaved</definition>
+        <argsstring></argsstring>
+        <name>bytesSaved</name>
+        <qualifiedname>themis::utils::CompactionResult::bytesSaved</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Approximate bytes reclaimed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="456" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="456" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_compaction_result_1aa8ebdbbe190d9db629c6571e2d980695" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::CompactionResult::retainedEntries</definition>
+        <argsstring></argsstring>
+        <name>retainedEntries</name>
+        <qualifiedname>themis::utils::CompactionResult::retainedEntries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Entries preserved (committed SAGA steps). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="457" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="457" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_compaction_result_1a67613f646809d0b572a0c8c00eb3789b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::CompactionResult::durationMs</definition>
+        <argsstring></argsstring>
+        <name>durationMs</name>
+        <qualifiedname>themis::utils::CompactionResult::durationMs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock duration of the compaction pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="458" column="14" bodyfile="include/utils/utils_interfaces.h" bodystart="458" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_compaction_result_1a99c989bd335ebcf3a5f11bbc762b2729" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::CompactionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::utils::CompactionResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true when compaction completed without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="459" column="10" bodyfile="include/utils/utils_interfaces.h" bodystart="459" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_compaction_result_1a9387c7f928f507f3ea83b3c3e10f4da8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::CompactionResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::utils::CompactionResult::errorMessage</qualifiedname>
+        <briefdescription>
+<para>Non-empty when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="460" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="460" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> produced by an async <ref refid="classthemis_1_1utils_1_1_i_s_a_g_a_log_compactor_1a7269c58da960cb01c963a850eb625d94" kindref="member">ISAGALogCompactor::compact()</ref> operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="454" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="454" bodyend="461"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_compaction_result_1a4071d3bc9ff3c492dd531894e26774e3" prot="public" virt="non-virtual"><scope>themis::utils::CompactionResult</scope><name>bytesSaved</name></member>
+      <member refid="structthemis_1_1utils_1_1_compaction_result_1a3fb51916f4872d33bddfcd2e4fdbf960" prot="public" virt="non-virtual"><scope>themis::utils::CompactionResult</scope><name>compactedSegments</name></member>
+      <member refid="structthemis_1_1utils_1_1_compaction_result_1a67613f646809d0b572a0c8c00eb3789b" prot="public" virt="non-virtual"><scope>themis::utils::CompactionResult</scope><name>durationMs</name></member>
+      <member refid="structthemis_1_1utils_1_1_compaction_result_1a9387c7f928f507f3ea83b3c3e10f4da8" prot="public" virt="non-virtual"><scope>themis::utils::CompactionResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1utils_1_1_compaction_result_1aa8ebdbbe190d9db629c6571e2d980695" prot="public" virt="non-virtual"><scope>themis::utils::CompactionResult</scope><name>retainedEntries</name></member>
+      <member refid="structthemis_1_1utils_1_1_compaction_result_1a99c989bd335ebcf3a5f11bbc762b2729" prot="public" virt="non-virtual"><scope>themis::utils::CompactionResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

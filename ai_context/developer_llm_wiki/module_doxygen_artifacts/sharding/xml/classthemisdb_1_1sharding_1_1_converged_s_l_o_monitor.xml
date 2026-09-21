@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConvergedSLOMonitor</compoundname>
+    <includes refid="converged__slo__metrics_8h" local="no">converged_slo_metrics.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config" prot="public">themisdb::sharding::ConvergedSLOMonitor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1aa7549036265c254679e5b638a11c553e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::ConvergedSLOMonitor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="494" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a49294c257d54cd14ae063393a30fa92b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics" kindref="compound">ConvergedSLOMetrics</ref></type>
+        <definition>ConvergedSLOMetrics themisdb::sharding::ConvergedSLOMonitor::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="495" column="25" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a7673f75ccefda8723b520738f8e48534" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::ConvergedSLOMonitor::window_start_</definition>
+        <argsstring></argsstring>
+        <name>window_start_</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::window_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="496" column="43" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a52fdc2542ddcc383c862e177634d5137" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedSLOMonitor::ConvergedSLOMonitor</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>ConvergedSLOMonitor</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::ConvergedSLOMonitor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config_1abaa5679c834967c3d11ffab1618af6f9" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Construct Converged SLO Monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="460" column="14" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="196" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a93a0f1afb202f4d008f47534ee9dca58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ConvergedSLOMonitor::~ConvergedSLOMonitor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConvergedSLOMonitor</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::~ConvergedSLOMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="461" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a679555d035403d5f665c94e8b86df14c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedSLOMonitor::recordOperation</definition>
+        <argsstring>(const ConvergedOperationMetrics &amp;metrics)</argsstring>
+        <name>recordOperation</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::recordOperation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Record a Converged operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Operation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="464" column="10" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="208" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a6737277738d04ce52a729c91f2cb5278" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedSLOMonitor::recordError</definition>
+        <argsstring>(ConvergedErrorType error_type, const std::string &amp;message=&quot;&quot;)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::recordError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1" kindref="member">ConvergedErrorType</ref></type>
+          <declname>error_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a specific error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a679555d035403d5f665c94e8b86df14c" kindref="member">recordOperation()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="467" column="10" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="241" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a4c475b1b24f4c43161266cf2df8e7865" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedSLOMonitor::recordCrossShardKVStale</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t stale_version, uint64_t current_version)</argsstring>
+        <name>recordCrossShardKVStale</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::recordCrossShardKVStale</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>stale_version</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_version</declname>
+        </param>
+        <briefdescription>
+<para>Record cross-shard KV-stale error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Cross Shard KVStale.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stale_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(), std::to_string(), <ref refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a679555d035403d5f665c94e8b86df14c" kindref="member">recordOperation()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="470" column="10" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="258" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1aa1d3653c84bc40a055f11216e663d277" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedSLOMonitor::recordInferencePreemption</definition>
+        <argsstring>(uint64_t tokens_generated, uint64_t tokens_lost)</argsstring>
+        <name>recordInferencePreemption</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::recordInferencePreemption</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>tokens_generated</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>tokens_lost</declname>
+        </param>
+        <briefdescription>
+<para>Record inference preemption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Inference Preemption.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens_generated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens_lost</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(), std::to_string(), <ref refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a679555d035403d5f665c94e8b86df14c" kindref="member">recordOperation()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="473" column="10" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="285" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a342c86cac637b0e08a2bfcc3c48aa679" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ConvergedSLOMonitor::isSLOMet</definition>
+        <argsstring>() const</argsstring>
+        <name>isSLOMet</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::isSLOMet</qualifiedname>
+        <briefdescription>
+<para>Check if SLO is being met. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="476" column="10" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="305" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1aaaf7b42b41964f565c813e9343af2ccf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ConvergedSLOMonitor::getSLOReport</definition>
+        <argsstring>() const</argsstring>
+        <name>getSLOReport</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::getSLOReport</qualifiedname>
+        <briefdescription>
+<para>Get SLO compliance report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="479" column="20" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="337" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1ae71421898b621e5707a62df8e1c794a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOMonitor::getErrorBudgetRemaining</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorBudgetRemaining</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::getErrorBudgetRemaining</qualifiedname>
+        <briefdescription>
+<para>Get error budget remaining. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="482" column="12" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="378" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a2b66d55194b2d0b7917d5f74337008de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics" kindref="compound">ConvergedSLOMetrics</ref></type>
+        <definition>ConvergedSLOMetrics themisdb::sharding::ConvergedSLOMonitor::getCurrentMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentMetrics</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::getCurrentMetrics</qualifiedname>
+        <briefdescription>
+<para>Get current metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="485" column="25" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="397" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a246b4635d2c7480a515b6c0c490ce569" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedSLOMonitor::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: std::chrono::steady_clock::now(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="488" column="10" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="405" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a40b0f8a3959846de063328484493e3b4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themisdb::sharding::ConvergedSLOMonitor::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOMonitor::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="491" column="18" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="491" bodyend="491"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Converged SLO Monitor for tracking Converged Storage-Inference specific metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/converged_slo_metrics.h" line="447" column="1" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="447" bodyend="497"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1aa7549036265c254679e5b638a11c553e" prot="private" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a52fdc2542ddcc383c862e177634d5137" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>ConvergedSLOMonitor</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a40b0f8a3959846de063328484493e3b4" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a2b66d55194b2d0b7917d5f74337008de" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>getCurrentMetrics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1ae71421898b621e5707a62df8e1c794a3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>getErrorBudgetRemaining</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1aaaf7b42b41964f565c813e9343af2ccf" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>getSLOReport</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a342c86cac637b0e08a2bfcc3c48aa679" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>isSLOMet</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a49294c257d54cd14ae063393a30fa92b" prot="private" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>metrics_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a4c475b1b24f4c43161266cf2df8e7865" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>recordCrossShardKVStale</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a6737277738d04ce52a729c91f2cb5278" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>recordError</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1aa1d3653c84bc40a055f11216e663d277" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>recordInferencePreemption</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a679555d035403d5f665c94e8b86df14c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>recordOperation</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a246b4635d2c7480a515b6c0c490ce569" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a7673f75ccefda8723b520738f8e48534" prot="private" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>window_start_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1a93a0f1afb202f4d008f47534ee9dca58" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOMonitor</scope><name>~ConvergedSLOMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

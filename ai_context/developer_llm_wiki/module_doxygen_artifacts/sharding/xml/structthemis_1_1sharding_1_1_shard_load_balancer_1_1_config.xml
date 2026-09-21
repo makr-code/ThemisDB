@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardLoadBalancer::Config</compoundname>
+    <includes refid="shard__load__balancer_8h" local="no">shard_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1a11090568efc8551f1b0a66e022f62be1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights" kindref="compound">Weights</ref></type>
+        <definition>Weights themis::sharding::ShardLoadBalancer::Config::weights</definition>
+        <argsstring></argsstring>
+        <name>weights</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::Config::weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="101" column="21" bodyfile="include/sharding/shard_load_balancer.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1a07e00f3b1dc8fe9d2195d905d594134d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadBalancer::Config::max_pending</definition>
+        <argsstring></argsstring>
+        <name>max_pending</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::Config::max_pending</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+<para>Normalisation baseline for pending count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="102" column="21" bodyfile="include/sharding/shard_load_balancer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1a8a559e464ad63741a1431d6078bbe20e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadBalancer::Config::max_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>max_p99_ms</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::Config::max_p99_ms</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalisation baseline for p99 latency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="103" column="21" bodyfile="include/sharding/shard_load_balancer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1ac34b8a23269b80341731c35cfd00da8a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardLoadBalancer::Config::sticky_sessions</definition>
+        <argsstring></argsstring>
+        <name>sticky_sessions</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::Config::sticky_sessions</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Client-affinity: prefer same shard for same client hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="105" column="21" bodyfile="include/sharding/shard_load_balancer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1a66c01d2d4b8ec6f34c70c0e47af8e0a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadBalancer::Config::sticky_threshold</definition>
+        <argsstring></argsstring>
+        <name>sticky_threshold</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::Config::sticky_threshold</qualifiedname>
+        <initializer>= 80.0</initializer>
+        <briefdescription>
+<para>Abandon stickiness if score &gt; this. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="106" column="21" bodyfile="include/sharding/shard_load_balancer.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the load balancer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::ShardLoadBalancer::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>weights</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ShardLoadBalancer::Weights</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/shard_load_balancer.h" line="100" column="5" bodyfile="include/sharding/shard_load_balancer.h" bodystart="100" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1a8a559e464ad63741a1431d6078bbe20e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::Config</scope><name>max_p99_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1a07e00f3b1dc8fe9d2195d905d594134d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::Config</scope><name>max_pending</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1ac34b8a23269b80341731c35cfd00da8a" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::Config</scope><name>sticky_sessions</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1a66c01d2d4b8ec6f34c70c0e47af8e0a7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::Config</scope><name>sticky_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config_1a11090568efc8551f1b0a66e022f62be1" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::Config</scope><name>weights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

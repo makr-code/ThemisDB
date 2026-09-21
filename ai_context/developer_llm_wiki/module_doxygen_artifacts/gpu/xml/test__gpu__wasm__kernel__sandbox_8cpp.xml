@@ -1,0 +1,810 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__wasm__kernel__sandbox_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_wasm_kernel_sandbox.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/wasm_kernel_sandbox.h</includes>
+    <includes local="yes">themis/gpu/feature_flags.h</includes>
+    <includes local="yes">themis/gpu/kernel_validator.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_wasm_kernel_sandbox.cpp</label>
+        <link refid="test__gpu__wasm__kernel__sandbox_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/feature_flags.h</label>
+      </node>
+      <node id="5">
+        <label>themis/gpu/kernel_validator.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/wasm_kernel_sandbox.h</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_w_a_s_m_kernel_sandbox_test" prot="public">WASMKernelSandboxTest</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__gpu__wasm__kernel__sandbox_8cpp_1a868a24217d32d66676b3ddf3321284fa" prot="public" static="no">
+        <type>WASMKernelSandbox::Status</type>
+        <definition>using Status = WASMKernelSandbox::Status</definition>
+        <argsstring></argsstring>
+        <name>Status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="22" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a8e176cd6294984431396f2a7234f6172" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; makeBlob</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>makeBlob</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="28" column="20" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1af65570b6bba3cc0f57283486489435b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, FeatureDisabled_RejectsExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>FeatureDisabled_RejectsExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="60" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="60" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a7fdb818fb8a02085c2adb98b38732a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, FeatureEnabled_AllowsValidKernel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>FeatureEnabled_AllowsValidKernel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="76" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a401fc98625de7ee1c5e44215e7a86960" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, EmptyBlob_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyBlob_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="89" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="89" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a3ee35fe0c0538a048d1bc29c122dfbe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, UnknownKernel_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>UnknownKernel_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="103" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="103" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a6a4e2811a67eb3016718e6583bae3edd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, ChecksumMismatch_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>ChecksumMismatch_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="112" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="112" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a3e57b08b2f3c03f0cd17c60112992b85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, BlobExceedsMemoryLimit_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>BlobExceedsMemoryLimit_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="126" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="126" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a0d917f2d6b099a527a99acf127199741" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, ZeroMemoryLimit_DisablesCheck)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroMemoryLimit_DisablesCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="140" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="140" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a89610b79f064e988e6fde42e76fa4ecc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, CustomBackend_SuccessPath)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>CustomBackend_SuccessPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="157" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="157" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1ab03e189e2376ecf2ee6e8a3a04e1b659" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, CustomBackend_FailurePath)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>CustomBackend_FailurePath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="172" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="172" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1aaae64f5cd0408388fa82d6ffb3a03472" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, SlowBackend_TimesOut)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>SlowBackend_TimesOut</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="190" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="190" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1abf3b00dab52cbf2d8877ae5c735b5a4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, FastBackend_DoesNotTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>FastBackend_DoesNotTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="209" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="209" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a10b1c70636f6c4c00bb82312284b3a8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, Stats_CountAllOutcomes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>Stats_CountAllOutcomes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="227" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="227" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a6dd3eefa54c9c91be93382d2547ae8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, ResetStats_ClearsCounters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>ResetStats_ClearsCounters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="244" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="244" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a8c504054c11b65991cc0c0903ef1d0dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, SetConfig_UpdatesLimits)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>SetConfig_UpdatesLimits</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="263" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="263" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a63058917105adfd8027861be87746c18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, IsWASMSupported_ReturnsFalseWithoutRuntime)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>IsWASMSupported_ReturnsFalseWithoutRuntime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="280" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="280" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a0eec9ab6af35d6efc8e359129fd9cd18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WASMKernelSandboxStatusNameTest, AllStatusesHaveNames)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WASMKernelSandboxStatusNameTest</type>
+        </param>
+        <param>
+          <type>AllStatusesHaveNames</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="293" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="293" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1a8878bd8e7c4e830bfe4e0febe15a9eff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WASMKernelSandboxFeatureFlagTest, WASMSandboxAppearsInGetAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WASMKernelSandboxFeatureFlagTest</type>
+        </param>
+        <param>
+          <type>WASMSandboxAppearsInGetAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="316" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="316" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__wasm__kernel__sandbox_8cpp_1af0df4694238c6486b5c8308f285f11fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WASMKernelSandboxTest, ConcurrentExecute_NoDataRace)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentExecute_NoDataRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="331" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="331" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Unit<sp/>tests<sp/>for<sp/>WASMKernelSandbox.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>All<sp/>tests<sp/>run<sp/>on<sp/>CI<sp/>without<sp/>GPU<sp/>hardware.<sp/><sp/>The<sp/>sandbox&apos;s<sp/>CPU<sp/>simulation</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>path<sp/>is<sp/>exercised<sp/>end-to-end:<sp/>kernel-validator<sp/>integration,<sp/>feature-gate</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>enforcement,<sp/>memory-limit<sp/>rejection,<sp/>timeout<sp/>enforcement,<sp/>statistics</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>tracking,<sp/>and<sp/>concurrent<sp/>safety.</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/wasm_kernel_sandbox.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/feature_flags.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/kernel_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__gpu__mig__manager_8cpp_1a5e8744a934d85de25cb1e8122abb16d7" kindref="member">Status</ref><sp/>=<sp/>WASMKernelSandbox::Status;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>makeBlob(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{s.begin(),<sp/>s.end()};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Each<sp/>test<sp/>gets<sp/>a<sp/>fresh<sp/>local<sp/>WASMKernelSandbox<sp/>and<sp/>a<sp/>GPUKernelValidator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>is<sp/>reset<sp/>before<sp/>and<sp/>after<sp/>the<sp/>test<sp/>to<sp/>prevent<sp/>state<sp/>leakage<sp/>through</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>validator<sp/>singleton.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="class_w_a_s_m_kernel_sandbox_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_w_a_s_m_kernel_sandbox_test_1ad49b6f769b95b1054615fc4b14458a47" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().reset();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>WASM_SANDBOX<sp/>for<sp/>all<sp/>tests<sp/>(override<sp/>edition<sp/>default).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUFeatureFlags::GetInstance().enable(</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUFeatureFlags::Feature::WASM_SANDBOX);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_w_a_s_m_kernel_sandbox_test_1ae9e2ab445e5ec90d8f2b942450e99806" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().reset();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUFeatureFlags::GetInstance().resetToDefaults();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>WASMKernelSandbox<sp/><ref refid="class_w_a_s_m_kernel_sandbox_test_1a712888c25d64bf1f5bae6f9a48bf1ab0" kindref="member">sandbox</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature<sp/>flag<sp/>gate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>FeatureDisabled_RejectsExecution)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUFeatureFlags::GetInstance().disable(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUFeatureFlags::Feature::WASM_SANDBOX);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;kernel_bytes&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::REJECTED_FEATURE_DISABLED);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.ok());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>sandbox.getStats();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_submitted,<sp/>1u);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.rejected_feature_disabled,<sp/>1u);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>FeatureEnabled_AllowsValidKernel)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;valid_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::OK);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.ok());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Empty<sp/>blob<sp/>rejection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>EmptyBlob_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;k_empty&quot;</highlight><highlight class="normal">,<sp/>42ULL);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;k_empty&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::REJECTED_EMPTY_BLOB);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.ok());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sandbox.getStats().rejected_empty,<sp/>1u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Kernel<sp/>whitelist<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>UnknownKernel_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;some_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>NOT<sp/>register<sp/>&quot;unknown_kernel&quot;<sp/>with<sp/>the<sp/>validator.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;unknown_kernel&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::REJECTED_NOT_WHITELISTED);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sandbox.getStats().rejected_not_whitelisted,<sp/>1u);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>ChecksumMismatch_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>canonical<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;original_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;k_cs&quot;</highlight><highlight class="normal">,<sp/>canonical);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tampered<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;tampered_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;k_cs&quot;</highlight><highlight class="normal">,<sp/>tampered);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::REJECTED_CHECKSUM_MISMATCH);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sandbox.getStats().rejected_checksum,<sp/>1u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Memory<sp/>limit<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>BlobExceedsMemoryLimit_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>WASMKernelSandbox::SandboxConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.memory_limit_bytes<sp/>=<sp/>4;<sp/><sp/></highlight><highlight class="comment">//<sp/>Tiny<sp/>limit<sp/>so<sp/>any<sp/>realistic<sp/>blob<sp/>exceeds<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_execution_ms<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.setConfig(cfg);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;kernel_bigger_than_limit&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;k_mem&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;k_mem&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::REJECTED_MEMORY_LIMIT);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sandbox.getStats().rejected_memory_limit,<sp/>1u);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>ZeroMemoryLimit_DisablesCheck)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>WASMKernelSandbox::SandboxConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.memory_limit_bytes<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Disabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_execution_ms<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.setConfig(cfg);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;large_enough_blob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;k_nolimit&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;k_nolimit&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::OK);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Execution<sp/>with<sp/>custom<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>CustomBackend_SuccessPath)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;kernel_v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;kb&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULauncher::BackendFn<sp/>fn<sp/>=<sp/>[&amp;called](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;<sp/>item)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>item.kernel_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;kb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;kb&quot;</highlight><highlight class="normal">,<sp/>blob,<sp/>fn);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::OK);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(called);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>CustomBackend_FailurePath)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;kernel_fail&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;kfail&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULauncher::BackendFn<sp/>fn<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;kfail&quot;</highlight><highlight class="normal">,<sp/>blob,<sp/>fn);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::EXECUTION_ERROR);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.ok());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sandbox.getStats().execution_errors,<sp/>1u);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timeout<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>SlowBackend_TimesOut)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>WASMKernelSandbox::SandboxConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_execution_ms<sp/><sp/><sp/>=<sp/>50;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>ms<sp/>deadline.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.memory_limit_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.setConfig(cfg);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;slow_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;k_slow&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULauncher::BackendFn<sp/>fn<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(200));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;k_slow&quot;</highlight><highlight class="normal">,<sp/>blob,<sp/>fn);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::REJECTED_TIMEOUT);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sandbox.getStats().rejected_timeout,<sp/>1u);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>FastBackend_DoesNotTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>WASMKernelSandbox::SandboxConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_execution_ms<sp/><sp/><sp/>=<sp/>2000;<sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>s<sp/>deadline<sp/>—<sp/>fast<sp/>backend<sp/>won&apos;t<sp/>hit<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.memory_limit_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.setConfig(cfg);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;fast_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;k_fast&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;k_fast&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/>Status::OK);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sandbox.getStats().rejected_timeout,<sp/>0u);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Statistics<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>Stats_CountAllOutcomes)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;stats_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;sk&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;sk&quot;</highlight><highlight class="normal">,<sp/>blob);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;sk&quot;</highlight><highlight class="normal">,<sp/>{});<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>EMPTY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;unknown_k&quot;</highlight><highlight class="normal">,<sp/>blob);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOT_WHITELISTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;sk&quot;</highlight><highlight class="normal">,<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;tampered&quot;</highlight><highlight class="normal">));<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CHECKSUM_MISMATCH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>sandbox.getStats();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_submitted,<sp/>4u);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.ok_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.rejected_empty,<sp/>1u);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.rejected_not_whitelisted,<sp/>1u);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.rejected_checksum,<sp/>1u);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>ResetStats_ClearsCounters)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;reset_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;rk&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;rk&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sandbox.getStats().total_submitted,<sp/>1u);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.resetStats();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>sandbox.getStats();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_submitted,<sp/>0u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.ok_count,<sp/>0u);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_elapsed_ms,<sp/>0u);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>SetConfig_UpdatesLimits)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>WASMKernelSandbox::SandboxConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.memory_limit_bytes<sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_execution_ms<sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.allow_host_calls<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>sandbox.setConfig(cfg);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>got<sp/>=<sp/>sandbox.getConfig();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(got.memory_limit_bytes,<sp/>1024u);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(got.max_execution_ms,<sp/>100u);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(got.allow_host_calls);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>isWASMSupported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>IsWASMSupported_ReturnsFalseWithoutRuntime)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>THEMIS_ENABLE_WASM<sp/>the<sp/>CPU<sp/>simulation<sp/>path<sp/>is<sp/>active.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_ENABLE_WASM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sandbox.isWASMSupported());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sandbox.isWASMSupported());</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>sandboxStatusName<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__gpu__wasm__kernel__sandbox_8cpp_1a0eec9ab6af35d6efc8e359129fd9cd18" kindref="member">TEST</ref>(WASMKernelSandboxStatusNameTest,<sp/>AllStatusesHaveNames)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">S<sp/>=<sp/>WASMKernelSandbox::Status;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>S<sp/>all[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S::OK,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S::REJECTED_NOT_WHITELISTED,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S::REJECTED_CHECKSUM_MISMATCH,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S::REJECTED_EMPTY_BLOB,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S::REJECTED_FEATURE_DISABLED,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S::REJECTED_MEMORY_LIMIT,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S::REJECTED_TIMEOUT,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S::EXECUTION_ERROR,</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>:<sp/>all)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name<sp/>=<sp/><ref refid="namespacethemis_1_1gpu_1a1b5f70fccc072c16db28bf5e86036ab4" kindref="member">sandboxStatusName</ref>(s);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(name,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_STRNE(name,<sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature<sp/>flags:<sp/>WASM_SANDBOX<sp/>in<sp/>getAll()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__gpu__wasm__kernel__sandbox_8cpp_1a0eec9ab6af35d6efc8e359129fd9cd18" kindref="member">TEST</ref>(WASMKernelSandboxFeatureFlagTest,<sp/>WASMSandboxAppearsInGetAll)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>flags<sp/>=<sp/>GPUFeatureFlags::GetInstance().getAll();</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fs<sp/>:<sp/>flags)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs.name<sp/>==<sp/>std::string(</highlight><highlight class="stringliteral">&quot;WASM_SANDBOX&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;WASM_SANDBOX<sp/>must<sp/>appear<sp/>in<sp/>GPUFeatureFlags::getAll()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_w_a_s_m_kernel_sandbox_test" kindref="compound">WASMKernelSandboxTest</ref>,<sp/>ConcurrentExecute_NoDataRace)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>makeBlob(</highlight><highlight class="stringliteral">&quot;concurrent_kernel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUKernelValidator::GetInstance().registerKernel(</highlight><highlight class="stringliteral">&quot;ck&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>THREADS<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>OPS<sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>ok_count{0};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>worker<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>OPS;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>sandbox.execute(</highlight><highlight class="stringliteral">&quot;ck&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.ok())<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(THREADS);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>THREADS;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back(worker);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ok_count.load(),<sp/>THREADS<sp/>*<sp/>OPS);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sandbox.getStats().total_submitted,</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(THREADS<sp/>*<sp/>OPS));</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp"/>
+  </compounddef>
+</doxygen>

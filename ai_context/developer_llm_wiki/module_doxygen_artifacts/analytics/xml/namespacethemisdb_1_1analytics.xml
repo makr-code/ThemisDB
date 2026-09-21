@@ -1,0 +1,3279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1analytics" kind="namespace" language="C++">
+    <compoundname>themisdb::analytics</compoundname>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_action_config" prot="public">themisdb::analytics::ActionConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_adapter_domain" prot="public">themisdb::analytics::AdapterDomain</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_aggregated_value" prot="public">themisdb::analytics::AggregatedValue</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_aggregate_operator" prot="public">themisdb::analytics::AggregateOperator</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_aggregate_spec" prot="public">themisdb::analytics::AggregateSpec</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_aggregation_batch" prot="public">themisdb::analytics::AggregationBatch</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_aggregation_result" prot="public">themisdb::analytics::AggregationResult</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_aggregator" prot="public">themisdb::analytics::Aggregator</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_alert" prot="public">themisdb::analytics::Alert</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" prot="public">themisdb::analytics::AN1RetryTest</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_analytics_engine" prot="public">themisdb::analytics::AnalyticsEngine</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_anomaly_detector" prot="public">themisdb::analytics::AnomalyDetector</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_anomaly_explanation" prot="public">themisdb::analytics::AnomalyExplanation</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_anomaly_result" prot="public">themisdb::analytics::AnomalyResult</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_arrow_flight_client" prot="public">themisdb::analytics::ArrowFlightClient</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_arrow_flight_server" prot="public">themisdb::analytics::ArrowFlightServer</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_auto_m_l" prot="public">themisdb::analytics::AutoML</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" prot="public">themisdb::analytics::AutoMLConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" prot="public">themisdb::analytics::AutoMLModel</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_bench_shard_executor" prot="public">themisdb::analytics::BenchShardExecutor</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_candidate_model_info" prot="public">themisdb::analytics::CandidateModelInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_c_e_p_config" prot="public">themisdb::analytics::CEPConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_c_e_p_engine" prot="public">themisdb::analytics::CEPEngine</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_change_record" prot="public">themisdb::analytics::ChangeRecord</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test" prot="public">themisdb::analytics::CircuitBreakerTransitionTest</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_column" prot="public">themisdb::analytics::Column</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_columnar_execution_engine" prot="public">themisdb::analytics::ColumnarExecutionEngine</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_column_batch" prot="public">themisdb::analytics::ColumnBatch</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_concurrency_guard_test" prot="public">themisdb::analytics::ConcurrencyGuardTest</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_connection_guard" prot="public">themisdb::analytics::ConnectionGuard</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_connection_pool" prot="public">themisdb::analytics::ConnectionPool</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_counting_shard_executor" prot="public">themisdb::analytics::CountingShardExecutor</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_data_point" prot="public">themisdb::analytics::DataPoint</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_decomposition_result" prot="public">themisdb::analytics::DecompositionResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_detector_config" prot="public">themisdb::analytics::DetectorConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" prot="public">themisdb::analytics::DistributedAnalyticsSharding</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_eval_metrics" prot="public">themisdb::analytics::EvalMetrics</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_event" prot="public">themisdb::analytics::Event</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_event_stream" prot="public">themisdb::analytics::EventStream</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_expert_system_engine" prot="public">themisdb::analytics::ExpertSystemEngine</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_expert_system_engine_config" prot="public">themisdb::analytics::ExpertSystemEngineConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_fact" prot="public">themisdb::analytics::Fact</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_filter_operator" prot="public">themisdb::analytics::FilterOperator</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_call_options" prot="public">themisdb::analytics::FlightCallOptions</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_client_options" prot="public">themisdb::analytics::FlightClientOptions</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_descriptor" prot="public">themisdb::analytics::FlightDescriptor</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_info" prot="public">themisdb::analytics::FlightInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_put_result" prot="public">themisdb::analytics::FlightPutResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_server_options" prot="public">themisdb::analytics::FlightServerOptions</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_forecast_config" prot="public">themisdb::analytics::ForecastConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_forecast_metrics" prot="public">themisdb::analytics::ForecastMetrics</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_forecast_model" prot="public">themisdb::analytics::ForecastModel</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_forecast_point" prot="public">themisdb::analytics::ForecastPoint</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_goal_result" prot="public">themisdb::analytics::GoalResult</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_hash_join" prot="public">themisdb::analytics::HashJoin</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_hopping_window" prot="public">themisdb::analytics::HoppingWindow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_hopping_window_config" prot="public">themisdb::analytics::HoppingWindowConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_horn_clause" prot="public">themisdb::analytics::HornClause</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" prot="public">themisdb::analytics::IMLServingBackend</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_incremental_view" prot="public">themisdb::analytics::IncrementalView</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_incremental_view_manager" prot="public">themisdb::analytics::IncrementalViewManager</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client" prot="public">themisdb::analytics::InProcessArrowFlightClient</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_server" prot="public">themisdb::analytics::InProcessArrowFlightServer</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_interval_join" prot="public">themisdb::analytics::IntervalJoin</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_i_streaming_join" prot="public">themisdb::analytics::IStreamingJoin</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler" prot="public">themisdb::analytics::JITAggregationCompiler</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_knowledge_base" prot="public">themisdb::analytics::KnowledgeBase</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_local_shard_executor" prot="public">themisdb::analytics::LocalShardExecutor</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" prot="public">themisdb::analytics::LoRAPatternClassifier</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config" prot="public">themisdb::analytics::LoRAPatternClassifierConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_m_l_serving_client" prot="public">themisdb::analytics::MLServingClient</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_m_l_serving_config" prot="public">themisdb::analytics::MLServingConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" prot="public">themisdb::analytics::MLServingRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" prot="public">themisdb::analytics::MLServingResponse</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_m_l_tensor" prot="public">themisdb::analytics::MLTensor</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_mock_shard_executor" prot="public">themisdb::analytics::MockShardExecutor</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_model_explanation" prot="public">themisdb::analytics::ModelExplanation</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_model_health_metrics" prot="public">themisdb::analytics::ModelHealthMetrics</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_model_info" prot="public">themisdb::analytics::ModelInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_model_serving_config" prot="public">themisdb::analytics::ModelServingConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_model_serving_engine" prot="public">themisdb::analytics::ModelServingEngine</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_model_serving_entry" prot="public">themisdb::analytics::ModelServingEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" prot="public">themisdb::analytics::ONNXBackendConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend" prot="public">themisdb::analytics::ONNXServingBackend</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_pattern_config" prot="public">themisdb::analytics::PatternConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_pattern_match" prot="public">themisdb::analytics::PatternMatch</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_pattern_matcher" prot="public">themisdb::analytics::PatternMatcher</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_pattern_result" prot="public">themisdb::analytics::PatternResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_predicate" prot="public">themisdb::analytics::Predicate</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_project_operator" prot="public">themisdb::analytics::ProjectOperator</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_proof_step" prot="public">themisdb::analytics::ProofStep</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_query_config" prot="public">themisdb::analytics::QueryConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_query_result" prot="public">themisdb::analytics::QueryResult</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_result_aggregator" prot="public">themisdb::analytics::ResultAggregator</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_result_batch" prot="public">themisdb::analytics::ResultBatch</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_result_record" prot="public">themisdb::analytics::ResultRecord</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_rule_config" prot="public">themisdb::analytics::RuleConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_rule_engine" prot="public">themisdb::analytics::RuleEngine</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test" prot="public">themisdb::analytics::SafetyControlsIntegrationTest</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_selection_vector" prot="public">themisdb::analytics::SelectionVector</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_session_window" prot="public">themisdb::analytics::SessionWindow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_session_window_config" prot="public">themisdb::analytics::SessionWindowConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_shard_query_executor" prot="public">themisdb::analytics::ShardQueryExecutor</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_sliding_window" prot="public">themisdb::analytics::SlidingWindow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_sliding_window_config" prot="public">themisdb::analytics::SlidingWindowConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_sort_operator" prot="public">themisdb::analytics::SortOperator</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_stream_config" prot="public">themisdb::analytics::StreamConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_streaming_anomaly_detector" prot="public">themisdb::analytics::StreamingAnomalyDetector</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline" prot="public">themisdb::analytics::StreamingWindowPipeline</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_stream_record" prot="public">themisdb::analytics::StreamRecord</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend" prot="public">themisdb::analytics::TFServingBackend</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" prot="public">themisdb::analytics::TFServingConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_thread_guard" prot="public">themisdb::analytics::ThreadGuard</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test" prot="public">themisdb::analytics::TimeoutRecoveryTest</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_time_series" prot="public">themisdb::analytics::TimeSeries</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_time_series_point" prot="public">themisdb::analytics::TimeSeriesPoint</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_training_core_result" prot="public">themisdb::analytics::TrainingCoreResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_triple_pattern" prot="public">themisdb::analytics::TriplePattern</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_tumbling_window" prot="public">themisdb::analytics::TumblingWindow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" prot="public">themisdb::analytics::TumblingWindowConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_vectorized_pipeline" prot="public">themisdb::analytics::VectorizedPipeline</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_agg_spec" prot="public">themisdb::analytics::ViewAggSpec</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_definition" prot="public">themisdb::analytics::ViewDefinition</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_filter" prot="public">themisdb::analytics::ViewFilter</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_query_result" prot="public">themisdb::analytics::ViewQueryResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_row" prot="public">themisdb::analytics::ViewRow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_watermark_config" prot="public">themisdb::analytics::WatermarkConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" prot="public">themisdb::analytics::WindowAggregateSpec</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_config" prot="public">themisdb::analytics::WindowConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_window_manager" prot="public">themisdb::analytics::WindowManager</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_result" prot="public">themisdb::analytics::WindowResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_stats" prot="public">themisdb::analytics::WindowStats</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_write_result" prot="public">themisdb::analytics::WriteResult</innerclass>
+    <innernamespace refid="namespacethemisdb_1_1analytics_1_1detail">themisdb::analytics::detail</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics_1_1test">themisdb::analytics::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AnomalyMethod</name>
+        <qualifiedname>themisdb::analytics::AnomalyMethod</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" prot="public">
+          <name>Z_SCORE</name>
+          <briefdescription>
+<para>Standardised z-score; simple, fast. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea78490d32e166341dd4ab17d19e590966" prot="public">
+          <name>MODIFIED_Z_SCORE</name>
+          <briefdescription>
+<para>MAD-based robust z-score. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea58d3efe734ac81fe0387c1862a1f4924" prot="public">
+          <name>IQR</name>
+          <briefdescription>
+<para>Interquartile-range fence. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea985f421efd8ffc9fa63ddf4863120c47" prot="public">
+          <name>ISOLATION_FOREST</name>
+          <briefdescription>
+<para>Approximate isolation forest. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ead611e5db747e7340c80e9bfa1986b0bb" prot="public">
+          <name>LOF</name>
+          <briefdescription>
+<para>Local Outlier Factor. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea6ed80ac51c01c67befa758cf79ff1c99" prot="public">
+          <name>ENSEMBLE</name>
+          <briefdescription>
+<para>Weighted combination of all detectors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="83" column="1" bodyfile="include/analytics/anomaly_detection.h" bodystart="83" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AutoMLTask</name>
+        <qualifiedname>themisdb::analytics::AutoMLTask</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" prot="public">
+          <name>CLASSIFICATION</name>
+          <briefdescription>
+<para>Predict a discrete class label. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a3fb097abda02709442bb2857e258a251" prot="public">
+          <name>REGRESSION</name>
+          <briefdescription>
+<para>Predict a continuous value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="84" column="1" bodyfile="include/analytics/automl.h" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ModelAlgorithm</name>
+        <qualifiedname>themisdb::analytics::ModelAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a4c9f068dcdf794de5fa83607857f4845" prot="public">
+          <name>LOGISTIC_REGRESSION</name>
+          <briefdescription>
+<para>L2-regularised logistic regression (classification). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a8fdbe96b7ca9c61d8b8231ee046e0c64" prot="public">
+          <name>LINEAR_REGRESSION</name>
+          <briefdescription>
+<para>OLS / ridge regression (regression). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" prot="public">
+          <name>DECISION_TREE</name>
+          <briefdescription>
+<para>CART decision tree (classification or regression). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a950e55e15b7d0cca1ea7e8c925a5b2cb" prot="public">
+          <name>RANDOM_FOREST</name>
+          <briefdescription>
+<para>Ensemble of CART trees via bagging. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a1d9e49121ee701b5e22ef562a1e4fb5e" prot="public">
+          <name>GRADIENT_BOOSTING</name>
+          <briefdescription>
+<para>Gradient-boosted decision trees. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177ab602e23c0ec2466f3aa6cade0cd5ce05" prot="public">
+          <name>KNN</name>
+          <briefdescription>
+<para>k-Nearest Neighbours </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a6ed80ac51c01c67befa758cf79ff1c99" prot="public">
+          <name>ENSEMBLE</name>
+          <briefdescription>
+<para>AutoML-generated soft-voting ensemble. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="89" column="1" bodyfile="include/analytics/automl.h" bodystart="89" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AutoMLMetric</name>
+        <qualifiedname>themisdb::analytics::AutoMLMetric</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea14639a70e23fda5b8580984795e92051" prot="public">
+          <name>ACCURACY</name>
+          <briefdescription>
+<para>Fraction of correctly classified samples. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeae1dffc8709f31a4987c8a88334107e89" prot="public">
+          <name>F1</name>
+          <briefdescription>
+<para>Macro-averaged F1. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea6bec3fae1608a879905a85babf957cf3" prot="public">
+          <name>PRECISION</name>
+          <briefdescription>
+<para>Macro-averaged precision. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea7b2babc680386704751b68a62720db20" prot="public">
+          <name>RECALL</name>
+          <briefdescription>
+<para>Macro-averaged recall. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeab1606bb0126125acacabfdb973c445c0" prot="public">
+          <name>AUC_ROC</name>
+          <briefdescription>
+<para>Area under the ROC curve (binary only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea8c6d22ff6f63fc6711cfa315cb80b314" prot="public">
+          <name>R2</name>
+          <briefdescription>
+<para>Coefficient of determination. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeaa5f59af2c07e44f88bf1556a41dfc5d8" prot="public">
+          <name>RMSE</name>
+          <briefdescription>
+<para>Root mean squared error (lower is better). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfead7bfc720460d75c28ce69ce26d239f9f" prot="public">
+          <name>MAE</name>
+          <briefdescription>
+<para>Mean absolute error (lower is better). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfead348e66e8a4fcdd6570e7c0977571c46" prot="public">
+          <name>MAPE</name>
+          <briefdescription>
+<para>Mean absolute percentage error (lower is better). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="99" column="1" bodyfile="include/analytics/automl.h" bodystart="99" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cf" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>EventType</name>
+        <qualifiedname>themisdb::analytics::EventType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfaa12b220881b71ae4b8c3936ebd374d1a" prot="public">
+          <name>DOCUMENT_INSERT</name>
+          <initializer>= 0x0100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfac8582bb3de3dd0ec1e824bcfa0d0e2ca" prot="public">
+          <name>DOCUMENT_UPDATE</name>
+          <initializer>= 0x0101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa864dca1a1767465551069cd44e80ff4a" prot="public">
+          <name>DOCUMENT_DELETE</name>
+          <initializer>= 0x0102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfaed6b78271f61ab3b0721ba6446e0fc9a" prot="public">
+          <name>DOCUMENT_EXPIRE</name>
+          <initializer>= 0x0103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa14d24376f55eec357182009632b92e48" prot="public">
+          <name>COLLECTION_CREATE</name>
+          <initializer>= 0x0110</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfac1c5eb99c853c9f4aee203f1b1303b8e" prot="public">
+          <name>COLLECTION_DROP</name>
+          <initializer>= 0x0111</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfac01b306b48ef2377ea32440e758b4472" prot="public">
+          <name>COLLECTION_TRUNCATE</name>
+          <initializer>= 0x0112</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfaddba7d0dff9d33cd78f9ea0b0e868c4e" prot="public">
+          <name>INDEX_CREATE</name>
+          <initializer>= 0x0120</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa5d457cabbcaee90aba527b2632a14078" prot="public">
+          <name>INDEX_DROP</name>
+          <initializer>= 0x0121</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa3a1490b891a17bb4a75a1c72e4767749" prot="public">
+          <name>VERTEX_CREATE</name>
+          <initializer>= 0x0200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa976f0d3e7ed6e2ce6e78a1e736eeccac" prot="public">
+          <name>VERTEX_UPDATE</name>
+          <initializer>= 0x0201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa36ae37cd2637181ccf5222f2790741e4" prot="public">
+          <name>VERTEX_DELETE</name>
+          <initializer>= 0x0202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa74b5084affe661ad56577f21b1031f4b" prot="public">
+          <name>EDGE_CREATE</name>
+          <initializer>= 0x0210</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfaea42052504fdacb651c5b1c02c701429" prot="public">
+          <name>EDGE_UPDATE</name>
+          <initializer>= 0x0211</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa00d93c0993cfd67a4383defb3f53913b" prot="public">
+          <name>EDGE_DELETE</name>
+          <initializer>= 0x0212</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfaccbed4facaf49a4348d7788ad85ea525" prot="public">
+          <name>GRAPH_TRAVERSAL</name>
+          <initializer>= 0x0220</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa0fea0304c0c5e12645ab60f9b335bc7b" prot="public">
+          <name>QUERY_START</name>
+          <initializer>= 0x0300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfafb07dc8842e9a38d9c2b8349ddafd426" prot="public">
+          <name>QUERY_COMPLETE</name>
+          <initializer>= 0x0301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa8b2cecb29d944210158570cef3b498c3" prot="public">
+          <name>QUERY_ERROR</name>
+          <initializer>= 0x0302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfaeecdbc6d876bc8ce1e9bfa09663b9c76" prot="public">
+          <name>QUERY_SLOW</name>
+          <initializer>= 0x0303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfad740e537c769ee174e1dde0a1d64d64d" prot="public">
+          <name>AUTH_SUCCESS</name>
+          <initializer>= 0x0400</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfabf593da74f0f9e405a2119e3f7f4c835" prot="public">
+          <name>AUTH_FAILURE</name>
+          <initializer>= 0x0401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa255df50c140519133f1489ab44a389d9" prot="public">
+          <name>PERMISSION_DENIED</name>
+          <initializer>= 0x0402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa86c86014b427e82094349e7832f06eee" prot="public">
+          <name>TOKEN_REFRESH</name>
+          <initializer>= 0x0403</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa44171dfe40e55505081c2ec0a514458b" prot="public">
+          <name>API_KEY_USED</name>
+          <initializer>= 0x0404</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfadb5a3e2417b148706d3c2fa269fee6a6" prot="public">
+          <name>SHARD_JOIN</name>
+          <initializer>= 0x0500</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa9c85b31df6c38589acf67dc689973812" prot="public">
+          <name>SHARD_LEAVE</name>
+          <initializer>= 0x0501</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfad5b6147b8eaf80c6ad4c4b55b39e3f66" prot="public">
+          <name>REBALANCE_START</name>
+          <initializer>= 0x0510</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfaf910cb25b1c34e1f679d42dfc0afdf3d" prot="public">
+          <name>REBALANCE_COMPLETE</name>
+          <initializer>= 0x0511</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfaf78e8a85edb2bfb9b7a569e718668d9b" prot="public">
+          <name>MIGRATION_START</name>
+          <initializer>= 0x0520</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa1ce3520c1404eb54896e9244ca1f8c21" prot="public">
+          <name>MIGRATION_COMPLETE</name>
+          <initializer>= 0x0521</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa321e47804b3033f0b1770047cbfcc399" prot="public">
+          <name>BACKUP_START</name>
+          <initializer>= 0x0530</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa37d6f6a6eed49f0477bac2bf692b817a" prot="public">
+          <name>BACKUP_COMPLETE</name>
+          <initializer>= 0x0531</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa22be0dae72d713ad97345960d0a55098" prot="public">
+          <name>HIGH_LATENCY</name>
+          <initializer>= 0x0600</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa44f3f7f07b99bd9bf164011f82d16f2e" prot="public">
+          <name>MEMORY_PRESSURE</name>
+          <initializer>= 0x0601</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa30e4a26438c791683f03c6ffc1781972" prot="public">
+          <name>DISK_PRESSURE</name>
+          <initializer>= 0x0602</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfab930f6f674bfdddaf44c3c5b4657a53a" prot="public">
+          <name>CONNECTION_POOL_EXHAUSTED</name>
+          <initializer>= 0x0603</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <initializer>= 0xFF00</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="69" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="69" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WindowType</name>
+        <qualifiedname>themisdb::analytics::WindowType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba95ad2287637805c77de2453d860476b2" prot="public">
+          <name>TUMBLING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba15443de7dd780091e8dd910b110bd99e" prot="public">
+          <name>SLIDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba8e32a82fa7897baa1c7f2bbf920b0ff1" prot="public">
+          <name>SESSION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba357f5a515b1050875cab773c21bd1254" prot="public">
+          <name>HOPPING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba6eecfba72d12922ee1dead07a0ef3334" prot="public">
+          <name>GLOBAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="123" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="123" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PatternType</name>
+        <qualifiedname>themisdb::analytics::PatternType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641a2cb198a10d0a4c217ff4c15e98a97215" prot="public">
+          <name>SEQUENCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641a9cf40429ae914672742e68787e5c8e93" prot="public">
+          <name>CONJUNCTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641ae39ed8f6d91467690502fede5e314d18" prot="public">
+          <name>DISJUNCTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641a32062acf077f7a905e80b32e6d1d4ed5" prot="public">
+          <name>NEGATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641a4937d446de173dd3e1248cbb27d4c297" prot="public">
+          <name>REPETITION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641a777bfaa271feffdec5e7ca3433997fc8" prot="public">
+          <name>KLEENE_PLUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641ae7dcf32b590fea4fdc9b467d6f59155e" prot="public">
+          <name>KLEENE_STAR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641a7951811e4b085cf68ed3dc3191f36405" prot="public">
+          <name>OPTIONAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="132" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="132" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggregationType</name>
+        <qualifiedname>themisdb::analytics::AggregationType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da6970bdc2201030b9c03fbdcf3973858a" prot="public">
+          <name>SUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dafcefd647d6a866603c627b11347c707a" prot="public">
+          <name>AVG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dace31e2a082d17e038fcc6e3006166653" prot="public">
+          <name>MIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da26a4b44a837bf97b972628509912b4a5" prot="public">
+          <name>MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da2c2624a5059934a947d6e25fe8332ade" prot="public">
+          <name>FIRST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7daf447f5c03508de4d88e340390ba7c78f" prot="public">
+          <name>LAST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dae920619bf0e106c10e5d5a787670a059" prot="public">
+          <name>STDDEV</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dace18bb9a2b22515d0cd36bca6b998bde" prot="public">
+          <name>VARIANCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da50af38ed06c82d7bc9af1f6d34d4ffca" prot="public">
+          <name>PERCENTILE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da95e35fb1535049226d78aff2a87cbbc9" prot="public">
+          <name>DISTINCT_COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da1a75993e7372a34254c93f2a2ce57f5f" prot="public">
+          <name>COLLECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da091ff0a458fccae89d97583bc0e63dba" prot="public">
+          <name>TOPN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="143" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="143" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ActionType</name>
+        <qualifiedname>themisdb::analytics::ActionType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1a320f86f60f25459ba5550e000b2c3929" prot="public">
+          <name>ALERT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1a4b5ffcdaf38ce4d463171f5c977c5ab3" prot="public">
+          <name>LOG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1a7ff61c5ef591dc72cbe8a265607c37c6" prot="public">
+          <name>WEBHOOK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1aa6fb841ac0695c2b064857506b4a4ad5" prot="public">
+          <name>DB_WRITE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1a61a649a33f2869e5e35fbb7aff3a80d9" prot="public">
+          <name>EMAIL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1aac7419c95b4da1216f106d1d2b55cfdc" prot="public">
+          <name>SLACK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1a4d53341459948070cd1f7e04475d329c" prot="public">
+          <name>KAFKA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="159" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="159" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511c" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>EventPriority</name>
+        <qualifiedname>themisdb::analytics::EventPriority</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511ca99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511cab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511ca1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511ca41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511ca87ed58ce5596142e11cb65deb049bb4b" prot="public">
+          <name>BACKGROUND</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="170" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="170" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786ef" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ColumnType</name>
+        <qualifiedname>themisdb::analytics::ColumnType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" prot="public">
+          <name>Int64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efad909d38d705ce75386dd86e611a82f5b" prot="public">
+          <name>Double</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efa27118326006d3829667a400ad23d5d98" prot="public">
+          <name>String</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efac26f15e86e3de4c398a8273272aba034" prot="public">
+          <name>Bool</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efabbb93ef26e3c101ff11cdd21cab08a94" prot="public">
+          <name>Null</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="120" column="1" bodyfile="include/analytics/columnar_execution.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ForecastMethod</name>
+        <qualifiedname>themisdb::analytics::ForecastMethod</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a8fdbe96b7ca9c61d8b8231ee046e0c64" prot="public">
+          <name>LINEAR_REGRESSION</name>
+          <briefdescription>
+<para>OLS trend line extrapolation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a194125a91eb4159370bf88f029b2a47a" prot="public">
+          <name>EXP_SMOOTHING</name>
+          <briefdescription>
+<para>Simple exponential smoothing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a1ab3e51535fb6e6c3c06b78349e91d62" prot="public">
+          <name>HOLT_WINTERS</name>
+          <briefdescription>
+<para>Triple exponential smoothing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a70ee30f9f425566bad73cd7a48e77384" prot="public">
+          <name>ARIMA</name>
+          <briefdescription>
+<para>AR(p) + I(d) + MA(q) model. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6ed80ac51c01c67befa758cf79ff1c99" prot="public">
+          <name>ENSEMBLE</name>
+          <briefdescription>
+<para>Weighted combination of the above. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" prot="public">
+          <name>SARIMA</name>
+          <briefdescription>
+<para>Seasonal ARIMA (p,d,q)(P,D,Q)_m. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a1598c18d6d525cf744663e1edfdda27d" prot="public">
+          <name>PROPHET</name>
+          <briefdescription>
+<para>Prophet-style trend + Fourier seasonality + changepoints. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="160" column="1" bodyfile="include/analytics/forecasting.h" bodystart="160" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ViewAggFunc</name>
+        <qualifiedname>themisdb::analytics::ViewAggFunc</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a6970bdc2201030b9c03fbdcf3973858a" prot="public">
+          <name>SUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825afcefd647d6a866603c627b11347c707a" prot="public">
+          <name>AVG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ace31e2a082d17e038fcc6e3006166653" prot="public">
+          <name>MIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a26a4b44a837bf97b972628509912b4a5" prot="public">
+          <name>MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ae920619bf0e106c10e5d5a787670a059" prot="public">
+          <name>STDDEV</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ace18bb9a2b22515d0cd36bca6b998bde" prot="public">
+          <name>VARIANCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a45b14c32ffb0d2822ad079cd8b60bc1f" prot="public">
+          <name>COUNT_DISTINCT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a2c2624a5059934a947d6e25fe8332ade" prot="public">
+          <name>FIRST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825af447f5c03508de4d88e340390ba7c78f" prot="public">
+          <name>LAST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="70" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="70" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChangeType</name>
+        <qualifiedname>themisdb::analytics::ChangeType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a61ee777e7f71dc466c3b2c685d8d313b" prot="public">
+          <name>INSERT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a15a8022d0ed9cd9c2a2e756822703eb4" prot="public">
+          <name>UPDATE</name>
+          <briefdescription>
+<para>requires both before_row and after_row </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="87" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MLServingStatus</name>
+        <qualifiedname>themisdb::analytics::MLServingStatus</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+<para>Inference completed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa084f4ca2c0fe703e46514a144b4d6ead" prot="public">
+          <name>UNAVAILABLE</name>
+          <briefdescription>
+<para>Backend or model not available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aac063281d4adc16ebccfec66aa885b4dd" prot="public">
+          <name>INVALID_INPUT</name>
+          <briefdescription>
+<para>Input shape/type mismatch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aac44598cc3395b73e9fd2866f42945bd3" prot="public">
+          <name>BACKEND_ERROR</name>
+          <briefdescription>
+<para>Internal backend error (see error_message). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+<para>Inference did not complete within the policy deadline. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa877d772cba43dce7b509c2f4ab139d73" prot="public">
+          <name>POLICY_REJECTED</name>
+          <briefdescription>
+<para>Request rejected because the BoundedExecutionPolicy concurrency limit was exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="101" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MLBackendType</name>
+        <qualifiedname>themisdb::analytics::MLBackendType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20ae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+<para>Prefer ONNX Runtime; fall back to TF Serving. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20a2030dbbca057b06013e97fed36df5de5" prot="public">
+          <name>ONNX_RUNTIME</name>
+          <briefdescription>
+<para>Force ONNX Runtime backend. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20a5491e3932d93a9d504ca320ee9fa4430" prot="public">
+          <name>TF_SERVING</name>
+          <briefdescription>
+<para>Force TF Serving backend. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="199" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="199" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JoinType</name>
+        <qualifiedname>themisdb::analytics::JoinType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" prot="public">
+          <name>Inner</name>
+          <briefdescription>
+<para>Only matched rows are emitted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754ca041d4f8b374671b8696650eb4c3454a0" prot="public">
+          <name>LeftOuter</name>
+          <briefdescription>
+<para>All probe rows are emitted; unmatched fields are null. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="31" column="1" bodyfile="include/analytics/streaming_join.h" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggFunc</name>
+        <qualifiedname>themisdb::analytics::AggFunc</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a6970bdc2201030b9c03fbdcf3973858a" prot="public">
+          <name>SUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841afcefd647d6a866603c627b11347c707a" prot="public">
+          <name>AVG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ace31e2a082d17e038fcc6e3006166653" prot="public">
+          <name>MIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a26a4b44a837bf97b972628509912b4a5" prot="public">
+          <name>MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ae920619bf0e106c10e5d5a787670a059" prot="public">
+          <name>STDDEV</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ace18bb9a2b22515d0cd36bca6b998bde" prot="public">
+          <name>VARIANCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a50af38ed06c82d7bc9af1f6d34d4ffca" prot="public">
+          <name>PERCENTILE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a2c2624a5059934a947d6e25fe8332ade" prot="public">
+          <name>FIRST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841af447f5c03508de4d88e340390ba7c78f" prot="public">
+          <name>LAST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a95e35fb1535049226d78aff2a87cbbc9" prot="public">
+          <name>DISTINCT_COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="75" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="75" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemisdb_1_1analytics_1aa06d97c7da13db2977fe25761aa16b16" prot="public" static="no">
+        <type>std::variant&lt; std::monostate, bool, int64_t, double, std::string &gt;</type>
+        <definition>using themisdb::analytics::PointValue =  std::variant&lt;
+    std::monostate,   
+    bool,
+    int64_t,
+    double,
+    std::string
+&gt;</definition>
+        <argsstring></argsstring>
+        <name>PointValue</name>
+        <qualifiedname>themisdb::analytics::PointValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="71" column="1" bodyfile="include/analytics/anomaly_detection.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" prot="public" static="no">
+        <type>std::variant&lt; std::monostate, bool, int64_t, double, std::string, std::vector&lt; uint8_t &gt;, std::vector&lt; std::string &gt;, std::map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>using themisdb::analytics::CepFieldValue =  std::variant&lt;
+    std::monostate,         
+    bool,
+    int64_t,
+    double,
+    std::string,
+    std::vector&lt;uint8_t&gt;,   
+    std::vector&lt;std::string&gt;,
+    std::map&lt;std::string, std::string&gt;
+&gt;</definition>
+        <argsstring></argsstring>
+        <name>CepFieldValue</name>
+        <qualifiedname>themisdb::analytics::CepFieldValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="187" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1analytics_1aaa15bf7e4a64d0f6c1aba654aaf33aea" prot="public" static="no">
+        <type>std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt;</type>
+        <definition>using themisdb::analytics::ColumnValue = std::variant&lt;std::nullptr_t, bool, int64_t, double, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>ColumnValue</name>
+        <qualifiedname>themisdb::analytics::ColumnValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="58" column="1" bodyfile="include/analytics/columnar_execution.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" prot="public" static="no">
+        <type>std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt;</type>
+        <definition>using themisdb::analytics::FieldValue =  std::variant&lt;
+    std::nullptr_t,  
+    bool,
+    int64_t,
+    double,
+    std::string
+&gt;</definition>
+        <argsstring></argsstring>
+        <name>FieldValue</name>
+        <qualifiedname>themisdb::analytics::FieldValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="58" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" prot="public" static="no">
+        <type>std::variant&lt; std::monostate, bool, int64_t, double, std::string &gt;</type>
+        <definition>using themisdb::analytics::RecordValue =  std::variant&lt;
+    std::monostate,   
+    bool,
+    int64_t,
+    double,
+    std::string
+&gt;</definition>
+        <argsstring></argsstring>
+        <name>RecordValue</name>
+        <qualifiedname>themisdb::analytics::RecordValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="67" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1analytics_1a1b7500c180dd53a312a9132493fd6724" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::DEFAULT_STREAM_BUFFER_SIZE</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_STREAM_BUFFER_SIZE</name>
+        <qualifiedname>themisdb::analytics::DEFAULT_STREAM_BUFFER_SIZE</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="179" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1analytics_1aaf11b3e3d343e5beeb8b8c15be06bcf2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::DEFAULT_PARTITIONS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_PARTITIONS</name>
+        <qualifiedname>themisdb::analytics::DEFAULT_PARTITIONS</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="180" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1analytics_1af0ced0944da68f57df76e7979f572df1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DEFAULT_CHECKPOINT_INTERVAL_MS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_CHECKPOINT_INTERVAL_MS</name>
+        <qualifiedname>themisdb::analytics::DEFAULT_CHECKPOINT_INTERVAL_MS</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="181" column="20" bodyfile="include/analytics/cep_engine.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a8ee20cda3f41e683fe2555e74eca149c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::anomalyMethodName</definition>
+        <argsstring>(AnomalyMethod m) noexcept</argsstring>
+        <name>anomalyMethodName</name>
+        <qualifiedname>themisdb::analytics::anomalyMethodName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="385" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="385" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1af3e7a278f9bf7b453c81158d119f23e5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::automlTaskName</definition>
+        <argsstring>(AutoMLTask t) noexcept</argsstring>
+        <name>automlTaskName</name>
+        <qualifiedname>themisdb::analytics::automlTaskName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="355" column="19" bodyfile="include/analytics/automl.h" bodystart="355" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a3bdb25384b5e26eb991a202f9add85e5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::modelAlgorithmName</definition>
+        <argsstring>(ModelAlgorithm a) noexcept</argsstring>
+        <name>modelAlgorithmName</name>
+        <qualifiedname>themisdb::analytics::modelAlgorithmName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref></type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="363" column="19" bodyfile="include/analytics/automl.h" bodystart="363" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a1360cedbe9d53175aa2ed03cbb5f1025" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::automlMetricName</definition>
+        <argsstring>(AutoMLMetric m) noexcept</argsstring>
+        <name>automlMetricName</name>
+        <qualifiedname>themisdb::analytics::automlMetricName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" kindref="member">AutoMLMetric</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="376" column="19" bodyfile="include/analytics/automl.h" bodystart="376" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a46380b02bf3546ac9fc3eceb68001b3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::eventTypeToString</definition>
+        <argsstring>(EventType type)</argsstring>
+        <name>eventTypeToString</name>
+        <qualifiedname>themisdb::analytics::eventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cf" kindref="member">EventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements eventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1217" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="1217" bodyend="1235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1adb983e69f75554b43f582cbc00a7096b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::windowTypeToString</definition>
+        <argsstring>(WindowType type)</argsstring>
+        <name>windowTypeToString</name>
+        <qualifiedname>themisdb::analytics::windowTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1b" kindref="member">WindowType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Window Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements windowTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1243" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="1243" bodyend="1253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a9e6706970da3dabc4d3c44aa2377fcd0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::aggregationTypeToString</definition>
+        <argsstring>(AggregationType type)</argsstring>
+        <name>aggregationTypeToString</name>
+        <qualifiedname>themisdb::analytics::aggregationTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7d" kindref="member">AggregationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Aggregation Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements aggregationTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="1261" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="1261" bodyend="1275"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a2ac08963bcb5f7c1eeb86f75a8e757e5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::forecastMethodName</definition>
+        <argsstring>(ForecastMethod m) noexcept</argsstring>
+        <name>forecastMethodName</name>
+        <qualifiedname>themisdb::analytics::forecastMethodName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86" kindref="member">ForecastMethod</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="376" column="19" bodyfile="include/analytics/forecasting.h" bodystart="376" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a7fbd56244f693226966979672f5aa80e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_forecast_metrics" kindref="compound">ForecastMetrics</ref></type>
+        <definition>ForecastMetrics themisdb::analytics::computeMetrics</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;actual, const std::vector&lt; double &gt; &amp;predicted)</argsstring>
+        <name>computeMetrics</name>
+        <qualifiedname>themisdb::analytics::computeMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>actual</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>predicted</declname>
+        </param>
+        <briefdescription>
+<para>Compute Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Free helper: computeMetrics ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(), size(), std::abs(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="225" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="225" bodyend="254" declfile="include/analytics/forecasting.h" declline="395" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a9c908a6c21b292f2b40f89b53f9cdf34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::seasonalityDuration</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;timeseries, int max_lag)</argsstring>
+        <name>seasonalityDuration</name>
+        <qualifiedname>themisdb::analytics::seasonalityDuration</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>timeseries</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_lag</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>============================================================================ Forecasting Helper Functions (Phase 2B) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeseries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_lag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), detrended(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="2777" column="5" bodyfile="src/analytics/forecasting.cpp" bodystart="2777" bodyend="2832" declfile="include/analytics/forecasting.h" declline="402" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a5a14e82dd32efcb4d9c9a79a3a994f78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>std::pair&lt; bool, std::string &gt; themisdb::analytics::validateTestData</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; double &gt; &gt; &amp;test_features, size_t expected_n_features)</argsstring>
+        <name>validateTestData</name>
+        <qualifiedname>themisdb::analytics::validateTestData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; double &gt; &gt; &amp;</type>
+          <declname>test_features</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>expected_n_features</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="2834" column="11" bodyfile="src/analytics/forecasting.cpp" bodystart="2834" bodyend="2862" declfile="include/analytics/forecasting.h" declline="406" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a3b0a6281804ff9338c9903ad018ed7dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>std::pair&lt; bool, std::string &gt; themisdb::analytics::exponentialSmoothing</definition>
+        <argsstring>(ForecastModel &amp;model, const std::vector&lt; double &gt; &amp;timeseries, double alpha, double beta=0.0, double gamma=0.0)</argsstring>
+        <name>exponentialSmoothing</name>
+        <qualifiedname>themisdb::analytics::exponentialSmoothing</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>timeseries</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>alpha</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>beta</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="2864" column="11" bodyfile="src/analytics/forecasting.cpp" bodystart="2864" bodyend="2938" declfile="include/analytics/forecasting.h" declline="410" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a1c5033bb7c25a61ffe5f149201505795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::fieldValueToStr</definition>
+        <argsstring>(const FieldValue &amp;v)</argsstring>
+        <name>fieldValueToStr</name>
+        <qualifiedname>themisdb::analytics::fieldValueToStr</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Field Value To Str. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/incremental_view.cpp" line="57" column="13" bodyfile="src/analytics/incremental_view.cpp" bodystart="57" bodyend="74" declfile="include/analytics/incremental_view.h" declline="372" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a3576f72f59ed68bd02fef9176f98a6bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::viewAggFuncToString</definition>
+        <argsstring>(ViewAggFunc f)</argsstring>
+        <name>viewAggFuncToString</name>
+        <qualifiedname>themisdb::analytics::viewAggFuncToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" kindref="member">ViewAggFunc</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>View Agg Func To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements viewAggFuncToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="380" column="19" bodyfile="include/analytics/incremental_view.h" bodystart="380" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1ab50a2610f0f5548b2daf08c2240b5306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::mlServingStatusName</definition>
+        <argsstring>(MLServingStatus status)</argsstring>
+        <name>mlServingStatusName</name>
+        <qualifiedname>themisdb::analytics::mlServingStatusName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Ml Serving Status Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mlServingStatusName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/ml_serving.cpp" line="935" column="13" bodyfile="src/analytics/ml_serving.cpp" bodystart="935" bodyend="952" declfile="include/analytics/ml_serving.h" declline="275" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1ac20bf38b6d8b2e6073b7c2a2458356ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::mlBackendTypeName</definition>
+        <argsstring>(MLBackendType type)</argsstring>
+        <name>mlBackendTypeName</name>
+        <qualifiedname>themisdb::analytics::mlBackendTypeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20" kindref="member">MLBackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Ml Backend Type Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mlBackendTypeName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/ml_serving.cpp" line="960" column="13" bodyfile="src/analytics/ml_serving.cpp" bodystart="960" bodyend="971" declfile="include/analytics/ml_serving.h" declline="282" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1aab8aa8ec0872a3829d07756468b6f0a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::makeModelKey</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;version)</argsstring>
+        <name>makeModelKey</name>
+        <qualifiedname>themisdb::analytics::makeModelKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Make Model Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeModelKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="278" column="20" bodyfile="include/analytics/model_serving.h" bodystart="278" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1aa22a611041b21ef018239f377857e594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_tumbling_window" kindref="compound">TumblingWindow</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; TumblingWindow &gt; themisdb::analytics::createTumblingWindow</definition>
+        <argsstring>(const TumblingWindowConfig &amp;config)</argsstring>
+        <name>createTumblingWindow</name>
+        <qualifiedname>themisdb::analytics::createTumblingWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Tumbling Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createTumblingWindow without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/streaming_window.cpp" line="411" column="17" bodyfile="src/analytics/streaming_window.cpp" bodystart="411" bodyend="413" declfile="include/analytics/streaming_window.h" declline="364" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a185b714a82518867d2a1d46913346a8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_sliding_window" kindref="compound">SlidingWindow</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; SlidingWindow &gt; themisdb::analytics::createSlidingWindow</definition>
+        <argsstring>(const SlidingWindowConfig &amp;config)</argsstring>
+        <name>createSlidingWindow</name>
+        <qualifiedname>themisdb::analytics::createSlidingWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config" kindref="compound">SlidingWindowConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Sliding Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createSlidingWindow without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/streaming_window.cpp" line="753" column="17" bodyfile="src/analytics/streaming_window.cpp" bodystart="753" bodyend="755" declfile="include/analytics/streaming_window.h" declline="493" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1af24545a377611a3d4d4e35e6f08eb388" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_session_window" kindref="compound">SessionWindow</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; SessionWindow &gt; themisdb::analytics::createSessionWindow</definition>
+        <argsstring>(const SessionWindowConfig &amp;config)</argsstring>
+        <name>createSessionWindow</name>
+        <qualifiedname>themisdb::analytics::createSessionWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_session_window_config" kindref="compound">SessionWindowConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Session Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createSessionWindow without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/streaming_window.cpp" line="1115" column="17" bodyfile="src/analytics/streaming_window.cpp" bodystart="1115" bodyend="1117" declfile="include/analytics/streaming_window.h" declline="594" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a281cb2b765efb06fa774eeb6410a3ce9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_hopping_window" kindref="compound">HoppingWindow</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; HoppingWindow &gt; themisdb::analytics::createHoppingWindow</definition>
+        <argsstring>(const HoppingWindowConfig &amp;config)</argsstring>
+        <name>createHoppingWindow</name>
+        <qualifiedname>themisdb::analytics::createHoppingWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config" kindref="compound">HoppingWindowConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Hopping Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createHoppingWindow without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/streaming_window.cpp" line="1407" column="17" bodyfile="src/analytics/streaming_window.cpp" bodystart="1407" bodyend="1409" declfile="include/analytics/streaming_window.h" declline="709" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a33f5964742427531da0f2a01aef91c07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref></type>
+        <definition>StreamRecord themisdb::analytics::makeRecord</definition>
+        <argsstring>(const std::string &amp;id, std::chrono::system_clock::time_point event_time, const std::string &amp;partition_key=&quot;&quot;, std::initializer_list&lt; std::pair&lt; std::string, RecordValue &gt; &gt; fields={})</argsstring>
+        <name>makeRecord</name>
+        <qualifiedname>themisdb::analytics::makeRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>event_time</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_key</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::initializer_list&lt; std::pair&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" kindref="member">RecordValue</ref> &gt; &gt;</type>
+          <declname>fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/streaming_window.cpp" line="353" column="14" bodyfile="src/analytics/streaming_window.cpp" bodystart="353" bodyend="365" declfile="include/analytics/streaming_window.h" declline="795" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a901356247278a2ee6cbcfd0fe5cda09c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::analytics::aggFuncToString</definition>
+        <argsstring>(AggFunc f)</argsstring>
+        <name>aggFuncToString</name>
+        <qualifiedname>themisdb::analytics::aggFuncToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Agg Func To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements aggFuncToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="807" column="19" bodyfile="include/analytics/streaming_window.h" bodystart="807" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a9023890063987c1f922681de2b8a0ca6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_training_core_result" kindref="compound">TrainingCoreResult</ref></type>
+        <definition>static TrainingCoreResult themisdb::analytics::doTrainCore</definition>
+        <argsstring>(const std::vector&lt; DataPoint &gt; &amp;data, AutoMLConfig config, std::function&lt; void(int, int, double)&gt; progress)</argsstring>
+        <name>doTrainCore</name>
+        <qualifiedname>themisdb::analytics::doTrainCore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" kindref="compound">AutoMLConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(int, int, double)&gt;</type>
+          <declname>progress</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2397" column="27" bodyfile="src/analytics/automl.cpp" bodystart="2397" bodyend="2538"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a9fac2b64a670af8553c9fe0d54486fca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themisdb::analytics::isVariable</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>isVariable</name>
+        <qualifiedname>themisdb::analytics::isVariable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Is Variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/expert_system_engine.cpp" line="33" column="13" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a98afe14453495e99f9bfe167a886d717" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::analytics::jsonEscape</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>jsonEscape</name>
+        <qualifiedname>themisdb::analytics::jsonEscape</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Json Escape. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/expert_system_engine.cpp" line="43" column="20" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="43" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1af61b550b62d964d707849227b94efd70" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::analytics::factToJson</definition>
+        <argsstring>(const Fact &amp;f)</argsstring>
+        <name>factToJson</name>
+        <qualifiedname>themisdb::analytics::factToJson</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: jsonEscape(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/expert_system_engine.cpp" line="68" column="20" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="68" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a1a21cfaa8fa01ddfd1b05feb50c5f471" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::analytics::proofStepToJson</definition>
+        <argsstring>(const ProofStep &amp;ps)</argsstring>
+        <name>proofStepToJson</name>
+        <qualifiedname>themisdb::analytics::proofStepToJson</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_proof_step" kindref="compound">ProofStep</ref> &amp;</type>
+          <declname>ps</declname>
+        </param>
+        <briefdescription>
+<para>Proof Step To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: jsonEscape(), factToJson(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/expert_system_engine.cpp" line="85" column="20" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="85" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1af71ee44130fadac3635ed142a1d21eeb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themisdb::analytics::knowledgeBaseNowMs</definition>
+        <argsstring>()</argsstring>
+        <name>knowledgeBaseNowMs</name>
+        <qualifiedname>themisdb::analytics::knowledgeBaseNowMs</qualifiedname>
+        <briefdescription>
+<para>Knowledge Base Now Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/knowledge_base.cpp" line="95" column="16" bodyfile="src/analytics/knowledge_base.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1acef790cd4287ae9075ba5c04bbf14557" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::analytics::stripQuotes</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>stripQuotes</name>
+        <qualifiedname>themisdb::analytics::stripQuotes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Using themis::utils::trim() from string_utils. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+h (Phase 1 consolidation) Calls: size(), front(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/knowledge_base.cpp" line="107" column="20" bodyfile="src/analytics/knowledge_base.cpp" bodystart="107" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1addc49b9f53bcfbf87d2f6428627e58ab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_triple_pattern" kindref="compound">TriplePattern</ref></type>
+        <definition>static TriplePattern themisdb::analytics::parseTriplePattern</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>parseTriplePattern</name>
+        <qualifiedname>themisdb::analytics::parseTriplePattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>────────────────────────────────────────────────────────────────────────────── YAML Rule Loader PERMANENT FALLBACK NOTE: The inline parser handles only the specific ThemisDB Horn-clause YAML format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Complex YAML (anchors, aliases, multi-line scalar values) is not supported. When THEMIS_HAS_YAML_CPP is defined, yaml-cpp is used for full spec compliance and the inline parser is not called. ────────────────────────────────────────────────────────────────────────────── Calls: find(), substr(), ss(), std::getline(), push_back(), themis::utils::trim(), stripQuotes(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/knowledge_base.cpp" line="316" column="22" bodyfile="src/analytics/knowledge_base.cpp" bodystart="316" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(CircuitBreakerTransitionTest, CB01_ClosedToOpen_OnFailureThreshold)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test" kindref="compound">CircuitBreakerTransitionTest</ref></type>
+        </param>
+        <param>
+          <type>CB01_ClosedToOpen_OnFailureThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="101" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="101" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a03e1aeff8d530df10d317b798a6995c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(CircuitBreakerTransitionTest, CB02_OpenToHalfOpen_AfterRecoveryDelay)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test" kindref="compound">CircuitBreakerTransitionTest</ref></type>
+        </param>
+        <param>
+          <type>CB02_OpenToHalfOpen_AfterRecoveryDelay</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="140" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="140" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a6ee139e20e70be4c3213e2789186965a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(CircuitBreakerTransitionTest, CB03_HalfOpenToClosed_OnSuccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test" kindref="compound">CircuitBreakerTransitionTest</ref></type>
+        </param>
+        <param>
+          <type>CB03_HalfOpenToClosed_OnSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="167" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="167" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a9af7847918a090fc76d179efe7114878" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(CircuitBreakerTransitionTest, CB04_StateChangeCounter_Increments)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test" kindref="compound">CircuitBreakerTransitionTest</ref></type>
+        </param>
+        <param>
+          <type>CB04_StateChangeCounter_Increments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="195" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="195" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1ab4995ea2d3d01786b42256f903195c4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(ConcurrencyGuardTest, CM01_EnqueueRequest_Success_BelowLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_concurrency_guard_test" kindref="compound">ConcurrencyGuardTest</ref></type>
+        </param>
+        <param>
+          <type>CM01_EnqueueRequest_Success_BelowLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="235" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="235" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a09e057f54e1fd090a0fecc324694db47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(ConcurrencyGuardTest, CM02_EnqueueRequest_FailsOnQueueFull)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_concurrency_guard_test" kindref="compound">ConcurrencyGuardTest</ref></type>
+        </param>
+        <param>
+          <type>CM02_EnqueueRequest_FailsOnQueueFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="249" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="249" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a952d52482b02235f7bc5db023fa53eb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(ConcurrencyGuardTest, CM03_InFlightRequestCount_Increments)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_concurrency_guard_test" kindref="compound">ConcurrencyGuardTest</ref></type>
+        </param>
+        <param>
+          <type>CM03_InFlightRequestCount_Increments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="278" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="278" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1aa1376d0b9c0ca1a00beab38e91f8f1a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(ConcurrencyGuardTest, CM04_UnboundedQueue_AllRequestsSucceed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_concurrency_guard_test" kindref="compound">ConcurrencyGuardTest</ref></type>
+        </param>
+        <param>
+          <type>CM04_UnboundedQueue_AllRequestsSucceed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="291" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="291" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a9a4a429a2c025b74881cae041235b3f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(TimeoutRecoveryTest, TO01_ShardTimeout_IsDetected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test" kindref="compound">TimeoutRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>TO01_ShardTimeout_IsDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="337" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="337" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1ae425681d2bf6a295335d3cb9038cade0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(TimeoutRecoveryTest, TO02_ExponentialBackoff_OnRecoveryFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test" kindref="compound">TimeoutRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>TO02_ExponentialBackoff_OnRecoveryFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="357" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="357" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1ac1a719f976f55e7308c13075c380ca82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(TimeoutRecoveryTest, TO03_MaxBackoffCap_Enforced)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test" kindref="compound">TimeoutRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>TO03_MaxBackoffCap_Enforced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="380" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="380" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a517a308139e220a86bbe61a4aedcd775" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(TimeoutRecoveryTest, TO04_DegradedMode_PartialResults_Accepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test" kindref="compound">TimeoutRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>TO04_DegradedMode_PartialResults_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="410" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="410" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a8cd49f1c99caec9c4cee505ba9b384c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(TimeoutRecoveryTest, TO05_RecoveryAttempt_ResetsFailureCounter)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test" kindref="compound">TimeoutRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>TO05_RecoveryAttempt_ResetsFailureCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="430" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="430" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a5ff296777252aeaf8499adfdc8547b01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(TimeoutRecoveryTest, TO06_ConsecutiveFailureCounter_Increments)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test" kindref="compound">TimeoutRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>TO06_ConsecutiveFailureCounter_Increments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="466" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="466" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a60b781201b8f3e655ed9e9b177bc4d11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(SafetyControlsIntegrationTest, IntegrationTest_CircuitBreakerPreventsCascade)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test" kindref="compound">SafetyControlsIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>IntegrationTest_CircuitBreakerPreventsCascade</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="513" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="513" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a0bceeca130a4b213a1ec7c3fb59529f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(SafetyControlsIntegrationTest, IntegrationTest_RecoverySequence_Completes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test" kindref="compound">SafetyControlsIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>IntegrationTest_RecoverySequence_Completes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="540" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="540" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a5763be30ee5f6e602473499dc8e6a296" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(AN1RetryTest, AN1_01_RetryOnTransientFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" kindref="compound">AN1RetryTest</ref></type>
+        </param>
+        <param>
+          <type>AN1_01_RetryOnTransientFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="102" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="102" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a886146333a8f45c3822c6020ddb1f911" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(AN1RetryTest, AN1_02_FailedAfterMaxRetriesExhausted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" kindref="compound">AN1RetryTest</ref></type>
+        </param>
+        <param>
+          <type>AN1_02_FailedAfterMaxRetriesExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="123" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="123" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a24f0a3985dbd7df06c68818d3fd81140" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST</definition>
+        <argsstring>(AN1BackoffTest, AN1_03_BackoffDelayIsPositive)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::TEST</qualifiedname>
+        <param>
+          <type>AN1BackoffTest</type>
+        </param>
+        <param>
+          <type>AN1_03_BackoffDelayIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="147" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="147" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1ab4e4a8484bcf4b735f57cc72f69518db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST_F</definition>
+        <argsstring>(AN1RetryTest, AN1_04_PermanentFailureNoRetry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" kindref="compound">AN1RetryTest</ref></type>
+        </param>
+        <param>
+          <type>AN1_04_PermanentFailureNoRetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="185" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="185" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a6277dcaa3d87795e005bb6024b1f568e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST</definition>
+        <argsstring>(AN2IntegrityTest, AN2_01_CorrectChecksumPassesVerification)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::TEST</qualifiedname>
+        <param>
+          <type>AN2IntegrityTest</type>
+        </param>
+        <param>
+          <type>AN2_01_CorrectChecksumPassesVerification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="227" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="227" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a1e271343c4e003fb87b3653c7944e2ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST</definition>
+        <argsstring>(AN2IntegrityTest, AN2_02_CorruptedChecksumThrows)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::TEST</qualifiedname>
+        <param>
+          <type>AN2IntegrityTest</type>
+        </param>
+        <param>
+          <type>AN2_02_CorruptedChecksumThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="244" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="244" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a0d5bf6b9965b0931cdead5ead3045059" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST</definition>
+        <argsstring>(AN2IntegrityTest, AN2_03_MissingChecksumPassesWithWarn)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::TEST</qualifiedname>
+        <param>
+          <type>AN2IntegrityTest</type>
+        </param>
+        <param>
+          <type>AN2_03_MissingChecksumPassesWithWarn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="267" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="267" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1acdddc86603f0a68a3d6d177ad59ceea2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TEST</definition>
+        <argsstring>(AN2IntegrityTest, AN2_04_ChecksumRoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::TEST</qualifiedname>
+        <param>
+          <type>AN2IntegrityTest</type>
+        </param>
+        <param>
+          <type>AN2_04_ChecksumRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="287" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="287" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a04013623add7db16329041ada345e7b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themisdb::analytics::BenchCircuitBreakerStateTransition</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchCircuitBreakerStateTransition</name>
+        <qualifiedname>themisdb::analytics::BenchCircuitBreakerStateTransition</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="60" column="13" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="60" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1ad67f03b6b7fbc08a987fc5aeb7599584" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::BENCHMARK</definition>
+        <argsstring>(BenchCircuitBreakerStateTransition) -&gt; MinTime(1.0) -&gt;Iterations(100)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themisdb::analytics::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchCircuitBreakerStateTransition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="89" column="1" declfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" declline="89" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a26a59f13157428ae89f752f0e1ca7ab3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themisdb::analytics::BenchConcurrentMergeStartup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchConcurrentMergeStartup</name>
+        <qualifiedname>themisdb::analytics::BenchConcurrentMergeStartup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="94" column="13" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="94" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1aeb497cf0a4fa0330c058ccba1c6cae10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::BENCHMARK</definition>
+        <argsstring>(BenchConcurrentMergeStartup) -&gt; MinTime(2.0) -&gt;Iterations(500)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themisdb::analytics::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchConcurrentMergeStartup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="144" column="1" declfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" declline="144" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1ae2e4b3ea39c9d342ab1ef62aa7979af2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themisdb::analytics::BenchTimeoutRecoverySwitchover</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchTimeoutRecoverySwitchover</name>
+        <qualifiedname>themisdb::analytics::BenchTimeoutRecoverySwitchover</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="149" column="13" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="149" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a8421ac64869321482616ee708e6a53ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::BENCHMARK</definition>
+        <argsstring>(BenchTimeoutRecoverySwitchover) -&gt; MinTime(1.0) -&gt;Iterations(200)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themisdb::analytics::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchTimeoutRecoverySwitchover</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="210" column="1" declfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" declline="210" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1a85994a9a850a07612130a4c6198abac8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themisdb::analytics::BenchDegradedModeThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchDegradedModeThroughput</name>
+        <qualifiedname>themisdb::analytics::BenchDegradedModeThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="215" column="13" bodyfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" bodystart="215" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1aa559a6a3620d9471d9677daff27ffa7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::BENCHMARK</definition>
+        <argsstring>(BenchDegradedModeThroughput) -&gt; MinTime(5.0) -&gt;Iterations(1)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themisdb::analytics::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchDegradedModeThroughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" line="275" column="1" declfile="benchmarks/analytics/bench_analytics_distributed_coordinator.cpp" declline="275" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/analytics_engine.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

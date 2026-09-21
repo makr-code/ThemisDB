@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_geo_replication_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::GeoReplicationConfig</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1sharding_1_1_geo_replication_config_1a63961c2bb19d23840b1c558caf924d2b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReplicationMode</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::ReplicationMode</qualifiedname>
+        <enumvalue id="structthemis_1_1sharding_1_1_geo_replication_config_1a63961c2bb19d23840b1c558caf924d2ba274ccef15a21e829d03293a6fd1974f3" prot="public">
+          <name>SYNC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1sharding_1_1_geo_replication_config_1a63961c2bb19d23840b1c558caf924d2ba767c2b6654e7bd7ac3dae9cbaa2c390b" prot="public">
+          <name>SEMI_SYNC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1sharding_1_1_geo_replication_config_1a63961c2bb19d23840b1c558caf924d2babe553330beb7b3d994656e0a4e66cd96" prot="public">
+          <name>ASYNC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="138" column="5" bodyfile="include/sharding/redundancy_strategy.h" bodystart="138" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a49fad626f600eac0709ffd0318bb9287" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GeoReplicationConfig::primary_datacenter</definition>
+        <argsstring></argsstring>
+        <name>primary_datacenter</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::primary_datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="121" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a167af9e72492fabc63cd4a62f51b8326" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::GeoReplicationConfig::replica_datacenters</definition>
+        <argsstring></argsstring>
+        <name>replica_datacenters</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::replica_datacenters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="122" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1ada621b8f3a1a8e82178bb5596f87bfc6" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::sharding::GeoReplicationConfig::region_shards</definition>
+        <argsstring></argsstring>
+        <name>region_shards</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::region_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="126" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a8ea3bd261c8bc1d508c0223b82990b19" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::map&lt;std::string, uint32_t&gt; themis::sharding::GeoReplicationConfig::region_write_quorums</definition>
+        <argsstring></argsstring>
+        <name>region_write_quorums</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::region_write_quorums</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="130" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a40d64f1e99e49c1afece1130f3f417af" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::map&lt;std::string, uint32_t&gt; themis::sharding::GeoReplicationConfig::region_read_quorums</definition>
+        <argsstring></argsstring>
+        <name>region_read_quorums</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::region_read_quorums</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="133" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1aa1566a26d3e7228328fb23302a959085" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GeoReplicationConfig::local_region</definition>
+        <argsstring></argsstring>
+        <name>local_region</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::local_region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="136" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a31e373b3ebf668e139d848fe0dbf081f" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1sharding_1_1_geo_replication_config_1a63961c2bb19d23840b1c558caf924d2b" kindref="member">themis::sharding::GeoReplicationConfig::ReplicationMode</ref></type>
+        <definition>enum themis::sharding::GeoReplicationConfig::ReplicationMode themis::sharding::GeoReplicationConfig::replication_mode</definition>
+        <argsstring></argsstring>
+        <name>replication_mode</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::replication_mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1sharding_1_1_geo_replication_config_1a63961c2bb19d23840b1c558caf924d2babe553330beb7b3d994656e0a4e66cd96" kindref="member">ReplicationMode::ASYNC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="142" column="23"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1af915d3e01577d6b747ecdb5377237b3c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a575558c885cf61e5f2a2108c569ae541" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themis::sharding::GeoReplicationConfig::conflict_resolution</definition>
+        <argsstring></argsstring>
+        <name>conflict_resolution</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::conflict_resolution</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a575558c885cf61e5f2a2108c569ae541a3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictResolution::LAST_WRITE_WINS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="144" column="24" bodyfile="include/sharding/redundancy_strategy.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a0df09d0c5dcea396c61b3c7fd99c1fa3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a2b420e430306b2b5050e71bee1f23090" kindref="member">ReadPreference</ref></type>
+        <definition>ReadPreference themis::sharding::GeoReplicationConfig::read_preference</definition>
+        <argsstring></argsstring>
+        <name>read_preference</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::read_preference</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a2b420e430306b2b5050e71bee1f23090aad135772d7cf93dd0ccf9d2474b34e6a" kindref="member">ReadPreference::NEAREST</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="145" column="20" bodyfile="include/sharding/redundancy_strategy.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a841681362434d18b1b3bb0bb7a90baaf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GeoReplicationConfig::max_staleness_ms</definition>
+        <argsstring></argsstring>
+        <name>max_staleness_ms</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::max_staleness_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="149" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a55a3278ef1fe0ff9529b6bd2e19085cc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GeoReplicationConfig::max_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_lag_ms</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::max_lag_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="152" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1acbbc88ecc02757357cf5c7b2b1a42859" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GeoReplicationConfig::prefer_local_reads</definition>
+        <argsstring></argsstring>
+        <name>prefer_local_reads</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::prefer_local_reads</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="155" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a92bf1d964a2fc64d693c1ef30800ad4a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GeoReplicationConfig::prefer_local_writes</definition>
+        <argsstring></argsstring>
+        <name>prefer_local_writes</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::prefer_local_writes</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="156" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1a5afa2e68aeb4d16b2630b8e91683ca9c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GeoReplicationConfig::enable_geo_failover</definition>
+        <argsstring></argsstring>
+        <name>enable_geo_failover</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::enable_geo_failover</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="159" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1ab4d02fe2fb834f948a93c4606bbf1528" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::GeoReplicationConfig::region_failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>region_failure_threshold</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::region_failure_threshold</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="163" column="12" bodyfile="include/sharding/redundancy_strategy.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_geo_replication_config_1add0726f61839ebf807bc3dfa907c1715" prot="public" static="no" mutable="yes">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::GeoReplicationConfig::failed_regions</definition>
+        <argsstring></argsstring>
+        <name>failed_regions</name>
+        <qualifiedname>themis::sharding::GeoReplicationConfig::failed_regions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="166" column="25" bodyfile="include/sharding/redundancy_strategy.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for geo-distributed replication and failover behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="120" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="120" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1af915d3e01577d6b747ecdb5377237b3c" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>conflict_resolution</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a5afa2e68aeb4d16b2630b8e91683ca9c" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>enable_geo_failover</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1add0726f61839ebf807bc3dfa907c1715" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>failed_regions</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1aa1566a26d3e7228328fb23302a959085" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>local_region</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a55a3278ef1fe0ff9529b6bd2e19085cc" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>max_lag_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a841681362434d18b1b3bb0bb7a90baaf" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>max_staleness_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1acbbc88ecc02757357cf5c7b2b1a42859" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>prefer_local_reads</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a92bf1d964a2fc64d693c1ef30800ad4a" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>prefer_local_writes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a49fad626f600eac0709ffd0318bb9287" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>primary_datacenter</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a0df09d0c5dcea396c61b3c7fd99c1fa3" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>read_preference</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1ab4d02fe2fb834f948a93c4606bbf1528" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>region_failure_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a40d64f1e99e49c1afece1130f3f417af" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>region_read_quorums</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1ada621b8f3a1a8e82178bb5596f87bfc6" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>region_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a8ea3bd261c8bc1d508c0223b82990b19" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>region_write_quorums</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a167af9e72492fabc63cd4a62f51b8326" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>replica_datacenters</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a31e373b3ebf668e139d848fe0dbf081f" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>replication_mode</name></member>
+      <member refid="structthemis_1_1sharding_1_1_geo_replication_config_1a63961c2bb19d23840b1c558caf924d2b" prot="public" virt="non-virtual"><scope>themis::sharding::GeoReplicationConfig</scope><name>ReplicationMode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

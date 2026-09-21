@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_null_schema_detector" kind="class" language="C++" prot="public">
+    <compoundname>NullSchemaDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector" prot="public" virt="non-virtual">themis::importers::IFlatFileSchemaDetector</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_null_schema_detector_1a0b5af5b845c37d4660f600a0e5eb0620" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_schema_detection_result" kindref="compound">SchemaDetectionResult</ref></type>
+        <definition>SchemaDetectionResult NullSchemaDetector::detect</definition>
+        <argsstring>(const std::string &amp;, size_t=0) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>NullSchemaDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector_1a546937ea18da657c518ee46de06965f3">detect</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>size_t</type>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="112" column="27" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="112" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>NullSchemaDetector</label>
+        <link refid="class_null_schema_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IFlatFileSchemaDetector</label>
+        <link refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>NullSchemaDetector</label>
+        <link refid="class_null_schema_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IFlatFileSchemaDetector</label>
+        <link refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_interfaces.cpp" line="110" column="1" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="110" bodyend="122"/>
+    <listofallmembers>
+      <member refid="class_null_schema_detector_1a0b5af5b845c37d4660f600a0e5eb0620" prot="public" virt="virtual"><scope>NullSchemaDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector_1ab271d4ead08a3ede63cb89ba4a883618" prot="public" virt="virtual"><scope>NullSchemaDetector</scope><name>~IFlatFileSchemaDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

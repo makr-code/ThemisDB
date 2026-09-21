@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_lo_r_a_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::LoRAConfig</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a264874bcc7cd680529e4f9928d4537b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::LoRAConfig::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="132" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1ab7bdabdca2bb8314d9feef5aae9d6ad6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::LoRAConfig::adapter_path</definition>
+        <argsstring></argsstring>
+        <name>adapter_path</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::adapter_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="133" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a70721196292ca510bc080f7b62445de2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::LoRAConfig::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="134" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1af5856d57b7711358b775bfc7ce56bff0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::LoRAConfig::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::rank</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="137" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1af8c016e8f2cd4de7403de34b54d864f6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::LoRAConfig::scaling</definition>
+        <argsstring></argsstring>
+        <name>scaling</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::scaling</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="138" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1acbad32cd03cacfad5a2d55b89f9f65e7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::LoRAConfig::accuracy_delta</definition>
+        <argsstring></argsstring>
+        <name>accuracy_delta</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::accuracy_delta</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="141" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1ad014406a345a89507d18d6c021a25e18" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::LoRAConfig::performance_delta_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>performance_delta_p99_ms</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::performance_delta_p99_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="142" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a6fdcf739072a58dca786bc99678c0d91" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::LoRAConfig::last_trained_timestamp</definition>
+        <argsstring></argsstring>
+        <name>last_trained_timestamp</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::last_trained_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="143" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1adad2bd1bc174225f17cbd7df0c6b763b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::LoRAConfig::training_dataset</definition>
+        <argsstring></argsstring>
+        <name>training_dataset</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::training_dataset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="144" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1af18684bfd9294cbcea6f1a7a7627169d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::LoRAConfig::training_steps</definition>
+        <argsstring></argsstring>
+        <name>training_steps</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::training_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="145" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a06219fb93ba7b0d360ef8bf783486d30" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::LoRAConfig::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="148" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a7bb0441421b89ddc401646ddc7fe128d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::LoRAConfig::total_tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_generated</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::total_tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="149" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a55e7fb791c939cb05e0aeeb0a8ac51e1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::LoRAConfig::avg_acceptance_rate</definition>
+        <argsstring></argsstring>
+        <name>avg_acceptance_rate</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::avg_acceptance_rate</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="150" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a66d1043cb2396a9c6c9f9ef2cfeb4846" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::LoRAConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="152" column="10" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a134b932a08e8076de02441da81f6cda5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::LoRAConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::LoRAConfig::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="156" column="20" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="156" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LoRA adapter configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/inference_engine_enhanced.h" line="131" column="1" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="131" bodyend="173"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1acbad32cd03cacfad5a2d55b89f9f65e7" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>accuracy_delta</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a264874bcc7cd680529e4f9928d4537b6" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>adapter_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1ab7bdabdca2bb8314d9feef5aae9d6ad6" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>adapter_path</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a55e7fb791c939cb05e0aeeb0a8ac51e1" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>avg_acceptance_rate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a70721196292ca510bc080f7b62445de2" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>domain</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a66d1043cb2396a9c6c9f9ef2cfeb4846" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>isValid</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a6fdcf739072a58dca786bc99678c0d91" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>last_trained_timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1ad014406a345a89507d18d6c021a25e18" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>performance_delta_p99_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1af5856d57b7711358b775bfc7ce56bff0" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>rank</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1af8c016e8f2cd4de7403de34b54d864f6" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>scaling</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a134b932a08e8076de02441da81f6cda5" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a06219fb93ba7b0d360ef8bf783486d30" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>total_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1a7bb0441421b89ddc401646ddc7fe128d" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>total_tokens_generated</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1adad2bd1bc174225f17cbd7df0c6b763b" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>training_dataset</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_lo_r_a_config_1af18684bfd9294cbcea6f1a7a7627169d" prot="public" virt="non-virtual"><scope>themisdb::sharding::LoRAConfig</scope><name>training_steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

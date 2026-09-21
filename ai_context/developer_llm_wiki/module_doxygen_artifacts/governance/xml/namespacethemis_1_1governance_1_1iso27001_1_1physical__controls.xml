@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1physical__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::physical_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1physical__controls_1ae936797597e5914701af2f791729e985" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::physical_controls::kPerimeterSecurity</definition>
+        <argsstring></argsstring>
+        <name>kPerimeterSecurity</name>
+        <qualifiedname>themis::governance::iso27001::physical_controls::kPerimeterSecurity</qualifiedname>
+        <initializer>= &quot;A.7.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="129" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1physical__controls_1a1dec4313329ab4f96e0b7451e63dd953" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::physical_controls::kPhysicalEntry</definition>
+        <argsstring></argsstring>
+        <name>kPhysicalEntry</name>
+        <qualifiedname>themis::governance::iso27001::physical_controls::kPhysicalEntry</qualifiedname>
+        <initializer>= &quot;A.7.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="130" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1physical__controls_1a1d73adb957cba0648db4dc5168829345" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::physical_controls::kOfficeSuppliesAccess</definition>
+        <argsstring></argsstring>
+        <name>kOfficeSuppliesAccess</name>
+        <qualifiedname>themis::governance::iso27001::physical_controls::kOfficeSuppliesAccess</qualifiedname>
+        <initializer>= &quot;A.7.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="131" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="128" column="1"/>
+  </compounddef>
+</doxygen>

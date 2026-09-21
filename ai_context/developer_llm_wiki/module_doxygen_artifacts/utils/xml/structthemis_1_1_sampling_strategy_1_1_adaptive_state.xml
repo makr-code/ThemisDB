@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_sampling_strategy_1_1_adaptive_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::SamplingStrategy::AdaptiveState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_sampling_strategy_1_1_adaptive_state_1acc9d18d6fe91321146a35ca87f124643" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SamplingStrategy::AdaptiveState::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::SamplingStrategy::AdaptiveState::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="106" column="20" bodyfile="include/utils/tracing.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_sampling_strategy_1_1_adaptive_state_1a4edccff27b437d3002efa475391a7866" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::SamplingStrategy::AdaptiveState::window_count</definition>
+        <argsstring></argsstring>
+        <name>window_count</name>
+        <qualifiedname>themis::SamplingStrategy::AdaptiveState::window_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="107" column="20" bodyfile="include/utils/tracing.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_sampling_strategy_1_1_adaptive_state_1ace9a0e476ba587b12501bc2e664f44ae" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::SamplingStrategy::AdaptiveState::window_start</definition>
+        <argsstring></argsstring>
+        <name>window_start</name>
+        <qualifiedname>themis::SamplingStrategy::AdaptiveState::window_start</qualifiedname>
+        <initializer>{std::chrono::steady_clock::now()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="108" column="47" bodyfile="include/utils/tracing.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_sampling_strategy_1_1_adaptive_state_1aaca07687f9d8d62ebab09832bd8b50bc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SamplingStrategy::AdaptiveState::effective_rate</definition>
+        <argsstring></argsstring>
+        <name>effective_rate</name>
+        <qualifiedname>themis::SamplingStrategy::AdaptiveState::effective_rate</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="109" column="20" bodyfile="include/utils/tracing.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shared mutable state for ADAPTIVE mode (shared across copies). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/tracing.h" line="105" column="5" bodyfile="include/utils/tracing.h" bodystart="105" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_sampling_strategy_1_1_adaptive_state_1aaca07687f9d8d62ebab09832bd8b50bc" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy::AdaptiveState</scope><name>effective_rate</name></member>
+      <member refid="structthemis_1_1_sampling_strategy_1_1_adaptive_state_1acc9d18d6fe91321146a35ca87f124643" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy::AdaptiveState</scope><name>mu</name></member>
+      <member refid="structthemis_1_1_sampling_strategy_1_1_adaptive_state_1a4edccff27b437d3002efa475391a7866" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy::AdaptiveState</scope><name>window_count</name></member>
+      <member refid="structthemis_1_1_sampling_strategy_1_1_adaptive_state_1ace9a0e476ba587b12501bc2e664f44ae" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy::AdaptiveState</scope><name>window_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

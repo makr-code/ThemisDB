@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__replication__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_replication_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="replication__api__contract_8h" local="yes">replication/replication_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>replication/replication_api_contract.h</label>
+        <link refid="replication__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/replication/test_replication_contract_hardening_focused.cpp</label>
+        <link refid="test__replication__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>random</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" prot="public">themis::replication::test::MockGCounter</innerclass>
+    <innerclass refid="structthemis_1_1replication_1_1test_1_1_mock_version" prot="public">themis::replication::test::MockVersion</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1replication">themis::replication</innernamespace>
+    <innernamespace refid="namespacethemis_1_1replication_1_1test">themis::replication::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 replication contract-hardening focused test suite (RCH-01..RCH-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies the normative contracts defined in <ref refid="replication__api__contract_8h" kindref="compound">include/replication/replication_api_contract.h</ref> using deterministic, mock-I/O test cases. All tests use kReplicationContractSeed = 42.</para>
+<sect1 id="test__replication__contract__hardening__focused_8cpp_1autotoc_md9_1s1"><sect2 id="test__replication__contract__hardening__focused_8cpp_1autotoc_md9">
+<title>Test families</title><para><heading level="3">RCH-01..04 — CRDT contract</heading>
+</para>
+<para>RCH-01 GCounter merge is commutative (merge(A,B) == merge(B,A)) RCH-02 GCounter merge is idempotent (merge(A,A) == A) RCH-03 GCounter merge is associative RCH-04 CRDT type mismatch → CRDT_TYPE_MISMATCH</para>
+<para><heading level="3">RCH-05..08 — Conflict resolution contract</heading>
+</para>
+<para>RCH-05 LWW resolution is deterministic (same inputs → same winner) RCH-06 Tie-break by node-ID is consistent RCH-07 Tombstone wins over concurrent update at same timestamp RCH-08 LWW winner has the greater timestamp</para>
+<para><heading level="3">RCH-09..12 — Change stream contract</heading>
+</para>
+<para>RCH-09 Events within partition are delivered in commit order RCH-10 At-least-once: committed event is always delivered RCH-11 Redelivery of same event is idempotent (no duplicate state change) RCH-12 STREAM_OFFSET_ERROR on invalid offset</para>
+<para><heading level="3">RCH-13..16 — WAL ordering contract</heading>
+</para>
+<para>RCH-13 LSNs are monotonically increasing RCH-14 Apply gap (LSN jump) → REPLICATION_LAG_EXCEEDED RCH-15 Idempotent re-apply of same LSN is safe (no error, no data change) RCH-16 kMaxPendingWalEvents constant is reasonable (&gt; 0)</para>
+<para><simplesect kind="see"><para><ref refid="replication__api__contract_8h" kindref="compound">include/replication/replication_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/replication/ROADMAP.md — Phase 4 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__api__contract_8h" kindref="compound">replication/replication_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1replication_1_1test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kReplicationContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::int64_t&gt;<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab7955ca2dad6cafdb54e46e8dbe1f2ed" kindref="member">value</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>total<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[k,<sp/>v]<sp/>:<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>+=<sp/>v;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" kindref="member">merge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref>&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref>&amp;<sp/>b)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref><sp/>result<sp/>=<sp/>a;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[k,<sp/>v]<sp/>:<sp/>b.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>[k]<sp/>=<sp/>std::max(result.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>[k],<sp/>v);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1a33bf1eb4e629d325d12fdd202f2615f3" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269c" kindref="member">MockCrdtType</ref><sp/>{<sp/><ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269cab2d307b078e3da62f97eb4cbc6e1de72" kindref="member">GCounter</ref>,<sp/><ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269ca5b8719c2cc07c6d5c7f7ec90073708ee" kindref="member">PNCounter</ref><sp/>};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ReplicationErrorCode&gt;<sp/>mockCrdtMergeTypes(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269c" kindref="member">MockCrdtType</ref><sp/>a,<sp/><ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269c" kindref="member">MockCrdtType</ref><sp/>b)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(a<sp/>!=<sp/>b)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa9285e9f6e47556cdfec9d6518a6734e3" kindref="member">ReplicationErrorCode::CRDT_TYPE_MISMATCH</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1replication_1_1test_1_1_mock_version" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1af8228b743b256bf3916457ea9b246402" kindref="member">timestamp</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a5f9e3438d226cecef92402918954d7c7" kindref="member">node_id</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a6d4777446b02a51cfca5434c5ef23e31" kindref="member">value</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a8382cbc7401c77294c3a7b226a4ad506" kindref="member">is_tombstone</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>mockLwwResolve(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref>&amp;<sp/>v1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref>&amp;<sp/>v2)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v1.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1af8228b743b256bf3916457ea9b246402" kindref="member">timestamp</ref><sp/>&gt;<sp/>v2.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1af8228b743b256bf3916457ea9b246402" kindref="member">timestamp</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v1;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v2.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1af8228b743b256bf3916457ea9b246402" kindref="member">timestamp</ref><sp/>&gt;<sp/>v1.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1af8228b743b256bf3916457ea9b246402" kindref="member">timestamp</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v2;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tie-break:<sp/>greater<sp/>node-ID<sp/>wins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v1.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a8382cbc7401c77294c3a7b226a4ad506" kindref="member">is_tombstone</ref><sp/>||<sp/>v2.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a8382cbc7401c77294c3a7b226a4ad506" kindref="member">is_tombstone</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tombstone<sp/>wins<sp/>at<sp/>same<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v1.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a8382cbc7401c77294c3a7b226a4ad506" kindref="member">is_tombstone</ref><sp/>?<sp/>v1<sp/>:<sp/>v2;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(v1.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a5f9e3438d226cecef92402918954d7c7" kindref="member">node_id</ref><sp/>&gt;<sp/>v2.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a5f9e3438d226cecef92402918954d7c7" kindref="member">node_id</ref>)<sp/>?<sp/>v1<sp/>:<sp/>v2;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;<sp/>mockPartitionStream(std::vector&lt;int&gt;<sp/>events)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Events<sp/>are<sp/>already<sp/>in<sp/>commit<sp/>order;<sp/>returned<sp/>as-is.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>events;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ReplicationErrorCode&gt;<sp/>mockValidateOffset(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>offset,<sp/>std::int64_t<sp/>current_committed)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(offset<sp/>&lt;<sp/>0<sp/>||<sp/>offset<sp/>&gt;<sp/>current_committed<sp/>+<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faebb58019a2cda331fbfe89c980c45292" kindref="member">ReplicationErrorCode::STREAM_OFFSET_ERROR</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ReplicationErrorCode&gt;<sp/>mockCheckLsnGap(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>prev_lsn,<sp/>std::int64_t<sp/>next_lsn)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(next_lsn<sp/>&gt;<sp/>prev_lsn<sp/>+<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa12804f95a24349bb240f8a4fa37a1043" kindref="member">ReplicationErrorCode::REPLICATION_LAG_EXCEEDED</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mockApplyIdempotent(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::int64_t&gt;&amp;<sp/>applied_lsns,<sp/>std::int64_t<sp/>lsn)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::find(applied_lsns.begin(),<sp/>applied_lsns.end(),<sp/>lsn)<sp/>!=<sp/>applied_lsns.end())<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>already<sp/>applied<sp/>—<sp/>no-op,<sp/>no<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>applied_lsns.push_back(lsn);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>newly<sp/>applied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RCH-01..04<sp/>—<sp/>CRDT<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH01_GCounterMergeCommutative)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref><sp/>a,<sp/>b;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>[</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">]<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>a.counters[</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">]<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>b.counters[</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">]<sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>b.counters[</highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">]<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ab<sp/>=<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" kindref="member">MockGCounter::merge</ref>(a,<sp/>b);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ba<sp/>=<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" kindref="member">MockGCounter::merge</ref>(b,<sp/>a);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ab,<sp/>ba);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ab.value(),<sp/>5<sp/>+<sp/>7<sp/>+<sp/>2);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH02_GCounterMergeIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref><sp/>a;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>[</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">]<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>a.counters[</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">]<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>aa<sp/>=<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" kindref="member">MockGCounter::merge</ref>(a,<sp/>a);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(aa,<sp/>a);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH03_GCounterMergeAssociative)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" kindref="compound">MockGCounter</ref><sp/>a,<sp/>b,<sp/>c;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ab96062eb8368c411d1f44eba6f771d20" kindref="member">counters</ref>[</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">]<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>b.counters[</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">]<sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>c.counters[</highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">]<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>left<sp/><sp/>=<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" kindref="member">MockGCounter::merge</ref>(<ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" kindref="member">MockGCounter::merge</ref>(a,<sp/>b),<sp/>c);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>right<sp/>=<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" kindref="member">MockGCounter::merge</ref>(a,<sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter_1ae2dc64c9b63c50cfe15cfae0cb0e7929" kindref="member">MockGCounter::merge</ref>(b,<sp/>c));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(left,<sp/>right);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH04_CrdtTypeMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockCrdtMergeTypes(<ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269cab2d307b078e3da62f97eb4cbc6e1de72" kindref="member">MockCrdtType::GCounter</ref>,<sp/><ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269ca5b8719c2cc07c6d5c7f7ec90073708ee" kindref="member">MockCrdtType::PNCounter</ref>);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa9285e9f6e47556cdfec9d6518a6734e3" kindref="member">ReplicationErrorCode::CRDT_TYPE_MISMATCH</ref>);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1replication_1afdaa07c6f40670121a7f888e35cd3d62" kindref="member">isHardReplicationError</ref>(*err));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RCH-05..08<sp/>—<sp/>Conflict<sp/>resolution<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH05_LwwDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>v1<sp/>=<sp/>{100LL,<sp/></highlight><highlight class="stringliteral">&quot;node-A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value_A&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>v2<sp/>=<sp/>{200LL,<sp/></highlight><highlight class="stringliteral">&quot;node-B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value_B&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>winner1<sp/>=<sp/>mockLwwResolve(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>winner2<sp/>=<sp/>mockLwwResolve(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner1.value,<sp/>winner2.value);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner1.value,<sp/></highlight><highlight class="stringliteral">&quot;value_B&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>higher<sp/>timestamp<sp/>wins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH06_TieBreakByNodeId)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>v1<sp/>=<sp/>{500LL,<sp/></highlight><highlight class="stringliteral">&quot;node-A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value_A&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>v2<sp/>=<sp/>{500LL,<sp/></highlight><highlight class="stringliteral">&quot;node-Z&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value_Z&quot;</highlight><highlight class="normal">};<sp/></highlight><highlight class="comment">//<sp/>same<sp/>ts,<sp/>node-Z<sp/>&gt;<sp/>node-A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>winner<sp/>=<sp/>mockLwwResolve(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.value,<sp/></highlight><highlight class="stringliteral">&quot;value_Z&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.node_id,<sp/></highlight><highlight class="stringliteral">&quot;node-Z&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH07_TombstoneWins)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>update<sp/><sp/><sp/><sp/>=<sp/>{1000LL,<sp/></highlight><highlight class="stringliteral">&quot;node-A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alive&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>tombstone<sp/>=<sp/>{1000LL,<sp/></highlight><highlight class="stringliteral">&quot;node-B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;deleted&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>winner<sp/>=<sp/>mockLwwResolve(update,<sp/>tombstone);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(winner.is_tombstone);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH08_LwwWinnerHasGreaterTimestamp)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng(kReplicationContractSeed);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;std::int64_t&gt;<sp/>dist(1,<sp/>1&apos;000&apos;000);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>t1<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>t2<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t1<sp/>==<sp/>t2)<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>skip<sp/>ties<sp/>for<sp/>this<sp/>assertion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>v1<sp/>=<sp/>{t1,<sp/></highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref><sp/>v2<sp/>=<sp/>{t2,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>winner<sp/>=<sp/>mockLwwResolve(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.timestamp,<sp/>std::max(t1,<sp/>t2));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RCH-09..12<sp/>—<sp/>Change<sp/>stream<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH09_PartitionOrderPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>commit_order<sp/>=<sp/>{1,<sp/>2,<sp/>3,<sp/>4,<sp/>5};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>delivered<sp/>=<sp/>mockPartitionStream(commit_order);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(delivered,<sp/>commit_order);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH10_AtLeastOnceDelivery)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>committed<sp/>=<sp/>{10,<sp/>20,<sp/>30};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>delivered<sp/>=<sp/>mockPartitionStream(committed);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ev<sp/>:<sp/>committed)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(delivered.begin(),<sp/>delivered.end(),<sp/>ev),<sp/>delivered.end())</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Committed<sp/>event<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ev<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>missing<sp/>from<sp/>delivery&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH11_RedeliveryIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::int64_t&gt;<sp/>applied;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first<sp/><sp/>=<sp/>mockApplyIdempotent(applied,<sp/>42LL);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>second<sp/>=<sp/>mockApplyIdempotent(applied,<sp/>42LL);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(first);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>apply:<sp/>new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(second);<sp/></highlight><highlight class="comment">//<sp/>second<sp/>apply:<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(applied.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH12_StreamOffsetError)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>committed<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Offset<sp/>far<sp/>ahead<sp/>of<sp/>committed<sp/>—<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockValidateOffset(200,<sp/>committed);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faebb58019a2cda331fbfe89c980c45292" kindref="member">ReplicationErrorCode::STREAM_OFFSET_ERROR</ref>);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1replication_1a63f4c206777cfb66d1238f69e0711822" kindref="member">isLagError</ref>(*err));</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>offset<sp/>—<sp/>no<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mockValidateOffset(101,<sp/>committed);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok.has_value());</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RCH-13..16<sp/>—<sp/>WAL<sp/>ordering<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH13_LsnMonotonic)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::int64_t&gt;<sp/>lsns;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>lsn<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>lsns.push_back(lsn++);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>lsns.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(lsns[i],<sp/>lsns[i<sp/>-<sp/>1]);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH14_LsnGapDetected)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockCheckLsnGap(</highlight><highlight class="comment">/*prev=*/</highlight><highlight class="normal">100LL,<sp/></highlight><highlight class="comment">/*next=*/</highlight><highlight class="normal">105LL);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa12804f95a24349bb240f8a4fa37a1043" kindref="member">ReplicationErrorCode::REPLICATION_LAG_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1replication_1a63f4c206777cfb66d1238f69e0711822" kindref="member">isLagError</ref>(*err));</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consecutive<sp/>LSN<sp/>—<sp/>no<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mockCheckLsnGap(100LL,<sp/>101LL);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok.has_value());</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH15_RetryIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::int64_t&gt;<sp/>applied;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::int64_t<sp/>lsn<sp/>=<sp/>77LL;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Apply<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>mockApplyIdempotent(applied,<sp/>lsn);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r1);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-apply<sp/>—<sp/>no<sp/>error,<sp/>state<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>mockApplyIdempotent(applied,<sp/>lsn);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r2);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(applied.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(applied[0],<sp/>lsn);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" kindref="member">TEST</ref>(ReplicationContractHardening,<sp/>RCH16_MaxPendingWalEventsReasonable)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1replication_1aa4ab49edffd005128d0653efd58ec7b3" kindref="member">kMaxPendingWalEvents</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1replication_1aa4ab49edffd005128d0653efd58ec7b3" kindref="member">kMaxPendingWalEvents</ref>,<sp/>10&apos;000&apos;000u);<sp/></highlight><highlight class="comment">//<sp/>sanity<sp/>upper<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/replication/test_replication_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

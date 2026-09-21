@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__hkdf__cache_8cpp" kind="file" language="C++">
+    <compoundname>test_hkdf_cache.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">utils/hkdf_cache.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_hkdf_cache.cpp</label>
+        <link refid="test__hkdf__cache_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>utils/hkdf_cache.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__hkdf__cache_8cpp_1ab79d5049fbe931aa48f47f3a5e58a758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HKDFCache, HitMissAndRotation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HKDFCache</type>
+        </param>
+        <param>
+          <type>HitMissAndRotation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hkdf_cache.cpp" line="6" column="1" bodyfile="tests/security/test_hkdf_cache.cpp" bodystart="6" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hkdf__cache_8cpp_1a9ca8e814a62a427cbfc70d757a4acce3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HKDFCache, StatsCountHitsAndMisses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HKDFCache</type>
+        </param>
+        <param>
+          <type>StatsCountHitsAndMisses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hkdf_cache.cpp" line="35" column="1" bodyfile="tests/security/test_hkdf_cache.cpp" bodystart="35" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hkdf__cache_8cpp_1afca6392df83cf221edf2f32d4c7d9861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HKDFCache, PurgeByIkmHashClearsEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HKDFCache</type>
+        </param>
+        <param>
+          <type>PurgeByIkmHashClearsEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hkdf_cache.cpp" line="55" column="1" bodyfile="tests/security/test_hkdf_cache.cpp" bodystart="55" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/hkdf_cache.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><ref refid="test__hkdf__cache_8cpp_1ab79d5049fbe931aa48f47f3a5e58a758" kindref="member">TEST</ref>(HKDFCache,<sp/>HitMissAndRotation)<sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prepare<sp/>inputs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm<sp/>=<sp/>{1,2,3,4,5,6,7,8};</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt<sp/>=<sp/>{9,9,9};</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;unit-test-info&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>derivation<sp/>-&gt;<sp/>cache<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>HKDFCache::threadLocal().derive_cached(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(a.size(),<sp/>32);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>derivation<sp/>with<sp/>identical<sp/>inputs<sp/>-&gt;<sp/>cache<sp/>hit<sp/>(returns<sp/>same<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>HKDFCache::threadLocal().derive_cached(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(a,<sp/>b);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>cache<sp/>and<sp/>derive<sp/>again<sp/>-&gt;<sp/>deterministic<sp/>HKDF<sp/>still<sp/>returns<sp/>same<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>HKDFCache::threadLocal().clear();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>HKDFCache::threadLocal().derive_cached(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(a,<sp/>c);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>key<sp/>rotation<sp/>by<sp/>changing<sp/>IKM<sp/>-&gt;<sp/>derived<sp/>output<sp/>must<sp/>differ</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>ikm[0]<sp/>=<sp/>0xFF;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>HKDFCache::threadLocal().derive_cached(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(a,<sp/>d);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTL<sp/>/<sp/>Stats<sp/>(extended<sp/>API)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__hkdf__cache_8cpp_1ab79d5049fbe931aa48f47f3a5e58a758" kindref="member">TEST</ref>(HKDFCache,<sp/>StatsCountHitsAndMisses)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>HKDFCache::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_entries<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.ttl<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds{300};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>HKDFCache<sp/>cache(cfg);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm<sp/><sp/>=<sp/>{0xAA,<sp/>0xBB};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt<sp/>=<sp/>{0x01};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;stats-test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>call<sp/>→<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.derive_cached(ikm,<sp/>salt,<sp/>info,<sp/>16);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>call<sp/>→<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.derive_cached(ikm,<sp/>salt,<sp/>info,<sp/>16);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cache.stats();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.hits,<sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__hkdf__cache_8cpp_1ab79d5049fbe931aa48f47f3a5e58a758" kindref="member">TEST</ref>(HKDFCache,<sp/>PurgeByIkmHashClearsEntry)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>HKDFCache::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_entries<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.ttl<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds{300};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>HKDFCache<sp/>cache(cfg);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm<sp/><sp/>=<sp/>{0x11,<sp/>0x22,<sp/>0x33};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt<sp/>=<sp/>{0xFF};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;purge-test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.derive_cached(ikm,<sp/>salt,<sp/>info,<sp/>16);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.stats().misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Purge<sp/>accepts<sp/>any<sp/>string;<sp/>after<sp/>purge<sp/>the<sp/>entry<sp/>must<sp/>be<sp/>re-derived<sp/>(miss)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.purge_by_ikm_hash(</highlight><highlight class="stringliteral">&quot;some_rotation_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.clear();<sp/></highlight><highlight class="comment">//<sp/>ensure<sp/>clean<sp/>slate<sp/>for<sp/>counting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.derive_cached(ikm,<sp/>salt,<sp/>info,<sp/>16);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.stats().misses,<sp/>1u);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_hkdf_cache.cpp"/>
+  </compounddef>
+</doxygen>

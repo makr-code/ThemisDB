@@ -1,0 +1,863 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1sharding_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::sharding::test</compoundname>
+    <innerclass refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation" prot="public">themis::sharding::test::MockRecoveryOperation</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1test_1_1_phase2_determinism_test" prot="public">themis::sharding::test::Phase2DeterminismTest</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1test_1_1_phase2_error_logging_test" prot="public">themis::sharding::test::Phase2ErrorLoggingTest</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1test_1_1_phase2_exception_safety_test" prot="public">themis::sharding::test::Phase2ExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1test_1_1_phase2_lock_ordering_test" prot="public">themis::sharding::test::Phase2LockOrderingTest</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1test_1_1_phase2_thread_safety_test" prot="public">themis::sharding::test::Phase2ThreadSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test" prot="public">themis::sharding::test::Phase2TimeoutTest</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" prot="public">themis::sharding::test::Phase3QuorumLossFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a14bbc117c9e430c00dc1cf5eeefb7aa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2ThreadSafetyTest, TS01_ConcurrentElectionStartup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_thread_safety_test" kindref="compound">Phase2ThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>TS01_ConcurrentElectionStartup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TS-01: Concurrent election startup from multiple threads</para>
+<para>Validates that concurrent calls to startElection() do not cause:<itemizedlist>
+<listitem><para>Data races on current_term_</para>
+</listitem><listitem><para>Inconsistent role transitions</para>
+</listitem><listitem><para>Dropped election counter increments </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="113" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="113" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a85a9809958aebd1165e90d5d291232b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2ThreadSafetyTest, TS02_ConcurrentLoadUpdates)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_thread_safety_test" kindref="compound">Phase2ThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>TS02_ConcurrentLoadUpdates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TS-02: Concurrent load updates in <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref></para>
+<para>Validates that concurrent updateShardLoad() calls do not cause:<itemizedlist>
+<listitem><para>Inconsistent load state</para>
+</listitem><listitem><para>Lost updates</para>
+</listitem><listitem><para>Corrupted history deque </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="183" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="183" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a74d4cf6681d0d59416613bbbac8b49b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2ThreadSafetyTest, TS03_ConcurrentRoutingCounters)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_thread_safety_test" kindref="compound">Phase2ThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>TS03_ConcurrentRoutingCounters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TS-03: Concurrent routing with atomic counter consistency</para>
+<para>Validates that concurrent routing operations maintain consistent statistics counters without race conditions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="242" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="242" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a17f09b42cd59d62fea6dfd4a4caff005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2ThreadSafetyTest, TS04_CallbackRegistrationRace)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_thread_safety_test" kindref="compound">Phase2ThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>TS04_CallbackRegistrationRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TS-04: Callback registration race under concurrent leader election</para>
+<para>Validates that callback field access is properly synchronized during concurrent leader election and callback registration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="280" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="280" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a851976800c3b1bbd799b73eba55eb3a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2LockOrderingTest, LO01_CoordinatorLockHierarchy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_lock_ordering_test" kindref="compound">Phase2LockOrderingTest</ref></type>
+        </param>
+        <param>
+          <type>LO01_CoordinatorLockHierarchy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>LO-01: <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref> lock hierarchy validation</para>
+<para>Validates that no deadlocks occur under high contention with concurrent operations on leader_mutex_, tasks_mutex_, and callback_mutex_ following canonical ordering </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="348" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="348" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1ab3c30e8cb07bb9229154882d485bb7b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2LockOrderingTest, LO02_LoadDetectorSingleLock)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_lock_ordering_test" kindref="compound">Phase2LockOrderingTest</ref></type>
+        </param>
+        <param>
+          <type>LO02_LoadDetectorSingleLock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>LO-02: <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> single-lock invariant</para>
+<para>Validates that <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> correctly uses its single mutex_ to protect all concurrent state access </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="432" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="432" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a055ef2a2f25c24039ab86de8a4199116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2LockOrderingTest, LO03_QuorumConfigIsolation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_lock_ordering_test" kindref="compound">Phase2LockOrderingTest</ref></type>
+        </param>
+        <param>
+          <type>LO03_QuorumConfigIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>LO-03: QuorumManager config lock isolation</para>
+<para>Validates that QuorumManager&apos;s config_mutex_ properly isolates configuration updates from concurrent read operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="486" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="486" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a954c0f5369d93a0f0d4312012a378531" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2TimeoutTest, TO01_ScatterGatherTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test" kindref="compound">Phase2TimeoutTest</ref></type>
+        </param>
+        <param>
+          <type>TO01_ScatterGatherTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TO-01: <ref refid="classthemis_1_1sharding_1_1_shard_router" kindref="compound">ShardRouter</ref> scatter-gather timeout enforcement</para>
+<para>This test would require mocking <ref refid="classthemis_1_1sharding_1_1_remote_executor" kindref="compound">RemoteExecutor</ref> with hanging operations. For now, verify the timeout configuration is properly used. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="547" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="547" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1aee78b8c66c0db3811cd7d3ec01779168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2TimeoutTest, TO02_QuorumOperationTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test" kindref="compound">Phase2TimeoutTest</ref></type>
+        </param>
+        <param>
+          <type>TO02_QuorumOperationTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TO-02: QuorumManager operation timeout under slow nodes</para>
+<para>Validates that QuorumManager enforces operation_timeout even when some nodes are slow </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="561" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="561" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1afd243b8a0f6001b9fe2730597e3c1e83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2TimeoutTest, TO03_ImbalanceDetectionTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test" kindref="compound">Phase2TimeoutTest</ref></type>
+        </param>
+        <param>
+          <type>TO03_ImbalanceDetectionTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TO-03: Imbalance detection analysis timeout</para>
+<para>Validates that detectImbalance() doesn&apos;t take excessive time </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="598" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="598" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1ad17a90586c6f75d7d9f37f65e5678016" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2ExceptionSafetyTest, ES01_TaskExecutionExceptionHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_exception_safety_test" kindref="compound">Phase2ExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>ES01_TaskExecutionExceptionHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ES-01: <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref> task execution exception handling</para>
+<para>Validates that taskExecutorLoop() properly handles exceptions and continues processing remaining tasks </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="638" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="638" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a45d340a78b7ba9f6bc51070be1b03c13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2ExceptionSafetyTest, ES02_QuorumFutureCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_exception_safety_test" kindref="compound">Phase2ExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>ES02_QuorumFutureCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ES-02: QuorumManager future cleanup on exception</para>
+<para>Validates that futures are properly cleaned up even when operations throw exceptions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="697" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="697" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1ac9526644453e193e9ea218605b09046d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2ErrorLoggingTest, EL01_RoutingErrorContext)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_error_logging_test" kindref="compound">Phase2ErrorLoggingTest</ref></type>
+        </param>
+        <param>
+          <type>EL01_RoutingErrorContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EL-01: Comprehensive error context in routing failures</para>
+<para>Validates that routing error paths log complete diagnostic information </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="733" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="733" bodyend="737"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a21357a5d85dd5411c0cc179e102403d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2ErrorLoggingTest, EL02_QuorumTimeoutDiagnostics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_error_logging_test" kindref="compound">Phase2ErrorLoggingTest</ref></type>
+        </param>
+        <param>
+          <type>EL02_QuorumTimeoutDiagnostics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EL-02: QuorumManager timeout diagnostics</para>
+<para>Validates per-node timeout information is available in failure paths </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="744" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="744" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1ad8388563e140d88c1c9cd0484c9a70b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2DeterminismTest, DT01_DeterministicLoadImbalance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_determinism_test" kindref="compound">Phase2DeterminismTest</ref></type>
+        </param>
+        <param>
+          <type>DT01_DeterministicLoadImbalance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DT-01: Deterministic load imbalance detection with seed=42</para>
+<para>Validates that load imbalance detection produces identical results when run with the same random seed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="779" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="779" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1af7dcda1f8616bcf11f3486f3a0904250" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase2DeterminismTest, DT02_DeterministicQuorumOperation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase2_determinism_test" kindref="compound">Phase2DeterminismTest</ref></type>
+        </param>
+        <param>
+          <type>DT02_DeterministicQuorumOperation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DT-02: Deterministic quorum operation with seeded node selection</para>
+<para>Validates that quorum operations are deterministic with seed control </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="812" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="812" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a4db2842ac1d10b1abdb4fda46bfa9096" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, ErrorRecoveryStrategyMappingComplete)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>ErrorRecoveryStrategyMappingComplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="116" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="116" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1acb52c07d44ddc367f87e1855af4f903e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, ErrorRecoveryStrategyDeterminism)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>ErrorRecoveryStrategyDeterminism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="146" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="146" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a5639733651b69b6fdd7e89a7ee355138" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, FailClosedErrorCodesIdentified)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>FailClosedErrorCodesIdentified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="158" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="158" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a76e9642ca611cf3b664c250023562aba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, RetryableErrorCodesIdentified)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>RetryableErrorCodesIdentified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="174" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="174" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a9e291dc27fcc7d755e62ddc160cf6d73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, DegradedReadonlyCodesIdentified)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>DegradedReadonlyCodesIdentified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="181" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="181" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1ad7a5f49bd4e1eb1b5cd1d373ea44b252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, OperatorInterventionCodesIdentified)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>OperatorInterventionCodesIdentified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="187" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="187" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a9a6137e519390302b8853f45f9c56d4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, QuorumLossDetectionOneNodeDown)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>QuorumLossDetectionOneNodeDown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="205" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="205" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a234beeac66312ab2bcb3e11895263926" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, QuorumLossDetectionHalfDown)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>QuorumLossDetectionHalfDown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="215" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="215" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a5ba46f812dd8f3807f2ccae9bb8ec0b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, QuorumLossDetectionMajorityDown)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>QuorumLossDetectionMajorityDown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="225" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="225" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a01ffd757fa4a587a69ce9d9520fe827a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, RecoveryOperationIdempotence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>RecoveryOperationIdempotence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="239" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="239" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1ad88d4697e183ce8571bcdf63276bd09b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, FailedRecoveryOperationIdempotence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>FailedRecoveryOperationIdempotence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="258" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="258" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1aa33397fdb61935a50603f1b992bb12ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, RecoveryOperationUniqueIdentifiers)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>RecoveryOperationUniqueIdentifiers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="270" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="270" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a7dd2630fd681ee159931f6bcad4af83a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, QuorumLossNeverSilentlyDegrades)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>QuorumLossNeverSilentlyDegrades</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="284" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="284" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a09b6d2585588c8b969e8531b7b55e8ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, CoordinatorFailureDoesDegrade)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>CoordinatorFailureDoesDegrade</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="291" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="291" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a971ccc9a095db9ad6e06c0b7bc6f51d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, TransientErrorsAreRetried)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>TransientErrorsAreRetried</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="298" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="298" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a453ea379a5142f2080503bbaa7466bb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, PartialMigrationIsRolledBack)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>PartialMigrationIsRolledBack</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="305" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="305" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a83d32678a5f6776deaa62bfdde984989" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, ConsensusTimeoutAborts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>ConsensusTimeoutAborts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="315" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="315" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1ab014e05e7fbbef416f7c0f4741281062" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, TransactionInDoubtWaitsAndAborts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>TransactionInDoubtWaitsAndAborts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="322" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="322" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a86c465899bd6cec5b73734c03c29254f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, RetryConfigurationBounded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>RetryConfigurationBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="332" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="332" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a307747bb80e06afd060552dd6200a69c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, TimeoutConfigurationReasonable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>TimeoutConfigurationReasonable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="342" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="342" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a3de3b75fe1c910e7935f3064c6a0d215" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, ErrorCodeNamingComplete)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>ErrorCodeNamingComplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="355" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="355" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1ae10d8b4b4e090d8ff6380079eec78208" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, ErrorCodeNamingDeterminism)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>ErrorCodeNamingDeterminism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="382" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="382" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a6ed64d607a11be68793f368ecd827d58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, DeterministicChaosReproducibility)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>DeterministicChaosReproducibility</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="395" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="395" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1test_1a54f8d2e6606052cf9f8ce600754f683d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::TEST_F</definition>
+        <argsstring>(Phase3QuorumLossFixture, DeterministicClusterRecoverySequence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kindref="compound">Phase3QuorumLossFixture</ref></type>
+        </param>
+        <param>
+          <type>DeterministicClusterRecoverySequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="416" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="416" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

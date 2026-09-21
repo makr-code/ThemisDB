@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IAdversarialPromptTester</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_simple_adversarial_tester" prot="public" virt="non-virtual">themis::prompt_engineering::SimpleAdversarialTester</derivedcompoundref>
+    <includes refid="adversarial__prompt__tester_8h" local="no">adversarial_prompt_tester.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1a97d8dc847a89de72b0d3ec8d1919bfd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IAdversarialPromptTester::~IAdversarialPromptTester</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAdversarialPromptTester</name>
+        <qualifiedname>themis::prompt_engineering::IAdversarialPromptTester::~IAdversarialPromptTester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="120" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1a967a9384b6b469329b337cb523fe4bb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::prompt_engineering::IAdversarialPromptTester::addTestCase</definition>
+        <argsstring>(AdversarialTestCase test_case)=0</argsstring>
+        <name>addTestCase</name>
+        <qualifiedname>themis::prompt_engineering::IAdversarialPromptTester::addTestCase</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_adversarial_tester_1af48b08c624f13f7a4ee062b30f180f65">addTestCase</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case" kindref="compound">AdversarialTestCase</ref></type>
+          <declname>test_case</declname>
+        </param>
+        <briefdescription>
+<para>Add a test case to the active suite. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a case with the same <computeroutput>id</computeroutput> already exists. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="127" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1a951103b5f5a64fdd31133f8ac13e7419" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::prompt_engineering::IAdversarialPromptTester::loadDefaultTestSuite</definition>
+        <argsstring>()=0</argsstring>
+        <name>loadDefaultTestSuite</name>
+        <qualifiedname>themis::prompt_engineering::IAdversarialPromptTester::loadDefaultTestSuite</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_adversarial_tester_1ae8c54931e56ec4e5182d17a1de6f7f01">loadDefaultTestSuite</reimplementedby>
+        <briefdescription>
+<para>Populate the suite with the built-in OWASP-aligned default cases. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe to call even if custom cases have already been added; duplicates (by id) are silently skipped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="135" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1a2c0ac3763e681f82281ab9f4ff11da6e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report" kindref="compound">AdversarialTestReport</ref></type>
+        <definition>virtual AdversarialTestReport themis::prompt_engineering::IAdversarialPromptTester::runAll</definition>
+        <argsstring>() const =0</argsstring>
+        <name>runAll</name>
+        <qualifiedname>themis::prompt_engineering::IAdversarialPromptTester::runAll</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_adversarial_tester_1ae9c35fd9c33202614c37f51824d6fc8e">runAll</reimplementedby>
+        <briefdescription>
+<para>Run all test cases and return an aggregated report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="140" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1af04dbfab0a0cd2d85d035b118da4d075" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result" kindref="compound">AdversarialTestResult</ref></type>
+        <definition>virtual AdversarialTestResult themis::prompt_engineering::IAdversarialPromptTester::runOne</definition>
+        <argsstring>(const std::string &amp;id) const =0</argsstring>
+        <name>runOne</name>
+        <qualifiedname>themis::prompt_engineering::IAdversarialPromptTester::runOne</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_adversarial_tester_1a1a2cc8813725a04accc7a3ca6a314e97">runOne</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Run a single test case by id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if no case with <computeroutput>id</computeroutput> is registered. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="147" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1aaca65b94251f2505a1448d0f168e696e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case" kindref="compound">AdversarialTestCase</ref> &gt;</type>
+        <definition>virtual std::vector&lt; AdversarialTestCase &gt; themis::prompt_engineering::IAdversarialPromptTester::testCases</definition>
+        <argsstring>() const =0</argsstring>
+        <name>testCases</name>
+        <qualifiedname>themis::prompt_engineering::IAdversarialPromptTester::testCases</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_adversarial_tester_1ae9abaf873c8a419cfb93173c7b0661db">testCases</reimplementedby>
+        <briefdescription>
+<para>Return all registered test cases. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="152" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for adversarial prompt testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::IAdversarialPromptTester</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester"/>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::SimpleAdversarialTester</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_simple_adversarial_tester"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="118" column="1" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="118" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1a967a9384b6b469329b337cb523fe4bb6" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IAdversarialPromptTester</scope><name>addTestCase</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1a951103b5f5a64fdd31133f8ac13e7419" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IAdversarialPromptTester</scope><name>loadDefaultTestSuite</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1a2c0ac3763e681f82281ab9f4ff11da6e" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IAdversarialPromptTester</scope><name>runAll</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1af04dbfab0a0cd2d85d035b118da4d075" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IAdversarialPromptTester</scope><name>runOne</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1aaca65b94251f2505a1448d0f168e696e" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IAdversarialPromptTester</scope><name>testCases</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester_1a97d8dc847a89de72b0d3ec8d1919bfd7" prot="public" virt="virtual"><scope>themis::prompt_engineering::IAdversarialPromptTester</scope><name>~IAdversarialPromptTester</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1search_1_1_layered_retrieval_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::search::LayeredRetrievalConfig</compoundname>
+    <includes refid="layered__retrieval__orchestrator_8h" local="no">layered_retrieval_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_config_1a6a8d844cdc506390c1ccdb6b03d5210f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::search::LayeredRetrievalConfig::ann_enabled</definition>
+        <argsstring></argsstring>
+        <name>ann_enabled</name>
+        <qualifiedname>themis::search::LayeredRetrievalConfig::ann_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="118" column="10" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_config_1a7ce92e9d398211512ee33096851d6781" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::search::LayeredRetrievalConfig::tensor_enabled</definition>
+        <argsstring></argsstring>
+        <name>tensor_enabled</name>
+        <qualifiedname>themis::search::LayeredRetrievalConfig::tensor_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="119" column="10" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_config_1aa6bf6ef5c0b944d02337ef8799de2523" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::search::LayeredRetrievalConfig::graph_enabled</definition>
+        <argsstring></argsstring>
+        <name>graph_enabled</name>
+        <qualifiedname>themis::search::LayeredRetrievalConfig::graph_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="120" column="10" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_config_1a62bfbc8e5b1741afe519400a83ed8a7c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::search::LayeredRetrievalConfig::llm_enabled</definition>
+        <argsstring></argsstring>
+        <name>llm_enabled</name>
+        <qualifiedname>themis::search::LayeredRetrievalConfig::llm_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="121" column="10" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_config_1abbce03a0b2d4e5373ca720c61338d0f8" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::search::LayeredRetrievalConfig::layer_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>layer_timeout_ms</name>
+        <qualifiedname>themis::search::LayeredRetrievalConfig::layer_timeout_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="123" column="19" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_config_1a221344e6f14a591f8cc32ef2894cf9ff" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::search::LayeredRetrievalConfig::ann_top_k</definition>
+        <argsstring></argsstring>
+        <name>ann_top_k</name>
+        <qualifiedname>themis::search::LayeredRetrievalConfig::ann_top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="124" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_config_1af8bca756298b715f186df1ce82504336" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::search::LayeredRetrievalConfig::graph_max_hops</definition>
+        <argsstring></argsstring>
+        <name>graph_max_hops</name>
+        <qualifiedname>themis::search::LayeredRetrievalConfig::graph_max_hops</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="125" column="9" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_config_1aa53d8883ad7ced853fd9a1f7a7953c57" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails" kindref="compound">PerQueryRetrievalGuardrails</ref></type>
+        <definition>PerQueryRetrievalGuardrails themis::search::LayeredRetrievalConfig::guardrails</definition>
+        <argsstring></argsstring>
+        <name>guardrails</name>
+        <qualifiedname>themis::search::LayeredRetrievalConfig::guardrails</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="127" column="33" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for layered retrieval execution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::search::LayeredRetrievalConfig</label>
+        <link refid="structthemis_1_1search_1_1_layered_retrieval_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>guardrails</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::search::PerQueryRetrievalGuardrails</label>
+        <link refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/search/layered_retrieval_orchestrator.h" line="117" column="1" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="117" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1a6a8d844cdc506390c1ccdb6b03d5210f" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalConfig</scope><name>ann_enabled</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1a221344e6f14a591f8cc32ef2894cf9ff" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalConfig</scope><name>ann_top_k</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1aa6bf6ef5c0b944d02337ef8799de2523" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalConfig</scope><name>graph_enabled</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1af8bca756298b715f186df1ce82504336" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalConfig</scope><name>graph_max_hops</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1aa53d8883ad7ced853fd9a1f7a7953c57" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalConfig</scope><name>guardrails</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1abbce03a0b2d4e5373ca720c61338d0f8" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalConfig</scope><name>layer_timeout_ms</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1a62bfbc8e5b1741afe519400a83ed8a7c" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalConfig</scope><name>llm_enabled</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1a7ce92e9d398211512ee33096851d6781" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalConfig</scope><name>tensor_enabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

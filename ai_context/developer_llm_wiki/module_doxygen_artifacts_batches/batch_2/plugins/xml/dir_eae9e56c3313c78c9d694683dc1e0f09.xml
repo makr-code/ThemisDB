@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_eae9e56c3313c78c9d694683dc1e0f09" kind="dir">
+    <compoundname>tests/plugins</compoundname>
+    <innerfile refid="test__plugin__boundary__enforcement__focused_8cpp">test_plugin_boundary_enforcement_focused.cpp</innerfile>
+    <innerfile refid="test__plugin__capability__escalation_8cpp">test_plugin_capability_escalation.cpp</innerfile>
+    <innerfile refid="test__plugin__capability__negotiation_8cpp">test_plugin_capability_negotiation.cpp</innerfile>
+    <innerfile refid="test__plugin__dependency__graph_8cpp">test_plugin_dependency_graph.cpp</innerfile>
+    <innerfile refid="test__plugin__dependency__resolver_8cpp">test_plugin_dependency_resolver.cpp</innerfile>
+    <innerfile refid="test__plugin__error__handling__phase3_8cpp">test_plugin_error_handling_phase3.cpp</innerfile>
+    <innerfile refid="test__plugin__health__monitor_8cpp">test_plugin_health_monitor.cpp</innerfile>
+    <innerfile refid="test__plugin__hot__plug_8cpp">test_plugin_hot_plug.cpp</innerfile>
+    <innerfile refid="test__plugin__hot__reload__enhanced_8cpp">test_plugin_hot_reload_enhanced.cpp</innerfile>
+    <innerfile refid="test__plugin__lifecycle_8cpp">test_plugin_lifecycle.cpp</innerfile>
+    <innerfile refid="test__plugin__lifecycle__state__machine_8cpp">test_plugin_lifecycle_state_machine.cpp</innerfile>
+    <innerfile refid="test__plugin__manager_8cpp">test_plugin_manager.cpp</innerfile>
+    <innerfile refid="test__plugin__manager__comprehensive_8cpp">test_plugin_manager_comprehensive.cpp</innerfile>
+    <innerfile refid="test__plugin__manifest__edition__gates__focused_8cpp">test_plugin_manifest_edition_gates_focused.cpp</innerfile>
+    <innerfile refid="test__plugin__marketplace__manifest_8cpp">test_plugin_marketplace_manifest.cpp</innerfile>
+    <innerfile refid="test__plugin__metrics_8cpp">test_plugin_metrics.cpp</innerfile>
+    <innerfile refid="test__plugin__metrics__integration_8cpp">test_plugin_metrics_integration.cpp</innerfile>
+    <innerfile refid="test__plugin__registrar__fail__closed_8cpp">test_plugin_registrar_fail_closed.cpp</innerfile>
+    <innerfile refid="test__plugin__security__audit_8cpp">test_plugin_security_audit.cpp</innerfile>
+    <innerfile refid="test__plugin__security__crl__ocsp_8cpp">test_plugin_security_crl_ocsp.cpp</innerfile>
+    <innerfile refid="test__plugin__security__implementation_8cpp">test_plugin_security_implementation.cpp</innerfile>
+    <innerfile refid="test__plugin__security__pe__cert__extraction_8cpp">test_plugin_security_pe_cert_extraction.cpp</innerfile>
+    <innerfile refid="test__plugins__contract__hardening__focused_8cpp">test_plugins_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__registry__concurrency__hardening_8cpp">test_registry_concurrency_hardening.cpp</innerfile>
+    <innerfile refid="test__validation__contract__hardening_8cpp">test_validation_contract_hardening.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/plugins/"/>
+  </compounddef>
+</doxygen>

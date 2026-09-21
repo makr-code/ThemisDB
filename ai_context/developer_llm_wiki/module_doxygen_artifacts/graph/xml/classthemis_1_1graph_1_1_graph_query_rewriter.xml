@@ -1,0 +1,947 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_query_rewriter" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryRewriter</compoundname>
+    <includes refid="graph__query__rewriter_8h" local="no">graph_query_rewriter.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" prot="public">themis::graph::GraphQueryRewriter::RewriteConfig</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result" prot="public">themis::graph::GraphQueryRewriter::RewriteResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_custom_rule" prot="private">themis::graph::GraphQueryRewriter::CustomRule</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RewriteRule</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::RewriteRule</qualifiedname>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a7f5d8b261c0efdb2e93c13a1e349228a" prot="public">
+          <name>PREDICATE_PUSHDOWN</name>
+          <briefdescription>
+<para>Push filters into traversal prune conditions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3aea6fab85f3f02af360c3221eb41304c6" prot="public">
+          <name>COMMON_SUBEXPRESSION</name>
+          <briefdescription>
+<para>Eliminate repeated identical sub-traversals. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3aaffeabe3ed6f0f87227b1b6700768e1f" prot="public">
+          <name>JOIN_REORDERING</name>
+          <briefdescription>
+<para>Reorder join operands by estimated selectivity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a5fa4f3c209717575fff77c3e0564eeb4" prot="public">
+          <name>MATERIALIZED_VIEW</name>
+          <briefdescription>
+<para>Tag sub-graphs for materialisation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a3626225bf22d76472b3b9a306fd4890a" prot="public">
+          <name>QUERY_DECOMPOSITION</name>
+          <briefdescription>
+<para>Decompose multi-start traversals for parallelism. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a94293659b7a7e27a034f60e07a5caf79" prot="public">
+          <name>PRUNE_EARLY</name>
+          <briefdescription>
+<para>Alias – early branch pruning (= PREDICATE_PUSHDOWN). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="39" column="5" bodyfile="include/graph/graph_query_rewriter.h" bodystart="39" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_rewriter_1abc660aec50562a81b65bad0894a41e71" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" kindref="compound">RewriteConfig</ref></type>
+        <definition>RewriteConfig themis::graph::GraphQueryRewriter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="143" column="19" bodyfile="include/graph/graph_query_rewriter.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a892665189810d99c0f2b451518597a1b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; CustomRule &gt;</type>
+        <definition>std::vector&lt;CustomRule&gt; themis::graph::GraphQueryRewriter::custom_rules_</definition>
+        <argsstring></argsstring>
+        <name>custom_rules_</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::custom_rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="149" column="17" bodyfile="include/graph/graph_query_rewriter.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a61fc0443b3568f77bc1574eefedda813" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryRewriter::kMaxIterations</definition>
+        <argsstring></argsstring>
+        <name>kMaxIterations</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::kMaxIterations</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="152" column="29" bodyfile="include/graph/graph_query_rewriter.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1ae8140d54b07b0db409070daa04493f39" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphQueryRewriter::GraphQueryRewriter</definition>
+        <argsstring>(const std::optional&lt; RewriteConfig &gt; &amp;config=std::nullopt)</argsstring>
+        <name>GraphQueryRewriter</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::GraphQueryRewriter</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" kindref="compound">RewriteConfig</ref> &gt; &amp;</type>
+          <declname>config</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="67" column="14" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="155" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a8e6f44382fc79e6d4451adf15bc8b2a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>GraphQueryRewriter::RewriteResult themis::graph::GraphQueryRewriter::rewrite</definition>
+        <argsstring>(const nlohmann::json &amp;plan) const</argsstring>
+        <name>rewrite</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::rewrite</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>─── Core API ──────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="75" column="19" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="174" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a2a8823e2a1b2a9e19e0a878e5178cd0d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryRewriter::explainRewrites</definition>
+        <argsstring>(const nlohmann::json &amp;original, const nlohmann::json &amp;rewritten) const</argsstring>
+        <name>explainRewrites</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::explainRewrites</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>rewritten</declname>
+        </param>
+        <briefdescription>
+<para>Explain Rewrites. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rewritten</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="83" column="17" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="273" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1ad7dbddac330722c68fe31a0cb227ddaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryRewriter::estimateSpeedup</definition>
+        <argsstring>(const nlohmann::json &amp;original, const nlohmann::json &amp;rewritten) const</argsstring>
+        <name>estimateSpeedup</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::estimateSpeedup</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>rewritten</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Speedup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rewritten</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="92" column="12" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="372" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1aad9a1110f9790c4e6038307fb7741cfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryRewriter::addCustomRule</definition>
+        <argsstring>(std::string_view name, std::function&lt; size_t(nlohmann::json &amp;)&gt; rule)</argsstring>
+        <name>addCustomRule</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::addCustomRule</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::function&lt; size_t(nlohmann::json &amp;)&gt;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="95" column="10" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="445" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a1314b2755accbcc4a57fced13fcb9103" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryRewriter::clearCustomRules</definition>
+        <argsstring>()</argsstring>
+        <name>clearCustomRules</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::clearCustomRules</qualifiedname>
+        <briefdescription>
+<para>Clear Custom Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="101" column="10" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="456" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a2858c8822309e0f3d0a3552cb0eea568" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" kindref="compound">RewriteConfig</ref> &amp;</type>
+        <definition>const RewriteConfig &amp; themis::graph::GraphQueryRewriter::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="103" column="25" bodyfile="include/graph/graph_query_rewriter.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1ae25f0f88930456c5c92fc45e844dcb39" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::graph::GraphQueryRewriter::makeTraversalPlan</definition>
+        <argsstring>(std::string_view graph_id, std::string_view start_vertex, std::string_view direction=&quot;OUTBOUND&quot;, int min_depth=1, int max_depth=1, nlohmann::json vertex_filters=nlohmann::json::array())</argsstring>
+        <name>makeTraversalPlan</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::makeTraversalPlan</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>direction</declname>
+          <defval>&quot;OUTBOUND&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_depth</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>vertex_filters</declname>
+          <defval>nlohmann::json::array()</defval>
+        </param>
+        <briefdescription>
+<para>Make Traversal Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">direction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vertex_filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), std::move(), nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="107" column="27" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="896" bodyend="909"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1ac07decbb74ffc75b46729006fae165c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::graph::GraphQueryRewriter::makeFilterScanPlan</definition>
+        <argsstring>(nlohmann::json filter, nlohmann::json child)</argsstring>
+        <name>makeFilterScanPlan</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::makeFilterScanPlan</qualifiedname>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>child</declname>
+        </param>
+        <briefdescription>
+<para>Make Filter Scan Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">child</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">child</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="121" column="27" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="918" bodyend="924"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1ab04bb96e5e4b785ed9f431eea034ad0f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::graph::GraphQueryRewriter::makeJoinPlan</definition>
+        <argsstring>(nlohmann::json left, nlohmann::json right, std::string_view join_key=&quot;vertex_id&quot;)</argsstring>
+        <name>makeJoinPlan</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::makeJoinPlan</qualifiedname>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>join_key</declname>
+          <defval>&quot;vertex_id&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Make Join Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">join_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="124" column="27" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="934" bodyend="941"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a4e48c78599b4461e3f6c91797ed8c8ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::graph::GraphQueryRewriter::makeMultiTraversalPlan</definition>
+        <argsstring>(std::string_view graph_id, const std::vector&lt; std::string &gt; &amp;start_vertices, std::string_view direction=&quot;OUTBOUND&quot;, int max_depth=1, nlohmann::json vertex_filters=nlohmann::json::array())</argsstring>
+        <name>makeMultiTraversalPlan</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::makeMultiTraversalPlan</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>start_vertices</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>direction</declname>
+          <defval>&quot;OUTBOUND&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>vertex_filters</declname>
+          <defval>nlohmann::json::array()</defval>
+        </param>
+        <briefdescription>
+<para>Make Multi Traversal Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">direction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vertex_filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), std::move(), nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="128" column="27" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="953" bodyend="967"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a7c022f46f15a0e43f00430de6b277aca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryRewriter::estimateCardinality</definition>
+        <argsstring>(const nlohmann::json &amp;node)</argsstring>
+        <name>estimateCardinality</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::estimateCardinality</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Cardinality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: estimateCardinalityImpl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="140" column="19" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="470" bodyend="472"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a8eb7fd4a0bf7854a967f8604d20d763e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryRewriter::applyPredicatePushdown</definition>
+        <argsstring>(nlohmann::json &amp;plan)</argsstring>
+        <name>applyPredicatePushdown</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::applyPredicatePushdown</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>─── Individual rule implementations ───────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref>: PredicatePushdown ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hasType(), find(), end(), is_array(), empty(), contains(), nlohmann::json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="160" column="19" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="481" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1ab0ccf8d2af201774671c8598e4adf7a2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryRewriter::applyCommonSubexpressionElimination</definition>
+        <argsstring>(nlohmann::json &amp;plan)</argsstring>
+        <name>applyCommonSubexpressionElimination</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::applyCommonSubexpressionElimination</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Apply Common Subexpression Elimination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref>: CommonSubexpressionElimination ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: void(), is_object(), hasType(), dump(), items(), collect(), is_array(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="166" column="19" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="573" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a6f3747c3baa500683aa24b2008557a19" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryRewriter::applyJoinReordering</definition>
+        <argsstring>(nlohmann::json &amp;plan)</argsstring>
+        <name>applyJoinReordering</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::applyJoinReordering</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Apply Join Reordering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref>: JoinReordering ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hasType(), find(), end(), estimateCardinalityImpl(), std::swap(), transformNodes(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="172" column="19" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="701" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1a62060f6126cd6dc974b32b8511bb593a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryRewriter::applyMaterializedView</definition>
+        <argsstring>(nlohmann::json &amp;plan, bool aggressive)</argsstring>
+        <name>applyMaterializedView</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::applyMaterializedView</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>aggressive</declname>
+        </param>
+        <briefdescription>
+<para>Apply Materialized View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref>: MaterializedView ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aggressive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aggressive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: countNodes(), hasType(), find(), end(), dump(), contains(), is_boolean(), is_number(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="179" column="19" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="739" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1afd64ded06d8936fe8865ac3be59628e4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryRewriter::applyQueryDecomposition</definition>
+        <argsstring>(nlohmann::json &amp;plan)</argsstring>
+        <name>applyQueryDecomposition</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::applyQueryDecomposition</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Apply Query Decomposition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref>: QueryDecomposition ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hasType(), find(), end(), is_array(), size(), nlohmann::json::array(), copy_field(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="185" column="19" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="829" bodyend="879"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_rewriter_1aa8fe6bd7a3542d8239618d6218987421" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryRewriter::isEnabled</definition>
+        <argsstring>(RewriteRule rule) const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::isEnabled</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3" kindref="member">RewriteRule</ref></type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Is Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="192" column="10" bodyfile="src/graph/graph_query_rewriter.cpp" bodystart="162" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_rewriter.h" line="35" column="1" bodyfile="include/graph/graph_query_rewriter.h" bodystart="35" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1aad9a1110f9790c4e6038307fb7741cfd" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>addCustomRule</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ab0ccf8d2af201774671c8598e4adf7a2" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>applyCommonSubexpressionElimination</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a6f3747c3baa500683aa24b2008557a19" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>applyJoinReordering</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a62060f6126cd6dc974b32b8511bb593a" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>applyMaterializedView</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a8eb7fd4a0bf7854a967f8604d20d763e" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>applyPredicatePushdown</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1afd64ded06d8936fe8865ac3be59628e4" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>applyQueryDecomposition</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a1314b2755accbcc4a57fced13fcb9103" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>clearCustomRules</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a2858c8822309e0f3d0a3552cb0eea568" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>config</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1abc660aec50562a81b65bad0894a41e71" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a892665189810d99c0f2b451518597a1b" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>custom_rules_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a7c022f46f15a0e43f00430de6b277aca" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>estimateCardinality</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ad7dbddac330722c68fe31a0cb227ddaa" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>estimateSpeedup</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a2a8823e2a1b2a9e19e0a878e5178cd0d" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>explainRewrites</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ae8140d54b07b0db409070daa04493f39" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>GraphQueryRewriter</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1aa8fe6bd7a3542d8239618d6218987421" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a61fc0443b3568f77bc1574eefedda813" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>kMaxIterations</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ac07decbb74ffc75b46729006fae165c8" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>makeFilterScanPlan</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ab04bb96e5e4b785ed9f431eea034ad0f" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>makeJoinPlan</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a4e48c78599b4461e3f6c91797ed8c8ef" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>makeMultiTraversalPlan</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ae25f0f88930456c5c92fc45e844dcb39" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>makeTraversalPlan</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a8e6f44382fc79e6d4451adf15bc8b2a3" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>rewrite</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter</scope><name>RewriteRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

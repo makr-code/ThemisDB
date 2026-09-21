@@ -1,0 +1,1158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_operational_audit_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::OperationalAuditLogger</compoundname>
+    <includes refid="operational__audit_8h" local="no">operational_audit.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics" prot="private">themis::governance::OperationalAuditLogger::PerformanceMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_operational_audit_logger_1a31f82bba7204feeab5f40a55413bf5b6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::OperationalAuditLogger::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="328" column="24" bodyfile="include/governance/operational_audit.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_operational_audit_logger_1a0d2b24ce470ec38d42b45c11ce90f661" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>std::vector&lt;OperationalEvent&gt; themis::governance::OperationalAuditLogger::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="329" column="17" bodyfile="include/governance/operational_audit.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_operational_audit_logger_1a3ed47f7920308fcc02c7956deb8c33a1" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::governance::OperationalAuditLogger::max_events_</definition>
+        <argsstring></argsstring>
+        <name>max_events_</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::max_events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="330" column="12" bodyfile="include/governance/operational_audit.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_operational_audit_logger_1affaabf4571c2e735dcb3fa6829fb4263" prot="private" static="no" mutable="no">
+        <type>struct themis::governance::OperationalAuditLogger::PerformanceMetrics</type>
+        <definition>struct themis::governance::OperationalAuditLogger::PerformanceMetrics themis::governance::OperationalAuditLogger::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="338" column="14"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_operational_audit_logger_1a444f82f1ff754827a80eef5c16f53f18" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::governance::OperationalAuditLogger::causality_map_</definition>
+        <argsstring></argsstring>
+        <name>causality_map_</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::causality_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="341" column="24" bodyfile="include/governance/operational_audit.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a5665034d4c1111940207631d5a282af3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::OperationalAuditLogger::OperationalAuditLogger</definition>
+        <argsstring>(size_t max_events=100000)</argsstring>
+        <name>OperationalAuditLogger</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::OperationalAuditLogger</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_events</declname>
+          <defval>100000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="171" column="14" bodyfile="src/governance/operational_audit.cpp" bodystart="323" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a8e63717a8c6188d5ef66fcd789a47a87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::OperationalAuditLogger::~OperationalAuditLogger</definition>
+        <argsstring>()</argsstring>
+        <name>~OperationalAuditLogger</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::~OperationalAuditLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="172" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a0b966d9544fb27804ca4e3c33eef67b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::OperationalAuditLogger::OperationalAuditLogger</definition>
+        <argsstring>(const OperationalAuditLogger &amp;)=delete</argsstring>
+        <name>OperationalAuditLogger</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::OperationalAuditLogger</qualifiedname>
+        <param>
+          <type>const OperationalAuditLogger &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1ab209a5400e01aae450b3ff64bf616ed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_operational_audit_logger_1a5665034d4c1111940207631d5a282af3" kindref="member">OperationalAuditLogger</ref> &amp;</type>
+        <definition>OperationalAuditLogger &amp; themis::governance::OperationalAuditLogger::operator=</definition>
+        <argsstring>(const OperationalAuditLogger &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_operational_audit_logger_1a5665034d4c1111940207631d5a282af3" kindref="member">OperationalAuditLogger</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="176" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1aef3360e0f0d00bd8858b4f086ffae4b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::OperationalAuditLogger::OperationalAuditLogger</definition>
+        <argsstring>(OperationalAuditLogger &amp;&amp;)=delete</argsstring>
+        <name>OperationalAuditLogger</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::OperationalAuditLogger</qualifiedname>
+        <param>
+          <type>OperationalAuditLogger &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="177" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a349e5acdac848904624f14b4c5248ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_operational_audit_logger_1a5665034d4c1111940207631d5a282af3" kindref="member">OperationalAuditLogger</ref> &amp;</type>
+        <definition>OperationalAuditLogger &amp; themis::governance::OperationalAuditLogger::operator=</definition>
+        <argsstring>(OperationalAuditLogger &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_operational_audit_logger_1a5665034d4c1111940207631d5a282af3" kindref="member">OperationalAuditLogger</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="178" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a8bd0977218b3842a031514eccba20daf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref></type>
+        <definition>void themis::governance::OperationalAuditLogger::logEvent</definition>
+        <argsstring>(const OperationalEvent &amp;event)</argsstring>
+        <name>logEvent</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::logEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Log Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="185" column="22" bodyfile="src/governance/operational_audit.cpp" bodystart="331" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1ac972f54be917751968398a9b8472c879" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref></type>
+        <definition>void themis::governance::OperationalAuditLogger::logPolicyEvaluation</definition>
+        <argsstring>(const std::string &amp;correlation_id, const std::string &amp;policy_id, const std::string &amp;decision, const std::string &amp;actor_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;context={})</argsstring>
+        <name>logPolicyEvaluation</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::logPolicyEvaluation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Log Policy Evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the policy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluation_duration_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the actor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluation_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1governance_1_1_operational_audit_logger_1a8bd0977218b3842a031514eccba20daf" kindref="member">logEvent()</ref>, nlohmann::json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="187" column="22" bodyfile="src/governance/operational_audit.cpp" bodystart="483" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1aae91b0704c70420031514156efc54ead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref></type>
+        <definition>void themis::governance::OperationalAuditLogger::logComplianceCheck</definition>
+        <argsstring>(const std::string &amp;correlation_id, const std::string &amp;check_name, const std::string &amp;result, const std::string &amp;actor_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;context={})</argsstring>
+        <name>logComplianceCheck</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::logComplianceCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>check_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Log Compliance Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">check_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">check_duration_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the actor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compliance_tags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1governance_1_1_operational_audit_logger_1a8bd0977218b3842a031514eccba20daf" kindref="member">logEvent()</ref>, nlohmann::json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="195" column="22" bodyfile="src/governance/operational_audit.cpp" bodystart="512" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1af80dd9dc053381c518ce15de803e6c59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref></type>
+        <definition>void themis::governance::OperationalAuditLogger::logDataGovernanceOp</definition>
+        <argsstring>(const std::string &amp;correlation_id, const std::string &amp;operation_name, const std::string &amp;resource_id, bool success, const std::string &amp;actor_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;context={})</argsstring>
+        <name>logDataGovernanceOp</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::logDataGovernanceOp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Log Data Governance Op. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the resource. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the actor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op_duration_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1governance_1_1_operational_audit_logger_1a8bd0977218b3842a031514eccba20daf" kindref="member">logEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="203" column="22" bodyfile="src/governance/operational_audit.cpp" bodystart="537" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1abab20dd8791748afe06390a70755da52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref></type>
+        <definition>void themis::governance::OperationalAuditLogger::logPolicyLifecycle</definition>
+        <argsstring>(const std::string &amp;correlation_id, const std::string &amp;policy_id, const std::string &amp;lifecycle_event, const std::string &amp;actor_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;context={})</argsstring>
+        <name>logPolicyLifecycle</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::logPolicyLifecycle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lifecycle_event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Log Policy Lifecycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the policy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lifecycle_event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the actor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1governance_1_1_operational_audit_logger_1a8bd0977218b3842a031514eccba20daf" kindref="member">logEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="212" column="22" bodyfile="src/governance/operational_audit.cpp" bodystart="563" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a049263380b888de5e288d31674b218f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::OperationalAuditLogger::linkCausalityRelationship</definition>
+        <argsstring>(const std::string &amp;parent_event_id, const std::string &amp;child_event_id)</argsstring>
+        <name>linkCausalityRelationship</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::linkCausalityRelationship</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_event_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>child_event_id</declname>
+        </param>
+        <briefdescription>
+<para>Link Causality Relationship. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent event. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">child_event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the child event.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent event. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">child_event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the child event.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="225" column="10" bodyfile="src/governance/operational_audit.cpp" bodystart="795" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a1400397dc51cc248ae8a5e93597895d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>OperationalEvent * themis::governance::OperationalAuditLogger::getEventById</definition>
+        <argsstring>(const std::string &amp;event_id) const</argsstring>
+        <name>getEventById</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::getEventById</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Event By Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="235" column="19" bodyfile="src/governance/operational_audit.cpp" bodystart="600" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1aca244b928ef5d2cd4ccbb47813a5b6de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>std::vector&lt; OperationalEvent &gt; themis::governance::OperationalAuditLogger::queryEventsByCorrelationId</definition>
+        <argsstring>(const std::string &amp;correlation_id) const</argsstring>
+        <name>queryEventsByCorrelationId</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::queryEventsByCorrelationId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+        </param>
+        <briefdescription>
+<para>Query Events By Correlation Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the correlation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="242" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="611" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a182f9daaaa94694dbe0ff88e7593f43d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>std::vector&lt; OperationalEvent &gt; themis::governance::OperationalAuditLogger::queryEventsByTimeRange</definition>
+        <argsstring>(int64_t start_ms, int64_t end_ms, const std::optional&lt; OperationalEventType &gt; &amp;event_type=std::nullopt) const</argsstring>
+        <name>queryEventsByTimeRange</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::queryEventsByTimeRange</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103" kindref="member">OperationalEventType</ref> &gt; &amp;</type>
+          <declname>event_type</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="246" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="631" bodyend="661"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a021e47d3df5c07fbe3bbfde3303f51b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>std::vector&lt; OperationalEvent &gt; themis::governance::OperationalAuditLogger::queryEventsByActor</definition>
+        <argsstring>(const std::string &amp;actor_id) const</argsstring>
+        <name>queryEventsByActor</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::queryEventsByActor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <briefdescription>
+<para>Query Events By Actor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">actor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the actor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="257" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="663" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a873b531304f0aa2aab34c90fe2c3badd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>std::vector&lt; OperationalEvent &gt; themis::governance::OperationalAuditLogger::queryEventsByModule</definition>
+        <argsstring>(const std::string &amp;module_name) const</argsstring>
+        <name>queryEventsByModule</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::queryEventsByModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Query Events By Module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="266" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="687" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a906b2214f61ee7a7046538d73d8bf337" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>std::vector&lt; OperationalEvent &gt; themis::governance::OperationalAuditLogger::queryEventsByResource</definition>
+        <argsstring>(const std::string &amp;resource_id) const</argsstring>
+        <name>queryEventsByResource</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::queryEventsByResource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <briefdescription>
+<para>Query Events By Resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="275" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="711" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a7c7d8e2e7eba35136ad1ba5e9c16b601" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::OperationalAuditLogger::getCausalityChain</definition>
+        <argsstring>(const std::string &amp;event_id) const</argsstring>
+        <name>getCausalityChain</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::getCausalityChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Causality Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="284" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="737" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a9a8d4a73de95ef0a2b4b35be0063f648" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref> &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::OperationalAuditLogger::getTriggeredEvents</definition>
+        <argsstring>(const std::string &amp;parent_event_id) const</argsstring>
+        <name>getTriggeredEvents</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::getTriggeredEvents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_event_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Triggered Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="293" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="771" bodyend="787"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a1bd9d007cd26399dfa5971552aedbaf6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::OperationalAuditLogger::exportEvents</definition>
+        <argsstring>(int64_t start_ms=0, int64_t end_ms=0, const std::optional&lt; OperationalEventType &gt; &amp;event_type=std::nullopt, bool compress=false) const</argsstring>
+        <name>exportEvents</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::exportEvents</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103" kindref="member">OperationalEventType</ref> &gt; &amp;</type>
+          <declname>event_type</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>compress</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="297" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="813" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a5f8a7afb433c3c6490cb79c201bacb58" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::OperationalAuditLogger::getEventStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getEventStatistics</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::getEventStatistics</qualifiedname>
+        <briefdescription>
+<para>Get Event Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="308" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="856" bodyend="887"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a9dc1238cfacd72284f77610b5a2b2a25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>OperationalAuditLogger::PerformanceMetrics themis::governance::OperationalAuditLogger::getPerformanceMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getPerformanceMetrics</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::getPerformanceMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Performance Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="314" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="846" bodyend="854"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a0a71c483a78275cba2b52c3a69ca7df3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::governance::OperationalAuditLogger::getTotalEventCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalEventCount</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::getTotalEventCount</qualifiedname>
+        <briefdescription>
+<para>Get Total Event Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="320" column="12" bodyfile="src/governance/operational_audit.cpp" bodystart="584" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a48504bec0f43fa8397dcb68c02da50db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::OperationalAuditLogger::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="325" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a4aed84aaaae9c9a8fdb41cda45fdb133" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OperationalAuditLogger::generateEventId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateEventId</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::generateEventId</qualifiedname>
+        <briefdescription>
+<para>Generate Event Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="347" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_operational_audit_logger_1a8f25cba733a6d5372699209be4914e9c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::OperationalAuditLogger::getNextSequenceNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getNextSequenceNumber</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::getNextSequenceNumber</qualifiedname>
+        <briefdescription>
+<para>Get Next Sequence Number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="353" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/operational_audit.h" line="169" column="1" bodyfile="include/governance/operational_audit.h" bodystart="169" bodyend="354"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a444f82f1ff754827a80eef5c16f53f18" prot="private" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>causality_map_</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a48504bec0f43fa8397dcb68c02da50db" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>clear</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a0d2b24ce470ec38d42b45c11ce90f661" prot="private" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>events_</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a1bd9d007cd26399dfa5971552aedbaf6" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>exportEvents</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a4aed84aaaae9c9a8fdb41cda45fdb133" prot="private" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>generateEventId</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a7c7d8e2e7eba35136ad1ba5e9c16b601" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>getCausalityChain</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a1400397dc51cc248ae8a5e93597895d1" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>getEventById</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a5f8a7afb433c3c6490cb79c201bacb58" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>getEventStatistics</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a8f25cba733a6d5372699209be4914e9c" prot="private" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>getNextSequenceNumber</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a9dc1238cfacd72284f77610b5a2b2a25" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>getPerformanceMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a0a71c483a78275cba2b52c3a69ca7df3" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>getTotalEventCount</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a9a8d4a73de95ef0a2b4b35be0063f648" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>getTriggeredEvents</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a049263380b888de5e288d31674b218f2" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>linkCausalityRelationship</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1aae91b0704c70420031514156efc54ead" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>logComplianceCheck</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1af80dd9dc053381c518ce15de803e6c59" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>logDataGovernanceOp</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a8bd0977218b3842a031514eccba20daf" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>logEvent</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1ac972f54be917751968398a9b8472c879" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>logPolicyEvaluation</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1abab20dd8791748afe06390a70755da52" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>logPolicyLifecycle</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a3ed47f7920308fcc02c7956deb8c33a1" prot="private" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>max_events_</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1affaabf4571c2e735dcb3fa6829fb4263" prot="private" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a31f82bba7204feeab5f40a55413bf5b6" prot="private" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a5665034d4c1111940207631d5a282af3" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>OperationalAuditLogger</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a0b966d9544fb27804ca4e3c33eef67b6" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>OperationalAuditLogger</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1aef3360e0f0d00bd8858b4f086ffae4b3" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>OperationalAuditLogger</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1ab209a5400e01aae450b3ff64bf616ed0" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a349e5acdac848904624f14b4c5248ac7" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a021e47d3df5c07fbe3bbfde3303f51b3" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>queryEventsByActor</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1aca244b928ef5d2cd4ccbb47813a5b6de" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>queryEventsByCorrelationId</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a873b531304f0aa2aab34c90fe2c3badd" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>queryEventsByModule</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a906b2214f61ee7a7046538d73d8bf337" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>queryEventsByResource</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a182f9daaaa94694dbe0ff88e7593f43d" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>queryEventsByTimeRange</name></member>
+      <member refid="classthemis_1_1governance_1_1_operational_audit_logger_1a8e63717a8c6188d5ef66fcd789a47a87" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger</scope><name>~OperationalAuditLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

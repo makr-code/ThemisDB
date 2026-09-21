@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a39def60fce4585209141237527566a90" kindref="member">TEST_F</ref>  (<ref refid="class_multi_branch_merge_test" kindref="compound">MultiBranchMergeTest</ref>, MBM01_OursWinsOnConflict)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>MBM-01: OURS_WINS resolves a conflicting field in favour of ours. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1ae41f3a596d3cb7da6f00671419aa746f" kindref="member">TEST_F</ref>  (<ref refid="class_multi_branch_merge_test" kindref="compound">MultiBranchMergeTest</ref>, MBM02_TheirsWinsOnConflict)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>MBM-02: THEIRS_WINS resolves a conflicting field in favour of theirs.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a088f250f1163443263bc3fb31079be4e" kindref="member">TEST_F</ref>  (<ref refid="class_multi_branch_merge_test" kindref="compound">MultiBranchMergeTest</ref>, MBM03_FailStrategyReturnsConflictError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>MBM-03: FAIL strategy returns ERR_DOC_MERGE_CONFLICT when fields diverge.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1ac0bead28da5dea90b0cd537eb8f14452" kindref="member">TEST_F</ref>  (<ref refid="class_multi_branch_merge_test" kindref="compound">MultiBranchMergeTest</ref>, MBM04_CleanMergeSucceedsUnderAllStrategies)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>MBM-04: Clean merge (no conflict) succeeds under all three strategies. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a584212cc9e3aafddcd3b3dad5a734520" kindref="member">TEST_F</ref>  (<ref refid="class_multi_branch_merge_test" kindref="compound">MultiBranchMergeTest</ref>, MBM05_PartialConflictMultiFieldOursWins)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>MBM-05: Multi-field document — partial conflict, OURS_WINS strategy. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a7e64148e4f2e4fe8d66714e0911812ae" kindref="member">TEST_F</ref>  (<ref refid="class_multi_branch_merge_test" kindref="compound">MultiBranchMergeTest</ref>, MBM06_ChainedMergeConverges)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>MBM-06: Chained merge — three sequential branch merges converge cleanly. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1ab309789113987dc5d4ebc1d2a9bb846f" kindref="member">TEST_F</ref>  (<ref refid="class_multi_branch_merge_test" kindref="compound">MultiBranchMergeTest</ref>, MBM07_MissingBaseReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>MBM-07: Merge returns ERR_DOC_DIFF_NOT_FOUND when base document is absent.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a937abfb7915b30b10a249ae51add1e91" kindref="member">TEST_F</ref>  (<ref refid="class_multi_branch_merge_test" kindref="compound">MultiBranchMergeTest</ref>, MBM08_SymmetricConflictNonCommutative)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>MBM-08: Symmetric conflict — swapping ours/theirs changes OURS_WINS outcome. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1ae0c91165eb56c2ac8208ef97f273f606" kindref="member">TEST_F</ref>  (<ref refid="class_schema_seal_version_test" kindref="compound">SchemaSealVersionTest</ref>, SSV01_DuplicateVersionRegistrationRejected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>SSV-01: Registering the same version twice returns ERR_DOC_SCHEMA_VERSION_EXISTS.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1af7d9267efe94b4a0419cd62aa9a5c188" kindref="member">TEST_F</ref>  (<ref refid="class_schema_seal_version_test" kindref="compound">SchemaSealVersionTest</ref>, SSV02_ValidateUnknownVersionReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>SSV-02: Validating against an unknown version returns ERR_DOC_SCHEMA_VERSION_NOT_FOUND.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1ab3f10f4a88a4a6aa5a91f35e44d049f4" kindref="member">TEST_F</ref>  (<ref refid="class_schema_seal_version_test" kindref="compound">SchemaSealVersionTest</ref>, SSV03_VersionsReturnedInAscendingOrder)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>SSV-03: Version ordering — registeredVersions() returns versions in ascending order regardless of registration order.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a84de310b3eaacce9d97520e1e91736b8" kindref="member">TEST_F</ref>  (<ref refid="class_schema_seal_version_test" kindref="compound">SchemaSealVersionTest</ref>, SSV04_MissingRequiredFieldProducesViolation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>SSV-04: Document with missing required field fails validation. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1ab12daa6163fa4081bfdca0785e19a8ff" kindref="member">TEST_F</ref>  (<ref refid="class_schema_seal_version_test" kindref="compound">SchemaSealVersionTest</ref>, SSV05_ForwardVersionRegistrationValid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>SSV-05: Registering a new schema version after v1 is valid (forward-only). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a8ec7a394b100ce0f2d14d8f5487224db" kindref="member">TEST_F</ref>  (<ref refid="class_schema_seal_version_test" kindref="compound">SchemaSealVersionTest</ref>, SSV06_TypeMismatchProducesViolation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>SSV-06: Type mismatch on a required field produces a violation. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a1b89cd10639157928591ac30780d5e5b" kindref="member">TEST_F</ref>  (<ref refid="class_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref>, ODE01_ExchangeBoundaryViolatedClassifiesCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>ODE-01: ERR_DOC_EXCHANGE_BOUNDARY_VIOLATED classifies as EXCHANGE_ERROR.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a1b356029dafbfc13b9d4ec9719c82f39" kindref="member">TEST_F</ref>  (<ref refid="class_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref>, ODE02_DiffNotFoundClassifiesAsExchangeError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>ODE-02: ERR_DOC_DIFF_NOT_FOUND classifies as EXCHANGE_ERROR. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a5c6896a345b8543c370d82c6a9e02600" kindref="member">TEST_F</ref>  (<ref refid="class_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref>, ODE03_RoundTripPersistFailClassifiesCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>ODE-03: ERR_DOC_ROUND_TRIP_PERSIST_FAIL classifies as ROUND_TRIP_ERROR.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a0adf6d71a34b4db5cf6675aa2b617df6" kindref="member">TEST_F</ref>  (<ref refid="class_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref>, ODE04_SnapshotCollisionClassifiesAsRoundTripError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>ODE-04: ERR_DOC_SNAPSHOT_COLLISION classifies as ROUND_TRIP_ERROR.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a4db740e532a6f5a71a213909404689be" kindref="member">TEST_F</ref>  (<ref refid="class_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref>, ODE05_SinkCountsExchangeErrors)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>ODE-05: DocumentDiagnosticSink correctly counts EXCHANGE_ERROR events. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a440ee1b7e220d58118c707e30f630477" kindref="member">TEST_F</ref>  (<ref refid="class_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref>, ODE06_SinkCountsRoundTripErrors)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>ODE-06: DocumentDiagnosticSink correctly counts ROUND_TRIP_ERROR events.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a03fdd7408fe03290f2acd0c5adedfcdd" kindref="member">TEST_F</ref>  (<ref refid="class_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref>, ODE07_MixedClassCountsAreIndependent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>ODE-07: Mixed error-class recording produces correct per-class counts. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__conflict__diagnostics__focused_8cpp_1a6a84d4c6c8cabb8cfdea214bc6cd1721" kindref="member">TEST_F</ref>  (<ref refid="class_operator_diagnostics_test" kindref="compound">OperatorDiagnosticsTest</ref>, ODE08_DescriptionsNonEmptyForExchangeAndRoundTripCodes)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>ODE-08: documentErrorDescription returns a non-empty string for all EXCHANGE_ERROR and ROUND_TRIP_ERROR codes. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1af8b9e4c75cd7b5fc29b0f3a22c404d54" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_store_test" kindref="compound">XDOMEAStoreTest</ref>, XS01_StoreAndGetRoundTrip)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>XS-01: storeDocument and getDocument round-trip. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a5c9bea9936ac044d70ccccf70ada2397" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_store_test" kindref="compound">XDOMEAStoreTest</ref>, XS02_GetUnknownIdReturnsNullopt)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>XS-02: getDocument returns nullopt for unknown ID. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1aa8a47514d0839a67bfa5388c7918ea22" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_store_test" kindref="compound">XDOMEAStoreTest</ref>, XS03_DuplicateStoreThrows)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>XS-03: Duplicate storeDocument throws std::runtime_error. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a8b7dec216185f7c31ee86ce8055ade71" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_store_test" kindref="compound">XDOMEAStoreTest</ref>, XS04_EmptyIdThrowsInvalidArgument)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>XS-04: storeDocument with empty ID throws std::invalid_argument. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a990eedf12713e62fad55813f96155529" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_store_test" kindref="compound">XDOMEAStoreTest</ref>, XS05_RemoveDocumentAndVerifyGone)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>XS-05: removeDocument removes by ID; subsequent getDocument returns nullopt. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1ac729d6f72ff1d5bab9f64a6df911f116" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_store_test" kindref="compound">XDOMEAStoreTest</ref>, XS06_ListByTypeFiltersCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>XS-06: listByType returns only documents matching the requested type. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a4d607bfc42122c1edf2cf3c313719f5c" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_store_test" kindref="compound">XDOMEAStoreTest</ref>, XS07_ListByRetentionFiltersCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>XS-07: listByRetention returns only documents with the matching category. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1aac2622256730c815188da4c91975b27c" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_store_test" kindref="compound">XDOMEAStoreTest</ref>, XS08_ListChildrenFiltersCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>XS-08: listChildren returns only direct children of the given parent ID. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1ae0d15ef436f6eadf91c11c33fc790740" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_import_test" kindref="compound">XDOMEAImportTest</ref>, XI01_V30SingleDocumentSuccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>XI-01: importFromXML V3.0 single-document success path. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a1e8b0e6f9a0cef8519ace52665d775ed" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_import_test" kindref="compound">XDOMEAImportTest</ref>, XI02_V21SingleDocumentSuccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>XI-02: importFromXML V2.1 single-document success path. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a75064be549079e81b9d948cde004b173" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_import_test" kindref="compound">XDOMEAImportTest</ref>, XI03_MultiObjectTypeParsing)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>XI-03: importFromXML parses both &lt;akte&gt; and &lt;dokument&gt; elements. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a2fd4c32d3ab203df30b55af464e492ef" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_import_test" kindref="compound">XDOMEAImportTest</ref>, XI04_ImportedDocumentsPersisted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>XI-04: importFromXML persists parsed documents into the connector&apos;s store. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a1b849dc47c2e60284f25b4d388413159" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_import_test" kindref="compound">XDOMEAImportTest</ref>, XI05_EmptyXmlReturnsEmptyResult)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>XI-05: importFromXML returns empty result for empty XML. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a2504e6d7e64c4ef0be54ff0bbb081eec" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_import_test" kindref="compound">XDOMEAImportTest</ref>, XI06_UnclosedDokumentRecordsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>XI-06: importFromXML records an error for an unclosed &lt;dokument&gt; element. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a07db142edd49da5c6de304d4bcb65acb" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_import_test" kindref="compound">XDOMEAImportTest</ref>, XI07_XmlWithNoDocumentElements)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>XI-07: importFromXML handles XML with no document elements gracefully. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a82aeb312a7cf4b19f4997a9883cce3ee" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_import_test" kindref="compound">XDOMEAImportTest</ref>, XI08_FallbackIdAssignedWhenMissing)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>XI-08: importFromXML assigns fallback ID when &lt;id&gt; element is absent. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1abfa577eadbad08892e065d753b459d6b" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_export_test" kindref="compound">XDOMEAExportTest</ref>, XE01_V30ExportContainsVersionAttribute)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>XE-01: exportToXML V3.0 produces valid envelope with correct version attribute. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1afcb67cb6ab8d3f96d4441fe4e334adde" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_export_test" kindref="compound">XDOMEAExportTest</ref>, XE02_V21ExportContainsVersionAttribute)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>XE-02: exportToXML V2.1 produces correct version attribute. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1ad28d80c73338aeee94879bdbeecea7bb" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_export_test" kindref="compound">XDOMEAExportTest</ref>, XE03_ExportContainsDocumentId)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>XE-03: exportToXML includes document ID in the XML output. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1ae536459ace7d85c7c01e227f40abf77c" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_export_test" kindref="compound">XDOMEAExportTest</ref>, XE04_XmlEscapingApplied)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>XE-04: exportToXML escapes reserved XML characters in betreff. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1acd6748b8bbcb4e50ca0a1ef1df28a372" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_export_test" kindref="compound">XDOMEAExportTest</ref>, XE05_AussonderungMessageTypeCode)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>XE-05: exportToXML produces the correct nachrichtentyp code for AUSSONDERUNG. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a4b288de15c2584fda54fdaf55243829b" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_export_test" kindref="compound">XDOMEAExportTest</ref>, XE06_EmptyDocumentListProducesEnvelope)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>XE-06: exportToXML empty document list produces valid empty envelope. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a79c16b8995b7939ba66fd09eeb5041f1" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_multi_version_test" kindref="compound">XDOMEAMultiVersionTest</ref>, XMV01_BothSchemaVersionsRegistered)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>XMV-01: V1 and V2 schema versions are registered without conflict. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1aecfbc4d6962c87469b57253bd82ca6aa" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_multi_version_test" kindref="compound">XDOMEAMultiVersionTest</ref>, XMV02_V1BodyValidatesAgainstV1Schema)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>XMV-02: Document body valid against schema v1 passes validation. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1ab540b232e41497f5e9563871a2951d81" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_multi_version_test" kindref="compound">XDOMEAMultiVersionTest</ref>, XMV03_OptionalFieldAbsenceDoesNotViolateV2)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>XMV-03: Document body missing optional field validates against v2. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__document__xdomea__focused_8cpp_1a91162b646ac5658687956c3a863abfba" kindref="member">TEST_F</ref>  (<ref refid="class_x_d_o_m_e_a_multi_version_test" kindref="compound">XDOMEAMultiVersionTest</ref>, XMV04_XDOMEAAndSchemaLayerCoexistOnSameDocument)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000048"/>XMV-04: Stored XDOMEA document coexists with schema-validated document body.</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_executor" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::Executor</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <innerclass refid="structthemis_1_1graphql_1_1_executor_1_1_result" prot="public">themis::graphql::Executor::Result</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_executor_1a30b38eae4af1bdcdf31d8be6c89fa8d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_executor_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Executor::Result themis::graphql::Executor::execute</definition>
+        <argsstring>(const Document &amp;document, const ExecutionContext &amp;context, std::string_view operation_name=&quot;&quot;)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::graphql::Executor::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getOperation(), addError(), std::string(), size(), empty(), computeSelectionDepth(), timer(), executeOperation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="569" column="12" bodyfile="src/api/graphql.cpp" bodystart="827" bodyend="882"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_executor_1aecdf44868ba94cdf67d4e8ccf9a9bf77" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Value &gt; themis::graphql::Executor::executeOperation</definition>
+        <argsstring>(const Operation &amp;operation, const ExecutionContext &amp;context)</argsstring>
+        <name>executeOperation</name>
+        <qualifiedname>themis::graphql::Executor::executeOperation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_operation" kindref="compound">Operation</ref> &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute <ref refid="structthemis_1_1graphql_1_1_operation" kindref="compound">Operation</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), executeSelections(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="582" column="21" bodyfile="src/api/graphql.cpp" bodystart="891" bodyend="904"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_executor_1aa137d63411787b72dac8a7147637911f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Value &gt; themis::graphql::Executor::executeSelections</definition>
+        <argsstring>(const std::vector&lt; Field &gt; &amp;selections, const std::shared_ptr&lt; Value &gt; &amp;parent, const ExecutionContext &amp;context)</argsstring>
+        <name>executeSelections</name>
+        <qualifiedname>themis::graphql::Executor::executeSelections</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> &gt; &amp;</type>
+          <declname>selections</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt; &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute Selections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">selections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">selections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: executeField(), responseName(), <ref refid="structthemis_1_1graphql_1_1_value_1ac0ed4cfb1ca65934bd26826373d03e82" kindref="member">Value::object()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="594" column="21" bodyfile="src/api/graphql.cpp" bodystart="914" bodyend="925"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_executor_1a32fffd65f4a2919e21d18303955da0eb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Value &gt; themis::graphql::Executor::executeField</definition>
+        <argsstring>(const Field &amp;field, const std::shared_ptr&lt; Value &gt; &amp;parent, const ExecutionContext &amp;context)</argsstring>
+        <name>executeField</name>
+        <qualifiedname>themis::graphql::Executor::executeField</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt; &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), isVariableRef(), resolveValue(), find(), end(), second(), isObject(), asObject(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="607" column="21" bodyfile="src/api/graphql.cpp" bodystart="954" bodyend="1034"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_executor_1abbd29e0aafb48986c0277a95ac8644eb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Value &gt; themis::graphql::Executor::resolveValue</definition>
+        <argsstring>(const std::shared_ptr&lt; Value &gt; &amp;value, const ExecutionContext &amp;context)</argsstring>
+        <name>resolveValue</name>
+        <qualifiedname>themis::graphql::Executor::resolveValue</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Resolve <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isVariableRef(), asVariableRef(), find(), end(), <ref refid="structthemis_1_1graphql_1_1_value_1a310d9dd8825f23b2546227479eeb88e5" kindref="member">Value::null()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="619" column="28" bodyfile="src/api/graphql.cpp" bodystart="934" bodyend="944"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="553" column="1" bodyfile="include/api/graphql.h" bodystart="553" bodyend="623"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_executor_1a30b38eae4af1bdcdf31d8be6c89fa8d8" prot="public" virt="non-virtual"><scope>themis::graphql::Executor</scope><name>execute</name></member>
+      <member refid="classthemis_1_1graphql_1_1_executor_1a32fffd65f4a2919e21d18303955da0eb" prot="private" virt="non-virtual"><scope>themis::graphql::Executor</scope><name>executeField</name></member>
+      <member refid="classthemis_1_1graphql_1_1_executor_1aecdf44868ba94cdf67d4e8ccf9a9bf77" prot="private" virt="non-virtual"><scope>themis::graphql::Executor</scope><name>executeOperation</name></member>
+      <member refid="classthemis_1_1graphql_1_1_executor_1aa137d63411787b72dac8a7147637911f" prot="private" virt="non-virtual"><scope>themis::graphql::Executor</scope><name>executeSelections</name></member>
+      <member refid="classthemis_1_1graphql_1_1_executor_1abbd29e0aafb48986c0277a95ac8644eb" prot="private" virt="non-virtual"><scope>themis::graphql::Executor</scope><name>resolveValue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

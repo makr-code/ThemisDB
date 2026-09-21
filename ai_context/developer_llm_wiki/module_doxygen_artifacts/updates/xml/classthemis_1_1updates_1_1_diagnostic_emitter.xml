@@ -1,0 +1,917 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_diagnostic_emitter" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::DiagnosticEmitter</compoundname>
+    <includes refid="updates__diagnostic__emitter_8h" local="no">updates_diagnostic_emitter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_diagnostic_emitter_1ac57fce465a8c5b18c3c7ec4c98691040" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::DiagnosticEmitter::listeners_mutex_</definition>
+        <argsstring></argsstring>
+        <name>listeners_mutex_</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::listeners_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="222" column="24" bodyfile="include/updates/updates_diagnostic_emitter.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_diagnostic_emitter_1abc13aa6e29b66532733169fe47ad9ac7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_diagnostic_listener" kindref="compound">DiagnosticListener</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;DiagnosticListener&gt; &gt; themis::updates::DiagnosticEmitter::listeners_</definition>
+        <argsstring></argsstring>
+        <name>listeners_</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::listeners_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="223" column="17" bodyfile="include/updates/updates_diagnostic_emitter.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1aabdd4c9bda3c29a5ee44ef1e5e656a55" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::DiagnosticEmitter::DiagnosticEmitter</definition>
+        <argsstring>()</argsstring>
+        <name>DiagnosticEmitter</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::DiagnosticEmitter</qualifiedname>
+        <briefdescription>
+<para>Construct a diagnostic emitter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="78" column="14" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a096d5923b8892fddb9c90910e3112022" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::DiagnosticEmitter::~DiagnosticEmitter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DiagnosticEmitter</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::~DiagnosticEmitter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1afa43a7a7ce0e16406fdadd79aa52f252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::DiagnosticEmitter::DiagnosticEmitter</definition>
+        <argsstring>(const DiagnosticEmitter &amp;)=delete</argsstring>
+        <name>DiagnosticEmitter</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::DiagnosticEmitter</qualifiedname>
+        <param>
+          <type>const DiagnosticEmitter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a371d804dc40259cc67da1ce583f5b7de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_1aabdd4c9bda3c29a5ee44ef1e5e656a55" kindref="member">DiagnosticEmitter</ref> &amp;</type>
+        <definition>DiagnosticEmitter &amp; themis::updates::DiagnosticEmitter::operator=</definition>
+        <argsstring>(const DiagnosticEmitter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_1aabdd4c9bda3c29a5ee44ef1e5e656a55" kindref="member">DiagnosticEmitter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="84" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a5c54c54a7bbc1f42e13132705461fe4a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::DiagnosticEmitter::DiagnosticEmitter</definition>
+        <argsstring>(DiagnosticEmitter &amp;&amp;) noexcept=default</argsstring>
+        <name>DiagnosticEmitter</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::DiagnosticEmitter</qualifiedname>
+        <param>
+          <type>DiagnosticEmitter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="87" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1ab894e7658298c7289ac78092a5fa9583" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_1aabdd4c9bda3c29a5ee44ef1e5e656a55" kindref="member">DiagnosticEmitter</ref> &amp;</type>
+        <definition>DiagnosticEmitter &amp; themis::updates::DiagnosticEmitter::operator=</definition>
+        <argsstring>(DiagnosticEmitter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_1aabdd4c9bda3c29a5ee44ef1e5e656a55" kindref="member">DiagnosticEmitter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="88" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a178e018f6ea43a8811ac7aa0e635b915" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::addListener</definition>
+        <argsstring>(std::shared_ptr&lt; DiagnosticListener &gt; listener)</argsstring>
+        <name>addListener</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::addListener</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_diagnostic_listener" kindref="compound">DiagnosticListener</ref> &gt;</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Register a listener to receive diagnostic events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Listener.</para>
+<para>Listeners are called in registration order. An exception in one listener does not prevent others from being called.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The listener to add (may be null; no-op if null)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="102" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="34" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a81c23b4c8757ecac179d528a28b3bacb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::clearListeners</definition>
+        <argsstring>()</argsstring>
+        <name>clearListeners</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::clearListeners</qualifiedname>
+        <briefdescription>
+<para>Remove all registered listeners. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Listeners.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="107" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1abe9e13dffea9297ac35141473d4c6f66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::updates::DiagnosticEmitter::listenerCount</definition>
+        <argsstring>() const</argsstring>
+        <name>listenerCount</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::listenerCount</qualifiedname>
+        <briefdescription>
+<para>Get the number of registered listeners. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listeners_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="112" column="12" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a44776c1c3bb9dc34eb81a365afdad6fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::emitError</definition>
+        <argsstring>(const ErrorContext &amp;context)</argsstring>
+        <name>emitError</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::emitError</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Emit an error diagnostic event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit Error.</para>
+<para>Logs at ERROR level for severe issues (CRITICAL/ERROR severity), WARN for degraded paths (WARN severity), INFO otherwise.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error context including code, message, and metadata</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: invokeListeners(), <ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a835ef805bf471be1ed4bf777e16ff762" kindref="member">formatErrorMessage()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="126" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="88" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a5256c784c66a56e9c210d782f567265d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::emitInfo</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;phase, const std::string &amp;message, const std::string &amp;node_id=&quot;&quot;, const std::string &amp;version=&quot;&quot;)</argsstring>
+        <name>emitInfo</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::emitInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Emit an informational diagnostic event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit Info.</para>
+<para>Used for state transitions, patch apply completion, etc. Logs at INFO level.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable operation name (e.g., &quot;state_transition&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current update phase (e.g., &quot;applying&quot;, &quot;rolling_back&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Status message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional node identifier (empty for local) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional version string</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), invokeListeners(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="140" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="120" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1ace6ef92b1ff0f74ec9cc904cd78d11d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::emitStateTransition</definition>
+        <argsstring>(const std::string &amp;from_state, const std::string &amp;to_state, const std::string &amp;version=&quot;&quot;)</argsstring>
+        <name>emitStateTransition</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::emitStateTransition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_state</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_state</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Emit a state transition event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit State Transition.</para>
+<para>Convenience method for recording update state changes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previous state name (e.g., &quot;IDLE&quot;, &quot;APPLYING&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New state name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version being processed</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a5256c784c66a56e9c210d782f567265d" kindref="member">emitInfo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="155" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a1cda72a3473a62e469562c3dad43d780" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::emitCheckpointCreated</definition>
+        <argsstring>(uint64_t checkpoint_id, const std::string &amp;description, const std::string &amp;version)</argsstring>
+        <name>emitCheckpointCreated</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::emitCheckpointCreated</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Emit a checkpoint created event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit <ref refid="structthemis_1_1updates_1_1_checkpoint" kindref="compound">Checkpoint</ref> Created.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1updates_1_1_checkpoint" kindref="compound">Checkpoint</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1updates_1_1_checkpoint" kindref="compound">Checkpoint</ref> description </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version at checkpoint time</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(), empty(), std::chrono::system_clock::now(), invokeListeners(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="166" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="164" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1adf7a6b0f81fc79e0d5ec98b8f1ac64f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::emitCheckpointRollback</definition>
+        <argsstring>(uint64_t checkpoint_id, bool success, const std::string &amp;reason)</argsstring>
+        <name>emitCheckpointRollback</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::emitCheckpointRollback</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Emit a checkpoint rollback event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit <ref refid="structthemis_1_1updates_1_1_checkpoint" kindref="compound">Checkpoint</ref> Rollback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1updates_1_1_checkpoint" kindref="compound">Checkpoint</ref> identifier being rolled back to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if rollback succeeded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reason for rollback</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(), empty(), std::chrono::system_clock::now(), invokeListeners(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="177" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="195" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1adf0a7557a163304624d2c952ade752be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::emitPatchApply</definition>
+        <argsstring>(const std::string &amp;file_path, bool success, const std::string &amp;error_msg=&quot;&quot;)</argsstring>
+        <name>emitPatchApply</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::emitPatchApply</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_msg</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Emit a patch apply event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit Patch Apply.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to file being patched </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if patch applied successfully </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error message if failed (empty if success)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::chrono::system_clock::now(), invokeListeners(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="188" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="231" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a0f21b59be6567bcc2cb93f14b8e498e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::emitCoordinatedEvent</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;node_id, bool success, const std::string &amp;detail=&quot;&quot;)</argsstring>
+        <name>emitCoordinatedEvent</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::emitCoordinatedEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Emit a coordinated rollout event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit Coordinated Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name (e.g., &quot;start&quot;, &quot;node_complete&quot;, &quot;failed&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Status </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional detail (e.g., node status, error reason)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::chrono::system_clock::now(), invokeListeners(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="200" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="268" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a835ef805bf471be1ed4bf777e16ff762" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DiagnosticEmitter::formatErrorMessage</definition>
+        <argsstring>(const ErrorContext &amp;context)</argsstring>
+        <name>formatErrorMessage</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::formatErrorMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Generate a human-readable message for an error context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format Error Message.</para>
+<para>Format: [CODE:NAME] Operation &apos;op&apos; in phase &apos;phase&apos; on node &apos;node&apos;: message [severity=SEV, root_cause=RC]</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Human-readable message</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1updates_1a551f8cb28440f631a62c3ba3266f4c6f" kindref="member">errorCodeName()</ref>, empty(), <ref refid="namespacethemis_1_1updates_1a7d3b048d913cf96944f1be200e0c652f" kindref="member">severityName()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="219" column="24" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="305" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_emitter_1a343bee12a7b6f226891a4d4c95b370ae" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::DiagnosticEmitter::invokeListeners</definition>
+        <argsstring>(const ErrorContext &amp;context, bool is_error) const</argsstring>
+        <name>invokeListeners</name>
+        <qualifiedname>themis::updates::DiagnosticEmitter::invokeListeners</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_error</declname>
+        </param>
+        <briefdescription>
+<para>Invoke all registered listeners for an event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listeners_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="228" column="10" bodyfile="src/updates/updates_diagnostic_emitter.cpp" bodystart="62" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe diagnostic event emitter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Centralizes emission of diagnostic messages for state transitions, patch operations, and rollout changes. Listeners receive events in structured form (<ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref>) suitable for machine parsing, logging, and automation.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_1aabdd4c9bda3c29a5ee44ef1e5e656a55" kindref="member">DiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline><highlight class="normal">emitter.addListener(std::make_shared&lt;JsonFileListener&gt;(</highlight><highlight class="stringliteral">&quot;updates.jsonl&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ErrorContext<sp/>ctx;</highlight></codeline>
+<codeline><highlight class="normal">ctx.operation<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;apply_patch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">ctx.phase<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;applying&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">ctx.error_code<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a3431eeb7a9a6c5d8388455441e306cd5" kindref="member">DiagnosticErrorCode::PATCH_CHECKSUM_MISMATCH</ref>;</highlight></codeline>
+<codeline><highlight class="normal">ctx.severity<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57dabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">DiagnosticSeverity::ERROR</ref>;</highlight></codeline>
+<codeline><highlight class="normal">ctx.message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Checksum<sp/>mismatch<sp/>for<sp/>bin/themis_server&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">emitter.emitError(ctx);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/updates/updates_diagnostic_emitter.h" line="73" column="1" bodyfile="include/updates/updates_diagnostic_emitter.h" bodystart="73" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a178e018f6ea43a8811ac7aa0e635b915" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>addListener</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a81c23b4c8757ecac179d528a28b3bacb" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>clearListeners</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1aabdd4c9bda3c29a5ee44ef1e5e656a55" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>DiagnosticEmitter</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1afa43a7a7ce0e16406fdadd79aa52f252" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>DiagnosticEmitter</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a5c54c54a7bbc1f42e13132705461fe4a" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>DiagnosticEmitter</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a1cda72a3473a62e469562c3dad43d780" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>emitCheckpointCreated</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1adf7a6b0f81fc79e0d5ec98b8f1ac64f4" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>emitCheckpointRollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a0f21b59be6567bcc2cb93f14b8e498e3" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>emitCoordinatedEvent</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a44776c1c3bb9dc34eb81a365afdad6fb" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>emitError</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a5256c784c66a56e9c210d782f567265d" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>emitInfo</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1adf0a7557a163304624d2c952ade752be" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>emitPatchApply</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1ace6ef92b1ff0f74ec9cc904cd78d11d0" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>emitStateTransition</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a835ef805bf471be1ed4bf777e16ff762" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>formatErrorMessage</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a343bee12a7b6f226891a4d4c95b370ae" prot="private" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>invokeListeners</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1abe9e13dffea9297ac35141473d4c6f66" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>listenerCount</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1abc13aa6e29b66532733169fe47ad9ac7" prot="private" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>listeners_</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1ac57fce465a8c5b18c3c7ec4c98691040" prot="private" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>listeners_mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a371d804dc40259cc67da1ce583f5b7de" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1ab894e7658298c7289ac78092a5fa9583" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_emitter_1a096d5923b8892fddb9c90910e3112022" prot="public" virt="non-virtual"><scope>themis::updates::DiagnosticEmitter</scope><name>~DiagnosticEmitter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

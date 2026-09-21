@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_dimension_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::DimensionScore</compoundname>
+    <includes refid="quality__control__pipeline_8h" local="no">quality_control_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_score_1a0967b938f608d6368e1cc552ac382b7a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::DimensionScore::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::rag::judge::DimensionScore::dimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="49" column="17" bodyfile="include/rag/quality_control_pipeline.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_score_1a02416acc23636848f81c19bd34db2a5c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DimensionScore::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::judge::DimensionScore::score</qualifiedname>
+        <briefdescription>
+<para>0-1 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="50" column="12" bodyfile="include/rag/quality_control_pipeline.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_score_1aca1ea09b3e4fc08646a40a1b3bbd44e2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DimensionScore::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::DimensionScore::confidence</qualifiedname>
+        <briefdescription>
+<para>0-1 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="51" column="12" bodyfile="include/rag/quality_control_pipeline.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_score_1a0a95154af2af5f7e9071fcacb23456bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::DimensionScore::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::rag::judge::DimensionScore::method</qualifiedname>
+        <briefdescription>
+<para>&quot;llm&quot;, &quot;geval&quot;, &quot;nli&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="52" column="17" bodyfile="include/rag/quality_control_pipeline.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_score_1accca46bd80795c9bd2e29eab6e27619f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::DimensionScore::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::rag::judge::DimensionScore::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="53" column="17" bodyfile="include/rag/quality_control_pipeline.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dimension-specific quality score. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/quality_control_pipeline.h" line="48" column="1" bodyfile="include/rag/quality_control_pipeline.h" bodystart="48" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_score_1aca1ea09b3e4fc08646a40a1b3bbd44e2" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionScore</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_score_1a0967b938f608d6368e1cc552ac382b7a" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionScore</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_score_1accca46bd80795c9bd2e29eab6e27619f" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionScore</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_score_1a0a95154af2af5f7e9071fcacb23456bc" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionScore</scope><name>method</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_score_1a02416acc23636848f81c19bd34db2a5c" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionScore</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

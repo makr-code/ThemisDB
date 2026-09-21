@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_stream_writer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::StreamWriter::Config</compoundname>
+    <includes refid="stream__writer_8h" local="no">stream_writer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a2a26c0c3bf9d301092cf055f5e179122" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::StreamWriter::Config::output_path</definition>
+        <argsstring></argsstring>
+        <name>output_path</name>
+        <qualifiedname>themis::exporters::StreamWriter::Config::output_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/stream_writer.h" line="30" column="21" bodyfile="include/exporters/stream_writer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a0263069a678c57513f464d6329d9ae23" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5" kindref="member">CompressionType</ref></type>
+        <definition>CompressionType themis::exporters::StreamWriter::Config::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::exporters::StreamWriter::Config::compression</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5ab50339a10e1de285ac99d4c3990b8693" kindref="member">CompressionType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/stream_writer.h" line="31" column="25" bodyfile="include/exporters/stream_writer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a75da72dfc502e85778c3177ab3e10a67" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::exporters::StreamWriter::Config::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themis::exporters::StreamWriter::Config::compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/stream_writer.h" line="32" column="13" bodyfile="include/exporters/stream_writer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a5bdef4cb104b4866495d58fca87b3cca" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::StreamWriter::Config::buffer_size</definition>
+        <argsstring></argsstring>
+        <name>buffer_size</name>
+        <qualifiedname>themis::exporters::StreamWriter::Config::buffer_size</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/stream_writer.h" line="33" column="16" bodyfile="include/exporters/stream_writer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a378400bd6f909e2ecd58661946ad02b6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::StreamWriter::Config::max_file_size</definition>
+        <argsstring></argsstring>
+        <name>max_file_size</name>
+        <qualifiedname>themis::exporters::StreamWriter::Config::max_file_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/stream_writer.h" line="34" column="16" bodyfile="include/exporters/stream_writer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/stream_writer.h" line="29" column="5" bodyfile="include/exporters/stream_writer.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a5bdef4cb104b4866495d58fca87b3cca" prot="public" virt="non-virtual"><scope>themis::exporters::StreamWriter::Config</scope><name>buffer_size</name></member>
+      <member refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a0263069a678c57513f464d6329d9ae23" prot="public" virt="non-virtual"><scope>themis::exporters::StreamWriter::Config</scope><name>compression</name></member>
+      <member refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a75da72dfc502e85778c3177ab3e10a67" prot="public" virt="non-virtual"><scope>themis::exporters::StreamWriter::Config</scope><name>compression_level</name></member>
+      <member refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a378400bd6f909e2ecd58661946ad02b6" prot="public" virt="non-virtual"><scope>themis::exporters::StreamWriter::Config</scope><name>max_file_size</name></member>
+      <member refid="structthemis_1_1exporters_1_1_stream_writer_1_1_config_1a2a26c0c3bf9d301092cf055f5e179122" prot="public" virt="non-virtual"><scope>themis::exporters::StreamWriter::Config</scope><name>output_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

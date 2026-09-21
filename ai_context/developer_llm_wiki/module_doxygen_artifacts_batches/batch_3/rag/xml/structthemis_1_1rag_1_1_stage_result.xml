@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_stage_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::StageResult</compoundname>
+    <includes refid="modular__rag__pipeline_8h" local="no">modular_rag_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_stage_result_1a883427d63fc03b01fd355a30b321ce9f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85" kindref="member">RAGStageId</ref></type>
+        <definition>RAGStageId themis::rag::StageResult::stage</definition>
+        <argsstring></argsstring>
+        <name>stage</name>
+        <qualifiedname>themis::rag::StageResult::stage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="122" column="16" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_stage_result_1a50b4ca6b6d10a34b21e71355046ee487" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9dae" kindref="member">StageStatus</ref></type>
+        <definition>StageStatus themis::rag::StageResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::rag::StageResult::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9daea505a83f220c02df2f85c3810cd9ceb38" kindref="member">StageStatus::Success</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="123" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_stage_result_1a10ac5d6ddc2ed3e9d9785447b1271019" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_r_a_g_candidate" kindref="compound">RAGCandidate</ref> &gt;</type>
+        <definition>std::vector&lt;RAGCandidate&gt; themis::rag::StageResult::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themis::rag::StageResult::candidates</qualifiedname>
+        <briefdescription>
+<para>Updated candidate list. Must be set by Retrieve, Rerank, and Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="126" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_stage_result_1ac021c02aa226fd96daba2c5f78a8fe5e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::rag::StageResult::assembled_prompt</definition>
+        <argsstring></argsstring>
+        <name>assembled_prompt</name>
+        <qualifiedname>themis::rag::StageResult::assembled_prompt</qualifiedname>
+        <briefdescription>
+<para>Assembled prompt text. Must be set by Assemble. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="129" column="19" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_stage_result_1af6499de604e79c9cb429d312cbbc59d2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; llm::InferenceResponse &gt;</type>
+        <definition>std::optional&lt;llm::InferenceResponse&gt; themis::rag::StageResult::inference_response</definition>
+        <argsstring></argsstring>
+        <name>inference_response</name>
+        <qualifiedname>themis::rag::StageResult::inference_response</qualifiedname>
+        <briefdescription>
+<para>Inference response. Must be set by Generate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="132" column="19" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_stage_result_1aafcd09e05a9b69289a33f749c65ab939" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::StageResult::diagnostic</definition>
+        <argsstring></argsstring>
+        <name>diagnostic</name>
+        <qualifiedname>themis::rag::StageResult::diagnostic</qualifiedname>
+        <briefdescription>
+<para>Human-readable diagnostic (logged on non-Success status). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="135" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_stage_result_1a50947b3e922b1e6d1ee81516c60b5084" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::rag::StageResult::elapsed</definition>
+        <argsstring></argsstring>
+        <name>elapsed</name>
+        <qualifiedname>themis::rag::StageResult::elapsed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock duration of this stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="138" column="31" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result produced by a single pipeline stage. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/modular_rag_pipeline.h" line="121" column="1" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="121" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_stage_result_1ac021c02aa226fd96daba2c5f78a8fe5e" prot="public" virt="non-virtual"><scope>themis::rag::StageResult</scope><name>assembled_prompt</name></member>
+      <member refid="structthemis_1_1rag_1_1_stage_result_1a10ac5d6ddc2ed3e9d9785447b1271019" prot="public" virt="non-virtual"><scope>themis::rag::StageResult</scope><name>candidates</name></member>
+      <member refid="structthemis_1_1rag_1_1_stage_result_1aafcd09e05a9b69289a33f749c65ab939" prot="public" virt="non-virtual"><scope>themis::rag::StageResult</scope><name>diagnostic</name></member>
+      <member refid="structthemis_1_1rag_1_1_stage_result_1a50947b3e922b1e6d1ee81516c60b5084" prot="public" virt="non-virtual"><scope>themis::rag::StageResult</scope><name>elapsed</name></member>
+      <member refid="structthemis_1_1rag_1_1_stage_result_1af6499de604e79c9cb429d312cbbc59d2" prot="public" virt="non-virtual"><scope>themis::rag::StageResult</scope><name>inference_response</name></member>
+      <member refid="structthemis_1_1rag_1_1_stage_result_1a883427d63fc03b01fd355a30b321ce9f" prot="public" virt="non-virtual"><scope>themis::rag::StageResult</scope><name>stage</name></member>
+      <member refid="structthemis_1_1rag_1_1_stage_result_1a50b4ca6b6d10a34b21e71355046ee487" prot="public" virt="non-virtual"><scope>themis::rag::StageResult</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

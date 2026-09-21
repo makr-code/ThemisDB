@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_c_k___m_e_c_h_a_n_i_s_m" kind="struct" language="C++" prot="public">
+    <compoundname>CK_MECHANISM</compoundname>
+    <includes refid="pkcs11__minimal_8h" local="no">pkcs11_minimal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_c_k___m_e_c_h_a_n_i_s_m_1a73f4e7a0abd8c32bfeae8d6d45e81776" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CK_MECHANISM::mechanism</definition>
+        <argsstring></argsstring>
+        <name>mechanism</name>
+        <qualifiedname>CK_MECHANISM::mechanism</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="83" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___m_e_c_h_a_n_i_s_m_1ab96975be68e15b1e940e12273e33f35f" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* CK_MECHANISM::pParameter</definition>
+        <argsstring></argsstring>
+        <name>pParameter</name>
+        <qualifiedname>CK_MECHANISM::pParameter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="84" column="13" bodyfile="include/security/pkcs11_minimal.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___m_e_c_h_a_n_i_s_m_1ab6ac70439065e043c02755db73d439cb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t CK_MECHANISM::ulParameterLen</definition>
+        <argsstring></argsstring>
+        <name>ulParameterLen</name>
+        <qualifiedname>CK_MECHANISM::ulParameterLen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="85" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/pkcs11_minimal.h" line="82" column="1" bodyfile="include/security/pkcs11_minimal.h" bodystart="82" bodyend="86"/>
+    <listofallmembers>
+      <member refid="struct_c_k___m_e_c_h_a_n_i_s_m_1a73f4e7a0abd8c32bfeae8d6d45e81776" prot="public" virt="non-virtual"><scope>CK_MECHANISM</scope><name>mechanism</name></member>
+      <member refid="struct_c_k___m_e_c_h_a_n_i_s_m_1ab96975be68e15b1e940e12273e33f35f" prot="public" virt="non-virtual"><scope>CK_MECHANISM</scope><name>pParameter</name></member>
+      <member refid="struct_c_k___m_e_c_h_a_n_i_s_m_1ab6ac70439065e043c02755db73d439cb" prot="public" virt="non-virtual"><scope>CK_MECHANISM</scope><name>ulParameterLen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

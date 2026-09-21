@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="intelligent__prefetcher_8h" kind="file" language="C++">
+    <compoundname>intelligent_prefetcher.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="intelligent__prefetcher_8cpp" local="yes">src/performance/intelligent_prefetcher.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/intelligent_prefetcher.h</label>
+        <link refid="intelligent__prefetcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>deque</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>unordered_set</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/intelligent_prefetcher.h</label>
+        <link refid="intelligent__prefetcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/intelligent_prefetcher.cpp</label>
+        <link refid="intelligent__prefetcher_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1performance_1_1_intelligent_prefetcher" prot="public">themis::performance::IntelligentPrefetcher</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" prot="public">themis::performance::IntelligentPrefetcher::PrefetchConfig</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern" prot="public">themis::performance::IntelligentPrefetcher::AccessPattern</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" prot="public">themis::performance::IntelligentPrefetcher::PrefetchStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1performance_1_1_intelligent_prefetcher" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abe" kindref="member">CacheLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea9ec4c0afd450ceac7adb81c3bcfc9732" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea9ec4c0afd450ceac7adb81c3bcfc9732" kindref="member">L1</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea7e6aa2d53f6ee2b1a34b017fa403cb76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">L2</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea842ce6eb510f7e7047da883915ec90e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea842ce6eb510f7e7047da883915ec90e0" kindref="member">L3</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abeaebae17841ce69e653df838d8c20ace8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abeaebae17841ce69e653df838d8c20ace8d" kindref="member">DRAM</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a5bd2de28b0bf4ef6d46837eb00fcf722" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a5bd2de28b0bf4ef6d46837eb00fcf722" kindref="member">enable_learning</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a1c28528faa6bdd68c320833300ce4eb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a1c28528faa6bdd68c320833300ce4eb6" kindref="member">max_prefetch_distance</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1ab640928308e4fa7594467bf4302e3d69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1ab640928308e4fa7594467bf4302e3d69" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a4ef214a51665e0927a312197630a2bd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a4ef214a51665e0927a312197630a2bd6" kindref="member">history_size</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1ac4f65e5a7e9d04d1acef1c1f55cf8b66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1ac4f65e5a7e9d04d1acef1c1f55cf8b66" kindref="member">enable_hardware_prefetch</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern" kindref="compound">AccessPattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern_1a874766351272a6ad914c594f65539163" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern_1a874766351272a6ad914c594f65539163" kindref="member">addresses</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern_1a6e4803722831288b553c2962d5958a2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern_1a6e4803722831288b553c2962d5958a2c" kindref="member">timestamp</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern_1a1fab43f38c5a313de28b4cb4f3555b10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern_1a1fab43f38c5a313de28b4cb4f3555b10" kindref="member">stride</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern_1ab92e86c99ad15b439448ee13283be398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern_1ab92e86c99ad15b439448ee13283be398" kindref="member">confidence</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" kindref="compound">PrefetchStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a8b3107a3ed9b4175baab60a7ea677836" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a8b3107a3ed9b4175baab60a7ea677836" kindref="member">total_prefetches</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1ae6e62de2caa81c1fcf452e0ca4ae2652" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1ae6e62de2caa81c1fcf452e0ca4ae2652" kindref="member">useful_prefetches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1af67fa2f3d99a5b760e2c492c686f03be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1af67fa2f3d99a5b760e2c492c686f03be" kindref="member">wasted_prefetches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a7c783dad8c502ad56b057f740be0d3b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a7c783dad8c502ad56b057f740be0d3b4" kindref="member">accuracy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1afc26efe68751427fe1d40546235aff7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1afc26efe68751427fe1d40546235aff7b" kindref="member">coverage</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a4253e4ab18980580d033c344493b130c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a4253e4ab18980580d033c344493b130c" kindref="member">total_accesses</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref>(<ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a2c0bbeb8948c4f79a899a53606cd4c84" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1aac2ea5c35e074448ebfd428269c44a70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1aac2ea5c35e074448ebfd428269c44a70" kindref="member">~IntelligentPrefetcher</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a6a059c79584ce9f6514a7f9620120519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a6a059c79584ce9f6514a7f9620120519" kindref="member">IntelligentPrefetcher</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1afd65faba8010056580de4b005d217ddf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1afd65faba8010056580de4b005d217ddf" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1af57bdd783fbb8c050b76020dcb0444cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1af57bdd783fbb8c050b76020dcb0444cd" kindref="member">IntelligentPrefetcher</ref>(<ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a027a76dab566721bc19e7dbad6264406" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1af5cf5d45f463a6b881a9eb59957ba922" kindref="member">record_access</ref>(uint64_t<sp/>address,<sp/>uint64_t<sp/>timestamp<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1ad1f1615265b4cf45915155ee4672ac96" kindref="member">predict_next_accesses</ref>(uint64_t<sp/>current_address,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>lookahead<sp/>=<sp/>8);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1afc0b4e66b787e8522b3b95a2b728e583" kindref="member">prefetch_predicted</ref>(const<sp/>std::vector&lt;uint64_t&gt;&amp;<sp/>addresses);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pattern<sp/>inspection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern" kindref="compound">AccessPattern</ref><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a5e8699764211f43346f68f1c02aefa89" kindref="member">current_pattern</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1aa6a8cc278532338e8e86f2c22aef9611" kindref="member">adaptive_prefetch_distance</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>&amp;<sp/>feedback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" kindref="compound">PrefetchStats</ref><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a3e7e665476ba11dcbdab9b07a35278f1" kindref="member">get_stats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1ad3ed596dcaf8c80933a951bc79e60eaf" kindref="member">reset_stats</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a263ee4b15d4b9fabea31f058ed115e2d" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Config<sp/>accessor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a2c0bbeb8948c4f79a899a53606cd4c84" kindref="member">config</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/intelligent_prefetcher.h"/>
+  </compounddef>
+</doxygen>

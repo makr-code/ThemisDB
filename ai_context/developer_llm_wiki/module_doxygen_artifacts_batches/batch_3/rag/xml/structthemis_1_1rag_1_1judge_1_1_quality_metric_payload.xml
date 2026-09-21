@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityMetricPayload</compoundname>
+    <includes refid="http__metrics__client_8h" local="no">http_metrics_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a667fcf67474e3d6bd85dc55f9fbb6094" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityMetricPayload::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::query</qualifiedname>
+        <briefdescription>
+<para>User query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="69" column="17" bodyfile="include/rag/http_metrics_client.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aeefa63fa8cddfd6190000617add13092" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityMetricPayload::faithfulness_score</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_score</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::faithfulness_score</qualifiedname>
+        <briefdescription>
+<para>Faithfulness score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="70" column="12" bodyfile="include/rag/http_metrics_client.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a6d2a4d44f4dd516bcf6b93fb8b92e26f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityMetricPayload::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::relevance_score</qualifiedname>
+        <briefdescription>
+<para>Relevance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="71" column="12" bodyfile="include/rag/http_metrics_client.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1abb988bb153752f0c9f061b348b7ab388" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityMetricPayload::completeness_score</definition>
+        <argsstring></argsstring>
+        <name>completeness_score</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::completeness_score</qualifiedname>
+        <briefdescription>
+<para>Completeness score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="72" column="12" bodyfile="include/rag/http_metrics_client.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aa2ac7386badc3500426854b68088f817" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityMetricPayload::coherence_score</definition>
+        <argsstring></argsstring>
+        <name>coherence_score</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::coherence_score</qualifiedname>
+        <briefdescription>
+<para>Coherence score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="73" column="12" bodyfile="include/rag/http_metrics_client.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a64d8c829c6cb8333ae8dbf4bf2b7f050" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityMetricPayload::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::overall_score</qualifiedname>
+        <briefdescription>
+<para>Overall quality score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="74" column="12" bodyfile="include/rag/http_metrics_client.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a60b0dc46bacc19ac69318cd9c7ab1720" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityMetricPayload::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::decision</qualifiedname>
+        <briefdescription>
+<para>QC decision (ACCEPT/REJECT/WARN/RETRY). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="75" column="17" bodyfile="include/rag/http_metrics_client.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aa084941c4d480a85321777f5bb7b6165" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::QualityMetricPayload::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::latency_ms</qualifiedname>
+        <briefdescription>
+<para>QC processing latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="76" column="9" bodyfile="include/rag/http_metrics_client.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a1e2d128dfc02cb64ed76da6f0b1a3d95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityMetricPayload::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::mode</qualifiedname>
+        <briefdescription>
+<para>QC mode (FAST/BALANCED/THOROUGH). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="77" column="17" bodyfile="include/rag/http_metrics_client.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1ad55ced917332fe2068d7bfcaa2767758" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityMetricPayload::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::timestamp</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="78" column="17" bodyfile="include/rag/http_metrics_client.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1abef634583988d06e8f7c4cf274b7c00a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::judge::QualityMetricPayload::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rag::judge::QualityMetricPayload::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="79" column="24" bodyfile="include/rag/http_metrics_client.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality metric payload. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/http_metrics_client.h" line="68" column="1" bodyfile="include/rag/http_metrics_client.h" bodystart="68" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aa2ac7386badc3500426854b68088f817" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>coherence_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1abb988bb153752f0c9f061b348b7ab388" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>completeness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a60b0dc46bacc19ac69318cd9c7ab1720" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>decision</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aeefa63fa8cddfd6190000617add13092" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>faithfulness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aa084941c4d480a85321777f5bb7b6165" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1abef634583988d06e8f7c4cf274b7c00a" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a1e2d128dfc02cb64ed76da6f0b1a3d95" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>mode</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a64d8c829c6cb8333ae8dbf4bf2b7f050" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a667fcf67474e3d6bd85dc55f9fbb6094" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a6d2a4d44f4dd516bcf6b93fb8b92e26f" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1ad55ced917332fe2068d7bfcaa2767758" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetricPayload</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

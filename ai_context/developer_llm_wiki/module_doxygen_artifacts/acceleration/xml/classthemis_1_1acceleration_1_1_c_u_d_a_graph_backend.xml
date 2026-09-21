@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::CUDAGraphBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_graph_backend" prot="public" virt="non-virtual">themis::acceleration::IGraphBackend</basecompoundref>
+    <includes refid="cuda__backend_8h" local="no">cuda_backend.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1ac286075fc38083605b45a93b1416bea7" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAGraphBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="474" column="10" bodyfile="include/acceleration/cuda_backend.h" bodystart="474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1aee43f3b01ec96d06811c1b9c455cbc2a" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::acceleration::CUDAGraphBackend::deviceContext_</definition>
+        <argsstring></argsstring>
+        <name>deviceContext_</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::deviceContext_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="482" column="10" bodyfile="include/acceleration/cuda_backend.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1ae4057aafa0c949b94cf6e3a205d96189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CUDAGraphBackend::CUDAGraphBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>CUDAGraphBackend</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::CUDAGraphBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="445" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a317d59fcba2289f13df131b98b5271ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CUDAGraphBackend::~CUDAGraphBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~CUDAGraphBackend</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::~CUDAGraphBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="446" column="5" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="1513" bodyend="1515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a3860fbfaba398d98bbc7ba4e25b196bc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::CUDAGraphBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="448" column="16" bodyfile="include/acceleration/cuda_backend.h" bodystart="448" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a537194e6f6c5b33b72af6cbdebb30918" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::CUDAGraphBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="449" column="17" bodyfile="include/acceleration/cuda_backend.h" bodystart="449" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a6fc48c4023286a497937c09bbabf8120" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAGraphBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="450" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="1517" bodyend="1525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a8f9a9335ac1a0b836d35c2484e6c4481" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::CUDAGraphBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="452" column="25" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="1527" bodyend="1546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a41ff1fd7edfa2bcb526f9e30b4b149f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAGraphBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a6fc48c4023286a497937c09bbabf8120" kindref="member">isAvailable()</ref>, cudaGetDeviceCount(), <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, <ref refid="namespacethemis_1_1acceleration_1_1_error_context_helpers_1af287ad83b903a7dbf9d1a2344c6f0eb4" kindref="member">ErrorContextHelpers::createNoDevicesError()</ref>, ErrorContext(), std::string(), cudaGetErrorString(), format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="453" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="1553" bodyend="1600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1aebcde46ff364533b3edffa352bf8ec04" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::CUDAGraphBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="454" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="1606" bodyend="1618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1ace74a0009aa71faae45d1df850b22956" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint32_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint32_t &gt; &gt; themis::acceleration::CUDAGraphBackend::batchBFS</definition>
+        <argsstring>(const uint32_t *adjacency, size_t numVertices, const uint32_t *startVertices, size_t numStarts, uint32_t maxDepth) override</argsstring>
+        <name>batchBFS</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::batchBFS</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a78629a5ff3824ff3acd986efe24b0915">batchBFS</reimplements>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>startVertices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numStarts</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>maxDepth</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1ace74a0009aa71faae45d1df850b22956" kindref="member">CUDAGraphBackend::batchBFS</ref> On the first call for a given (numVertices, numStarts, maxDepth) shape: 1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adjacency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">startVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numStarts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxDepth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Pre-allocate dedicated device buffers. 2. Capture: init kernel + maxDepth expand kernels + gather kernel. 3. Insert the captured graph entry into the LRU BFS cache. On subsequent calls with the same shape: 1. Look up the cached CUDAGraphBFSEntry. 2. Copy adjacency + startVertices data to device (H2D on mainStream). 3. Replay the instantiated graph. 4. Copy result_vertices + result_sizes back to host (D2H on mainStream). ------------------------------------------------------------------------<mdash/> Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1af78e4796463330b3da096d492975664d" kindref="member">BatchValidator::validateGraphBFSBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a3860fbfaba398d98bbc7ba4e25b196bc" kindref="member">name()</ref>, <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1a4d3816c5129024c1b0ac2e9b2630cbf6" kindref="member">BatchValidator::shouldUseCpuFallbackForGraphBFS()</ref>, THEMIS_WARN(), <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a41ff1fd7edfa2bcb526f9e30b4b149f8" kindref="member">initialize()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="456" column="17" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="1631" bodyend="1854"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1aebaafd31850e51dd52f1a1e46a34fc3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint32_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint32_t &gt; &gt; themis::acceleration::CUDAGraphBackend::batchShortestPath</definition>
+        <argsstring>(const uint32_t *adjacency, const float *weights, size_t numVertices, const uint32_t *startVertices, const uint32_t *endVertices, size_t numPairs) override</argsstring>
+        <name>batchShortestPath</name>
+        <qualifiedname>themis::acceleration::CUDAGraphBackend::batchShortestPath</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a96ceb95dea176351bbed0c80a2ac7fc5">batchShortestPath</reimplements>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>startVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>endVertices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPairs</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1aebaafd31850e51dd52f1a1e46a34fc3a" kindref="member">CUDAGraphBackend::batchShortestPath</ref> Uses Bellman-Ford with CUDA Graph Capture, keyed on (numVertices, numPairs). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adjacency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">startVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Captured graph: init + (numVertices-1) relax iterations. Path reconstruction (predecessor tracing) is performed on the host after copying distances and predecessors back. ------------------------------------------------------------------------<mdash/> Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1a6d27fe9a99388a124b67568fbf4eea7d" kindref="member">BatchValidator::validateShortestPathBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a3860fbfaba398d98bbc7ba4e25b196bc" kindref="member">name()</ref>, <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1a04779a45d935de67879fb4abee148443" kindref="member">BatchValidator::shouldUseCpuFallbackForShortestPath()</ref>, THEMIS_WARN(), <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a41ff1fd7edfa2bcb526f9e30b4b149f8" kindref="member">initialize()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="464" column="17" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="1868" bodyend="2090"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::CUDAGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_graph_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::CUDAGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_graph_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/cuda_backend.h" line="443" column="1" bodyfile="include/acceleration/cuda_backend.h" bodystart="443" bodyend="484"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1ace74a0009aa71faae45d1df850b22956" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>batchBFS</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1aebaafd31850e51dd52f1a1e46a34fc3a" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>batchShortestPath</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1ae4057aafa0c949b94cf6e3a205d96189" prot="public" virt="non-virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>CUDAGraphBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1aee43f3b01ec96d06811c1b9c455cbc2a" prot="private" virt="non-virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>deviceContext_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a8f9a9335ac1a0b836d35c2484e6c4481" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a41ff1fd7edfa2bcb526f9e30b4b149f8" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1ac286075fc38083605b45a93b1416bea7" prot="private" virt="non-virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a6fc48c4023286a497937c09bbabf8120" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a3860fbfaba398d98bbc7ba4e25b196bc" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1aebcde46ff364533b3edffa352bf8ec04" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a537194e6f6c5b33b72af6cbdebb30918" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a317d59fcba2289f13df131b98b5271ce" prot="public" virt="non-virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>~CUDAGraphBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a06d06da610fce8ddc200a45cd303454f" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGraphBackend</scope><name>~IGraphBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::KVCacheBuffer::Config</compoundname>
+    <includes refid="kv__cache__buffer_8h" local="no">kv_cache_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1a1bbcf2672f0240dcad2fd47bc03aa1c7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBuffer::Config::max_tokens_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_batch</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Config::max_tokens_per_batch</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="28" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1ab41c748a6292d47648e0749290b118e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBuffer::Config::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Config::embedding_dim</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="29" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1a173cc078de32bdf7b3a493f230e804c7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBuffer::Config::num_layers</definition>
+        <argsstring></argsstring>
+        <name>num_layers</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Config::num_layers</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="30" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1aef381e67385684d3bb8acd40c80b31cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::KVCacheBuffer::Config::enable_auto_flush</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_flush</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Config::enable_auto_flush</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="31" column="14" bodyfile="include/llm/kv_cache_buffer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1aad5b9ba00b97d09657544396dcc31092" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::KVCacheBuffer::Config::flush_interval</definition>
+        <argsstring></argsstring>
+        <name>flush_interval</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Config::flush_interval</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="32" column="35" bodyfile="include/llm/kv_cache_buffer.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kv_cache_buffer.h" line="27" column="5" bodyfile="include/llm/kv_cache_buffer.h" bodystart="27" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1ab41c748a6292d47648e0749290b118e1" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Config</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1aef381e67385684d3bb8acd40c80b31cc" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Config</scope><name>enable_auto_flush</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1aad5b9ba00b97d09657544396dcc31092" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Config</scope><name>flush_interval</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1a1bbcf2672f0240dcad2fd47bc03aa1c7" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Config</scope><name>max_tokens_per_batch</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config_1a173cc078de32bdf7b3a493f230e804c7" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Config</scope><name>num_layers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

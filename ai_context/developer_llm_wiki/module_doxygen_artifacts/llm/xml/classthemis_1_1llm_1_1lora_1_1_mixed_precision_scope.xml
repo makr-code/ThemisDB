@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::MixedPrecisionScope</compoundname>
+    <includes refid="mixed__precision_8h" local="no">mixed_precision.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1ac2f48fddb29654b3070765f4ff0fbf22" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref> *</type>
+        <definition>MixedPrecisionTrainer* themis::llm::lora::MixedPrecisionScope::trainer_</definition>
+        <argsstring></argsstring>
+        <name>trainer_</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionScope::trainer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="157" column="27" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a48985b8c25b56a4982a9523e8844b66c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::MixedPrecisionScope::MixedPrecisionScope</definition>
+        <argsstring>(MixedPrecisionTrainer *trainer)</argsstring>
+        <name>MixedPrecisionScope</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionScope::MixedPrecisionScope</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref> *</type>
+          <declname>trainer</declname>
+        </param>
+        <briefdescription>
+<para>Mixed Precision Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">trainer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="149" column="14" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="149" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1ad008246294dfdf54ea0967207a952130" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::MixedPrecisionScope::~MixedPrecisionScope</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MixedPrecisionScope</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionScope::~MixedPrecisionScope</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="152" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a59fb3c248b8fd1d4e7f3eac8451547e9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref> *</type>
+        <definition>MixedPrecisionTrainer * themis::llm::lora::MixedPrecisionScope::trainer</definition>
+        <argsstring>() const</argsstring>
+        <name>trainer</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionScope::trainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="154" column="27" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/mixed_precision.h" line="142" column="1" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="142" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a48985b8c25b56a4982a9523e8844b66c" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionScope</scope><name>MixedPrecisionScope</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a59fb3c248b8fd1d4e7f3eac8451547e9" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionScope</scope><name>trainer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1ac2f48fddb29654b3070765f4ff0fbf22" prot="private" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionScope</scope><name>trainer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1ad008246294dfdf54ea0967207a952130" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionScope</scope><name>~MixedPrecisionScope</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

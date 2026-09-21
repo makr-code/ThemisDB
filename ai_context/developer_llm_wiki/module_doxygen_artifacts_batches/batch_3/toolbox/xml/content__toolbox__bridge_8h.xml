@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__toolbox__bridge_8h" kind="file" language="C++">
+    <compoundname>content_toolbox_bridge.h</compoundname>
+    <includes refid="ingestion__toolbox_8h" local="yes">toolbox/ingestion_toolbox.h</includes>
+    <includes local="yes">content/content_manager.h</includes>
+    <includes local="yes">ingestion/ingestion_sinks.h</includes>
+    <includes local="yes">ingestion/base_entity.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">span</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="content__toolbox__bridge_8cpp" local="yes">src/toolbox/content_toolbox_bridge.cpp</includedby>
+    <includedby refid="test__toolbox__contract__hardening__focused_8cpp" local="yes">tests/toolbox/test_toolbox_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/toolbox/content_toolbox_bridge.h</label>
+        <link refid="content__toolbox__bridge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>toolbox/ingestion_toolbox.h</label>
+        <link refid="ingestion__toolbox_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>content/content_manager.h</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>ingestion/base_entity.h</label>
+      </node>
+      <node id="4">
+        <label>ingestion/builtin_step_factories.h</label>
+      </node>
+      <node id="7">
+        <label>ingestion/extraction_context.h</label>
+      </node>
+      <node id="8">
+        <label>ingestion/file_manifest.h</label>
+      </node>
+      <node id="5">
+        <label>ingestion/inference_backend.h</label>
+      </node>
+      <node id="15">
+        <label>ingestion/ingestion_sinks.h</label>
+      </node>
+      <node id="3">
+        <label>ingestion/workflow_engine.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>span</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/toolbox/content_toolbox_bridge.h</label>
+        <link refid="content__toolbox__bridge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/toolbox/content_toolbox_bridge.cpp</label>
+        <link refid="content__toolbox__bridge_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/toolbox/test_toolbox_contract_hardening_focused.cpp</label>
+        <link refid="test__toolbox__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge" prot="public">themis::toolbox::ContentToolboxBridge</innerclass>
+    <innerclass refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" prot="public">themis::toolbox::ContentToolboxBridge::BridgeResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1toolbox">themis::toolbox</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentToolboxBridge<sp/>bridges<sp/>the<sp/>content/<sp/>processing<sp/>+<sp/>storage<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>with<sp/>the<sp/>toolbox/<sp/>ingestion<sp/>pipeline.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Dependency<sp/>direction:<sp/>toolbox/<sp/>→<sp/>content/<sp/>(permitted).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content/<sp/>→<sp/>toolbox/<sp/>is<sp/>FORBIDDEN.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Both<sp/>headers<sp/>are<sp/>included<sp/>here<sp/>because<sp/>this<sp/>bridge<sp/>class<sp/>sits<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>toolbox/<sp/>and<sp/>explicitly<sp/>wires<sp/>the<sp/>two<sp/>subsystems<sp/>together.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__toolbox_8h" kindref="compound">toolbox/ingestion_toolbox.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;content/content_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/ingestion_sinks.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;span&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentToolboxBridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref><sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref>(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IngestionToolbox&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" kindref="member">toolbox</ref>,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;content::ContentManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content_manager,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>graph_writer<sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IVectorWriter&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector_writer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a166372b2674c5cbb7bc69da0195676a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a166372b2674c5cbb7bc69da0195676a0" kindref="member">~ContentToolboxBridge</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1aeb965fe7c1c65432e3d0c3f991caf1a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1aeb965fe7c1c65432e3d0c3f991caf1a3" kindref="member">ContentToolboxBridge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1acd0b8bca12c5659e04601dd3a1fa1d3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1acd0b8bca12c5659e04601dd3a1fa1d3f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a36a371a3a645f288a43fcc6d368562b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a36a371a3a645f288a43fcc6d368562b6" kindref="member">ContentToolboxBridge</ref>(<ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a84d91a3d8704097bcc945a2372340cab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BridgeResult<sp/>—<sp/>combined<sp/>outcome<sp/>of<sp/>a<sp/>single<sp/>ingest()<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" kindref="compound">BridgeResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ContentManager<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a9f0877ba3ba78ebba2fbe6a1794871d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a9f0877ba3ba78ebba2fbe6a1794871d8" kindref="member">content_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a79858afece3c24e01ca5517545624f61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a79858afece3c24e01ca5517545624f61" kindref="member">child_ids</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IngestionToolbox<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1aa89c0afaf4e2f3061cff35b95dae27ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ingestion::BaseEntity&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1aa89c0afaf4e2f3061cff35b95dae27ba" kindref="member">entities</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af432ddb1133052f6600707f6662ef811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ingestion::VectorRecord&gt;<sp/><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af432ddb1133052f6600707f6662ef811" kindref="member">vectors</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a50849115360d84908bc03bd83457e27f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a50849115360d84908bc03bd83457e27f" kindref="member">ok</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a1cf416feb6fa51d5a0c968fcecde9327" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a1cf416feb6fa51d5a0c968fcecde9327" kindref="member">error</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af334e17963679cbe96f5b46ffa2389e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af334e17963679cbe96f5b46ffa2389e8" kindref="member">sinks_written</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ingest()<sp/>—<sp/>main<sp/>entry<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>BridgeResult<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab6655f308acc9326eb9812e9034f1aee" kindref="member">ingest</ref>(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::span&lt;const<sp/>std::byte&gt;<sp/>data,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>BridgeResult<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a53a7e51f065f1d040536c976c95d710c" kindref="member">enrichExisting</ref>(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IngestionToolbox&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" kindref="member">toolbox</ref>()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;content::ContentManager&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1af5326682453b301635796bf6ecc51b52" kindref="member">contentManager</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a00a12d5ac938836295979ee2c6ef5f97" kindref="member">graphWriter</ref>()<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IVectorWriter&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ac55b1c7e4a44b35a6424b89c1dca5688" kindref="member">vectorWriter</ref>()<sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prometheus<sp/>metrics<sp/>(Phase<sp/>2.4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a74e40a08148bf06fc6705440a81a4bb9" kindref="member">failuresTotal</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a37508ed08675ed05c073ef865941cae9" kindref="member">graphWriteFailuresTotal</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a81e2bc0bd31a150c87658eec1a2ade29" kindref="member">vectorWriteFailuresTotal</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox_1a4cb625f10f049a5d0ad587483da76a95" kindref="member">getMetricsText</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/>Impl;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordLatency(uint64_t<sp/>latency_ms)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>toolbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/toolbox/content_toolbox_bridge.h"/>
+  </compounddef>
+</doxygen>

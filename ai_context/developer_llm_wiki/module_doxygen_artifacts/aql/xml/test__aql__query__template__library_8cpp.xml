@@ -1,0 +1,818 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__query__template__library_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_query_template_library.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="aql__query__template__library_8h" local="yes">aql/aql_query_template_library.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>aql/aql_query_template_library.h</label>
+        <link refid="aql__query__template__library_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_query_template_library.cpp</label>
+        <link refid="test__aql__query__template__library_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_query_template_library_test" prot="public">AQLQueryTemplateLibraryTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1adbb30312f73aec47f41e8656e99d3a87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, BuiltinsAreRegistered)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>BuiltinsAreRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="24" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a071268e089ed6dd32ee2d71355af5d25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, SimpleScanTemplateExists)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>SimpleScanTemplateExists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="28" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a4320ed0978c0b19ad403c1b36fc33588" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, AllBuiltinIdsAreUnique)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>AllBuiltinIdsAreUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="35" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="35" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a6b9d0ff36677d1d5420367c933407b0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, AllBuiltinTemplatesHaveParameters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>AllBuiltinTemplatesHaveParameters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="47" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a4d74ad21f1793f10763e094d6ecee8a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, FindByIdReturnsNullForUnknown)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>FindByIdReturnsNullForUnknown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="58" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1af14f7bb657d8dbe4dc0127a27686ea4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, FindByTagGraphReturnsGraphTemplates)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>FindByTagGraphReturnsGraphTemplates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="62" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="62" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1aaf8f1e0c35f28d1f98d6966cea0f6823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, FindByTagCaseInsensitive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>FindByTagCaseInsensitive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="74" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="74" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a137375eb82b31300815e57d08b31fa72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, FindByTagUnknownReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>FindByTagUnknownReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="80" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a02299ac22d036f30862644b02779d82d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, SearchByKeywordFindsMatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>SearchByKeywordFindsMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="85" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1acf1445a164c299e237a9e2f851e6f571" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, SearchCaseInsensitive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>SearchCaseInsensitive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="90" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1ad64e5578fd9184e2e16ff2d02d87715a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, SearchNoMatchReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>SearchNoMatchReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="96" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1ae5f200d4995d32fb96c656d9c22e83f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, RegisterCustomTemplate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterCustomTemplate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="105" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="105" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a5bf32931489ed19ab7fed36a32632fc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, RegisterDuplicateIdThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterDuplicateIdThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="121" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="121" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1aa4dbb575bfba75672e0406c51b304346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, RegisterEmptyIdThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterEmptyIdThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="130" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a2ed18431fa38e3c81638f09a661b6787" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, InstantiateSimpleScan)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>InstantiateSimpleScan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="142" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="142" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1ae56183339fc8e876c84519cbae4af419" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, InstantiateFilteredScan)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>InstantiateFilteredScan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="151" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="151" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a341208cf60ccd18bce09042e7dbfce6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, InstantiateGraphTraversal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>InstantiateGraphTraversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="162" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="162" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1ad88d88f0d2b6c35494c35cfd168fb0fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, InstantiateReplacesAllOccurrences)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>InstantiateReplacesAllOccurrences</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="177" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1acec2a4119984c1a7f26572cb0784d038" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, InstantiateMissingParameterThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>InstantiateMissingParameterThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="187" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="187" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a5929acbd6276f7b9f897a48a38ca46a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, InstantiateUnknownIdThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>InstantiateUnknownIdThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="194" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="194" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a9aa41e4910b0a6c3f835a70e7c6bddca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, StaticInstantiateWorksDirectly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>StaticInstantiateWorksDirectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="201" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="201" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a891e7037672ca6307b83e035ff3a300a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, InstantiateVectorSimilarity)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>InstantiateVectorSimilarity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="211" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="211" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1ad0638a247d7b010ac800e4085dd7e94d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, InstantiateGroupCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>InstantiateGroupCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="223" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="223" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a72c248ed9930bd016e5ee59cd0ec9ca5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, VectorTemplateHasVectorTag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>VectorTemplateHasVectorTag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="238" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="238" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1aa52fb87d26fdc6e4b06e90c0fff61c38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, AggregationTemplatesPresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>AggregationTemplatesPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="243" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="243" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1ae7fa78d067e70ef14d68d203ab156b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, WriteTemplatesPresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>WriteTemplatesPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="248" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="248" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__template__library_8cpp_1a29787c8550316cb3a3d219fe568cb19a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryTemplateLibraryTest, TimeseriesTemplatePresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref></type>
+        </param>
+        <param>
+          <type>TimeseriesTemplatePresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="253" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="253" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1aql_1_1_a_q_l_query_template_library" kindref="compound">AQLQueryTemplateLibrary</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__query__template__library_8h" kindref="compound">aql/aql_query_template_library.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="class_a_q_l_query_template_library_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_query_template_library" kindref="compound">AQLQueryTemplateLibrary</ref><sp/><ref refid="class_a_q_l_query_template_library_test_1aa2976959242fb618bdad7552d86618e1" kindref="member">lib</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Built-in<sp/>template<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>BuiltinsAreRegistered)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(lib.all().empty());</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>SimpleScanTemplateExists)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>tmpl<sp/>=<sp/>lib.findById(</highlight><highlight class="stringliteral">&quot;simple_scan&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(tmpl,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tmpl-&gt;id,<sp/></highlight><highlight class="stringliteral">&quot;simple_scan&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tmpl-&gt;template_body.empty());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>AllBuiltinIdsAreUnique)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>all<sp/>=<sp/>lib.all();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/>counts<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>all)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++counts[t.id];</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>cnt]<sp/>:<sp/>counts)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(cnt,<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;duplicate<sp/>id:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>id;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>AllBuiltinTemplatesHaveParameters)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>tmpl<sp/>:<sp/>lib.all())<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(tmpl.parameters.empty())</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;template<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>tmpl.id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>no<sp/>parameters<sp/>list&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>FindByIdReturnsNullForUnknown)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lib.findById(</highlight><highlight class="stringliteral">&quot;no_such_template&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>FindByTagGraphReturnsGraphTemplates)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>lib.findByTag(</highlight><highlight class="stringliteral">&quot;graph&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_tag<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>tag<sp/>:<sp/>t.tags)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tag<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;graph&quot;</highlight><highlight class="normal">)<sp/>{<sp/>has_tag<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_tag)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;template<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>t.id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>missing<sp/>&apos;graph&apos;<sp/>tag&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>FindByTagCaseInsensitive)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lower<sp/>=<sp/>lib.findByTag(</highlight><highlight class="stringliteral">&quot;graph&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>upper<sp/>=<sp/>lib.findByTag(</highlight><highlight class="stringliteral">&quot;GRAPH&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lower.size(),<sp/>upper.size());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>FindByTagUnknownReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>lib.findByTag(</highlight><highlight class="stringliteral">&quot;xyzzy_nonexistent_tag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>SearchByKeywordFindsMatch)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>lib.search(</highlight><highlight class="stringliteral">&quot;traversal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>SearchCaseInsensitive)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lower<sp/>=<sp/>lib.search(</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>upper<sp/>=<sp/>lib.search(</highlight><highlight class="stringliteral">&quot;VECTOR&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lower.size(),<sp/>upper.size());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>SearchNoMatchReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>lib.search(</highlight><highlight class="stringliteral">&quot;xyzzy_no_match_7439&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Custom<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>RegisterCustomTemplate)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref><sp/>custom;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a901d7e999aeda19df91e82df4268c395" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my_custom&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a47b27328d1c1e6ff31b6baa6cb26c18d" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;My<sp/>Custom<sp/>Query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a833d3919d8dfe30b753293f69fd0ce60" kindref="member">description</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>custom<sp/>template<sp/>for<sp/>testing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1ab21c30aaed4efa79750b638390779c4c" kindref="member">template_body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>{{var}}<sp/>IN<sp/>{{coll}}<sp/>RETURN<sp/>{{var}}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1ac9482a2f3614004d241a3e69988f00a7" kindref="member">tags</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;custom&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a1d36206814316802ce3eff3f42ed688c" kindref="member">parameters</ref><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coll&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(lib.registerTemplate(custom));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>found<sp/>=<sp/>lib.findById(</highlight><highlight class="stringliteral">&quot;my_custom&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(found,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found-&gt;name,<sp/></highlight><highlight class="stringliteral">&quot;My<sp/>Custom<sp/>Query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>RegisterDuplicateIdThrows)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref><sp/>dup;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>dup.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a901d7e999aeda19df91e82df4268c395" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;simple_scan&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>already<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>dup.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1ab21c30aaed4efa79750b638390779c4c" kindref="member">template_body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>y<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>dup.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a1d36206814316802ce3eff3f42ed688c" kindref="member">parameters</ref><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(lib.registerTemplate(dup),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>RegisterEmptyIdThrows)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref><sp/>empty_id;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>empty_id.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a901d7e999aeda19df91e82df4268c395" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>empty_id.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1ab21c30aaed4efa79750b638390779c4c" kindref="member">template_body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>y<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(lib.registerTemplate(empty_id),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Instantiation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>InstantiateSimpleScan)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>lib.instantiate(</highlight><highlight class="stringliteral">&quot;simple_scan&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>documents&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;RETURN<sp/>doc&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>InstantiateFilteredScan)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>lib.instantiate(</highlight><highlight class="stringliteral">&quot;filtered_scan&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;condition&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;u.age<sp/>&gt;<sp/>18&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;FILTER<sp/>u.age<sp/>&gt;<sp/>18&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;RETURN<sp/>u&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>InstantiateGraphTraversal)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>lib.instantiate(</highlight><highlight class="stringliteral">&quot;graph_traversal&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;start_node&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/42&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;edge_coll&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;friends&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;depth_min&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;depth_max&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;3&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;direction&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;OUTBOUND&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;1..3&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;OUTBOUND&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;users/42&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;friends&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>InstantiateReplacesAllOccurrences)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;simple_scan&quot;<sp/>uses<sp/>{{var}}<sp/>twice<sp/>(in<sp/>FOR<sp/>and<sp/>RETURN)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>lib.instantiate(</highlight><highlight class="stringliteral">&quot;simple_scan&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>sure<sp/>both<sp/>occurrences<sp/>were<sp/>replaced<sp/>(no<sp/>{{var}}<sp/>left)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;{{var}}&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>InstantiateMissingParameterThrows)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lib.instantiate(</highlight><highlight class="stringliteral">&quot;simple_scan&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">}}),<sp/><sp/></highlight><highlight class="comment">//<sp/>missing<sp/>&quot;collection&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>InstantiateUnknownIdThrows)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lib.instantiate(</highlight><highlight class="stringliteral">&quot;no_such_id&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>StaticInstantiateWorksDirectly)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref><sp/>tmpl;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>tmpl.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a901d7e999aeda19df91e82df4268c395" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;inline&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>tmpl.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1ab21c30aaed4efa79750b638390779c4c" kindref="member">template_body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>{{v}}<sp/>IN<sp/>{{c}}<sp/>RETURN<sp/>{{v}}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>tmpl.<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a1d36206814316802ce3eff3f42ed688c" kindref="member">parameters</ref><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a82c007638b3c4f6147bb03d085065805" kindref="member">AQLQueryTemplateLibrary::instantiate</ref>(tmpl,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>items&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>InstantiateVectorSimilarity)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>lib.instantiate(</highlight><highlight class="stringliteral">&quot;vector_similarity&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;embeddings&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;vector_field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;10&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;SIMILARITY&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;embeddings&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;10&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>InstantiateGroupCount)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>lib.instantiate(</highlight><highlight class="stringliteral">&quot;group_count&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;var&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;o&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;group_var&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;group_field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;COLLECT&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>.find(</highlight><highlight class="stringliteral">&quot;WITH<sp/>COUNT<sp/>INTO<sp/>count&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tags<sp/>on<sp/>built-ins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>VectorTemplateHasVectorTag)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>lib.findByTag(</highlight><highlight class="stringliteral">&quot;vector&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>AggregationTemplatesPresent)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>lib.findByTag(</highlight><highlight class="stringliteral">&quot;aggregation&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>WriteTemplatesPresent)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>lib.findByTag(</highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_template_library_test" kindref="compound">AQLQueryTemplateLibraryTest</ref>,<sp/>TimeseriesTemplatePresent)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>tmpl<sp/>=<sp/>lib.findById(</highlight><highlight class="stringliteral">&quot;timeseries_range&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(tmpl,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(tmpl-&gt;<ref refid="structthemis_1_1aql_1_1_a_q_l_query_template_1ab21c30aaed4efa79750b638390779c4c" kindref="member">template_body</ref>.find(</highlight><highlight class="stringliteral">&quot;{{ts_field}}&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_query_template_library.cpp"/>
+  </compounddef>
+</doxygen>

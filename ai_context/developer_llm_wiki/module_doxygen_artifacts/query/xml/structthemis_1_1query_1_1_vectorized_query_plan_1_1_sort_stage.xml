@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedQueryPlan::SortStage</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage_1aa10e1b9e7a70e0613b5c4c6658e826b5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_sort_key" kindref="compound">VectorizedSortKey</ref> &gt;</type>
+        <definition>std::vector&lt;VectorizedSortKey&gt; themis::query::VectorizedQueryPlan::SortStage::keys</definition>
+        <argsstring></argsstring>
+        <name>keys</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::SortStage::keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="195" column="38" bodyfile="include/query/vectorized_execution.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="195" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="195" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage_1aa10e1b9e7a70e0613b5c4c6658e826b5" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::SortStage</scope><name>keys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

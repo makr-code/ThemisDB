@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4a28e812c3f952cfdba3da68014b3c0c" kind="dir">
+    <compoundname>src/llm/security</compoundname>
+    <innerfile refid="signature__verifier_8cpp">signature_verifier.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/security/"/>
+  </compounddef>
+</doxygen>

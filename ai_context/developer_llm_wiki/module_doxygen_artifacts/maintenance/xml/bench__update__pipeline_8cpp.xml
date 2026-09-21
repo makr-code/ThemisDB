@@ -1,0 +1,472 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__update__pipeline_8cpp" kind="file" language="C++">
+    <compoundname>bench_update_pipeline.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="yes">updates/update_state_machine.h</includes>
+    <includes local="yes">updates/release_manifest.h</includes>
+    <includes local="yes">updates/delta_update_engine.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/maintenance/bench_update_pipeline.cpp</label>
+        <link refid="bench__update__pipeline_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="6">
+        <label>filesystem</label>
+      </node>
+      <node id="7">
+        <label>fstream</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>updates/delta_update_engine.h</label>
+      </node>
+      <node id="4">
+        <label>updates/release_manifest.h</label>
+      </node>
+      <node id="3">
+        <label>updates/update_state_machine.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_delta_engine_bench_fixture" prot="public">DeltaEngineBenchFixture</innerclass>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1ac1d989a9081099675eef76ba44f95a17" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_UpdateStateMachine_Transition</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_UpdateStateMachine_Transition</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="32" column="13" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="32" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1ad50291f834c562cbcada56e9b94f8485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_UpdateStateMachine_Transition) -&gt; Unit(benchmark::kNanosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_UpdateStateMachine_Transition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="48" column="1" declfile="benchmarks/maintenance/bench_update_pipeline.cpp" declline="48" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1a96c1614382eff9e13c4f4ccea25d9063" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_UpdateStateMachine_CurrentState</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_UpdateStateMachine_CurrentState</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="54" column="13" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="54" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1a05a1b00bd4c2bc18ddc7be4d02639719" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_UpdateStateMachine_CurrentState) -&gt; Unit(benchmark::kNanosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_UpdateStateMachine_CurrentState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="66" column="1" declfile="benchmarks/maintenance/bench_update_pipeline.cpp" declline="66" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1a1236649de642b2c372a25480ec5d5304" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_UpdateStateMachine_RollbackPath</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_UpdateStateMachine_RollbackPath</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="72" column="13" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="72" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1aa352041dcd7afb3b4f63c8c9f5f42a41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_UpdateStateMachine_RollbackPath) -&gt; Unit(benchmark::kNanosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_UpdateStateMachine_RollbackPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="85" column="1" declfile="benchmarks/maintenance/bench_update_pipeline.cpp" declline="85" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1ad0197e522ce3aaf4bb201a22b2637b7a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ReleaseManifest_JsonRoundTrip</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ReleaseManifest_JsonRoundTrip</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="91" column="13" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="91" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1a5c7b3aba80df6ff3446523642d6f206b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(1) -&gt; Arg(5) -&gt;Arg(20) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="122" column="5" declfile="benchmarks/maintenance/bench_update_pipeline.cpp" declline="122" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1af7aca12fc0370c9e11c281384f2ba069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DeltaEngineBenchFixture, GeneratePatch)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_delta_engine_bench_fixture" kindref="compound">DeltaEngineBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>GeneratePatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="173" column="1" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="173" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1a446cde30b1a8bff5a795306805ee3db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Iterations(200)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="182" column="5" declfile="benchmarks/maintenance/bench_update_pipeline.cpp" declline="182" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1aba6722b22b928907e6e8113829ca7283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DeltaEngineBenchFixture, ApplyPatch)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_delta_engine_bench_fixture" kindref="compound">DeltaEngineBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ApplyPatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="185" column="1" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="185" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__update__pipeline_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="200" column="1" declfile="benchmarks/maintenance/bench_update_pipeline.cpp" declline="200" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance benchmarks for the Updates module pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the following process lines:<itemizedlist>
+<listitem><para>UpdateStateMachine::transition() – state machine throughput</para>
+</listitem><listitem><para>UpdateStateMachine::currentState() – state read latency</para>
+</listitem><listitem><para>ReleaseManifest::toJson() / fromJson() – manifest serialisation</para>
+</listitem><listitem><para>DeltaUpdateEngine::generatePatch() / applyPatch() – binary diff cost</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance targets (src/updates/ROADMAP.md):<itemizedlist>
+<listitem><para>State transition: &lt; 1 µs</para>
+</listitem><listitem><para>currentState(): &lt; 100 ns</para>
+</listitem><listitem><para>Manifest JSON round-trip (5 files): &lt; 200 µs</para>
+</listitem><listitem><para>generatePatch (1 MB): &lt; 500 ms</para>
+</listitem><listitem><para>applyPatch (1 MB patch): &lt; 100 ms </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;updates/update_state_machine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;updates/release_manifest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;updates/delta_update_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::updates;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UpdateStateMachine<sp/>–<sp/>state<sp/>transition<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_UpdateStateMachine_Transition(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>UpdateStateMachine<sp/>sm;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>happy-path<sp/>cycle:<sp/>IDLE<sp/>→<sp/>DOWNLOADING<sp/>→<sp/>VERIFYING<sp/>→<sp/>APPLYING<sp/>→<sp/>IDLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(UpdateState::DOWNLOADING,<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(UpdateState::VERIFYING,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(UpdateState::APPLYING,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(UpdateState::IDLE,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sm.currentState());</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>4<sp/>transitions<sp/>per<sp/>iteration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.SetItemsProcessed(<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.iterations()<sp/>*<sp/>4);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="bench__update__pipeline_8cpp_1ad50291f834c562cbcada56e9b94f8485" kindref="member">BENCHMARK</ref>(BM_UpdateStateMachine_Transition)-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UpdateStateMachine<sp/>–<sp/>currentState()<sp/>read<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_UpdateStateMachine_CurrentState(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>UpdateStateMachine<sp/>sm;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.transition(UpdateState::DOWNLOADING,<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>sm.currentState();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(s);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.SetItemsProcessed(<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="bench__update__pipeline_8cpp_1ad50291f834c562cbcada56e9b94f8485" kindref="member">BENCHMARK</ref>(BM_UpdateStateMachine_CurrentState)-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UpdateStateMachine<sp/>–<sp/>rollback<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_UpdateStateMachine_RollbackPath(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>UpdateStateMachine<sp/>sm;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(UpdateState::DOWNLOADING,<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(UpdateState::VERIFYING,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(UpdateState::ROLLING_BACK,<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(UpdateState::IDLE,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sm.currentState());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.SetItemsProcessed(<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.iterations()<sp/>*<sp/>4);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="bench__update__pipeline_8cpp_1ad50291f834c562cbcada56e9b94f8485" kindref="member">BENCHMARK</ref>(BM_UpdateStateMachine_RollbackPath)-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ReleaseManifest<sp/>JSON<sp/>serialisation<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ReleaseManifest_JsonRoundTrip(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_files<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ReleaseManifest<sp/>manifest;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>manifest.version<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>manifest.release_date<sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>manifest.min_upgrade_from<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.4.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>manifest.release_notes<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Performance<sp/>benchmark<sp/>release.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_files;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ReleaseFile<sp/>f;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bin/component_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;executable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.sha256_hash<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;deadbeef&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.size_bytes<sp/><sp/>=<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.platform<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;linux&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.architecture<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;x64&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manifest.files.push_back(f);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json_obj<sp/>=<sp/>manifest.toJson();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/><sp/><sp/>=<sp/>ReleaseManifest::fromJson(json_obj);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(parsed);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.SetItemsProcessed(<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;files=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(num_files));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="bench__update__pipeline_8cpp_1ad50291f834c562cbcada56e9b94f8485" kindref="member">BENCHMARK</ref>(BM_ReleaseManifest_JsonRoundTrip)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(5)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(20)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DeltaUpdateEngine<sp/>–<sp/>generatePatch<sp/>/<sp/>applyPatch<sp/>(small<sp/>files,<sp/>no<sp/>I/O)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="class_delta_engine_bench_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_delta_engine_bench_fixture" kindref="compound">DeltaEngineBenchFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_bench_fixture_1a481dbd5237a00701f4dfec1df81a886c" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/bench_delta_engine_tmp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref>);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(<ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>base<sp/>file<sp/>(1<sp/>KB<sp/>of<sp/>repeating<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1a428f3e2004d1d29db2417c57323ffebd" kindref="member">base_path_</ref><sp/><sp/>=<sp/><ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/base.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1a2d52027dc8e6489fdc989534910df783" kindref="member">patch_path_</ref><sp/>=<sp/><ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/patch.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1a848d029f06eb6bc3b9f290c1140766a3" kindref="member">target_path_</ref>=<sp/><ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/target.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1af02caa40e4f42eef06b098292cb5f5f9" kindref="member">new_path_</ref><sp/><sp/><sp/>=<sp/><ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/new.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>base_data(1024,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream(<ref refid="class_delta_engine_bench_fixture_1a428f3e2004d1d29db2417c57323ffebd" kindref="member">base_path_</ref>,<sp/>std::ios::binary)<sp/>&lt;&lt;<sp/>base_data;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>differs<sp/>in<sp/>the<sp/>last<sp/>16<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>target_data<sp/>=<sp/>base_data;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_data.replace(1008,<sp/>16,<sp/>std::string(16,<sp/></highlight><highlight class="charliteral">&apos;Z&apos;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream(<ref refid="class_delta_engine_bench_fixture_1a848d029f06eb6bc3b9f290c1140766a3" kindref="member">target_path_</ref>,<sp/>std::ios::binary)<sp/>&lt;&lt;<sp/>target_data;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1abcd14352f1aa831412c918500f80c7b1" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;DeltaUpdateEngine&gt;(<ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref>,<sp/><ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref>);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_bench_fixture_1abbbcb239de3a710d7cc2903519cb54c2" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1abcd14352f1aa831412c918500f80c7b1" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref>);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" kindref="member">work_dir_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1a428f3e2004d1d29db2417c57323ffebd" kindref="member">base_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1a2d52027dc8e6489fdc989534910df783" kindref="member">patch_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1a848d029f06eb6bc3b9f290c1140766a3" kindref="member">target_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1af02caa40e4f42eef06b098292cb5f5f9" kindref="member">new_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DeltaUpdateEngine&gt;<sp/><sp/><sp/><ref refid="class_delta_engine_bench_fixture_1abcd14352f1aa831412c918500f80c7b1" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="bench__update__pipeline_8cpp_1af7aca12fc0370c9e11c281384f2ba069" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_delta_engine_bench_fixture" kindref="compound">DeltaEngineBenchFixture</ref>,<sp/>GeneratePatch)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>engine_-&gt;generatePatch(base_path_,<sp/>target_path_,<sp/>patch_path_);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.SetItemsProcessed(<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_delta_engine_bench_fixture" kindref="compound">DeltaEngineBenchFixture</ref>,<sp/>GeneratePatch)</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(200);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="bench__update__pipeline_8cpp_1af7aca12fc0370c9e11c281384f2ba069" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_delta_engine_bench_fixture" kindref="compound">DeltaEngineBenchFixture</ref>,<sp/>ApplyPatch)(benchmark::State&amp;<sp/><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-generate<sp/>the<sp/>patch<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;generatePatch(base_path_,<sp/>target_path_,<sp/>patch_path_);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>engine_-&gt;applyPatch(base_path_,<sp/>patch_path_,<sp/>new_path_);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.SetItemsProcessed(<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_delta_engine_bench_fixture" kindref="compound">DeltaEngineBenchFixture</ref>,<sp/>ApplyPatch)</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(200);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="bench__update__pipeline_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/maintenance/bench_update_pipeline.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_high_cardinality_stress" kind="class" language="C++" prot="public">
+    <compoundname>ProcessHighCardinalityStress</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_process_high_cardinality_stress_1ac60bdc4f0707de608fd5d8351ab48976" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int ProcessHighCardinalityStress::kProcesses</definition>
+        <argsstring></argsstring>
+        <name>kProcesses</name>
+        <qualifiedname>ProcessHighCardinalityStress::kProcesses</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="117" column="26" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_high_cardinality_stress_1a8fe0133ed46fd75fc0b1e2247f09dae2" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int ProcessHighCardinalityStress::kThreads</definition>
+        <argsstring></argsstring>
+        <name>kThreads</name>
+        <qualifiedname>ProcessHighCardinalityStress::kThreads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="118" column="26" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProcessHighCardinalityStress</label>
+        <link refid="class_process_high_cardinality_stress"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessHighCardinalityStress</label>
+        <link refid="class_process_high_cardinality_stress"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_highcardinality_stress.cpp" line="115" column="1" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="115" bodyend="119"/>
+    <listofallmembers>
+      <member refid="class_process_high_cardinality_stress_1ac60bdc4f0707de608fd5d8351ab48976" prot="protected" virt="non-virtual"><scope>ProcessHighCardinalityStress</scope><name>kProcesses</name></member>
+      <member refid="class_process_high_cardinality_stress_1a8fe0133ed46fd75fc0b1e2247f09dae2" prot="protected" virt="non-virtual"><scope>ProcessHighCardinalityStress</scope><name>kThreads</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

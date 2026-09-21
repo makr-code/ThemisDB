@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_adaptive_query_cache" prot="public">themis::AdaptiveQueryCache</innerclass>
+    <innerclass refid="classthemis_1_1_embedding_cache" prot="public">themis::EmbeddingCache</innerclass>
+    <innerclass refid="structthemis_1_1_embedding_cache_impl" prot="public">themis::EmbeddingCacheImpl</innerclass>
+    <innerclass refid="classthemis_1_1_semantic_cache" prot="public">themis::SemanticCache</innerclass>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1ac910390fcea4a3565f388f46e562f3b6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::QUERY_CACHE_PREFIX_LEN</definition>
+        <argsstring></argsstring>
+        <name>QUERY_CACHE_PREFIX_LEN</name>
+        <qualifiedname>themis::QUERY_CACHE_PREFIX_LEN</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="40" column="18" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a858a197a39ded0cbf9e320d38da31b80" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::QUERY_CACHE_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>QUERY_CACHE_PREFIX</name>
+        <qualifiedname>themis::QUERY_CACHE_PREFIX</qualifiedname>
+        <initializer>= &quot;query_cache:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="41" column="22" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1addc8a099984619eaaf49638fcbecdb31" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::RETRY_BACKOFF_MULTIPLIER</definition>
+        <argsstring></argsstring>
+        <name>RETRY_BACKOFF_MULTIPLIER</name>
+        <qualifiedname>themis::RETRY_BACKOFF_MULTIPLIER</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="42" column="15" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a73408deeb5e11b50248834950bd013f9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ADAPTIVE_TTL_WINDOW_MS</definition>
+        <argsstring></argsstring>
+        <name>ADAPTIVE_TTL_WINDOW_MS</name>
+        <qualifiedname>themis::ADAPTIVE_TTL_WINDOW_MS</qualifiedname>
+        <initializer>= 5 * 60 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="43" column="19" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a75bd4e72356e63e3c565cb0c205adf03" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::kL3LockTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>kL3LockTimeoutMs</name>
+        <qualifiedname>themis::kL3LockTimeoutMs</qualifiedname>
+        <initializer>= std::chrono::milliseconds(1000)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="46" column="16" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a643f3010511eed359b751b5919750d51" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::kL3InitMaxRetries</definition>
+        <argsstring></argsstring>
+        <name>kL3InitMaxRetries</name>
+        <qualifiedname>themis::kL3InitMaxRetries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="50" column="15" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a63c4d654701ed43ad961954ba84fe2f4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::kL3InitRetryDelayMs</definition>
+        <argsstring></argsstring>
+        <name>kL3InitRetryDelayMs</name>
+        <qualifiedname>themis::kL3InitRetryDelayMs</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="51" column="15" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a03b9eef681ee02d5ca2692c02b591448" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::kL3InitMaxTotalDelayMs</definition>
+        <argsstring></argsstring>
+        <name>kL3InitMaxTotalDelayMs</name>
+        <qualifiedname>themis::kL3InitMaxTotalDelayMs</qualifiedname>
+        <initializer>= 3000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="52" column="15" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a7b192ef2fb96bde3dbffbc02ea738e49" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::kAbsoluteMaxEntrySizeBytes</definition>
+        <argsstring></argsstring>
+        <name>kAbsoluteMaxEntrySizeBytes</name>
+        <qualifiedname>themis::kAbsoluteMaxEntrySizeBytes</qualifiedname>
+        <initializer>= 67108864</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="55" column="19" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a4390eaba5e83544543656a2df352e05c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::kAbsoluteMaxTTLSeconds</definition>
+        <argsstring></argsstring>
+        <name>kAbsoluteMaxTTLSeconds</name>
+        <qualifiedname>themis::kAbsoluteMaxTTLSeconds</qualifiedname>
+        <initializer>= 86400</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/adaptive_query_cache.cpp" line="56" column="19" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Cache Replication for High-Availability Deployments</para>
+<para>Provides an interface for propagating cache writes, invalidations, and full snapshots to standby replica nodes so that a replica can serve cached data immediately after a primary failure.</para>
+<para>Design principles:<itemizedlist>
+<listitem><para>Transport-agnostic: the caller supplies a concrete ICacheReplicationListener implementation (in-process, TCP, gRPC, …).</para>
+</listitem><listitem><para>Graceful degradation: a failing replica is marked UNHEALTHY and skipped until it recovers; the primary continues serving requests.</para>
+</listitem><listitem><para>Consistent with the existing themisdb::replication::IReplicationListener interface style used in include/replication/replication_manager.h.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>Cache Replication for High-Availability Deployments – Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/cache/adaptive_query_cache.h" line="36" column="1"/>
+  </compounddef>
+</doxygen>

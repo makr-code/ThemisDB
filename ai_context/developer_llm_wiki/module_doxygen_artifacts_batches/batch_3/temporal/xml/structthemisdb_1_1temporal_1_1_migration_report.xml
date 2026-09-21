@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_migration_report" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::MigrationReport</compoundname>
+    <includes refid="temporal__migrator_8h" local="no">temporal_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_report_1abef0b8cf88143be1bd3835de55854edc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::MigrationReport::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::temporal::MigrationReport::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="197" column="35" bodyfile="include/temporal/temporal_migrator.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_report_1a69f5fd04cb8b911e1d2643763f234d07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::MigrationReport::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themisdb::temporal::MigrationReport::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="198" column="35" bodyfile="include/temporal/temporal_migrator.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_report_1a9b958d55feb9d4c8619f1f06533ade8f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_migration_stats" kindref="compound">MigrationStats</ref></type>
+        <definition>MigrationStats themisdb::temporal::MigrationReport::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themisdb::temporal::MigrationReport::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="199" column="35" bodyfile="include/temporal/temporal_migrator.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_report_1a50d9813fdbb29e9600fe6b3400d0f19d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_validation_result" kindref="compound">ValidationResult</ref> &gt;</type>
+        <definition>std::vector&lt;ValidationResult&gt; themisdb::temporal::MigrationReport::checks</definition>
+        <argsstring></argsstring>
+        <name>checks</name>
+        <qualifiedname>themisdb::temporal::MigrationReport::checks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="200" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_migration_report_1a9f101797ee51eb809bc9385837eedf91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::MigrationReport::failedCheckCount</definition>
+        <argsstring>() const</argsstring>
+        <name>failedCheckCount</name>
+        <qualifiedname>themisdb::temporal::MigrationReport::failedCheckCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Aggregate: number of checks that failed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="203" column="12" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="166" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_migration_report_1ac1d3355e8c459403b3dca9caf358afc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::MigrationReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::MigrationReport::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="205" column="20" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="172" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Summary produced by verifyMigration().</para>
+<para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_migration_report_1abef0b8cf88143be1bd3835de55854edc" kindref="member">success</ref></computeroutput> is true only when ALL <ref refid="structthemisdb_1_1temporal_1_1_validation_result" kindref="compound">ValidationResult</ref> entries have <computeroutput>passed == true</computeroutput>. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::MigrationReport</label>
+        <link refid="structthemisdb_1_1temporal_1_1_migration_report"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::MigrationStats</label>
+        <link refid="structthemisdb_1_1temporal_1_1_migration_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/temporal_migrator.h" line="196" column="1" bodyfile="include/temporal/temporal_migrator.h" bodystart="196" bodyend="206"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_report_1a50d9813fdbb29e9600fe6b3400d0f19d" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationReport</scope><name>checks</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_report_1a9f101797ee51eb809bc9385837eedf91" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationReport</scope><name>failedCheckCount</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_report_1a9b958d55feb9d4c8619f1f06533ade8f" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationReport</scope><name>stats</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_report_1abef0b8cf88143be1bd3835de55854edc" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationReport</scope><name>success</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_report_1a69f5fd04cb8b911e1d2643763f234d07" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationReport</scope><name>table_name</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_report_1ac1d3355e8c459403b3dca9caf358afc5" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationReport</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

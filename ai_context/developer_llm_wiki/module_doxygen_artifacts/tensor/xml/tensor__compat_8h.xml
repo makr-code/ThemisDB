@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__compat_8h" kind="file" language="C++">
+    <compoundname>tensor_compat.h</compoundname>
+    <includes local="yes">storage/tensor_train_decomposer.h</includes>
+    <includedby refid="adapter__repository_8h" local="yes">include/tensor/adapter_repository.h</includedby>
+    <includedby refid="compression__strategy_8h" local="yes">include/tensor/compression_strategy.h</includedby>
+    <includedby refid="tensor__fingerprint__graph_8h" local="yes">include/tensor/tensor_fingerprint_graph.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/tensor/tensor_compat.h</label>
+        <link refid="tensor__compat_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/tensor/bench_tensor_integration_baseline.cpp</label>
+        <link refid="bench__tensor__integration__baseline_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/tensor/adapter_repository.h</label>
+        <link refid="adapter__repository_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/tensor/compression_strategy.h</label>
+        <link refid="compression__strategy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/tensor/persistent_tensor_fingerprint_graph.h</label>
+        <link refid="persistent__tensor__fingerprint__graph_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_compat.h</label>
+        <link refid="tensor__compat_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/tensor/tensor_error_handling.h</label>
+        <link refid="tensor__error__handling_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/tensor/tensor_fingerprint_graph.h</label>
+        <link refid="tensor__fingerprint__graph_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/tensor/tensor_mid_layer.h</label>
+        <link refid="tensor__mid__layer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/tensor/tensor_redundancy_detection.h</label>
+        <link refid="tensor__redundancy__detection_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/tensor/tensor_routing_strategy.h</label>
+        <link refid="tensor__routing__strategy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/tensor/tensor_summary_types.h</label>
+        <link refid="tensor__summary__types_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>src/tensor/adapter_repository.cpp</label>
+        <link refid="adapter__repository_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/tensor/compression_strategy.cpp</label>
+        <link refid="compression__strategy_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/tensor/persistent_tensor_fingerprint_graph.cpp</label>
+        <link refid="persistent__tensor__fingerprint__graph_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/tensor/tensor_error_handling.cpp</label>
+        <link refid="tensor__error__handling_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/tensor/tensor_fingerprint_graph.cpp</label>
+        <link refid="tensor__fingerprint__graph_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/tensor/tensor_mid_layer.cpp</label>
+        <link refid="tensor__mid__layer_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/tensor/tensor_redundancy_detection.cpp</label>
+        <link refid="tensor__redundancy__detection_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/tensor/tensor_routing_strategy.cpp</label>
+        <link refid="tensor__routing__strategy_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/tensor/tensor_summary_types.cpp</label>
+        <link refid="tensor__summary__types_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/tensor/test_federated_tensor_summaries.cpp</label>
+        <link refid="test__federated__tensor__summaries_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/tensor/test_persistent_tensor_fingerprint_graph.cpp</label>
+        <link refid="test__persistent__tensor__fingerprint__graph_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/tensor/test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp</label>
+        <link refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/tensor/test_tensor_mid_layer_abstractions.cpp</label>
+        <link refid="test__tensor__mid__layer__abstractions_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/tensor/test_tensor_mid_layer_integration.cpp</label>
+        <link refid="test__tensor__mid__layer__integration_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/tensor/test_tensor_phase3.cpp</label>
+        <link refid="test__tensor__phase3_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/tensor/test_tensor_stress_suite_focused.cpp</label>
+        <link refid="test__tensor__stress__suite__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_train" prot="public">themis::tensor::TensorTrain</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_train_core" prot="public">themis::tensor::TensorTrainCore</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Compatibility aliases for legacy tensor type names. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides lightweight wrapper types and aliases so that tests and tool code using older ThemisDB tensor type names continue to compile. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compatibility<sp/>aliases<sp/>and<sp/>lightweight<sp/>wrappers<sp/>for<sp/>legacy<sp/>test/type<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_train_decomposer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lightweight<sp/>metadata<sp/>struct<sp/>previously<sp/>exposed<sp/>as<sp/>`TensorTrain`<sp/>in<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="structthemis_1_1tensor_1_1_tensor_train" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_tensor_train" kindref="compound">TensorTrain</ref><sp/>{</highlight></codeline>
+<codeline lineno="19" refid="structthemis_1_1tensor_1_1_tensor_train_1a5a5c59b070aa72d223e894b6ba768b93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_1a5a5c59b070aa72d223e894b6ba768b93" kindref="member">order</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1tensor_1_1_tensor_train_1aff62a9c70599b5cd1c484658e6a0be3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_1aff62a9c70599b5cd1c484658e6a0be3f" kindref="member">shape</ref>;</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1tensor_1_1_tensor_train_1a796bca53c7c209e9b0f2fec7bb33c77e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_1a796bca53c7c209e9b0f2fec7bb33c77e" kindref="member">ranks</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wrapper<sp/>around<sp/>storage::TTTrain<sp/>that<sp/>exposes<sp/>a<sp/>`cores`<sp/>member<sp/>for<sp/>legacy<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>provides<sp/>implicit<sp/>conversion<sp/>to<sp/>the<sp/>canonical<sp/>storage<sp/>type.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1tensor_1_1_tensor_train_core" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a5e626d72337218a799a1cef48c6a6bff" kindref="member">TensorTrainCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1b49071984c9dca5f569dea003b9e825" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::storage::TTTrain<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1b49071984c9dca5f569dea003b9e825" kindref="member">train</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1tensor_1_1_tensor_train_core_1a6c9da3dd0bef7f45e6792939047b4b06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;themis::storage::TTCore&gt;&amp;<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a6c9da3dd0bef7f45e6792939047b4b06" kindref="member">cores</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1tensor_1_1_tensor_train_core_1a5e626d72337218a799a1cef48c6a6bff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a5e626d72337218a799a1cef48c6a6bff" kindref="member">TensorTrainCore</ref>()<sp/>:<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1b49071984c9dca5f569dea003b9e825" kindref="member">train</ref>(),<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a6c9da3dd0bef7f45e6792939047b4b06" kindref="member">cores</ref>(<ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1b49071984c9dca5f569dea003b9e825" kindref="member">train</ref>.<ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a6c9da3dd0bef7f45e6792939047b4b06" kindref="member">cores</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implicit<sp/>conversion<sp/>so<sp/>functions<sp/>expecting<sp/>storage::TTTrain<sp/>accept<sp/>this.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1e500a2c62b4cfa6fa3de4826f3dff97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::storage::TTTrain&amp;()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1b49071984c9dca5f569dea003b9e825" kindref="member">train</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1tensor_1_1_tensor_train_core_1ae7e6cb3f3aa2f1c4f223e08a08d3e3f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>themis::storage::TTTrain&amp;()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1b49071984c9dca5f569dea003b9e825" kindref="member">train</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>for<sp/>classes<sp/>declared<sp/>elsewhere<sp/>in<sp/>the<sp/>tensor<sp/>headers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SimilarityBasedDetector;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TTDecompositionStrategy;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Legacy<sp/>detector<sp/>alias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1tensor_1ae59a569acb81a278a6e9c4ee8e3811d2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1ae59a569acb81a278a6e9c4ee8e3811d2" kindref="member">SimilarityBasedRedundancyDetector</ref><sp/>=<sp/><ref refid="classthemis_1_1tensor_1_1_similarity_based_detector" kindref="compound">SimilarityBasedDetector</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Legacy<sp/>generic<sp/>name<sp/>for<sp/>the<sp/>primary<sp/>compression<sp/>strategy<sp/>(map<sp/>to<sp/>TT<sp/>strategy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1tensor_1ad0b0ce94f843d450d14cf28668f6f2ef" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1ad0b0ce94f843d450d14cf28668f6f2ef" kindref="member">CompressionStrategy</ref><sp/>=<sp/><ref refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy" kindref="compound">TTDecompositionStrategy</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/tensor_compat.h"/>
+  </compounddef>
+</doxygen>

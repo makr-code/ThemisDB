@@ -1,0 +1,466 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_database_connector" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::DatabaseConnector</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_source_connector" prot="public" virt="non-virtual">themis::ingestion::ISourceConnector</basecompoundref>
+    <includes refid="database__connector_8h" local="no">database_connector.h</includes>
+    <innerclass refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl" prot="public">themis::ingestion::DatabaseConnector::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_database_connector_1a4736f89fa5491e8665770db7a75b6837" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>using themis::ingestion::DatabaseConnector::DbRow = std::unordered_map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>DbRow</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::DbRow</qualifiedname>
+        <briefdescription>
+<para>Row type: a mapping of column-name → cell-value strings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="149" column="5" bodyfile="include/ingestion/database_connector.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_database_connector_1ab282e1025e93ee6e087d35ef7047943d" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="classthemis_1_1ingestion_1_1_database_connector_1a4736f89fa5491e8665770db7a75b6837" kindref="member">DbRow</ref> &gt;()&gt;</type>
+        <definition>using themis::ingestion::DatabaseConnector::RowFetchFn = std::function&lt;std::vector&lt;DbRow&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>RowFetchFn</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::RowFetchFn</qualifiedname>
+        <briefdescription>
+<para>Function type for providing database row batches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each call should return the next batch of rows. Return an empty vector to signal end-of-result-set. Injected via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_database_connector_1a0b9a4c0711cd41bc6059b7fa9f9c050c" kindref="member">setRowFetchForTesting()</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="157" column="5" bodyfile="include/ingestion/database_connector.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1a38391f470a68264700341ea076f8c2f1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::DatabaseConnector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="171" column="21" bodyfile="include/ingestion/database_connector.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1ae6cf41a559a7e17f35ae8edd6725e060" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DatabaseConnector::DatabaseConnector</definition>
+        <argsstring>()</argsstring>
+        <name>DatabaseConnector</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::DatabaseConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="97" column="5" bodyfile="src/ingestion/database_connector.cpp" bodystart="829" bodyend="830"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a04f7acfbf80356aa5f9cc46273b3141c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DatabaseConnector::~DatabaseConnector</definition>
+        <argsstring>() override</argsstring>
+        <name>~DatabaseConnector</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::~DatabaseConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a8a806085c852b3bfb5054ea814cda655" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DatabaseConnector::DatabaseConnector</definition>
+        <argsstring>(const DatabaseConnector &amp;)=delete</argsstring>
+        <name>DatabaseConnector</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::DatabaseConnector</qualifiedname>
+        <param>
+          <type>const DatabaseConnector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a067274871cacbfa0e6406d89db620a7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_database_connector_1ae6cf41a559a7e17f35ae8edd6725e060" kindref="member">DatabaseConnector</ref> &amp;</type>
+        <definition>DatabaseConnector &amp; themis::ingestion::DatabaseConnector::operator=</definition>
+        <argsstring>(const DatabaseConnector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_database_connector_1ae6cf41a559a7e17f35ae8edd6725e060" kindref="member">DatabaseConnector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="102" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a92f61956041107e93ad90399f67be6aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::DatabaseConnector::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the connector from a source configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must have <computeroutput>type == <ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fab1379b4ce097a8afd5d99abab0875a8e" kindref="member">SourceType::DATABASE</ref></computeroutput>; <computeroutput>location</computeroutput> is the JDBC connection URL. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="110" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="840" bodyend="842"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a6e97968babdcb27e72f81649da7590f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::DatabaseConnector::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d">isAvailable</reimplements>
+        <briefdescription>
+<para>Check whether the database is reachable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempts to open and immediately close an ODBC connection. Returns true when a test mock is injected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="118" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="844" bodyend="846"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1af264c5b5129bfaddff5030dee7a0ca1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::DatabaseConnector::getDocumentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::getDocumentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e">getDocumentCount</reimplements>
+        <briefdescription>
+<para>Estimate the total row count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes <computeroutput>SELECT COUNT(*) FROM (&lt;query&gt;) AS __count</computeroutput> when the ODBC driver supports it, or returns 0 when unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="126" column="12" bodyfile="src/ingestion/database_connector.cpp" bodystart="848" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a9d6bce9da2a595ad3f7cae5f3298f043" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::DatabaseConnector::ingest</definition>
+        <argsstring>(const std::string &amp;target_collection, ProgressCallback progress_callback) override</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::ingest</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb">ingest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Execute the configured query and ingest each row as a document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para>Rows are fetched in batches of <computeroutput>batch_size</computeroutput> and converted to document text. Progress callbacks are invoked after each batch. Pagination stops when <computeroutput>max_rows</computeroutput> is reached or the result set is exhausted.</para>
+<para>When <computeroutput>THEMIS_ENABLE_ODBC</computeroutput> is not defined and no test mock is present, returns immediately with a <computeroutput>CONNECTOR_NOT_SUPPORTED</computeroutput> error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="138" column="20" bodyfile="src/ingestion/database_connector.cpp" bodystart="859" bodyend="862"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a5fde5518152cf50c1c2b1102e0be4947" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DatabaseConnector::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;config)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure retry behaviour for this connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Retry Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="144" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="869" bodyend="871"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a759144d47d9c27b3efe502ce6f933188" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DatabaseConnector::setRowBatchProvider</definition>
+        <argsstring>(RowFetchFn fn)</argsstring>
+        <name>setRowBatchProvider</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::setRowBatchProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_database_connector_1ab282e1025e93ee6e087d35ef7047943d" kindref="member">RowFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a database row-batch provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Row Batch Provider.</para>
+<para>When set, every database query that would normally be executed via ODBC is replaced by calls to <computeroutput>fn</computeroutput>. Pass an empty <computeroutput><ref refid="classthemis_1_1ingestion_1_1_database_connector_1ab282e1025e93ee6e087d35ef7047943d" kindref="member">RowFetchFn</ref>{}</computeroutput> to restore the real ODBC path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_database_connector_1a0b9a4c0711cd41bc6059b7fa9f9c050c" kindref="member">setRowFetchForTesting()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="166" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="887" bodyend="889"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1a0b9a4c0711cd41bc6059b7fa9f9c050c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DatabaseConnector::setRowFetchForTesting</definition>
+        <argsstring>(RowFetchFn fn)</argsstring>
+        <name>setRowFetchForTesting</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::setRowFetchForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_database_connector_1ab282e1025e93ee6e087d35ef7047943d" kindref="member">RowFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Row Fetch For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_database_connector_1a759144d47d9c27b3efe502ce6f933188" kindref="member">setRowBatchProvider()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/database_connector.h" line="167" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="878" bodyend="880"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>JDBC-compatible database source connector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fetches rows from a relational database table or SQL query and ingests them as documents into ThemisDB. The connector accepts JDBC-style connection strings (<computeroutput>jdbc:&lt;subprotocol&gt;://&lt;host&gt;:&lt;port&gt;/&lt;database&gt;</computeroutput>) and maps them to the appropriate ODBC Data Source Name or driver-specific connection string.</para>
+<para>When <computeroutput>THEMIS_ENABLE_ODBC</computeroutput> is defined at compile time, the ODBC API (<computeroutput>sql.h</computeroutput> / <computeroutput>sqlext.h</computeroutput>) is used to execute the query. Without that flag the connector still compiles but always returns <computeroutput>CONNECTOR_NOT_SUPPORTED</computeroutput> unless a row-fetch mock has been injected via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_database_connector_1a0b9a4c0711cd41bc6059b7fa9f9c050c" kindref="member">setRowFetchForTesting()</ref></computeroutput>.</para>
+<para>Supported <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" kindref="member">SourceConfig::options</ref></computeroutput> keys: <table rows="10" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>query</computeroutput>  </para>
+</entry><entry thead="no"><para>SQL SELECT statement to execute  </para>
+</entry><entry thead="no"><para><computeroutput>SELECT * FROM &lt;table&gt;</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>table</computeroutput>  </para>
+</entry><entry thead="no"><para>Table name used when <computeroutput>query</computeroutput> is not set  </para>
+</entry><entry thead="no"><para>(required if no query)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_columns</computeroutput>  </para>
+</entry><entry thead="no"><para>Comma-separated column names to concatenate as document text  </para>
+</entry><entry thead="no"><para>(all columns)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>batch_size</computeroutput>  </para>
+</entry><entry thead="no"><para>Number of rows to fetch per iteration  </para>
+</entry><entry thead="no"><para><computeroutput>500</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_rows</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum total rows to fetch (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>username</computeroutput>  </para>
+</entry><entry thead="no"><para>Database username (never logged)  </para>
+</entry><entry thead="no"><para>(from DSN)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>password</computeroutput>  </para>
+</entry><entry thead="no"><para>Database password (never logged)  </para>
+</entry><entry thead="no"><para>(from DSN)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>driver</computeroutput>  </para>
+</entry><entry thead="no"><para>ODBC driver name (e.g. <computeroutput>"PostgreSQL Unicode"</computeroutput>)  </para>
+</entry><entry thead="no"><para>(from DSN)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>timeout_s</computeroutput>  </para>
+</entry><entry thead="no"><para>Login and query timeout in seconds  </para>
+</entry><entry thead="no"><para><computeroutput>30</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">SourceConfig::location</ref></computeroutput> must be a JDBC-style connection URL: <computeroutput>jdbc:postgresql://localhost:5432/mydb</computeroutput> <computeroutput>jdbc:mysql://db.example.com:3306/inventory</computeroutput> <computeroutput>jdbc:sqlserver://host:1433;databaseName=sales</computeroutput> <computeroutput>jdbc:sqlite:/path/to/file.db</computeroutput></para>
+<para>The connector parses the URL and constructs an ODBC connection string of the form: <computeroutput>DRIVER={&lt;driver&gt;};SERVER=&lt;host&gt;;PORT=&lt;port&gt;;DATABASE=&lt;db&gt;; UID=&lt;user&gt;;PWD=&lt;password&gt;;TIMEOUT=&lt;timeout_s&gt;</computeroutput></para>
+<para>Each fetched row is serialized as a JSON object (<computeroutput>{"col1":"val1","col2":"val2"}</computeroutput>) and the text for ingestion is either the concatenation of all configured <computeroutput>text_columns</computeroutput> values or the full JSON serialization when <computeroutput>text_columns</computeroutput> is not set.</para>
+<para>Example usage (direct): <programlisting><codeline><highlight class="normal">SourceConfig<sp/>cfg{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;product_db&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fab1379b4ce097a8afd5d99abab0875a8e" kindref="member">SourceType::DATABASE</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;jdbc:postgresql://localhost:5432/shop&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.options<sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;username&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;reader&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;password&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;s3cret&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;SELECT<sp/>id,<sp/>description<sp/>FROM<sp/>products&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;text_columns&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;batch_size&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;200&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_database_connector_1ae6cf41a559a7e17f35ae8edd6725e060" kindref="member">DatabaseConnector</ref><sp/>conn;</highlight></codeline>
+<codeline><highlight class="normal">conn.initialize(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>conn.ingest(</highlight><highlight class="stringliteral">&quot;products_collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para>Example usage via <ref refid="classthemis_1_1ingestion_1_1_ingestion_builder" kindref="compound">IngestionBuilder</ref>: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mgr<sp/>=<sp/>IngestionBuilder(</highlight><highlight class="stringliteral">&quot;mydb&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withDatabaseSource(</highlight><highlight class="stringliteral">&quot;product_db&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;jdbc:postgresql://localhost:5432/shop&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;username&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;reader&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;password&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;s3cret&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;SELECT<sp/>id,<sp/>description<sp/>FROM<sp/>products&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;text_columns&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.build();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>mgr-&gt;ingestAll();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::DatabaseConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_database_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::DatabaseConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_database_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/database_connector.h" line="95" column="1" bodyfile="include/ingestion/database_connector.h" bodystart="95" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1ae6cf41a559a7e17f35ae8edd6725e060" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>DatabaseConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a8a806085c852b3bfb5054ea814cda655" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>DatabaseConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a4736f89fa5491e8665770db7a75b6837" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>DbRow</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1af264c5b5129bfaddff5030dee7a0ca1b" prot="public" virt="virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a38391f470a68264700341ea076f8c2f1" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a9d6bce9da2a595ad3f7cae5f3298f043" prot="public" virt="virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a92f61956041107e93ad90399f67be6aa" prot="public" virt="virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a6e97968babdcb27e72f81649da7590f9" prot="public" virt="virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a067274871cacbfa0e6406d89db620a7c" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1ab282e1025e93ee6e087d35ef7047943d" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>RowFetchFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84" prot="public" virt="virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>setDocumentValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a5fde5518152cf50c1c2b1102e0be4947" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a759144d47d9c27b3efe502ce6f933188" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>setRowBatchProvider</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a0b9a4c0711cd41bc6059b7fa9f9c050c" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>setRowFetchForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1a04f7acfbf80356aa5f9cc46273b3141c" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>~DatabaseConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>themis::ingestion::DatabaseConnector</scope><name>~ISourceConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

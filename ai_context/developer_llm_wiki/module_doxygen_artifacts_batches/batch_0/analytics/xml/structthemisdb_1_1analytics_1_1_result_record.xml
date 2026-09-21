@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_result_record" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ResultRecord</compoundname>
+    <includes refid="result__aggregator_8h" local="no">result_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_record_1ac348ec96e17a1e22def6e8307beeccb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ResultRecord::record_id</definition>
+        <argsstring></argsstring>
+        <name>record_id</name>
+        <qualifiedname>themisdb::analytics::ResultRecord::record_id</qualifiedname>
+        <briefdescription>
+<para>Unique record identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="33" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_record_1a919435b5499ba543a91e97b8c3dc8e5c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::ResultRecord::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themisdb::analytics::ResultRecord::values</qualifiedname>
+        <briefdescription>
+<para>Field values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="34" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_record_1ac4f6dc2053667293203621a6c3d8db76" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ResultRecord::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themisdb::analytics::ResultRecord::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Record timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="35" column="13" bodyfile="include/analytics/result_aggregator.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_record_1a4dbf3367dbbd6c0d6280e51e29ec8833" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ResultRecord::is_transactional</definition>
+        <argsstring></argsstring>
+        <name>is_transactional</name>
+        <qualifiedname>themisdb::analytics::ResultRecord::is_transactional</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Is part of transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="36" column="10" bodyfile="include/analytics/result_aggregator.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/result_aggregator.h" line="32" column="1" bodyfile="include/analytics/result_aggregator.h" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_result_record_1a4dbf3367dbbd6c0d6280e51e29ec8833" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultRecord</scope><name>is_transactional</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_record_1ac348ec96e17a1e22def6e8307beeccb8" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultRecord</scope><name>record_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_record_1ac4f6dc2053667293203621a6c3d8db76" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultRecord</scope><name>timestamp_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_record_1a919435b5499ba543a91e97b8c3dc8e5c" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultRecord</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

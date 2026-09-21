@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_state_transition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::StateTransition</compoundname>
+    <includes refid="llama__wrapper_8h" local="no">llama_wrapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_state_transition_1a4cefafb1eb00eedcea0b6ba691590cfa" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401" kindref="member">WrapperState</ref></type>
+        <definition>WrapperState themis::llm::StateTransition::from_state</definition>
+        <argsstring></argsstring>
+        <name>from_state</name>
+        <qualifiedname>themis::llm::StateTransition::from_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="106" column="18" bodyfile="include/llm/llama_wrapper.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_state_transition_1a5ccb99cd996797b16b03d2497cd72c87" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401" kindref="member">WrapperState</ref></type>
+        <definition>WrapperState themis::llm::StateTransition::to_state</definition>
+        <argsstring></argsstring>
+        <name>to_state</name>
+        <qualifiedname>themis::llm::StateTransition::to_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="107" column="18" bodyfile="include/llm/llama_wrapper.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_state_transition_1a6289cd2678be941a9de137fb5cae4e8f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::StateTransition::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::StateTransition::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="108" column="17" bodyfile="include/llm/llama_wrapper.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_state_transition_1ae76ba0b957f3fc0203abb51b6ae1d658" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::StateTransition::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::StateTransition::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="109" column="43" bodyfile="include/llm/llama_wrapper.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_state_transition_1aacc53acb3d48f9580bf8a423dddfcc05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::StateTransition::StateTransition</definition>
+        <argsstring>(WrapperState from, WrapperState to, const std::string &amp;r)</argsstring>
+        <name>StateTransition</name>
+        <qualifiedname>themis::llm::StateTransition::StateTransition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401" kindref="member">WrapperState</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401" kindref="member">WrapperState</ref></type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="111" column="5" bodyfile="include/llm/llama_wrapper.h" bodystart="111" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_wrapper.h" line="105" column="1" bodyfile="include/llm/llama_wrapper.h" bodystart="105" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_state_transition_1a4cefafb1eb00eedcea0b6ba691590cfa" prot="public" virt="non-virtual"><scope>themis::llm::StateTransition</scope><name>from_state</name></member>
+      <member refid="structthemis_1_1llm_1_1_state_transition_1a6289cd2678be941a9de137fb5cae4e8f" prot="public" virt="non-virtual"><scope>themis::llm::StateTransition</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_state_transition_1aacc53acb3d48f9580bf8a423dddfcc05" prot="public" virt="non-virtual"><scope>themis::llm::StateTransition</scope><name>StateTransition</name></member>
+      <member refid="structthemis_1_1llm_1_1_state_transition_1ae76ba0b957f3fc0203abb51b6ae1d658" prot="public" virt="non-virtual"><scope>themis::llm::StateTransition</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1_state_transition_1a5ccb99cd996797b16b03d2497cd72c87" prot="public" virt="non-virtual"><scope>themis::llm::StateTransition</scope><name>to_state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

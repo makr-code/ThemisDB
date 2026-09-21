@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_index_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_index_test_1af88b321ba4149243f8f223e9123d9719" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GraphIndexTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GraphIndexTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_index.cpp" line="34" column="17" bodyfile="tests/graph/test_graph_index.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_index_test_1ae197b5a839af4ce49d178948d40d4d16" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; GraphIndexTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphIndexTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_index.cpp" line="35" column="21" bodyfile="tests/graph/test_graph_index.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_index_test_1a4274ae073269f102f5ee60fa82e1b287" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; GraphIndexTest::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>GraphIndexTest::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_index.cpp" line="36" column="21" bodyfile="tests/graph/test_graph_index.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_index_test_1ac5f3301522ac9297e38165dcc525c34f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphIndexTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphIndexTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_index.cpp" line="11" column="10" bodyfile="tests/graph/test_graph_index.cpp" bodystart="11" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_index_test_1ac17c008edffcc24dc6e4ed2e2ef364c2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphIndexTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphIndexTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_index.cpp" line="28" column="10" bodyfile="tests/graph/test_graph_index.cpp" bodystart="28" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphIndexTest</label>
+        <link refid="class_graph_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphIndexTest</label>
+        <link refid="class_graph_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_index.cpp" line="9" column="1" bodyfile="tests/graph/test_graph_index.cpp" bodystart="9" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_graph_index_test_1ae197b5a839af4ce49d178948d40d4d16" prot="protected" virt="non-virtual"><scope>GraphIndexTest</scope><name>db_</name></member>
+      <member refid="class_graph_index_test_1a4274ae073269f102f5ee60fa82e1b287" prot="protected" virt="non-virtual"><scope>GraphIndexTest</scope><name>graph_mgr_</name></member>
+      <member refid="class_graph_index_test_1ac5f3301522ac9297e38165dcc525c34f" prot="protected" virt="non-virtual"><scope>GraphIndexTest</scope><name>SetUp</name></member>
+      <member refid="class_graph_index_test_1ac17c008edffcc24dc6e4ed2e2ef364c2" prot="protected" virt="non-virtual"><scope>GraphIndexTest</scope><name>TearDown</name></member>
+      <member refid="class_graph_index_test_1af88b321ba4149243f8f223e9123d9719" prot="protected" virt="non-virtual"><scope>GraphIndexTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_registration_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginRegistrationDescriptor</compoundname>
+    <includes refid="plugins__api__contract_8h" local="no">plugins_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginRegistrationDescriptor::plugin_id</definition>
+        <argsstring></argsstring>
+        <name>plugin_id</name>
+        <qualifiedname>themis::plugins::PluginRegistrationDescriptor::plugin_id</qualifiedname>
+        <briefdescription>
+<para>Unique plugin identifier (max kMaxPluginIdBytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="133" column="17" bodyfile="include/plugins/plugins_api_contract.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginRegistrationDescriptor::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::plugins::PluginRegistrationDescriptor::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string (max kMaxPluginVersionBytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="134" column="17" bodyfile="include/plugins/plugins_api_contract.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a48b7dc9f20e4948111cdcaba3672528e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginRegistrationDescriptor::manifest_path</definition>
+        <argsstring></argsstring>
+        <name>manifest_path</name>
+        <qualifiedname>themis::plugins::PluginRegistrationDescriptor::manifest_path</qualifiedname>
+        <briefdescription>
+<para>Path to the validated manifest file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="135" column="17" bodyfile="include/plugins/plugins_api_contract.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a3947eb6303cc7678c1cb02b6b1659632" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginRegistrationDescriptor::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::plugins::PluginRegistrationDescriptor::signature</qualifiedname>
+        <briefdescription>
+<para>Base64-encoded detached signature over manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="136" column="17" bodyfile="include/plugins/plugins_api_contract.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginRegistrationDescriptor::hot_plug_eligible</definition>
+        <argsstring></argsstring>
+        <name>hot_plug_eligible</name>
+        <qualifiedname>themis::plugins::PluginRegistrationDescriptor::hot_plug_eligible</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether the plugin supports hot-plug. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugins_api_contract.h" line="137" column="17" bodyfile="include/plugins/plugins_api_contract.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor submitted when registering a new plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields except <computeroutput>capabilities</computeroutput> must be non-empty. </para>
+    </detaileddescription>
+    <location file="include/plugins/plugins_api_contract.h" line="132" column="1" bodyfile="include/plugins/plugins_api_contract.h" bodystart="132" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistrationDescriptor</scope><name>hot_plug_eligible</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a48b7dc9f20e4948111cdcaba3672528e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistrationDescriptor</scope><name>manifest_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistrationDescriptor</scope><name>plugin_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a3947eb6303cc7678c1cb02b6b1659632" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistrationDescriptor</scope><name>signature</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistrationDescriptor</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

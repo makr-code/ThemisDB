@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1toolbox__dedicated" kind="namespace" language="C++">
+    <compoundname>themis::bench::toolbox_dedicated</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1a02f8a53a76a18f590d74bce1b4ea17ac" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::toolbox_dedicated::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="48" column="27" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1ad008492bb025be25d0630d3c2e7eb2fe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::toolbox_dedicated::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="49" column="27" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1a4303e15ec7a8a5e4d89d90fc9def5b7a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::toolbox_dedicated::stubDispatch</definition>
+        <argsstring>(const std::string &amp;tool, const std::string &amp;content) noexcept</argsstring>
+        <name>stubDispatch</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::stubDispatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="53" column="13" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1a4c9cce44107aeda24b5d3f4d5f96ac6a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::toolbox_dedicated::stubBridge</definition>
+        <argsstring>(uint64_t content_id) noexcept</argsstring>
+        <name>stubBridge</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::stubBridge</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="58" column="13" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1ac72d29aac2b093e26d6cea77ea40c0a2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::bench::toolbox_dedicated::stubExtract</definition>
+        <argsstring>(const std::string &amp;doc_id) noexcept</argsstring>
+        <name>stubExtract</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::stubExtract</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="63" column="20" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1a30d07f737e7fa423c346e6e803ae100d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::toolbox_dedicated::BM_Toolbox_ToolDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Toolbox_ToolDispatch</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::BM_Toolbox_ToolDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="70" column="13" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1afa1f18ccc532eb31bed2826a4b5c8363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::toolbox_dedicated::Name</definition>
+        <argsstring>(&quot;TB-BM-01/ToolDispatch&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TB-BM-01/ToolDispatch&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="80" column="5" declfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" declline="80" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1a2e424dc3634c8ac530f17fe7833ccb1b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::toolbox_dedicated::BM_Toolbox_ContentBridge</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Toolbox_ContentBridge</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::BM_Toolbox_ContentBridge</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="87" column="13" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="87" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1a955a725cbd5642188056fcd952ca5de8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::toolbox_dedicated::Name</definition>
+        <argsstring>(&quot;TB-BM-02/ContentBridge&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TB-BM-02/ContentBridge&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="96" column="5" declfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" declline="96" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1a62a90ee844bd6203ec3bc04048820675" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::toolbox_dedicated::BM_Toolbox_ExtractionPipeline</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Toolbox_ExtractionPipeline</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::BM_Toolbox_ExtractionPipeline</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="103" column="13" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="103" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1a29fba2fa1efac6311f244a42af05f6a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::toolbox_dedicated::Name</definition>
+        <argsstring>(&quot;TB-BM-03/ExtractionPipeline&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TB-BM-03/ExtractionPipeline&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="112" column="5" declfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" declline="112" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1ac4e43dd85a5418da672cc27d6905c57c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::toolbox_dedicated::BM_Toolbox_BatchComposite</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Toolbox_BatchComposite</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::BM_Toolbox_BatchComposite</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="119" column="13" bodyfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" bodystart="119" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1toolbox__dedicated_1ad38da727e4140c39511bfd88745d1b19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::toolbox_dedicated::Name</definition>
+        <argsstring>(&quot;TB-BM-04/BatchComposite1000&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::toolbox_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TB-BM-04/BatchComposite1000&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="135" column="5" declfile="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" declline="135" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp" line="46" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_audit_logging_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceAuditLoggingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_audit_logging_test_1ab63d5e61f1b3f32efb5e9eb156d34a80" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_voice_audit_logger" kindref="compound">VoiceAuditLogger</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VoiceAuditLogger&gt; themis::voice::VoiceAuditLoggingTest::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::voice::VoiceAuditLoggingTest::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audit_logging.cpp" line="49" column="21" bodyfile="tests/voice/test_voice_audit_logging.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_audit_logging_test_1a9f905d886d255587df982114593120db" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config" kindref="compound">VoiceAuditLogger::Config</ref></type>
+        <definition>VoiceAuditLogger::Config themis::voice::VoiceAuditLoggingTest::audit_config_</definition>
+        <argsstring></argsstring>
+        <name>audit_config_</name>
+        <qualifiedname>themis::voice::VoiceAuditLoggingTest::audit_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audit_logging.cpp" line="50" column="30" bodyfile="tests/voice/test_voice_audit_logging.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logging_test_1a8e061457a91bb7f19bfac007502c34b2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLoggingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::voice::VoiceAuditLoggingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audit_logging.cpp" line="31" column="10" bodyfile="tests/voice/test_voice_audit_logging.cpp" bodystart="31" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logging_test_1ae8f2d9401487f8e54439b6f8b8062a7b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLoggingTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::voice::VoiceAuditLoggingTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audit_logging.cpp" line="43" column="10" bodyfile="tests/voice/test_voice_audit_logging.cpp" bodystart="43" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::VoiceAuditLoggingTest</label>
+        <link refid="classthemis_1_1voice_1_1_voice_audit_logging_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::voice::VoiceAuditLogger::Config</label>
+        <link refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::VoiceAuditLoggingTest</label>
+        <link refid="classthemis_1_1voice_1_1_voice_audit_logging_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>audit_config_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_audit_logging.cpp" line="29" column="1" bodyfile="tests/voice/test_voice_audit_logging.cpp" bodystart="29" bodyend="51"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logging_test_1a9f905d886d255587df982114593120db" prot="protected" virt="non-virtual"><scope>themis::voice::VoiceAuditLoggingTest</scope><name>audit_config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logging_test_1ab63d5e61f1b3f32efb5e9eb156d34a80" prot="protected" virt="non-virtual"><scope>themis::voice::VoiceAuditLoggingTest</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logging_test_1a8e061457a91bb7f19bfac007502c34b2" prot="protected" virt="non-virtual"><scope>themis::voice::VoiceAuditLoggingTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logging_test_1ae8f2d9401487f8e54439b6f8b8062a7b" prot="protected" virt="non-virtual"><scope>themis::voice::VoiceAuditLoggingTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

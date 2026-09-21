@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_monitored_metric" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MonitoredMetric</compoundname>
+    <includes refid="metric__anomaly__detector_8h" local="no">metric_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_monitored_metric_1a02f8511adb68e5af06b4514e3abfda28" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MonitoredMetric::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::MonitoredMetric::name</qualifiedname>
+        <briefdescription>
+<para>Prometheus-style metric name (e.g. <computeroutput>"themis_query_latency_ms"</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="98" column="17" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_monitored_metric_1a4182b7cbe698b30622309f150cc261cf" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a63a93d46eae88f7ce9ecbf92a71441e5" kindref="member">AnomalyMethod</ref></type>
+        <definition>AnomalyMethod themis::observability::MonitoredMetric::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::observability::MonitoredMetric::method</qualifiedname>
+        <initializer>{AnomalyMethod::Z_SCORE}</initializer>
+        <briefdescription>
+<para>Detection algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supported values (from <computeroutput>themisdb::analytics::AnomalyMethod</computeroutput>):<itemizedlist>
+<listitem><para><computeroutput>Z_SCORE</computeroutput> (default) – fast, Gaussian assumption</para>
+</listitem><listitem><para><computeroutput>MODIFIED_Z_SCORE</computeroutput> – robust, MAD-based</para>
+</listitem><listitem><para><computeroutput>IQR</computeroutput> – interquartile range fence</para>
+</listitem><listitem><para><computeroutput>ISOLATION_FOREST</computeroutput> – unsupervised tree-based</para>
+</listitem><listitem><para><computeroutput>LOF</computeroutput> – density-based Local Outlier Factor</para>
+</listitem><listitem><para><computeroutput>ENSEMBLE</computeroutput> – weighted combination of all methods </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="111" column="19" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_monitored_metric_1a1e76f653326839f1682338a67201087f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MonitoredMetric::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::observability::MonitoredMetric::threshold</qualifiedname>
+        <initializer>{0.7}</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_anomaly" kindref="compound">Anomaly</ref> score threshold in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Observations with score &gt;= threshold are classified as anomalies. Default: 0.7. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="119" column="12" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_monitored_metric_1a65c9d9df5069ae9e2d067b17680ecd88" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MonitoredMetric::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>themis::observability::MonitoredMetric::window_size</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Maximum number of data points in the sliding training window. Default: 500. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="125" column="12" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_monitored_metric_1aae40fd0396c558a2c8ebb1cd884de4bc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MonitoredMetric::auto_train_after</definition>
+        <argsstring></argsstring>
+        <name>auto_train_after</name>
+        <qualifiedname>themis::observability::MonitoredMetric::auto_train_after</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+<para>Minimum number of data points before anomaly detection begins. Default: 50 (allows the detector to establish a baseline). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="131" column="12" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_monitored_metric_1a2aba066910dbafa4a4669a79509e014b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::MonitoredMetric::retrain_on_window</definition>
+        <argsstring></argsstring>
+        <name>retrain_on_window</name>
+        <qualifiedname>themis::observability::MonitoredMetric::retrain_on_window</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Retrain the model when the window fills up. Default: true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="137" column="10" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single metric stream to be monitored. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Example</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">MonitoredMetric<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis_query_latency_ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.method<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AnomalyMethod::Z_SCORE;</highlight></codeline>
+<codeline><highlight class="normal">cfg.threshold<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline><highlight class="normal">cfg.window_size<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline><highlight class="normal">cfg.auto_train_after<sp/>=<sp/>100;</highlight></codeline>
+<codeline><highlight class="normal">detector.monitor(cfg);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/observability/metric_anomaly_detector.h" line="96" column="1" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="96" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_monitored_metric_1aae40fd0396c558a2c8ebb1cd884de4bc" prot="public" virt="non-virtual"><scope>themis::observability::MonitoredMetric</scope><name>auto_train_after</name></member>
+      <member refid="structthemis_1_1observability_1_1_monitored_metric_1a4182b7cbe698b30622309f150cc261cf" prot="public" virt="non-virtual"><scope>themis::observability::MonitoredMetric</scope><name>method</name></member>
+      <member refid="structthemis_1_1observability_1_1_monitored_metric_1a02f8511adb68e5af06b4514e3abfda28" prot="public" virt="non-virtual"><scope>themis::observability::MonitoredMetric</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_monitored_metric_1a2aba066910dbafa4a4669a79509e014b" prot="public" virt="non-virtual"><scope>themis::observability::MonitoredMetric</scope><name>retrain_on_window</name></member>
+      <member refid="structthemis_1_1observability_1_1_monitored_metric_1a1e76f653326839f1682338a67201087f" prot="public" virt="non-virtual"><scope>themis::observability::MonitoredMetric</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_monitored_metric_1a65c9d9df5069ae9e2d067b17680ecd88" prot="public" virt="non-virtual"><scope>themis::observability::MonitoredMetric</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,492 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="pii__detection__engine_8h" kind="file" language="C++">
+    <compoundname>pii_detection_engine.h</compoundname>
+    <includes refid="pki__client_8h" local="yes">pki_client.h</includes>
+    <includes refid="expected_8h" local="yes">expected.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__pii__stream__scanner_8cpp" local="yes">benchmarks/utils/bench_pii_stream_scanner.cpp</includedby>
+    <includedby refid="ner__detection__engine_8h" local="yes">include/utils/ner_detection_engine.h</includedby>
+    <includedby refid="pii__detector_8h" local="yes">include/utils/pii_detector.h</includedby>
+    <includedby refid="regex__detection__engine_8h" local="yes">include/utils/regex_detection_engine.h</includedby>
+    <includedby refid="utils__adapters_8h" local="yes">include/utils/utils_adapters.h</includedby>
+    <includedby refid="pii__detection__engine_8cpp" local="yes">src/utils/pii_detection_engine.cpp</includedby>
+    <includedby refid="pii__detector_8cpp" local="yes">src/utils/pii_detector.cpp</includedby>
+    <includedby refid="pii__stream__scanner_8cpp" local="yes">src/utils/pii_stream_scanner.cpp</includedby>
+    <includedby refid="test__tsan__stress__concurrent_8cpp" local="yes">tests/utils/test_tsan_stress_concurrent.cpp</includedby>
+    <includedby refid="test__utils__interfaces_8cpp" local="yes">tests/utils/test_utils_interfaces.cpp</includedby>
+    <includedby refid="test__utils__privacy__audit__hardening_8cpp" local="yes">tests/utils/test_utils_privacy_audit_hardening.cpp</includedby>
+    <includedby refid="test__utils__privacy__hardening_8cpp" local="yes">tests/utils/test_utils_privacy_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="14">
+        <label>utils/error_registry.h</label>
+        <link refid="error__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>expected.h</label>
+        <link refid="expected_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/utils/pii_detection_engine.h</label>
+        <link refid="pii__detection__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pki_client.h</label>
+        <link refid="pki__client_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>shared_mutex</label>
+      </node>
+      <node id="18">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="10">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>string_view</label>
+      </node>
+      <node id="20">
+        <label>system_error</label>
+      </node>
+      <node id="11">
+        <label>type_traits</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="13">
+        <label>variant</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/utils/bench_pii_stream_scanner.cpp</label>
+        <link refid="bench__pii__stream__scanner_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/utils/ner_detection_engine.h</label>
+        <link refid="ner__detection__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/utils/pii_detection_engine.h</label>
+        <link refid="pii__detection__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/utils/pii_detector.h</label>
+        <link refid="pii__detector_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/utils/pii_pseudonymizer.h</label>
+        <link refid="pii__pseudonymizer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/utils/regex_detection_engine.h</label>
+        <link refid="regex__detection__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/utils/utils_adapters.h</label>
+        <link refid="utils__adapters_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/utils/ner_detection_engine.cpp</label>
+        <link refid="ner__detection__engine_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/utils/pii_detection_engine.cpp</label>
+        <link refid="pii__detection__engine_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/utils/pii_detector.cpp</label>
+        <link refid="pii__detector_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/utils/pii_pseudonymizer.cpp</label>
+        <link refid="pii__pseudonymizer_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/utils/pii_stream_scanner.cpp</label>
+        <link refid="pii__stream__scanner_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/utils/regex_detection_engine.cpp</label>
+        <link refid="regex__detection__engine_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/utils/utils_adapters.cpp</label>
+        <link refid="utils__adapters_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/utils/test_ner_detection_engine.cpp</label>
+        <link refid="test__ner__detection__engine_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/utils/test_regex_detection_engine.cpp</label>
+        <link refid="test__regex__detection__engine_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/utils/test_tsan_stress_concurrent.cpp</label>
+        <link refid="test__tsan__stress__concurrent_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/utils/test_utils_interfaces.cpp</label>
+        <link refid="test__utils__interfaces_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/utils/test_utils_pii_unicode_edge_cases.cpp</label>
+        <link refid="test__utils__pii__unicode__edge__cases_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/utils/test_utils_privacy_audit_hardening.cpp</label>
+        <link refid="test__utils__privacy__audit__hardening_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/utils/test_utils_privacy_hardening.cpp</label>
+        <link refid="test__utils__privacy__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_p_i_i_finding" prot="public">themis::utils::PIIFinding</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_plugin_signature" prot="public">themis::utils::PluginSignature</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" prot="public">themis::utils::IPIIDetectionEngine</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory" prot="public">themis::utils::PIIDetectionEngineFactory</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_p_i_i_type_utils" prot="public">themis::utils::PIITypeUtils</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" prot="public">themis::utils::PIIStreamScannerConfig</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" prot="public">themis::utils::PIIStreamScanner</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer" prot="public">themis::utils::PIIStreamPseudonymizer</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config" prot="public">themis::utils::PIIStreamPseudonymizer::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pki__client_8h" kindref="compound">pki_client.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="expected_8h" kindref="compound">expected.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea61a649a33f2869e5e35fbb7aff3a80d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea61a649a33f2869e5e35fbb7aff3a80d9" kindref="member">EMAIL</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeaf9dd946cc89c1f3b41a0edbe0f36931d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeaf9dd946cc89c1f3b41a0edbe0f36931d" kindref="member">PHONE</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea8fe59663630697bb628e4de0d1592cdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea8fe59663630697bb628e4de0d1592cdc" kindref="member">SSN</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea23a27a41c4dad3ef8c54f896b77f9056" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea23a27a41c4dad3ef8c54f896b77f9056" kindref="member">CREDIT_CARD</ref>,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea350e17d65ded375d643259e7eed26e2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea350e17d65ded375d643259e7eed26e2a" kindref="member">IBAN</ref>,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeab3e03bb42ca194c075e80b94ec97b484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeab3e03bb42ca194c075e80b94ec97b484" kindref="member">IP_ADDRESS</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeae6b391a8d2c4d45902a23a8b6585703d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeae6b391a8d2c4d45902a23a8b6585703d" kindref="member">URL</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeaef932ad40153d770661681c0976d16ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeaef932ad40153d770661681c0976d16ac" kindref="member">PERSON_NAME</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>NER-based<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea71233d73cc90bba8f4d5bbea0792e551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea71233d73cc90bba8f4d5bbea0792e551" kindref="member">LOCATION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>NER-based<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeaf3522949598e347ab47b71014bfc87c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baeaf3522949598e347ab47b71014bfc87c9" kindref="member">ORGANIZATION</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>NER-based<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1utils_1_1_p_i_i_finding" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1utils_1_1_p_i_i_finding_1a976933810db61a175de12cc684ed981e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_finding_1a976933810db61a175de12cc684ed981e" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab5c6cd8c1d415803ac4f0ba196826657" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab5c6cd8c1d415803ac4f0ba196826657" kindref="member">value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detected<sp/>value<sp/>(may<sp/>be<sp/>masked<sp/>in<sp/>some<sp/>contexts)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1utils_1_1_p_i_i_finding_1a0603b4ede868fc87d6d2b3ef44d1135e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_finding_1a0603b4ede868fc87d6d2b3ef44d1135e" kindref="member">start_offset</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>position<sp/>in<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab3880e5c9357d4f90c1fa959e79422af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab3880e5c9357d4f90c1fa959e79422af" kindref="member">end_offset</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>End<sp/>position<sp/>in<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1utils_1_1_p_i_i_finding_1a8a173ee448948eddfc4f7579126285bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_finding_1a8a173ee448948eddfc4f7579126285bd" kindref="member">confidence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>to<sp/>1.0<sp/>(1.0<sp/>=<sp/>certain)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab1fcb34e4a2064368a4b136d89d019a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab1fcb34e4a2064368a4b136d89d019a7" kindref="member">pattern_name</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Name<sp/>of<sp/>matched<sp/>pattern/model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1utils_1_1_p_i_i_finding_1ad4945eb759ea7797d001d3472eb584bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_finding_1ad4945eb759ea7797d001d3472eb584bf" kindref="member">engine_name</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detection<sp/>engine<sp/>that<sp/>found<sp/>this<sp/>(&quot;regex&quot;,<sp/>&quot;ner&quot;,<sp/>&quot;embedding&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1utils_1_1_plugin_signature" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1utils_1_1_plugin_signature_1ac24f5f0e7f0ae3be153fe86e32361d8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1ac24f5f0e7f0ae3be153fe86e32361d8e" kindref="member">engine_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Engine<sp/>type<sp/>name<sp/>(e.g.,<sp/>&quot;regex&quot;,<sp/>&quot;ner&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1utils_1_1_plugin_signature_1a580bb889456452726b18dcba64244b16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1a580bb889456452726b18dcba64244b16" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plugin<sp/>version<sp/>(e.g.,<sp/>&quot;1.0.0&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1utils_1_1_plugin_signature_1a26466465cdfb07238db7ce51417efcb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1a26466465cdfb07238db7ce51417efcb9" kindref="member">config_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256<sp/>hash<sp/>of<sp/>engine<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1utils_1_1_plugin_signature_1a25125810dbec8b561917885bff47b384" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1a25125810dbec8b561917885bff47b384" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PKI<sp/>signature<sp/>of<sp/>config_hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1utils_1_1_plugin_signature_1ac9d4dc2121d6f77580d4030019cc75ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1ac9d4dc2121d6f77580d4030019cc75ab" kindref="member">signature_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PKI<sp/>signature<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1utils_1_1_plugin_signature_1ac95a1177cd33404d4aa23352010403dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1ac95a1177cd33404d4aa23352010403dd" kindref="member">cert_serial</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Certificate<sp/>serial<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1utils_1_1_plugin_signature_1a37a47b33b217ae4099b435329fe4a5ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1a37a47b33b217ae4099b435329fe4a5ee" kindref="member">signed_at</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO<sp/>8601<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1utils_1_1_plugin_signature_1a752c139105c3f1002f1eeaab2b33eb5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1a752c139105c3f1002f1eeaab2b33eb5f" kindref="member">signer</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entity<sp/>that<sp/>signed<sp/>the<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1a74c5970b2b4bf2a2ee317885c0280311" kindref="member">verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref>&amp;<sp/>pki_client,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>config)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature_1ab1b915c185b9697c399c9f9d6bb56b48" kindref="member">computeConfigHash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kDefaultLookaheadBytes<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" kindref="compound">IPIIDetectionEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a487a9425fb15d7696e0d01737e5775c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a487a9425fb15d7696e0d01737e5775c0" kindref="member">~IPIIDetectionEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1aba1468a3b221ee881c456281c90de284" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1aba1468a3b221ee881c456281c90de284" kindref="member">getName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1afab9397e34d52f26b22a9817f162bc85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1afab9397e34d52f26b22a9817f162bc85" kindref="member">getVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a65c5ebd21056e1fadcc9205d55eab38c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a65c5ebd21056e1fadcc9205d55eab38c" kindref="member">isEnabled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a25c15b7d10a9f91c34b70028d626c3d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a25c15b7d10a9f91c34b70028d626c3d5" kindref="member">getSignature</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a49e533d40856a5a1b410a73a0e44c777" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a49e533d40856a5a1b410a73a0e44c777" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af5275b010649816fa13049ebb568eb19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af5275b010649816fa13049ebb568eb19" kindref="member">reload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a1acee6e2fc58487211c005027d27e7f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;PIIFinding&gt;<sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a1acee6e2fc58487211c005027d27e7f7" kindref="member">detectInText</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af3ba446653e7b2ab99a7a06c09346a18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af3ba446653e7b2ab99a7a06c09346a18" kindref="member">classifyFieldName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a7ed6458bc59c839db088a8ced8fadb8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a7ed6458bc59c839db088a8ced8fadb8b" kindref="member">getRedactionRecommendation</ref>(<ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/>type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a98faa15356d71eee761f734a662b27c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a98faa15356d71eee761f734a662b27c8" kindref="member">getLastError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a749aab70f6baef4f92ba1cf151ac1fdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a749aab70f6baef4f92ba1cf151ac1fdd" kindref="member">getMetadata</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1ade98ce1b95dea64affb40210a167e249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1ade98ce1b95dea64affb40210a167e249" kindref="member">maxPatternLength</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>kDefaultLookaheadBytes;<sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory" kindref="compound">PIIDetectionEngineFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;std::unique_ptr&lt;IPIIDetectionEngine&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aaccdb111a5c6b2ddacfe5af6b1d18458" kindref="member">createSigned</ref>(</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>engine_type,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref>&amp;<sp/>pki_client);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;std::unique_ptr&lt;IPIIDetectionEngine&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aef630ee11bb99b6df76f68c408ea6729" kindref="member">createUnsigned</ref>(</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>engine_type);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aed7f76d0259c0d5bfa35c8d84e341ad7" kindref="member">getAvailableEngines</ref>();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1a1800c9ef1c009041c92519a156b5963c" kindref="member">verifyPluginSignature</ref>(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref>&amp;<sp/>pki_client,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>error_msg);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1utils_1_1_p_i_i_type_utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_p_i_i_type_utils" kindref="compound">PIITypeUtils</ref><sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_type_utils_1abe4d83fe0b7bc81bcf4cf1a7c39d15b5" kindref="member">toString</ref>(<ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_type_utils_1ad66a1c639421393e42dbe56d39abbc15" kindref="member">fromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_type_utils_1a269644394e0ac308b8a0a0ff5fed4a50" kindref="member">maskValue</ref>(<ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref><sp/>type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mode);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PIIStreamScanner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Note:<sp/>kDefaultLookaheadBytes<sp/>is<sp/>forward-declared<sp/>above<sp/>IPIIDetectionEngine.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a749548439ed1fcadf2982eea1dd8ff21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a749548439ed1fcadf2982eea1dd8ff21" kindref="member">lookahead_bytes</ref><sp/>=<sp/>kDefaultLookaheadBytes;<sp/></highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a3563f7948ec65da417f5b5f4f28f31d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a3563f7948ec65da417f5b5f4f28f31d1" kindref="member">min_confidence</ref><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340" refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner_1a932cb8285b555e972c12b33d5935e0cf" kindref="member">PIIStreamScanner</ref><sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner_1a932cb8285b555e972c12b33d5935e0cf" kindref="member">PIIStreamScanner</ref>(std::shared_ptr&lt;IPIIDetectionEngine&gt;<sp/>engine,</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref><sp/>cfg<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PIIFinding&gt;<sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner_1a56c5f958700cdbeac32cb8d17f437e85" kindref="member">scan_chunk</ref>(std::string_view<sp/>chunk,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_last<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner_1a90edd99f6cfb4dccc06b51d226bc980f" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner_1adbcbe5dfe6ce66668a1e5ae1d881561d" kindref="member">bytes_processed</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IPIIDetectionEngine&gt;<sp/>engine_;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kindref="compound">PIIStreamScannerConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>lookahead_buf_;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>global_offset_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PIIStreamPseudonymizer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>—<sp/>full<sp/>type<sp/>in<sp/>lek_manager.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_l_e_k_manager" kindref="compound">LEKManager</ref>;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377" refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa4305cbf56aa44251cba4198ea6d4b2c" kindref="member">PIIStreamPseudonymizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="379" refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="380" refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config_1a4a4c4fcec10dec89c4ebdd12a7e651aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config_1a4a4c4fcec10dec89c4ebdd12a7e651aa" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="381" refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config_1a6e2d3d0d02c0e60b195bc1437f3aea96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config_1a6e2d3d0d02c0e60b195bc1437f3aea96" kindref="member">lookahead_bytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa4305cbf56aa44251cba4198ea6d4b2c" kindref="member">PIIStreamPseudonymizer</ref>(std::shared_ptr&lt;IPIIDetectionEngine&gt;<sp/>engine,</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LEKManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lek_mgr,</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa4d30f21e7b83c5369d52be8cecf5816" kindref="member">process_chunk</ref>(std::string_view<sp/>chunk,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_last<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa3323b5580904f5a96f6d6d0881195bb" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scanner_;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LEKManager&gt;<sp/><sp/>lek_mgr_;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/pii_detection_engine.h"/>
+  </compounddef>
+</doxygen>

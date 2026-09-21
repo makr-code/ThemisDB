@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_compressed_replication_stream" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::CompressedReplicationStream</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config" prot="public">themisdb::replication::CompressedReplicationStream::CompressionConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_stats" prot="public">themisdb::replication::CompressedReplicationStream::CompressionStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionAlgorithm</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::CompressionAlgorithm</qualifiedname>
+        <enumvalue id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1a8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1a2069e5c0aea54224dcd6b9b6c78c4902" prot="public">
+          <name>SNAPPY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1ae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1301" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1301" bodyend="1307"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0ce7db556b247a296c62fd6d29a51d6a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CompressedReplicationStream::endpoint_</definition>
+        <argsstring></argsstring>
+        <name>endpoint_</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::endpoint_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1345" column="23" bodyfile="include/replication/replication_manager.h" bodystart="1345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1ac3946dadaeedb8937ab278b4ee2f5d9f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config" kindref="compound">CompressionConfig</ref></type>
+        <definition>CompressionConfig themisdb::replication::CompressedReplicationStream::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1346" column="23" bodyfile="include/replication/replication_manager.h" bodystart="1346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1aff969b45e8f19e8e3eb52408c14b5725" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::CompressedReplicationStream::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1348" column="24" bodyfile="include/replication/replication_manager.h" bodystart="1348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a699b4d033ce0bb65b5aa1b9281b60bd7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_stats" kindref="compound">CompressionStats</ref></type>
+        <definition>CompressionStats themisdb::replication::CompressedReplicationStream::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1349" column="24" bodyfile="include/replication/replication_manager.h" bodystart="1349" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a7e61dbf06971995dbf460433b7cdfd56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::CompressedReplicationStream::CompressedReplicationStream</definition>
+        <argsstring>(const std::string &amp;endpoint, const CompressionConfig &amp;config)</argsstring>
+        <name>CompressedReplicationStream</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::CompressedReplicationStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1323" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="5482" bodyend="5488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a1a829596c95f3e66557d9503b6871ee7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::CompressedReplicationStream::CompressedReplicationStream</definition>
+        <argsstring>(const std::string &amp;endpoint)</argsstring>
+        <name>CompressedReplicationStream</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::CompressedReplicationStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1329" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="5490" bodyend="5493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1ae1f3ce378e436ada14f228a7365d82d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::CompressedReplicationStream::sendBatch</definition>
+        <argsstring>(const std::vector&lt; WALEntry &gt; &amp;entries)</argsstring>
+        <name>sendBatch</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::sendBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Send Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), serializeEntries(), size(), selectAlgorithm(), compress(), lock(), algorithmName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1332" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="5697" bodyend="5724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0e262d03644f11ba75592a389cd220fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::replication::CompressedReplicationStream::decompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;compressed, CompressionAlgorithm algo) const</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::decompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>compressed</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1" kindref="member">CompressionAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1336" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="5611" bodyend="5689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1ade6b9515f7ace0fb31f692b4b380e5a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_stats" kindref="compound">CompressionStats</ref></type>
+        <definition>CompressedReplicationStream::CompressionStats themisdb::replication::CompressedReplicationStream::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1339" column="22" bodyfile="src/replication/replication_manager.cpp" bodystart="5726" bodyend="5734"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1aa1773ea767211ef9844e3d7913d61320" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CompressedReplicationStream::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1342" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="5740" bodyend="5743"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a4189f93261e0dad7024a7bee275c4dac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::replication::CompressedReplicationStream::serializeEntries</definition>
+        <argsstring>(const std::vector&lt; WALEntry &gt; &amp;entries) const</argsstring>
+        <name>serializeEntries</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::serializeEntries</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1352" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="5525" bodyend="5538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a7c258eacb22a5112e1a7e5802eb8eb78" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::replication::CompressedReplicationStream::compress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, CompressionAlgorithm algo) const</argsstring>
+        <name>compress</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::compress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1" kindref="member">CompressionAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1355" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="5540" bodyend="5609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a30b1af2d86b4230f856d0e6e40134442" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1" kindref="member">CompressionAlgorithm</ref></type>
+        <definition>CompressedReplicationStream::CompressionAlgorithm themisdb::replication::CompressedReplicationStream::selectAlgorithm</definition>
+        <argsstring>(size_t payload_bytes) const</argsstring>
+        <name>selectAlgorithm</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::selectAlgorithm</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>payload_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1359" column="26" bodyfile="src/replication/replication_manager.cpp" bodystart="5512" bodyend="5523"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_compressed_replication_stream_1afa17168092ace37b0db742a4a9051c27" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CompressedReplicationStream::algorithmName</definition>
+        <argsstring>(CompressionAlgorithm algo)</argsstring>
+        <name>algorithmName</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::algorithmName</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1" kindref="member">CompressionAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+<para>Algorithm Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements algorithmName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1361" column="24" bodyfile="src/replication/replication_manager.cpp" bodystart="5500" bodyend="5509"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_compressed_replication_stream" kindref="compound">CompressedReplicationStream</ref></para>
+<para>Wraps a replication batch before sending and decompresses on receive. Supported algorithms: NONE, LZ4 (fast), ZSTD (best ratio), SNAPPY (fastest). AUTO selects ZSTD for batches &gt;= min_batch_size, otherwise NONE. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1299" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1299" bodyend="1362"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1afa17168092ace37b0db742a4a9051c27" prot="private" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>algorithmName</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a7c258eacb22a5112e1a7e5802eb8eb78" prot="private" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>compress</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a7e61dbf06971995dbf460433b7cdfd56" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>CompressedReplicationStream</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a1a829596c95f3e66557d9503b6871ee7" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>CompressedReplicationStream</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>CompressionAlgorithm</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1ac3946dadaeedb8937ab278b4ee2f5d9f" prot="private" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0e262d03644f11ba75592a389cd220fd" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>decompress</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0ce7db556b247a296c62fd6d29a51d6a" prot="private" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>endpoint_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1ade6b9515f7ace0fb31f692b4b380e5a6" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1aa1773ea767211ef9844e3d7913d61320" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a30b1af2d86b4230f856d0e6e40134442" prot="private" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>selectAlgorithm</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1ae1f3ce378e436ada14f228a7365d82d9" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>sendBatch</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a4189f93261e0dad7024a7bee275c4dac" prot="private" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>serializeEntries</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a699b4d033ce0bb65b5aa1b9281b60bd7" prot="private" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1aff969b45e8f19e8e3eb52408c14b5725" prot="private" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream</scope><name>stats_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

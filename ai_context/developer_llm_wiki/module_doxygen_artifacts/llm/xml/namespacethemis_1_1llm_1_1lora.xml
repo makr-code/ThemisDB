@@ -1,0 +1,3223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer" prot="public">themis::llm::lora::AdamOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_adam_w_optimizer" prot="public">themis::llm::lora::AdamWOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker" prot="public">themis::llm::lora::AdapterConsistencyChecker</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_info" prot="public">themis::llm::lora::AdapterInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_info_enhanced" prot="public">themis::llm::lora::AdapterInfoEnhanced</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" prot="public">themis::llm::lora::AdapterMetadata</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced" prot="public">themis::llm::lora::AdapterMetadataEnhanced</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" prot="public">themis::llm::lora::AdapterProduct</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" prot="public">themis::llm::lora::AdapterSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager" prot="public">themis::llm::lora::AdapterSyncManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status" prot="public">themis::llm::lora::AdapterSyncStatus</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" prot="public">themis::llm::lora::AdapterWeights</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher" prot="public">themis::llm::lora::AdaptiveBatcher</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a" prot="public">themis::llm::lora::AttentionLoRA</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" prot="public">themis::llm::lora::BaseFeedbackPlugin</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info" prot="public">themis::llm::lora::BaseLayerInfo</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter" prot="public">themis::llm::lora::BaseModelAdapter</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin" prot="public">themis::llm::lora::CacheAwareWeightingPlugin</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_cache_stats" prot="public">themis::llm::lora::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" prot="public">themis::llm::lora::CheckpointConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data" prot="public">themis::llm::lora::CheckpointData</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" prot="public">themis::llm::lora::CheckpointMeta</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref" prot="public">themis::llm::lora::CheckpointRef</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" prot="public">themis::llm::lora::CheckpointStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result" prot="public">themis::llm::lora::CompatibilityResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result" prot="public">themis::llm::lora::ConsistencyCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_constant_l_r" prot="public">themis::llm::lora::ConstantLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin" prot="public">themis::llm::lora::ContentValidationPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_l_r" prot="public">themis::llm::lora::CosineAnnealingLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r" prot="public">themis::llm::lora::CosineAnnealingWarmRestartsLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce" prot="public">themis::llm::lora::CustomAllReduce</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r" prot="public">themis::llm::lora::CyclicLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_data_loader" prot="public">themis::llm::lora::DataLoader</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" prot="public">themis::llm::lora::DataLoaderConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_device" prot="public">themis::llm::lora::Device</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" prot="public">themis::llm::lora::DistributedConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader" prot="public">themis::llm::lora::DistributedDataLoader</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope" prot="public">themis::llm::lora::DistributedScope</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats" prot="public">themis::llm::lora::DistributedStats</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" prot="public">themis::llm::lora::DistributedTrainer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" prot="public">themis::llm::lora::DistributionReceipt</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache" prot="public">themis::llm::lora::EmbeddingCache</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" prot="public">themis::llm::lora::EmbeddingCacheStats</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider" prot="public">themis::llm::lora::EmbeddingProvider</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_exponential_l_r" prot="public">themis::llm::lora::ExponentialLR</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance" prot="public">themis::llm::lora::ExternalAdapterProvenance</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_feedback" prot="public">themis::llm::lora::Feedback</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter" prot="public">themis::llm::lora::FeedbackFilter</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin" prot="public">themis::llm::lora::FeedbackPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_feedback_storage_service" prot="public">themis::llm::lora::FeedbackStorageService</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a" prot="public">themis::llm::lora::FlashLoRA</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter" prot="public">themis::llm::lora::GGUFConverter</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" prot="public">themis::llm::lora::GPUBatch</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader" prot="public">themis::llm::lora::GPUDataLoader</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" prot="public">themis::llm::lora::GPUDataLoaderConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_embedding_layer" prot="public">themis::llm::lora::GPUEmbeddingLayer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" prot="public">themis::llm::lora::GPULoRALayer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer" prot="public">themis::llm::lora::GPULoRATrainer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" prot="public">themis::llm::lora::GPUMemoryManager</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer" prot="public">themis::llm::lora::GPUSGDOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" prot="public">themis::llm::lora::GPUTensor</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_topology" prot="public">themis::llm::lora::GPUTopology</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config" prot="public">themis::llm::lora::GPUTrainingConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop" prot="public">themis::llm::lora::GPUTrainingLoop</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" prot="public">themis::llm::lora::GPUTrainingMetrics</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor" prot="public">themis::llm::lora::GPUUtilizationMonitor</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" prot="public">themis::llm::lora::GradientAccumulationConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator" prot="public">themis::llm::lora::GradientAccumulator</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer" prot="public">themis::llm::lora::GradientCheckpointer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" prot="public">themis::llm::lora::GradientClippingConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats" prot="public">themis::llm::lora::GradientStats</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils" prot="public">themis::llm::lora::GradientUtils</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" prot="public">themis::llm::lora::InferenceAuditEntry</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset" prot="public">themis::llm::lora::InMemoryDataset</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" prot="public">themis::llm::lora::InstructionDataSample</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" prot="public">themis::llm::lora::ITokenizer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer" prot="public">themis::llm::lora::ITrainableLayer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_linear_l_r" prot="public">themis::llm::lora::LinearLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_llama_tokenizer" prot="public">themis::llm::lora::LlamaTokenizer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_audit_logger" prot="public">themis::llm::lora::LoRAAuditLogger</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager" prot="public">themis::llm::lora::LoRACheckpointManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_config" prot="public">themis::llm::lora::LoRAConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model" prot="public">themis::llm::lora::LoRAEnhancedModel</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_edge" prot="public">themis::llm::lora::LoRAGraphEdge</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path" prot="public">themis::llm::lora::LoRAGraphPath</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" prot="public">themis::llm::lora::LoRAHyperparameters</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_inference_audit" prot="public">themis::llm::lora::LoRAInferenceAudit</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_layer" prot="public">themis::llm::lora::LoRALayer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator" prot="public">themis::llm::lora::LoRAOrchestrator</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" prot="public">themis::llm::lora::LoRAPackage</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager" prot="public">themis::llm::lora::LoRAProvenanceManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" prot="public">themis::llm::lora::LoRAProvenanceRecord</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" prot="public">themis::llm::lora::LoRAStorageService</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config" prot="public">themis::llm::lora::LoRATrainingConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception" prot="public">themis::llm::lora::LoRATrainingException</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service" prot="public">themis::llm::lora::LoRATrainingService</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding" prot="public">themis::llm::lora::LoRAVectorEmbedding</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler" prot="public">themis::llm::lora::LRScheduler</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config" prot="public">themis::llm::lora::LRSchedulerConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_factory" prot="public">themis::llm::lora::LRSchedulerFactory</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_l_r_u_cache" prot="public">themis::llm::lora::LRUCache</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" prot="public">themis::llm::lora::MixedPrecisionConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope" prot="public">themis::llm::lora::MixedPrecisionScope</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" prot="public">themis::llm::lora::MixedPrecisionTrainer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_model_architecture_info" prot="public">themis::llm::lora::ModelArchitectureInfo</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker" prot="public">themis::llm::lora::ModelCompatibilityChecker</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_model_metadata" prot="public">themis::llm::lora::ModelMetadata</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" prot="public">themis::llm::lora::MultiGPUContext</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" prot="public">themis::llm::lora::MultiGPULoRALayer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer" prot="public">themis::llm::lora::MultiGPULoRATrainer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_n_c_c_l_backend" prot="public">themis::llm::lora::NCCLBackend</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_one_cycle_l_r" prot="public">themis::llm::lora::OneCycleLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer" prot="public">themis::llm::lora::PagedAdamWOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" prot="public">themis::llm::lora::PagedBuffer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager" prot="public">themis::llm::lora::PagedMemoryManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" prot="public">themis::llm::lora::PagedOptimizerConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" prot="public">themis::llm::lora::PagedOptimizerState</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_manager" prot="public">themis::llm::lora::PagedOptimizerStateManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_page_info" prot="public">themis::llm::lora::PageInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics" prot="public">themis::llm::lora::PagingMetrics</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r" prot="public">themis::llm::lora::PolynomialLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin" prot="public">themis::llm::lora::PrivacyFilterPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger" prot="public">themis::llm::lora::ProvenanceHashLedger</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config" prot="public">themis::llm::lora::QLoRAConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_q_lo_r_a_layer" prot="public">themis::llm::lora::QLoRALayer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_quantization_block" prot="public">themis::llm::lora::QuantizationBlock</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_quantized_layer_weights" prot="public">themis::llm::lora::QuantizedLayerWeights</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_quantized_model" prot="public">themis::llm::lora::QuantizedModel</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_quantized_model_config" prot="public">themis::llm::lora::QuantizedModelConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" prot="public">themis::llm::lora::QuantizedTensor</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend" prot="public">themis::llm::lora::RCCLBackend</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain" prot="public">themis::llm::lora::ReceiptChain</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" prot="public">themis::llm::lora::ReceiptManifest</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler" prot="public">themis::llm::lora::ResourceProfiler</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" prot="public">themis::llm::lora::ResourceSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_resource_stats" prot="public">themis::llm::lora::ResourceStats</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer" prot="public">themis::llm::lora::SequencePacker</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_sequential" prot="public">themis::llm::lora::Sequential</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer" prot="public">themis::llm::lora::SGDOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" prot="public">themis::llm::lora::ShardLedgerEntry</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer" prot="public">themis::llm::lora::SimpleTokenizer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_step_l_r" prot="public">themis::llm::lora::StepLR</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result" prot="public">themis::llm::lora::SyncJobResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_tensor" prot="public">themis::llm::lora::Tensor</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_batch" prot="public">themis::llm::lora::TrainingBatch</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_checkpoint" prot="public">themis::llm::lora::TrainingCheckpoint</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_data" prot="public">themis::llm::lora::TrainingData</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_data_sample" prot="public">themis::llm::lora::TrainingDataSample</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_metrics" prot="public">themis::llm::lora::TrainingMetrics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_result" prot="public">themis::llm::lora::TrainingResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry" prot="public">themis::llm::lora::TrainingServiceRegistry</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin" prot="public">themis::llm::lora::TrainingTriggerPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" prot="public">themis::llm::lora::VRAMAllocator</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block" prot="public">themis::llm::lora::VRAMBlock</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor" prot="public">themis::llm::lora::VRAMTensor</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r" prot="public">themis::llm::lora::WarmupConstantLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_warmup_cosine_l_r" prot="public">themis::llm::lora::WarmupCosineLR</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_warmup_linear_l_r" prot="public">themis::llm::lora::WarmupLinearLR</innerclass>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1cpu">themis::llm::lora::cpu</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1data__utils">themis::llm::lora::data_utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1double__quantization">themis::llm::lora::double_quantization</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1gguf__blocks">themis::llm::lora::gguf_blocks</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils">themis::llm::lora::gpu_tensor_utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1metrics">themis::llm::lora::metrics</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1nf4__constants">themis::llm::lora::nf4_constants</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1quantization">themis::llm::lora::quantization</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1quantized__model__utils">themis::llm::lora::quantized_model_utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1tensor__utils">themis::llm::lora::tensor_utils</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>LoRATrainingErrorCode</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a8356d057d2172e50107d0c2fe57777b7" prot="public">
+          <name>INIT_MODEL_PATH_EMPTY</name>
+          <initializer>= 7200</initializer>
+          <briefdescription>
+<para>Model path is empty or null. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aa9ca1ada05ad70ee5875c3db36b75f77" prot="public">
+          <name>INIT_MODEL_NOT_FOUND</name>
+          <initializer>= 7201</initializer>
+          <briefdescription>
+<para>Model file does not exist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a6c9eacf22082a3e842df5abbffa07769" prot="public">
+          <name>INIT_MODEL_FILE_READ_FAILED</name>
+          <initializer>= 7202</initializer>
+          <briefdescription>
+<para>Failed to read model file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a21696f16aea1c4bf719396d84d3506e7" prot="public">
+          <name>INIT_GGUF_FORMAT_INVALID</name>
+          <initializer>= 7203</initializer>
+          <briefdescription>
+<para>GGUF format is invalid or corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9ad3adef5018ddd5e5e87e5b2bd8c4884c" prot="public">
+          <name>INIT_GGUF_HEADER_READ_FAILED</name>
+          <initializer>= 7204</initializer>
+          <briefdescription>
+<para>Failed to read GGUF header. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9af08be9263257e2af709c7f900625c511" prot="public">
+          <name>INIT_WEIGHTS_LOAD_FAILED</name>
+          <initializer>= 7205</initializer>
+          <briefdescription>
+<para>Failed to load model weights. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a9d73ca3c7f0a6a6bf0850f5ea0ce163d" prot="public">
+          <name>INIT_DEVICE_UNAVAILABLE</name>
+          <initializer>= 7206</initializer>
+          <briefdescription>
+<para>GPU/device not available, fallback to CPU failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a704dab97692ab51a22440eefa116cee4" prot="public">
+          <name>INIT_MEMORY_ALLOCATION_FAILED</name>
+          <initializer>= 7207</initializer>
+          <briefdescription>
+<para>Memory allocation during init failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aae5e49fd7a4dac5f88d78c798f95f8ea" prot="public">
+          <name>INIT_TRAINING_STATE_FAILED</name>
+          <initializer>= 7208</initializer>
+          <briefdescription>
+<para>Failed to initialize training state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a13fbac3e12c4f258aed7af8dcd0a2225" prot="public">
+          <name>INIT_VERIFICATION_FAILED</name>
+          <initializer>= 7209</initializer>
+          <briefdescription>
+<para>Model verification (forward+backward) failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9ae023d1e81d7ebcdc78ad7f9a7891850a" prot="public">
+          <name>TRAIN_ALREADY_IN_PROGRESS</name>
+          <initializer>= 7210</initializer>
+          <briefdescription>
+<para>Training already running for adapter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a9f9480f7e5f15e48deab2388ba78a965" prot="public">
+          <name>TRAIN_INVALID_DATA</name>
+          <initializer>= 7211</initializer>
+          <briefdescription>
+<para>Invalid training data provided. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9acbab5b6a8f257218b205ffbcab686b5d" prot="public">
+          <name>TRAIN_EMPTY_DATASET</name>
+          <initializer>= 7212</initializer>
+          <briefdescription>
+<para>Training dataset is empty. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a100663a852a67034a40150d1b5862c7a" prot="public">
+          <name>TRAIN_FORWARD_PASS_FAILED</name>
+          <initializer>= 7213</initializer>
+          <briefdescription>
+<para>Forward pass computation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a30d30d26bbd9bdfbba42374866c9e373" prot="public">
+          <name>TRAIN_LOSS_NAN_OR_INF</name>
+          <initializer>= 7214</initializer>
+          <briefdescription>
+<para>Loss became NaN or Inf. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a0223e082fdb50ab22269e38934353304" prot="public">
+          <name>TRAIN_DEVICE_MEMORY_EXCEEDED</name>
+          <initializer>= 7215</initializer>
+          <briefdescription>
+<para>GPU memory exceeded during training. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a09824e9e98bc0e067c4764fff9aa0212" prot="public">
+          <name>TRAIN_OUT_OF_MEMORY</name>
+          <initializer>= 7216</initializer>
+          <briefdescription>
+<para>Out of memory during training. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a7698a635998234b433dc760449a5fdb0" prot="public">
+          <name>TRAIN_INTERRUPTED</name>
+          <initializer>= 7217</initializer>
+          <briefdescription>
+<para>Training interrupted by user. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9abfc594951b7e922450021744453d6fcb" prot="public">
+          <name>TRAIN_TIMEOUT</name>
+          <initializer>= 7218</initializer>
+          <briefdescription>
+<para>Training exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aa2847c7549e9dab05955763f8cbd9c63" prot="public">
+          <name>TRAIN_HYPERPARAMS_INVALID</name>
+          <initializer>= 7219</initializer>
+          <briefdescription>
+<para>Invalid hyperparameters. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a4cbc0c4f808ff8744c109487c3cd934f" prot="public">
+          <name>CKPT_SAVE_FAILED</name>
+          <initializer>= 7220</initializer>
+          <briefdescription>
+<para>Failed to save checkpoint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a9bd965bf15bb9bbae5f04c040910d35c" prot="public">
+          <name>CKPT_ATOMIC_WRITE_FAILED</name>
+          <initializer>= 7221</initializer>
+          <briefdescription>
+<para>Atomic checkpoint write failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a8d9732aa408f15f74f18b1e8dbbedae1" prot="public">
+          <name>CKPT_LOAD_FAILED</name>
+          <initializer>= 7222</initializer>
+          <briefdescription>
+<para>Failed to load checkpoint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aa2006a163b1981f688b3ddcd307da3b7" prot="public">
+          <name>CKPT_VERSION_MISMATCH</name>
+          <initializer>= 7223</initializer>
+          <briefdescription>
+<para>Checkpoint version mismatch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a8cdc65798d083a830b32e45826e871bf" prot="public">
+          <name>CKPT_CHECKSUM_INVALID</name>
+          <initializer>= 7224</initializer>
+          <briefdescription>
+<para>Checkpoint checksum verification failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a4c8a49c7f5cd567a42d18fedeb6c16ff" prot="public">
+          <name>CKPT_CORRUPTED</name>
+          <initializer>= 7225</initializer>
+          <briefdescription>
+<para>Checkpoint file is corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a8bf38159945eeb3eb913b06091eab407" prot="public">
+          <name>CKPT_DIR_CREATE_FAILED</name>
+          <initializer>= 7226</initializer>
+          <briefdescription>
+<para>Failed to create checkpoint directory. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9adbfe1044617c47ecdf1be53c6db5ea8c" prot="public">
+          <name>CKPT_FILE_WRITE_FAILED</name>
+          <initializer>= 7227</initializer>
+          <briefdescription>
+<para>Failed to write checkpoint file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a32044c11186c1fb1ae2f5fc2e75e4ace" prot="public">
+          <name>CKPT_METADATA_INVALID</name>
+          <initializer>= 7228</initializer>
+          <briefdescription>
+<para>Checkpoint metadata is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aa8e2a23eea13a0019da662b956159dee" prot="public">
+          <name>CKPT_NO_VALID_CHECKPOINT</name>
+          <initializer>= 7229</initializer>
+          <briefdescription>
+<para>No valid checkpoint found for recovery. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a486371f2c8e8c46e6b46b1993768f8ce" prot="public">
+          <name>GRAD_BACKWARD_PASS_FAILED</name>
+          <initializer>= 7230</initializer>
+          <briefdescription>
+<para>Backward pass computation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a3d845e6496bf7d58937e5da3c6274528" prot="public">
+          <name>GRAD_NAN_OR_INF</name>
+          <initializer>= 7231</initializer>
+          <briefdescription>
+<para>Gradient contains NaN or Inf values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aef84ad2f30ea5265c80a985defdba696" prot="public">
+          <name>GRAD_ACCUMULATION_FAILED</name>
+          <initializer>= 7232</initializer>
+          <briefdescription>
+<para>Gradient accumulation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9ab7771f2121536f21e1be6a30bf85cecd" prot="public">
+          <name>GRAD_CLIPPING_FAILED</name>
+          <initializer>= 7233</initializer>
+          <briefdescription>
+<para>Gradient clipping computation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a514c454aca61479d2633124f5a6d684f" prot="public">
+          <name>OPT_UPDATE_FAILED</name>
+          <initializer>= 7234</initializer>
+          <briefdescription>
+<para>Optimizer update step failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9af599defc09ac4b223f88f920fe3cf7ff" prot="public">
+          <name>OPT_STATE_INVALID</name>
+          <initializer>= 7235</initializer>
+          <briefdescription>
+<para>Optimizer state is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a4e35f997cce81caf04f87dca5e5b66dd" prot="public">
+          <name>OPT_LR_SCHEDULE_FAILED</name>
+          <initializer>= 7236</initializer>
+          <briefdescription>
+<para>Learning rate schedule computation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a4696ceb166f95a3fc0622e680cf973a2" prot="public">
+          <name>GRAD_SYNC_TIMEOUT</name>
+          <initializer>= 7237</initializer>
+          <briefdescription>
+<para>Gradient synchronization timeout (distributed). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a797aea6ae6b7ccbed434aa0e709699af" prot="public">
+          <name>GRAD_SYNC_FAILED</name>
+          <initializer>= 7238</initializer>
+          <briefdescription>
+<para>Gradient synchronization failed (distributed). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9ae1457fa2fc48ac41ffa056b688950949" prot="public">
+          <name>GRAD_PRECISION_LOST</name>
+          <initializer>= 7239</initializer>
+          <briefdescription>
+<para>Gradient precision loss detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a6e30c4829bc5b49df81c7a90ee4c3964" prot="public">
+          <name>DIST_COORDINATOR_INIT_FAILED</name>
+          <initializer>= 7240</initializer>
+          <briefdescription>
+<para>Failed to initialize coordinator. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a65f9135fe3462d1a62877999524c5e53" prot="public">
+          <name>DIST_COORDINATOR_UNAVAILABLE</name>
+          <initializer>= 7241</initializer>
+          <briefdescription>
+<para>Coordinator not available (standalone mode fallback). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9ad11642dbd667089ab5d8eb8f1ee335bf" prot="public">
+          <name>DIST_ALLREDUCE_FAILED</name>
+          <initializer>= 7242</initializer>
+          <briefdescription>
+<para>AllReduce operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a4f8c4bcc907ca1d1869be578b93582a0" prot="public">
+          <name>DIST_SHARD_COMMUNICATION_FAILED</name>
+          <initializer>= 7243</initializer>
+          <briefdescription>
+<para>Failed to communicate with shard. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a16c8e1621a97439b78ccff051bc4fd7f" prot="public">
+          <name>DIST_INCOMPATIBLE_TOPOLOGY</name>
+          <initializer>= 7244</initializer>
+          <briefdescription>
+<para>Shard topology incompatible with training. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a08fdb71aa3f9692030c57368fbd494f3" prot="public">
+          <name>DIST_WORKER_FAILURE</name>
+          <initializer>= 7245</initializer>
+          <briefdescription>
+<para>Remote worker failure during training. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a60f40730c821f688fe2c339e331cde98" prot="public">
+          <name>DIST_MODE_DETECTION_FAILED</name>
+          <initializer>= 7246</initializer>
+          <briefdescription>
+<para>Failed to detect standalone/distributed mode. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9abe8a7991e60b61425ccfd632aa2f3b9e" prot="public">
+          <name>DIST_MIGRATION_FAILED</name>
+          <initializer>= 7247</initializer>
+          <briefdescription>
+<para>Failed to migrate standalone→distributed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a6d882c067286bab00c7a16d872363cb0" prot="public">
+          <name>DIST_SYNC_BARRIER_FAILED</name>
+          <initializer>= 7248</initializer>
+          <briefdescription>
+<para>Synchronization barrier failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a73651c92e7a9f2d74ff94065b82f5393" prot="public">
+          <name>DIST_CONFIG_INVALID</name>
+          <initializer>= 7249</initializer>
+          <briefdescription>
+<para>Distributed configuration is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9acb4a6733a11272db1873484b6ac4c16e" prot="public">
+          <name>VAL_EMPTY_DATASET</name>
+          <initializer>= 7250</initializer>
+          <briefdescription>
+<para>Validation dataset is empty. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a3e772e897b345b4423a15e087f8e70b4" prot="public">
+          <name>VAL_FORWARD_PASS_FAILED</name>
+          <initializer>= 7251</initializer>
+          <briefdescription>
+<para>Forward pass failed during validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a4f845b09219001c844230545d58612b6" prot="public">
+          <name>VAL_METRIC_COMPUTATION_FAILED</name>
+          <initializer>= 7252</initializer>
+          <briefdescription>
+<para>Failed to compute validation metrics. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9acf77ee23bb12ad6523b40766f7bdb66c" prot="public">
+          <name>VAL_METRIC_NAN_OR_INF</name>
+          <initializer>= 7253</initializer>
+          <briefdescription>
+<para>Validation metric is NaN or Inf. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a3432e36cefd0fac85d549136e7115a88" prot="public">
+          <name>VAL_INVALID_PREDICTIONS</name>
+          <initializer>= 7254</initializer>
+          <briefdescription>
+<para>Invalid model predictions during validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a900ac2a0c584332ea6417718d9a6d94e" prot="public">
+          <name>VAL_SHAPE_MISMATCH</name>
+          <initializer>= 7255</initializer>
+          <briefdescription>
+<para>Prediction/target shape mismatch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aefaae8234f5ae03d383dae3bb5f032bd" prot="public">
+          <name>VAL_TIMEOUT</name>
+          <initializer>= 7256</initializer>
+          <briefdescription>
+<para>Validation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a0b68925ebb95e60b9cfc3e732af204bf" prot="public">
+          <name>VAL_DEVICE_FAILURE</name>
+          <initializer>= 7257</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> failure during validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a853c798baa2f59b5deddf69aeb3c92c6" prot="public">
+          <name>VAL_METRIC_RANGE_INVALID</name>
+          <initializer>= 7258</initializer>
+          <briefdescription>
+<para>Metric value outside valid range. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a98f20b0f21d56502798880858247ec37" prot="public">
+          <name>VAL_INSUFFICIENT_SAMPLES</name>
+          <initializer>= 7259</initializer>
+          <briefdescription>
+<para>Insufficient samples for statistical significance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aa4205c0b14d1225f9da33c173c695907" prot="public">
+          <name>RES_GPU_MEMORY_INSUFFICIENT</name>
+          <initializer>= 7260</initializer>
+          <briefdescription>
+<para>Insufficient GPU memory. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a6ec091bf17e54e32b6e047b5a5ba6292" prot="public">
+          <name>RES_CPU_MEMORY_INSUFFICIENT</name>
+          <initializer>= 7261</initializer>
+          <briefdescription>
+<para>Insufficient CPU memory. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a1ebda660d9f4aaefb834080b182cde44" prot="public">
+          <name>RES_DEVICE_INITIALIZATION_FAILED</name>
+          <initializer>= 7262</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> initialization failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aa2317a00b4899ef183a34e4220c53303" prot="public">
+          <name>RES_DEVICE_RESET_FAILED</name>
+          <initializer>= 7263</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> reset failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a4fdb92882fd7a765cffac6cbdb304ec0" prot="public">
+          <name>RES_KERNEL_LAUNCH_FAILED</name>
+          <initializer>= 7264</initializer>
+          <briefdescription>
+<para>GPU kernel launch failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a64566b093b816887d0538d0f3743b3e3" prot="public">
+          <name>RES_DISK_SPACE_EXCEEDED</name>
+          <initializer>= 7265</initializer>
+          <briefdescription>
+<para>Insufficient disk space for checkpoint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a077a83817b7849f7ec8d7b207b12e470" prot="public">
+          <name>RES_TIMEOUT_WAITING_FOR_DEVICE</name>
+          <initializer>= 7266</initializer>
+          <briefdescription>
+<para>Timeout waiting for device availability. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a1c2383fed345fc00fe201ffb3b68ac51" prot="public">
+          <name>RES_INVALID_DEVICE_ID</name>
+          <initializer>= 7267</initializer>
+          <briefdescription>
+<para>Invalid GPU device ID. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9ad088574114c604abf0f0b9a9c0a4d0ca" prot="public">
+          <name>RES_DEVICE_SYNC_FAILED</name>
+          <initializer>= 7268</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> synchronization failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a8d64a27c53f11a1c447d510182c015ba" prot="public">
+          <name>RES_PROFILE_OVERHEAD</name>
+          <initializer>= 7269</initializer>
+          <briefdescription>
+<para>Resource profiling overhead too high. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9ae00cc181a9dcb2d965626979159811e4" prot="public">
+          <name>GENERAL_INVALID_ADAPTER_ID</name>
+          <initializer>= 7270</initializer>
+          <briefdescription>
+<para>Invalid adapter ID format. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a4de2a56c3539d230363ccc19cd49370e" prot="public">
+          <name>GENERAL_INVALID_CONFIG</name>
+          <initializer>= 7271</initializer>
+          <briefdescription>
+<para>Invalid configuration provided. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9ae92e507446d6ff938f87badf4372b07b" prot="public">
+          <name>GENERAL_SERIALIZATION_FAILED</name>
+          <initializer>= 7272</initializer>
+          <briefdescription>
+<para>Failed to serialize training state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a99a02f254e5414c86cff4dd6b36f0a35" prot="public">
+          <name>GENERAL_DESERIALIZATION_FAILED</name>
+          <initializer>= 7273</initializer>
+          <briefdescription>
+<para>Failed to deserialize training state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9aa47c62c4246b36d962f7284e3d013ee5" prot="public">
+          <name>GENERAL_FILE_IO_ERROR</name>
+          <initializer>= 7274</initializer>
+          <briefdescription>
+<para>General file I/O error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a93d3b4a906135d9f13f127b009e145dc" prot="public">
+          <name>GENERAL_JSON_PARSE_ERROR</name>
+          <initializer>= 7275</initializer>
+          <briefdescription>
+<para>Failed to parse JSON. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a8b87c896d073fcadbe49c9b290c0ceb0" prot="public">
+          <name>GENERAL_TENSOR_OPERATION_FAILED</name>
+          <initializer>= 7276</initializer>
+          <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a3e46b442638a6cb3774e69b60d91dc09" prot="public">
+          <name>GENERAL_UNWIND_SAFETY_VIOLATED</name>
+          <initializer>= 7277</initializer>
+          <briefdescription>
+<para>Exception safety violation detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a3767424fbcee5b4c32067c41d2a41e77" prot="public">
+          <name>GENERAL_INTERNAL_STATE_INVALID</name>
+          <initializer>= 7278</initializer>
+          <briefdescription>
+<para>Internal state invariant violated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9a5dc174b51644ba6a217ee900ededeede" prot="public">
+          <name>GENERAL_UNIMPLEMENTED</name>
+          <initializer>= 7279</initializer>
+          <briefdescription>
+<para>Feature not implemented. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9acc6e994934583ea0f3ea8b94661b79a3" prot="public">
+          <name>GENERAL_UNKNOWN_ERROR</name>
+          <initializer>= 7299</initializer>
+          <briefdescription>
+<para>Unknown error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="21" column="1" bodyfile="include/llm/lora_training_error_codes.h" bodystart="21" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DatasetFormat</name>
+        <qualifiedname>themis::llm::lora::DatasetFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015ad63dd5a11b7bfad43a474d4ca471dc9f" prot="public">
+          <name>JSONL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a7c80105b450d2a7097856f0c1a47f684" prot="public">
+          <name>ALPACA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a6bf102810c451bcbe854d58144f86c92" prot="public">
+          <name>SHAREGPT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015aae7d3557f5e0b4e9cca075db3dfa7e9d" prot="public">
+          <name>PLAIN_TEXT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="59" column="1" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="59" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DistributedBackend</name>
+        <qualifiedname>themis::llm::lora::DistributedBackend</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953a1ed15cc4178fd8ec4d845042a8f1ead0" prot="public">
+          <name>NCCL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953aee883e67e470043533f4dab59392a250" prot="public">
+          <name>GLOO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953a3b124f211648678733ce66a1b361f06c" prot="public">
+          <name>MPI</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="27" column="1" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeviceType</name>
+        <qualifiedname>themis::llm::lora::DeviceType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aa33b7755e5f9b504d2d038eaca4ff28d" prot="public">
+          <name>CUDA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a5e4576beae2ab86d6ad1b8b1700d2e11" prot="public">
+          <name>HIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13ac60cacb57b9e78f018a9d973bee2f801" prot="public">
+          <name>VULKAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aeee703cc0a96c14f0661af3ae9420d08" prot="public">
+          <name>DIRECTX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="24" column="1" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="24" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CheckpointStrategy</name>
+        <qualifiedname>themis::llm::lora::CheckpointStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No checkpointing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51a891f35a29c3d51d02ffd42dd6dcc69b2" prot="public">
+          <name>UNIFORM</name>
+          <briefdescription>
+<para>Checkpoint every N layers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51ac79ccdb9e2ea037575fb8d91a53814aa" prot="public">
+          <name>SQRT_N</name>
+          <briefdescription>
+<para>Checkpoint every √n layers (optimal for memory). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51a1bf31e8621de73f56a244b64c3fe52f4" prot="public">
+          <name>ATTENTION_ONLY</name>
+          <briefdescription>
+<para>Checkpoint attention layers only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>User-defined checkpoint points. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="26" column="1" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LayerType</name>
+        <qualifiedname>themis::llm::lora::LayerType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a097cc86b24ec939a19f8783e64fbb4ee" prot="public">
+          <name>ATTENTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a52aae576bf589d25050d77c1514e4101" prot="public">
+          <name>FFN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a0e968adc02e193605cca80a818a751aa" prot="public">
+          <name>LORA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a7f2699c7a1e80cc61c1873b896421176" prot="public">
+          <name>EMBEDDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="34" column="1" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ClippingMethod</name>
+        <qualifiedname>themis::llm::lora::ClippingMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a365ce42cc86cc29984bb10d375fa2c92" prot="public">
+          <name>BY_NORM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a2091ed77fa12bad89bfddc1a504e9cfe" prot="public">
+          <name>BY_VALUE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a2ec907e964516eee4fd3b4eba7c4f275" prot="public">
+          <name>BY_GLOBAL_NORM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="24" column="1" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LoRAAuditEventType</name>
+        <qualifiedname>themis::llm::lora::LoRAAuditEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa1bbf0ac3080fcf51b9ba0bcbdbd9fcac" prot="public">
+          <name>INFERENCE_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439faba645c120c5a5cad9131516c37c935e3" prot="public">
+          <name>INFERENCE_COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439facc6010972c9fec39edc95265b65c3a51" prot="public">
+          <name>INFERENCE_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fabcf881e66f99ff5b4dc214997c8a7e29" prot="public">
+          <name>ADAPTER_LOADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa06f8182b8e7a3ca59b34e671ab67b936" prot="public">
+          <name>ADAPTER_UNLOADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa3929a1fd35e873a3ebb71eb3055656f0" prot="public">
+          <name>ADAPTER_SWITCHED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439faa3c6319f66b9bf80031b4d45ba42ae8e" prot="public">
+          <name>TRAINING_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fae6d7428cb31a3266c56f0b19ed31592a" prot="public">
+          <name>TRAINING_COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fae52c2aa7f161b65d56584d2c1e37e567" prot="public">
+          <name>TRAINING_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa35e2bead1b433422cd9c346755a9d77e" prot="public">
+          <name>TRAINING_DATA_ADDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fac1d6cc6c275c8bc196d723422f1ac443" prot="public">
+          <name>FEEDBACK_POSITIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439faec3f561d34f3f02ae6f51168006d24c9" prot="public">
+          <name>FEEDBACK_NEGATIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa8c5cfdc5285bb9edc90ce0e14ca57c58" prot="public">
+          <name>FEEDBACK_CORRECTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fab73f0bbbab8194079df101b642912fab" prot="public">
+          <name>VERSION_CREATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa1f2b81a85f310ebb368cc4604c5282d3" prot="public">
+          <name>VERSION_SWITCHED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa684eeffc46678713b824701fe0ae7167" prot="public">
+          <name>VERSION_ROLLED_BACK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fafb63b1a17b96a7db43156f5ec625411e" prot="public">
+          <name>ADAPTER_CREATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa776bb4a496aff0a8cc2a2e8bfacbd0f5" prot="public">
+          <name>ADAPTER_UPDATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439faf600c2f6ec5c83083df163a28026b6ae" prot="public">
+          <name>ADAPTER_DELETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa2cf59491d088aa129f28bad3ea510531" prot="public">
+          <name>ADAPTER_IMPORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439faf0fd89336cc8ee2a4bfe0aa256d69f94" prot="public">
+          <name>ADAPTER_EXPORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fae100acd9b57ba49b5a72634ed9aae3dd" prot="public">
+          <name>METADATA_UPDATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa838caa9b55f8c2e478dde77c99e1d17e" prot="public">
+          <name>HYPERPARAMETERS_CHANGED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa3c1754fb64ee602af74025a3a2840e5b" prot="public">
+          <name>ADAPTER_ENCRYPTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa5585fade894f1d27e49b16b58d7981bb" prot="public">
+          <name>ADAPTER_SIGNED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa7916a786132a368f548aa68773c435ce" prot="public">
+          <name>SIGNATURE_VERIFIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fad1aeaa349c38a03f6648101acd069ff8" prot="public">
+          <name>SIGNATURE_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439faed6f8706d1882ccfcb1bb2ac00610336" prot="public">
+          <name>ACCURACY_THRESHOLD_VIOLATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa93d2c635b9e94326d0b4e5a714e71dea" prot="public">
+          <name>ROLLBACK_TRIGGERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa5001b2d18e7e582977894d06f7c3309d" prot="public">
+          <name>CACHE_HIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fab18ae448d41f7b0ce63861c51d1bf16a" prot="public">
+          <name>CACHE_MISS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa39b6a76d67561917065360e6cca7b1e2" prot="public">
+          <name>CACHE_EVICTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa9ce51cdb3bac80f2f8f5e8eaf3151abd" prot="public">
+          <name>PROVENANCE_ATTACHED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa8f3915ebc309523e449d3aa1c83080c4" prot="public">
+          <name>PROVENANCE_VERIFIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fae482b2fe46d428f55c302642f7daf93d" prot="public">
+          <name>SNAPSHOT_CREATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439faff9eb3247cf24522e4f38c5949792517" prot="public">
+          <name>AUDIT_CHAIN_VERIFIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a93c6c75678a70d2bd825246a3e9c439fa58c04309ae732ff638e0ca5586f1dea2" prot="public">
+          <name>AUDIT_CHAIN_TAMPERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_audit_logger.h" line="27" column="1" bodyfile="include/llm/lora_framework/lora_audit_logger.h" bodystart="27" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LoRAEdgeType</name>
+        <qualifiedname>themis::llm::lora::LoRAEdgeType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7a5cdf63d03403cf6f338227d71ec13ff9" prot="public">
+          <name>DERIVED_FROM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7a69ecff9aa62680ad446f138823bb148d" prot="public">
+          <name>TRAINED_ON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7af6a873a930df49e5a513eef63629e997" prot="public">
+          <name>RETRAINED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7a8e632d87e5b0c0e371dad5f05440b957" prot="public">
+          <name>FORKED_FROM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7a3fdf8a9a42d8b74a50f447337968f74a" prot="public">
+          <name>MERGED_INTO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7ac0f1268a6cf132296b0e579a7c408bcb" prot="public">
+          <name>USED_IN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7ac24c76de695dd910f4097295c2a2eb1d" prot="public">
+          <name>SIMILAR_TO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7a8479625b1b9ae2764096643121fd307a" prot="public">
+          <name>DEPENDS_ON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7a3f82d1cad16541b78ddcbed7ac2f0cab" prot="public">
+          <name>VERSIONED_AS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7a130c754190afb1a91983bd2d4cbdf50d" prot="public">
+          <name>DEPLOYED_TO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7abda13ec132979a6e768d4258a17b3174" prot="public">
+          <name>TRAINED_BY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7a6e02b7837021a0a06d6e5bd9a9c2ffb6" prot="public">
+          <name>FEEDBACK_FOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="25" column="1" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="25" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SchedulerType</name>
+        <qualifiedname>themis::llm::lora::SchedulerType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359a8d6b5cada83510220f59e00ce86d4d92" prot="public">
+          <name>CONSTANT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359aaac544aacc3615aada24897a215f5046" prot="public">
+          <name>LINEAR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359ae66ba018ef96aa5c78c8fba787f43717" prot="public">
+          <name>COSINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359ac3118c1a6045b4c1743d7140b15d3ba5" prot="public">
+          <name>COSINE_WITH_RESTARTS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359aeee51f5572f36b8a2347f75e541b67fe" prot="public">
+          <name>POLYNOMIAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359a522f694f92e679d874a1cc2b2616c3d7" prot="public">
+          <name>STEP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359adcd5fc33e211f31cef0cd7cb36518d31" prot="public">
+          <name>EXPONENTIAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359a59424358c60352b91d6c148388c94bd1" prot="public">
+          <name>WARMUP_CONSTANT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359a49b54bfd75fbe1686802abf647dbe540" prot="public">
+          <name>WARMUP_COSINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359a44a6a06bcc89b3f1e4a46f134d30ea4d" prot="public">
+          <name>WARMUP_LINEAR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359ab970fa647bc2f4761a80276428780061" prot="public">
+          <name>CYCLIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359a85eb2e9d55774e3321780fabd5f06b24" prot="public">
+          <name>ONE_CYCLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="26" column="1" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="26" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PrecisionMode</name>
+        <qualifiedname>themis::llm::lora::PrecisionMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a693aa0bef84c25fe81c7e62e72f9313d" prot="public">
+          <name>FP32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09aa4bf99d6945c25077fd6660d536af8a0" prot="public">
+          <name>FP16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09af656bbf613964dcf710b771b0918ab30" prot="public">
+          <name>BF16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a9c37cba6d8907746452b1fb10c11ab1b" prot="public">
+          <name>AMP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="26" column="1" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ModelFormat</name>
+        <qualifiedname>themis::llm::lora::ModelFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881ba696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881ba885645c60785bf454743b7905ab7e933" prot="public">
+          <name>GGUF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881ba47c46c059806dbf672a56b71a6f42a35" prot="public">
+          <name>SAFETENSORS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881ba53d9625a46c80be2969e41a110cbda92" prot="public">
+          <name>PYTORCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881baa3d7de606bf23e22abd3b9f9ad21ca39" prot="public">
+          <name>ONNX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881baf1f0beaeb082e0ba00a95481360fb3fe" prot="public">
+          <name>TENSORFLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="26" column="1" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ModelArchitecture</name>
+        <qualifiedname>themis::llm::lora::ModelArchitecture</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba92eef2686755646d74aeb2f125445f6c" prot="public">
+          <name>LLAMA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba71a8e5f3786c5a3db2955675921092b6" prot="public">
+          <name>MISTRAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13ebad1a1cfe2316376e552e97a6d52a9f465" prot="public">
+          <name>MIXTRAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13ebaa09388a7c034c082e91b292222d13c36" prot="public">
+          <name>GPT2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba2daf7af9968b29b32c4c952ac8bdc547" prot="public">
+          <name>GPTJ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba8fc0b0aaf82fdc4f1baaf448b6a870f8" prot="public">
+          <name>GPTNEOX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13ebabb4f8bb682e49b9452aa1cc2d348bbfe" prot="public">
+          <name>MPT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13ebab48c6b32c41d8a5c7572c9db8852d5c7" prot="public">
+          <name>FALCON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba75353d6b5c9e61768be683d850cc56ac" prot="public">
+          <name>BAICHUAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba751193ba6d06c17ae7e10c03215b116d" prot="public">
+          <name>QWEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba97c64679ee5251cb8c4143ff07355231" prot="public">
+          <name>STABLELM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="35" column="1" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="35" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CommBackend</name>
+        <qualifiedname>themis::llm::lora::CommBackend</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31ae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31a1ed15cc4178fd8ec4d845042a8f1ead0" prot="public">
+          <name>NCCL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31af456a6872ffafa6f914fc095bab32733" prot="public">
+          <name>RCCL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="26" column="1" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EvictionPolicy</name>
+        <qualifiedname>themis::llm::lora::EvictionPolicy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a875ecb34f6d21d13d4b9fd4980a8b5af" prot="public">
+          <name>LRU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a96a74b4240085d5b2a73287deef3a5fa" prot="public">
+          <name>LFU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7ac589858dbe1d06c46544266ae4cd2c6f" prot="public">
+          <name>FIFO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a4a618c0d47d9f00b5878b825dd74abb7a90cff4f81e21a20801df4abe9cbf0cbe" prot="public">
+          <name>ADAPTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="24" column="1" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QuantizationType</name>
+        <qualifiedname>themis::llm::lora::QuantizationType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843a167c795dd4cb725ea2c7da144e1f8e54" prot="public">
+          <name>NF4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843aee9d73311ff0658494edfff14c3ec1e3" prot="public">
+          <name>INT8</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843ae9903780fa1d9b91f0542bd40fea13f2" prot="public">
+          <name>Q4_K_M</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843a7d752b3cc49838890790999912af5a83" prot="public">
+          <name>Q8_0</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="25" column="1" bodyfile="include/llm/lora_framework/quantization.h" bodystart="25" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DType</name>
+        <qualifiedname>themis::llm::lora::DType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" prot="public">
+          <name>FLOAT32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24ac49f280a5ad551ccc77be0b01a2f386a" prot="public">
+          <name>FLOAT16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24aa4b19a06b5361a32b32759aa26ffdbab" prot="public">
+          <name>BFLOAT16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/tensor_dtype.h" line="23" column="1" bodyfile="include/llm/lora_framework/tensor_dtype.h" bodystart="23" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::llm::lora::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::llm::lora::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="25" column="1" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1a362ae9a83ecbd526db1702367e96f7ba" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" kindref="compound">GPUTrainingMetrics</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::lora::GPUTrainingCallback = std::function&lt;void(const GPUTrainingMetrics&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GPUTrainingCallback</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="54" column="1" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1a8021be19948014b1a5aef926382e8662" prot="public" static="no">
+        <type>std::function&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>(const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::lora::ForwardFunction = std::function&lt;GPUTensor(const GPUTensor&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ForwardFunction</name>
+        <qualifiedname>themis::llm::lora::ForwardFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="62" column="1" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1aebb3b8c8aca8cf50d35a6b9a06e6dfc5" prot="public" static="no">
+        <type>::themis::GraphIndexManager</type>
+        <definition>using themis::llm::lora::GraphIndexManager = ::themis::GraphIndexManager</definition>
+        <argsstring></argsstring>
+        <name>GraphIndexManager</name>
+        <qualifiedname>themis::llm::lora::GraphIndexManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback_storage.h" line="29" column="1" bodyfile="include/llm/lora_framework/lora_feedback_storage.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1a53ecfe00b985be4fc8cc9066c9a81d0b" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1lora_1_1_training_metrics" kindref="compound">TrainingMetrics</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::lora::TrainingCallback = std::function&lt;void(const TrainingMetrics&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TrainingCallback</name>
+        <qualifiedname>themis::llm::lora::TrainingCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="173" column="1" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1ac10a4be8a17d8eff7d9c4d46ac8c1d54" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::llm::lora::PageID = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>PageID</name>
+        <qualifiedname>themis::llm::lora::PageID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="27" column="1" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1a5752101f086871306516c209ea3fc235" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::lora::ResourceMonitorCallback = std::function&lt;void(const ResourceSnapshot&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResourceMonitorCallback</name>
+        <qualifiedname>themis::llm::lora::ResourceMonitorCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="133" column="1" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1ae0e426a7f464cb363c9b914555017d69" prot="public" static="no">
+        <type>std::chrono::system_clock</type>
+        <definition>using themis::llm::lora::Clock = std::chrono::system_clock</definition>
+        <argsstring></argsstring>
+        <name>Clock</name>
+        <qualifiedname>themis::llm::lora::Clock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_orchestrator.cpp" line="28" column="1" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1llm_1_1lora_1af33bfd169af9f4094a8a1d4f29a0b0c7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GGUF_CONVERSION_BLOCK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>GGUF_CONVERSION_BLOCK_SIZE</name>
+        <qualifiedname>themis::llm::lora::GGUF_CONVERSION_BLOCK_SIZE</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="146" column="18" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1llm_1_1lora_1a6adee6aa0fb38d4bb3f0baffe8338dcd" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DEFAULT_HIDDEN_DIM</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_HIDDEN_DIM</name>
+        <qualifiedname>themis::llm::lora::DEFAULT_HIDDEN_DIM</qualifiedname>
+        <initializer>= 768</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_training_loop.cpp" line="32" column="18" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a91fcfe9b5bb9c553325fac9802520500" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::isFiniteValue</definition>
+        <argsstring>(float value)</argsstring>
+        <name>isFiniteValue</name>
+        <qualifiedname>themis::llm::lora::isFiniteValue</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Is Finite Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::isfinite(), std::isnan(), std::isinf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="288" column="13" bodyfile="include/llm/lora_training_error_codes.h" bodystart="288" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a122b4d8ffa5e840bec3c9f26263b574b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::isValidGradientMagnitude</definition>
+        <argsstring>(float grad_magnitude)</argsstring>
+        <name>isValidGradientMagnitude</name>
+        <qualifiedname>themis::llm::lora::isValidGradientMagnitude</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>grad_magnitude</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid Gradient Magnitude. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_magnitude</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1_1lora_1a91fcfe9b5bb9c553325fac9802520500" kindref="member">isFiniteValue()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="298" column="13" bodyfile="include/llm/lora_training_error_codes.h" bodystart="298" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a308b118a39be06dea3ce1652ab6ebeea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953" kindref="member">DistributedBackend</ref> &gt;</type>
+        <definition>std::vector&lt; DistributedBackend &gt; themis::llm::lora::detect_available_backends</definition>
+        <argsstring>()</argsstring>
+        <name>detect_available_backends</name>
+        <qualifiedname>themis::llm::lora::detect_available_backends</qualifiedname>
+        <briefdescription>
+<para>Detect available backends. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), <ref refid="namespacethemis_1_1llm_1_1lora_1af37249c290bc04702014aa7735172b42" kindref="member">is_nccl_available()</ref>, <ref refid="namespacethemis_1_1llm_1_1lora_1a93214e6bc2c3f79cb16954fed9d1fb49" kindref="member">is_gloo_available()</ref>, <ref refid="namespacethemis_1_1llm_1_1lora_1aac23e88ba298d95d349a2932688188bc" kindref="member">is_mpi_available()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/distributed_trainer.cpp" line="348" column="13" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="348" bodyend="370" declfile="include/llm/lora_framework/distributed_trainer.h" declline="269" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1af37249c290bc04702014aa7735172b42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::is_nccl_available</definition>
+        <argsstring>()</argsstring>
+        <name>is_nccl_available</name>
+        <qualifiedname>themis::llm::lora::is_nccl_available</qualifiedname>
+        <briefdescription>
+<para>Is nccl available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements is_nccl_available without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/distributed_trainer.cpp" line="377" column="6" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="377" bodyend="386" declfile="include/llm/lora_framework/distributed_trainer.h" declline="275" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a93214e6bc2c3f79cb16954fed9d1fb49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::is_gloo_available</definition>
+        <argsstring>()</argsstring>
+        <name>is_gloo_available</name>
+        <qualifiedname>themis::llm::lora::is_gloo_available</qualifiedname>
+        <briefdescription>
+<para>Is gloo available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements is_gloo_available without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/distributed_trainer.cpp" line="393" column="6" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="393" bodyend="401" declfile="include/llm/lora_framework/distributed_trainer.h" declline="281" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1aac23e88ba298d95d349a2932688188bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::is_mpi_available</definition>
+        <argsstring>()</argsstring>
+        <name>is_mpi_available</name>
+        <qualifiedname>themis::llm::lora::is_mpi_available</qualifiedname>
+        <briefdescription>
+<para>Is mpi available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements is_mpi_available without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/distributed_trainer.cpp" line="408" column="6" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="408" bodyend="416" declfile="include/llm/lora_framework/distributed_trainer.h" declline="287" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1abda54e6aeac09ee98c6b3c7bd763fc6e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::device_type_to_string</definition>
+        <argsstring>(DeviceType type)</argsstring>
+        <name>device_type_to_string</name>
+        <qualifiedname>themis::llm::lora::device_type_to_string</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" kindref="member">DeviceType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> type to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements device_type_to_string without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_memory.h" line="162" column="20" bodyfile="include/llm/lora_framework/gpu_memory.h" bodystart="162" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a5b1746b747c8c471961f0f45510a1d8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::createEmbeddingsOnGPU</definition>
+        <argsstring>(const GPUTensor &amp;token_ids, size_t hidden_dim, const Device &amp;device, GPUEmbeddingLayer *embedding_layer)</argsstring>
+        <name>createEmbeddingsOnGPU</name>
+        <qualifiedname>themis::llm::lora::createEmbeddingsOnGPU</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>token_ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_embedding_layer" kindref="compound">GPUEmbeddingLayer</ref> *</type>
+          <declname>embedding_layer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create Embeddings On GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">embedding_layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: shape(), size(), spdlog::debug(), forward(), embeddings(), cuda::launch_sequence_mean_kernel(), gpu_ptr(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_training_loop.cpp" line="774" column="11" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="774" bodyend="894" declfile="include/llm/lora_framework/gpu_training_loop.h" declline="240" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a02cf4b4c84fd51206013944bd675030a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::computeMSELossGPU</definition>
+        <argsstring>(const GPUTensor &amp;predictions, const GPUTensor &amp;targets)</argsstring>
+        <name>computeMSELossGPU</name>
+        <qualifiedname>themis::llm::lora::computeMSELossGPU</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>predictions</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <briefdescription>
+<para>Compute MSELoss GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: shape(), device(), defined(), size(), std::min(), partial_sums(), cuda::launch_mse_loss_reduction_kernel(), gpu_ptr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_training_loop.cpp" line="905" column="7" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="905" bodyend="991" declfile="include/llm/lora_framework/gpu_training_loop.h" declline="253" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a00d23b60942bd7711c277d27650cb4e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::computeMSEGradientGPU</definition>
+        <argsstring>(const GPUTensor &amp;predictions, const GPUTensor &amp;targets)</argsstring>
+        <name>computeMSEGradientGPU</name>
+        <qualifiedname>themis::llm::lora::computeMSEGradientGPU</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>predictions</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <briefdescription>
+<para>Compute MSEGradient GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: shape(), grad(), device(), size(), defined(), cuda::launch_mse_gradient_kernel(), gpu_ptr(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_training_loop.cpp" line="1002" column="11" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="1002" bodyend="1080" declfile="include/llm/lora_framework/gpu_training_loop.h" declline="261" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1aa40f21c960c3f9e089fc89f2636e3b3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::computeFusedMSELossGradientGPU</definition>
+        <argsstring>(const GPUTensor &amp;predictions, const GPUTensor &amp;targets, GPUTensor &amp;grad_output)</argsstring>
+        <name>computeFusedMSELossGradientGPU</name>
+        <qualifiedname>themis::llm::lora::computeFusedMSELossGradientGPU</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>predictions</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>grad_output</declname>
+        </param>
+        <briefdescription>
+<para>Compute Fused MSELoss Gradient GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: shape(), GPUTensor(), device(), defined(), size(), std::min(), partial_sums(), cuda::fused::launch_fused_mse_loss_gradient(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_training_loop.cpp" line="1091" column="7" bodyfile="src/llm/lora_framework/gpu_training_loop.cpp" bodystart="1091" bodyend="1188" declfile="include/llm/lora_framework/gpu_training_loop.h" declline="270" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a96e6ed894a0e1a9810cbd2d49175fb79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::generateRequestId</definition>
+        <argsstring>()</argsstring>
+        <name>generateRequestId</name>
+        <qualifiedname>themis::llm::lora::generateRequestId</qualifiedname>
+        <briefdescription>
+<para>Generate Request Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), std::setfill(), std::setw(), dis(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="778" column="13" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="778" bodyend="788" declfile="include/llm/lora_framework/lora_audit_logger.h" declline="298" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a91c539001d2371e18a79389b3fb9cead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::computeAdapterHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;weights)</argsstring>
+        <name>computeAdapterHash</name>
+        <qualifiedname>themis::llm::lora::computeAdapterHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+<para>Compute Adapter Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_audit_logger.cpp" line="796" column="13" bodyfile="src/llm/lora_framework/lora_audit_logger.cpp" bodystart="796" bodyend="807" declfile="include/llm/lora_framework/lora_audit_logger.h" declline="305" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1ac96080ce0ae3f7d70b561f6daba2236a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::dtype_size</definition>
+        <argsstring>(DType dtype)</argsstring>
+        <name>dtype_size</name>
+        <qualifiedname>themis::llm::lora::dtype_size</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+        </param>
+        <briefdescription>
+<para>Dtype size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements dtype_size without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/tensor_dtype.h" line="35" column="15" bodyfile="include/llm/lora_framework/tensor_dtype.h" bodystart="35" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a74f8bb1c1a28c82137c9214a174b0d4a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::dtype_name</definition>
+        <argsstring>(DType dtype)</argsstring>
+        <name>dtype_name</name>
+        <qualifiedname>themis::llm::lora::dtype_name</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+        </param>
+        <briefdescription>
+<para>Dtype name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements dtype_name without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/tensor_dtype.h" line="53" column="20" bodyfile="include/llm/lora_framework/tensor_dtype.h" bodystart="53" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a4e92b5af1620a0492b58e3b100fb642c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::is_mixed_precision</definition>
+        <argsstring>(DType dtype)</argsstring>
+        <name>is_mixed_precision</name>
+        <qualifiedname>themis::llm::lora::is_mixed_precision</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+        </param>
+        <briefdescription>
+<para>Is mixed precision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements is_mixed_precision without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/tensor_dtype.h" line="72" column="13" bodyfile="include/llm/lora_framework/tensor_dtype.h" bodystart="72" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a480078d88ab24bf0370a7687609a7efe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::llm::lora::fp32_to_fp16_bits</definition>
+        <argsstring>(float value)</argsstring>
+        <name>fp32_to_fp16_bits</name>
+        <qualifiedname>themis::llm::lora::fp32_to_fp16_bits</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Fp32 to fp16 bits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/tensor_dtype.h" line="82" column="17" bodyfile="include/llm/lora_framework/tensor_dtype.h" bodystart="82" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1afd5232050cdce97c3d33f53d00fca361" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::fp16_bits_to_fp32</definition>
+        <argsstring>(uint16_t value)</argsstring>
+        <name>fp16_bits_to_fp32</name>
+        <qualifiedname>themis::llm::lora::fp16_bits_to_fp32</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Fp16 bits to fp32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/tensor_dtype.h" line="109" column="14" bodyfile="include/llm/lora_framework/tensor_dtype.h" bodystart="109" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1aeec1827b047fc26be0ac478fd08b03e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::llm::lora::fp32_to_bf16_bits</definition>
+        <argsstring>(float value)</argsstring>
+        <name>fp32_to_bf16_bits</name>
+        <qualifiedname>themis::llm::lora::fp32_to_bf16_bits</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Fp32 to bf16 bits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/tensor_dtype.h" line="144" column="17" bodyfile="include/llm/lora_framework/tensor_dtype.h" bodystart="144" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a718aef64179af30f79bc5be558b248c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::bf16_bits_to_fp32</definition>
+        <argsstring>(uint16_t value)</argsstring>
+        <name>bf16_bits_to_fp32</name>
+        <qualifiedname>themis::llm::lora::bf16_bits_to_fp32</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Bf16 bits to fp32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/tensor_dtype.h" line="161" column="14" bodyfile="include/llm/lora_framework/tensor_dtype.h" bodystart="161" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a550a24b62708d73306fb4ca5369173c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::estimateMemoryPerSampleBase</definition>
+        <argsstring>(size_t sequence_length, const AdaptiveBatcher::Config &amp;config)</argsstring>
+        <name>estimateMemoryPerSampleBase</name>
+        <qualifiedname>themis::llm::lora::estimateMemoryPerSampleBase</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>sequence_length</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" kindref="compound">AdaptiveBatcher::Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Helper to get base estimates without calibration multiplier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements estimateMemoryPerSampleBase without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adaptive_batcher.cpp" line="229" column="8" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="229" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a4bb0f1feae0f2d5a2924dcf598fffe92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::estimateSharedMemoryBase</definition>
+        <argsstring>(const AdaptiveBatcher::Config &amp;config)</argsstring>
+        <name>estimateSharedMemoryBase</name>
+        <qualifiedname>themis::llm::lora::estimateSharedMemoryBase</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" kindref="compound">AdaptiveBatcher::Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Shared Memory Base. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements estimateSharedMemoryBase without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/adaptive_batcher.cpp" line="242" column="8" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="242" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1ab0d5aa426977382349ba3ff0b8c5b143" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::llm::lora::cudaDtypeCastMutex</definition>
+        <argsstring>()</argsstring>
+        <name>cudaDtypeCastMutex</name>
+        <qualifiedname>themis::llm::lora::cudaDtypeCastMutex</qualifiedname>
+        <briefdescription>
+<para>Cuda Dtype Cast Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements cudaDtypeCastMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="45" column="19" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a0ef0b28345661fced5c011125ac64813" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" kindref="member">GPUTensor::DtypeCastFn</ref> &amp;</type>
+        <definition>static GPUTensor::DtypeCastFn &amp; themis::llm::lora::cudaDtypeCastFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>cudaDtypeCastFnStorage</name>
+        <qualifiedname>themis::llm::lora::cudaDtypeCastFnStorage</qualifiedname>
+        <briefdescription>
+<para>Cuda Dtype Cast Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements cudaDtypeCastFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="51" column="31" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a237b13a4c3905a0ba6091e45e1e274af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::llm::lora::hipDtypeCastMutex</definition>
+        <argsstring>()</argsstring>
+        <name>hipDtypeCastMutex</name>
+        <qualifiedname>themis::llm::lora::hipDtypeCastMutex</qualifiedname>
+        <briefdescription>
+<para>Hip Dtype Cast Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements hipDtypeCastMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="70" column="19" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1aea0f3a3e5504c29bc516b2f7d92d194c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" kindref="member">GPUTensor::DtypeCastFn</ref> &amp;</type>
+        <definition>static GPUTensor::DtypeCastFn &amp; themis::llm::lora::hipDtypeCastFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>hipDtypeCastFnStorage</name>
+        <qualifiedname>themis::llm::lora::hipDtypeCastFnStorage</qualifiedname>
+        <briefdescription>
+<para>Hip Dtype Cast Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements hipDtypeCastFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="76" column="31" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1aa44f934b1fb89aa3f41a27f42ca75915" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::compute_mse_loss</definition>
+        <argsstring>(const Tensor &amp;predictions, const Tensor &amp;targets)</argsstring>
+        <name>compute_mse_loss</name>
+        <qualifiedname>themis::llm::lora::compute_mse_loss</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>predictions</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <briefdescription>
+<para>Simple MSE loss function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_training_service.cpp" line="89" column="7" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="89" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a8f8a038d27c07eb9304f956a34d29083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::compute_mse_gradient</definition>
+        <argsstring>(const Tensor &amp;predictions, const Tensor &amp;targets)</argsstring>
+        <name>compute_mse_gradient</name>
+        <qualifiedname>themis::llm::lora::compute_mse_gradient</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>predictions</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <briefdescription>
+<para>Compute gradient of MSE loss w. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+r.t. predictions Calls: shape(), grad(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_training_service.cpp" line="111" column="8" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="111" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1a2cc9cf172cebd0732c4945f8e3d30b90" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::llm::lora::fp16_to_fp32_bits</definition>
+        <argsstring>(uint16_t f16)</argsstring>
+        <name>fp16_to_fp32_bits</name>
+        <qualifiedname>themis::llm::lora::fp16_to_fp32_bits</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>f16</declname>
+        </param>
+        <briefdescription>
+<para>File-local helper: decode a raw FP16 bit-pattern to float32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f16</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Defined before fp32_to_fp16 so it can be called from there. Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/mixed_precision.cpp" line="207" column="14" bodyfile="src/llm/lora_framework/mixed_precision.cpp" bodystart="207" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/feedback_store.h" line="34" column="1"/>
+  </compounddef>
+</doxygen>

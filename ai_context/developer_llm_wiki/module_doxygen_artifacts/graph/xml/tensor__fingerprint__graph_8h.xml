@@ -1,0 +1,406 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__fingerprint__graph_8h" kind="file" language="C++">
+    <compoundname>tensor_fingerprint_graph.h</compoundname>
+    <includes local="no">array</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">storage/tensor_train_decomposer.h</includes>
+    <includedby refid="tensor__deduplication__manager_8h" local="yes">include/graph/tensor_deduplication_manager.h</includedby>
+    <includedby refid="tensor__fingerprint__graph_8cpp" local="yes">src/graph/tensor_fingerprint_graph.cpp</includedby>
+    <includedby refid="test__tensor__fingerprint__graph_8cpp" local="yes">tests/graph/test_tensor_fingerprint_graph.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/tensor_fingerprint_graph.h</label>
+        <link refid="tensor__fingerprint__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="15">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>unordered_set</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/graph/tensor_deduplication_manager.h</label>
+        <link refid="tensor__deduplication__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/graph/tensor_fingerprint_graph.h</label>
+        <link refid="tensor__fingerprint__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/graph/tensor_deduplication_manager.cpp</label>
+        <link refid="tensor__deduplication__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/graph/tensor_fingerprint_graph.cpp</label>
+        <link refid="tensor__fingerprint__graph_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/graph/test_tensor_fingerprint_graph.cpp</label>
+        <link refid="test__tensor__fingerprint__graph_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1graph_1_1_tensor_fingerprint" prot="public">themis::graph::TensorFingerprint</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_similar_tensor_result" prot="public">themis::graph::SimilarTensorResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_persisted_fingerprint_node" prot="public">themis::graph::PersistedFingerprintNode</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge" prot="public">themis::graph::PersistedFingerprintEdge</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot" prot="public">themis::graph::PersistedFingerprintGraphSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_fingerprint_graph_config" prot="public">themis::graph::FingerprintGraphConfig</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph" prot="public">themis::graph::TensorFingerprintGraph</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry" prot="private">themis::graph::TensorFingerprintGraph::NodeEntry</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_edge" prot="private">themis::graph::TensorFingerprintGraph::Edge</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_train_decomposer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorFingerprint<sp/>—<sp/>MinHash<sp/>+<sp/>Simhash<sp/>signature<sp/>of<sp/>a<sp/>TTTrain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1graph_1_1_tensor_fingerprint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint" kindref="compound">TensorFingerprint</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1graph_1_1_tensor_fingerprint_1aa988ce09bb21b7459ea1539899ef6e79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::array&lt;uint64_t,<sp/>128&gt;<sp/><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint_1aa988ce09bb21b7459ea1539899ef6e79" kindref="member">minhash</ref>{};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a597c450c4696cc0809fbc0fdcfa89a74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a597c450c4696cc0809fbc0fdcfa89a74" kindref="member">core_norms</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a264c57ad08b4600d29be18a4328a1662" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a264c57ad08b4600d29be18a4328a1662" kindref="member">total_norm</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a5a8c2782419f2e4e5fa8549ca8c7c536" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a5a8c2782419f2e4e5fa8549ca8c7c536" kindref="member">order</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1graph_1_1_tensor_fingerprint_1abf5dd21260ed1618f71c2bc4e947020f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint_1abf5dd21260ed1618f71c2bc4e947020f" kindref="member">max_rank</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SimilarTensorResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1graph_1_1_similar_tensor_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_similar_tensor_result" kindref="compound">SimilarTensorResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1graph_1_1_similar_tensor_result_1a06870e3358028c2c7f783965ecb881a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_similar_tensor_result_1a06870e3358028c2c7f783965ecb881a5" kindref="member">tensor_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1graph_1_1_similar_tensor_result_1a09c7ef3af5e750233cbec6150d858437" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_similar_tensor_result_1a09c7ef3af5e750233cbec6150d858437" kindref="member">similarity</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1graph_1_1_similar_tensor_result_1a2821fd94066c33be9ea4c33cb8f90399" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_similar_tensor_result_1a2821fd94066c33be9ea4c33cb8f90399" kindref="member">tenant</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1graph_1_1_similar_tensor_result_1aefb9cb12d32de3c5a81a94bf812d61e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_similar_tensor_result_1aefb9cb12d32de3c5a81a94bf812d61e1" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1graph_1_1_similar_tensor_result_1ab51dea967d75a6fa45a6c5cd751e4011" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_similar_tensor_result_1ab51dea967d75a6fa45a6c5cd751e4011" kindref="member">field</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PersistedFingerprintNode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1graph_1_1_persisted_fingerprint_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node" kindref="compound">PersistedFingerprintNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1ae7c68720483a1113e69e4d7ff7374c59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1ae7c68720483a1113e69e4d7ff7374c59" kindref="member">tensor_id</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a1602258d9327c3cc7d739e9063f93397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint" kindref="compound">TensorFingerprint</ref><sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a1602258d9327c3cc7d739e9063f93397" kindref="member">fingerprint</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1ade9d534dc9f789dde186f07d7d5e8b3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1ade9d534dc9f789dde186f07d7d5e8b3f" kindref="member">tenant</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a03ace28654969f7fbab9fba8befcacb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a03ace28654969f7fbab9fba8befcacb1" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a874607054e7a65ddae80785731ad718f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node_1a874607054e7a65ddae80785731ad718f" kindref="member">field</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge" kindref="compound">PersistedFingerprintEdge</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a7e59166faa6a360c6bf4da819967e6e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a7e59166faa6a360c6bf4da819967e6e7" kindref="member">from</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a3a1c77b7b50a9b6d8e4685e5bf63d31c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a3a1c77b7b50a9b6d8e4685e5bf63d31c" kindref="member">to</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a15b62f7e9f251fa02ac1bc38ff99aa3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge_1a15b62f7e9f251fa02ac1bc38ff99aa3d" kindref="member">similarity</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot" kindref="compound">PersistedFingerprintGraphSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot_1a7e230129c2bb03ff4ed1c4d3ee620e2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PersistedFingerprintNode&gt;<sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot_1a7e230129c2bb03ff4ed1c4d3ee620e2f" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot_1a8d89c6a612480f2cc9961807c6bf6a40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PersistedFingerprintEdge&gt;<sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot_1a8d89c6a612480f2cc9961807c6bf6a40" kindref="member">edges</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FingerprintGraphConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1graph_1_1_fingerprint_graph_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config" kindref="compound">FingerprintGraphConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a04de08f97babb780b99a56ea0165c2b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a04de08f97babb780b99a56ea0165c2b6" kindref="member">similarity_threshold</ref><sp/>=<sp/>0.95;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a82775f94fb423e036789d2855f474d9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a82775f94fb423e036789d2855f474d9d" kindref="member">num_hash_funcs</ref><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a0819e973318c981a91a68dea87dfa93f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a0819e973318c981a91a68dea87dfa93f" kindref="member">num_bands</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1aae54f5bddc8ce86fb8b43554064f50d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1aae54f5bddc8ce86fb8b43554064f50d5" kindref="member">max_candidates</ref><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a5e33e2577ac5a3eb002ea28287ed80fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a5e33e2577ac5a3eb002ea28287ed80fd" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1ab6c6d3ba905fcc2dfe0b38fd44657e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1ab6c6d3ba905fcc2dfe0b38fd44657e81" kindref="member">cache_trains_in_memory</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorFingerprintGraph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a4d05b5a1de81ba9ebb68f8804ea57be5" kindref="member">TensorFingerprintGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1adfd0843924d4d16052a9ec374f55ae02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1adfd0843924d4d16052a9ec374f55ae02" kindref="member">TrainLoadFn</ref><sp/>=<sp/>std::function&lt;std::optional&lt;storage::TTTrain&gt;(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_id,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field)&gt;;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a4d05b5a1de81ba9ebb68f8804ea57be5" kindref="member">TensorFingerprintGraph</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config" kindref="compound">FingerprintGraphConfig</ref>&amp;<sp/>cfg<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a3bd5d4f75b3a91e83eebd0c5abb38c55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a3bd5d4f75b3a91e83eebd0c5abb38c55" kindref="member">~TensorFingerprintGraph</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Insert<sp/>/<sp/>Update<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a59d45a40e1e09673857f4b1f014b21a5" kindref="member">insert</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tensor_id,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::TTTrain&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>train,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tenant<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>field<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1ad6087b4ecbbce172fb044a644d28f0cd" kindref="member">setTrainLoadFn</ref>(<ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1adfd0843924d4d16052a9ec374f55ae02" kindref="member">TrainLoadFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1ad49e985406529939c0d0443e8961fc87" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_id);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Query<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SimilarTensorResult&gt;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a25519e682068f54a6e38b907b3be124e" kindref="member">findSimilar</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::TTTrain&amp;<sp/>train,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>top_k<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SimilarTensorResult&gt;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a7433f9afb700056f43ab49ccd768822b" kindref="member">neighbours</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PersistedFingerprintNode&gt;<sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1aa34da9dfd118b66e428df264780b594b" kindref="member">exportPersistedNodes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a1b4d7d0334fe56a90b1db76c5992eb97" kindref="member">importPersistedNodes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PersistedFingerprintNode&gt;&amp;<sp/>nodes);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PersistedFingerprintEdge&gt;<sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a5b9c7096d286bedb6cc0c5db9029160e" kindref="member">exportPersistedEdges</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a6cb686322ea6a05506ec59b29e77745e" kindref="member">importPersistedEdges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PersistedFingerprintEdge&gt;&amp;<sp/>edges);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot" kindref="compound">PersistedFingerprintGraphSnapshot</ref><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1aff34f5ef08287569c7e79015c9d10e7f" kindref="member">exportPersistedGraph</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PersistedFingerprintNode&gt;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1abbc553a2ffc8c521e44a79ad5f373dda" kindref="member">exportPersistedNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PersistedFingerprintEdge&gt;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a5c6646fcfa89921b8a354d19d401a286" kindref="member">exportPersistedEdgesFor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1aabb46ac692fa58daa1cb9c0ef9c004cd" kindref="member">importPersistedGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot" kindref="compound">PersistedFingerprintGraphSnapshot</ref>&amp;<sp/>snapshot);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1aba6f6b082f6bfb24637b3c9c70256522" kindref="member">upsertPersistedNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node" kindref="compound">PersistedFingerprintNode</ref>&amp;<sp/>node,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PersistedFingerprintEdge&gt;&amp;<sp/>edges);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>GraphIndex-backed<sp/>durable<sp/>storage<sp/>hooks<sp/>──────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a5025e610757ff2edebafbfdf14b3ceaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a5025e610757ff2edebafbfdf14b3ceaf" kindref="member">NodePersistHookFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node" kindref="compound">PersistedFingerprintNode</ref>&amp;,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PersistedFingerprintEdge&gt;&amp;)&gt;;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a44f6e06e69faeef0602c0d1d3cf52de2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a44f6e06e69faeef0602c0d1d3cf52de2" kindref="member">NodeRemoveHookFn</ref><sp/>=<sp/>std::function&lt;void(std::string_view<sp/>tensor_id)&gt;;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a42447e981bbb06a2580bfe3f694e8d1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a42447e981bbb06a2580bfe3f694e8d1e" kindref="member">NodeEnumerateFn</ref><sp/>=<sp/>std::function&lt;void(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_persisted_fingerprint_node" kindref="compound">PersistedFingerprintNode</ref>&amp;,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PersistedFingerprintEdge&gt;&amp;)&gt;)&gt;;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1ac20686c5134e96ed87777d68b1643890" kindref="member">setNodePersistHook</ref>(<ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a5025e610757ff2edebafbfdf14b3ceaf" kindref="member">NodePersistHookFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1affb8e437b9f2a36f5e5e85f5dcc88e25" kindref="member">setNodeRemoveHook</ref>(<ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a44f6e06e69faeef0602c0d1d3cf52de2" kindref="member">NodeRemoveHookFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a228fd55860a52370ec09f701377c71d0" kindref="member">restoreFromExternalStore</ref>(<ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a42447e981bbb06a2580bfe3f694e8d1e" kindref="member">NodeEnumerateFn</ref><sp/>enumerate_fn);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a897319bc187c27e36071ba0e413c5b9d" kindref="member">nodeCount</ref>()<sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a1f27312216faaab834b5e83f38e288b0" kindref="member">edgeCount</ref>()<sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a60676a069607977647d0cba049c10ec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config" kindref="compound">FingerprintGraphConfig</ref>&amp;<sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a60676a069607977647d0cba049c10ec9" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg_;<sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_fingerprint_graph_config" kindref="compound">FingerprintGraphConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>metadata<sp/>+<sp/>fingerprint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">NodeEntry<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint" kindref="compound">TensorFingerprint</ref><sp/><sp/>fingerprint;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage::TTTrain<sp/><sp/><sp/>train;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tenant;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collection;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>field;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>NodeEntry&gt;<sp/>nodes_;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adjacency<sp/>list:<sp/>tensor_id<sp/>→<sp/>{neighbour_id,<sp/>similarity}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Edge<sp/>{<sp/>std::string<sp/>to;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>similarity;<sp/>};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;Edge&gt;&gt;<sp/>adj_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSH<sp/>buckets:<sp/>band_idx:bucket_hash<sp/>→<sp/>set<sp/>of<sp/>tensor_ids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint64_t,<sp/>std::unordered_set&lt;std::string&gt;&gt;<sp/>lsh_buckets_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-empty<sp/>bucket<sp/>presence<sp/>set:<sp/>O(1)<sp/>empty-band<sp/>skip<sp/>in<sp/>lshCandidates().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mirrors<sp/>the<sp/>key<sp/>set<sp/>of<sp/>lsh_buckets_<sp/>(populated<sp/>on<sp/>insert,<sp/>cleared<sp/>on<sp/>erase).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;uint64_t&gt;<sp/>lsh_nonempty_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>edge_count_{0};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1adfd0843924d4d16052a9ec374f55ae02" kindref="member">TrainLoadFn</ref><sp/>train_load_fn_;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>rows_per_band_<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Persistence<sp/>hooks<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a5025e610757ff2edebafbfdf14b3ceaf" kindref="member">NodePersistHookFn</ref><sp/><sp/>node_persist_hook_;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph_1a44f6e06e69faeef0602c0d1d3cf52de2" kindref="member">NodeRemoveHookFn</ref><sp/><sp/><sp/>node_remove_hook_;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>hook_mutex_;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/>has_node_persist_hook_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/>has_node_remove_hook_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>TensorFingerprint<sp/>computeFingerprint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::TTTrain&amp;<sp/>train)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>insertIntoBuckets(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TensorFingerprint&amp;<sp/>fp);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>removeFromBuckets(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TensorFingerprint&amp;<sp/>fp);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>lshCandidates(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TensorFingerprint&amp;<sp/>fp)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/>bandHash(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TensorFingerprint&amp;<sp/>fp,</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>band_start,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>rows_per_band,</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>band_idx)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/>fnv1a64(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>data,<sp/>std::size_t<sp/>len)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>exactSimilarity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::TTTrain&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::TTTrain&amp;<sp/>b)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;storage::TTTrain&gt;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>resolveTrainForNode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_id,</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>NodeEntry&amp;<sp/>node)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>PersistedFingerprintNode</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>buildPersistedNodeLocked(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PersistedFingerprintEdge&gt;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>buildPersistedEdgesForLocked(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/tensor_fingerprint_graph.h"/>
+  </compounddef>
+</doxygen>

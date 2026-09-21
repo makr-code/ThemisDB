@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_distributed_graph_test" kind="class" language="C++" prot="public">
+    <compoundname>DistributedGraphTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_distributed_graph_test_1af29c6e6c260e3f31621102fcb801a26a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DistributedGraphTest::path1_</definition>
+        <argsstring></argsstring>
+        <name>path1_</name>
+        <qualifiedname>DistributedGraphTest::path1_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="93" column="17" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_graph_test_1a540cdeaf486da3ee078a4d9f70ee2e04" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DistributedGraphTest::path2_</definition>
+        <argsstring></argsstring>
+        <name>path2_</name>
+        <qualifiedname>DistributedGraphTest::path2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="93" column="24" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_graph_test_1af2eb17441130f89e8a5ea6ec40ab554b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; DistributedGraphTest::db1_</definition>
+        <argsstring></argsstring>
+        <name>db1_</name>
+        <qualifiedname>DistributedGraphTest::db1_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="94" column="21" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_graph_test_1a13369864b8af938c2aec0a5cb4ecde0b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; DistributedGraphTest::db2_</definition>
+        <argsstring></argsstring>
+        <name>db2_</name>
+        <qualifiedname>DistributedGraphTest::db2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="94" column="26" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_graph_test_1a2dc5273ea1f26a0881f882d32db6b144" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; DistributedGraphTest::mgr1_</definition>
+        <argsstring></argsstring>
+        <name>mgr1_</name>
+        <qualifiedname>DistributedGraphTest::mgr1_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="95" column="21" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_graph_test_1a61ac236f3df097f89bbac8f27bad1bd5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; DistributedGraphTest::mgr2_</definition>
+        <argsstring></argsstring>
+        <name>mgr2_</name>
+        <qualifiedname>DistributedGraphTest::mgr2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="95" column="27" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_graph_test_1abb05858e697b86a4f42667a4cd42457b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_distributed_graph_manager" kindref="compound">themis::graph::DistributedGraphManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::DistributedGraphManager&gt; DistributedGraphTest::dist_mgr_</definition>
+        <argsstring></argsstring>
+        <name>dist_mgr_</name>
+        <qualifiedname>DistributedGraphTest::dist_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="96" column="21" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_distributed_graph_test_1a6514d736a9284b71af0154c5d2659f38" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedGraphTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DistributedGraphTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="46" column="10" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="46" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_distributed_graph_test_1a0dc44759a26a1e7a095304bf921817e7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedGraphTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DistributedGraphTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="83" column="10" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="83" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DistributedGraphTest</label>
+        <link refid="class_distributed_graph_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DistributedGraphTest</label>
+        <link refid="class_distributed_graph_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_distributed.cpp" line="44" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="44" bodyend="97"/>
+    <listofallmembers>
+      <member refid="class_distributed_graph_test_1af2eb17441130f89e8a5ea6ec40ab554b" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>db1_</name></member>
+      <member refid="class_distributed_graph_test_1a13369864b8af938c2aec0a5cb4ecde0b" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>db2_</name></member>
+      <member refid="class_distributed_graph_test_1abb05858e697b86a4f42667a4cd42457b" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>dist_mgr_</name></member>
+      <member refid="class_distributed_graph_test_1a2dc5273ea1f26a0881f882d32db6b144" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>mgr1_</name></member>
+      <member refid="class_distributed_graph_test_1a61ac236f3df097f89bbac8f27bad1bd5" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>mgr2_</name></member>
+      <member refid="class_distributed_graph_test_1af29c6e6c260e3f31621102fcb801a26a" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>path1_</name></member>
+      <member refid="class_distributed_graph_test_1a540cdeaf486da3ee078a4d9f70ee2e04" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>path2_</name></member>
+      <member refid="class_distributed_graph_test_1a6514d736a9284b71af0154c5d2659f38" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>SetUp</name></member>
+      <member refid="class_distributed_graph_test_1a0dc44759a26a1e7a095304bf921817e7" prot="protected" virt="non-virtual"><scope>DistributedGraphTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

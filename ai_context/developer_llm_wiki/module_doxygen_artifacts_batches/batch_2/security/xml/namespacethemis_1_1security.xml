@@ -1,0 +1,2430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security" kind="namespace" language="C++">
+    <compoundname>themis::security</compoundname>
+    <innerclass refid="classthemis_1_1security_1_1_access_control" prot="public">themis::security::AccessControl</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_config" prot="public">themis::security::AccessControlConfig</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_access_control_manager" prot="public">themis::security::AccessControlManager</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_report" prot="public">themis::security::AccessControlReport</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_decision" prot="public">themis::security::AccessDecision</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_event" prot="public">themis::security::AccessEvent</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_aggregated_scan_result" prot="public">themis::security::AggregatedScanResult</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_ai_operation_guard" prot="public">themis::security::AiOperationGuard</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job" prot="public">themis::security::AiSnapshotCleanupJob</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_ai_snapshot_info" prot="public">themis::security::AiSnapshotInfo</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_a_q_l_injection_detector" prot="public">themis::security::AQLInjectionDetector</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_arrow_user_registration_plugin" prot="public">themis::security::ArrowUserRegistrationPlugin</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_audit_log_export" prot="public">themis::security::AuditLogExport</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_behavioral_anomaly_detector" prot="public">themis::security::BehavioralAnomalyDetector</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_binary_file_entry" prot="public">themis::security::BinaryFileEntry</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_binary_manifest" prot="public">themis::security::BinaryManifest</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_change_management_evidence" prot="public">themis::security::ChangeManagementEvidence</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_clam_a_v_scanner" prot="public">themis::security::ClamAVScanner</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_confidential_computing" prot="public">themis::security::ConfidentialComputing</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_confidential_computing_base" prot="public">themis::security::ConfidentialComputingBase</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_c_s_p_builder" prot="public">themis::security::CSPBuilder</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_dilithium_signer" prot="public">themis::security::DilithiumSigner</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator" prot="public">themis::security::eIDASTimestampValidator</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_embedded_user_registration_plugin" prot="public">themis::security::EmbeddedUserRegistrationPlugin</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_export_metrics" prot="public">themis::security::ExportMetrics</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_guard_decision" prot="public">themis::security::GuardDecision</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_config" prot="public">themis::security::HSMConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_key_info" prot="public">themis::security::HSMKeyInfo</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter" prot="public">themis::security::HSMKeyProviderAdapter</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_performance_stats" prot="public">themis::security::HSMPerformanceStats</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client" prot="public">themis::security::HSMPKIClient</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_provider" prot="public">themis::security::HSMProvider</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision" prot="public">themis::security::HSMRuntimeSecurityDecision</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_security_checker" prot="public">themis::security::HSMSecurityChecker</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_security_metrics" prot="public">themis::security::HSMSecurityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_signature_result" prot="public">themis::security::HSMSignatureResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" prot="public">themis::security::HSMStartupPolicyResult</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_hybrid_encryption" prot="public">themis::security::HybridEncryption</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_i_anomaly_detector" prot="public">themis::security::IAnomalyDetector</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_i_malware_scanner" prot="public">themis::security::IMalwareScanner</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_input_validator" prot="public">themis::security::InputValidator</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_intent_classifier" prot="public">themis::security::IntentClassifier</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_i_t_s_a_client" prot="public">themis::security::ITSAClient</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_i_user_registration_plugin" prot="public">themis::security::IUserRegistrationPlugin</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_key_rotation_record" prot="public">themis::security::KeyRotationRecord</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_kyber_k_e_m" prot="public">themis::security::KyberKEM</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_malware_filter_manager" prot="public">themis::security::MalwareFilterManager</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_malware_scan_config" prot="public">themis::security::MalwareScanConfig</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_manifest_signer" prot="public">themis::security::ManifestSigner</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_move_chain_tracker" prot="public">themis::security::MoveChainTracker</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_guard" prot="public">themis::security::MoveGuard</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_source_not_cleared" prot="public">themis::security::MoveSourceNotCleared</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_validator" prot="public">themis::security::MoveValidator</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4" prot="public">themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1unique__ptr_3_01_t_01_4_01_4" prot="public">themis::security::MoveValidator&lt; std::unique_ptr&lt; T &gt; &gt;</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4" prot="public">themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_violation_exception" prot="public">themis::security::MoveViolationException</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_network_controls_evidence" prot="public">themis::security::NetworkControlsEvidence</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_network_policy" prot="public">themis::security::NetworkPolicy</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_operation_preview" prot="public">themis::security::OperationPreview</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_output_encoder" prot="public">themis::security::OutputEncoder</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_permission" prot="public">themis::security::Permission</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_p_i_i_redaction_policy" prot="public">themis::security::PIIRedactionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_p_k_i_key_provider" prot="public">themis::security::PKIKeyProvider</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_post_quantum_key_provider" prot="public">themis::security::PostQuantumKeyProvider</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry" prot="public">themis::security::PromptInjectionPatternRegistry</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_query_masking_policy" prot="public">themis::security::QueryMaskingPolicy</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_r_b_a_c" prot="public">themis::security::RBAC</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_r_b_a_c_config" prot="public">themis::security::RBACConfig</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_r_l_s_manager" prot="public">themis::security::RLSManager</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_r_l_s_policy" prot="public">themis::security::RLSPolicy</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_r_l_s_predicate" prot="public">themis::security::RLSPredicate</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_role" prot="public">themis::security::Role</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_safe_move" prot="public">themis::security::SafeMove</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_scan_result" prot="public">themis::security::ScanResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_sealed_blob" prot="public">themis::security::SealedBlob</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_secret_manager" prot="public">themis::security::SecretManager</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_secret_rotation_policy" prot="public">themis::security::SecretRotationPolicy</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_security_context" prot="public">themis::security::SecurityContext</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_security_evidence_bundle" prot="public">themis::security::SecurityEvidenceBundle</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_security_evidence_collector" prot="public">themis::security::SecurityEvidenceCollector</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_security_headers" prot="public">themis::security::SecurityHeaders</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_security_metrics_snapshot" prot="public">themis::security::SecurityMetricsSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_sev_confidential_computing" prot="public">themis::security::SevConfidentialComputing</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_shared_pattern_entry" prot="public">themis::security::SharedPatternEntry</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_signature_scanner" prot="public">themis::security::SignatureScanner</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_signed_manifest" prot="public">themis::security::SignedManifest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_socket_guard" prot="public">themis::security::SocketGuard</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_software_confidential_computing" prot="public">themis::security::SoftwareConfidentialComputing</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_sphincs_plus" prot="public">themis::security::SphincsPlus</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_startup_verifier" prot="public">themis::security::StartupVerifier</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_tdx_confidential_computing" prot="public">themis::security::TdxConfidentialComputing</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_tee_attestation_report" prot="public">themis::security::TeeAttestationReport</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_tee_detection_result" prot="public">themis::security::TeeDetectionResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_threat_score" prot="public">themis::security::ThreatScore</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_timestamp_authority" prot="public">themis::security::TimestampAuthority</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_timestamp_token" prot="public">themis::security::TimestampToken</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_transport_security_checker" prot="public">themis::security::TransportSecurityChecker</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_t_s_a_client_wrapper" prot="public">themis::security::TSAClientWrapper</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_config" prot="public">themis::security::TSAConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_event_hooks" prot="public">themis::security::TSAEventHooks</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_request" prot="public">themis::security::TSARequest</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_response" prot="public">themis::security::TSAResponse</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_verify_request" prot="public">themis::security::TSAVerifyRequest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator" prot="public">themis::security::USBAdminAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_u_s_b_admin_config" prot="public">themis::security::USBAdminConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_u_s_b_admin_license" prot="public">themis::security::USBAdminLicense</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_u_s_b_volume_hardening" prot="public">themis::security::USBVolumeHardening</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_use_after_move_exception" prot="public">themis::security::UseAfterMoveException</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_user" prot="public">themis::security::User</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_user_registration_data" prot="public">themis::security::UserRegistrationData</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_user_registration_plugin_manager" prot="public">themis::security::UserRegistrationPluginManager</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_user_role_store" prot="public">themis::security::UserRoleStore</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_validation_result" prot="public">themis::security::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_verification_result" prot="public">themis::security::VerificationResult</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_v_r_a_m_secure_clear" prot="public">themis::security::VRAMSecureClear</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin" prot="public">themis::security::WebDAVUserRegistrationPlugin</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result" prot="public">themis::security::XxeSafeXmlParseResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_zero_trust_context" prot="public">themis::security::ZeroTrustContext</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer" prot="public">themis::security::ZeroTrustPolicyEnforcer</innerclass>
+    <innernamespace refid="namespacethemis_1_1security_1_1phase4__hardening">themis::security::phase4_hardening</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security_1_1pkcs11">themis::security::pkcs11</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security_1_1_safe_iterator">themis::security::SafeIterator</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security_1_1sbom">themis::security::sbom</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security_1_1test">themis::security::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security_1_1tests">themis::security::tests</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security_1_1themis">themis::security::themis</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AuthorizationFailureMode</name>
+        <qualifiedname>themis::security::AuthorizationFailureMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2ae2a5e3081b1d16414412c3b8258a9270" prot="public">
+          <name>DenyOnError</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2aa2e4ea88f752c713ab26d92fe5aacad0" prot="public">
+          <name>AllowOnErrorExplicit</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="76" column="1" bodyfile="include/security/access_control_manager.h" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>OperationClass</name>
+        <qualifiedname>themis::security::OperationClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a47c7e7cb36a953a8c47e02000036bb44" prot="public">
+          <name>READ_ONLY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Safe read — execute immediately. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a81b8f3746277c99c77fc6d0065063b2a" prot="public">
+          <name>WRITE_SAFE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Single-record write — execute immediately. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a097089d52775e5518152edde5edbf418" prot="public">
+          <name>DESTRUCTIVE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Record deletion — requires approval. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Full-scope delete / DDL — approval + prod role. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="68" column="1" bodyfile="include/security/ai_operation_guard.h" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ThreatLevel</name>
+        <qualifiedname>themis::security::ThreatLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+<para>Normal behaviour — no anomaly detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+<para>Mildly unusual — warrant monitoring. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+<para>Suspicious behaviour — consider rate-limiting or re-verification. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Immediately revoke / block session. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384aa88a6a0c276fd853999a1faedf19c00e" prot="public">
+          <name>CLEAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="38" column="1" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="38" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TeeType</name>
+        <qualifiedname>themis::security::TeeType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No TEE hardware detected; software-only fallback. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da8808428eb68c102a612cbf42320bf942" prot="public">
+          <name>INTEL_TDX</name>
+          <briefdescription>
+<para>Intel Trust Domain Extensions (VM-level isolation). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da1e8c23256b7c17006022c24d0d2dfa7a" prot="public">
+          <name>AMD_SEV</name>
+          <briefdescription>
+<para>AMD Secure Encrypted Virtualization (memory encryption). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da2ff71fc5246570a1f222fa503760dbd4" prot="public">
+          <name>AMD_SEV_SNP</name>
+          <briefdescription>
+<para>AMD SEV + Secure Nested Paging (memory integrity). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>TEE (Trusted Execution Environment) technology type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Identifies the confidential computing platform detected at runtime. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="27" column="1" bodyfile="include/security/confidential_computing.h" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52be" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ValidationContext</name>
+        <qualifiedname>themis::security::ValidationContext</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beadff004f94221ec8bfe36f7353b337a1a" prot="public">
+          <name>SQL_QUERY</name>
+          <briefdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> input for SQL queries (parameterized, bounded). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beae1c1c323d137f9d5a6ce6cd23c614f48" prot="public">
+          <name>SQL_IDENTIFIER</name>
+          <briefdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> input for database table/column names (strict whitelist). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea0476b642d3c3152c5d52b310f377493b" prot="public">
+          <name>JSON_PAYLOAD</name>
+          <briefdescription>
+<para>User-supplied JSON payloads (size limit, no malicious nesting). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea716d483fbf26470970d7b46df75d1e7f" prot="public">
+          <name>FILE_UPLOAD</name>
+          <briefdescription>
+<para>File upload names and paths (no traversal, safe extensions). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beac88a3fb7aacb016e04b5ed4087349a69" prot="public">
+          <name>URI_PARAMETER</name>
+          <briefdescription>
+<para>URI/URL parameters (no control characters, bounded). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beab842a2d87715b8738e118c26e4245d22" prot="public">
+          <name>SEARCH_QUERY</name>
+          <briefdescription>
+<para>Plain text search input (size limit, no wildcards unless intended). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea1ec50a32c82db06d11398c4f487c830a" prot="public">
+          <name>CONFIG_PATH</name>
+          <briefdescription>
+<para>Configuration file paths (no traversal, must be under safe directory). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea9d9445f1cf947d5994deb3072dd96ff6" prot="public">
+          <name>REQUEST_HEADER</name>
+          <briefdescription>
+<para>API request headers (bounded, no null bytes). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Validation context — indicates what type of validation to apply. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="24" column="1" bodyfile="include/security/input_validator.hpp" bodystart="24" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ThreatLevel</name>
+        <qualifiedname>themis::security::ThreatLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+<para>Normal behaviour — no anomaly detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+<para>Mildly unusual — warrant monitoring. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+<para>Suspicious behaviour — consider rate-limiting or re-verification. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Immediately revoke / block session. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384aa88a6a0c276fd853999a1faedf19c00e" prot="public">
+          <name>CLEAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Scan result severity levels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="31" column="1" bodyfile="include/security/malware_scanner.h" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PQMigrationMode</name>
+        <qualifiedname>themis::security::PQMigrationMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9a6d10f63a49e1efa454b16cedf15aad90" prot="public">
+          <name>CLASSICAL_ONLY</name>
+          <briefdescription>
+<para>Legacy: RSA/ECDH only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9a3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <briefdescription>
+<para>Transition: classical + PQ (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9ab0918e378f6eb9071fa5c0d15a6d00c3" prot="public">
+          <name>POST_QUANTUM_ONLY</name>
+          <briefdescription>
+<para>Future: PQ algorithms only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Migration mode controlling classical vs. post-quantum key operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <ref refid="classthemis_1_1security_1_1_post_quantum_key_provider" kindref="compound">PostQuantumKeyProvider</ref> and <ref refid="classthemis_1_1security_1_1_hybrid_encryption" kindref="compound">HybridEncryption</ref> to allow a gradual, backward-compatible transition.</para>
+<para>CLASSICAL_ONLY – all operations use classical cryptography only HYBRID – both classical and PQ paths are exercised (migration phase) POST_QUANTUM_ONLY – all operations use PQ cryptography only (final phase) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="227" column="1" bodyfile="include/security/post_quantum_crypto.h" bodystart="227" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>SharedPatternSeverity</name>
+        <qualifiedname>themis::security::SharedPatternSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="23" column="1" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1abefdfe8af0aaca298772e062ed7f9101" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RLSPolicyType</name>
+        <qualifiedname>themis::security::RLSPolicyType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1abefdfe8af0aaca298772e062ed7f9101a57676e0bedd941be2b5a7138f24bfd97" prot="public">
+          <name>PERMISSIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1abefdfe8af0aaca298772e062ed7f9101aac59513a5f0a49ca69ad8a28340b414c" prot="public">
+          <name>RESTRICTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="54" column="1" bodyfile="include/security/row_level_security.h" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>SecurityErrorCode</name>
+        <qualifiedname>themis::security::SecurityErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a07a7c0952f0aafd5db50aa329039039b" prot="public">
+          <name>CERT_VALIDATION_FAILED</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+<para>TLS certificate failed signature or chain validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a365680bddde062b1e2120bd4b8e829ff" prot="public">
+          <name>CERT_UNTRUSTED_CA</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+<para>Peer presented a certificate from an untrusted CA. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a888160e15a46b8dad2f046398139f7c4" prot="public">
+          <name>CERT_EXPIRED</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+<para>Certificate has expired (notAfter in the past). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a1f710214383097ba77a7a0b82ac73d43" prot="public">
+          <name>CERT_REVOKED</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+<para>Certificate has been revoked (CRL or OCSP check). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a56e18685e02a0cb4f32af486c189e35a" prot="public">
+          <name>TLS_HANDSHAKE_TIMEOUT</name>
+          <initializer>= 110</initializer>
+          <briefdescription>
+<para>TLS handshake did not complete within kTlsHandshakeTimeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a96aa70f29a00a986be0328008b88c4d2" prot="public">
+          <name>TRANSPORT_SECURITY_ERROR</name>
+          <initializer>= 119</initializer>
+          <briefdescription>
+<para>Generic transport security error (catch-all for TLS layer faults). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a1f14ca382a4431d278aba810e59070c1" prot="public">
+          <name>KEY_NOT_FOUND</name>
+          <initializer>= 1000</initializer>
+          <briefdescription>
+<para>Requested key ID does not exist in any active key store. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a5e1fe9c24b42a0a04f4c179987594bf7" prot="public">
+          <name>KEY_ROTATION_IN_PROGRESS</name>
+          <initializer>= 1001</initializer>
+          <briefdescription>
+<para>Key rotation is currently in progress; caller should retry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445acf104b5b70d7b4fd9c7f5fe6c4fd3ed8" prot="public">
+          <name>KEY_REVOKED</name>
+          <initializer>= 1002</initializer>
+          <briefdescription>
+<para>Key has been permanently revoked and may not be used. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a3ff209cbdc9f652acad7d8f0158bbfc7" prot="public">
+          <name>KEY_GENERATION_TIMEOUT</name>
+          <initializer>= 1003</initializer>
+          <briefdescription>
+<para>Key generation operation exceeded kKeyGenerationTimeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a58cd73c48d23366156dc06b62410d811" prot="public">
+          <name>KEY_STORE_UNAVAILABLE</name>
+          <initializer>= 1004</initializer>
+          <briefdescription>
+<para>Key store backend is unavailable (fail-closed: treat as KEY_NOT_FOUND). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a4034602916f1f92a66456b46b5ee3c45" prot="public">
+          <name>KEY_POLICY_VIOLATION</name>
+          <initializer>= 1005</initializer>
+          <briefdescription>
+<para>Requested key size or algorithm is below security policy minimums. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a6dccefab5234f98839821f3106e8e3e3" prot="public">
+          <name>ENCRYPTION_FAILED</name>
+          <initializer>= 1010</initializer>
+          <briefdescription>
+<para>Encryption or decryption operation failed (bad key/IV/tag). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a1118268b6de447759048435aba947f80" prot="public">
+          <name>SIGNATURE_VERIFICATION_FAILED</name>
+          <initializer>= 1011</initializer>
+          <briefdescription>
+<para>Cryptographic signature verification failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a453a4b5f6cc4e641bd729b9ba03b5c6b" prot="public">
+          <name>POLICY_DENY</name>
+          <initializer>= 2000</initializer>
+          <briefdescription>
+<para>Policy evaluation returned an explicit deny. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a5bc058d3961d7076cf412b59e77d66c4" prot="public">
+          <name>POLICY_NOT_FOUND</name>
+          <initializer>= 2001</initializer>
+          <briefdescription>
+<para>No applicable policy found; fail-closed default deny applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a582bcdfe6ec03684644892969e12c990" prot="public">
+          <name>POLICY_EVAL_ERROR</name>
+          <initializer>= 2002</initializer>
+          <briefdescription>
+<para>Policy evaluation engine encountered an internal error; deny applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a39c93a862d0f9516133db99847058f7b" prot="public">
+          <name>POLICY_MISCONFIGURED</name>
+          <initializer>= 2003</initializer>
+          <briefdescription>
+<para>Caller is misconfigured (e.g. too many roles, cyclic ABAC chain). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a2eaec33b2d6224f90e7222e4b7a49183" prot="public">
+          <name>ACCESS_DENIED</name>
+          <initializer>= 2010</initializer>
+          <briefdescription>
+<para>Principal identity could not be verified; access denied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a478e6a63c293e6764ad87f7ef9e08ea4" prot="public">
+          <name>RBAC_ROLE_MISSING</name>
+          <initializer>= 2011</initializer>
+          <briefdescription>
+<para><ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> role required for the operation is not assigned to the principal. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a5afbb059c9e4de66d63236a91b7b4745" prot="public">
+          <name>AUDIT_WRITE_FAILED</name>
+          <initializer>= 3000</initializer>
+          <briefdescription>
+<para>Audit log write failed (disk full, I/O error, or timeout). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a664976d8767b1399ba0fd59ce394a92b" prot="public">
+          <name>AUDIT_STORE_UNAVAILABLE</name>
+          <initializer>= 3001</initializer>
+          <briefdescription>
+<para>Audit log backing store is unavailable; triggering operation denied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445a4121bf7f23ad3d903e920eab7e896f6d" prot="public">
+          <name>AUDIT_INTEGRITY_VIOLATION</name>
+          <initializer>= 3002</initializer>
+          <briefdescription>
+<para>Audit record integrity check failed (tamper detected). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445ad1e1406371e336c9dc9cf8bbaacb26b8" prot="public">
+          <name>THREAT_DETECTED</name>
+          <initializer>= 4000</initializer>
+          <briefdescription>
+<para>A threat signal has been detected; protective response is in flight. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445abc0c37e3e86c18043d8922d5cda6e0df" prot="public">
+          <name>THREAT_DETECTION_DEGRADED</name>
+          <initializer>= 4001</initializer>
+          <briefdescription>
+<para>Threat detection pipeline is overloaded; sampling in effect. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 9999</initializer>
+          <briefdescription>
+<para>Unclassified internal security error; always fail-closed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the ThemisDB security module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every security operation that fails MUST return one of these codes so that callers and operators can apply uniform handling and metrics collection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="224" column="1" bodyfile="include/security/security_api_contract.h" bodystart="224" bodyend="290"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::security::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::security::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="62" column="1" bodyfile="include/security/ai_operation_guard.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1security_1a6dff2cfb2d4fe8f61cb86078a9fd2f42" prot="public" static="no">
+        <type>int</type>
+        <definition>using themis::security::socket_handle = int</definition>
+        <argsstring></argsstring>
+        <name>socket_handle</name>
+        <qualifiedname>themis::security::socket_handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="72" column="1" bodyfile="src/security/malware_scanner.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a8bb2198a0b8d0c07327fe3f56266b07c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::SHARED_INJECTION_PATTERN_COUNT</definition>
+        <argsstring></argsstring>
+        <name>SHARED_INJECTION_PATTERN_COUNT</name>
+        <qualifiedname>themis::security::SHARED_INJECTION_PATTERN_COUNT</qualifiedname>
+        <initializer>= 11u</initializer>
+        <briefdescription>
+<para>Number of base patterns in <ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a8d8c31f6da4d0f16d110d53e1e4e02b9" kindref="member">PromptInjectionPatternRegistry::defaultRegistry()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="116" column="25" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a7d2286f90b9cb43b6fccfa8b23df9b18" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::SHARED_INJECTION_KEYWORD_COUNT</definition>
+        <argsstring></argsstring>
+        <name>SHARED_INJECTION_KEYWORD_COUNT</name>
+        <qualifiedname>themis::security::SHARED_INJECTION_KEYWORD_COUNT</qualifiedname>
+        <initializer>= 11u</initializer>
+        <briefdescription>
+<para>Number of base keywords in <ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a8d8c31f6da4d0f16d110d53e1e4e02b9" kindref="member">PromptInjectionPatternRegistry::defaultRegistry()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="119" column="25" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1abeff515b20b00cd26878539c4c050579" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::kMinTlsVersionMajor</definition>
+        <argsstring></argsstring>
+        <name>kMinTlsVersionMajor</name>
+        <qualifiedname>themis::security::kMinTlsVersionMajor</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum accepted TLS version. TLS 1.0 and 1.1 are unconditionally refused. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="53" column="22" bodyfile="include/security/security_api_contract.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a0c1fbae11826de9fe014437adb622977" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::kMinTlsVersionMinor</definition>
+        <argsstring></argsstring>
+        <name>kMinTlsVersionMinor</name>
+        <qualifiedname>themis::security::kMinTlsVersionMinor</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>TLS 1.2 minimum; TLS 1.3 preferred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="54" column="22" bodyfile="include/security/security_api_contract.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a53f47b45eba9ccb956ae3726d1a70dec" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::kMaxCertChainDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxCertChainDepth</name>
+        <qualifiedname>themis::security::kMaxCertChainDepth</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Maximum certificate chain depth accepted during mTLS peer validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="57" column="22" bodyfile="include/security/security_api_contract.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1aba18f8c21a98a81f5f1bf9ba12e75691" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::security::kMaxCertDnFieldBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxCertDnFieldBytes</name>
+        <qualifiedname>themis::security::kMaxCertDnFieldBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum distinguished-name (DN) field length in bytes (RFC 5280 §4.1.2.4). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="60" column="30" bodyfile="include/security/security_api_contract.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a53f28bb4681179fbe20cdac9bf3d9b47" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::kHstsMaxAge</definition>
+        <argsstring></argsstring>
+        <name>kHstsMaxAge</name>
+        <qualifiedname>themis::security::kHstsMaxAge</qualifiedname>
+        <initializer>{31536000}</initializer>
+        <briefdescription>
+<para>365 days. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>HSTS max-age in seconds committed to clients on every HTTPS response. Must not decrease across minor releases (ratchet-forward only). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="64" column="39" bodyfile="include/security/security_api_contract.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a5d169b4701cc3f83caac1d0cf777a836" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::kTlsHandshakeTimeout</definition>
+        <argsstring></argsstring>
+        <name>kTlsHandshakeTimeout</name>
+        <qualifiedname>themis::security::kTlsHandshakeTimeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TLS handshake hard timeout. Connections that do not complete the TLS handshake within this window are aborted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="68" column="39" bodyfile="include/security/security_api_contract.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a734d9b53ccb15a2f94941ce0ade2a93f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::kMinSymmetricKeyBits</definition>
+        <argsstring></argsstring>
+        <name>kMinSymmetricKeyBits</name>
+        <qualifiedname>themis::security::kMinSymmetricKeyBits</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Minimum key size in bits for symmetric encryption (AES) keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="84" column="22" bodyfile="include/security/security_api_contract.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1aadee9ff198682c13bee5f4db4eb3e382" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::kMinRsaKeyBits</definition>
+        <argsstring></argsstring>
+        <name>kMinRsaKeyBits</name>
+        <qualifiedname>themis::security::kMinRsaKeyBits</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+<para>Minimum RSA key size in bits accepted by key-generation calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="87" column="22" bodyfile="include/security/security_api_contract.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1aa5ee1b7a3fa8474a915de0ab6edd72f9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::security::kKeyRotationOverlapWindow</definition>
+        <argsstring></argsstring>
+        <name>kKeyRotationOverlapWindow</name>
+        <qualifiedname>themis::security::kKeyRotationOverlapWindow</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum key overlap window during rotation: the old key remains ACTIVE for at most this duration after the new generation is made ACTIVE. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="91" column="37" bodyfile="include/security/security_api_contract.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1aa0f62bf7df3d5cc7beb4d5ea605d0924" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::days</type>
+        <definition>std::chrono::days themis::security::kDefaultKeyRotationPeriod</definition>
+        <argsstring></argsstring>
+        <name>kDefaultKeyRotationPeriod</name>
+        <qualifiedname>themis::security::kDefaultKeyRotationPeriod</qualifiedname>
+        <initializer>{90}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default key rotation period. Keys older than this SHOULD be rotated by the key-management subsystem without operator intervention. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="95" column="36" bodyfile="include/security/security_api_contract.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a2393100e445cc3fdb44476baca23316f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::kKeyGenerationTimeout</definition>
+        <argsstring></argsstring>
+        <name>kKeyGenerationTimeout</name>
+        <qualifiedname>themis::security::kKeyGenerationTimeout</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum time a key may remain in GENERATING state before the operation is considered failed (KEY_GENERATION_TIMEOUT). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="99" column="39" bodyfile="include/security/security_api_contract.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1acc8ba468fa2920ff055b554ee3ef40ad" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::security::kKeyRotationRetryBackoff</definition>
+        <argsstring></argsstring>
+        <name>kKeyRotationRetryBackoff</name>
+        <qualifiedname>themis::security::kKeyRotationRetryBackoff</qualifiedname>
+        <initializer>{250}</initializer>
+        <briefdescription>
+<para>Recommended retry backoff when KEY_ROTATION_IN_PROGRESS is returned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="115" column="44" bodyfile="include/security/security_api_contract.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a9396c66e2e71ba1352d31ae64cc54596" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::security::kMaxRolesPerPrincipal</definition>
+        <argsstring></argsstring>
+        <name>kMaxRolesPerPrincipal</name>
+        <qualifiedname>themis::security::kMaxRolesPerPrincipal</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> roles a single principal may hold. Requests that exceed this are rejected with POLICY_MISCONFIGURED. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="134" column="30" bodyfile="include/security/security_api_contract.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1aa022ddbc53408a1b3e97eca607faf0f2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::kMaxAbacPolicyDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxAbacPolicyDepth</name>
+        <qualifiedname>themis::security::kMaxAbacPolicyDepth</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Maximum depth of ABAC policy rule inheritance chains. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="137" column="22" bodyfile="include/security/security_api_contract.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1ab3e300bb641a70bf3683756d348afa16" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::security::kPolicyEvalHardTimeout</definition>
+        <argsstring></argsstring>
+        <name>kPolicyEvalHardTimeout</name>
+        <qualifiedname>themis::security::kPolicyEvalHardTimeout</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hard timeout for policy evaluation. Evaluations that exceed this produce ACCESS_DENIED (fail-closed) rather than a timeout error to the caller. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="141" column="44" bodyfile="include/security/security_api_contract.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1ad0ce8708cbe2abb3535870d2b3643cb5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::security::kAuditRetentionMin</definition>
+        <argsstring></argsstring>
+        <name>kAuditRetentionMin</name>
+        <qualifiedname>themis::security::kAuditRetentionMin</qualifiedname>
+        <initializer>{24 * 365}</initializer>
+        <briefdescription>
+<para>1 year. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum audit-log retention period. Records must not be purged before this duration from their write timestamp. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="181" column="37" bodyfile="include/security/security_api_contract.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a548dcc2e8e59cfae2dcc0078ff228c69" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::security::kAuditMaxBatchSize</definition>
+        <argsstring></argsstring>
+        <name>kAuditMaxBatchSize</name>
+        <qualifiedname>themis::security::kAuditMaxBatchSize</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum batch size for bulk audit writes. Larger batches are split. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="184" column="30" bodyfile="include/security/security_api_contract.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a5d4e058bdce4f328c5df3c92df53f90d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::security::kAuditWriteHardTimeout</definition>
+        <argsstring></argsstring>
+        <name>kAuditWriteHardTimeout</name>
+        <qualifiedname>themis::security::kAuditWriteHardTimeout</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum time an audit write may block the caller before returning AUDIT_WRITE_FAILED. The operation is NOT retried silently. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="188" column="44" bodyfile="include/security/security_api_contract.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1aab5a0b5b5e919f1195464b3b8a1b5ccf" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::security::kThreatDetectLatency</definition>
+        <argsstring></argsstring>
+        <name>kThreatDetectLatency</name>
+        <qualifiedname>themis::security::kThreatDetectLatency</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Maximum end-to-end detection latency from signal to alert emission. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="202" column="44" bodyfile="include/security/security_api_contract.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1add4f656fafbaf2b8542eafa2686e2fbc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::kThreatResponseLatency</definition>
+        <argsstring></argsstring>
+        <name>kThreatResponseLatency</name>
+        <qualifiedname>themis::security::kThreatResponseLatency</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Maximum latency from alert emission to protective response action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="205" column="39" bodyfile="include/security/security_api_contract.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a288115af55f67852d3084027604bdf6b" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1affd8257b9cbf11aa2ffa7c8a57f9413e" kindref="member">HSMKeyProviderAdapter::WrapDEKFn</ref></type>
+        <definition>HSMKeyProviderAdapter::WrapDEKFn themis::security::g_wrap_dek_fn</definition>
+        <argsstring></argsstring>
+        <name>g_wrap_dek_fn</name>
+        <qualifiedname>themis::security::g_wrap_dek_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_key_provider_adapter.cpp" line="51" column="43" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a2237e79916e9d01ead924bdb43e2f9bc" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a306ed65375d4958bddeeb4afe313699d" kindref="member">HSMKeyProviderAdapter::UnwrapDEKFn</ref></type>
+        <definition>HSMKeyProviderAdapter::UnwrapDEKFn themis::security::g_unwrap_dek_fn</definition>
+        <argsstring></argsstring>
+        <name>g_unwrap_dek_fn</name>
+        <qualifiedname>themis::security::g_unwrap_dek_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_key_provider_adapter.cpp" line="52" column="43" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a98d830068d3c4f3749ee9b0abbf83f89" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::g_dek_fn_mutex</definition>
+        <argsstring></argsstring>
+        <name>g_dek_fn_mutex</name>
+        <qualifiedname>themis::security::g_dek_fn_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_key_provider_adapter.cpp" line="53" column="44" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a578ae0b8859bb51fba33fc5990e1e209" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a6dff2cfb2d4fe8f61cb86078a9fd2f42" kindref="member">socket_handle</ref></type>
+        <definition>socket_handle themis::security::invalid_socket</definition>
+        <argsstring></argsstring>
+        <name>invalid_socket</name>
+        <qualifiedname>themis::security::invalid_socket</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="73" column="25" bodyfile="src/security/malware_scanner.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1ab3e7c98a142748a14b9cd702f0c530c2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::SIZE_MB</definition>
+        <argsstring></argsstring>
+        <name>SIZE_MB</name>
+        <qualifiedname>themis::security::SIZE_MB</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="110" column="18" bodyfile="src/security/malware_scanner.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a8cc6f71959b7b689b960d6b186d4acb5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::CLAMAV_CHUNK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>CLAMAV_CHUNK_SIZE</name>
+        <qualifiedname>themis::security::CLAMAV_CHUNK_SIZE</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="111" column="18" bodyfile="src/security/malware_scanner.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1af1b97008f7f5ff9eb4ac617deeaae98f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::ARCHIVE_BOMB_PK_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>ARCHIVE_BOMB_PK_THRESHOLD</name>
+        <qualifiedname>themis::security::ARCHIVE_BOMB_PK_THRESHOLD</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="112" column="15" bodyfile="src/security/malware_scanner.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1ad1a91a9034b04403ea348b210ecc5834" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::security::PQ_HYBRID_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>PQ_HYBRID_PREFIX</name>
+        <qualifiedname>themis::security::PQ_HYBRID_PREFIX</qualifiedname>
+        <initializer>= &quot;pq_hybrid&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/post_quantum_crypto.cpp" line="1005" column="26" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1005" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a45f6cf5631bb310911561d84fd7b9285" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::s_sphincs_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>s_sphincs_fn_mutex_</name>
+        <qualifiedname>themis::security::s_sphincs_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/post_quantum_crypto.cpp" line="1284" column="19" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a662bf948fd0996a0a9bd1c31c8d3b525" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1ad4fadec5234eb46d7c6546551deb4274" kindref="member">themis::security::SphincsPlus::GenerateKeyPairFn</ref></type>
+        <definition>themis::security::SphincsPlus::GenerateKeyPairFn themis::security::s_generate_key_pair_fn_</definition>
+        <argsstring></argsstring>
+        <name>s_generate_key_pair_fn_</name>
+        <qualifiedname>themis::security::s_generate_key_pair_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/post_quantum_crypto.cpp" line="1285" column="57" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a48ca09429d638205b067ca3cce151f73" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1a56a4d7d6c3a323262e4eaa1e029801f8" kindref="member">themis::security::SphincsPlus::SignFn</ref></type>
+        <definition>themis::security::SphincsPlus::SignFn themis::security::s_sign_fn_</definition>
+        <argsstring></argsstring>
+        <name>s_sign_fn_</name>
+        <qualifiedname>themis::security::s_sign_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/post_quantum_crypto.cpp" line="1286" column="57" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a7720f1b9c41a695cd91a43381b3b9abf" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1a15d4be5f86b023a76a0a2c46e405a2eb" kindref="member">themis::security::SphincsPlus::VerifyFn</ref></type>
+        <definition>themis::security::SphincsPlus::VerifyFn themis::security::s_verify_fn_</definition>
+        <argsstring></argsstring>
+        <name>s_verify_fn_</name>
+        <qualifiedname>themis::security::s_verify_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/post_quantum_crypto.cpp" line="1287" column="57" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1security_1a4e4eaffff76fa47376fc8df783264814" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::security::USB_ADMIN_PUBLIC_KEY_PEM</definition>
+        <argsstring></argsstring>
+        <name>USB_ADMIN_PUBLIC_KEY_PEM</name>
+        <qualifiedname>themis::security::USB_ADMIN_PUBLIC_KEY_PEM</qualifiedname>
+        <initializer>                                           = 
+&quot;-----BEGIN PUBLIC KEY-----\n&quot;
+&quot;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Z3VS\n&quot;
+&quot;QscQaIyIKDiREBnYUmDZXEsCg5HmYgLzGEcNdHd/IxA5vp3Qr\n&quot;
+&quot;H5jGxW5qxFmFrEfNdEJ8ZNFxQqI9p5m0KqR3yqEhWBYyBvO6\n&quot;
+&quot;oEGHxH2QzJKqZqAjF0YhLfNzM4pWYjJ3MxDGqKFxYjH5NxRq\n&quot;
+&quot;J3pYxGhLqMzJhKqZxFjH3QxDhJqZhFjH3QxLqMzJhKqZxFjH\n&quot;
+&quot;3QxDhJqZhFjH3QxLqMzJhKqZxFjH3QxDhJqZhFjH3QxLqMzJ\n&quot;
+&quot;hKqZxFjH3QxDhJqZhFjH3QxLqMzJhKqZxFjH3QxDhJqZhFjH\n&quot;
+&quot;3QxLqMzJhKqZxFjH3QxDhJqZhFjH3QxLqMzJhKqZxFjH3QxD\n&quot;
+&quot;hJqZhFjH3QxLqMzJhKqZxFwIDAQAB\n&quot;
+&quot;-----END PUBLIC KEY-----\n&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/usb_admin_authenticator.cpp" line="562" column="19" bodyfile="src/security/usb_admin_authenticator.cpp" bodystart="562" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1security_1a63c95189e5dfdc6a9b78007939db2244" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::security::operationClassName</definition>
+        <argsstring>(OperationClass c) noexcept</argsstring>
+        <name>operationClassName</name>
+        <qualifiedname>themis::security::operationClassName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref></type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Operation Class Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/ai_operation_guard.cpp" line="35" column="12" bodyfile="src/security/ai_operation_guard.cpp" bodystart="35" bodyend="43" declfile="include/security/ai_operation_guard.h" declline="81" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1aca96c8a966e648bdc99b310f61dff8f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::teeTypeToString</definition>
+        <argsstring>(TeeType t)</argsstring>
+        <name>teeTypeToString</name>
+        <qualifiedname>themis::security::teeTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref> enum to a human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements teeTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="187" column="20" bodyfile="include/security/confidential_computing.h" bodystart="187" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a13834569e94d4f9ef07d6d656b741565" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::isHSMStubOptInEnabled</definition>
+        <argsstring>(int argc, char *argv[])</argsstring>
+        <name>isHSMStubOptInEnabled</name>
+        <qualifiedname>themis::security::isHSMStubOptInEnabled</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="60" column="14" bodyfile="include/security/hsm_startup_policy.h" bodystart="60" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1ac49a8354ab55c7b80d0d67c164d2ec08" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision" kindref="compound">HSMRuntimeSecurityDecision</ref></type>
+        <definition>HSMRuntimeSecurityDecision themis::security::evaluateHSMRuntimeSecurity</definition>
+        <argsstring>(const HSMStartupPolicyResult &amp;policy, bool runtime_stub_active, const std::string &amp;runtime_error)</argsstring>
+        <name>evaluateHSMRuntimeSecurity</name>
+        <qualifiedname>themis::security::evaluateHSMRuntimeSecurity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" kindref="compound">HSMStartupPolicyResult</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>runtime_stub_active</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>runtime_error</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate runtime HSM security posture against resolved startup policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy intent resolved from config/CLI/environment. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runtime_stub_active</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed runtime provider state (<computeroutput>true</computeroutput> when stub is active). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provider initialization/runtime error string used for audit context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Startup decision including hard gate result, classification, and audit event. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="86" column="36" bodyfile="include/security/hsm_startup_policy.h" bodystart="86" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1af9d133ba1d98e306ccef5dbed87e1c28" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::security::applyConfiguredHSMProvider</definition>
+        <argsstring>(const nlohmann::json &amp;hsm, bool allow_stub_opt_in, HSMConfig &amp;config)</argsstring>
+        <name>applyConfiguredHSMProvider</name>
+        <qualifiedname>themis::security::applyConfiguredHSMProvider</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>hsm</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_stub_opt_in</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="126" column="23" bodyfile="include/security/hsm_startup_policy.h" bodystart="126" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a71f1c3c981a929aa3c6f0abbbff2e908" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" kindref="compound">HSMStartupPolicyResult</ref></type>
+        <definition>HSMStartupPolicyResult themis::security::resolveHSMStartupPolicy</definition>
+        <argsstring>(const std::optional&lt; nlohmann::json &gt; &amp;security_config, const std::optional&lt; nlohmann::json &gt; &amp;main_config, int argc, char *argv[])</argsstring>
+        <name>resolveHSMStartupPolicy</name>
+        <qualifiedname>themis::security::resolveHSMStartupPolicy</qualifiedname>
+        <param>
+          <type>const std::optional&lt; nlohmann::json &gt; &amp;</type>
+          <declname>security_config</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; nlohmann::json &gt; &amp;</type>
+          <declname>main_config</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_startup_policy.h" line="174" column="32" bodyfile="include/security/hsm_startup_policy.h" bodystart="174" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a732dbc1802c539d35847ed68afda2656" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::threatLevelToString</definition>
+        <argsstring>(ThreatLevel level)</argsstring>
+        <name>threatLevelToString</name>
+        <qualifiedname>themis::security::threatLevelToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Convert threat level to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Threat Level To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements threatLevelToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="124" column="13" bodyfile="src/security/malware_scanner.cpp" bodystart="124" bodyend="133" declfile="include/security/malware_scanner.h" declline="432" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a7adbfea4414a631e3ec1ebda2092b12d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref></type>
+        <definition>ThreatLevel themis::security::stringToThreatLevel</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>stringToThreatLevel</name>
+        <qualifiedname>themis::security::stringToThreatLevel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Parse threat level from string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>String To Threat Level.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToThreatLevel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="141" column="13" bodyfile="src/security/malware_scanner.cpp" bodystart="141" bodyend="158" declfile="include/security/malware_scanner.h" declline="439" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a058ecd08acb604ee3c6741860743db33" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::isPolicyFailClosed</definition>
+        <argsstring>(bool evalSucceeded) noexcept</argsstring>
+        <name>isPolicyFailClosed</name>
+        <qualifiedname>themis::security::isPolicyFailClosed</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>evalSucceeded</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the result mandates a fail-closed denial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All policy evaluation catch blocks should call this predicate to decide whether to propagate ACCESS_DENIED regardless of exception detail. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="160" column="24" bodyfile="include/security/security_api_contract.h" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1ae5e75909e3e85e5654bf15ab9aca9dff" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::isHardDeny</definition>
+        <argsstring>(SecurityErrorCode code) noexcept</argsstring>
+        <name>isHardDeny</name>
+        <qualifiedname>themis::security::isHardDeny</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445" kindref="member">SecurityErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>code</computeroutput> mandates immediate fail-closed denial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fail-closed codes:<itemizedlist>
+<listitem><para>KEY_STORE_UNAVAILABLE, AUDIT_STORE_UNAVAILABLE, POLICY_EVAL_ERROR</para>
+</listitem><listitem><para>INTERNAL_ERROR</para>
+</listitem><listitem><para>ACCESS_DENIED, CERT_VALIDATION_FAILED, CERT_REVOKED </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="307" column="24" bodyfile="include/security/security_api_contract.h" bodystart="307" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a7c7d9177019c6f20cd3dc70134a86816" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::isKeyTransient</definition>
+        <argsstring>(SecurityErrorCode code) noexcept</argsstring>
+        <name>isKeyTransient</name>
+        <qualifiedname>themis::security::isKeyTransient</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a7b64610c806609e3421ddfbe2d655445" kindref="member">SecurityErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>code</computeroutput> is a key-management transient error that the caller MAY retry after kKeyRotationRetryBackoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_api_contract.h" line="327" column="24" bodyfile="include/security/security_api_contract.h" bodystart="327" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a56f1dbf1678ae2ea986942063fc8c9c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_i_t_s_a_client" kindref="compound">ITSAClient</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ITSAClient &gt; themis::security::createTSAClient</definition>
+        <argsstring>(TSAConfig config, TSAEventHooks hooks)</argsstring>
+        <name>createTSAClient</name>
+        <qualifiedname>themis::security::createTSAClient</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref></type>
+          <declname>hooks</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create TSAClient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>createTSAClient — convenience factory.</para>
+<para>Creates a <ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper" kindref="compound">TSAClientWrapper</ref> backed by a <ref refid="classthemis_1_1security_1_1_timestamp_authority" kindref="compound">TimestampAuthority</ref> configured with the provided <ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref>. The optional hooks are wired into the wrapper.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TSA endpoint and algorithm configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hooks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional integration callbacks (default: no-op). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Heap-allocated <ref refid="classthemis_1_1security_1_1_i_t_s_a_client" kindref="compound">ITSAClient</ref> (never null).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hooks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/tsa_api.cpp" line="173" column="17" bodyfile="src/security/tsa_api.cpp" bodystart="173" bodyend="178" declfile="include/security/tsa_api.h" declline="376" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1af45814b21a3bf2c9d4b23abf53dc7307" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1security_1_1_i_user_registration_plugin" kindref="compound">IUserRegistrationPlugin</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IUserRegistrationPlugin &gt; themis::security::createEmbeddedUserRegistrationPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>createEmbeddedUserRegistrationPlugin</name>
+        <qualifiedname>themis::security::createEmbeddedUserRegistrationPlugin</qualifiedname>
+        <briefdescription>
+<para>Factory: create the embedded (in-memory) user registration plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Factory function (declared in user_registration_plugin.</para>
+<para>Returns a ready-to-use plugin backed by PBKDF2-SHA256 password hashing. Intended for standalone deployments and unit tests.</para>
+<para>NOT recommended for production enterprise deployments. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+h) Implements createEmbeddedUserRegistrationPlugin without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="598" column="17" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="598" bodyend="600" declfile="include/security/user_registration_plugin.h" declline="183" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a0db9044fc2bd6a6fbdddadadac4fcf79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result" kindref="compound">XxeSafeXmlParseResult</ref></type>
+        <definition>XxeSafeXmlParseResult themis::security::parseXmlSafe</definition>
+        <argsstring>(const std::string &amp;xml_content, const std::string &amp;source_hint, bool allow_external_entities=false)</argsstring>
+        <name>parseXmlSafe</name>
+        <qualifiedname>themis::security::parseXmlSafe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xml_content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_hint</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_external_entities</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Parse XML content with basic XXE hardening. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Xml Safe.</para>
+<para>The parser rejects common external-entity and DTD attack markers before invoking pugixml.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>XML payload to parse. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Short identifier used in diagnostics. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allow_external_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reserved for future compatibility; currently ignored. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parse result with document or error details.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), size(), THEMIS_ERROR(), toLowerAscii(), find(), load_string(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/xxe_safe_xml_parser.cpp" line="50" column="23" bodyfile="src/security/xxe_safe_xml_parser.cpp" bodystart="50" bodyend="114" declfile="include/security/xxe_safe_xml_parser.h" declline="44" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a01ac9db5a9df606164b87e8ec14e07d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::validateNoExternalEntities</definition>
+        <argsstring>(const pugi::xml_document &amp;doc)</argsstring>
+        <name>validateNoExternalEntities</name>
+        <qualifiedname>themis::security::validateNoExternalEntities</qualifiedname>
+        <param>
+          <type>const pugi::xml_document &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Best-effort validation that no external entity declarations remain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate No External Entities.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed XML document. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when no suspicious nodes are detected.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: children(), type(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/xxe_safe_xml_parser.cpp" line="122" column="6" bodyfile="src/security/xxe_safe_xml_parser.cpp" bodystart="122" bodyend="129" declfile="include/security/xxe_safe_xml_parser.h" declline="54" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1ac9167a233d4ddc7c748b32577ec9f66c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::to_hex</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>to_hex</name>
+        <qualifiedname>themis::security::to_hex</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>To hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="81" column="20" bodyfile="src/security/hsm_provider.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1ae02457c4fb39093a53fec592dd5adc2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::pseudo_b64</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>pseudo_b64</name>
+        <qualifiedname>themis::security::pseudo_b64</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Pseudo b64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), to_hex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="94" column="20" bodyfile="src/security/hsm_provider.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a9f54686276d0334a44282a53a18e35dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::derive_fallback_cert_serial</definition>
+        <argsstring>(const std::string &amp;cert_pem, const std::string &amp;fallback_context)</argsstring>
+        <name>derive_fallback_cert_serial</name>
+        <qualifiedname>themis::security::derive_fallback_cert_serial</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fallback_context</declname>
+        </param>
+        <briefdescription>
+<para>Derive fallback cert serial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fallback_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), SHA256(), data(), size(), prefix(), to_hex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="105" column="20" bodyfile="src/security/hsm_provider.cpp" bodystart="105" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1ad48509e1cba99508f9f198c07a19c827" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::ossl_error</definition>
+        <argsstring>()</argsstring>
+        <name>ossl_error</name>
+        <qualifiedname>themis::security::ossl_error</qualifiedname>
+        <briefdescription>
+<para>Get OpenSSL error string for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ERR_peek_last_error(), ERR_error_string_n(), ERR_clear_error(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="129" column="20" bodyfile="src/security/hsm_provider.cpp" bodystart="129" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1af33ce003255fd2b4a29f2714e6e94bf4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::security::stub_aes_encrypt</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;key, const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>stub_aes_encrypt</name>
+        <qualifiedname>themis::security::stub_aes_encrypt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::to_string(), iv(), RAND_bytes(), data(), ossl_error(), ctx(), EVP_CIPHER_CTX_new(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="148" column="20" bodyfile="src/security/hsm_provider.cpp" bodystart="148" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1aa0c54b04102466c39db0b1df9389ce5d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::security::stub_aes_decrypt</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;key, const std::vector&lt; uint8_t &gt; &amp;encrypted)</argsstring>
+        <name>stub_aes_decrypt</name>
+        <qualifiedname>themis::security::stub_aes_decrypt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>encrypted</declname>
+        </param>
+        <briefdescription>
+<para>AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::to_string(), data(), ctx(), EVP_CIPHER_CTX_new(), ossl_error(), plaintext(), EVP_DecryptInit_ex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="196" column="20" bodyfile="src/security/hsm_provider.cpp" bodystart="196" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1abbb15b57ce856abd338c1092a30f0807" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::security::isAgeExceeded</definition>
+        <argsstring>(std::chrono::system_clock::time_point created_at, std::chrono::seconds threshold)</argsstring>
+        <name>isAgeExceeded</name>
+        <qualifiedname>themis::security::isAgeExceeded</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>created_at</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Is Age Exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">created_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Creation timestamp used for the age comparison. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/secret_manager.cpp" line="59" column="13" bodyfile="src/security/secret_manager.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a9757e9aa670341d266e36b8a257c9a80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::security::isProductionMode</definition>
+        <argsstring>()</argsstring>
+        <name>isProductionMode</name>
+        <qualifiedname>themis::security::isProductionMode</qualifiedname>
+        <briefdescription>
+<para>Is Production Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::getenv(), s(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/timestamp_authority.cpp" line="51" column="13" bodyfile="src/security/timestamp_authority.cpp" bodystart="51" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a76ed706884a841749345400471180fe6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::security::isStubAllowed</definition>
+        <argsstring>()</argsstring>
+        <name>isStubAllowed</name>
+        <qualifiedname>themis::security::isStubAllowed</qualifiedname>
+        <briefdescription>
+<para>Is Stub Allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::getenv(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/timestamp_authority.cpp" line="90" column="13" bodyfile="src/security/timestamp_authority.cpp" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a0258a5adc067a44da9198eb5b74c06ae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref></type>
+        <definition>static TimestampToken themis::security::makeProductionError</definition>
+        <argsstring>()</argsstring>
+        <name>makeProductionError</name>
+        <qualifiedname>themis::security::makeProductionError</qualifiedname>
+        <briefdescription>
+<para>Make Production Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/timestamp_authority.cpp" line="101" column="23" bodyfile="src/security/timestamp_authority.cpp" bodystart="101" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a43efeb10f38117cea4ced1e0dd16997b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::hex</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>hex</name>
+        <qualifiedname>themis::security::hex</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Helper: hex encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/timestamp_authority.cpp" line="135" column="20" bodyfile="src/security/timestamp_authority.cpp" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a7329c508aeed29dbb4386a5f5aee58bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::security::pseudo_hash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>pseudo_hash</name>
+        <qualifiedname>themis::security::pseudo_hash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Very weak deterministic hash (not cryptographic! </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+) Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/timestamp_authority.cpp" line="148" column="20" bodyfile="src/security/timestamp_authority.cpp" bodystart="148" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1a37b2afb7f80d9002bc247b2da6d940f1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::security::base64Decode</definition>
+        <argsstring>(const std::string &amp;encoded)</argsstring>
+        <name>base64Decode</name>
+        <qualifiedname>themis::security::base64Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Base64 decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: b64(), BIO_new(), BIO_f_base64(), bmem(), BIO_new_mem_buf(), data(), size(), BIO_push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/usb_admin_authenticator.cpp" line="544" column="20" bodyfile="src/security/usb_admin_authenticator.cpp" bodystart="544" bodyend="559"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="44" column="1"/>
+  </compounddef>
+</doxygen>

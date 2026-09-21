@@ -1,0 +1,1067 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_l_l_m_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::ILLMPlugin</compoundname>
+    <derivedcompoundref refid="class_fast_mock_plugin" prot="public" virt="non-virtual">FastMockPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_blocking_mock_plugin" prot="public" virt="non-virtual">BlockingMockPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_blocking_plugin" prot="public" virt="non-virtual">BlockingPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_capturing_l_l_m_plugin" prot="public" virt="non-virtual">CapturingLLMPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_echo_l_l_m_plugin" prot="public" virt="non-virtual">EchoLLMPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_fast_mock_plugin" prot="public" virt="non-virtual">FastMockPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_immediate_mock_plugin" prot="public" virt="non-virtual">ImmediateMockPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_lo_r_a_tracking_plugin" prot="public" virt="non-virtual">LoRATrackingPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_multi_model_mock_plugin" prot="public" virt="non-virtual">MultiModelMockPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_p5_mock_plugin" prot="public" virt="non-virtual">P5MockPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_security_test_plugin" prot="public" virt="non-virtual">SecurityTestPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_single_model_mock_plugin" prot="public" virt="non-virtual">SingleModelMockPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_slow_streaming_plugin" prot="public" virt="non-virtual">SlowStreamingPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_stub_decomposer_plugin" prot="public" virt="non-virtual">StubDecomposerPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_stub_l_l_m_plugin" prot="public" virt="non-virtual">StubLLMPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_w10_d_mock_draft_plugin" prot="public" virt="non-virtual">W10DMockDraftPlugin</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1llm_1_1_i_s_s_m_plugin" prot="public" virt="non-virtual">themis::llm::ISSMPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_llama_wrapper" prot="public" virt="non-virtual">themis::llm::LlamaWrapper</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin" prot="public" virt="non-virtual">themis::llm::MockLLMPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_w3_echo_plugin" prot="public" virt="non-virtual">themis::llm::W3EchoPlugin</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin" prot="public" virt="non-virtual">themis::llm::monitoring::FakePlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin" prot="public" virt="non-virtual">themis::llm::tests::MinimalPlugin</derivedcompoundref>
+    <includes refid="llm__plugin__interface_8h" local="no">llm_plugin_interface.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result" prot="public">themis::llm::ILLMPlugin::DraftTokensResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result" kindref="compound">DraftTokensResult</ref>(const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;, size_t, size_t)&gt;</type>
+        <definition>using themis::llm::ILLMPlugin::GenerateDraftTokensFn = std::function&lt;
+       DraftTokensResult(const InferenceRequest&amp; ,
+                         size_t                  ,
+                         size_t                  )&gt;</definition>
+        <argsstring></argsstring>
+        <name>GenerateDraftTokensFn</name>
+        <qualifiedname>themis::llm::ILLMPlugin::GenerateDraftTokensFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="371" column="5" bodyfile="include/llm/llm_plugin_interface.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae875cf579160648a2fc785927954cac7" prot="private" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::ILLMPlugin::s_draft_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>s_draft_fn_mutex_</name>
+        <qualifiedname>themis::llm::ILLMPlugin::s_draft_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="450" column="43" bodyfile="include/llm/llm_plugin_interface.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6271ca6d256fb2f6c1f0491529c238e9" prot="private" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" kindref="member">GenerateDraftTokensFn</ref></type>
+        <definition>GenerateDraftTokensFn themis::llm::ILLMPlugin::s_default_draft_fn_</definition>
+        <argsstring></argsstring>
+        <name>s_default_draft_fn_</name>
+        <qualifiedname>themis::llm::ILLMPlugin::s_default_draft_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="451" column="43" bodyfile="include/llm/llm_plugin_interface.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ILLMPlugin::~ILLMPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILLMPlugin</name>
+        <qualifiedname>themis::llm::ILLMPlugin::~ILLMPlugin</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" kindref="compound">ILLMPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="310" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ILLMPlugin::ILLMPlugin</definition>
+        <argsstring>(ILLMPlugin &amp;&amp;) noexcept=default</argsstring>
+        <name>ILLMPlugin</name>
+        <qualifiedname>themis::llm::ILLMPlugin::ILLMPlugin</qualifiedname>
+        <param>
+          <type>ILLMPlugin &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="312" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" kindref="member">ILLMPlugin</ref> &amp;</type>
+        <definition>ILLMPlugin &amp; themis::llm::ILLMPlugin::operator=</definition>
+        <argsstring>(ILLMPlugin &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ILLMPlugin::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" kindref="member">ILLMPlugin</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="314" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ILLMPlugin::ILLMPlugin</definition>
+        <argsstring>(const ILLMPlugin &amp;)=delete</argsstring>
+        <name>ILLMPlugin</name>
+        <qualifiedname>themis::llm::ILLMPlugin::ILLMPlugin</qualifiedname>
+        <param>
+          <type>const ILLMPlugin &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="316" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" kindref="member">ILLMPlugin</ref> &amp;</type>
+        <definition>ILLMPlugin &amp; themis::llm::ILLMPlugin::operator=</definition>
+        <argsstring>(const ILLMPlugin &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ILLMPlugin::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" kindref="member">ILLMPlugin</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="317" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMPlugin::loadModel</definition>
+        <argsstring>(const std::string &amp;model_path, const json &amp;config={})=0</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::llm::ILLMPlugin::loadModel</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1aaea0d0fa7bec2c94c77d80618d49210b">loadModel</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1ad0770fe6b6a4b54a7d86ba0ad1491cf4">loadModel</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1a3511124458f476af4810b2cc9a7650dd">loadModel</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1aa6defdea4f84a54130429004a4ad4813">loadModel</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1a302b834c7c0b3b9ce5f61e6fcb756ef0">loadModel</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a34d33e39195b763ec026f1273e61a3f3">loadModel</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1a93c7469a5590a3e617e6fe36a19d510b">loadModel</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a5ecd616fdeb6bac15111c4be3bd0bd95">loadModel</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1a69433116994c4f374944dfb1c0008835">loadModel</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1a7d5878e488f5338f40bd93e05deb596e">loadModel</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1ace7d6abe058db8fbfb2a32f8ed78d168">loadModel</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1ae1e4c7d649d42408862d455328ce6b89">loadModel</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a8586a5fae3c5e2092e99e6bdd5050431">loadModel</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a8aeefb8de1efed74b6967b397378756d">loadModel</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1ad19091e3454917868444d90be427de63">loadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1a93c7469a5590a3e617e6fe36a19d510b">loadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1a050a51c836dafa80016085bcf528a911">loadModel</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a476844db10dbdbdb376839db9d4f668d">loadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a91cb44034e2834e62f4384ba4652b5ad">loadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a6b397fcbb0b8c7968217322fbea5119e">loadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1a47bea6a2f0246f353d7fba3c832fbde3">loadModel</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1adceed673d6d7562b4bf3acd261950bb6">loadModel</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="328" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::ILLMPlugin::unloadModel</definition>
+        <argsstring>()=0</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>themis::llm::ILLMPlugin::unloadModel</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1a0e5d4ff471d46f2f81d4388f7cc6a1e4">unloadModel</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1a10c5acd77ab5ac58e7873e8b47cecc76">unloadModel</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1aaae4090e3c9e7f91bcfbe503a6369b3a">unloadModel</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1acaad53bf47bb6af517da83b75ef6e1b2">unloadModel</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1acf2f1f126d9770b63a43d29ca1f256bf">unloadModel</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a15e4399e033488488cc3663bdf65ba4f">unloadModel</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1abc9525b82c6d19b5353744589ce6c92f">unloadModel</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1aaad65c5727638136bd3dacf5cce98f8f">unloadModel</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1a050c82126f0db04e797ced1901ab4deb">unloadModel</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1a6211341b2b0a734ebc4b152e8f3794cd">unloadModel</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1ae787dfe1ce6290b75d5ee5ebc35ec154">unloadModel</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a9a6d659169e3bd29a46322eaa4335f8d">unloadModel</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a4e722b6471f8c9e0217ada9fb63a4c3e">unloadModel</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a0128dd66883bc4b3c022b640a0effa30">unloadModel</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a64bbc0007a04043b0b5497de3299123c">unloadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1abc9525b82c6d19b5353744589ce6c92f">unloadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1a7d7b473b1e86293f33b2b3e06de58e2f">unloadModel</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a64ec5d268fbff1cbe4999c771f6014da">unloadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aca0f44c26bfb29e8e3dd3651f44553c7">unloadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1acfc7772fbfa8226c1ef2c9c1596a163b">unloadModel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1a3c2b7b85fd2357ea495cd2587dfd709b">unloadModel</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1aaf0d95dcd6d7ddf737b530dd42fd48d1">unloadModel</reimplementedby>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="336" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>virtual std::optional&lt; ModelInfo &gt; themis::llm::ILLMPlugin::getModelInfo</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::llm::ILLMPlugin::getModelInfo</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1aa5aa6e08e1a09212a6dc2583083421e3">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1a0085cc776d7b0e8db455a97a0455db28">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1a0f26fc784e1dd6fc6145b0f4d2b05fa8">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a139806a6dc4750cb123a04842739b72d">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1aa326abc8cfbcb610a60053e110a21689">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a9663e4edcb21fae70cdf2e3196d84967">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1a351cd761d42a69704ed559ed1880ad7f">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1ae734cb2feb07f0735ae62ef1049f2fd2">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1af2189afc00413820b0a7eee51b5aac02">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1a674cec648cfdde91b1200a2fb9436f44">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1ae1723b49b34ed2c5670e8d1fcd407fc1">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a1678aa372d82fb30802abc9befb2c1ed">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a3cf882acf44f5b6019c3fae9f222ede7">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1aef26ca08fbb7c7e3be91cff7c5ec8184">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a844ffe997324870e934497f62fb75ab3">getModelInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1a351cd761d42a69704ed559ed1880ad7f">getModelInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1a26a37406155f599bdaef08fa1a5dfe3b">getModelInfo</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a58a99a90e26d79fda8b404b55ab480bf">getModelInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a1aaec30cec79b1c214a1f1e164d52bce">getModelInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a719122a7d2689fe90b39f7ab4c7de662">getModelInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1ad06a66396162387890df80cd5c94a8d7">getModelInfo</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a8495adb1517394ff9b254ed085d7839f">getModelInfo</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="338" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMPlugin::isModelLoaded</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>themis::llm::ILLMPlugin::isModelLoaded</qualifiedname>
+        <reimplementedby refid="class_auto_binding_l_l_m_plugin_1a846d2a758f88c7b7c9038329ea87bd6f">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_blocking_mock_plugin_1a12f47e86ea7402d6982475030c96224a">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1a508f9aaf1fda5ac69d6fb132c821590b">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1a9049ae27f174e870117a7ab40dbea5f3">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1afb62e9f747fbcbf04b433b18c566cefa">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1aef8f5dfab34242e17c490b7c51968847">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1adb0f4c5b92ca80ac24c8a6d9f61c9a79">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1a6d803f0252e67e9bd8296677dad54d7f">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a546bb3bab5fe020b9a91f14305fa8a85">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1aa2abdc30bea4a5846d15788ab08d3705">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1a952c71b4200a287e2c6949faee4f84d7">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a8e265dece5cb3629411a6d3b0f5ce5a2">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a4e211ae8ef4ff8bad871f4b13fe9da17">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a2825861216eed5c29102addf8c5aa064">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a915f660a5d42eeb4e4b8bcbe89061ae6">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a36e9d2f23c8b8d4db7c1ec67f8a37187">isModelLoaded</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1a6d803f0252e67e9bd8296677dad54d7f">isModelLoaded</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1af0889e4d354c3088acc6da2137f5a02e">isModelLoaded</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1aeb1ae22b111e76ff727b104c0b6eb9ee">isModelLoaded</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a197b8231e2b70e4843502f15e9d5e2e8">isModelLoaded</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1ace90753d315e5bfbb677b3695ff31462">isModelLoaded</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1ab5821b81709ef06025e7abc905c1048e">isModelLoaded</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a8160d28264b8926bfce478fd0cdd19e6">isModelLoaded</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="340" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id, const std::string &amp;lora_path, float scale=1.0f)=0</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>themis::llm::ILLMPlugin::loadLoRA</qualifiedname>
+        <reimplementedby refid="class_auto_binding_l_l_m_plugin_1ab27ebb5c1b9b67079b8fe81de812d8e9">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_blocking_mock_plugin_1a086753d85cbaea8b4f19e8d7401e5050">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1adf543ea91e8d4ecb0e554b647292deb4">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1ad45991039c265e24bcce1f0ffaeb6c77">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1ae7dc4793bcd293b6d06462c0a54063eb">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1a0bc754c9bee19b782004ef2316a88c5b">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a4a39bd4cbb49b10fe8109ba3eb5bede7">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1af872fade8e6cb42026c611681c7029c0">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1ad04a5da7db1ccf9c73864397dac40a6c">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1ac3163a593246fc75fe0b0426323155c2">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1ac6af06812eef3988ddc70c20d4e94bb9">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a6994952c6c035d9a69c696ade5f37c67">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a0aa6477519c3a2f7ad6a26b34c20cf02">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a1d16f217ab9715854b58eaa37f536da2">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a6ed8e14d21663436a5fe51c7249cae16">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a779643a4202bb43bc98957853c3c0e45">loadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1af872fade8e6cb42026c611681c7029c0">loadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1ae9f5f1484b0e3bd7aa264a30c3076dd9">loadLoRA</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a38bc3e7c41bfa3ac04c16740b4775af3">loadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a418ce1d58d647be96b04691c58ca4e00">loadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a25f55d15e7cca59272c6ca34bc3c3ea6">loadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1ad7d20a275e2325c938b9f2da14aa3118">loadLoRA</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a56820e6da45f28e42f3eba6a8cd6fab8">loadLoRA</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="346" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id)=0</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>themis::llm::ILLMPlugin::unloadLoRA</qualifiedname>
+        <reimplementedby refid="class_auto_binding_l_l_m_plugin_1a682e664a962e7b282f7965943d4f357a">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_blocking_mock_plugin_1ac92671fc0991834f0032adda453d42bc">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1a1ed31d328928dffb4a1d9d55ff1b994c">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1a3f29ede139970d2bf0be56f971053727">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a3b548e0e65e018e0e86c23653c2e9252">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1a1245f2bf4132b5389e9b9a87d8f551ce">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a8c3aad3325fa7b874d7bf350239c4bd4">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1ad085c10f4fc6f7f857c6e68e36572026">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a49c221dad52d245aeecd7740d1866378">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1aaf15d2503ac0b72e4a64e6468aebc1b3">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1afae0461903a8d6f0a5d085b6f421b512">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a02b23b63214c2984c7a06ad825f96d7b">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a1adc15842e9b71aa42bb1af1cec06cf0">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a24e00e4264921c790cdd67bdfebafc3f">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1ad76c0db4279256fff8a9e18efd4ed8fa">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a5b0ce099ac8c21e59edb723618b090a1">unloadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1ad085c10f4fc6f7f857c6e68e36572026">unloadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1a263459764a116eb08c2fa2e3e1427f6b">unloadLoRA</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a17087efc5b0ba8b55feee31548c5cad2">unloadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a047251c956d113c6667453bd1c4a050f">unloadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a6e5fe1651715725e6eb236271d7b287a">unloadLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1a464d606cd25a19d96e02d9d232767c8c">unloadLoRA</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a0857e3fe915d179c44f841ccd0e16634">unloadLoRA</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="352" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>virtual std::vector&lt; LoRAInfo &gt; themis::llm::ILLMPlugin::listLoRAs</definition>
+        <argsstring>() const =0</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>themis::llm::ILLMPlugin::listLoRAs</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1a48423f1424c2e5fb53638f0f2879b005">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1a578d22e57c7b04551dcbb1122ce99b28">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1ade2cccb20c3e712bbbdad73d84b59b53">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a3f1a0fcb2a32778e0001969e7d5b6bbc">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1a8f86819f908c9e340db71b86f45ce18f">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a1e8e603e0d7cc5bb3c506b4d1d5b0237">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1afa58d2969e491a84bb8fd5baff769d9b">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a43fe11235b7bcdc67ed8206c6058f3e0">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1a813cdf2b307c2c1f2045f28314aaf1ef">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1ada70c0968dae28463a0ac7f2e0233dda">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a6c7fac43895c85ae3ad029ac73d314e7">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a180287ff43f5695d72cd1371157acb1e">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a4acb63589933cd0e340088f0c71c69c8">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1aa2bc3db353dcc6655b71733e7b0b3e9d">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1aff632a20f1f24e62673097e37b763e9c">listLoRAs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1afa58d2969e491a84bb8fd5baff769d9b">listLoRAs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1addbd8782aefa5a311465e4a88c61e711">listLoRAs</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a7fb0f94be23dfb1cda3882a055433276">listLoRAs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a695780c33f9fd1a2985114cf8bdabb9b">listLoRAs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a956e2c39855b4e389125140fcb0f9f3f">listLoRAs</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1ae611a06e9a7bd460400b4fdc608b2a44">listLoRAs</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a8e2038c9ea1d8df5b456c8b05c9a1f87">listLoRAs</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="354" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result" kindref="compound">DraftTokensResult</ref></type>
+        <definition>virtual DraftTokensResult themis::llm::ILLMPlugin::generateDraftTokens</definition>
+        <argsstring>(const InferenceRequest &amp;request, size_t k, size_t vocab_size_hint)</argsstring>
+        <name>generateDraftTokens</name>
+        <qualifiedname>themis::llm::ILLMPlugin::generateDraftTokens</qualifiedname>
+        <reimplementedby refid="class_llama_wrapper_1aec11fcbe375f597c2aa9ff8de6d6ae13">generateDraftTokens</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1aec11fcbe375f597c2aa9ff8de6d6ae13">generateDraftTokens</reimplementedby>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vocab_size_hint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_draft_fn_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Row. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vocab</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kBaseline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="386" column="32" bodyfile="include/llm/llm_plugin_interface.h" bodystart="386" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>virtual InferenceResponse themis::llm::ILLMPlugin::generate</definition>
+        <argsstring>(const InferenceRequest &amp;request)=0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llm::ILLMPlugin::generate</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1a868a9d0f956f288152a9f8143dfcced9">generate</reimplementedby>
+        <reimplementedby refid="class_blocking_mock_plugin_1a2d6adcb889a4894c36a96394b4aaa249">generate</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1aaeb6a25d04dd3920169215fa15dedc10">generate</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1ab32251e80f6382ffa43dd77d21ae202d">generate</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a7862dcb8c6caa3cd284c81fe82ae00ae">generate</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1ad3418f67d782625f48c56fa5c56bc76e">generate</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a318c2a6869006675a9f4a01ac68a9fe3">generate</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1adab5a242370d1d1c0698487e6b96ad85">generate</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1abe2eda4130859c8b45b96445efc129df">generate</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1a7ea40188f8196407a550204bb466f421">generate</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1af2550897d90ba0999464104a80c36da6">generate</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a394dd4b7f3a3a81ea686608c8edc5ade">generate</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a5c0c533cd06a2aea3b415d0f6318475c">generate</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a10414b7e3014e734d7ebd2609f6c41c7">generate</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a1ff8cfb91b41cc385bcd0817bea78a29">generate</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1aaa5b8d811bb0251f02c10f3c9e3cecf6">generate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1adab5a242370d1d1c0698487e6b96ad85">generate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1a8a38b7bb6d419d975396b65b9d8b972f">generate</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a54b35ac0bdb58597a90480dbbb993b95">generate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a58945c42bb05e0dade85030094b16202">generate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1af7d9793a3dc93cd9588788c0feb37dd3">generate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1a3074f21f5fb4504b20ac9da4ea3358a3">generate</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1af0653ee45f23ec0a151b9110f4fe1c0e">generate</reimplementedby>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="455" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>virtual InferenceResponse themis::llm::ILLMPlugin::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;rag_context, const InferenceRequest &amp;request)=0</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>themis::llm::ILLMPlugin::generateRAG</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1afc8bda9f68e48805f7c092b909fa3250">generateRAG</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1afb7f07c1b396b775b02615c4b917b8be">generateRAG</reimplementedby>
+        <reimplementedby refid="class_capture_ethics_prompt_plugin_1a216a67ca6830d2fc331c1d313416fcb6">generateRAG</reimplementedby>
+        <reimplementedby refid="class_capture_rag_request_l_l_m_plugin_1a527b241f6bdc0b966f41f045107485b9">generateRAG</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1a34efe934ff8de763d1b9418f75c5419c">generateRAG</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a39f153208a152c550b1db49a62385d23">generateRAG</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1ac44f7e2bd3c18ec86ae941dad5f4cb2b">generateRAG</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a7827de49cfbaa0274e49927715cbd9d9">generateRAG</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1afbb4f2330b2a94e6aff6ed8432180445">generateRAG</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a88e2cbcdb57764555ba3c0faa595b890">generateRAG</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1a0e0dcfbd75e939cdf0ad7218cb43ea41">generateRAG</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1ab4ab883adcc42e949f48b7e13071e0bc">generateRAG</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a60297ba19482d9e8eb096e0a45f55ca6">generateRAG</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a17eabad9680eb500030423b08ab6a298">generateRAG</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a8a38ad06f16931cacf0be1770ca06112">generateRAG</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a5fafdb563c7db7f8eb68969dca6eabef">generateRAG</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a6c0c2b532fc04f17671198babc744b01">generateRAG</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1afbb4f2330b2a94e6aff6ed8432180445">generateRAG</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1ac7c29d9a394bacb987a94fbf1fd99e69">generateRAG</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a596245704982ee29b32f60f3b4b2e9f4">generateRAG</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1ab83ade5f2081b5af8db8439aa2aa24e9">generateRAG</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1aeeac303996ca3e11f2f29012512ab79c">generateRAG</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1a59dc16c79b077e5bc379468b6a876c15">generateRAG</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a3f23fc14922ed7e778833a0e17752fc9">generateRAG</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+          <declname>rag_context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="457" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::llm::ILLMPlugin::embed</definition>
+        <argsstring>(const std::string &amp;text)=0</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::llm::ILLMPlugin::embed</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1a5a59c5d3b4943f46da51988630e07231">embed</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1ac7990a814b6c2e68eda955a5314377dd">embed</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1a4ccda9a2a617621b14cb3c8b8f7778d0">embed</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a9276386e3bfc76915fde6ff9157d5efe">embed</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1a495b00d91d9db332abb5c78812387ab1">embed</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a8a30a287ab49b99dc5849f05cb5599f3">embed</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1abcd0bed6931fe1a7f099fa929cc72195">embed</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a63814bfd403e0908dad7283cdabbf7e1">embed</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1ad7cbe7f3258b6520a1e7a71069e45a42">embed</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1aff13dc192134d2be164679a136dde10c">embed</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a2dd778ae62af706979573048dd299403">embed</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1adbfcbe5a39eaf05a7911db669228141e">embed</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1adb7f40f27de9227415e5fce33e8d8ce2">embed</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1aa83c22bcf0ddd22ebc70339ef4cf8638">embed</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1ac6a99ddbec29a56f61f68db3e74f488c">embed</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1abcd0bed6931fe1a7f099fa929cc72195">embed</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1a485719b74a58d3a8c999ce642c9ad36f">embed</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a1f9287953578d9af29532e9369cfd478">embed</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a7a5f3e09ef49c9afea107ddb40b0c306">embed</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1ad4b2919b79c2afcf1f78bebe7cfb44f4">embed</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1aec0ae2ee7bb7fd0b62f1cbac09846b56">embed</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a30decd10ccae990a95dbca5d50e334cd">embed</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="462" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref></type>
+        <definition>virtual LLMCapabilities themis::llm::ILLMPlugin::getCapabilities</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::llm::ILLMPlugin::getCapabilities</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1a3ce3d62512e78bd3dee5450a564e05bf">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1a1eb8eb3a47852e8761349f673ea8af65">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1adfb7b4a5ffd1d8b9a4970950c2cb1c9d">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a46f03ea6165cfce7652569aa612f0b9c">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1a268a9e14743b616c32e91508beb14000">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a747e2c3c9eb0bb6cfb4b286926257e4a">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1a726c04575270c88aef413789292a01ca">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a724a6cfe7801289a4f24d17709830d3f">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1ab19a65c8fd1b933efa5fae4faee6cf29">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1a3bd525774ec7f0715fa6cb0288c155e7">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a14524c80feb71914921e506f7f418523">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a4e1421d4900803321a248aaf861652a0">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1afdf5024e6892d98ff1f84692bf10417a">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1aad6ed5197281fb5fa7061e93df83a119">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1ae68640f3fff7e87ba3411cf46946686b">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1a726c04575270c88aef413789292a01ca">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1a2334c26b09fd50cb82a6dc6221b2da13">getCapabilities</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1ae80007cfd52f22f846f2a96af81ba065">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a91bf5db0d6c2c23dfabb673c0419437f">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1afabddeb276eacb736f41385899e63c53">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1a0d0c8c576c658a9af42cc8a9fadf4d3f">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1ad982e62ac986feb5c1c83e402727f8e3">getCapabilities</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="468" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>virtual json themis::llm::ILLMPlugin::getMemoryStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::ILLMPlugin::getMemoryStats</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1aefce5fd89b9a971a4ac3a2c6d140591a">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1a0d615a385a2c670735f446ff81be8ac5">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1a6a58ec25f89798b4e1fc21539d61548a">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a17caeb32f6f1f45b82329169d27a0696">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1ae6b671b612203564436b9e008c21f3f8">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a584838ea34d8990b4afc8b99ece105ab">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1ae5a1f3909a4cd0ff7a9ff9d03be764cc">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a729413381833ee505b9f8470d191b6f0">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1af3c33cbd073852e4a26fe8f2af3f6203">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1a87f3baddac97b3d9d07fb0b326824b82">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a7b79680a814d924a58034fcf62af279b">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a49a57b7acdfd825f800082f3a61108a2">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1aa94aad951c9478356c7e53034fe2dbf8">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a00e9f6fec8fc23fdc6ebad079b8ab2f5">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1ae070b1c130aa0205bb88cc767af7ac14">getMemoryStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1ae5a1f3909a4cd0ff7a9ff9d03be764cc">getMemoryStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1acb12e699646a02f3b5979f2178e77dac">getMemoryStats</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a068d2c5a7ef177d434baa6a74e988eb6">getMemoryStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6dbdee4f82e4b25b3b2ff74859953208">getMemoryStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a1ecf8e35ac55f0f72014211f570c4fb7">getMemoryStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1a140fcff75a5beba6c1739e450e47e559">getMemoryStats</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a113baadcc8ba1b9528d4e46a00275137">getMemoryStats</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="470" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>virtual json themis::llm::ILLMPlugin::getPerformanceStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>themis::llm::ILLMPlugin::getPerformanceStats</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1a11f9bccc94ea2c8fabe93c106e0330a8">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1ac231f0f3dad3f6a16fbf66ae423c56fa">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1ae5d7d9a3a12abb63efb92b8752efdfe6">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a47699633be46066e859612b9d81bb302">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1ac7648171204661c5e7149f524be44fbf">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1af70fd856d1dbf2c82d84a6d0f1431337">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1aff7128fbcece16733a1b27001d10abc7">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a1695260d59d160be91eb17127dc54809">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1afdeb905801991a983df3d05353e47c94">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1a39e4ed089a6443987ddc2cc8d6f8d536">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1aad3bb7f5d63f75d9da96429a383a05c1">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1a5b2b498a955cc7ff8e15cdbbef1577c2">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a5059361888120d242a4a9917a0584b55">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1aba81b36d5b0adbda3ad1dbce1cac8c12">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a57a0cf5be27e6dfa7ee2c3ca96a86ece">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1aff7128fbcece16733a1b27001d10abc7">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1adce66c7e219d01652f756a68409ff498">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a96792d8fa21cb1798ca88b1b571131bd">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a10db4dd56605f0ffd4b7459f77eec6f1">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1aadbf17e8d43de2901fa9e35e370f795f">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1aed5af6ecb1de3f7578571c4f9752d555">getPerformanceStats</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a3d193783d6538cf31d449e7ec17f3756">getPerformanceStats</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="472" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::llm::ILLMPlugin::exportLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id)=0</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>themis::llm::ILLMPlugin::exportLoRA</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1a668d77744c66a99202a513eb3286f701">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1aed22b086fdc26a657c3b0981034b3c5e">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1ad8daa77231db368cdea0cb9abe34921d">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1a982bf70bb4e880d80bde3b2ddd268f53">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1ac139a878fe2348ddce949467e2c2abc5">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a8ccc0dbaa5b098ecbd3a8893f7724596">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1a3f99c436d80473209aca12445bc104ce">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1afb051fd10cd0d3292995d382d26da747">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1ae8e06a5a63917546b1a39b2ac9f482ec">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1a6f6c65dca919e70a054f468d56d27f7c">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1a29016f4160c2e9eb7477405abcdd1b0a">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1ab806706528d225dedadeebf9ed16b7c7">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1add565de4b76963d7f96561065b4d8c75">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a8ea07476c5478bc158e4e25ebde1125d">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a1bdd57a9cde13cd51d7bad77e515f885">exportLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1a3f99c436d80473209aca12445bc104ce">exportLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1ad8b7c85b100df1f05e4043795e972fb9">exportLoRA</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a00d165e516dc1d066cb5adaac6396780">exportLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aeb927d62e919f357d48f2b603815cf82">exportLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a6a87ba48773d6dc157c0afe68509207b">exportLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1a676282aa2340e6f20b72fe8f3f7b95b0">exportLoRA</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1af55cd1d5669e5142a40b23d57d49c79c">exportLoRA</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="478" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMPlugin::importLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id, const std::vector&lt; uint8_t &gt; &amp;data)=0</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>themis::llm::ILLMPlugin::importLoRA</qualifiedname>
+        <reimplementedby refid="class_blocking_mock_plugin_1a95ace623f20adc409f27aff3ede94c78">importLoRA</reimplementedby>
+        <reimplementedby refid="class_blocking_plugin_1a879a2a931e5ad3adf1cf56255e8fa34e">importLoRA</reimplementedby>
+        <reimplementedby refid="class_capturing_l_l_m_plugin_1a6266dac1ba49d5c8ba1bfc46d416f0bf">importLoRA</reimplementedby>
+        <reimplementedby refid="class_echo_l_l_m_plugin_1aa504e723548880c70f9362c6d9a6d9df">importLoRA</reimplementedby>
+        <reimplementedby refid="class_fast_mock_plugin_1a441a16d07cedeef2be39b87bffc5c91b">importLoRA</reimplementedby>
+        <reimplementedby refid="class_immediate_mock_plugin_1a7e9b495a31a9b23b7062001d081b73f3">importLoRA</reimplementedby>
+        <reimplementedby refid="class_llama_wrapper_1a87a78c4ff8b0cf1ea32cb17bb8a621ab">importLoRA</reimplementedby>
+        <reimplementedby refid="class_lo_r_a_tracking_plugin_1a632a86b63c7ee4f015f5b95f7ccd9e01">importLoRA</reimplementedby>
+        <reimplementedby refid="class_multi_model_mock_plugin_1a9ef55715eef33dd58897541bfdd3cc1c">importLoRA</reimplementedby>
+        <reimplementedby refid="class_p5_mock_plugin_1af2d5fbd6e16e0cb7d48ad9eac78b84d0">importLoRA</reimplementedby>
+        <reimplementedby refid="class_security_test_plugin_1ad9e9b76530418f778eac6c3356e25634">importLoRA</reimplementedby>
+        <reimplementedby refid="class_single_model_mock_plugin_1ad71bd897af401d3aa1388e511134004a">importLoRA</reimplementedby>
+        <reimplementedby refid="class_slow_streaming_plugin_1a932ad6b6ed4d87707128dcf2dadbab01">importLoRA</reimplementedby>
+        <reimplementedby refid="class_stub_decomposer_plugin_1a308ee9fe0b63f17d1bc0baebe84321a9">importLoRA</reimplementedby>
+        <reimplementedby refid="class_stub_l_l_m_plugin_1a03fda1dd825a717ae3b6b9c54ea8baae">importLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_llama_wrapper_1a87a78c4ff8b0cf1ea32cb17bb8a621ab">importLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin_1afc14733c01c4cf49ebecf6df150f752a">importLoRA</reimplementedby>
+        <reimplementedby refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin_1a9f31308cc8e350903bcdf09657a9a743">importLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a4b0ccb99dc1835ffdb4b03bebdd4e0e7">importLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a25400528079f2fc255fa2765f8ce6265">importLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_w3_echo_plugin_1ad7a0a06d3962bb9a54ff6fb889cd3e2f">importLoRA</reimplementedby>
+        <reimplementedby refid="class_w10_d_mock_draft_plugin_1a5341e812625a29491bc3361d9f01e82d">importLoRA</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="480" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ILLMPlugin::ILLMPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>ILLMPlugin</name>
+        <qualifiedname>themis::llm::ILLMPlugin::ILLMPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="320" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::llm::ILLMPlugin::setDefaultGenerateDraftTokensFn</definition>
+        <argsstring>(GenerateDraftTokensFn fn)</argsstring>
+        <name>setDefaultGenerateDraftTokensFn</name>
+        <qualifiedname>themis::llm::ILLMPlugin::setDefaultGenerateDraftTokensFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" kindref="member">GenerateDraftTokensFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Default Generate Draft Tokens Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="381" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="381" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="7">
+        <label>AutoBindingLLMPlugin</label>
+        <link refid="class_auto_binding_l_l_m_plugin"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BlockingMockPlugin</label>
+        <link refid="class_blocking_mock_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BlockingPlugin</label>
+        <link refid="class_blocking_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>CaptureEthicsPromptPlugin</label>
+        <link refid="class_capture_ethics_prompt_plugin"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>CaptureRagRequestLLMPlugin</label>
+        <link refid="class_capture_rag_request_l_l_m_plugin"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>CapturingLLMPlugin</label>
+        <link refid="class_capturing_l_l_m_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>EchoLLMPlugin</label>
+        <link refid="class_echo_l_l_m_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>FastMockPlugin</label>
+        <link refid="class_fast_mock_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>ImmediateMockPlugin</label>
+        <link refid="class_immediate_mock_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>LoRATrackingPlugin</label>
+        <link refid="class_lo_r_a_tracking_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>MultiModelMockPlugin</label>
+        <link refid="class_multi_model_mock_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>P5MockPlugin</label>
+        <link refid="class_p5_mock_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>SecurityTestPlugin</label>
+        <link refid="class_security_test_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>SingleModelMockPlugin</label>
+        <link refid="class_single_model_mock_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>SlowStreamingPlugin</label>
+        <link refid="class_slow_streaming_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>StubDecomposerPlugin</label>
+        <link refid="class_stub_decomposer_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>StubLLMPlugin</label>
+        <link refid="class_stub_l_l_m_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>W10DMockDraftPlugin</label>
+        <link refid="class_w10_d_mock_draft_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+      <node id="20">
+        <label>themis::llm::ISSMPlugin</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>themis::llm::LlamaWrapper</label>
+        <link refid="classthemis_1_1llm_1_1_llama_wrapper"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>themis::llm::MockLLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_mock_l_l_m_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>themis::llm::SyntheticSSMStub</label>
+        <link refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub"/>
+        <childnode refid="20" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>themis::llm::W3EchoPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_w3_echo_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>themis::llm::monitoring::FakePlugin</label>
+        <link refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>themis::llm::tests::MinimalPlugin</label>
+        <link refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/llm_plugin_interface.h" line="304" column="1" bodyfile="include/llm/llm_plugin_interface.h" bodystart="304" bodyend="484"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>embed</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>exportLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>themis::llm::ILLMPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>generateRAG</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>importLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>listLoRAs</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>loadLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6271ca6d256fb2f6c1f0491529c238e9" prot="private" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>s_default_draft_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae875cf579160648a2fc785927954cac7" prot="private" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>s_draft_fn_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>themis::llm::ILLMPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

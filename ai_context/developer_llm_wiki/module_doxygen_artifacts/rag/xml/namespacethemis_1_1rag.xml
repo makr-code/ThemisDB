@@ -1,0 +1,1112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag" kind="namespace" language="C++">
+    <compoundname>themis::rag</compoundname>
+    <innerclass refid="classthemis_1_1rag_1_1_adaptive_retrieval" prot="public">themis::rag::AdaptiveRetrieval</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" prot="public">themis::rag::AdaptiveRetrievalConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory" prot="public">themis::rag::AdaptiveRetrievalFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_adaptive_retrieval_params" prot="public">themis::rag::AdaptiveRetrievalParams</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_a_i_decision_record" prot="public">themis::rag::AIDecisionRecord</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_assembled_context" prot="public">themis::rag::AssembledContext</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_citation_highlighter" prot="public">themis::rag::CitationHighlighter</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_citation_highlighter_config" prot="public">themis::rag::CitationHighlighterConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_citation_highlighter_factory" prot="public">themis::rag::CitationHighlighterFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_citation_highlight_result" prot="public">themis::rag::CitationHighlightResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_claim" prot="public">themis::rag::Claim</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_claim_extractor" prot="public">themis::rag::ClaimExtractor</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_claim_verification_result" prot="public">themis::rag::ClaimVerificationResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_complexity_analysis" prot="public">themis::rag::ComplexityAnalysis</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_cost_estimate" prot="public">themis::rag::CostEstimate</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_cross_encoder_config" prot="public">themis::rag::CrossEncoderConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_cross_encoder_factory" prot="public">themis::rag::CrossEncoderFactory</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_cross_encoder_reranker" prot="public">themis::rag::CrossEncoderReranker</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_document_chunk" prot="public">themis::rag::DocumentChunk</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_document_splitter" prot="public">themis::rag::DocumentSplitter</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_document_splitter_config" prot="public">themis::rag::DocumentSplitterConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_document_splitter_factory" prot="public">themis::rag::DocumentSplitterFactory</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_document_summarizer" prot="public">themis::rag::DocumentSummarizer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_document_summarizer_config" prot="public">themis::rag::DocumentSummarizerConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_document_summarizer_factory" prot="public">themis::rag::DocumentSummarizerFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_document_summary" prot="public">themis::rag::DocumentSummary</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" prot="public">themis::rag::DPRVectorizer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" prot="public">themis::rag::DPRVectorizerConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_explainability_reason_builder" prot="public">themis::rag::ExplainabilityReasonBuilder</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_fairness_detector" prot="public">themis::rag::FairnessDetector</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_fairness_detector_config" prot="public">themis::rag::FairnessDetectorConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor" prot="public">themis::rag::FederatedAIDecisionAuditor</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_federated_query_plan" prot="public">themis::rag::FederatedQueryPlan</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_flare_config" prot="public">themis::rag::FlareConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_flare_decision" prot="public">themis::rag::FlareDecision</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_flare_retrieval" prot="public">themis::rag::FlareRetrieval</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_graph_truth_evidence" prot="public">themis::rag::GraphTruthEvidence</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_graph_truth_validation_result" prot="public">themis::rag::GraphTruthValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_graph_truth_validator" prot="public">themis::rag::GraphTruthValidator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_graph_truth_validator_config" prot="public">themis::rag::GraphTruthValidatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_guardrail_decision" prot="public">themis::rag::GuardrailDecision</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer" prot="public">themis::rag::HeuristicLLMScorer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer" prot="public">themis::rag::HeuristicLoRAScorer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_hybrid_fusion_result" prot="public">themis::rag::HybridFusionResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_hybrid_retriever" prot="public">themis::rag::HybridRetriever</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_hybrid_retriever_config" prot="public">themis::rag::HybridRetrieverConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_hybrid_retriever_factory" prot="public">themis::rag::HybridRetrieverFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_hybrid_score" prot="public">themis::rag::HybridScore</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_i_complexity_scorer" prot="public">themis::rag::IComplexityScorer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" prot="public">themis::rag::ILLMScorer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" prot="public">themis::rag::ILoRAScorer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_index_result" prot="public">themis::rag::IndexResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_i_vectorizer" prot="public">themis::rag::IVectorizer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_layer_quality_metrics" prot="public">themis::rag::LayerQualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_l_l_m_evaluation_response" prot="public">themis::rag::LLMEvaluationResponse</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_l_l_m_generation_options" prot="public">themis::rag::LLMGenerationOptions</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_l_l_m_integration" prot="public">themis::rag::LLMIntegration</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer" prot="public">themis::rag::LLMMetaAnalyzer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" prot="public">themis::rag::LoRAEnhancedRetriever</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory" prot="public">themis::rag::LoRAEnhancedRetrieverFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" prot="public">themis::rag::LoRARetrieverConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_modular_r_a_g_context" prot="public">themis::rag::ModularRAGContext</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline" prot="public">themis::rag::ModularRAGPipeline</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_modular_r_a_g_pipeline_config" prot="public">themis::rag::ModularRAGPipelineConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_modular_r_a_g_result" prot="public">themis::rag::ModularRAGResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_multi_document_summary" prot="public">themis::rag::MultiDocumentSummary</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_multi_step_r_a_g_config" prot="public">themis::rag::MultiStepRAGConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_multi_step_r_a_g_factory" prot="public">themis::rag::MultiStepRAGFactory</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_multi_step_r_a_g_orchestrator" prot="public">themis::rag::MultiStepRAGOrchestrator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_multi_step_r_a_g_result" prot="public">themis::rag::MultiStepRAGResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_ontology_aware_retriever" prot="public">themis::rag::OntologyAwareRetriever</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory" prot="public">themis::rag::OntologyAwareRetrieverFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_ontology_retrieval_result" prot="public">themis::rag::OntologyRetrievalResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_ontology_retriever_config" prot="public">themis::rag::OntologyRetrieverConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_prompt_library" prot="public">themis::rag::PromptLibrary</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_prompt_template" prot="public">themis::rag::PromptTemplate</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_r_a_g_candidate" prot="public">themis::rag::RAGCandidate</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_r_a_g_context_assembler" prot="public">themis::rag::RAGContextAssembler</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" prot="public">themis::rag::RAGContextAssemblerConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_r_a_g_decision" prot="public">themis::rag::RAGDecision</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge" prot="public">themis::rag::RAGIngestionBridge</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_rag_quality_monitor" prot="public">themis::rag::RagQualityMonitor</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_rated_document" prot="public">themis::rag::RatedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_refinement_round_stats" prot="public">themis::rag::RefinementRoundStats</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_replug_config" prot="public">themis::rag::ReplugConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_replug_fusion_result" prot="public">themis::rag::ReplugFusionResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_replug_retriever" prot="public">themis::rag::ReplugRetriever</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_replug_retriever_factory" prot="public">themis::rag::ReplugRetrieverFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_replug_score" prot="public">themis::rag::ReplugScore</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_rerank_result" prot="public">themis::rag::RerankResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_rerank_score" prot="public">themis::rag::RerankScore</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_retrieval_guardrail" prot="public">themis::rag::RetrievalGuardrail</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_retrieval_guardrail_config" prot="public">themis::rag::RetrievalGuardrailConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_self_consistency_evaluator" prot="public">themis::rag::SelfConsistencyEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_self_r_a_g_config" prot="public">themis::rag::SelfRAGConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_self_r_a_g_controller" prot="public">themis::rag::SelfRAGController</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_self_r_a_g_document" prot="public">themis::rag::SelfRAGDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_self_r_a_g_result" prot="public">themis::rag::SelfRAGResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_sentence_citation_mapping" prot="public">themis::rag::SentenceCitationMapping</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_source_chunk" prot="public">themis::rag::SourceChunk</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_stage_result" prot="public">themis::rag::StageResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_t_a_r_g_config" prot="public">themis::rag::TARGConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_t_a_r_g_decision" prot="public">themis::rag::TARGDecision</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval" prot="public">themis::rag::TARGRetrieval</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_tensor_rag_config" prot="public">themis::rag::TensorRagConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_tensor_rag_cost_model" prot="public">themis::rag::TensorRagCostModel</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline" prot="public">themis::rag::TensorRAGPipeline</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config" prot="public">themis::rag::TensorRAGPipelineConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_token_probability" prot="public">themis::rag::TokenProbability</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_wiki_index_store" prot="public">themis::rag::WikiIndexStore</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_wiki_index_store_config" prot="public">themis::rag::WikiIndexStoreConfig</innerclass>
+    <innernamespace refid="namespacethemis_1_1rag_1_1adversarial">themis::rag::adversarial</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1agentic">themis::rag::agentic</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1delegate__eval">themis::rag::delegate_eval</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1distributed">themis::rag::distributed</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1kg">themis::rag::kg</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1knowledge__gap">themis::rag::knowledge_gap</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1learning">themis::rag::learning</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1multi__hop">themis::rag::multi_hop</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1multimodal">themis::rag::multimodal</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1security">themis::rag::security</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1streaming">themis::rag::streaming</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1training">themis::rag::training</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QueryComplexity</name>
+        <qualifiedname>themis::rag::QueryComplexity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3ae5564829e2f85f6a6873a9d5c4f26d09" prot="public">
+          <name>SIMPLE</name>
+          <briefdescription>
+<para>Single-entity, one-hop question (e.g. &quot;What is X?&quot;). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a5137485eff3ff278d233d993c8539599" prot="public">
+          <name>MODERATE</name>
+          <briefdescription>
+<para>Two-aspect or comparative question. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a921a0157a6e61eebbaa0f713fdfbb0f7" prot="public">
+          <name>COMPLEX</name>
+          <briefdescription>
+<para>Multi-step or multi-entity question. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a38ae9f135d11dd8d32d606c6b2e069a4" prot="public">
+          <name>VERY_COMPLEX</name>
+          <briefdescription>
+<para>Deeply interconnected, requires broad retrieval sweep. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classification of a query&apos;s retrieval complexity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="27" column="1" bodyfile="include/rag/adaptive_retrieval.h" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SplitStrategy</name>
+        <qualifiedname>themis::rag::SplitStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981a4457d440870ad6d42bab9082d9bf9b61" prot="public">
+          <name>Fixed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Divide text into non-overlapping blocks of <computeroutput>chunk_size</computeroutput> tokens, then prepend <computeroutput>overlap</computeroutput> tokens from the previous block to each block. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981ad82906db8c91bad0508406f71a9f3b7f" prot="public">
+          <name>Sliding</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Advance a window of size <computeroutput>chunk_size</computeroutput> by (<computeroutput>chunk_size</computeroutput> – <computeroutput>overlap</computeroutput>) tokens per step (classic sliding-window chunking). </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981a0667fab375c18f4a0f29beec635b1b87" prot="public">
+          <name>Sentence</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Break at sentence boundaries, accumulating sentences until the chunk would exceed <computeroutput>chunk_size</computeroutput>; carry over <computeroutput>overlap</computeroutput> tokens into the next chunk. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Document splitting strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="27" column="1" bodyfile="include/rag/document_splitter.h" bodystart="27" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>RAGStageId</name>
+        <qualifiedname>themis::rag::RAGStageId</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85a2d67a16bc732d3b6a4a245d1a866996c" prot="public">
+          <name>Retrieve</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Candidate document fetch (ANN / BM25 / graph walk). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85ab220e103e0e0dbf28dc881ce25785f19" prot="public">
+          <name>Rerank</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Cross-encoder or learned scoring. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85aad3d06d03d94223fa652babc913de686" prot="public">
+          <name>Validate</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Graph truth verification and provenance tagging. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85ab8b6718e7b997beaef8354ee1a1375a9" prot="public">
+          <name>Assemble</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Prompt construction with token-budget enforcement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85a32b919d18cfaca89383f6000dcc9c031" prot="public">
+          <name>Generate</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>LLM inference with policy enforcement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Named stages in the <ref refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline" kindref="compound">ModularRAGPipeline</ref> execution order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stages are executed in enum-value order. A stage may be skipped by returning <computeroutput><ref refid="structthemis_1_1rag_1_1_stage_result_1a50b4ca6b6d10a34b21e71355046ee487" kindref="member">StageResult::status</ref> == <ref refid="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9daead9c8f187972e6320a34e9c40b4cba605" kindref="member">StageStatus::Skipped</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="65" column="1" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="65" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9dae" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>StageStatus</name>
+        <qualifiedname>themis::rag::StageStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9daea505a83f220c02df2f85c3810cd9ceb38" prot="public">
+          <name>Success</name>
+          <briefdescription>
+<para>Stage completed normally. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9daead9c8f187972e6320a34e9c40b4cba605" prot="public">
+          <name>Skipped</name>
+          <briefdescription>
+<para>Stage was intentionally bypassed (e.g. reranker not configured). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9daea58d036b9b7f0e7eb38cfb90f1cc70a73" prot="public">
+          <name>Denied</name>
+          <briefdescription>
+<para>Stage blocked the request (policy violation, budget exceeded). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9daea902b0d55fddef6f8d651fe1035b7d4bd" prot="public">
+          <name>Error</name>
+          <briefdescription>
+<para>Stage encountered an unrecoverable error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Outcome of a single pipeline stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="111" column="1" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="111" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1a34a7718bb220d05867d720d4e994da2c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CriticVerdict</name>
+        <qualifiedname>themis::rag::CriticVerdict</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1a34a7718bb220d05867d720d4e994da2ca49120343651af33741d17b0f74e410ea" prot="public">
+          <name>Relevant</name>
+          <briefdescription>
+<para>Passage directly supports the query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1a34a7718bb220d05867d720d4e994da2ca44ffd38a6dea695cbe2b34efdcc6cf27" prot="public">
+          <name>Partial</name>
+          <briefdescription>
+<para>Passage partially addresses the query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1a34a7718bb220d05867d720d4e994da2ca027a5217b659e8bedb70978dea494d6b" prot="public">
+          <name>Irrelevant</name>
+          <briefdescription>
+<para>Passage is not useful for the query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Critic verdict for a single retrieved passage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="38" column="1" bodyfile="include/rag/self_rag.h" bodystart="38" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1a3482bde2a5f950484e019b17edbf1ccd" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1_token_probability" kindref="compound">TokenProbability</ref> &amp;)&gt;</type>
+        <definition>using themis::rag::TokenProbabilityCallback = std::function&lt;void(const TokenProbability&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenProbabilityCallback</name>
+        <qualifiedname>themis::rag::TokenProbabilityCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for receiving token probabilities during generation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="38" column="1" bodyfile="include/rag/llm_integration.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1a9b04fe6b2c304c33bed178ade7d5309a" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1rag_1_1_stage_result" kindref="compound">StageResult</ref>(<ref refid="structthemis_1_1rag_1_1_modular_r_a_g_context" kindref="compound">ModularRAGContext</ref> &amp;)&gt;</type>
+        <definition>using themis::rag::RAGStageHandler = std::function&lt;StageResult(ModularRAGContext&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RAGStageHandler</name>
+        <qualifiedname>themis::rag::RAGStageHandler</qualifiedname>
+        <briefdescription>
+<para>Function signature for a single pipeline stage handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mutable pipeline context (read previous stage outputs, write your own). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1_stage_result" kindref="compound">StageResult</ref> describing this stage&apos;s outcome.</para>
+</simplesect>
+Returning <computeroutput><ref refid="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9daea902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">StageStatus::Error</ref></computeroutput> or <computeroutput><ref refid="namespacethemis_1_1rag_1a7ff808ba881c06da8125afc5c49f9daea58d036b9b7f0e7eb38cfb90f1cc70a73" kindref="member">StageStatus::Denied</ref></computeroutput> causes the pipeline to halt and return a failed <computeroutput><ref refid="structthemis_1_1rag_1_1_modular_r_a_g_result" kindref="compound">ModularRAGResult</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="237" column="1" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1a9da249867d949bbfd71913bb1cb7d832" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;prompt, int max_tokens)&gt;</type>
+        <definition>using themis::rag::InferenceFn = std::function&lt;std::string(const std::string&amp; prompt,
+                                             int                max_tokens)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InferenceFn</name>
+        <qualifiedname>themis::rag::InferenceFn</qualifiedname>
+        <briefdescription>
+<para>Callable that performs one LLM inference call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fully assembled prompt string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of tokens to generate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated text (may be empty on failure). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="34" column="1" bodyfile="include/rag/multi_step_rag.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1a8f8611226cef3940a150da0a52511393" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; RetrievedChunk &gt;( const std::string &amp;<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, size_t top_k)&gt;</type>
+        <definition>using themis::rag::RetrievalFn = std::function&lt;std::vector&lt;RetrievedChunk&gt;(
+   const std::string&amp; query, size_t top_k)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RetrievalFn</name>
+        <qualifiedname>themis::rag::RetrievalFn</qualifiedname>
+        <briefdescription>
+<para>Callable that retrieves additional documents for a refined query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by the iterative strategy to look up new documents when the current context does not fully cover all aspects of the original query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Refined / aspect-specific query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of documents to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Retrieved chunks (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="47" column="1" bodyfile="include/rag/multi_step_rag.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1aefc87ff5bb2e8f255c6adb092590112a" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;)&gt;</type>
+        <definition>using themis::rag::EmbeddingFunction = std::function&lt;std::vector&lt;float&gt;(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EmbeddingFunction</name>
+        <qualifiedname>themis::rag::EmbeddingFunction</qualifiedname>
+        <briefdescription>
+<para>Example: Complete RAG pipeline with gap detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting><codeline><highlight class="comment">//<sp/>1.<sp/>Initialize<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">RocksDBWrapper<sp/>db(config);</highlight></codeline>
+<codeline><highlight class="normal">VectorIndexManager<sp/>vector_mgr(db);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gap_detector<sp/>=<sp/>KnowledgeGapDetectorFactory::createBalanced();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Perform<sp/>vector<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;float&gt;<sp/>query_embedding<sp/>=<sp/>embedQuery(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>machine<sp/>learning?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>search_results]<sp/>=<sp/>vector_mgr.searchKnn(query_embedding,<sp/>10);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Convert<sp/>to<sp/>RetrievedDocuments</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>documents<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a8c55ddf4bc0edaaa3205132555fc033c" kindref="member">convertToRetrievedDocuments</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>search_results,<sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>db,<sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>VectorIndexManager::Metric::COSINE</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Check<sp/>for<sp/>knowledge<sp/>gaps</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gap_result<sp/>=<sp/>gap_detector-&gt;detectPreGeneration(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>machine<sp/>learning?&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>documents</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>Handle<sp/>gap<sp/>or<sp/>proceed<sp/>with<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gap_result.gap_detected)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Apply<sp/>fallback<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(gap_result.recommendation)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>FallbackStrategy::EXPAND_SEARCH:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>search<sp/>with<sp/>more<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>FallbackStrategy::REFORMULATE_QUERY:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>alternative<sp/>query<sp/>formulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>FallbackStrategy::INSUFFICIENT_DATA_RESPONSE:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;I<sp/>don&apos;t<sp/>have<sp/>enough<sp/>information<sp/>to<sp/>answer<sp/>this<sp/>question.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Proceed<sp/>with<sp/>LLM<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/>llm-&gt;generate(query,<sp/>documents);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>answer;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Embedding function type for converting query strings to vectors</para>
+<para>The function receives a query string and returns a float vector suitable for <computeroutput>VectorIndexManager::searchKnn()</computeroutput>. Return an empty vector to signal that embedding generation failed for the given query; the corresponding result list will then be empty. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_integration_helpers.h" line="170" column="1" bodyfile="include/rag/rag_integration_helpers.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1rag_1acc80ccc401e9928a8ab3ff2465f1d96a" prot="public" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt;</type>
+        <definition>std::shared_ptr&lt;llm::InferenceEngineEnhanced&gt; themis::rag::g_inference_engine</definition>
+        <argsstring></argsstring>
+        <name>g_inference_engine</name>
+        <qualifiedname>themis::rag::g_inference_engine</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_integration.cpp" line="41" column="24" bodyfile="src/rag/llm_integration.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1rag_1ab362c80e0905a61a0daa2a643296c601" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::g_engine_mutex</definition>
+        <argsstring></argsstring>
+        <name>g_engine_mutex</name>
+        <qualifiedname>themis::rag::g_engine_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_integration.cpp" line="42" column="19" bodyfile="src/rag/llm_integration.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a9c43c16b3eb75f094ecf2e7d6875ff04" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::rag::ragStageIdName</definition>
+        <argsstring>(RAGStageId id) noexcept</argsstring>
+        <name>ragStageIdName</name>
+        <qualifiedname>themis::rag::ragStageIdName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85" kindref="member">RAGStageId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable stage name for logging. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="74" column="20" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="74" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a8c55ddf4bc0edaaa3205132555fc033c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">knowledge_gap::RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; knowledge_gap::RetrievedDocument &gt; themis::rag::convertToRetrievedDocuments</definition>
+        <argsstring>(const std::vector&lt; VectorIndexManager::Result &gt; &amp;search_results, RocksDBWrapper &amp;db, VectorIndexManager::Metric metric=VectorIndexManager::Metric::COSINE)</argsstring>
+        <name>convertToRetrievedDocuments</name>
+        <qualifiedname>themis::rag::convertToRetrievedDocuments</qualifiedname>
+        <param>
+          <type>const std::vector&lt; VectorIndexManager::Result &gt; &amp;</type>
+          <declname>search_results</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>VectorIndexManager::Metric</type>
+          <declname>metric</declname>
+          <defval>VectorIndexManager::Metric::COSINE</defval>
+        </param>
+        <briefdescription>
+<para>Convert VectorIndexManager search results to RetrievedDocuments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This helper converts search results from VectorIndexManager::searchKnn() into the format expected by KnowledgeGapDetector.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>search_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of search results from VectorIndexManager </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Database wrapper to retrieve full entity content </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distance metric used (affects similarity conversion) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of RetrievedDocument structures</para>
+</simplesect>
+<simplesect kind="note"><para>For COSINE metric: similarity = 1 - distance </para>
+</simplesect>
+<simplesect kind="note"><para>For L2 metric: similarity = 1 / (1 + distance) </para>
+</simplesect>
+<simplesect kind="note"><para>For DOT metric: similarity = distance (assuming normalized vectors) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_integration_helpers.h" line="37" column="20" bodyfile="include/rag/rag_integration_helpers.h" bodystart="37" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a850b048215e75652f8a1df36ceaf0a68" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">knowledge_gap::RetrievedDocument</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; knowledge_gap::RetrievedDocument &gt; &gt; themis::rag::batchConvertToRetrievedDocuments</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;queries, VectorIndexManager &amp;vector_mgr, RocksDBWrapper &amp;db, const EmbeddingFunction &amp;embed_fn, size_t k=10, VectorIndexManager::Metric metric=VectorIndexManager::Metric::COSINE)</argsstring>
+        <name>batchConvertToRetrievedDocuments</name>
+        <qualifiedname>themis::rag::batchConvertToRetrievedDocuments</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>VectorIndexManager &amp;</type>
+          <declname>vector_mgr</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1rag_1aefc87ff5bb2e8f255c6adb092590112a" kindref="member">EmbeddingFunction</ref> &amp;</type>
+          <declname>embed_fn</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>VectorIndexManager::Metric</type>
+          <declname>metric</declname>
+          <defval>VectorIndexManager::Metric::COSINE</defval>
+        </param>
+        <briefdescription>
+<para>Batch conversion for multiple queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For each query string the provided <computeroutput>embed_fn</computeroutput> generates a dense embedding, which is then used for a K-NN search via <computeroutput>vector_mgr</computeroutput>. Resulting VectorIndexManager::Result lists are converted to RetrievedDocument vectors using <ref refid="namespacethemis_1_1rag_1a8c55ddf4bc0edaaa3205132555fc033c" kindref="member">convertToRetrievedDocuments()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of query strings to process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>VectorIndexManager instance (must outlive this call). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Database wrapper for entity content retrieval. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>embed_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function that converts a query string to a float embedding. Called sequentially from a single thread; no concurrency guarantees are required of the provided callable. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of nearest neighbours to retrieve per query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distance metric used for similarity conversion. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of document lists — one per input query (same order). An empty inner list indicates that either embedding generation failed or the K-NN search returned no results for that query.</para>
+</simplesect>
+<simplesect kind="note"><para>This function processes queries sequentially. Parallel execution requires a thread-safe VectorIndexManager implementation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_integration_helpers.h" line="196" column="1" bodyfile="include/rag/rag_integration_helpers.h" bodystart="196" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a778fe1c61d8ef9e066047d286db8662d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::rag::bm25PlusScore</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_terms, const std::string &amp;doc_text, float avg_doc_len, const std::unordered_map&lt; std::string, float &gt; &amp;idf_map)</argsstring>
+        <name>bm25PlusScore</name>
+        <qualifiedname>themis::rag::bm25PlusScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_terms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_text</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>avg_doc_len</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, float &gt; &amp;</type>
+          <declname>idf_map</declname>
+        </param>
+        <briefdescription>
+<para>Compute BM25+ score for a single document against a set of query terms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>BM25+ formula per term t: score(t,d) = IDF(t) * [ (tf(t,d) * (k1+1)) / (tf(t,d) + k1*(1-b+b*dl/avgdl)) + delta ]</para>
+<para>Parameters: k1 = 1.5, b = 0.75, delta = 0.5 (BM25+ lower-bound correction).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_terms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tokenised query terms (duplicates are summed). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>doc_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text (whitespace-tokenised internally). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>avg_doc_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Corpus average document length in tokens. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>idf_map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed IDF values per term. Missing terms → IDF 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>BM25+ relevance score (non-negative). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="88" column="7" bodyfile="src/rag/wiki_index_store.cpp" bodystart="88" bodyend="135" declfile="include/rag/wiki_index_store.h" declline="52" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a5368f92484946e08001f5c12d0b25b4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> &gt;</type>
+        <definition>std::vector&lt; IndexResult &gt; themis::rag::rrfFusion</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;ranked_lists, int k=60)</argsstring>
+        <name>rrfFusion</name>
+        <qualifiedname>themis::rag::rrfFusion</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>ranked_lists</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+          <defval>60</defval>
+        </param>
+        <briefdescription>
+<para>Fuse multiple ranked lists using Reciprocal Rank Fusion (RRF). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rrf Fusion.</para>
+<para>RRF(d) = Σ_r [ 1 / (k + rank_r(d)) ] where k = 60 (default).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranked_lists</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Each inner vector is an ordered list of doc_ids (most relevant first). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RRF constant (higher k reduces the penalty for low ranks). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merged list sorted by descending RRF score.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ranked_lists</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="147" column="13" bodyfile="src/rag/wiki_index_store.cpp" bodystart="147" bodyend="182" declfile="include/rag/wiki_index_store.h" declline="71" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a087c47da56bfbfa572b848fde036e0df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::rag::embeddingQueryFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>embeddingQueryFnMutex</name>
+        <qualifiedname>themis::rag::embeddingQueryFnMutex</qualifiedname>
+        <briefdescription>
+<para>Embedding Query Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements embeddingQueryFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/flare_retrieval.cpp" line="32" column="19" bodyfile="src/rag/flare_retrieval.cpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1adab0ab9632c4d074da6805a2e62dddf0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1a1a321bbdf1244e938e44ce2a877cebe3" kindref="member">FlareRetrieval::EmbeddingQueryFn</ref> &amp;</type>
+        <definition>static FlareRetrieval::EmbeddingQueryFn &amp; themis::rag::embeddingQueryFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>embeddingQueryFnStorage</name>
+        <qualifiedname>themis::rag::embeddingQueryFnStorage</qualifiedname>
+        <briefdescription>
+<para>Embedding Query Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements embeddingQueryFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/flare_retrieval.cpp" line="38" column="41" bodyfile="src/rag/flare_retrieval.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1abf248b80b714b80a41337e3337722817" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::rag::fullEntropyFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>fullEntropyFnMutex</name>
+        <qualifiedname>themis::rag::fullEntropyFnMutex</qualifiedname>
+        <briefdescription>
+<para>Full Entropy Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements fullEntropyFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/targ_retrieval.cpp" line="32" column="19" bodyfile="src/rag/targ_retrieval.cpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1ae8dfd84d7a0ecb7353a65f1004f639a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" kindref="member">TARGRetrieval::FullEntropyFn</ref> &amp;</type>
+        <definition>static TARGRetrieval::FullEntropyFn &amp; themis::rag::fullEntropyFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>fullEntropyFnStorage</name>
+        <qualifiedname>themis::rag::fullEntropyFnStorage</qualifiedname>
+        <briefdescription>
+<para>Full Entropy Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements fullEntropyFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/targ_retrieval.cpp" line="38" column="37" bodyfile="src/rag/targ_retrieval.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1ac97f7a056403c0542e12f87a88a2e3cc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" kindref="member">TARGRetrieval::FullEntropyFn</ref> &gt; &amp;</type>
+        <definition>static std::vector&lt; TARGRetrieval::FullEntropyFn &gt; &amp; themis::rag::threadLocalFullEntropyFnStack</definition>
+        <argsstring>()</argsstring>
+        <name>threadLocalFullEntropyFnStack</name>
+        <qualifiedname>themis::rag::threadLocalFullEntropyFnStack</qualifiedname>
+        <briefdescription>
+<para>Thread Local Full Entropy Fn Stack. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements threadLocalFullEntropyFnStack without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/targ_retrieval.cpp" line="47" column="20" bodyfile="src/rag/targ_retrieval.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a0cc5ce4e8139eb2d48d01fb3724b0315" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::rag::computeExactFullEntropy</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;logits)</argsstring>
+        <name>computeExactFullEntropy</name>
+        <qualifiedname>themis::rag::computeExactFullEntropy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>logits</declname>
+        </param>
+        <briefdescription>
+<para>Compute Exact Full Entropy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max_element(), begin(), end(), std::exp(), std::isfinite(), std::log(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/targ_retrieval.cpp" line="58" column="14" bodyfile="src/rag/targ_retrieval.cpp" bodystart="58" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a7bc48b063ff8f45dc6288d6dd2609487" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::rag::pipelineEmbedFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>pipelineEmbedFnMutex</name>
+        <qualifiedname>themis::rag::pipelineEmbedFnMutex</qualifiedname>
+        <briefdescription>
+<para>Pipeline Embed Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements pipelineEmbedFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/tensor_rag_pipeline.cpp" line="34" column="19" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1aa880d7e5b1e152cd1793ad4bffce4395" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a776844f1913d71ebcac47b2722bf4924" kindref="member">TensorRAGPipeline::EmbeddingQueryFn</ref> &amp;</type>
+        <definition>static TensorRAGPipeline::EmbeddingQueryFn &amp; themis::rag::pipelineEmbedFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>pipelineEmbedFnStorage</name>
+        <qualifiedname>themis::rag::pipelineEmbedFnStorage</qualifiedname>
+        <briefdescription>
+<para>Pipeline Embed Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements pipelineEmbedFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/tensor_rag_pipeline.cpp" line="40" column="44" bodyfile="src/rag/tensor_rag_pipeline.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1a9a881b70fa7b41b3d823667f2b38a8bc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::rag::termsWithinWindow</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_terms, const std::string &amp;doc_id, const std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::vector&lt; size_t &gt; &gt; &gt; &amp;pos_idx, size_t window_size)</argsstring>
+        <name>termsWithinWindow</name>
+        <qualifiedname>themis::rag::termsWithinWindow</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_terms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::vector&lt; size_t &gt; &gt; &gt; &amp;</type>
+          <declname>pos_idx</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>window_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="531" column="13" bodyfile="src/rag/wiki_index_store.cpp" bodystart="531" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1adeb07ba8bcbdfa7e3b3818b46200ab68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::rag::computePositionalBM25Score</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_terms, const std::string &amp;doc_id, const std::string &amp;doc_text, float avg_len, const std::unordered_map&lt; std::string, float &gt; &amp;idf_cache, const std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::vector&lt; size_t &gt; &gt; &gt; &amp;pos_idx, size_t window_size=8)</argsstring>
+        <name>computePositionalBM25Score</name>
+        <qualifiedname>themis::rag::computePositionalBM25Score</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_terms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_text</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>avg_len</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, float &gt; &amp;</type>
+          <declname>idf_cache</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::vector&lt; size_t &gt; &gt; &gt; &amp;</type>
+          <declname>pos_idx</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>window_size</declname>
+          <defval>8</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/wiki_index_store.cpp" line="574" column="14" bodyfile="src/rag/wiki_index_store.cpp" bodystart="574" bodyend="590"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/ab_testing_framework.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

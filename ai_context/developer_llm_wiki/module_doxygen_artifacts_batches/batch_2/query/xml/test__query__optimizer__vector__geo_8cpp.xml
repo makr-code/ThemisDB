@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__optimizer__vector__geo_8cpp" kind="file" language="C++">
+    <compoundname>test_query_optimizer_vector_geo.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="query__optimizer_8h" local="yes">query/query_optimizer.h</includes>
+    <incdepgraph>
+      <node id="22">
+        <label>query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>query/query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_query_optimizer_vector_geo.cpp</label>
+        <link refid="test__query__optimizer__vector__geo_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="25">
+        <label>cstddef</label>
+      </node>
+      <node id="26">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="20">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="21">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="19">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+      <node id="18">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__optimizer__vector__geo_8cpp_1a3d3f3a93ce33cd4f7617abd1a705e57e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryOptimizerVectorGeo, VectorFirstPreferredWithSmallBBoxAndPrefilter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryOptimizerVectorGeo</type>
+        </param>
+        <param>
+          <type>VectorFirstPreferredWithSmallBBoxAndPrefilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_vector_geo.cpp" line="7" column="1" bodyfile="tests/query/test_query_optimizer_vector_geo.cpp" bodystart="7" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__optimizer__vector__geo_8cpp_1a1bb8ba4952df23f055f0cad3843a4b78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryOptimizerVectorGeo, SpatialFirstPreferredWithLargeBBoxNoPrefilter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryOptimizerVectorGeo</type>
+        </param>
+        <param>
+          <type>SpatialFirstPreferredWithLargeBBoxNoPrefilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_vector_geo.cpp" line="14" column="1" bodyfile="tests/query/test_query_optimizer_vector_geo.cpp" bodystart="14" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__optimizer__vector__geo_8cpp_1ad4c8c652853ec23b40da7b9f801b0a4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryOptimizerVectorGeo, PrefilterDiscountApplies)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryOptimizerVectorGeo</type>
+        </param>
+        <param>
+          <type>PrefilterDiscountApplies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_vector_geo.cpp" line="28" column="1" bodyfile="tests/query/test_query_optimizer_vector_geo.cpp" bodystart="28" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__optimizer_8h" kindref="compound">query/query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><ref refid="test__query__optimizer__vector__geo_8cpp_1a3d3f3a93ce33cd4f7617abd1a705e57e" kindref="member">TEST</ref>(QueryOptimizerVectorGeo,<sp/>VectorFirstPreferredWithSmallBBoxAndPrefilter)<sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input" kindref="compound">QueryOptimizer::VectorGeoCostInput</ref><sp/>ci;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a25715d56bdf90571657b34b687d79d19" kindref="member">hasVectorIndex</ref>=</highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98764034ba6b21e819577f9731160e02" kindref="member">hasSpatialIndex</ref>=</highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a18d76a7e378b0a7e0419bb9f308f3b6d" kindref="member">bboxRatio</ref>=0.05;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98c7927067097330e8f9d21d68130a8d" kindref="member">prefilterSize</ref>=100;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a20b83bc52242dcebd19ec3af5d25b7d0" kindref="member">spatialIndexEntries</ref>=10000;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a852695f2d08d0c934d3cc9bcf2a0adb3" kindref="member">k</ref>=10;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1af22e47ed474051b3a61965a78c10beb3" kindref="member">vectorDim</ref>=128;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1abf893b1267e24e457179c689f06b5035" kindref="member">overfetch</ref>=3;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_optimizer_1ad14fad74f09b85c0f0b1f068246c1bed" kindref="member">QueryOptimizer::chooseVectorGeoPlan</ref>(ci);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.plan,<sp/><ref refid="classthemis_1_1query_1_1_query_optimizer_1a46d3742f97904f300007684dce924354a215b9937359f195ab265beaf7c22ba5d" kindref="member">QueryOptimizer::VectorGeoPlan::VectorThenSpatial</ref>);<sp/></highlight><highlight class="comment">//<sp/>small<sp/>bbox<sp/>ratio<sp/>but<sp/>strong<sp/>prefilter<sp/>selects<sp/>vector-first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(r.costVectorFirst,<sp/>r.costSpatialFirst);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><ref refid="test__query__optimizer__vector__geo_8cpp_1a3d3f3a93ce33cd4f7617abd1a705e57e" kindref="member">TEST</ref>(QueryOptimizerVectorGeo,<sp/>SpatialFirstPreferredWithLargeBBoxNoPrefilter)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input" kindref="compound">QueryOptimizer::VectorGeoCostInput</ref><sp/>ci;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a25715d56bdf90571657b34b687d79d19" kindref="member">hasVectorIndex</ref>=</highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98764034ba6b21e819577f9731160e02" kindref="member">hasSpatialIndex</ref>=</highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a18d76a7e378b0a7e0419bb9f308f3b6d" kindref="member">bboxRatio</ref>=0.90;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98c7927067097330e8f9d21d68130a8d" kindref="member">prefilterSize</ref>=0;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a20b83bc52242dcebd19ec3af5d25b7d0" kindref="member">spatialIndexEntries</ref>=50000;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a852695f2d08d0c934d3cc9bcf2a0adb3" kindref="member">k</ref>=10;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1af22e47ed474051b3a61965a78c10beb3" kindref="member">vectorDim</ref>=128;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1abf893b1267e24e457179c689f06b5035" kindref="member">overfetch</ref>=2;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_optimizer_1ad14fad74f09b85c0f0b1f068246c1bed" kindref="member">QueryOptimizer::chooseVectorGeoPlan</ref>(ci);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>large<sp/>bbox<sp/>ratio<sp/>should<sp/>still<sp/>possibly<sp/>choose<sp/>vector-first;<sp/>adjust<sp/>to<sp/>force<sp/>spatial-first<sp/>by<sp/>inflating<sp/>costs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>To<sp/>force<sp/>spatial-first,<sp/>set<sp/>overfetch<sp/>very<sp/>high<sp/>and<sp/>bboxRatio<sp/>moderate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.plan<sp/>==<sp/><ref refid="classthemis_1_1query_1_1_query_optimizer_1a46d3742f97904f300007684dce924354a215b9937359f195ab265beaf7c22ba5d" kindref="member">QueryOptimizer::VectorGeoPlan::VectorThenSpatial</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reconfigure<sp/>to<sp/>make<sp/>spatial<sp/>cheaper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a18d76a7e378b0a7e0419bb9f308f3b6d" kindref="member">bboxRatio</ref><sp/>=<sp/>0.50;<sp/>ci.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1abf893b1267e24e457179c689f06b5035" kindref="member">overfetch</ref><sp/>=<sp/>10;<sp/>r<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_optimizer_1ad14fad74f09b85c0f0b1f068246c1bed" kindref="member">QueryOptimizer::chooseVectorGeoPlan</ref>(ci);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accept<sp/>either<sp/>but<sp/>ensure<sp/>costs<sp/>are<sp/>computed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.costSpatialFirst<sp/>&gt;<sp/>0.0);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.costVectorFirst<sp/>&gt;<sp/>0.0);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__query__optimizer__vector__geo_8cpp_1a3d3f3a93ce33cd4f7617abd1a705e57e" kindref="member">TEST</ref>(QueryOptimizerVectorGeo,<sp/>PrefilterDiscountApplies)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input" kindref="compound">QueryOptimizer::VectorGeoCostInput</ref><sp/>a;<sp/>a.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a25715d56bdf90571657b34b687d79d19" kindref="member">hasVectorIndex</ref>=</highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>a.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98764034ba6b21e819577f9731160e02" kindref="member">hasSpatialIndex</ref>=</highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>a.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a18d76a7e378b0a7e0419bb9f308f3b6d" kindref="member">bboxRatio</ref>=0.30;<sp/>a.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98c7927067097330e8f9d21d68130a8d" kindref="member">prefilterSize</ref>=0;<sp/>a.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a20b83bc52242dcebd19ec3af5d25b7d0" kindref="member">spatialIndexEntries</ref>=20000;<sp/>a.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a852695f2d08d0c934d3cc9bcf2a0adb3" kindref="member">k</ref>=10;<sp/>a.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1af22e47ed474051b3a61965a78c10beb3" kindref="member">vectorDim</ref>=256;<sp/>a.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1abf893b1267e24e457179c689f06b5035" kindref="member">overfetch</ref>=2;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_optimizer_1ad14fad74f09b85c0f0b1f068246c1bed" kindref="member">QueryOptimizer::chooseVectorGeoPlan</ref>(a);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input" kindref="compound">QueryOptimizer::VectorGeoCostInput</ref><sp/>b<sp/>=<sp/>a;<sp/>b.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98c7927067097330e8f9d21d68130a8d" kindref="member">prefilterSize</ref><sp/>=<sp/>500;<sp/></highlight><highlight class="comment">//<sp/>strong<sp/>prefilter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_optimizer_1ad14fad74f09b85c0f0b1f068246c1bed" kindref="member">QueryOptimizer::chooseVectorGeoPlan</ref>(b);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Discount<sp/>should<sp/>reduce<sp/>both<sp/>costs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(r2.costSpatialFirst,<sp/>r1.costSpatialFirst);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(r2.costVectorFirst,<sp/>r1.costVectorFirst);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_optimizer_vector_geo.cpp"/>
+  </compounddef>
+</doxygen>

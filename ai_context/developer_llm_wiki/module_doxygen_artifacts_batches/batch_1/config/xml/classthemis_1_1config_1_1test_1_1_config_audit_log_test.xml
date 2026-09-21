@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_config_audit_log_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::ConfigAuditLogTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_config_audit_log_test_1a53c214498b9d9e86139bc51c28103437" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::config::test::ConfigAuditLogTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>themis::config::test::ConfigAuditLogTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="1209" column="27" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="1209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_audit_log_test_1a613ed075c386579041017a787dda1813" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigAuditLogTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::test::ConfigAuditLogTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="1186" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="1186" bodyend="1194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_audit_log_test_1a157265ed01ee8b6a7c5c1df29af8ed14" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigAuditLogTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::test::ConfigAuditLogTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="1196" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="1196" bodyend="1201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_audit_log_test_1a8d4ca06f15d96204b9e00fdc251fe8bd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigAuditLogTest::createFile</definition>
+        <argsstring>(const std::filesystem::path &amp;p)</argsstring>
+        <name>createFile</name>
+        <qualifiedname>themis::config::test::ConfigAuditLogTest::createFile</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="1203" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="1203" bodyend="1207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigAuditLogTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_audit_log_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigAuditLogTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_audit_log_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_path_resolver.cpp" line="1184" column="1" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="1184" bodyend="1210"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_audit_log_test_1a8d4ca06f15d96204b9e00fdc251fe8bd" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigAuditLogTest</scope><name>createFile</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_audit_log_test_1a613ed075c386579041017a787dda1813" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigAuditLogTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_audit_log_test_1a157265ed01ee8b6a7c5c1df29af8ed14" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigAuditLogTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_audit_log_test_1a53c214498b9d9e86139bc51c28103437" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigAuditLogTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

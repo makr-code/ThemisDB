@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_write_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::Transaction::ExplainWriteEntry</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_write_entry_1aab860164e0cbe33eabb0113cf196a811" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Transaction::ExplainWriteEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainWriteEntry::key</qualifiedname>
+        <briefdescription>
+<para>Storage key written or deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="365" column="25" bodyfile="include/transaction/transaction_manager.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_write_entry_1ac5ad362053ee83baba3c30d71ce6b05f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Transaction::ExplainWriteEntry::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainWriteEntry::operation</qualifiedname>
+        <briefdescription>
+<para>&quot;put&quot; or &quot;delete&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="366" column="25" bodyfile="include/transaction/transaction_manager.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="364" column="9" bodyfile="include/transaction/transaction_manager.h" bodystart="364" bodyend="367"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_write_entry_1aab860164e0cbe33eabb0113cf196a811" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainWriteEntry</scope><name>key</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_write_entry_1ac5ad362053ee83baba3c30d71ce6b05f" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainWriteEntry</scope><name>operation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_long_run_stress_fixture" kind="class" language="C++" prot="public">
+    <compoundname>LongRunStressFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_long_run_stress_fixture_1a0843e4572084d6931b684cdb674065a1" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        <definition>IngestionToolbox LongRunStressFixture::toolbox_</definition>
+        <argsstring></argsstring>
+        <name>toolbox_</name>
+        <qualifiedname>LongRunStressFixture::toolbox_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_phase5.cpp" line="397" column="22" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="397" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_long_run_stress_fixture_1af5830177efc050252a3f9e8b829b2e13" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t LongRunStressFixture::kIterations</definition>
+        <argsstring></argsstring>
+        <name>kIterations</name>
+        <qualifiedname>LongRunStressFixture::kIterations</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_phase5.cpp" line="398" column="34" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_long_run_stress_fixture_1a13b710968a195bd00a7bf399b2f4c914" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t LongRunStressFixture::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>LongRunStressFixture::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_phase5.cpp" line="399" column="31" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="399" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LongRunStressFixture</label>
+        <link refid="class_long_run_stress_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LongRunStressFixture</label>
+        <link refid="class_long_run_stress_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>toolbox_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::toolbox::IngestionToolbox</label>
+        <link refid="classthemis_1_1toolbox_1_1_ingestion_toolbox"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/toolbox/test_toolbox_phase5.cpp" line="395" column="1" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="395" bodyend="400"/>
+    <listofallmembers>
+      <member refid="class_long_run_stress_fixture_1a13b710968a195bd00a7bf399b2f4c914" prot="protected" virt="non-virtual"><scope>LongRunStressFixture</scope><name>kCanonicalRngSeed</name></member>
+      <member refid="class_long_run_stress_fixture_1af5830177efc050252a3f9e8b829b2e13" prot="protected" virt="non-virtual"><scope>LongRunStressFixture</scope><name>kIterations</name></member>
+      <member refid="class_long_run_stress_fixture_1a0843e4572084d6931b684cdb674065a1" prot="protected" virt="non-virtual"><scope>LongRunStressFixture</scope><name>toolbox_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

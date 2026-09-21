@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_conflict_record" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ConflictRecord</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1ac54b46750894012160360721c0cef45e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ConflictRecord::conflict_id</definition>
+        <argsstring></argsstring>
+        <name>conflict_id</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::conflict_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="202" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1a96273ac1c3c7da7e8bf90e3d70d58f48" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1a038846665e94d8fc45a1b79b741e97b0" kindref="member">ConflictType</ref></type>
+        <definition>ConflictType themisdb::replication::ConflictRecord::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="203" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1a6314ced429ad1ea8fb30a581bd196adc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ConflictRecord::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="204" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1a3a4f639a67c3625f42239d66d60a245a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ConflictRecord::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="205" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1a6a80c48cb99b7bd784c5d8738e9d4213" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt;</type>
+        <definition>std::vector&lt;MMWriteEntry&gt; themisdb::replication::ConflictRecord::conflicting_writes</definition>
+        <argsstring></argsstring>
+        <name>conflicting_writes</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::conflicting_writes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="206" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1a933ad1958aff245d69a7fcb52e8f13c6" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::ConflictRecord::detected_at</definition>
+        <argsstring></argsstring>
+        <name>detected_at</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::detected_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="207" column="43" bodyfile="include/replication/multi_master_replication.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1a1d832a14e429c592b9fa7cf9705fe0ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ConflictRecord::resolved</definition>
+        <argsstring></argsstring>
+        <name>resolved</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::resolved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="208" column="10" bodyfile="include/replication/multi_master_replication.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1a6e21708da40f531b3ffb78bf60a9d94e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ConflictRecord::resolution_strategy</definition>
+        <argsstring></argsstring>
+        <name>resolution_strategy</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::resolution_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="209" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_conflict_record_1a1df700ba4554df05d0f5758f28bb7727" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ConflictRecord::winning_write_id</definition>
+        <argsstring></argsstring>
+        <name>winning_write_id</name>
+        <qualifiedname>themisdb::replication::ConflictRecord::winning_write_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="210" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Conflict Record Represents a detected conflict between writes </para>
+    </detaileddescription>
+    <location file="include/replication/multi_master_replication.h" line="201" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="201" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1a3a4f639a67c3625f42239d66d60a245a" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1ac54b46750894012160360721c0cef45e" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>conflict_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1a6a80c48cb99b7bd784c5d8738e9d4213" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>conflicting_writes</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1a933ad1958aff245d69a7fcb52e8f13c6" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>detected_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1a6314ced429ad1ea8fb30a581bd196adc" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>document_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1a6e21708da40f531b3ffb78bf60a9d94e" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>resolution_strategy</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1a1d832a14e429c592b9fa7cf9705fe0ee" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>resolved</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1a96273ac1c3c7da7e8bf90e3d70d58f48" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_conflict_record_1a1df700ba4554df05d0f5758f28bb7727" prot="public" virt="non-virtual"><scope>themisdb::replication::ConflictRecord</scope><name>winning_write_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

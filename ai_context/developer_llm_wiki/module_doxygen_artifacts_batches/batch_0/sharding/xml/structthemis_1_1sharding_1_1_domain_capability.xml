@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_domain_capability" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::DomainCapability</compoundname>
+    <includes refid="shard__capabilities_8h" local="no">shard_capabilities.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_domain_capability_1a2f4ec09fd540024819266f437b187775" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::DomainCapability::domains</definition>
+        <argsstring></argsstring>
+        <name>domains</name>
+        <qualifiedname>themis::sharding::DomainCapability::domains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Domain-specific fields (e.g., &quot;law&quot;, &quot;medicine&quot;, &quot;construction&quot;) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="31" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_domain_capability_1ae528471707ce3efab963437c02cbfc63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::DomainCapability::organizations</definition>
+        <argsstring></argsstring>
+        <name>organizations</name>
+        <qualifiedname>themis::sharding::DomainCapability::organizations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Organization/tenant specialization (e.g., &quot;hamburg_bauamt&quot;, &quot;berlin_health&quot;) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="36" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_domain_capability_1aeecde35388ff5422b4f9274394b56786" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::DomainCapability::regions</definition>
+        <argsstring></argsstring>
+        <name>regions</name>
+        <qualifiedname>themis::sharding::DomainCapability::regions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Geographic regions (e.g., &quot;hamburg&quot;, &quot;germany&quot;, &quot;eu&quot;) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="41" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_domain_capability_1a1b2c922f92954515279fd552fb7c48e8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::DomainCapability::data_types</definition>
+        <argsstring></argsstring>
+        <name>data_types</name>
+        <qualifiedname>themis::sharding::DomainCapability::data_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data types handled (e.g., &quot;building_permits&quot;, &quot;legal_documents&quot;, &quot;medical_records&quot;) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="46" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_domain_capability_1a902070b44357df6963bd41cdcfdac820" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::DomainCapability::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::sharding::DomainCapability::keywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Keywords for simple text matching (extracted from domain knowledge) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="51" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_domain_capability_1a00c89390559fccb07a9a7f8577ee56ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::sharding::DomainCapability::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::sharding::DomainCapability::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional embedding vector for semantic similarity matching (e.g., 384-dim sentence-transformers embedding) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="57" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_domain_capability_1a446cd926d4115053c46709283b2f4de1" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::sharding::DomainCapability::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::sharding::DomainCapability::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Custom metadata (key-value pairs for extensibility) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="62" column="14" bodyfile="include/sharding/shard_capabilities.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_domain_capability_1af8d320781f25c2a5a8c85ef6cedca079" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DomainCapability::isEmpty</definition>
+        <argsstring>() const</argsstring>
+        <name>isEmpty</name>
+        <qualifiedname>themis::sharding::DomainCapability::isEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if capability has any specialization defined </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="67" column="10" bodyfile="include/sharding/shard_capabilities.h" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_domain_capability_1a1309fd684b362977d702b53922ef6c83" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt; std::string &gt; themis::sharding::DomainCapability::getAllKeywords</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllKeywords</name>
+        <qualifiedname>themis::sharding::DomainCapability::getAllKeywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all keywords including derived from domains, orgs, regions, data_types </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="75" column="14" bodyfile="include/sharding/shard_capabilities.h" bodystart="75" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Domain Capability - Describes shard specialization</para>
+<para>Each shard can advertise its specializations to enable intelligent query routing based on relevance scoring. </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_capabilities.h" line="27" column="1" bodyfile="include/sharding/shard_capabilities.h" bodystart="27" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1a1b2c922f92954515279fd552fb7c48e8" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>data_types</name></member>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1a2f4ec09fd540024819266f437b187775" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>domains</name></member>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1a00c89390559fccb07a9a7f8577ee56ca" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1a1309fd684b362977d702b53922ef6c83" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>getAllKeywords</name></member>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1af8d320781f25c2a5a8c85ef6cedca079" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>isEmpty</name></member>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1a902070b44357df6963bd41cdcfdac820" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>keywords</name></member>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1a446cd926d4115053c46709283b2f4de1" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1ae528471707ce3efab963437c02cbfc63" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>organizations</name></member>
+      <member refid="structthemis_1_1sharding_1_1_domain_capability_1aeecde35388ff5422b4f9274394b56786" prot="public" virt="non-virtual"><scope>themis::sharding::DomainCapability</scope><name>regions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

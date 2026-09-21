@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_graph_query_cache_1_1_l2_entry" kind="struct" language="C++" prot="private">
+    <compoundname>GraphQueryCache::L2Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_graph_query_cache_1_1_l2_entry_1af124e3ae30e0e255f8962f12cae45fff" prot="public" static="no" mutable="no">
+        <type>Entry</type>
+        <definition>Entry themis::graph::GraphQueryCache::L2Entry::entry</definition>
+        <argsstring></argsstring>
+        <name>entry</name>
+        <qualifiedname>GraphQueryCache::L2Entry::entry</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="149" column="22" bodyfile="include/graph/graph_query_cache.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_graph_query_cache_1_1_l2_entry_1ab33add382c8bf1279cf91a9a18fa52ef" prot="public" static="no" mutable="no">
+        <type>LruList::iterator</type>
+        <definition>LruList::iterator themis::graph::GraphQueryCache::L2Entry::lru_it</definition>
+        <argsstring></argsstring>
+        <name>lru_it</name>
+        <qualifiedname>GraphQueryCache::L2Entry::lru_it</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="150" column="27" bodyfile="include/graph/graph_query_cache.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphQueryCache::L2Entry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entry</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::GraphQueryCache::Entry</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/graph_query_cache.h" line="148" column="5" bodyfile="include/graph/graph_query_cache.h" bodystart="148" bodyend="151"/>
+    <listofallmembers>
+      <member refid="struct_graph_query_cache_1_1_l2_entry_1af124e3ae30e0e255f8962f12cae45fff" prot="public" virt="non-virtual"><scope>GraphQueryCache::L2Entry</scope><name>entry</name></member>
+      <member refid="struct_graph_query_cache_1_1_l2_entry_1ab33add382c8bf1279cf91a9a18fa52ef" prot="public" virt="non-virtual"><scope>GraphQueryCache::L2Entry</scope><name>lru_it</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

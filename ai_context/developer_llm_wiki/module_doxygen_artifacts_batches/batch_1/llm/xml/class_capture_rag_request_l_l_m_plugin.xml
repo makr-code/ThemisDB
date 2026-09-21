@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_capture_rag_request_l_l_m_plugin" kind="class" language="C++" prot="public">
+    <compoundname>CaptureRagRequestLLMPlugin</compoundname>
+    <basecompoundref refid="class_echo_l_l_m_plugin" prot="public" virt="non-virtual">EchoLLMPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_capture_rag_request_l_l_m_plugin_1ae064b9d01ebcc98fb78a0f19d527036b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; CaptureRagRequestLLMPlugin::last_lora_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>last_lora_adapter_id</name>
+        <qualifiedname>CaptureRagRequestLLMPlugin::last_lora_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="76" column="19" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_capture_rag_request_l_l_m_plugin_1a527b241f6bdc0b966f41f045107485b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse CaptureRagRequestLLMPlugin::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;, const InferenceRequest &amp;request) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>CaptureRagRequestLLMPlugin::generateRAG</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94">generateRAG</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="70" column="23" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="70" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CaptureRagRequestLLMPlugin</label>
+        <link refid="class_capture_rag_request_l_l_m_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>EchoLLMPlugin</label>
+        <link refid="class_echo_l_l_m_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CaptureRagRequestLLMPlugin</label>
+        <link refid="class_capture_rag_request_l_l_m_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>EchoLLMPlugin</label>
+        <link refid="class_echo_l_l_m_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ai_orchestrator.cpp" line="68" column="1" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="68" bodyend="77"/>
+    <listofallmembers>
+      <member refid="class_echo_l_l_m_plugin_1a9276386e3bfc76915fde6ff9157d5efe" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>embed</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a982bf70bb4e880d80bde3b2ddd268f53" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>exportLoRA</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a7862dcb8c6caa3cd284c81fe82ae00ae" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="class_capture_rag_request_l_l_m_plugin_1a527b241f6bdc0b966f41f045107485b9" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>generateRAG</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a46f03ea6165cfce7652569aa612f0b9c" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a17caeb32f6f1f45b82329169d27a0696" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a139806a6dc4750cb123a04842739b72d" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>getModelInfo</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a47699633be46066e859612b9d81bb302" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="class_echo_l_l_m_plugin_1aa504e723548880c70f9362c6d9a6d9df" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>importLoRA</name></member>
+      <member refid="class_echo_l_l_m_plugin_1afb62e9f747fbcbf04b433b18c566cefa" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="class_capture_rag_request_l_l_m_plugin_1ae064b9d01ebcc98fb78a0f19d527036b" prot="public" virt="non-virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>last_lora_adapter_id</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a3f1a0fcb2a32778e0001969e7d5b6bbc" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>listLoRAs</name></member>
+      <member refid="class_echo_l_l_m_plugin_1ae7dc4793bcd293b6d06462c0a54063eb" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>loadLoRA</name></member>
+      <member refid="class_echo_l_l_m_plugin_1aa6defdea4f84a54130429004a4ad4813" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a3b548e0e65e018e0e86c23653c2e9252" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="class_echo_l_l_m_plugin_1acaad53bf47bb6af517da83b75ef6e1b2" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>CaptureRagRequestLLMPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

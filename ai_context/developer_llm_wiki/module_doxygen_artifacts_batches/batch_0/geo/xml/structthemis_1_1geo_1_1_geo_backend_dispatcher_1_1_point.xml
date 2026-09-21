@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoBackendDispatcher::Point</compoundname>
+    <includes refid="geo__backend__dispatch_8h" local="no">geo_backend_dispatch.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_1a26f867b17904d673de3a5400bf02a96d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoBackendDispatcher::Point::lat_deg</definition>
+        <argsstring></argsstring>
+        <name>lat_deg</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::Point::lat_deg</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="32" column="16" bodyfile="include/geo/geo_backend_dispatch.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_1abad8bc0b5321f4f279c2e5a8705bf679" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoBackendDispatcher::Point::lon_deg</definition>
+        <argsstring></argsstring>
+        <name>lon_deg</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::Point::lon_deg</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="33" column="16" bodyfile="include/geo/geo_backend_dispatch.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_backend_dispatch.h" line="31" column="5" bodyfile="include/geo/geo_backend_dispatch.h" bodystart="31" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_1a26f867b17904d673de3a5400bf02a96d" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher::Point</scope><name>lat_deg</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_1abad8bc0b5321f4f279c2e5a8705bf679" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher::Point</scope><name>lon_deg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_w_a_l_shipper_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WALShipperConfig</compoundname>
+    <includes refid="wal__shipper_8h" local="no">wal_shipper.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4e963537b4a1077865b8a55dba8a2cce" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionType</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::CompressionType</qualifiedname>
+        <enumvalue id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4e963537b4a1077865b8a55dba8a2ccea6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+<para>Keine Kompression. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4e963537b4a1077865b8a55dba8a2cceaca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+<para>Schnelle Kompression mit niedriger CPU-Last. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4e963537b4a1077865b8a55dba8a2ccea0c8468c9ff2f38e853335e1e40ade4c3" prot="public">
+          <name>Zstd</name>
+          <briefdescription>
+<para>Hoehere Kompressionsrate bei hoehrem CPU-Verbrauch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="65" column="5" bodyfile="include/sharding/wal_shipper.h" bodystart="65" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a77817e670bf3bb2daccf0da4c77f03fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WALShipperConfig::primary_id</definition>
+        <argsstring></argsstring>
+        <name>primary_id</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::primary_id</qualifiedname>
+        <briefdescription>
+<para>Kennung des primaries im Replikationsstrom. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="55" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a68e612d88b6bbbf3031ade6c34a508ee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALShipperConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximale Anzahl WAL-Eintraege pro Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="56" column="12" bodyfile="include/sharding/wal_shipper.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a25a4c8dae9bfe6f07d690fe1af6840bb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALShipperConfig::max_batch_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_batch_bytes</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::max_batch_bytes</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximale Batch-Groesse in Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="57" column="12" bodyfile="include/sharding/wal_shipper.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a7dfd1e7987da90eb0d7dcb367236ffd2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperConfig::ship_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>ship_interval_ms</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::ship_interval_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Zyklusintervall des Shipping-Loops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="58" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4a4f45d40510724cb28f2b339eb5ee57" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperConfig::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::retry_delay_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Initiale Retry-Verzoegerung. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="59" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1ad8d20bc93ae9cb69478f11d9ecc9440e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperConfig::max_retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_retry_delay_ms</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::max_retry_delay_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+<para>Obergrenze fuer exponentiellen Backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="60" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1ac19df9945fc95e481090ef711fd5aa6b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALShipperConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::max_retries</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximale Retry-Versuche pro Fehlerfall. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="61" column="12" bodyfile="include/sharding/wal_shipper.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1aa3e17e62a0ffbd5741c5fd5429a0d02d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperConfig::health_check_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval_ms</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::health_check_interval_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Health-Check-Intervall in Millisekunden. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="62" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1af7ab83f28ef735b076f1765f281f603c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4e963537b4a1077865b8a55dba8a2cce" kindref="member">CompressionType</ref></type>
+        <definition>CompressionType themis::sharding::WALShipperConfig::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::compression</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4e963537b4a1077865b8a55dba8a2ccea0c8468c9ff2f38e853335e1e40ade4c3" kindref="member">CompressionType::Zstd</ref></initializer>
+        <briefdescription>
+<para>Standard-Kompressionsalgorithmus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="70" column="21" bodyfile="include/sharding/wal_shipper.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1aeb52e2a09b6954162ad82bb991f0882d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::WALShipperConfig::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Level fuer Zstd/LZ4. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="71" column="9" bodyfile="include/sharding/wal_shipper.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a8ed148c7c67ad5291430a8d96bb7dcfe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALShipperConfig::adaptive_batch_size</definition>
+        <argsstring></argsstring>
+        <name>adaptive_batch_size</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::adaptive_batch_size</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Aktiviert adaptive Batch-Groesse nach Laufzeitmetriken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="74" column="10" bodyfile="include/sharding/wal_shipper.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1ad269c2bb8fc4d95939858e6b259cd4d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALShipperConfig::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::min_batch_size</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Untere Grenze fuer adaptive Batch-Groesse. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="75" column="12" bodyfile="include/sharding/wal_shipper.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4049ff790d9fba8e760ebcb7db0d27a1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALShipperConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::max_batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Obere Grenze fuer adaptive Batch-Groesse. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="76" column="12" bodyfile="include/sharding/wal_shipper.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a8237ee9c6aab7ab489d1b1d15b57a8e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WALShipperConfig::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::cert_path</qualifiedname>
+        <briefdescription>
+<para>mTLS Client-Zertifikat. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="79" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a0db9148ecab8119aa851be27ee909cd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WALShipperConfig::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::key_path</qualifiedname>
+        <briefdescription>
+<para>mTLS Private Key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="80" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1aa690c4ef78ed2072f2773c94779a124f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WALShipperConfig::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::sharding::WALShipperConfig::ca_cert_path</qualifiedname>
+        <briefdescription>
+<para>mTLS CA-Kette fuer Server-Validierung. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="81" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for asynchronous WAL shipping. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/wal_shipper.h" line="54" column="1" bodyfile="include/sharding/wal_shipper.h" bodystart="54" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a8ed148c7c67ad5291430a8d96bb7dcfe" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>adaptive_batch_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a68e612d88b6bbbf3031ade6c34a508ee" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1aa690c4ef78ed2072f2773c94779a124f" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a8237ee9c6aab7ab489d1b1d15b57a8e4" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1af7ab83f28ef735b076f1765f281f603c" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>compression</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1aeb52e2a09b6954162ad82bb991f0882d" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>compression_level</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4e963537b4a1077865b8a55dba8a2cce" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>CompressionType</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1aa3e17e62a0ffbd5741c5fd5429a0d02d" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>health_check_interval_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a0db9148ecab8119aa851be27ee909cd1" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a25a4c8dae9bfe6f07d690fe1af6840bb" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>max_batch_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4049ff790d9fba8e760ebcb7db0d27a1" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1ac19df9945fc95e481090ef711fd5aa6b" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1ad8d20bc93ae9cb69478f11d9ecc9440e" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>max_retry_delay_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1ad269c2bb8fc4d95939858e6b259cd4d6" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>min_batch_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a77817e670bf3bb2daccf0da4c77f03fb" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>primary_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4a4f45d40510724cb28f2b339eb5ee57" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>retry_delay_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a7dfd1e7987da90eb0d7dcb367236ffd2" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperConfig</scope><name>ship_interval_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_token_quota_manager_1_1_event" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::TokenQuotaManager::Event</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_token_quota_manager_1_1_event_1a3f7dcabc0f937f2f6122968992d0f22e" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::TokenQuotaManager::Event::at</definition>
+        <argsstring></argsstring>
+        <name>at</name>
+        <qualifiedname>themis::llm::TokenQuotaManager::Event::at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/token_quota_manager.h" line="124" column="47" bodyfile="include/llm/token_quota_manager.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_token_quota_manager_1_1_event_1affb544e6bcd93b174bd00db2a455d001" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TokenQuotaManager::Event::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>themis::llm::TokenQuotaManager::Event::tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/token_quota_manager.h" line="125" column="16" bodyfile="include/llm/token_quota_manager.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/token_quota_manager.h" line="123" column="5" bodyfile="include/llm/token_quota_manager.h" bodystart="123" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_token_quota_manager_1_1_event_1a3f7dcabc0f937f2f6122968992d0f22e" prot="public" virt="non-virtual"><scope>themis::llm::TokenQuotaManager::Event</scope><name>at</name></member>
+      <member refid="structthemis_1_1llm_1_1_token_quota_manager_1_1_event_1affb544e6bcd93b174bd00db2a455d001" prot="public" virt="non-virtual"><scope>themis::llm::TokenQuotaManager::Event</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

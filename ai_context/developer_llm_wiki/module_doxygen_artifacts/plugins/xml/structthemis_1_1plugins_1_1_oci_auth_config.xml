@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_oci_auth_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::OciAuthConfig</compoundname>
+    <includes refid="oci__registry__client_8h" local="no">oci_registry_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_auth_config_1a52a1345a6e78a60bb451d195bce2fb1f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciAuthConfig::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::plugins::OciAuthConfig::username</qualifiedname>
+        <briefdescription>
+<para>Basic-auth username (leave empty for anonymous). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="64" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_auth_config_1a434c6d18e0c95f24de2e16ec188a140f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciAuthConfig::password</definition>
+        <argsstring></argsstring>
+        <name>password</name>
+        <qualifiedname>themis::plugins::OciAuthConfig::password</qualifiedname>
+        <briefdescription>
+<para>Basic-auth password or token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="65" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_auth_config_1a118c88464ee7a396b5ccf359e1106473" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciAuthConfig::bearer_token</definition>
+        <argsstring></argsstring>
+        <name>bearer_token</name>
+        <qualifiedname>themis::plugins::OciAuthConfig::bearer_token</qualifiedname>
+        <briefdescription>
+<para>Pre-obtained Bearer token (overrides username/password). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="66" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Authentication configuration for an OCI registry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/oci_registry_client.h" line="63" column="1" bodyfile="include/plugins/oci_registry_client.h" bodystart="63" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_oci_auth_config_1a118c88464ee7a396b5ccf359e1106473" prot="public" virt="non-virtual"><scope>themis::plugins::OciAuthConfig</scope><name>bearer_token</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_auth_config_1a434c6d18e0c95f24de2e16ec188a140f" prot="public" virt="non-virtual"><scope>themis::plugins::OciAuthConfig</scope><name>password</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_auth_config_1a52a1345a6e78a60bb451d195bce2fb1f" prot="public" virt="non-virtual"><scope>themis::plugins::OciAuthConfig</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

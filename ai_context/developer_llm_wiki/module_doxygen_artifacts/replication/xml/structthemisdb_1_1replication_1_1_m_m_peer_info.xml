@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_m_m_peer_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MMPeerInfo</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1a6180c924c2a4ce5280dbff326a0ba595" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMPeerInfo::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="217" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1a4f579a6d5c9611244c2c3c107a8b4c86" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMPeerInfo::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="218" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1a889152fb6793742cc5e5571b99ba5f9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMPeerInfo::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="219" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1a232160950052838a63f3d9508491c18f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMPeerInfo::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="220" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1aec3a6acf77474b9902cbaf2bfcfb3f4e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1aa9b7908996c79c00a3753875fbd044bf" kindref="member">MMNodeState</ref></type>
+        <definition>MMNodeState themisdb::replication::MMPeerInfo::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="221" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1a8978db3ae9494ceceb54ea32aa89b8de" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_vector_clock" kindref="compound">VectorClock</ref></type>
+        <definition>VectorClock themisdb::replication::MMPeerInfo::last_known_clock</definition>
+        <argsstring></argsstring>
+        <name>last_known_clock</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::last_known_clock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="222" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1afe3c373624292216ad7640ef8e802b18" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kindref="compound">HybridLogicalClock::Timestamp</ref></type>
+        <definition>HybridLogicalClock::Timestamp themisdb::replication::MMPeerInfo::last_heartbeat_hlc</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_hlc</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::last_heartbeat_hlc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="223" column="35" bodyfile="include/replication/multi_master_replication.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1a92f987c8c66fd8c05bbaece05455e887" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MMPeerInfo::replication_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>replication_lag_ms</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::replication_lag_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="224" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1ad7b5a0815cd1fde8e5dfb5258fc8c198" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMPeerInfo::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::priority</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="225" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_peer_info_1aa45940e25279ddc0c1aa7f15c5dd2693" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MMPeerInfo::is_local_datacenter</definition>
+        <argsstring></argsstring>
+        <name>is_local_datacenter</name>
+        <qualifiedname>themisdb::replication::MMPeerInfo::is_local_datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="226" column="10" bodyfile="include/replication/multi_master_replication.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Multi-Master Peer Information </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themisdb::replication::HybridLogicalClock::Timestamp</label>
+        <link refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::MMPeerInfo</label>
+        <link refid="structthemisdb_1_1replication_1_1_m_m_peer_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>last_known_clock</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>last_heartbeat_hlc</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::VectorClock</label>
+        <link refid="classthemisdb_1_1replication_1_1_vector_clock"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/multi_master_replication.h" line="216" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="216" bodyend="227"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1a889152fb6793742cc5e5571b99ba5f9a" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>datacenter</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1a4f579a6d5c9611244c2c3c107a8b4c86" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>endpoint</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1aa45940e25279ddc0c1aa7f15c5dd2693" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>is_local_datacenter</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1afe3c373624292216ad7640ef8e802b18" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>last_heartbeat_hlc</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1a8978db3ae9494ceceb54ea32aa89b8de" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>last_known_clock</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1a6180c924c2a4ce5280dbff326a0ba595" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1ad7b5a0815cd1fde8e5dfb5258fc8c198" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>priority</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1a232160950052838a63f3d9508491c18f" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>region</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1a92f987c8c66fd8c05bbaece05455e887" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>replication_lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_peer_info_1aec3a6acf77474b9902cbaf2bfcfb3f4e" prot="public" virt="non-virtual"><scope>themisdb::replication::MMPeerInfo</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

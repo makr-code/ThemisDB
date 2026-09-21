@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_circular_reference_detection_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::CircularReferenceDetectionStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_circular_reference_detection_stress_1a3ee7bce534f968d5529e76b2028fa446" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::CircularReferenceDetectionStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::CircularReferenceDetectionStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with circular references. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="259" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_circular_reference_detection_stress_1a5b1156edd6a45e0f3e6940f070fb564d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::CircularReferenceDetectionStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::CircularReferenceDetectionStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success (no deadlock, warning logged). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="262" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_circular_reference_detection_stress_1a053151135c9dc8966dec3056d298ea71" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::CircularReferenceDetectionStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::CircularReferenceDetectionStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="264" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="264" bodyend="266"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Circular reference detection scenario for process linker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> Processes that trigger each other in a cycle (A→B→A) <linebreak/>
+ <bold>Expected Behavior:</bold> Allowed and detected; documented as non-deterministic <linebreak/>
+ <bold>Trigger:</bold> Warning log; no error code <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Links are created successfully (no error)</para>
+</listitem><listitem><para>Circular reference is logged as warning</para>
+</listitem><listitem><para>No deadlock or infinite loop</para>
+</listitem><listitem><para>Subprocess execution order documented as non-deterministic </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="257" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="257" bodyend="267"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_circular_reference_detection_stress_1a053151135c9dc8966dec3056d298ea71" prot="public" virt="non-virtual"><scope>themis::process::CircularReferenceDetectionStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_circular_reference_detection_stress_1a3ee7bce534f968d5529e76b2028fa446" prot="public" virt="non-virtual"><scope>themis::process::CircularReferenceDetectionStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_circular_reference_detection_stress_1a5b1156edd6a45e0f3e6940f070fb564d" prot="public" virt="non-virtual"><scope>themis::process::CircularReferenceDetectionStress</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

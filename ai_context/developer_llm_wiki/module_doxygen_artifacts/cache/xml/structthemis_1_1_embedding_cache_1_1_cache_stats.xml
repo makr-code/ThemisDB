@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_embedding_cache_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EmbeddingCache::CacheStats</compoundname>
+    <includes refid="embedding__cache_8h" local="no">embedding_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_cache_stats_1a6b8119dc6823bbb734e4a42ce42bdcf8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EmbeddingCache::CacheStats::hit_count</definition>
+        <argsstring></argsstring>
+        <name>hit_count</name>
+        <qualifiedname>themis::EmbeddingCache::CacheStats::hit_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="49" column="18" bodyfile="include/cache/embedding_cache.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b50ed6d9e77ebf0f06de5ae9f7dde92" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EmbeddingCache::CacheStats::miss_count</definition>
+        <argsstring></argsstring>
+        <name>miss_count</name>
+        <qualifiedname>themis::EmbeddingCache::CacheStats::miss_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="50" column="18" bodyfile="include/cache/embedding_cache.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b27ca218b3dd50d7fe64cda9392c321" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EmbeddingCache::CacheStats::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::EmbeddingCache::CacheStats::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="51" column="18" bodyfile="include/cache/embedding_cache.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_cache_stats_1a5194cae6d1f14a09289cf9f90bda71b0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::EmbeddingCache::CacheStats::hit_rate</definition>
+        <argsstring></argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::EmbeddingCache::CacheStats::hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="52" column="16" bodyfile="include/cache/embedding_cache.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b2502f38e77d03aed51f921c87c557e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::EmbeddingCache::CacheStats::avg_similarity</definition>
+        <argsstring></argsstring>
+        <name>avg_similarity</name>
+        <qualifiedname>themis::EmbeddingCache::CacheStats::avg_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="53" column="16" bodyfile="include/cache/embedding_cache.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_1_1_cache_stats_1aff40688720041fa220ec692370d18b7c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::EmbeddingCache::CacheStats::cost_savings_usd</definition>
+        <argsstring></argsstring>
+        <name>cost_savings_usd</name>
+        <qualifiedname>themis::EmbeddingCache::CacheStats::cost_savings_usd</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="54" column="16" bodyfile="include/cache/embedding_cache.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/embedding_cache.h" line="48" column="5" bodyfile="include/cache/embedding_cache.h" bodystart="48" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b2502f38e77d03aed51f921c87c557e" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::CacheStats</scope><name>avg_similarity</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1aff40688720041fa220ec692370d18b7c" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::CacheStats</scope><name>cost_savings_usd</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a6b8119dc6823bbb734e4a42ce42bdcf8" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::CacheStats</scope><name>hit_count</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a5194cae6d1f14a09289cf9f90bda71b0" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::CacheStats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b50ed6d9e77ebf0f06de5ae9f7dde92" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::CacheStats</scope><name>miss_count</name></member>
+      <member refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b27ca218b3dd50d7fe64cda9392c321" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache::CacheStats</scope><name>total_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

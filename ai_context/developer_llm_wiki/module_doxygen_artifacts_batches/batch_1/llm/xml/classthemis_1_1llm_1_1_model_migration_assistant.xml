@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_model_migration_assistant" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ModelMigrationAssistant</compoundname>
+    <includes refid="adapter__compatibility_8h" local="no">adapter_compatibility.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan" prot="public">themis::llm::ModelMigrationAssistant::MigrationPlan</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ad" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MigrationStrategy</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::MigrationStrategy</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ada687c71a58ef0f54a3a90263fddcf7009" prot="public">
+          <name>RETRAIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ada5665bf9ccd5bc0163bf755e0767c97b5" prot="public">
+          <name>FINE_TUNE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12adab484063bf424edcd26232cfe6b31e05a" prot="public">
+          <name>DIMENSION_ADAPT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12adac91864551a545713eff49778925d69fb" prot="public">
+          <name>NO_MIGRATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="277" column="5" bodyfile="include/llm/adapter_compatibility.h" bodystart="277" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_migration_assistant_1ae7d4c11bbcfaa909ffe9435aed2c2e9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan" kindref="compound">MigrationPlan</ref></type>
+        <definition>static MigrationPlan themis::llm::ModelMigrationAssistant::analyzeMigration</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;source_model, const std::string &amp;target_model)</argsstring>
+        <name>analyzeMigration</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::analyzeMigration</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_model</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Migration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="306" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_migration_assistant_1a276f3478c46e8010ae0d69bc6110c8e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ad" kindref="member">MigrationStrategy</ref></type>
+        <definition>static MigrationStrategy themis::llm::ModelMigrationAssistant::recommendStrategy</definition>
+        <argsstring>(const std::string &amp;source_model, const std::string &amp;target_model)</argsstring>
+        <name>recommendStrategy</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::recommendStrategy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_model</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model</declname>
+        </param>
+        <briefdescription>
+<para>Recommend Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="318" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_migration_assistant_1a823b1d4c1d791559424224ec5eee5357" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::llm::ModelMigrationAssistant::estimateRetrainingEffort</definition>
+        <argsstring>(const std::string &amp;source_model, const std::string &amp;target_model)</argsstring>
+        <name>estimateRetrainingEffort</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::estimateRetrainingEffort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_model</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Retraining Effort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="329" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_compatibility.h" line="275" column="1" bodyfile="include/llm/adapter_compatibility.h" bodystart="275" bodyend="333"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_model_migration_assistant_1ae7d4c11bbcfaa909ffe9435aed2c2e9b" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant</scope><name>analyzeMigration</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_migration_assistant_1a823b1d4c1d791559424224ec5eee5357" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant</scope><name>estimateRetrainingEffort</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ad" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant</scope><name>MigrationStrategy</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_migration_assistant_1a276f3478c46e8010ae0d69bc6110c8e9" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant</scope><name>recommendStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

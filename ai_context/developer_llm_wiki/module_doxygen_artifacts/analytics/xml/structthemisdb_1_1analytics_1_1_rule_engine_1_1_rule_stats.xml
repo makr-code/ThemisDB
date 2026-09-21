@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::RuleEngine::RuleStats</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1ae080807fcfe03fdce4fbc34c4b09e9ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::RuleEngine::RuleStats::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleStats::rule_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="901" column="21" bodyfile="include/analytics/cep_engine.h" bodystart="901" bodyend="901"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1a86bfbd6b27663cd9d74dab9dedc27e92" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::RuleEngine::RuleStats::events_processed</definition>
+        <argsstring></argsstring>
+        <name>events_processed</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleStats::events_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="902" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="902" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1a8d6b3378ed1e60e0a80ed3dbb8ff4b4a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::RuleEngine::RuleStats::matches</definition>
+        <argsstring></argsstring>
+        <name>matches</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleStats::matches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="903" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="903" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1a9ceba50d9aa617fa34b3aa16db4a86de" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::RuleEngine::RuleStats::actions_triggered</definition>
+        <argsstring></argsstring>
+        <name>actions_triggered</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleStats::actions_triggered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="904" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="904" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1adee6d20a7387ad41a4eb8c70f102ab0c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::RuleEngine::RuleStats::avg_processing_time</definition>
+        <argsstring></argsstring>
+        <name>avg_processing_time</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleStats::avg_processing_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="905" column="35" bodyfile="include/analytics/cep_engine.h" bodystart="905" bodyend="905"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="900" column="5" bodyfile="include/analytics/cep_engine.h" bodystart="900" bodyend="906"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1a9ceba50d9aa617fa34b3aa16db4a86de" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleStats</scope><name>actions_triggered</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1adee6d20a7387ad41a4eb8c70f102ab0c" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleStats</scope><name>avg_processing_time</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1a86bfbd6b27663cd9d74dab9dedc27e92" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleStats</scope><name>events_processed</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1a8d6b3378ed1e60e0a80ed3dbb8ff4b4a" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleStats</scope><name>matches</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats_1ae080807fcfe03fdce4fbc34c4b09e9ec" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleStats</scope><name>rule_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

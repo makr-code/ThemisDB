@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_js_render_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::JsRenderRequest</compoundname>
+    <includes refid="scraper__js__renderer_8h" local="no">scraper_js_renderer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_request_1af06902979318a570d64becad09edfcf2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::JsRenderRequest::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::scraper::JsRenderRequest::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="30" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_request_1ae4ac1b8ab7104798fa08d684d2d46fbf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::JsRenderRequest::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::scraper::JsRenderRequest::timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="31" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_request_1a5221c3224b0ad8f066614630f529ac27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::JsRenderRequest::wait_selector</definition>
+        <argsstring></argsstring>
+        <name>wait_selector</name>
+        <qualifiedname>themis::scraper::JsRenderRequest::wait_selector</qualifiedname>
+        <briefdescription>
+<para>CSS selector to wait for before capturing HTML (empty = DOMContentLoaded). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="33" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_request_1a8fd8b2d256a4e811d09ec2c395f449e6" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::JsRenderRequest::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::scraper::JsRenderRequest::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="34" column="14" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_request_1adf7913a3f133945bd9f3e4d4f11c2a2d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::JsRenderRequest::extra_args</definition>
+        <argsstring></argsstring>
+        <name>extra_args</name>
+        <qualifiedname>themis::scraper::JsRenderRequest::extra_args</qualifiedname>
+        <briefdescription>
+<para>Extra arguments forwarded verbatim to the renderer command. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="36" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parameters for a single JavaScript page rendering request. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_js_renderer.h" line="29" column="1" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="29" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_js_render_request_1adf7913a3f133945bd9f3e4d4f11c2a2d" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderRequest</scope><name>extra_args</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_request_1a8fd8b2d256a4e811d09ec2c395f449e6" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderRequest</scope><name>headers</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_request_1ae4ac1b8ab7104798fa08d684d2d46fbf" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderRequest</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_request_1af06902979318a570d64becad09edfcf2" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderRequest</scope><name>url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_request_1a5221c3224b0ad8f066614630f529ac27" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderRequest</scope><name>wait_selector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

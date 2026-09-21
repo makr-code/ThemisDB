@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</compoundname>
+    <includes refid="logical__replication_8h" local="no">logical_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1acb8eef34f0a9927dba62a87a96742383" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::slot_name</definition>
+        <argsstring></argsstring>
+        <name>slot_name</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::slot_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="77" column="21" bodyfile="include/replication/logical_replication.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1aa96516eb380167e089554f0a597cf752" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::restart_lsn</definition>
+        <argsstring></argsstring>
+        <name>restart_lsn</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::restart_lsn</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="78" column="18" bodyfile="include/replication/logical_replication.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a8d79ed29005af309e39a3be496d226cc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::confirmed_flush_lsn</definition>
+        <argsstring></argsstring>
+        <name>confirmed_flush_lsn</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::confirmed_flush_lsn</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="79" column="18" bodyfile="include/replication/logical_replication.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a537f8b493229abd44ff3d3f1efb429fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::plugin_name</definition>
+        <argsstring></argsstring>
+        <name>plugin_name</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::plugin_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="80" column="21" bodyfile="include/replication/logical_replication.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a11e5829edac27ee5260189f0a4c31d0d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref></type>
+        <definition>ReplicationFilter themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="81" column="27" bodyfile="include/replication/logical_replication.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1adbfa19a159fb1aef106669a7cf08aaa8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::initial_sync_pending</definition>
+        <argsstring></argsstring>
+        <name>initial_sync_pending</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot::initial_sync_pending</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="82" column="14" bodyfile="include/replication/logical_replication.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</label>
+        <link refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>filter</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::LogicalReplicationManager::ReplicationFilter</label>
+        <link refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/logical_replication.h" line="76" column="5" bodyfile="include/replication/logical_replication.h" bodystart="76" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a8d79ed29005af309e39a3be496d226cc" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</scope><name>confirmed_flush_lsn</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a11e5829edac27ee5260189f0a4c31d0d" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</scope><name>filter</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1adbfa19a159fb1aef106669a7cf08aaa8" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</scope><name>initial_sync_pending</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a537f8b493229abd44ff3d3f1efb429fd" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</scope><name>plugin_name</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1aa96516eb380167e089554f0a597cf752" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</scope><name>restart_lsn</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1acb8eef34f0a9927dba62a87a96742383" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</scope><name>slot_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

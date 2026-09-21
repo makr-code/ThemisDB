@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_challenge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::Challenge</compoundname>
+    <includes refid="voice__liveness__detector_8h" local="no">voice_liveness_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_challenge_1aa29cb657b243a0f3a13c8dea64809688" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::Challenge::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::voice::Challenge::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unique challenge ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="51" column="14" bodyfile="include/voice/voice_liveness_detector.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_challenge_1a277c734b322553375220a972e02c8858" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::Challenge::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::voice::Challenge::text</qualifiedname>
+        <briefdescription>
+<para>Random phrase to echo (e.g., &quot;echo seven thousand two hundred&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="52" column="17" bodyfile="include/voice/voice_liveness_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_challenge_1a23f889367ef14a0f43c79ff1bab3602d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::Challenge::issued_at_ms</definition>
+        <argsstring></argsstring>
+        <name>issued_at_ms</name>
+        <qualifiedname>themis::voice::Challenge::issued_at_ms</qualifiedname>
+        <briefdescription>
+<para>Timestamp when challenge was issued. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="53" column="13" bodyfile="include/voice/voice_liveness_detector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_challenge_1a60a82ae8cb88325b496761679c470b02" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::Challenge::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::voice::Challenge::verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this challenge passed verification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="54" column="10" bodyfile="include/voice/voice_liveness_detector.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_challenge_1aba7e5d3801e9c4bd2d11a5a767c7ac1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::Challenge::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::Challenge::user_id</qualifiedname>
+        <briefdescription>
+<para>User this challenge was issued for. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="55" column="17" bodyfile="include/voice/voice_liveness_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Voice liveness challenge descriptor. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_liveness_detector.h" line="50" column="1" bodyfile="include/voice/voice_liveness_detector.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_challenge_1aa29cb657b243a0f3a13c8dea64809688" prot="public" virt="non-virtual"><scope>themis::voice::Challenge</scope><name>id</name></member>
+      <member refid="structthemis_1_1voice_1_1_challenge_1a23f889367ef14a0f43c79ff1bab3602d" prot="public" virt="non-virtual"><scope>themis::voice::Challenge</scope><name>issued_at_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_challenge_1a277c734b322553375220a972e02c8858" prot="public" virt="non-virtual"><scope>themis::voice::Challenge</scope><name>text</name></member>
+      <member refid="structthemis_1_1voice_1_1_challenge_1aba7e5d3801e9c4bd2d11a5a767c7ac1d" prot="public" virt="non-virtual"><scope>themis::voice::Challenge</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_challenge_1a60a82ae8cb88325b496761679c470b02" prot="public" virt="non-virtual"><scope>themis::voice::Challenge</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

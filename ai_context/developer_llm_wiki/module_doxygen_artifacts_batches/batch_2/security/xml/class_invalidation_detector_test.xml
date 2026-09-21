@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_invalidation_detector_test" kind="class" language="C++" prot="public">
+    <compoundname>InvalidationDetectorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_invalidation_detector_test_1a437f42e08331b42bfc7fa8f0f395eab5" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; InvalidationDetectorTest::vec_</definition>
+        <argsstring></argsstring>
+        <name>vec_</name>
+        <qualifiedname>InvalidationDetectorTest::vec_</qualifiedname>
+        <initializer>{1, 2, 3, 4, 5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="87" column="17" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>InvalidationDetectorTest</label>
+        <link refid="class_invalidation_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>InvalidationDetectorTest</label>
+        <link refid="class_invalidation_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_safe_iterator.cpp" line="85" column="1" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="85" bodyend="88"/>
+    <listofallmembers>
+      <member refid="class_invalidation_detector_test_1a437f42e08331b42bfc7fa8f0f395eab5" prot="protected" virt="non-virtual"><scope>InvalidationDetectorTest</scope><name>vec_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

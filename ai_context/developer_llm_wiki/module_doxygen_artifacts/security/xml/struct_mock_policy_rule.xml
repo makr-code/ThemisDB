@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_policy_rule" kind="struct" language="C++" prot="public">
+    <compoundname>MockPolicyRule</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_policy_rule_1ab426a385ed71e896f9b75543b5d85f41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockPolicyRule::principal</definition>
+        <argsstring></argsstring>
+        <name>principal</name>
+        <qualifiedname>MockPolicyRule::principal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="32" column="17" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_policy_rule_1a8cf3bb3c33d320c54df7705821cb4ca1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockPolicyRule::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>MockPolicyRule::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="33" column="17" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_policy_rule_1abb7a51c1c6d7088e65e4fb641f6b345e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockPolicyRule::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>MockPolicyRule::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="34" column="17" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_policy_rule_1a2e64ff4b36f7a1a194e9675b6d633066" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockPolicyRule::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>MockPolicyRule::allowed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="35" column="10" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_policy_rule_1a74436ab334bbd945aeb28f1d2b5bdbcb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MockPolicyRule::precedence</definition>
+        <argsstring></argsstring>
+        <name>precedence</name>
+        <qualifiedname>MockPolicyRule::precedence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="36" column="9" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="31" column="1" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="31" bodyend="37"/>
+    <listofallmembers>
+      <member refid="struct_mock_policy_rule_1abb7a51c1c6d7088e65e4fb641f6b345e" prot="public" virt="non-virtual"><scope>MockPolicyRule</scope><name>action</name></member>
+      <member refid="struct_mock_policy_rule_1a2e64ff4b36f7a1a194e9675b6d633066" prot="public" virt="non-virtual"><scope>MockPolicyRule</scope><name>allowed</name></member>
+      <member refid="struct_mock_policy_rule_1a74436ab334bbd945aeb28f1d2b5bdbcb" prot="public" virt="non-virtual"><scope>MockPolicyRule</scope><name>precedence</name></member>
+      <member refid="struct_mock_policy_rule_1ab426a385ed71e896f9b75543b5d85f41" prot="public" virt="non-virtual"><scope>MockPolicyRule</scope><name>principal</name></member>
+      <member refid="struct_mock_policy_rule_1a8cf3bb3c33d320c54df7705821cb4ca1" prot="public" virt="non-virtual"><scope>MockPolicyRule</scope><name>resource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

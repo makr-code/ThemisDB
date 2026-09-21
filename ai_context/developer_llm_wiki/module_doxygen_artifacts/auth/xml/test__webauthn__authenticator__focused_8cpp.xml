@@ -1,0 +1,632 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__webauthn__authenticator__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_webauthn_authenticator_focused.cpp</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="auth__error_8h" local="yes">auth/auth_error.h</includes>
+    <includes refid="auth__principal__contract_8h" local="yes">auth/auth_principal_contract.h</includes>
+    <includes refid="webauthn__authenticator_8h" local="yes">auth/webauthn_authenticator.h</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>auth/auth_principal_contract.h</label>
+        <link refid="auth__principal__contract_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>auth/webauthn_authenticator.h</label>
+        <link refid="webauthn__authenticator_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/auth/test_webauthn_authenticator_focused.cpp</label>
+        <link refid="test__webauthn__authenticator__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>array</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="5">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper" prot="public">themis::auth::tests::WebAuthnTestHelper</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_initialization_test" prot="public">themis::auth::tests::WebAuthnInitializationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test" prot="public">themis::auth::tests::WebAuthnChallengeLifecycleTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test" prot="public">themis::auth::tests::WebAuthnRegistrationCeremonyTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" prot="public">themis::auth::tests::WebAuthnAuthenticationCeremonyTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_signature_verification_test" prot="public">themis::auth::tests::WebAuthnSignatureVerificationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_cose_key_test" prot="public">themis::auth::tests::WebAuthnCoseKeyTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_attestation_test" prot="public">themis::auth::tests::WebAuthnAttestationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_client_data_test" prot="public">themis::auth::tests::WebAuthnClientDataTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_auth_data_test" prot="public">themis::auth::tests::WebAuthnAuthDataTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_web_authn_random_bytes_test" prot="public">themis::auth::tests::WebAuthnRandomBytesTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth_1_1tests">themis::auth::tests</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__error_8h" kindref="compound">auth/auth_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__principal__contract_8h" kindref="compound">auth/auth_principal_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="webauthn__authenticator_8h" kindref="compound">auth/webauthn_authenticator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">nlohmann::json;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">::testing::Return;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">::testing::Throw;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests" kindref="compound">tests</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test<sp/>Fixtures<sp/>and<sp/>Helper<sp/>Functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper" kindref="compound">WebAuthnTestHelper</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">WebAuthnAuthenticator::RelyingParty</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" kindref="member">getValidRP</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">WebAuthnAuthenticator::RelyingParty</ref>{</highlight><highlight class="stringliteral">&quot;example.com&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>Auth<sp/>System&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" kindref="compound">WebAuthnAuthenticator::User</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">getValidUser</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" kindref="compound">WebAuthnAuthenticator::User</ref>{</highlight><highlight class="stringliteral">&quot;user-12345&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice<sp/>Johnson&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Configuration<sp/>and<sp/>Initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_initialization_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_initialization_test" kindref="compound">WebAuthnInitializationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_initialization_test" kindref="compound">WebAuthnInitializationTest</ref>,<sp/>ValidRelyingPartyInit)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" kindref="member">WebAuthnTestHelper::getValidRP</ref>();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator" kindref="compound">WebAuthnAuthenticator</ref><sp/>wa(rp);<sp/>});</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnInitializationTest,<sp/>EmptyRelyingPartyID)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">WebAuthnAuthenticator::RelyingParty</ref><sp/>rp;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a1dfb4dd29ee221d6fb7dd1f1d97a7ae3" kindref="member">id</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Empty!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a3b86231528f5892616491dca568c590f" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>App&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator" kindref="compound">WebAuthnAuthenticator</ref><sp/>wa(rp);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_initialization_test" kindref="compound">WebAuthnInitializationTest</ref>,<sp/>EmptyRelyingPartyName)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>WebAuthnAuthenticator::RelyingParty<sp/>rp;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a1dfb4dd29ee221d6fb7dd1f1d97a7ae3" kindref="member">id</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;example.com&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a3b86231528f5892616491dca568c590f" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>name<sp/>is<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>WebAuthnAuthenticator<sp/>wa(rp);<sp/>});</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_initialization_test" kindref="compound">WebAuthnInitializationTest</ref>,<sp/>VeryLongRelyingPartyName)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>WebAuthnAuthenticator::RelyingParty<sp/>rp;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a1dfb4dd29ee221d6fb7dd1f1d97a7ae3" kindref="member">id</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;example.com&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a3b86231528f5892616491dca568c590f" kindref="member">name</ref><sp/>=<sp/>std::string(1000,<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>Very<sp/>long<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>WebAuthnAuthenticator<sp/>wa(rp);<sp/>});</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_initialization_test" kindref="compound">WebAuthnInitializationTest</ref>,<sp/>SetExpectedOrigin)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" kindref="member">WebAuthnTestHelper::getValidRP</ref>();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>WebAuthnAuthenticator<sp/>wa(rp);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Override<sp/>for<sp/>test<sp/>environment<sp/>(e.g.,<sp/>http://localhost:3000)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>wa.setExpectedOrigin(</highlight><highlight class="stringliteral">&quot;http://localhost:3000&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_initialization_test" kindref="compound">WebAuthnInitializationTest</ref>,<sp/>AttachAuditLogger)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" kindref="member">WebAuthnTestHelper::getValidRP</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>WebAuthnAuthenticator<sp/>wa(rp);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attach<sp/>nullptr<sp/>(detach)<sp/>should<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>wa.setAuditLogger(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Challenge<sp/>Generation<sp/>and<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test" kindref="compound">WebAuthnChallengeLifecycleTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WebAuthnAuthenticator&gt;<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test_1a4f534a32d57d69fac6e2f612aaa5e32d" kindref="member">wa_</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test_1a356bcdfa247d7fdf3da1342c34d5a82e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" kindref="member">WebAuthnTestHelper::getValidRP</ref>();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test_1a4f534a32d57d69fac6e2f612aaa5e32d" kindref="member">wa_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;WebAuthnAuthenticator&gt;(rp);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test" kindref="compound">WebAuthnChallengeLifecycleTest</ref>,<sp/>ChallengeGeneration)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">WebAuthnTestHelper::getValidUser</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts1<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(opts1.challenge.empty());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Challenge<sp/>should<sp/>be<sp/>base64url<sp/>(no<sp/>padding,<sp/>no<sp/>+/=)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>opts1.challenge)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE((c<sp/>&gt;=<sp/>(</highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>c<sp/>&lt;=<sp/></highlight><highlight class="charliteral">&apos;Z&apos;</highlight><highlight class="normal">)<sp/>||<sp/>(c<sp/>&gt;=<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>c<sp/>&lt;=<sp/></highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">)<sp/>||<sp/>(c<sp/>&gt;=<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>c<sp/>&lt;=<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">)<sp/>||<sp/>c<sp/>==<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal"><sp/>||<sp/>c<sp/>==<sp/></highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnChallengeLifecycleTest,<sp/>ChallengeRandomness)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">WebAuthnTestHelper::getValidUser</ref>();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts1<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts2<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(opts1.challenge,<sp/>opts2.challenge);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnChallengeLifecycleTest,<sp/>ChallengeExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>would<sp/>require:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Generate<sp/>a<sp/>challenge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Simulate<sp/>time<sp/>passing<sp/>(mocking<sp/>clock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Verify<sp/>expired<sp/>challenge<sp/>is<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>now,<sp/>document<sp/>the<sp/>expected<sp/>behavior:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kChallengeTTL<sp/>=<sp/>300<sp/>seconds<sp/>(5<sp/>minutes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test" kindref="compound">WebAuthnChallengeLifecycleTest</ref>,<sp/>ChallengePurging)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">WebAuthnTestHelper::getValidUser</ref>();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>multiple<sp/>challenges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts1<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts2<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>a<sp/>real<sp/>scenario,<sp/>we&apos;d<sp/>advance<sp/>time<sp/>and<sp/>purge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>now,<sp/>verify<sp/>generation<sp/>works</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(opts1.challenge.empty());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(opts2.challenge.empty());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Registration<sp/>Ceremony</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test" kindref="compound">WebAuthnRegistrationCeremonyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WebAuthnAuthenticator&gt;<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test_1a4c773e2696f934cc0fd5b8197b426a8c" kindref="member">wa_</ref>;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test_1a2bf511528eb9045659ca3af7d1317007" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" kindref="member">WebAuthnTestHelper::getValidRP</ref>();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test_1a4c773e2696f934cc0fd5b8197b426a8c" kindref="member">wa_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;WebAuthnAuthenticator&gt;(rp);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test_1a4c773e2696f934cc0fd5b8197b426a8c" kindref="member">wa_</ref>-&gt;setExpectedOrigin(</highlight><highlight class="stringliteral">&quot;https://example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test" kindref="compound">WebAuthnRegistrationCeremonyTest</ref>,<sp/>StartRegistrationNonResident)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">WebAuthnTestHelper::getValidUser</ref>();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(opts.authenticator_selection.require_resident_key,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnRegistrationCeremonyTest,<sp/>StartRegistrationResident)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">WebAuthnTestHelper::getValidUser</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(opts.authenticator_selection.require_resident_key,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnRegistrationCeremonyTest,<sp/>SupportedAlgorithms)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">WebAuthnTestHelper::getValidUser</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(opts.pub_key_cred_params.begin(),<sp/>opts.pub_key_cred_params.end(),<sp/></highlight><highlight class="stringliteral">&quot;ES256&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>opts.pub_key_cred_params.end());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(opts.pub_key_cred_params.begin(),<sp/>opts.pub_key_cred_params.end(),<sp/></highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>opts.pub_key_cred_params.end());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnRegistrationCeremonyTest,<sp/>UserPresenceFlagRequired)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>detail:<sp/>would<sp/>require<sp/>constructing<sp/>a<sp/>response<sp/>with<sp/>UP=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test" kindref="compound">WebAuthnRegistrationCeremonyTest</ref>,<sp/>CompleteRegistrationInvalidChallenge)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/>invalid_response<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;credential-id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;rawId&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y3JlZGVudGlhbC1pZA==&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;clientDataJSON&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwi...&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;attestationObject&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;o2NmbXRmcGFja2VkZ2F0dFN0bXS...&quot;</highlight><highlight class="normal">}}}};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>wa_-&gt;completeRegistration(invalid_response);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test" kindref="compound">WebAuthnRegistrationCeremonyTest</ref>,<sp/>CompleteRegistrationWrongOrigin)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>expected<sp/>origin<sp/>to<sp/>https://example.com</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>wa_-&gt;setExpectedOrigin(</highlight><highlight class="stringliteral">&quot;https://example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>But<sp/>response<sp/>claims<sp/>origin<sp/>was<sp/>http://attacker.com</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test" kindref="compound">WebAuthnRegistrationCeremonyTest</ref>,<sp/>CompleteRegistrationWrongRPID)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>RP<sp/>ID<sp/>hash<sp/>doesn&apos;t<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_registration_ceremony_test" kindref="compound">WebAuthnRegistrationCeremonyTest</ref>,<sp/>UnsupportedKeyAlgorithm)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Response<sp/>contains<sp/>a<sp/>key<sp/>with<sp/>unsupported<sp/>algorithm<sp/>(e.g.,<sp/>EdDSA)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Authentication<sp/>Ceremony</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WebAuthnAuthenticator&gt;<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test_1ab98201e60d81c98304fa149fab8498f7" kindref="member">wa_</ref>;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test_1ac0bc03e3fa448d474a73da5b8d4215d5" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" kindref="member">WebAuthnTestHelper::getValidRP</ref>();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test_1ab98201e60d81c98304fa149fab8498f7" kindref="member">wa_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;WebAuthnAuthenticator&gt;(rp);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test_1ab98201e60d81c98304fa149fab8498f7" kindref="member">wa_</ref>-&gt;setExpectedOrigin(</highlight><highlight class="stringliteral">&quot;https://example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref>,<sp/>StartAuthenticationDiscoverable)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts<sp/>=<sp/>wa_-&gt;startAuthentication(std::nullopt);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(opts.allow_credentials.empty());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnAuthenticationCeremonyTest,<sp/>StartAuthenticationWithUserID)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts<sp/>=<sp/>wa_-&gt;startAuthentication(</highlight><highlight class="stringliteral">&quot;user-12345&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Caller<sp/>is<sp/>responsible<sp/>for<sp/>populating<sp/>opts.allow_credentials</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(opts.challenge.empty());</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnAuthenticationCeremonyTest,<sp/>CompleteAuthenticationInvalidChallenge)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>stored_public_key(65,<sp/>0x00);<sp/></highlight><highlight class="comment">//<sp/>Dummy<sp/>SPKI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/>invalid_response<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;credential-id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;rawId&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y3JlZGVudGlhbC1pZA==&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;clientDataJSON&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyJ0eXBlIjoid2ViYXV0aG4uZ2V0Iiwi...&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;authenticatorData&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SZYN5OtPonszYBZ...&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;signature&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MEQCIDGVw...&quot;</highlight><highlight class="normal">}}}};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>wa_-&gt;completeAuthentication(invalid_response,<sp/>stored_public_key,<sp/>0);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref>,<sp/>SignatureCounterRollback)<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>counter:<sp/>100</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Response<sp/>counter:<sp/>50</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected<sp/>(cloned/replayed<sp/>token)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>stored_public_key(65,<sp/>0x00);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>stored_sign_count<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>response<sp/>with<sp/>counter<sp/>&lt;<sp/>100<sp/>should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref>,<sp/>SignatureCounterNoIncrement)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>counter:<sp/>50</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Response<sp/>counter:<sp/>50</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>May<sp/>be<sp/>rejected<sp/>depending<sp/>on<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref>,<sp/>SignatureCounterIncrement)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>counter:<sp/>50</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Response<sp/>counter:<sp/>51</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref>,<sp/>WrongOrigin)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>stored_public_key(65,<sp/>0x00);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Response<sp/>claims<sp/>origin<sp/>was<sp/>http://attacker.com<sp/>instead<sp/>of<sp/>https://example.com</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref>,<sp/>WrongRPID)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>stored_public_key(65,<sp/>0x00);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RP<sp/>ID<sp/>hash<sp/>doesn&apos;t<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref>,<sp/>BadSignature)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>stored_public_key(65,<sp/>0x00);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signature<sp/>doesn&apos;t<sp/>verify<sp/>against<sp/>public<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_authentication_ceremony_test" kindref="compound">WebAuthnAuthenticationCeremonyTest</ref>,<sp/>MissingUserPresenceFlag)<sp/>{</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>Presence<sp/>flag<sp/>not<sp/>set<sp/>in<sp/>authenticator<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected<sp/>(UP<sp/>is<sp/>mandatory)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Signature<sp/>Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_signature_verification_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_signature_verification_test" kindref="compound">WebAuthnSignatureVerificationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_signature_verification_test" kindref="compound">WebAuthnSignatureVerificationTest</ref>,<sp/>ES256ValidSignature)<sp/>{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>detail:<sp/>would<sp/>require<sp/>a<sp/>real<sp/>ES256<sp/>key<sp/>and<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnSignatureVerificationTest,<sp/>ES256InvalidSignature)<sp/>{</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tampered<sp/>signature<sp/>should<sp/>fail<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnSignatureVerificationTest,<sp/>RS256ValidSignature)<sp/>{</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>detail:<sp/>would<sp/>require<sp/>a<sp/>real<sp/>RS256<sp/>key<sp/>and<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnSignatureVerificationTest,<sp/>RS256InvalidSignature)<sp/>{</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tampered<sp/>signature<sp/>should<sp/>fail<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_signature_verification_test" kindref="compound">WebAuthnSignatureVerificationTest</ref>,<sp/>TruncatedSignature)<sp/>{</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Incomplete<sp/>signature<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>COSE<sp/>Key<sp/>Handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_cose_key_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_cose_key_test" kindref="compound">WebAuthnCoseKeyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_cose_key_test" kindref="compound">WebAuthnCoseKeyTest</ref>,<sp/>CoseKeyES256Parsing)<sp/>{</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>detail:<sp/>would<sp/>require<sp/>constructing<sp/>CBOR<sp/>COSE<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnCoseKeyTest,<sp/>CoseKeyRS256Parsing)<sp/>{</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>detail:<sp/>would<sp/>require<sp/>constructing<sp/>CBOR<sp/>COSE<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnCoseKeyTest,<sp/>UnsupportedCoseAlgorithm)<sp/>{</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>EdDSA<sp/>or<sp/>other<sp/>unsupported<sp/>algorithm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>throw<sp/>AUTH_NOT_IMPLEMENTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Attestation<sp/>Object<sp/>Parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_attestation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_attestation_test" kindref="compound">WebAuthnAttestationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_attestation_test" kindref="compound">WebAuthnAttestationTest</ref>,<sp/>NoneAttestationFormat)<sp/>{</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authenticators<sp/>can<sp/>return<sp/>&quot;none&quot;<sp/>attestation<sp/>(privacy-preserving)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnAttestationTest,<sp/>PackedAttestationFormat)<sp/>{</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Most<sp/>common<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="523"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnAttestationTest,<sp/>InvalidCBOR)<sp/>{</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Malformed<sp/>CBOR<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"></highlight></codeline>
+<codeline lineno="534"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>ClientDataJSON<sp/>Parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"></highlight></codeline>
+<codeline lineno="538" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_client_data_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_client_data_test" kindref="compound">WebAuthnClientDataTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_client_data_test" kindref="compound">WebAuthnClientDataTest</ref>,<sp/>ValidClientData)<sp/>{</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>detail:<sp/>would<sp/>require<sp/>valid<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnClientDataTest,<sp/>ClientDataTypeCreate)<sp/>{</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>type<sp/>must<sp/>be<sp/>&quot;webauthn.create&quot;<sp/>for<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"></highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnClientDataTest,<sp/>ClientDataTypeGet)<sp/>{</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>type<sp/>must<sp/>be<sp/>&quot;webauthn.get&quot;<sp/>for<sp/>authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"></highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnClientDataTest,<sp/>WrongClientDataType)<sp/>{</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>type<sp/>=<sp/>&quot;webauthn.authenticate&quot;<sp/>(should<sp/>be<sp/>&quot;webauthn.get&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="571"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_client_data_test" kindref="compound">WebAuthnClientDataTest</ref>,<sp/>MissingClientDataFields)<sp/>{</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>&quot;challenge&quot;<sp/>or<sp/>&quot;origin&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"></highlight></codeline>
+<codeline lineno="582"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>AuthenticatorData<sp/>Parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="584"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="585"><highlight class="normal"></highlight></codeline>
+<codeline lineno="586" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_auth_data_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_auth_data_test" kindref="compound">WebAuthnAuthDataTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"></highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_auth_data_test" kindref="compound">WebAuthnAuthDataTest</ref>,<sp/>AttestedCredentialPresent)<sp/>{</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AT<sp/>flag<sp/>(bit<sp/>6)<sp/>set<sp/>in<sp/>authData</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>contain<sp/>AAGUID<sp/>and<sp/>credential<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="595"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnAuthDataTest,<sp/>NoAttestedCredential)<sp/>{</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AT<sp/>flag<sp/>not<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AAGUID<sp/>should<sp/>be<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="604"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnAuthDataTest,<sp/>UserPresentFlag)<sp/>{</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UP<sp/>is<sp/>mandatory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="612"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"></highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnAuthDataTest,<sp/>SignatureCounter)<sp/>{</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counter<sp/>is<sp/>a<sp/>32-bit<sp/>big-endian<sp/>integer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="620"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"></highlight></codeline>
+<codeline lineno="622"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="623"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Random<sp/>Bytes<sp/>Injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="624"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="625"><highlight class="normal"></highlight></codeline>
+<codeline lineno="626" refid="classthemis_1_1auth_1_1tests_1_1_web_authn_random_bytes_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_random_bytes_test" kindref="compound">WebAuthnRandomBytesTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WebAuthnAuthenticator&gt;<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_random_bytes_test_1a61fa8623818207263fcea5ab04524f72" kindref="member">wa_</ref>;</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"></highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_random_bytes_test_1aef1ac93a753adce54c0251244c6387dd" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" kindref="member">WebAuthnTestHelper::getValidRP</ref>();</highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_random_bytes_test_1a61fa8623818207263fcea5ab04524f72" kindref="member">wa_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;WebAuthnAuthenticator&gt;(rp);</highlight></codeline>
+<codeline lineno="633"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="634"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="635"><highlight class="normal"></highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_random_bytes_test" kindref="compound">WebAuthnRandomBytesTest</ref>,<sp/>InjectedRandomBytes)<sp/>{</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>a<sp/>deterministic<sp/>RNG<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>was_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/>wa_-&gt;setRandBytesForTesting([&amp;was_called](</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*buf,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len)<sp/>{</highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>was_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(buf<sp/>&amp;&amp;<sp/>len<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buf[0]<sp/>=<sp/>0xAA;</highlight></codeline>
+<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="649"><highlight class="normal"></highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">WebAuthnTestHelper::getValidUser</ref>();</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="652"><highlight class="normal"></highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Random<sp/>function<sp/>should<sp/>have<sp/>been<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="654"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(was_called);</highlight></codeline>
+<codeline lineno="655"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="656"><highlight class="normal"></highlight></codeline>
+<codeline lineno="661"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(WebAuthnRandomBytesTest,<sp/>DeterministicChallenges)<sp/>{</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>a<sp/>deterministic<sp/>RNG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>wa_-&gt;setRandBytesForTesting([](</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*buf,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len)<sp/>{</highlight></codeline>
+<codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>len;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buf[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"></highlight></codeline>
+<codeline lineno="669"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user<sp/><sp/>=<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" kindref="member">WebAuthnTestHelper::getValidUser</ref>();</highlight></codeline>
+<codeline lineno="670"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts1<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="671"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opts2<sp/>=<sp/>wa_-&gt;startRegistration(user,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="672"><highlight class="normal"></highlight></codeline>
+<codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>challenges<sp/>should<sp/>be<sp/>identical<sp/>(deterministic<sp/>RNG)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="674"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(opts1.challenge,<sp/>opts2.challenge);</highlight></codeline>
+<codeline lineno="675"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"></highlight></codeline>
+<codeline lineno="677"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="678"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="679"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/auth/test_webauthn_authenticator_focused.cpp"/>
+  </compounddef>
+</doxygen>

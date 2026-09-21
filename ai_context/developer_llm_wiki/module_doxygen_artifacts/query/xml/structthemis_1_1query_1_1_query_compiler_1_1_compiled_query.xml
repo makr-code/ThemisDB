@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryCompiler::CompiledQuery</compoundname>
+    <includes refid="query__compiler_8h" local="no">query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query_1a26b4569d2fadcdd36e7f0fe88ec9ecb5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryCompiler::CompiledQuery::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::query::QueryCompiler::CompiledQuery::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="95" column="21" bodyfile="include/query/query_compiler.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query_1a95aa86ea051500434199b3b190bceff4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryCompiler::CompiledQuery::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themis::query::QueryCompiler::CompiledQuery::query_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="97" column="21" bodyfile="include/query/query_compiler.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query_1aaa56a859a6135dad9b6a75e0fc33cdf6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCompiler::CompiledQuery::is_compiled</definition>
+        <argsstring></argsstring>
+        <name>is_compiled</name>
+        <qualifiedname>themis::query::QueryCompiler::CompiledQuery::is_compiled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="99" column="14" bodyfile="include/query/query_compiler.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query_1a0c49484655ae6df0e7eed672bf5d3e47" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryCompiler::CompiledQuery::compilation_time_us</definition>
+        <argsstring></argsstring>
+        <name>compilation_time_us</name>
+        <qualifiedname>themis::query::QueryCompiler::CompiledQuery::compilation_time_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="101" column="18" bodyfile="include/query/query_compiler.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_compiler.h" line="94" column="5" bodyfile="include/query/query_compiler.h" bodystart="94" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query_1a0c49484655ae6df0e7eed672bf5d3e47" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::CompiledQuery</scope><name>compilation_time_us</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query_1aaa56a859a6135dad9b6a75e0fc33cdf6" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::CompiledQuery</scope><name>is_compiled</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query_1a26b4569d2fadcdd36e7f0fe88ec9ecb5" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::CompiledQuery</scope><name>key</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_compiled_query_1a95aa86ea051500434199b3b190bceff4" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::CompiledQuery</scope><name>query_text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1_hot_reload_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::HotReloadResult</compoundname>
+    <includes refid="config__hot__reloader_8h" local="no">config_hot_reloader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_hot_reload_result_1abb9db019d01cb8199616566e75f2a9ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::core::HotReloadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::core::HotReloadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="55" column="17" bodyfile="include/core/config_hot_reloader.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_hot_reload_result_1a0be58ff97e66b11e374e8bfd7f97d609" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1core_1_1_config_change" kindref="compound">ConfigChange</ref> &gt;</type>
+        <definition>std::vector&lt;ConfigChange&gt; themis::core::HotReloadResult::applied_changes</definition>
+        <argsstring></argsstring>
+        <name>applied_changes</name>
+        <qualifiedname>themis::core::HotReloadResult::applied_changes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="56" column="17" bodyfile="include/core/config_hot_reloader.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_hot_reload_result_1ad79a51f371afe0c95f309bba1ac70f09" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::core::HotReloadResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::core::HotReloadResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="57" column="18" bodyfile="include/core/config_hot_reloader.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_hot_reload_result_1adebdbe447bdb030b9320b7a5bee22153" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::core::HotReloadResult::reload_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>reload_duration_ms</name>
+        <qualifiedname>themis::core::HotReloadResult::reload_duration_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="58" column="17" bodyfile="include/core/config_hot_reloader.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/config_hot_reloader.h" line="54" column="1" bodyfile="include/core/config_hot_reloader.h" bodystart="54" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1_hot_reload_result_1a0be58ff97e66b11e374e8bfd7f97d609" prot="public" virt="non-virtual"><scope>themis::core::HotReloadResult</scope><name>applied_changes</name></member>
+      <member refid="structthemis_1_1core_1_1_hot_reload_result_1ad79a51f371afe0c95f309bba1ac70f09" prot="public" virt="non-virtual"><scope>themis::core::HotReloadResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1core_1_1_hot_reload_result_1adebdbe447bdb030b9320b7a5bee22153" prot="public" virt="non-virtual"><scope>themis::core::HotReloadResult</scope><name>reload_duration_ms</name></member>
+      <member refid="structthemis_1_1core_1_1_hot_reload_result_1abb9db019d01cb8199616566e75f2a9ac" prot="public" virt="non-virtual"><scope>themis::core::HotReloadResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

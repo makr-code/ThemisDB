@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryPool::Stats</compoundname>
+    <includes refid="memory__pool_8h" local="no">memory_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a220c690b3f2efc7f531b209ded3b80ac" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryPool::Stats::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Pool capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="77" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a0ca589a40aa2f3f23d8c3fe605839569" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryPool::Stats::allocated_bytes</definition>
+        <argsstring></argsstring>
+        <name>allocated_bytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::allocated_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bytes currently occupied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="78" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a12d4a9b03e5dfaa0d5842e434cd8bb41" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryPool::Stats::free_bytes</definition>
+        <argsstring></argsstring>
+        <name>free_bytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::free_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bytes available in free slabs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="79" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a83f8b46a50775c2b8bb7b769c6f2429d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryPool::Stats::peak_bytes</definition>
+        <argsstring></argsstring>
+        <name>peak_bytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::peak_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>High-water mark. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="80" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a91d78975e347bea1284991044eda3df9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::Stats::total_slabs</definition>
+        <argsstring></argsstring>
+        <name>total_slabs</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::total_slabs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of slabs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="81" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a57ccd96320e20fea0d90461a0df9b294" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::Stats::free_slabs</definition>
+        <argsstring></argsstring>
+        <name>free_slabs</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::free_slabs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Slabs not currently in use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="82" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1ac9f4d114aa645be568e7f5bb36b2e12b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::Stats::alloc_hits</definition>
+        <argsstring></argsstring>
+        <name>alloc_hits</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::alloc_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful pool allocations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="83" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a0414feec44e53731b57c9e8186eeba53" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::Stats::alloc_misses</definition>
+        <argsstring></argsstring>
+        <name>alloc_misses</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::alloc_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests that couldn&apos;t be served. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="84" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1ac1290fc8c341ad3add9c68ac9c70dd26" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::Stats::zeroed_slabs</definition>
+        <argsstring></argsstring>
+        <name>zeroed_slabs</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::zeroed_slabs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Slabs zeroed on release (zero_on_free). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="85" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a513fd99a6686e3f5151fe55a0c06e3a8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUMemoryPool::Stats::fragmentation</definition>
+        <argsstring></argsstring>
+        <name>fragmentation</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Stats::fragmentation</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>0.0–1.0 wasted / total </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="86" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/memory_pool.h" line="76" column="5" bodyfile="include/themis/gpu/memory_pool.h" bodystart="76" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1ac9f4d114aa645be568e7f5bb36b2e12b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>alloc_hits</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a0414feec44e53731b57c9e8186eeba53" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>alloc_misses</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a0ca589a40aa2f3f23d8c3fe605839569" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>allocated_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a513fd99a6686e3f5151fe55a0c06e3a8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>fragmentation</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a12d4a9b03e5dfaa0d5842e434cd8bb41" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>free_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a57ccd96320e20fea0d90461a0df9b294" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>free_slabs</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a83f8b46a50775c2b8bb7b769c6f2429d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>peak_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a220c690b3f2efc7f531b209ded3b80ac" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1a91d78975e347bea1284991044eda3df9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>total_slabs</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_stats_1ac1290fc8c341ad3add9c68ac9c70dd26" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Stats</scope><name>zeroed_slabs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

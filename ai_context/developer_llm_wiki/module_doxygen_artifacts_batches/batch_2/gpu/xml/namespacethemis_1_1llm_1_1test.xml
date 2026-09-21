@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::llm::test</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" prot="public">themis::llm::test::GPUTemperatureTelemetryTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1afe17bd27a390561107ebe68190bafb4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, TemperatureStoredInGPUHealth)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>TemperatureStoredInGPUHealth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="33" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="33" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a10dae7a530aa6dfbc4e8ca8e1e447a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, TemperatureTrackedAcrossQueries)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>TemperatureTrackedAcrossQueries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="68" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="68" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1accb6ce4e5c5a38a68c649cbeca733aff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, HighTemperatureAffectsHealthStatus)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>HighTemperatureAffectsHealthStatus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="101" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="101" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1aac1fb2a02033849362d4446f53e64885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, NormalTemperatureRange)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>NormalTemperatureRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="126" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="126" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1aa085c24acae1c9a1d147642c4e37e6d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, TemperatureProviderExceptionHandled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>TemperatureProviderExceptionHandled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="151" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="151" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ae62b49ba539ae951c63b3da9ca361115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, MultiGPUTemperatureTracking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>MultiGPUTemperatureTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="174" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="174" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a0c793bf227ef209b71ab0248bb02665b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, TemperatureIncludedInGPUStats)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>TemperatureIncludedInGPUStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="204" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="204" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1add2d322df43c3c4d15d9c7aad62609cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, InstanceTemperatureProviderFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>InstanceTemperatureProviderFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="229" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="229" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1ae8075f3e84d84e38ce1d5efb14ba9145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, NvmlFunctionPrecedence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>NvmlFunctionPrecedence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="255" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="255" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a5f02ec561403f89d49c9b2cdfe7d68dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, TemperatureMonitoringTimestamp)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>TemperatureMonitoringTimestamp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="287" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="287" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1aa0cfbfba4bb285c2f94839bac8692bb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, FallbackTemperatureWhenUnavailable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>FallbackTemperatureWhenUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="309" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="309" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a07086cd7a885bdca58c59d8327b88abc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, AllGPUsGetTemperatureTelemetry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>AllGPUsGetTemperatureTelemetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="333" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="333" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1test_1a2259c580ca3523973ec8910e83fb6a27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::TEST_F</definition>
+        <argsstring>(GPUTemperatureTelemetryTest, TemperatureUsedInHealthCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_temperature_telemetry_test" kindref="compound">GPUTemperatureTelemetryTest</ref></type>
+        </param>
+        <param>
+          <type>TemperatureUsedInHealthCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="359" column="1" bodyfile="tests/gpu/test_gpu_temperature_telemetry.cpp" bodystart="359" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_temperature_telemetry.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

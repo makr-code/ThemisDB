@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline" kind="struct" language="C++" prot="private">
+    <compoundname>themis::utils::AuditLogger::TaskBaseline</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1a7f8ffd111c8eac162158e1b3386cab1a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::AuditLogger::TaskBaseline::avg_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_execution_time_ms</name>
+        <qualifiedname>themis::utils::AuditLogger::TaskBaseline::avg_execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="520" column="16" bodyfile="include/utils/audit_logger.h" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1ad9bffb44ac3d1243891aae0bdb51dc2a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::AuditLogger::TaskBaseline::stddev_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>stddev_execution_time_ms</name>
+        <qualifiedname>themis::utils::AuditLogger::TaskBaseline::stddev_execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="521" column="16" bodyfile="include/utils/audit_logger.h" bodystart="521" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1ac7e768f6c75ae8f709ddbd94bd0a3faa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::TaskBaseline::execution_count</definition>
+        <argsstring></argsstring>
+        <name>execution_count</name>
+        <qualifiedname>themis::utils::AuditLogger::TaskBaseline::execution_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="522" column="16" bodyfile="include/utils/audit_logger.h" bodystart="522" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1a513fcb1791ccccfcc7e7b5df2e4ca721" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::AuditLogger::TaskBaseline::last_execution</definition>
+        <argsstring></argsstring>
+        <name>last_execution</name>
+        <qualifiedname>themis::utils::AuditLogger::TaskBaseline::last_execution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="523" column="47" bodyfile="include/utils/audit_logger.h" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1af2a55b2b6aa299101c3f9e094b4745a9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::AuditLogger::TaskBaseline::avg_frequency_seconds</definition>
+        <argsstring></argsstring>
+        <name>avg_frequency_seconds</name>
+        <qualifiedname>themis::utils::AuditLogger::TaskBaseline::avg_frequency_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="524" column="16" bodyfile="include/utils/audit_logger.h" bodystart="524" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="519" column="5" bodyfile="include/utils/audit_logger.h" bodystart="519" bodyend="525"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1a7f8ffd111c8eac162158e1b3386cab1a" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::TaskBaseline</scope><name>avg_execution_time_ms</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1af2a55b2b6aa299101c3f9e094b4745a9" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::TaskBaseline</scope><name>avg_frequency_seconds</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1ac7e768f6c75ae8f709ddbd94bd0a3faa" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::TaskBaseline</scope><name>execution_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1a513fcb1791ccccfcc7e7b5df2e4ca721" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::TaskBaseline</scope><name>last_execution</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline_1ad9bffb44ac3d1243891aae0bdb51dc2a" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::TaskBaseline</scope><name>stddev_execution_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

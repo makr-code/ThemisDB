@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_optimization_strategy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::OptimizationStrategy</compoundname>
+    <includes refid="workload__adaptive__optimizer_8h" local="no">workload_adaptive_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_optimization_strategy_1ae7683e43f8ab1c6a2b3c43e797e5a2e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::OptimizationStrategy::enable_jit_compilation</definition>
+        <argsstring></argsstring>
+        <name>enable_jit_compilation</name>
+        <qualifiedname>themis::performance::OptimizationStrategy::enable_jit_compilation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="64" column="17" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_optimization_strategy_1aeb879e66271f5b539aa86f5be7692e19" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::OptimizationStrategy::enable_parallel_execution</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel_execution</name>
+        <qualifiedname>themis::performance::OptimizationStrategy::enable_parallel_execution</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="65" column="17" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_optimization_strategy_1aaaa3351b4a462674dee683716b9e5aab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::OptimizationStrategy::thread_pool_size</definition>
+        <argsstring></argsstring>
+        <name>thread_pool_size</name>
+        <qualifiedname>themis::performance::OptimizationStrategy::thread_pool_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="66" column="17" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_optimization_strategy_1a91ddc4db5af4dbdb26515ebc737a50eb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::OptimizationStrategy::cache_size_mb</definition>
+        <argsstring></argsstring>
+        <name>cache_size_mb</name>
+        <qualifiedname>themis::performance::OptimizationStrategy::cache_size_mb</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="67" column="17" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_optimization_strategy_1a9828e1004b2991331110ca9b6ce3c83c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::OptimizationStrategy::join_algorithm</definition>
+        <argsstring></argsstring>
+        <name>join_algorithm</name>
+        <qualifiedname>themis::performance::OptimizationStrategy::join_algorithm</qualifiedname>
+        <initializer>= &quot;hash&quot;</initializer>
+        <briefdescription>
+<para>hash|sort-merge|nested-loop </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="68" column="17" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_optimization_strategy_1a0f5bb2b26615350b9a2314c3d3b97672" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::OptimizationStrategy::index_type</definition>
+        <argsstring></argsstring>
+        <name>index_type</name>
+        <qualifiedname>themis::performance::OptimizationStrategy::index_type</qualifiedname>
+        <initializer>= &quot;btree&quot;</initializer>
+        <briefdescription>
+<para>btree|hash|brin </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="69" column="17" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Optimisation strategy selected for a workload profile. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/workload_adaptive_optimizer.h" line="63" column="1" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="63" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_optimization_strategy_1a91ddc4db5af4dbdb26515ebc737a50eb" prot="public" virt="non-virtual"><scope>themis::performance::OptimizationStrategy</scope><name>cache_size_mb</name></member>
+      <member refid="structthemis_1_1performance_1_1_optimization_strategy_1ae7683e43f8ab1c6a2b3c43e797e5a2e5" prot="public" virt="non-virtual"><scope>themis::performance::OptimizationStrategy</scope><name>enable_jit_compilation</name></member>
+      <member refid="structthemis_1_1performance_1_1_optimization_strategy_1aeb879e66271f5b539aa86f5be7692e19" prot="public" virt="non-virtual"><scope>themis::performance::OptimizationStrategy</scope><name>enable_parallel_execution</name></member>
+      <member refid="structthemis_1_1performance_1_1_optimization_strategy_1a0f5bb2b26615350b9a2314c3d3b97672" prot="public" virt="non-virtual"><scope>themis::performance::OptimizationStrategy</scope><name>index_type</name></member>
+      <member refid="structthemis_1_1performance_1_1_optimization_strategy_1a9828e1004b2991331110ca9b6ce3c83c" prot="public" virt="non-virtual"><scope>themis::performance::OptimizationStrategy</scope><name>join_algorithm</name></member>
+      <member refid="structthemis_1_1performance_1_1_optimization_strategy_1aaaa3351b4a462674dee683716b9e5aab" prot="public" virt="non-virtual"><scope>themis::performance::OptimizationStrategy</scope><name>thread_pool_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

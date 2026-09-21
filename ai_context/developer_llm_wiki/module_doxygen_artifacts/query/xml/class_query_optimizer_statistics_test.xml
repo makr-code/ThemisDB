@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_optimizer_statistics_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryOptimizerStatisticsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_optimizer_statistics_test_1a7a1ce0eb198ebc49c4b30d973b3c63ea" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; QueryOptimizerStatisticsTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>QueryOptimizerStatisticsTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_statistics.cpp" line="89" column="27" bodyfile="tests/query/test_query_optimizer_statistics.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_optimizer_statistics_test_1a23120cb8a4d5bbe0dd957a5297c2d83f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; QueryOptimizerStatisticsTest::sec_idx_</definition>
+        <argsstring></argsstring>
+        <name>sec_idx_</name>
+        <qualifiedname>QueryOptimizerStatisticsTest::sec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_statistics.cpp" line="90" column="21" bodyfile="tests/query/test_query_optimizer_statistics.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_optimizer_statistics_test_1a3f432a30b8956eb30e19ea963236c724" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="namespacethemis_1_1query_1ac03df000f880fe2c38cff1ea90b0284c" kindref="member">StatisticsCollector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;StatisticsCollector&gt; QueryOptimizerStatisticsTest::stats_col_</definition>
+        <argsstring></argsstring>
+        <name>stats_col_</name>
+        <qualifiedname>QueryOptimizerStatisticsTest::stats_col_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_statistics.cpp" line="91" column="23" bodyfile="tests/query/test_query_optimizer_statistics.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_optimizer_statistics_test_1a37d7e675d88b321604c2f99ccdba17bf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryOptimizerStatisticsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryOptimizerStatisticsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_statistics.cpp" line="56" column="10" bodyfile="tests/query/test_query_optimizer_statistics.cpp" bodystart="56" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_optimizer_statistics_test_1afa9e137f578630cc0cb4dd461f0a2690" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryOptimizerStatisticsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>QueryOptimizerStatisticsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_statistics.cpp" line="71" column="10" bodyfile="tests/query/test_query_optimizer_statistics.cpp" bodystart="71" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_optimizer_statistics_test_1a06ee6c761e30173e1a612505bc190a78" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryOptimizerStatisticsTest::populateOrdersTable</definition>
+        <argsstring>(size_t total, size_t selective_count)</argsstring>
+        <name>populateOrdersTable</name>
+        <qualifiedname>QueryOptimizerStatisticsTest::populateOrdersTable</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>selective_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_statistics.cpp" line="81" column="10" bodyfile="tests/query/test_query_optimizer_statistics.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryOptimizerStatisticsTest</label>
+        <link refid="class_query_optimizer_statistics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryOptimizerStatisticsTest</label>
+        <link refid="class_query_optimizer_statistics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_optimizer_statistics.cpp" line="54" column="1" bodyfile="tests/query/test_query_optimizer_statistics.cpp" bodystart="54" bodyend="92"/>
+    <listofallmembers>
+      <member refid="class_query_optimizer_statistics_test_1a7a1ce0eb198ebc49c4b30d973b3c63ea" prot="protected" virt="non-virtual"><scope>QueryOptimizerStatisticsTest</scope><name>db_</name></member>
+      <member refid="class_query_optimizer_statistics_test_1a06ee6c761e30173e1a612505bc190a78" prot="protected" virt="non-virtual"><scope>QueryOptimizerStatisticsTest</scope><name>populateOrdersTable</name></member>
+      <member refid="class_query_optimizer_statistics_test_1a23120cb8a4d5bbe0dd957a5297c2d83f" prot="protected" virt="non-virtual"><scope>QueryOptimizerStatisticsTest</scope><name>sec_idx_</name></member>
+      <member refid="class_query_optimizer_statistics_test_1a37d7e675d88b321604c2f99ccdba17bf" prot="protected" virt="non-virtual"><scope>QueryOptimizerStatisticsTest</scope><name>SetUp</name></member>
+      <member refid="class_query_optimizer_statistics_test_1a3f432a30b8956eb30e19ea963236c724" prot="protected" virt="non-virtual"><scope>QueryOptimizerStatisticsTest</scope><name>stats_col_</name></member>
+      <member refid="class_query_optimizer_statistics_test_1afa9e137f578630cc0cb4dd461f0a2690" prot="protected" virt="non-virtual"><scope>QueryOptimizerStatisticsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

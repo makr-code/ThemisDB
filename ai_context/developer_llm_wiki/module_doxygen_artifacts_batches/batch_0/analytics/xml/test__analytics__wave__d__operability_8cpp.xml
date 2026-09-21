@@ -1,0 +1,730 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__analytics__wave__d__operability_8cpp" kind="file" language="C++">
+    <compoundname>test_analytics_wave_d_operability.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="analytics__export_8h" local="yes">analytics/analytics_export.h</includes>
+    <includes refid="distributed__analytics_8h" local="yes">analytics/distributed_analytics.h</includes>
+    <includes refid="ml__serving_8h" local="yes">analytics/ml_serving.h</includes>
+    <includes refid="streaming__window_8h" local="yes">analytics/streaming_window.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">future</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>analytics/analytics_export.h</label>
+        <link refid="analytics__export_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>arrow_export.h</label>
+        <link refid="arrow__export_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>analytics/distributed_analytics.h</label>
+        <link refid="distributed__analytics_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>analytics/ml_serving.h</label>
+        <link refid="ml__serving_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>analytics/olap.h</label>
+        <link refid="olap_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>analytics/streaming_window.h</label>
+        <link refid="streaming__window_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_analytics_wave_d_operability.cpp</label>
+        <link refid="test__analytics__wave__d__operability_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>condition_variable</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="29">
+        <label>deque</label>
+      </node>
+      <node id="34">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="26">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="22">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="23">
+        <label>queue</label>
+      </node>
+      <node id="30">
+        <label>shared_mutex</label>
+      </node>
+      <node id="35">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>string_view</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="32">
+        <label>unordered_set</label>
+      </node>
+      <node id="33">
+        <label>utility</label>
+      </node>
+      <node id="8">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__analytics__wave__d__operability_8cpp_1a3673216f802e6dee34291cbf5eb00c4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AnalyticsWaveDOperability, WDO01_ExportFailureContainsCorrelationMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AnalyticsWaveDOperability</type>
+        </param>
+        <param>
+          <type>WDO01_ExportFailureContainsCorrelationMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_wave_d_operability.cpp" line="124" column="1" bodyfile="tests/analytics/test_analytics_wave_d_operability.cpp" bodystart="124" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__wave__d__operability_8cpp_1a4cb1c108848918d968e0ad8a7bb24e5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AnalyticsWaveDOperability, WDO02_ExportPolicyRejectedContainsOperatorHints)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AnalyticsWaveDOperability</type>
+        </param>
+        <param>
+          <type>WDO02_ExportPolicyRejectedContainsOperatorHints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_wave_d_operability.cpp" line="145" column="1" bodyfile="tests/analytics/test_analytics_wave_d_operability.cpp" bodystart="145" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__wave__d__operability_8cpp_1afee4958647acfed434d8fe90bcdd9fa6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AnalyticsWaveDOperability, WDO03_ServingInvalidInputContainsCorrelationMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AnalyticsWaveDOperability</type>
+        </param>
+        <param>
+          <type>WDO03_ServingInvalidInputContainsCorrelationMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_wave_d_operability.cpp" line="175" column="1" bodyfile="tests/analytics/test_analytics_wave_d_operability.cpp" bodystart="175" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__wave__d__operability_8cpp_1ade3d4c8b0f44a1b4443306e256bb5620" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AnalyticsWaveDOperability, WDO04_DistributedNoHealthyShardsProducesFailClosedHints)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AnalyticsWaveDOperability</type>
+        </param>
+        <param>
+          <type>WDO04_DistributedNoHealthyShardsProducesFailClosedHints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_wave_d_operability.cpp" line="189" column="1" bodyfile="tests/analytics/test_analytics_wave_d_operability.cpp" bodystart="189" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__wave__d__operability_8cpp_1a0af02b926e0a3a7cd793f8784a12e2c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AnalyticsWaveDOperability, WDO05_DistributedFailClosedAbortProducesOperatorHints)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AnalyticsWaveDOperability</type>
+        </param>
+        <param>
+          <type>WDO05_DistributedFailClosedAbortProducesOperatorHints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_wave_d_operability.cpp" line="205" column="1" bodyfile="tests/analytics/test_analytics_wave_d_operability.cpp" bodystart="205" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__wave__d__operability_8cpp_1a6022f8cc7285f2d8f4cec90c95906900" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AnalyticsWaveDOperability, WDO06_HighCardinalityStressRemainsBounded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AnalyticsWaveDOperability</type>
+        </param>
+        <param>
+          <type>WDO06_HighCardinalityStressRemainsBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_wave_d_operability.cpp" line="226" column="1" bodyfile="tests/analytics/test_analytics_wave_d_operability.cpp" bodystart="226" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__wave__d__operability_8cpp_1aa3b5e71e5323f873ea4a1c2807f12529" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AnalyticsWaveDOperability, WDO07_DistributedSoakStyleLoopPreservesDiagnostics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AnalyticsWaveDOperability</type>
+        </param>
+        <param>
+          <type>WDO07_DistributedSoakStyleLoopPreservesDiagnostics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_wave_d_operability.cpp" line="244" column="1" bodyfile="tests/analytics/test_analytics_wave_d_operability.cpp" bodystart="244" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused Wave-D analytics operability tests for fail-closed diagnostics, correlation identifiers, stress coverage, and soak-style stability. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="analytics__export_8h" kindref="compound">analytics/analytics_export.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__analytics_8h" kindref="compound">analytics/distributed_analytics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ml__serving_8h" kindref="compound">analytics/ml_serving.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="streaming__window_8h" kindref="compound">analytics/streaming_window.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">themis::analytics</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">themisdb::analytics</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">ArrowRecordBatch</ref><sp/>makeWaveDBatch()<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">ArrowRecordBatch</ref><sp/>batch;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.<ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a8666dad19a5207d809537a98fbd3c6f7" kindref="member">addColumn</ref>({</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>ArrowRecordBatch::DataType::INT64,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.<ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a8666dad19a5207d809537a98fbd3c6f7" kindref="member">addColumn</ref>({</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>ArrowRecordBatch::DataType::STRING,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.<ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1aac2e3055de62d252899a0280e8708959" kindref="member">appendRow</ref>({int64_t(1),<sp/>std::string(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.<ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1aac2e3055de62d252899a0280e8708959" kindref="member">appendRow</ref>({int64_t(2),<sp/>std::string(</highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>batch;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasHintContaining(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>hints,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(hints.begin(),<sp/>hints.end(),<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hint)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>hint.find(token)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SlowExporter<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter" kindref="compound">IAnalyticsExporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1ac43ce408c62a8297966cf157b95fe5ad" kindref="member">IAnalyticsExporter::exportToFile</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>SlowExporter(std::chrono::milliseconds<sp/>delay)<sp/>:<sp/>delay_(delay)<sp/>{}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ExportResult<sp/>exportToFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ArrowRecordBatch&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ExportOptions&amp;<sp/>options)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entered_.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(delay_);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ExportResult<sp/>result;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ac1516a90381c135d94d7a3b759e3ca7e" kindref="member">status</ref><sp/>=<sp/>ExportStatus::SUCCESS;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ab840075ff91e93678f08dd72e63063b5" kindref="member">rows_exported</ref><sp/>=<sp/>batch.<ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a9544a24ad5f7fd49631b796d04f027e2" kindref="member">rowCount</ref>();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1analytics_1_1_export_result_1a4f97358a65fb75300f95b73b898a2712" kindref="member">bytes_written</ref><sp/>=<sp/>options.<ref refid="structthemis_1_1analytics_1_1_export_options_1a3393f027be62fc8d1a5f00015d7c8f73" kindref="member">batch_size</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>exportToString(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ArrowRecordBatch&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ExportOptions&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>ExportResult<sp/>exportWithCallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ArrowRecordBatch&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)&gt;,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ExportOptions&amp;<sp/>options)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>exportToFile(batch,<sp/>{},<sp/>options);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>supportsFormat(<ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" kindref="member">ExportFormat</ref>)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getExporterInfo()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SlowExporter&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>entered()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entered_.load(std::memory_order_acquire);<sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>delay_;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>entered_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AlwaysFailingExecutor<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" kindref="compound">ShardQueryExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::analytics::OLAPResult<sp/>execute(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::analytics::OLAPQuery&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;forced<sp/>shard<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isHealthy()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AlternatingExecutor<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" kindref="compound">ShardQueryExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>AlternatingExecutor(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fail)<sp/>:<sp/>fail_(fail)<sp/>{}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::analytics::OLAPResult<sp/>execute(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::analytics::OLAPQuery&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fail_)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;transient<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::analytics::OLAPResult<sp/>result;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a4981e63a7e9920b0febd7230b648cfb7" kindref="member">rows</ref>.push_back({});</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isHealthy()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fail_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref><sp/>makeHighCardinalityRecord(std::size_t<sp/>index)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref><sp/>record;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>record.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a7f0f1ecc24574213da8340033cfe8420" kindref="member">record_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;record_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(index);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>record.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a91a31697897f4c6391e8a15bbd661990" kindref="member">event_time</ref><sp/>=<sp/>std::chrono::system_clock::time_point{}<sp/>+<sp/>std::chrono::milliseconds(1);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>record.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a9c504376baea25d6d1a6aa7b908c62fb" kindref="member">ingest_time</ref><sp/>=<sp/>record.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a91a31697897f4c6391e8a15bbd661990" kindref="member">event_time</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>record.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a5b57a5e5c2a1d3f50a0be3aea2927a91" kindref="member">partition_key</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(index);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>record.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1af90322a1c8000acc02ffdeb6b309410b" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(index<sp/>%<sp/>128));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>record;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__analytics__wave__d__operability_8cpp_1a3673216f802e6dee34291cbf5eb00c4b" kindref="member">TEST</ref>(AnalyticsWaveDOperability,<sp/>WDO01_ExportFailureContainsCorrelationMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exporter<sp/>=<sp/><ref refid="classthemis_1_1analytics_1_1_exporter_factory_1ab458864183fa333f918bae5ea006b15a" kindref="member">ExporterFactory::createDefaultExporter</ref>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exporter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>makeWaveDBatch();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref><sp/>options;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>options.<ref refid="structthemis_1_1analytics_1_1_export_options_1a7a4a4484d2686dbd6cc3e2f08309b291" kindref="member">format</ref><sp/>=<sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191acc8d68c551c4a9a6d5313e07de4deafd" kindref="member">ExportFormat::CSV</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>invalid_path<sp/>=</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;nonexistent_dir_wdo1&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;export.csv&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>exporter-&gt;exportToFile(batch,<sp/>invalid_path,<sp/>options);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ac1516a90381c135d94d7a3b759e3ca7e" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ab9e14d9b2886bcff408b85aefa780419" kindref="member">ExportStatus::FAILED</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1a97a8e62e4018263772fe7f18a1a839e3" kindref="member">failure_class</ref>,<sp/></highlight><highlight class="stringliteral">&quot;io_failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" kindref="member">operation_id</ref>.empty());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1a3e0b5b176f55890f8dd57ab0612a05b9" kindref="member">correlation_id</ref>,<sp/>result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" kindref="member">operation_id</ref>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Correlation<sp/>ID&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>,<sp/></highlight><highlight class="stringliteral">&quot;writable&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__analytics__wave__d__operability_8cpp_1a3673216f802e6dee34291cbf5eb00c4b" kindref="member">TEST</ref>(AnalyticsWaveDOperability,<sp/>WDO02_ExportPolicyRejectedContainsOperatorHints)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>SlowExporter<sp/>exporter(std::chrono::milliseconds(75));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>makeWaveDBatch();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref><sp/>options;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a15e6bca190e1d4c636a372a35265d1d0" kindref="member">max_concurrent_requests</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmp_a<sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wdo2-a.csv&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmp_b<sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wdo2-b.csv&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>std::async(std::launch::async,<sp/>[&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>exporter.exportToFile(batch,<sp/>tmp_a,<sp/>options,<sp/>policy);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50<sp/>&amp;&amp;<sp/>!exporter.entered();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(2));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(exporter.entered());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rejected<sp/>=<sp/>exporter.exportToFile(batch,<sp/>tmp_b,<sp/>options,<sp/>policy);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>first_result<sp/>=<sp/>first.get();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rejected.status,<sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7a877d772cba43dce7b509c2f4ab139d73" kindref="member">ExportStatus::POLICY_REJECTED</ref>);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rejected.failure_class,<sp/></highlight><highlight class="stringliteral">&quot;policy_rejected&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rejected.operation_id.empty());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(rejected.operator_hints,<sp/></highlight><highlight class="stringliteral">&quot;bounded<sp/>execution&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(rejected.operator_hints,<sp/></highlight><highlight class="stringliteral">&quot;Correlation<sp/>ID&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(first_result.status,<sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">ExportStatus::SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__analytics__wave__d__operability_8cpp_1a3673216f802e6dee34291cbf5eb00c4b" kindref="member">TEST</ref>(AnalyticsWaveDOperability,<sp/>WDO03_ServingInvalidInputContainsCorrelationMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client" kindref="compound">MLServingClient</ref><sp/>client;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref><sp/>point;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>client.<ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1aa2f7eca8ed15eb7adbf00845a779a7e5" kindref="member">inferFromDataPoint</ref>(</highlight><highlight class="stringliteral">&quot;wave-d-model&quot;</highlight><highlight class="normal">,<sp/>point);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.status,<sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aac063281d4adc16ebccfec66aa885b4dd" kindref="member">MLServingStatus::INVALID_INPUT</ref>);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.failure_class,<sp/></highlight><highlight class="stringliteral">&quot;input_validation&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(response.operation_id.empty());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.correlation_id,<sp/>response.operation_id);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(response.operator_hints,<sp/></highlight><highlight class="stringliteral">&quot;Validate<sp/>tensor<sp/>shapes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(response.operator_hints,<sp/></highlight><highlight class="stringliteral">&quot;Correlation<sp/>ID&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__analytics__wave__d__operability_8cpp_1a3673216f802e6dee34291cbf5eb00c4b" kindref="member">TEST</ref>(AnalyticsWaveDOperability,<sp/>WDO04_DistributedNoHealthyShardsProducesFailClosedHints)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref><sp/>coordinator;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref><sp/>query;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>query.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>query.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1aeea14b7e99eb628ec00f12fe4ab72944" kindref="member">tenant_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>coordinator.<ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a1064759a187e95bd44d56c3b743bed81" kindref="member">executeDistributed</ref>(query);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1a97a8e62e4018263772fe7f18a1a839e3" kindref="member">failure_class</ref>,<sp/></highlight><highlight class="stringliteral">&quot;dependency_unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" kindref="member">operation_id</ref>.empty());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1a3e0b5b176f55890f8dd57ab0612a05b9" kindref="member">correlation_id</ref>,<sp/>result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" kindref="member">operation_id</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>,<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>healthy<sp/>shards&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Correlation<sp/>ID&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__analytics__wave__d__operability_8cpp_1a3673216f802e6dee34291cbf5eb00c4b" kindref="member">TEST</ref>(AnalyticsWaveDOperability,<sp/>WDO05_DistributedFailClosedAbortProducesOperatorHints)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" kindref="member">allow_partial_results</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref><sp/>coordinator(config);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.<ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a15d148392fd1d3b3b4b349a2d694e30f" kindref="member">addShard</ref>(</highlight><highlight class="stringliteral">&quot;broken&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;AlwaysFailingExecutor&gt;());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref><sp/>query;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>query.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;risk&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>query.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1aeea14b7e99eb628ec00f12fe4ab72944" kindref="member">tenant_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant-b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>coordinator.<ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a1064759a187e95bd44d56c3b743bed81" kindref="member">executeDistributed</ref>(query);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1a97a8e62e4018263772fe7f18a1a839e3" kindref="member">failure_class</ref>,<sp/></highlight><highlight class="stringliteral">&quot;partial_failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Fail-closed&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasHintContaining(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>,<sp/></highlight><highlight class="stringliteral">&quot;allow_partial_results=false&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__analytics__wave__d__operability_8cpp_1a3673216f802e6dee34291cbf5eb00c4b" kindref="member">TEST</ref>(AnalyticsWaveDOperability,<sp/>WDO06_HighCardinalityStressRemainsBounded)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a22218bdfb2fc29c8d5781e15455be149" kindref="member">size</ref><sp/>=<sp/>std::chrono::seconds(30);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a408249b6b41e3f163b1f3c9a9fe81580" kindref="member">max_distinct_partition_keys</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>window<sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1aa22a611041b21ef018239f377857e594" kindref="member">createTumblingWindow</ref>(config);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>2048;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>window-&gt;ingest(makeHighCardinalityRecord(i));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>window-&gt;getStats();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>makeHighCardinalityRecord()<sp/>emits<sp/>one<sp/>unique<sp/>partition<sp/>key<sp/>per<sp/>record,<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>after<sp/>the<sp/>first<sp/>16<sp/>admitted<sp/>keys<sp/>every<sp/>subsequent<sp/>record<sp/>introduces<sp/>a<sp/>new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>key<sp/>and<sp/>is<sp/>rejected<sp/>by<sp/>the<sp/>distinct-key<sp/>cap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.partition_keys_rejected,<sp/>2048u<sp/>-<sp/>16u);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.records_dropped,<sp/>stats.partition_keys_rejected);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__analytics__wave__d__operability_8cpp_1a3673216f802e6dee34291cbf5eb00c4b" kindref="member">TEST</ref>(AnalyticsWaveDOperability,<sp/>WDO07_DistributedSoakStyleLoopPreservesDiagnostics)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" kindref="member">allow_partial_results</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8195c9b82872d76e4cd9654b542bff0b" kindref="member">max_failure_rate</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref><sp/>coordinator(config);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.<ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a15d148392fd1d3b3b4b349a2d694e30f" kindref="member">addShard</ref>(</highlight><highlight class="stringliteral">&quot;healthy&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;AlternatingExecutor&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.<ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a15d148392fd1d3b3b4b349a2d694e30f" kindref="member">addShard</ref>(</highlight><highlight class="stringliteral">&quot;failing&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;AlternatingExecutor&gt;(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref><sp/>query;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>query.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;telemetry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>query.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1aeea14b7e99eb628ec00f12fe4ab72944" kindref="member">tenant_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant-c&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>200;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>coordinator.<ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a1064759a187e95bd44d56c3b743bed81" kindref="member">executeDistributed</ref>(query);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(result.total_shards,<sp/>2u);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(result.successful_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1a97a8e62e4018263772fe7f18a1a839e3" kindref="member">failure_class</ref>,<sp/></highlight><highlight class="stringliteral">&quot;partial_failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" kindref="member">operation_id</ref>.empty());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>finalizeDistributedResult()<sp/>adds<sp/>the<sp/>generic<sp/>degraded-result<sp/>hint<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>partial-success<sp/>path<sp/>when<sp/>no<sp/>fail-closed-specific<sp/>hint<sp/>is<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(hasHintContaining(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Partial<sp/>result&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_analytics_wave_d_operability.cpp"/>
+  </compounddef>
+</doxygen>

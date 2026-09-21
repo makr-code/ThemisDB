@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_deadlock_predictor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DeadlockPredictor::Config</compoundname>
+    <includes refid="deadlock__predictor_8h" local="no">deadlock_predictor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_config_1a5501bc7cb5b4c4deda9d404018b6eb58" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DeadlockPredictor::Config::max_patterns</definition>
+        <argsstring></argsstring>
+        <name>max_patterns</name>
+        <qualifiedname>themis::DeadlockPredictor::Config::max_patterns</qualifiedname>
+        <initializer>{10&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="39" column="16" bodyfile="include/transaction/deadlock_predictor.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_config_1af3d68bcd0cd36a7505cb4db307925809" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DeadlockPredictor::Config::max_conflict_pairs</definition>
+        <argsstring></argsstring>
+        <name>max_conflict_pairs</name>
+        <qualifiedname>themis::DeadlockPredictor::Config::max_conflict_pairs</qualifiedname>
+        <initializer>{100&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="41" column="16" bodyfile="include/transaction/deadlock_predictor.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_config_1a3e3226571d377239ccf66e60e4b350d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DeadlockPredictor::Config::min_samples_for_prediction</definition>
+        <argsstring></argsstring>
+        <name>min_samples_for_prediction</name>
+        <qualifiedname>themis::DeadlockPredictor::Config::min_samples_for_prediction</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="43" column="16" bodyfile="include/transaction/deadlock_predictor.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_config_1a2d7433d5a0a6e5d9903a01c34480076f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::DeadlockPredictor::Config::deadlock_weight_multiplier</definition>
+        <argsstring></argsstring>
+        <name>deadlock_weight_multiplier</name>
+        <qualifiedname>themis::DeadlockPredictor::Config::deadlock_weight_multiplier</qualifiedname>
+        <initializer>{3.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="45" column="16" bodyfile="include/transaction/deadlock_predictor.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_config_1a5caa14c92a6e1079c8ce07613280596c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::DeadlockPredictor::Config::timeout_percentile</definition>
+        <argsstring></argsstring>
+        <name>timeout_percentile</name>
+        <qualifiedname>themis::DeadlockPredictor::Config::timeout_percentile</qualifiedname>
+        <initializer>{90}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="47" column="13" bodyfile="include/transaction/deadlock_predictor.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_config_1aaede784e37a96ee8397394f74cb2c757" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DeadlockPredictor::Config::min_recommended_timeout</definition>
+        <argsstring></argsstring>
+        <name>min_recommended_timeout</name>
+        <qualifiedname>themis::DeadlockPredictor::Config::min_recommended_timeout</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="49" column="35" bodyfile="include/transaction/deadlock_predictor.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_config_1a75ef266447ea7f1f186b99c421e5a171" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DeadlockPredictor::Config::max_recommended_timeout</definition>
+        <argsstring></argsstring>
+        <name>max_recommended_timeout</name>
+        <qualifiedname>themis::DeadlockPredictor::Config::max_recommended_timeout</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="51" column="35" bodyfile="include/transaction/deadlock_predictor.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/deadlock_predictor.h" line="38" column="5" bodyfile="include/transaction/deadlock_predictor.h" bodystart="38" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_config_1a2d7433d5a0a6e5d9903a01c34480076f" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::Config</scope><name>deadlock_weight_multiplier</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_config_1af3d68bcd0cd36a7505cb4db307925809" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::Config</scope><name>max_conflict_pairs</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_config_1a5501bc7cb5b4c4deda9d404018b6eb58" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::Config</scope><name>max_patterns</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_config_1a75ef266447ea7f1f186b99c421e5a171" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::Config</scope><name>max_recommended_timeout</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_config_1aaede784e37a96ee8397394f74cb2c757" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::Config</scope><name>min_recommended_timeout</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_config_1a3e3226571d377239ccf66e60e4b350d5" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::Config</scope><name>min_samples_for_prediction</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_config_1a5caa14c92a6e1079c8ce07613280596c" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::Config</scope><name>timeout_percentile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

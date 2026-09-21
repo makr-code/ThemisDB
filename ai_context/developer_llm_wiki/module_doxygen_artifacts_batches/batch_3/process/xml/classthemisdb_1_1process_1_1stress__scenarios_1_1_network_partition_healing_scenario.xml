@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::NetworkPartitionHealingScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario_1a177ad714b2bd4d0c49a768b309c02929" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::NetworkPartitionHealingScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::NetworkPartitionHealingScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="117" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario_1a90e3ba8fc20c8caad9dca8cc7cf24ef2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::NetworkPartitionHealingScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::NetworkPartitionHealingScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="118" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="118" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Consensus Scenario 2: Network Partition and Healing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests automatic detection and recovery from network partitions.</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster (majority: 3 nodes, minority: 2 nodes)</para>
+</listitem><listitem><para>Introduce network partition (message loss between groups)</para>
+</listitem><listitem><para>Run workload on both partitions</para>
+</listitem><listitem><para>Simulate partition healing</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Phase 1: Partition for 5 seconds; both partitions detect isolation</para>
+</listitem><listitem><para>Phase 2: Majority partition continues (new leader if needed); minority goes read-only</para>
+</listitem><listitem><para>Phase 3: Partition heals; messages flow again</para>
+</listitem><listitem><para>Phase 4: Minority rejoins; re-syncs log from majority</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>Majority partition continues consensus (writes accepted)</para>
+</listitem><listitem><para>Minority partition rejects new writes (read-only)</para>
+</listitem><listitem><para>Both partitions detect partition correctly (&lt;partition_detection_timeout_ms)</para>
+</listitem><listitem><para>After healing: consistent log state across all nodes</para>
+</listitem><listitem><para>No data loss during partition</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;500ms detection + re-join </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="115" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="115" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario_1a90e3ba8fc20c8caad9dca8cc7cf24ef2" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::NetworkPartitionHealingScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario_1a177ad714b2bd4d0c49a768b309c02929" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::NetworkPartitionHealingScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

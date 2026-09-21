@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_webhook_notification_channel" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::WebhookNotificationChannel</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_i_notification_channel" prot="public" virt="non-virtual">themis::observability::INotificationChannel</basecompoundref>
+    <includes refid="alerting__engine_8h" local="no">alerting_engine.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_webhook_notification_channel_1a247ee62bee3cd5faa0ee34a698d45c2b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_webhook_channel_config" kindref="compound">WebhookChannelConfig</ref></type>
+        <definition>WebhookChannelConfig themis::observability::WebhookNotificationChannel::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::WebhookNotificationChannel::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="136" column="26" bodyfile="include/observability/alerting_engine.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_webhook_notification_channel_1ae6edc97112747baa91fb7a89f3f36677" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::WebhookNotificationChannel::WebhookNotificationChannel</definition>
+        <argsstring>(WebhookChannelConfig config)</argsstring>
+        <name>WebhookNotificationChannel</name>
+        <qualifiedname>themis::observability::WebhookNotificationChannel::WebhookNotificationChannel</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1observability_1_1_webhook_channel_config" kindref="compound">WebhookChannelConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="122" column="14" bodyfile="src/observability/alerting_engine.cpp" bodystart="151" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_webhook_notification_channel_1aba8a206b8837cb7f8615b7855a8369ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::WebhookNotificationChannel::~WebhookNotificationChannel</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~WebhookNotificationChannel</name>
+        <qualifiedname>themis::observability::WebhookNotificationChannel::~WebhookNotificationChannel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_webhook_notification_channel_1a3abcde30c81376ddbb74775600686806" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::WebhookNotificationChannel::channelType</definition>
+        <argsstring>() const override</argsstring>
+        <name>channelType</name>
+        <qualifiedname>themis::observability::WebhookNotificationChannel::channelType</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_i_notification_channel_1a534c61b7a5fe13cf542afc79ed8397e4">channelType</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a human-readable type identifier (e.g., &quot;log&quot;, &quot;webhook&quot;, &quot;slack&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="125" column="17" bodyfile="include/observability/alerting_engine.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_webhook_notification_channel_1a3d8a713a2979611235a7f48b1ca1d25f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::WebhookNotificationChannel::send</definition>
+        <argsstring>(const Alert &amp;alert) override</argsstring>
+        <name>send</name>
+        <qualifiedname>themis::observability::WebhookNotificationChannel::send</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_i_notification_channel_1aa78536f6012509d0d58600d2d9d37fdf">send</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &amp;</type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+<para>Send. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>POST the alert as JSON to the configured endpoint. Returns an error if the HTTP request fails or returns a non-2xx status.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), tl::unexpected(), std::chrono::seconds(), pool(), alertToJson(), post(), get(), isSuccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="131" column="12" bodyfile="src/observability/alerting_engine.cpp" bodystart="160" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_webhook_notification_channel_1a99db440c7816c1d5972a75418415a0a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1observability_1_1_webhook_channel_config" kindref="compound">WebhookChannelConfig</ref> &amp;</type>
+        <definition>const WebhookChannelConfig &amp; themis::observability::WebhookNotificationChannel::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::WebhookNotificationChannel::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="133" column="32" bodyfile="include/observability/alerting_engine.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Notification channel that POSTs a JSON alert payload to an HTTP webhook.</para>
+<para>The JSON body format: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;alert_name&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;alert_id&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;severity&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;WARNING&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FIRING&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;labels&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/>{<sp/>...<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;annotations&quot;</highlight><highlight class="normal">:{<sp/>...<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;fired_at&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2026-01-01T00:00:00Z&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::observability::INotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_i_notification_channel"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::WebhookNotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_webhook_notification_channel"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::INotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_i_notification_channel"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::WebhookNotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_webhook_notification_channel"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/alerting_engine.h" line="120" column="1" bodyfile="include/observability/alerting_engine.h" bodystart="120" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_webhook_notification_channel_1a3abcde30c81376ddbb74775600686806" prot="public" virt="virtual"><scope>themis::observability::WebhookNotificationChannel</scope><name>channelType</name></member>
+      <member refid="classthemis_1_1observability_1_1_webhook_notification_channel_1a99db440c7816c1d5972a75418415a0a7" prot="public" virt="non-virtual"><scope>themis::observability::WebhookNotificationChannel</scope><name>config</name></member>
+      <member refid="classthemis_1_1observability_1_1_webhook_notification_channel_1a247ee62bee3cd5faa0ee34a698d45c2b" prot="private" virt="non-virtual"><scope>themis::observability::WebhookNotificationChannel</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_webhook_notification_channel_1a3d8a713a2979611235a7f48b1ca1d25f" prot="public" virt="virtual"><scope>themis::observability::WebhookNotificationChannel</scope><name>send</name></member>
+      <member refid="classthemis_1_1observability_1_1_webhook_notification_channel_1ae6edc97112747baa91fb7a89f3f36677" prot="public" virt="non-virtual"><scope>themis::observability::WebhookNotificationChannel</scope><name>WebhookNotificationChannel</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_notification_channel_1a17d4e3d8de4f15d4c63cf25475dfc314" prot="public" virt="virtual"><scope>themis::observability::WebhookNotificationChannel</scope><name>~INotificationChannel</name></member>
+      <member refid="classthemis_1_1observability_1_1_webhook_notification_channel_1aba8a206b8837cb7f8615b7855a8369ff" prot="public" virt="non-virtual"><scope>themis::observability::WebhookNotificationChannel</scope><name>~WebhookNotificationChannel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

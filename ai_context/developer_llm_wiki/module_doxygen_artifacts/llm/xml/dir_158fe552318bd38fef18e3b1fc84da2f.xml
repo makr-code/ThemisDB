@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_158fe552318bd38fef18e3b1fc84da2f" kind="dir">
+    <compoundname>src/llm/safety</compoundname>
+    <innerfile refid="classifier_8cpp">classifier.cpp</innerfile>
+    <innerfile refid="guardian_8cpp">guardian.cpp</innerfile>
+    <innerfile refid="monitoring_8cpp">monitoring.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/safety/"/>
+  </compounddef>
+</doxygen>

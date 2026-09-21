@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__data__loader_8h" kind="file" language="C++">
+    <compoundname>gpu_data_loader.h</compoundname>
+    <includes refid="gpu__tensor_8h" local="yes">llm/lora_framework/gpu_tensor.h</includes>
+    <includes refid="data__loader_8h" local="yes">llm/lora_framework/data_loader.h</includes>
+    <includes refid="vram__allocator_8h" local="yes">llm/lora_framework/vram_allocator.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includedby refid="gpu__training__loop_8h" local="yes">include/llm/lora_framework/gpu_training_loop.h</includedby>
+    <includedby refid="gpu__data__loader_8cpp" local="yes">src/llm/lora_framework/gpu_data_loader.cpp</includedby>
+    <incdepgraph>
+      <node id="16">
+        <label>llm/lora_framework/data_loader.h</label>
+        <link refid="data__loader_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/gpu_data_loader.h</label>
+        <link refid="gpu__data__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>lora_config.h</label>
+        <link refid="lora__config_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>llm/lora_framework/tensor_dtype.h</label>
+        <link refid="tensor__dtype_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="23">
+        <label>condition_variable</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>cstring</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="19">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="20">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>queue</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/gpu_data_loader.h</label>
+        <link refid="gpu__data__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/llm/lora_framework/gpu_data_loader.cpp</label>
+        <link refid="gpu__data__loader_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" prot="public">themis::llm::lora::GPUBatch</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" prot="public">themis::llm::lora::GPUDataLoaderConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader" prot="public">themis::llm::lora::GPUDataLoader</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats" prot="public">themis::llm::lora::GPUDataLoader::MemoryStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__tensor_8h" kindref="compound">llm/lora_framework/gpu_tensor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="data__loader_8h" kindref="compound">llm/lora_framework/data_loader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vram__allocator_8h" kindref="compound">llm/lora_framework/vram_allocator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ad6ef665eda80f25653313b54a243ef25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ad6ef665eda80f25653313b54a243ef25" kindref="member">~GPUBatch</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ab36894add062c84ae758b877cb2ef4ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ab36894add062c84ae758b877cb2ef4ad" kindref="member">GPUBatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a5c9c4e1e83e72b7b8fd6022e2c769605" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref>&amp;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a5c9c4e1e83e72b7b8fd6022e2c769605" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ad90ae83c715902a8c7460d56a85d3d26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ad90ae83c715902a8c7460d56a85d3d26" kindref="member">GPUBatch</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1af30001832b3f253ac2b034bda963872a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref>&amp;<sp/>operator=(<ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1aff484680c8f9082a924fb110252843a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1aff484680c8f9082a924fb110252843a3" kindref="member">input_ids</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokenized<sp/>input<sp/>(batch_size,<sp/>seq_len)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1af04c745b0634ecaa34171727f463c134" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1af04c745b0634ecaa34171727f463c134" kindref="member">attention_mask</ref>;<sp/></highlight><highlight class="comment">//<sp/>Attention<sp/>mask<sp/>(batch_size,<sp/>seq_len)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a8672b86eee858d6fb6e3a15f7c8c2b17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a8672b86eee858d6fb6e3a15f7c8c2b17" kindref="member">labels</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>labels<sp/>(batch_size,<sp/>seq_len)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a1aacdc1b8c2afd3e4bb95abf67c18b87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a1aacdc1b8c2afd3e4bb95abf67c18b87" kindref="member">batch_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a0102c8e12ee3c6bb22545bcfacd77b10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a0102c8e12ee3c6bb22545bcfacd77b10" kindref="member">seq_len</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a2d3c8627d83223b3fe3c195e2576f6ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a2d3c8627d83223b3fe3c195e2576f6ca" kindref="member">is_valid</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a1aacdc1b8c2afd3e4bb95abf67c18b87" kindref="member">batch_size</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a0102c8e12ee3c6bb22545bcfacd77b10" kindref="member">seq_len</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1aff484680c8f9082a924fb110252843a3" kindref="member">input_ids</ref>.size()<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a8672b86eee858d6fb6e3a15f7c8c2b17" kindref="member">labels</ref>.size()<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1abcf15cd6486684e185afc6edab253df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1abcf15cd6486684e185afc6edab253df9" kindref="member">batch_size</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a59bddbd77985d5701c7bb7946692e8c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a59bddbd77985d5701c7bb7946692e8c9" kindref="member">max_sequence_length</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a90cbc4c65b6b5852ae826377bebe2359" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a90cbc4c65b6b5852ae826377bebe2359" kindref="member">shuffle</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae736b02205f553cbc29235405830ca7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae736b02205f553cbc29235405830ca7b" kindref="member">pad_to_max_length</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a32e3123ded201ff46077dc3289cc46fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a32e3123ded201ff46077dc3289cc46fb" kindref="member">target_device</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2b36573071ecbef41d06d30b2436928b" kindref="member">Device::cuda</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>GPU<sp/>device</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae2c04d0a7664f970fafee48fa5edb74c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae2c04d0a7664f970fafee48fa5edb74c" kindref="member">async_loading</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>async<sp/>data<sp/>transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae97caac40fba7522f5d177ec9f755b6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae97caac40fba7522f5d177ec9f755b6c" kindref="member">prefetch_batches</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>batches<sp/>to<sp/>prefetch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a452cd36f6a9ab22dca0d6cb635dfcc4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a452cd36f6a9ab22dca0d6cb635dfcc4c" kindref="member">pin_cpu_memory</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>pinned<sp/>CPU<sp/>memory<sp/>for<sp/>faster<sp/>transfers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref>(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ITokenizer&gt;<sp/>tokenizer,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a7e04751ede14474fcc2effe126f03194" kindref="member">config</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref>{},</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref>*<sp/>allocator<sp/>=<sp/>nullptr</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a905ef30154d3ae64ad64cdd947ec95ce" kindref="member">~GPUDataLoader</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab103a70e087c137a2572561fcce0aecb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab103a70e087c137a2572561fcce0aecb" kindref="member">GPUDataLoader</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a65d47cbe978d8bc6aa46970ec26a7120" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a65d47cbe978d8bc6aa46970ec26a7120" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a9da4e743b73cd2b74bbcbc9ab6d964b1" kindref="member">loadFromSamples</ref>(const<sp/>std::vector&lt;<ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref>&gt;&amp;<sp/>samples);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" kindref="compound">GPUBatch</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a3ce6befc98aef0619dba9aa08516c1b0" kindref="member">getNextBatch</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ac895b55d1bfed2c7281cd4d578b26097" kindref="member">hasNext</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a9074db917fc43b719eeb9b76fc0d06a0" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a48a1eb9025dac0e6499d5435de5ae05f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a48a1eb9025dac0e6499d5435de5ae05f" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>samples_.size();<sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aba0ff64e52f78da2ffcb51f11bd9fe70" kindref="member">num_batches</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ac67d79759ebc0564900919c5c018ebd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ac67d79759ebc0564900919c5c018ebd6" kindref="member">current_batch_index</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_batch_;<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a7e04751ede14474fcc2effe126f03194" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a7e04751ede14474fcc2effe126f03194" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aa85797c4d80c12c774d94ba483539efb" kindref="member">updateBatchSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>new_batch_size);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats" kindref="compound">MemoryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1af1590ae97300a41bdb9a9618760cad80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1af1590ae97300a41bdb9a9618760cad80" kindref="member">cpu_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a47777f39150761306d41ff6351e5eeb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a47777f39150761306d41ff6351e5eeb9" kindref="member">gpu_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a1225a349e3ad9df61c03fde7130f3f15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a1225a349e3ad9df61c03fde7130f3f15" kindref="member">pinned_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a53106aa1989921d06592a8b4d283649b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a53106aa1989921d06592a8b4d283649b" kindref="member">prefetch_buffer_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats" kindref="compound">MemoryStats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab15ba2ae188ba113c2bc14af46e2e83a" kindref="member">get_memory_stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ITokenizer&gt;<sp/>tokenizer_;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VRAMAllocator&gt;<sp/>allocator_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref>*<sp/>external_allocator_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Non-owning<sp/>pointer<sp/>for<sp/>externally-provided<sp/>allocator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;InstructionDataSample&gt;<sp/>samples_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>indices_;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>shuffling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_batch_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Async<sp/>loading<sp/>infrastructure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>prefetch_thread_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;GPUBatch&gt;<sp/>prefetch_queue_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>queue_mutex_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>queue_cv_;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop_prefetch_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>prefetch_active_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>startPrefetching();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>stopPrefetching();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>prefetchWorker();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUBatch<sp/>prepareBatch(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_idx);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>tokenizeSample(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InstructionDataSample&amp;<sp/>sample);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/gpu_data_loader.h"/>
+  </compounddef>
+</doxygen>

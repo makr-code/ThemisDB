@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report" kind="struct" language="C++" prot="protected">
+    <compoundname>themis::gpu::test::CudaAuditTest::AuditReport</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1ad2773d7d0084bbaf16c314504e00c1ac" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::test::CudaAuditTest::AuditReport::unchecked_count</definition>
+        <argsstring></argsstring>
+        <name>unchecked_count</name>
+        <qualifiedname>themis::gpu::test::CudaAuditTest::AuditReport::unchecked_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="232" column="9" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1a6f8dae9a0a8cd1b6a015875a4b70e5c6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::test::CudaAuditTest::AuditReport::wrapped_count</definition>
+        <argsstring></argsstring>
+        <name>wrapped_count</name>
+        <qualifiedname>themis::gpu::test::CudaAuditTest::AuditReport::wrapped_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="233" column="9" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1aa3b75e18c7dfaab4303a86e44d1158a7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::test::CudaAuditTest::AuditReport::inline_comment_count</definition>
+        <argsstring></argsstring>
+        <name>inline_comment_count</name>
+        <qualifiedname>themis::gpu::test::CudaAuditTest::AuditReport::inline_comment_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="234" column="9" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1a1bf17e5f8b74458dd8a695215af39aa7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::gpu::test::CudaAuditTest::AuditReport::findings</definition>
+        <argsstring></argsstring>
+        <name>findings</name>
+        <qualifiedname>themis::gpu::test::CudaAuditTest::AuditReport::findings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="235" column="17" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="231" column="3" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="231" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1a1bf17e5f8b74458dd8a695215af39aa7" prot="public" virt="non-virtual"><scope>themis::gpu::test::CudaAuditTest::AuditReport</scope><name>findings</name></member>
+      <member refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1aa3b75e18c7dfaab4303a86e44d1158a7" prot="public" virt="non-virtual"><scope>themis::gpu::test::CudaAuditTest::AuditReport</scope><name>inline_comment_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1ad2773d7d0084bbaf16c314504e00c1ac" prot="public" virt="non-virtual"><scope>themis::gpu::test::CudaAuditTest::AuditReport</scope><name>unchecked_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1a6f8dae9a0a8cd1b6a015875a4b70e5c6" prot="public" virt="non-virtual"><scope>themis::gpu::test::CudaAuditTest::AuditReport</scope><name>wrapped_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

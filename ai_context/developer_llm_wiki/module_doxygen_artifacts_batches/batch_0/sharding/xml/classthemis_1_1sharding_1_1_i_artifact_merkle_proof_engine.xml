@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IArtifactMerkleProofEngine</compoundname>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_default_merkle_proof_engine" prot="public" virt="non-virtual">themis::sharding::DefaultMerkleProofEngine</derivedcompoundref>
+    <includes refid="lora__artifact__distribution_8h" local="no">lora_artifact_distribution.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1aba34556a775b2216877ced74fd573aaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IArtifactMerkleProofEngine::~IArtifactMerkleProofEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IArtifactMerkleProofEngine</name>
+        <qualifiedname>themis::sharding::IArtifactMerkleProofEngine::~IArtifactMerkleProofEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="404" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1a16d83b89e2d16dc4478635090d6a388f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::sharding::IArtifactMerkleProofEngine::buildRoot</definition>
+        <argsstring>(const std::vector&lt; LoRAPackageRef &gt; &amp;artifacts) const =0</argsstring>
+        <name>buildRoot</name>
+        <qualifiedname>themis::sharding::IArtifactMerkleProofEngine::buildRoot</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_merkle_proof_engine_1aeb90b8e70a6841497670320c0a9252f9">buildRoot</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref" kindref="compound">LoRAPackageRef</ref> &gt; &amp;</type>
+          <declname>artifacts</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Merkle root for a batch of artifact references. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Artifacts are sorted by (adapter_id, version) before hashing to ensure a deterministic root regardless of insertion order.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifacts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty batch of artifact references. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>64-char lowercase hex SHA-256 Merkle root. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>artifacts</computeroutput> is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="416" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1a4aa689372ec2db318327b832fa886c2e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_artifact_merkle_proof" kindref="compound">ArtifactMerkleProof</ref> &gt;</type>
+        <definition>virtual std::optional&lt; ArtifactMerkleProof &gt; themis::sharding::IArtifactMerkleProofEngine::generateProof</definition>
+        <argsstring>(const std::vector&lt; LoRAPackageRef &gt; &amp;artifacts, const std::string &amp;adapter_id, const std::string &amp;version) const =0</argsstring>
+        <name>generateProof</name>
+        <qualifiedname>themis::sharding::IArtifactMerkleProofEngine::generateProof</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_merkle_proof_engine_1aed1c7e305d859ce852f1d0007a973217">generateProof</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref" kindref="compound">LoRAPackageRef</ref> &gt; &amp;</type>
+          <declname>artifacts</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Generate a membership proof for a specific artifact within a batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Leaves are identified by the composite key (adapter_id, version) to unambiguously locate the correct leaf when multiple versions of the same adapter appear in a batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifacts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The complete batch used to build the tree. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier of the artifact to prove. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version string of the artifact to prove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated proof struct, or nullopt if (adapter_id, version) is not in the batch. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="432" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1a3c60b71dd70f2fdf5199c2a97ece87c6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::IArtifactMerkleProofEngine::verifyProof</definition>
+        <argsstring>(const ArtifactMerkleProof &amp;proof) const =0</argsstring>
+        <name>verifyProof</name>
+        <qualifiedname>themis::sharding::IArtifactMerkleProofEngine::verifyProof</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_merkle_proof_engine_1ac7be5b648d2a4ce3bd721fdc8f036550">verifyProof</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_artifact_merkle_proof" kindref="compound">ArtifactMerkleProof</ref> &amp;</type>
+          <declname>proof</declname>
+        </param>
+        <briefdescription>
+<para>Verify that a proof correctly links leaf_hash to merkle_root. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>proof</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The proof to verify (must satisfy proof.isValid()). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the proof path reconstructs the declared Merkle root. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="443" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1ada44f8edb55a12e412d9164152065d75" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::sharding::IArtifactMerkleProofEngine::leafHash</definition>
+        <argsstring>(const LoRAPackageRef &amp;artifact) const =0</argsstring>
+        <name>leafHash</name>
+        <qualifiedname>themis::sharding::IArtifactMerkleProofEngine::leafHash</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_merkle_proof_engine_1a5fa7fc06cbf94572e98ec1f258f3847f">leafHash</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref" kindref="compound">LoRAPackageRef</ref> &amp;</type>
+          <declname>artifact</declname>
+        </param>
+        <briefdescription>
+<para>Compute the SHA-256 leaf hash for a single artifact reference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses canonical JSON serialisation (sorted keys) matching the blockchain_integrity module.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifact</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The artifact reference to hash. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>64-char lowercase hex hash. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="454" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Constructs Merkle trees over artifact batches and produces/verifies proofs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The implementation uses SHA-256 and canonical JSON serialisation for leaf hashing (compatible with the blockchain_integrity module).</para>
+<para>Leaf ordering is deterministic: artifacts are sorted by adapter_id then version before tree construction, ensuring reproducible roots.</para>
+<para>Performance contract: <ref refid="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1a16d83b89e2d16dc4478635090d6a388f" kindref="member">buildRoot()</ref> for 1 000 artifacts ≤ 50 ms. verify() is O(log N) where N is batch_size. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::DefaultMerkleProofEngine</label>
+        <link refid="classthemis_1_1sharding_1_1_default_merkle_proof_engine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::IArtifactMerkleProofEngine</label>
+        <link refid="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/lora_artifact_distribution.h" line="402" column="1" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="402" bodyend="455"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1a16d83b89e2d16dc4478635090d6a388f" prot="public" virt="pure-virtual"><scope>themis::sharding::IArtifactMerkleProofEngine</scope><name>buildRoot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1a4aa689372ec2db318327b832fa886c2e" prot="public" virt="pure-virtual"><scope>themis::sharding::IArtifactMerkleProofEngine</scope><name>generateProof</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1ada44f8edb55a12e412d9164152065d75" prot="public" virt="pure-virtual"><scope>themis::sharding::IArtifactMerkleProofEngine</scope><name>leafHash</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1a3c60b71dd70f2fdf5199c2a97ece87c6" prot="public" virt="pure-virtual"><scope>themis::sharding::IArtifactMerkleProofEngine</scope><name>verifyProof</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_artifact_merkle_proof_engine_1aba34556a775b2216877ced74fd573aaa" prot="public" virt="virtual"><scope>themis::sharding::IArtifactMerkleProofEngine</scope><name>~IArtifactMerkleProofEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

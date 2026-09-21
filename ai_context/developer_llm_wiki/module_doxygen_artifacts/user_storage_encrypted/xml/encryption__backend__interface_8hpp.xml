@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="encryption__backend__interface_8hpp" kind="file" language="C++">
+    <compoundname>encryption_backend_interface.hpp</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes refid="security__level_8hpp" local="yes">security_level.hpp</includes>
+    <includedby refid="bench__user__storage__mount__latency_8cpp" local="yes">benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp</includedby>
+    <includedby refid="gocryptfs__backend_8hpp" local="yes">include/user_storage_encrypted/gocryptfs_backend.hpp</includedby>
+    <includedby refid="irotation__store_8hpp" local="yes">include/user_storage_encrypted/irotation_store.hpp</includedby>
+    <includedby refid="key__derivation__service_8hpp" local="yes">include/user_storage_encrypted/key_derivation_service.hpp</includedby>
+    <includedby refid="key__rotation__scheduler_8hpp" local="yes">include/user_storage_encrypted/key_rotation_scheduler.hpp</includedby>
+    <includedby refid="multi__level__storage_8hpp" local="yes">include/user_storage_encrypted/multi_level_storage.hpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/user_storage_encrypted/encryption_backend_interface.hpp</label>
+        <link refid="encryption__backend__interface_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>security_level.hpp</label>
+        <link refid="security__level_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp</label>
+        <link refid="bench__user__storage__encrypted__lifecycle__gates_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp</label>
+        <link refid="bench__user__storage__mount__latency_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/user_storage_encrypted/encryption_backend_interface.hpp</label>
+        <link refid="encryption__backend__interface_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/user_storage_encrypted/gocryptfs_backend.hpp</label>
+        <link refid="gocryptfs__backend_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/user_storage_encrypted/irotation_store.hpp</label>
+        <link refid="irotation__store_8hpp"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/user_storage_encrypted/key_derivation_service.hpp</label>
+        <link refid="key__derivation__service_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/user_storage_encrypted/key_rotation_scheduler.hpp</label>
+        <link refid="key__rotation__scheduler_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/user_storage_encrypted/multi_level_storage.hpp</label>
+        <link refid="multi__level__storage_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/user_storage_encrypted/gocryptfs_backend.cpp</label>
+        <link refid="gocryptfs__backend_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/user_storage_encrypted/key_derivation_service.cpp</label>
+        <link refid="key__derivation__service_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/user_storage_encrypted/key_rotation_scheduler.cpp</label>
+        <link refid="key__rotation__scheduler_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/user_storage_encrypted/multi_level_storage.cpp</label>
+        <link refid="multi__level__storage_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/user_storage_encrypted/test_backend_command_injection_focused.cpp</label>
+        <link refid="test__backend__command__injection__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp</label>
+        <link refid="test__user__storage__encrypted__e2e__vault__integration__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp</label>
+        <link refid="test__user__storage__encrypted__phase1__hardening_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp</label>
+        <link refid="test__user__storage__encrypted__stress__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_result" prot="public">themis::plugins::user_storage::Result</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4" prot="public">themis::plugins::user_storage::Result&lt; void &gt;</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface" prot="public">themis::plugins::user_storage::EncryptionBackendInterface</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1user__storage">themis::plugins::user_storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="security__level_8hpp" kindref="compound">security_level.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1user__storage" kindref="compound">user_storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1plugins_1_1user__storage_1_1_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" kindref="member">Result</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Success<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" kindref="member">Result</ref>(T<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3d0ff92c2dca2d4bb5fba6cd1ac7679a" kindref="member">value</ref>)<sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>value_(std::move(<ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3d0ff92c2dca2d4bb5fba6cd1ac7679a" kindref="member">value</ref>))</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>success_(true)<sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1abdc92ed0e932dd50cf2d80f32ef2bcd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" kindref="member">Result</ref><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1abdc92ed0e932dd50cf2d80f32ef2bcd8" kindref="member">error</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" kindref="member">Result</ref><sp/>r;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.success_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.error_<sp/>=<sp/>error_msg;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1af1c87d42c06eb09af64dcc0f6dbe3c88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1af1c87d42c06eb09af64dcc0f6dbe3c88" kindref="member">isSuccess</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>success_;<sp/>}</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1aaee944223e926304879d26bca8d5e4e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1aaee944223e926304879d26bca8d5e4e8" kindref="member">isError</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!success_;<sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3d0ff92c2dca2d4bb5fba6cd1ac7679a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T&amp;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3d0ff92c2dca2d4bb5fba6cd1ac7679a" kindref="member">value</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!success_)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Accessing<sp/>value<sp/>of<sp/>failed<sp/>Result&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value_;<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3bc30f194a09a3715f18de261c18e7bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>T&amp;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3bc30f194a09a3715f18de261c18e7bf" kindref="member">value</ref>()<sp/>{<sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!success_)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Accessing<sp/>value<sp/>of<sp/>failed<sp/>Result&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value_;<sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a92ed1fb1c18f5941363d6469688db72d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a92ed1fb1c18f5941363d6469688db72d" kindref="member">error</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_;<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" kindref="member">Result</ref>()<sp/>:<sp/>success_(false)<sp/>{}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>T<sp/>value_;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success_<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error_;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Specialization<sp/>for<sp/>void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;&gt;</highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4c15b85140474839709e516bcb45246b" kindref="member">Result</ref>&lt;void&gt;<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4c15b85140474839709e516bcb45246b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4c15b85140474839709e516bcb45246b" kindref="member">Result</ref>()<sp/>:<sp/>success_(true)<sp/>{}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1ae0231c67ff6b6cc6bfe1e35ad9029acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4c15b85140474839709e516bcb45246b" kindref="member">Result</ref><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1ae0231c67ff6b6cc6bfe1e35ad9029acc" kindref="member">error</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4c15b85140474839709e516bcb45246b" kindref="member">Result</ref><sp/>r;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.success_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.error_<sp/>=<sp/>error_msg;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a61ee7944cf93e6f139cad12b74583478" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a61ee7944cf93e6f139cad12b74583478" kindref="member">isSuccess</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>success_;<sp/>}</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4d0ccee52dc1c7ac1e9d6cfec4b97a09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4d0ccee52dc1c7ac1e9d6cfec4b97a09" kindref="member">isError</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!success_;<sp/>}</highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a2b1c117656cd0748375fcfbb491a4f11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a2b1c117656cd0748375fcfbb491a4f11" kindref="member">error</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_;<sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success_;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error_;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface" kindref="compound">EncryptionBackendInterface</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a7fcfc7bb7ebbe6aab54c6a6ee71f48db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a7fcfc7bb7ebbe6aab54c6a6ee71f48db" kindref="member">~EncryptionBackendInterface</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6e6d63f00c64df2cdc4959b427ecd97b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6e6d63f00c64df2cdc4959b427ecd97b" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_json)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a9b82bb07f11eaab99e57d9ffd4775166" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a9b82bb07f11eaab99e57d9ffd4775166" kindref="member">createContainer</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>encrypted_dir,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mount_point,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key_material</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1adb183b46addf68150eaa2299e567fdec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1adb183b46addf68150eaa2299e567fdec" kindref="member">mountContainer</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>encrypted_dir,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mount_point,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key_material</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae7b0830d46716df3f02194712cc6861c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae7b0830d46716df3f02194712cc6861c" kindref="member">unmountContainer</ref>(</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mount_point</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1aa2993add4aaccef2a244de4ad5a6a376" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1aa2993add4aaccef2a244de4ad5a6a376" kindref="member">isMounted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mount_point)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae4d6cd7940216534f2da29b2424fbb25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae4d6cd7940216534f2da29b2424fbb25" kindref="member">getBackendName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a24c0538fc98746aad724928516175cd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a24c0538fc98746aad724928516175cd2" kindref="member">getBackendVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6ede73ebf8f28fcbe657bf335464e2d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6ede73ebf8f28fcbe657bf335464e2d6" kindref="member">checkAvailability</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>user_storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/user_storage_encrypted/encryption_backend_interface.hpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_trigger_engine" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TriggerEngine</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_trigger_engine_1a5ebd361dbbea729285b70f023948d171" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TriggerEngine::fired</definition>
+        <argsstring></argsstring>
+        <name>fired</name>
+        <qualifiedname>stubs::TriggerEngine::fired</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="36" column="17" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_trigger_engine_1a7c90d6c1dde94525cf0c584392be133e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TriggerEngine::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>stubs::TriggerEngine::errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="37" column="17" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_trigger_engine_1a74fc5274e92a688ed099478f5e2a1591" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TriggerEngine::fire</definition>
+        <argsstring>(uint64_t trigger_id)</argsstring>
+        <name>fire</name>
+        <qualifiedname>stubs::TriggerEngine::fire</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>trigger_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="39" column="10" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="39" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="35" column="1" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="35" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_trigger_engine_1a7c90d6c1dde94525cf0c584392be133e" prot="public" virt="non-virtual"><scope>stubs::TriggerEngine</scope><name>errors</name></member>
+      <member refid="structstubs_1_1_trigger_engine_1a74fc5274e92a688ed099478f5e2a1591" prot="public" virt="non-virtual"><scope>stubs::TriggerEngine</scope><name>fire</name></member>
+      <member refid="structstubs_1_1_trigger_engine_1a5ebd361dbbea729285b70f023948d171" prot="public" virt="non-virtual"><scope>stubs::TriggerEngine</scope><name>fired</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

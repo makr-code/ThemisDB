@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::MFAAuthenticator::EnrollmentData</compoundname>
+    <includes refid="mfa__authenticator_8h" local="no">mfa_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1a08a961ec00ebf7cd3cc18e420e2ab30b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::EnrollmentData::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::EnrollmentData::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="52" column="21" bodyfile="include/auth/mfa_authenticator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1aa7c6e40f3e2eb77888d31e15c4f4e6c2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::EnrollmentData::secret_base32</definition>
+        <argsstring></argsstring>
+        <name>secret_base32</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::EnrollmentData::secret_base32</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="53" column="21" bodyfile="include/auth/mfa_authenticator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1a767ffb91af3db6adc2741eff032355e2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::MFAAuthenticator::EnrollmentData::recovery_codes</definition>
+        <argsstring></argsstring>
+        <name>recovery_codes</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::EnrollmentData::recovery_codes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="54" column="21" bodyfile="include/auth/mfa_authenticator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1a41e68f649c48b6ba3ec7b7c22db7d868" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::MFAAuthenticator::EnrollmentData::enrolled_at</definition>
+        <argsstring></argsstring>
+        <name>enrolled_at</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::EnrollmentData::enrolled_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="55" column="47" bodyfile="include/auth/mfa_authenticator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1a285503be54846b4c905894f05b8442b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::MFAAuthenticator::EnrollmentData::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::EnrollmentData::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="56" column="14" bodyfile="include/auth/mfa_authenticator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1aec0bc9571d5a0802b899cbf96dcb28da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::auth::MFAAuthenticator::EnrollmentData::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::EnrollmentData::to_json</qualifiedname>
+        <briefdescription>
+<para>To json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="62" column="24" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="41" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1ae9d94f5b817de57683a7b4ab07770a10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data" kindref="compound">EnrollmentData</ref></type>
+        <definition>MFAAuthenticator::EnrollmentData themis::auth::MFAAuthenticator::EnrollmentData::from_json</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::EnrollmentData::from_json</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), std::chrono::system_clock::from_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="68" column="31" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/mfa_authenticator.h" line="51" column="5" bodyfile="include/auth/mfa_authenticator.h" bodystart="51" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1a285503be54846b4c905894f05b8442b9" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::EnrollmentData</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1a41e68f649c48b6ba3ec7b7c22db7d868" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::EnrollmentData</scope><name>enrolled_at</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1ae9d94f5b817de57683a7b4ab07770a10" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::EnrollmentData</scope><name>from_json</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1a767ffb91af3db6adc2741eff032355e2" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::EnrollmentData</scope><name>recovery_codes</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1aa7c6e40f3e2eb77888d31e15c4f4e6c2" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::EnrollmentData</scope><name>secret_base32</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1aec0bc9571d5a0802b899cbf96dcb28da" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::EnrollmentData</scope><name>to_json</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data_1a08a961ec00ebf7cd3cc18e420e2ab30b" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::EnrollmentData</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

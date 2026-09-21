@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ts__operator__diagnostics_8h" kind="file" language="C++">
+    <compoundname>ts_operator_diagnostics.h</compoundname>
+    <includes refid="timeseries__api__contract_8h" local="yes">timeseries/timeseries_api_contract.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ts__operator__diagnostics_8cpp" local="yes">src/timeseries/ts_operator_diagnostics.cpp</includedby>
+    <includedby refid="test__timeseries__q4__hardening__focused_8cpp" local="yes">tests/timeseries/test_timeseries_q4_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>timeseries/timeseries_api_contract.h</label>
+        <link refid="timeseries__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/timeseries/ts_operator_diagnostics.h</label>
+        <link refid="ts__operator__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>climits</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/timeseries/ts_operator_diagnostics.h</label>
+        <link refid="ts__operator__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/timeseries/ts_operator_diagnostics.cpp</label>
+        <link refid="ts__operator__diagnostics_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/timeseries/test_timeseries_q4_hardening_focused.cpp</label>
+        <link refid="test__timeseries__q4__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1timeseries_1_1_ts_incident" prot="public">themis::timeseries::TsIncident</innerclass>
+    <innerclass refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics" prot="public">themis::timeseries::TsOperatorDiagnostics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1timeseries">themis::timeseries</innernamespace>
+    <briefdescription>
+<para>Operator-facing diagnostics for the ThemisDB timeseries module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides structured incident reporting for:<itemizedlist>
+<listitem><para>Retention policy violations and flush timeout events</para>
+</listitem><listitem><para>Remote-write failures and backoff state</para>
+</listitem><listitem><para>Encryption key rotation lifecycle events</para>
+</listitem><listitem><para>Buffer pressure and out-of-order flush triggers</para>
+</listitem><listitem><para>Ingest/query concurrency incidents</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="ts__operator__diagnostics_8h_1autotoc_md31_1s1"><sect2 id="ts__operator__diagnostics_8h_1autotoc_md31">
+<title>Design</title><para>TsOperatorDiagnostics aggregates incidents from TsEdgeCaseHandler and other timeseries sub-systems. It provides query and export APIs for operator runbooks.</para>
+<para>Thread safety: all public methods are thread-safe.</para>
+<para><simplesect kind="see"><para><ref refid="ts__edge__case__handler_8h" kindref="compound">include/timeseries/ts_edge_case_handler.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/ROADMAP.md — Phase 2/3 Q4 2026 items </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/OPERATOR_GUIDE.md </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="timeseries__api__contract_8h" kindref="compound">timeseries/timeseries_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1timeseries" kindref="compound">timeseries</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Severity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a551b723eafd6a31d444fcb2f5920fbd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">INFO</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a059e9861e0400dfbe05c98a841f3f96b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a059e9861e0400dfbe05c98a841f3f96b" kindref="member">WARNING</ref><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6abb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1timeseries_1a35f3de039c0bb14a3e91681071709fbb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1timeseries_1a35f3de039c0bb14a3e91681071709fbb" kindref="member">tsSeverityName</ref>(<ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref><sp/>s)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(s)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">TsIncidentSeverity::INFO</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;INFO&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a059e9861e0400dfbe05c98a841f3f96b" kindref="member">TsIncidentSeverity::WARNING</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;WARNING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">TsIncidentSeverity::ERROR</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">TsIncidentSeverity::CRITICAL</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CRITICAL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>TsIncident</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1timeseries_1_1_ts_incident" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1timeseries_1_1_ts_incident" kindref="compound">TsIncident</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1timeseries_1_1_ts_incident_1a23c5b88e05b531c7b0f8f11b295f791c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1timeseries_1_1_ts_incident_1a23c5b88e05b531c7b0f8f11b295f791c" kindref="member">incident_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1timeseries_1_1_ts_incident_1ab051ff16c7a971d9f9a1775c1a4ba476" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1timeseries_1_1_ts_incident_1ab051ff16c7a971d9f9a1775c1a4ba476" kindref="member">severity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1timeseries_1_1_ts_incident_1a389d2e2c218f9750f769d6fa12ead4c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1timeseries_1_1_ts_incident_1a389d2e2c218f9750f769d6fa12ead4c7" kindref="member">description</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1timeseries_1_1_ts_incident_1a782beff3bc45b61173ae083ea5081344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1timeseries_1_1_ts_incident_1a782beff3bc45b61173ae083ea5081344" kindref="member">remediation</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1timeseries_1_1_ts_incident_1a81070e5dd67df52a08236d758710a86e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1timeseries_1_1_ts_incident_1a81070e5dd67df52a08236d758710a86e" kindref="member">timestamp_ns</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1timeseries_1_1_ts_incident_1af248b0f7642d1c73507332669ca9da92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TimeseriesErrorCode&gt;<sp/><ref refid="structthemis_1_1timeseries_1_1_ts_incident_1af248b0f7642d1c73507332669ca9da92" kindref="member">error_code</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>TsOperatorDiagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ae3640d0c6607c0dd0ddabff6e3cf670c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ae3640d0c6607c0dd0ddabff6e3cf670c" kindref="member">kMaxIncidents</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a0a7caafc0e543209ff12dbc51484476d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a0a7caafc0e543209ff12dbc51484476d" kindref="member">TsOperatorDiagnostics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a007294297b6dc1fc577c50fa52195b10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref>&amp;<sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a007294297b6dc1fc577c50fa52195b10" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a602133e8a268377d7a7951415dcf8b55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a602133e8a268377d7a7951415dcf8b55" kindref="member">TsOperatorDiagnostics</ref>(<ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a4ab43a5b5ef431be3962b91701fa500d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a88bcb143a5679cf5234fb26e07cea1a0" kindref="member">TsOperatorDiagnostics</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>3.1<sp/><sp/>Recording</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ad5ff024e49e847ac77705c28bfd47f66" kindref="member">recordIncident</ref>(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/>incident_id,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref><sp/><sp/><sp/>severity,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/>description,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/>remediation,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref>&gt;<sp/>error_code<sp/>=<sp/>std::nullopt)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a3bdbfd7ae8bec01c1ce6a7568f418d2f" kindref="member">recordFromCallback</ref>(std::string_view<sp/>incident_id,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>description)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>3.2<sp/><sp/>Querying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1timeseries_1_1_ts_incident" kindref="compound">TsIncident</ref>&gt;<sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a8e94dd9a12289bf1c8a67b19c8785914" kindref="member">recentIncidents</ref>(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_count<sp/>=<sp/>0)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1timeseries_1_1_ts_incident" kindref="compound">TsIncident</ref>&gt;<sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1ab7abc7d51b1827745e997145f1ea5d1b" kindref="member">incidentsBySeverity</ref>(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref><sp/>min_severity)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a029efedca309085f008e8738d0a57778" kindref="member">countBySeverity</ref>(<ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref><sp/>severity)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a07223031e9eb0332b0cb50ee92a53a60" kindref="member">hasCriticalIncidents</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a206906b4804a13421dbd2abaf7f39e3e" kindref="member">totalIncidentCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>3.3<sp/><sp/>Export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1abf34e3a38cf351b51790d7cfe0b3328c" kindref="member">formatSummary</ref>(std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_count<sp/>=<sp/>10)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics_1a121ce33ec2c387f022b72494ac655bf4" kindref="member">clearIncidents</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1timeseries_1_1_ts_incident" kindref="compound">TsIncident</ref>&gt;<sp/><sp/>incidents_;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_count_{0};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>int64_t<sp/>nowNs()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref><sp/>severityFromId(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>remediationForId(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>timeseries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/timeseries/ts_operator_diagnostics.h"/>
+  </compounddef>
+</doxygen>

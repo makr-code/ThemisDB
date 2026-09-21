@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_bounded_queue" kind="class" language="C++" prot="public">
+    <compoundname>StubBoundedQueue</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_bounded_queue_1a4dc9a42e8459efa24df5c60e7c0df166" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t StubBoundedQueue::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>StubBoundedQueue::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="72" column="23" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_bounded_queue_1aa59a740b964454708500ae60533cbf49" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubBoundedQueue::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubBoundedQueue::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="73" column="24" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_bounded_queue_1a1e7a9853b8b5a3e4c8bb69cb6826f363" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; uint64_t &gt;</type>
+        <definition>std::deque&lt;uint64_t&gt; StubBoundedQueue::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>StubBoundedQueue::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="74" column="16" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_bounded_queue_1a092ceee72a8ad3a1b74abf1c3e727929" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubBoundedQueue::enqueued_</definition>
+        <argsstring></argsstring>
+        <name>enqueued_</name>
+        <qualifiedname>StubBoundedQueue::enqueued_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="75" column="17" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_bounded_queue_1a6a9173dc1c15f70e2980092352ab6046" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubBoundedQueue::dequeued_</definition>
+        <argsstring></argsstring>
+        <name>dequeued_</name>
+        <qualifiedname>StubBoundedQueue::dequeued_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="76" column="17" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_bounded_queue_1a615992cf266e50a48ff756f9bab41494" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubBoundedQueue::overflow_</definition>
+        <argsstring></argsstring>
+        <name>overflow_</name>
+        <qualifiedname>StubBoundedQueue::overflow_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="77" column="17" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_bounded_queue_1aa2c002eb78c0678d7ab34e4ee0d06c89" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubBoundedQueue::StubBoundedQueue</definition>
+        <argsstring>(std::size_t capacity)</argsstring>
+        <name>StubBoundedQueue</name>
+        <qualifiedname>StubBoundedQueue::StubBoundedQueue</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="43" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_bounded_queue_1a3bfe648cdeb1396e301093e9f07a48e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubBoundedQueue::enqueue</definition>
+        <argsstring>(uint64_t item)</argsstring>
+        <name>enqueue</name>
+        <qualifiedname>StubBoundedQueue::enqueue</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="45" column="10" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_bounded_queue_1afbb094be96f66a6005ae3de455982e33" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubBoundedQueue::dequeue</definition>
+        <argsstring>(uint64_t &amp;out)</argsstring>
+        <name>dequeue</name>
+        <qualifiedname>StubBoundedQueue::dequeue</qualifiedname>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="53" column="10" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="53" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_bounded_queue_1a2abfbab71cdc297c154fbbef526a7749" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubBoundedQueue::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>StubBoundedQueue::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="62" column="17" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_bounded_queue_1a691225b4b45816b2bc4e84645f373322" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubBoundedQueue::enqueued</definition>
+        <argsstring>() const</argsstring>
+        <name>enqueued</name>
+        <qualifiedname>StubBoundedQueue::enqueued</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="67" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_bounded_queue_1a9f1b17a8155ee5cedda7282de7d11287" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubBoundedQueue::dequeued</definition>
+        <argsstring>() const</argsstring>
+        <name>dequeued</name>
+        <qualifiedname>StubBoundedQueue::dequeued</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="68" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_bounded_queue_1af56a57ab2a02b30340cb10561c6b82f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubBoundedQueue::overflow</definition>
+        <argsstring>() const</argsstring>
+        <name>overflow</name>
+        <qualifiedname>StubBoundedQueue::overflow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="69" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="41" column="1" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="41" bodyend="78"/>
+    <listofallmembers>
+      <member refid="class_stub_bounded_queue_1a4dc9a42e8459efa24df5c60e7c0df166" prot="private" virt="non-virtual"><scope>StubBoundedQueue</scope><name>capacity_</name></member>
+      <member refid="class_stub_bounded_queue_1afbb094be96f66a6005ae3de455982e33" prot="public" virt="non-virtual"><scope>StubBoundedQueue</scope><name>dequeue</name></member>
+      <member refid="class_stub_bounded_queue_1a9f1b17a8155ee5cedda7282de7d11287" prot="public" virt="non-virtual"><scope>StubBoundedQueue</scope><name>dequeued</name></member>
+      <member refid="class_stub_bounded_queue_1a6a9173dc1c15f70e2980092352ab6046" prot="private" virt="non-virtual"><scope>StubBoundedQueue</scope><name>dequeued_</name></member>
+      <member refid="class_stub_bounded_queue_1a3bfe648cdeb1396e301093e9f07a48e7" prot="public" virt="non-virtual"><scope>StubBoundedQueue</scope><name>enqueue</name></member>
+      <member refid="class_stub_bounded_queue_1a691225b4b45816b2bc4e84645f373322" prot="public" virt="non-virtual"><scope>StubBoundedQueue</scope><name>enqueued</name></member>
+      <member refid="class_stub_bounded_queue_1a092ceee72a8ad3a1b74abf1c3e727929" prot="private" virt="non-virtual"><scope>StubBoundedQueue</scope><name>enqueued_</name></member>
+      <member refid="class_stub_bounded_queue_1aa59a740b964454708500ae60533cbf49" prot="private" virt="non-virtual"><scope>StubBoundedQueue</scope><name>mu_</name></member>
+      <member refid="class_stub_bounded_queue_1af56a57ab2a02b30340cb10561c6b82f0" prot="public" virt="non-virtual"><scope>StubBoundedQueue</scope><name>overflow</name></member>
+      <member refid="class_stub_bounded_queue_1a615992cf266e50a48ff756f9bab41494" prot="private" virt="non-virtual"><scope>StubBoundedQueue</scope><name>overflow_</name></member>
+      <member refid="class_stub_bounded_queue_1a1e7a9853b8b5a3e4c8bb69cb6826f363" prot="private" virt="non-virtual"><scope>StubBoundedQueue</scope><name>queue_</name></member>
+      <member refid="class_stub_bounded_queue_1a2abfbab71cdc297c154fbbef526a7749" prot="public" virt="non-virtual"><scope>StubBoundedQueue</scope><name>size</name></member>
+      <member refid="class_stub_bounded_queue_1aa2c002eb78c0678d7ab34e4ee0d06c89" prot="public" virt="non-virtual"><scope>StubBoundedQueue</scope><name>StubBoundedQueue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

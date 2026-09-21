@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="usb__admin__authenticator_8h" kind="file" language="C++">
+    <compoundname>usb_admin_authenticator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes refid="usb__volume__hardening_8h" local="yes">security/usb_volume_hardening.h</includes>
+    <includedby refid="usb__admin__authenticator_8cpp" local="yes">src/security/usb_admin_authenticator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/usb_admin_authenticator.h</label>
+        <link refid="usb__admin__authenticator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>security/usb_volume_hardening.h</label>
+        <link refid="usb__volume__hardening_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/usb_admin_authenticator.h</label>
+        <link refid="usb__admin__authenticator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/usb_admin_authenticator.cpp</label>
+        <link refid="usb__admin__authenticator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_u_s_b_admin_license" prot="public">themis::security::USBAdminLicense</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_u_s_b_admin_config" prot="public">themis::security::USBAdminConfig</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator" prot="public">themis::security::USBAdminAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics" prot="public">themis::security::USBAdminAuthenticator::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="usb__volume__hardening_8h" kindref="compound">security/usb_volume_hardening.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1security_1_1_u_s_b_admin_license" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license" kindref="compound">USBAdminLicense</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a0ad0289f1f72f87b342cd9d4509ee903" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a0ad0289f1f72f87b342cd9d4509ee903" kindref="member">license_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>license<sp/>key<sp/>(e.g.,<sp/>THEMIS-ENT-XXXXX-ADMIN)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1security_1_1_u_s_b_admin_license_1ac3742ddb14e7ceca4e47b811d7012057" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1ac3742ddb14e7ceca4e47b811d7012057" kindref="member">organization</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Organization<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1security_1_1_u_s_b_admin_license_1ab3f731e40ba3bff1c8965456cab3e84c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1ab3f731e40ba3bff1c8965456cab3e84c" kindref="member">hardware_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hardware<sp/>ID<sp/>this<sp/>license<sp/>is<sp/>bound<sp/>to<sp/>(CPU<sp/>serial,<sp/>MAC,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1security_1_1_u_s_b_admin_license_1adffec16275883683c49dff85ba231314" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1adffec16275883683c49dff85ba231314" kindref="member">issued_date</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a28b16b46ce05023499b3a7cc319c303c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a28b16b46ce05023499b3a7cc319c303c" kindref="member">expiry_date</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a30ffe0588586824b96dd713608ea8cba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a30ffe0588586824b96dd713608ea8cba" kindref="member">admin_scopes</ref>;<sp/></highlight><highlight class="comment">//<sp/>Allowed<sp/>admin<sp/>scopes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a6dd9433ac6e3346c56ca07e1baddf761" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a6dd9433ac6e3346c56ca07e1baddf761" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RSA<sp/>signature<sp/>to<sp/>prevent<sp/>tampering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a8d61304652722aa69e9b3c06688d2dc5" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1aef6a4a474bf598c7ee2b658308169fa0" kindref="member">isExpired</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license_1addc9b0d8350fe398d09ba97493b1d0f3" kindref="member">matchesHardware</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>current_hw_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1security_1_1_u_s_b_admin_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config" kindref="compound">USBAdminConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ad451783e7d3be4bb269eab8b811fb97f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ad451783e7d3be4bb269eab8b811fb97f" kindref="member">mount_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/mnt/themis-admin&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Where<sp/>encrypted<sp/>USB<sp/>should<sp/>be<sp/>mounted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1aa479c1bbcca0de6b35eecf0082c1d3e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1aa479c1bbcca0de6b35eecf0082c1d3e8" kindref="member">license_file</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis_admin.lic&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>License<sp/>file<sp/>name<sp/>on<sp/>USB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ace86abaa6846984802b8c1611cb5d5c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ace86abaa6846984802b8c1611cb5d5c6" kindref="member">challenge_file</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;challenge.dat&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Challenge<sp/>file<sp/>for<sp/>replay<sp/>protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a49930039e798587c0bb1abfc1d4cc9e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a49930039e798587c0bb1abfc1d4cc9e9" kindref="member">require_usb_for_admin</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enforce<sp/>USB<sp/>requirement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a0c0fdfb614bc5c269e81e5b5970206d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a0c0fdfb614bc5c269e81e5b5970206d8" kindref="member">silent_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Silent<sp/>failure<sp/>mode<sp/>(no<sp/>error<sp/>messages)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ab6e304d65dd32f697cca1754b6cffe5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ab6e304d65dd32f697cca1754b6cffe5b" kindref="member">audit_log_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/log/themis/admin_auth_audit.log&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a10c4915e729b6cd7f56428a46d723f0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a10c4915e729b6cd7f56428a46d723f0a" kindref="member">challenge_ttl</ref>{300};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Challenge<sp/>valid<sp/>for<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1af4bcb45befa91b0940569b3c363bc4f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1af4bcb45befa91b0940569b3c363bc4f5" kindref="member">max_validation_attempts</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>attempts<sp/>before<sp/>lockout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ac2f9e439eded53748852ef50f2b73724" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ac2f9e439eded53748852ef50f2b73724" kindref="member">lockout_duration</ref>{600};<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>minute<sp/>lockout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configurable<sp/>list<sp/>of<sp/>scopes<sp/>that<sp/>require<sp/>USB<sp/>authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>admin<sp/>scopes<sp/>that<sp/>require<sp/>USB<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a072de8afa4b55421008e2c41d7588578" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a072de8afa4b55421008e2c41d7588578" kindref="member">usb_protected_scopes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;config:write&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;cdc:admin&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin:backup&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin:restore&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin:topology&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin:rebalance&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>USB<sp/>Volume<sp/>Hardening<sp/>(defence<sp/>against<sp/>FAT<sp/>manipulation)<sp/>───────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1aab283982a892ecd9c8bf270dee582516" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1aab283982a892ecd9c8bf270dee582516" kindref="member">require_readonly_mount</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a02911c65288aed41d9050382c19d0dd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a02911c65288aed41d9050382c19d0dd5" kindref="member">expected_volume_hash</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a3920c17f459fcc8f2ee2d4cfdb2b1f48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a3920c17f459fcc8f2ee2d4cfdb2b1f48" kindref="member">expected_usb_serial</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config" kindref="compound">USBAdminConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ab0cd2c3ca86dd228fdd270705ea380bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ab0cd2c3ca86dd228fdd270705ea380bc" kindref="member">~USBAdminAuthenticator</ref>();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ac60a6d679de96ec8b0d4a17adabdf939" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ac60a6d679de96ec8b0d4a17adabdf939" kindref="member">USBAdminAuthenticator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1abefa0cb9b64b25dc3d3a43c59354b821" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1abefa0cb9b64b25dc3d3a43c59354b821" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref>(<ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5daadcadda4710f2f074183b134101ee" kindref="member">USBAdminAuthenticator</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a9ce6ba9265ee53864066a885ab20118c" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ad3d2b26dfe261177e15a0f57b0b36d37" kindref="member">isAdminUSBPresent</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a930e2d1db94e52383f7656f07abaf1a9" kindref="member">validateAdminOperation</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>scope,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1security_1_1_u_s_b_admin_license" kindref="compound">USBAdminLicense</ref>&gt;<sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ac9abe449e5fac33c07978705d4b107f2" kindref="member">getCurrentLicense</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ab9b624c2361924dedb03ae79880abf0e" kindref="member">refreshUSBStatus</ref>();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a8ad9822e089391e1620594e8ca53e5c6" kindref="member">isLockedOut</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a32da2b342f24c5d5741a4c1fe53ec555" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a32da2b342f24c5d5741a4c1fe53ec555" kindref="member">admin_ops_allowed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a78e9d36e59cf60a3e3c1505ff17b266b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a78e9d36e59cf60a3e3c1505ff17b266b" kindref="member">admin_ops_denied_no_usb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a3aa46811f794d56bcb38fc82661b3da2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a3aa46811f794d56bcb38fc82661b3da2" kindref="member">admin_ops_denied_invalid_license</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a840b3fbccef75d0c7d71f2661534e671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a840b3fbccef75d0c7d71f2661534e671" kindref="member">admin_ops_denied_expired</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ad938c0d3b03e87b11e16142055d3d30c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ad938c0d3b03e87b11e16142055d3d30c" kindref="member">admin_ops_denied_lockout</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ac36a555f3e2f027e5eeedf8a6008f1fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ac36a555f3e2f027e5eeedf8a6008f1fe" kindref="member">usb_mount_checks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a3bb2fe98ae23fab4f3fd16f541d9c2c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a3bb2fe98ae23fab4f3fd16f541d9c2c1" kindref="member">usb_mount_detected</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab7812cfb032067af419a7a388aa01a67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab7812cfb032067af419a7a388aa01a67" kindref="member">usb_denied_not_readonly</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab3dabced5cb746758a20b315afb25844" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab3dabced5cb746758a20b315afb25844" kindref="member">usb_denied_volume_hash_mismatch</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab9b6ef63c9f32fc472e126cbbea23693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab9b6ef63c9f32fc472e126cbbea23693" kindref="member">usb_denied_serial_mismatch</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ae912ff064e89884273f9d076d12f4cac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ae912ff064e89884273f9d076d12f4cac" kindref="member">last_valid_check</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics" kindref="compound">Metrics</ref><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a5770d7e8a24189876088beadc626417c" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ae2619015ae15b5e7d39d48ff108527c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ae2619015ae15b5e7d39d48ff108527c6" kindref="member">LicenseVerifierFn</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license" kindref="compound">USBAdminLicense</ref>&amp;,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hw_id)&gt;;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a81674280e936a7d135aa0293200ce40e" kindref="member">setLicenseVerifierFn</ref>(<ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1ae2619015ae15b5e7d39d48ff108527c6" kindref="member">LicenseVerifierFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a4d17315a7fa2e22f6f6f5837ae7a8dc6" kindref="member">createChallenge</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1a9411cadae830679485034d6ff026f0d3" kindref="member">validateChallengeResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>challenge,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_config" kindref="compound">USBAdminConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics" kindref="compound">Metrics</ref><sp/>metrics_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>failed_attempts_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>lockout_until_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;USBAdminLicense&gt;<sp/>current_license_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_usb_check_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Challenge<sp/>tracking:<sp/>maps<sp/>challenge<sp/>hex<sp/>string<sp/>→<sp/>issued<sp/>timestamp.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Challenges<sp/>are<sp/>one-time-use;<sp/>used<sp/>ones<sp/>are<sp/>erased<sp/>after<sp/>validation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expired<sp/>entries<sp/>(older<sp/>than<sp/>challenge_ttl)<sp/>are<sp/>purged<sp/>lazily.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::chrono::system_clock::time_point&gt;<sp/>issued_challenges_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkUSBMounted()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;USBAdminLicense&gt;<sp/>loadLicenseFromUSB()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateLicenseSignature(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_u_s_b_admin_license" kindref="compound">USBAdminLicense</ref>&amp;<sp/>license)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getSystemHardwareID()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>auditLog(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>details,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/usb_admin_authenticator.h"/>
+  </compounddef>
+</doxygen>

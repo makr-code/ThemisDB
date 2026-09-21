@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_health_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::HealthCheckResult</compoundname>
+    <includes refid="preflight__health__check_8h" local="no">preflight_health_check.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_health_check_result_1a92222b89d163f57cccfa777c0b0c1e6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HealthCheckResult::check_name</definition>
+        <argsstring></argsstring>
+        <name>check_name</name>
+        <qualifiedname>themis::updates::HealthCheckResult::check_name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name of the check (e.g. &quot;disk_space&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="32" column="17" bodyfile="include/updates/preflight_health_check.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_health_check_result_1a8766bfd4a544dc5fbf0b16ccd551e32e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::HealthCheckResult::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::updates::HealthCheckResult::passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when the check passed and the update may proceed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="35" column="10" bodyfile="include/updates/preflight_health_check.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_health_check_result_1a551c870e55c34f53ca313c18b2604b65" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HealthCheckResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::updates::HealthCheckResult::message</qualifiedname>
+        <briefdescription>
+<para>Short human-readable description of the check outcome. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="38" column="17" bodyfile="include/updates/preflight_health_check.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_health_check_result_1ad0a28f387ce116d2a256cc8885b01535" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HealthCheckResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::updates::HealthCheckResult::error</qualifiedname>
+        <briefdescription>
+<para>Non-empty when <computeroutput>passed</computeroutput> == false; contains a diagnostic detail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="41" column="17" bodyfile="include/updates/preflight_health_check.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single pre-flight health check. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/preflight_health_check.h" line="30" column="1" bodyfile="include/updates/preflight_health_check.h" bodystart="30" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_health_check_result_1a92222b89d163f57cccfa777c0b0c1e6e" prot="public" virt="non-virtual"><scope>themis::updates::HealthCheckResult</scope><name>check_name</name></member>
+      <member refid="structthemis_1_1updates_1_1_health_check_result_1ad0a28f387ce116d2a256cc8885b01535" prot="public" virt="non-virtual"><scope>themis::updates::HealthCheckResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1updates_1_1_health_check_result_1a551c870e55c34f53ca313c18b2604b65" prot="public" virt="non-virtual"><scope>themis::updates::HealthCheckResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1updates_1_1_health_check_result_1a8766bfd4a544dc5fbf0b16ccd551e32e" prot="public" virt="non-virtual"><scope>themis::updates::HealthCheckResult</scope><name>passed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

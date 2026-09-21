@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1memory_1_1_i_allocator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::memory::IAllocator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1memory_1_1_buddy_allocator" prot="public" virt="non-virtual">themis::memory::BuddyAllocator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1memory_1_1_slab_allocator" prot="public" virt="non-virtual">themis::memory::SlabAllocator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1memory_1_1_stack_allocator" prot="public" virt="non-virtual">themis::memory::StackAllocator</derivedcompoundref>
+    <includes refid="pool__allocator_8h" local="no">pool_allocator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_i_allocator_1a50e403c4abbfde7c52a9cb92f453469b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::memory::IAllocator::~IAllocator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAllocator</name>
+        <qualifiedname>themis::memory::IAllocator::~IAllocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="119" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_i_allocator_1a586207145a8de22db97f4f68dc09d346" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void * &gt;</type>
+        <definition>virtual Result&lt; void * &gt; themis::memory::IAllocator::allocate</definition>
+        <argsstring>(size_t size, AllocationHint hint=AllocationHint::NONE)=0</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::memory::IAllocator::allocate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1memory_1_1_buddy_allocator_1a962c03c1282c7626150ec214659c854d">allocate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_slab_allocator_1a2b90d6166b8f0a895d133d00f37c111c">allocate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_stack_allocator_1a10864833fd6b02bfb8109047e59b74eb">allocate</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref></type>
+          <declname>hint</declname>
+          <defval><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">AllocationHint::NONE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Allocate memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional allocation hint for optimization </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to allocated memory or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="127" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_i_allocator_1a739b771f3225eac41cbcc380292db03e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::memory::IAllocator::deallocate</definition>
+        <argsstring>(void *ptr)=0</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::memory::IAllocator::deallocate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1memory_1_1_buddy_allocator_1aca373d93cd1644bc409d10928c9ae62f">deallocate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_slab_allocator_1ac1ed008cf0162c7450740f416b314531">deallocate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_stack_allocator_1a934f368661328a4a72d798dc94b78669">deallocate</reimplementedby>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to memory to free </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Success or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="134" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_i_allocator_1ad5efb1a9f351063579ea9333b317381b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref> &amp;</type>
+        <definition>virtual const AllocationStats &amp; themis::memory::IAllocator::getStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::memory::IAllocator::getStats</qualifiedname>
+        <reimplementedby refid="classthemis_1_1memory_1_1_buddy_allocator_1a86bf3bc0119b90ee00eb35238ed2762e">getStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_slab_allocator_1aaeb7d65e91f247e14cd1b5656b521503">getStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_stack_allocator_1a5b808b7adb7280605dace26def46461e">getStats</reimplementedby>
+        <briefdescription>
+<para>Get allocator statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="139" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_i_allocator_1a347423882a86bf16b43ede995dd22c1f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::memory::IAllocator::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::memory::IAllocator::reset</qualifiedname>
+        <reimplementedby refid="classthemis_1_1memory_1_1_buddy_allocator_1ac711636da134a7e4f37cce1f6c7e2780">reset</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_slab_allocator_1ad473437448ad6bda70e87b7630407ceb">reset</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_stack_allocator_1a34cf9339e5ffc5662472ab9375f466e3">reset</reimplementedby>
+        <briefdescription>
+<para>Reset allocator state (free all allocations). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>WARNING: This method is not thread-safe with respect to statistics. It should only be called when no other threads are actively using the allocator. Typically used during shutdown or testing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="148" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_i_allocator_1ab00329da6b51d75fdafb232614452870" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::memory::IAllocator::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::memory::IAllocator::getName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1memory_1_1_buddy_allocator_1a662db98be2e54491f3b0938010084499">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_slab_allocator_1a0bbb7a08f007dbdbf15d5fbcf2eedca7">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1memory_1_1_stack_allocator_1a7a400fa7b5004f234adeb9bdf6c83c1c">getName</reimplementedby>
+        <briefdescription>
+<para>Get allocator name for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="153" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base interface for memory allocators. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::memory::BuddyAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_buddy_allocator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::memory::IAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_i_allocator"/>
+      </node>
+      <node id="3">
+        <label>themis::memory::SlabAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_slab_allocator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::memory::StackAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_stack_allocator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/utils/memory/pool_allocator.h" line="117" column="1" bodyfile="include/utils/memory/pool_allocator.h" bodystart="117" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1memory_1_1_i_allocator_1a586207145a8de22db97f4f68dc09d346" prot="public" virt="pure-virtual"><scope>themis::memory::IAllocator</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1memory_1_1_i_allocator_1a739b771f3225eac41cbcc380292db03e" prot="public" virt="pure-virtual"><scope>themis::memory::IAllocator</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1memory_1_1_i_allocator_1ab00329da6b51d75fdafb232614452870" prot="public" virt="pure-virtual"><scope>themis::memory::IAllocator</scope><name>getName</name></member>
+      <member refid="classthemis_1_1memory_1_1_i_allocator_1ad5efb1a9f351063579ea9333b317381b" prot="public" virt="pure-virtual"><scope>themis::memory::IAllocator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1memory_1_1_i_allocator_1a347423882a86bf16b43ede995dd22c1f" prot="public" virt="pure-virtual"><scope>themis::memory::IAllocator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1memory_1_1_i_allocator_1a50e403c4abbfde7c52a9cb92f453469b" prot="public" virt="virtual"><scope>themis::memory::IAllocator</scope><name>~IAllocator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d377247222244162004265045036140270171362023015166" kind="namespace" language="C++">
+    <compoundname>@377247222244162004265045036140270171362023015166</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/api/themisdb_grpc_service.cpp" line="69" column="1"/>
+  </compounddef>
+</doxygen>

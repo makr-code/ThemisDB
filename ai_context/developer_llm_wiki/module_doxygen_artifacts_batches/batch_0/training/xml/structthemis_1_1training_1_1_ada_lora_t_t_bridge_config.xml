@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoraTTBridgeConfig</compoundname>
+    <includes refid="adalora__tt__bridge_8h" local="no">adalora_tt_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1af0266047056018236a0d2c335185bb8b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTBridgeConfig::max_tt_rank</definition>
+        <argsstring></argsstring>
+        <name>max_tt_rank</name>
+        <qualifiedname>themis::training::AdaLoraTTBridgeConfig::max_tt_rank</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum rank for which TT-storage is recommended (latency break-even). Adapters with active_rank &gt; max_tt_rank are stored in native format. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="78" column="17" bodyfile="include/training/adalora_tt_bridge.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1a81e8647372a1eac7fad3220a0838d7eb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AdaLoraTTBridgeConfig::eps_orth</definition>
+        <argsstring></argsstring>
+        <name>eps_orth</name>
+        <qualifiedname>themis::training::AdaLoraTTBridgeConfig::eps_orth</qualifiedname>
+        <initializer>= 1e-4</initializer>
+        <briefdescription>
+<para>Orthogonality tolerance for P/Q validation: ‖G₀^T·G₀ - I‖_F &lt; ε_orth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="81" column="12" bodyfile="include/training/adalora_tt_bridge.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1a5c3140c12c3218b04cf26b27f8f6b176" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::AdaLoraTTBridgeConfig::normalise_sign</definition>
+        <argsstring></argsstring>
+        <name>normalise_sign</name>
+        <qualifiedname>themis::training::AdaLoraTTBridgeConfig::normalise_sign</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sign normalisation: ensure G₀[0, first_nonzero_row, 0] &gt; 0 for canonical fingerprinting (prevents sign-ambiguity in LSH buckets). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="85" column="10" bodyfile="include/training/adalora_tt_bridge.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1aa0adfd487341c0a34f09f76557b5b1a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::AdaLoraTTBridgeConfig::auto_deduplicate</definition>
+        <argsstring></argsstring>
+        <name>auto_deduplicate</name>
+        <qualifiedname>themis::training::AdaLoraTTBridgeConfig::auto_deduplicate</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, run <computeroutput>TensorDeduplicationManager::insert()</computeroutput> on every stored adapter to enable cross-adapter deduplication automatically. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="89" column="10" bodyfile="include/training/adalora_tt_bridge.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1afd67b55251ec760f6c6e6025dffce9a0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AdaLoraTTBridgeConfig::dedup_similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>dedup_similarity_threshold</name>
+        <qualifiedname>themis::training::AdaLoraTTBridgeConfig::dedup_similarity_threshold</qualifiedname>
+        <initializer>= 0.999</initializer>
+        <briefdescription>
+<para>Similarity threshold for dedup (same semantics as TensorDeduplicationManager). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="92" column="12" bodyfile="include/training/adalora_tt_bridge.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1a7882a1a5c2c624572dc47c518c315e6d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::AdaLoraTTBridgeConfig::apply_tt_rounding</definition>
+        <argsstring></argsstring>
+        <name>apply_tt_rounding</name>
+        <qualifiedname>themis::training::AdaLoraTTBridgeConfig::apply_tt_rounding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, apply TT-rounding (ε-optimal global rank cut) before storing. This replaces AdaLoRA&apos;s greedy rank allocation with a globally optimal cut. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="96" column="10" bodyfile="include/training/adalora_tt_bridge.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1aae3807de0f14239f0ea85795a22f1212" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AdaLoraTTBridgeConfig::tt_rounding_eps</definition>
+        <argsstring></argsstring>
+        <name>tt_rounding_eps</name>
+        <qualifiedname>themis::training::AdaLoraTTBridgeConfig::tt_rounding_eps</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>TT-rounding epsilon (active when apply_tt_rounding=true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="99" column="12" bodyfile="include/training/adalora_tt_bridge.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/adalora_tt_bridge.h" line="75" column="1" bodyfile="include/training/adalora_tt_bridge.h" bodystart="75" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1a7882a1a5c2c624572dc47c518c315e6d" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridgeConfig</scope><name>apply_tt_rounding</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1aa0adfd487341c0a34f09f76557b5b1a6" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridgeConfig</scope><name>auto_deduplicate</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1afd67b55251ec760f6c6e6025dffce9a0" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridgeConfig</scope><name>dedup_similarity_threshold</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1a81e8647372a1eac7fad3220a0838d7eb" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridgeConfig</scope><name>eps_orth</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1af0266047056018236a0d2c335185bb8b" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridgeConfig</scope><name>max_tt_rank</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1a5c3140c12c3218b04cf26b27f8f6b176" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridgeConfig</scope><name>normalise_sign</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config_1aae3807de0f14239f0ea85795a22f1212" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridgeConfig</scope><name>tt_rounding_eps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

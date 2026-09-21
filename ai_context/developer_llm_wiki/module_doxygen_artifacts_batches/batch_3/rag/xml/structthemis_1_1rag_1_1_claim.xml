@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_claim" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::Claim</compoundname>
+    <includes refid="claim__extractor_8h" local="no">claim_extractor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_1a6b09d23ef7a39ca0da2402d032de74a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::Claim::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::rag::Claim::text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="23" column="17" bodyfile="include/rag/claim_extractor.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_1a8a39bc192fb89df67e28d99804696323" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::Claim::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::rag::Claim::position</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="24" column="12" bodyfile="include/rag/claim_extractor.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_1a482976df4d39306c06e1e0081d98f513" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::Claim::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::Claim::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="25" column="12" bodyfile="include/rag/claim_extractor.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_1a62515c16d8749fdc097f12b995a7f9c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::Claim::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::rag::Claim::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="26" column="17" bodyfile="include/rag/claim_extractor.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents an extracted claim from generated text. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/claim_extractor.h" line="22" column="1" bodyfile="include/rag/claim_extractor.h" bodystart="22" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_claim_1a62515c16d8749fdc097f12b995a7f9c8" prot="public" virt="non-virtual"><scope>themis::rag::Claim</scope><name>category</name></member>
+      <member refid="structthemis_1_1rag_1_1_claim_1a482976df4d39306c06e1e0081d98f513" prot="public" virt="non-virtual"><scope>themis::rag::Claim</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1_claim_1a8a39bc192fb89df67e28d99804696323" prot="public" virt="non-virtual"><scope>themis::rag::Claim</scope><name>position</name></member>
+      <member refid="structthemis_1_1rag_1_1_claim_1a6b09d23ef7a39ca0da2402d032de74a3" prot="public" virt="non-virtual"><scope>themis::rag::Claim</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

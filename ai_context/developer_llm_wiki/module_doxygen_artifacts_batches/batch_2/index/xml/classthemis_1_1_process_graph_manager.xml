@@ -1,0 +1,2083 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_process_graph_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_status" prot="public">themis::ProcessGraphManager::Status</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_validation_result" prot="public">themis::ProcessGraphManager::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_node_metrics" prot="public">themis::ProcessGraphManager::NodeMetrics</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_join_result" prot="public">themis::ProcessGraphManager::JoinResult</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_aggregate_result" prot="public">themis::ProcessGraphManager::AggregateResult</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_similar_process" prot="public">themis::ProcessGraphManager::SimilarProcess</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_anomaly_result" prot="public">themis::ProcessGraphManager::AnomalyResult</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_route_stop" prot="public">themis::ProcessGraphManager::RouteStop</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query" prot="public">themis::ProcessGraphManager::MultiModelQuery</innerclass>
+    <innerclass refid="structthemis_1_1_process_graph_manager_1_1_multi_model_result" prot="public">themis::ProcessGraphManager::MultiModelResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_process_graph_manager_1ae880cc56ea5929c859b587fbfdb081a0" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; nlohmann::json &gt;(std::string_view aql, const nlohmann::json &amp;bind_vars)&gt;</type>
+        <definition>using themis::ProcessGraphManager::AqlQueryExecutorFn = 
+std::function&lt;std::vector&lt;nlohmann::json&gt;(std::string_view aql,
+                                          const nlohmann::json&amp; bind_vars)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AqlQueryExecutorFn</name>
+        <qualifiedname>themis::ProcessGraphManager::AqlQueryExecutorFn</qualifiedname>
+        <briefdescription>
+<para>AQL query executor injection function type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set via <ref refid="classthemis_1_1_process_graph_manager_1af9e76eb8af9f490b1fd671c81d1fd8a7" kindref="member">setAqlQueryExecutor()</ref>, the multi-model query methods (queryTasksByFormData, joinWithCollection, aggregateByField) delegate to this function instead of running O(n) in-process RocksDB scans.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AQL query string with bind variable placeholders. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bind_vars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bind variable values keyed by name (without leading &quot;@&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result rows as JSON objects (one per document). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="704" column="5" bodyfile="include/index/process_graph.h" bodystart="704" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_process_graph_manager_1a704e37f39341cec65109c4f83e721442" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::ProcessGraphManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::ProcessGraphManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="927" column="20" bodyfile="include/index/process_graph.h" bodystart="927" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_process_graph_manager_1accf62c48feaa7e12fcbffcd6aac30a99" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(std::string_view)&gt;</type>
+        <definition>std::function&lt;std::vector&lt;float&gt;(std::string_view)&gt; themis::ProcessGraphManager::embedder_</definition>
+        <argsstring></argsstring>
+        <name>embedder_</name>
+        <qualifiedname>themis::ProcessGraphManager::embedder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="928" column="21" bodyfile="include/index/process_graph.h" bodystart="928" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_process_graph_manager_1ac003f9d38e58484046c316bc43f47989" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_process_graph_manager_1ae880cc56ea5929c859b587fbfdb081a0" kindref="member">AqlQueryExecutorFn</ref></type>
+        <definition>AqlQueryExecutorFn themis::ProcessGraphManager::aql_query_executor_</definition>
+        <argsstring></argsstring>
+        <name>aql_query_executor_</name>
+        <qualifiedname>themis::ProcessGraphManager::aql_query_executor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="929" column="24" bodyfile="include/index/process_graph.h" bodystart="929" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1aa9050c01325577571625419b2206fa27" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ProcessGraphManager::ProcessGraphManager</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>ProcessGraphManager</name>
+        <qualifiedname>themis::ProcessGraphManager::ProcessGraphManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="514" column="14" bodyfile="src/index/process_graph.cpp" bodystart="470" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a171f92bfaf466c86d7cbda23ffd8fb5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ProcessGraphManager::setEmbedder</definition>
+        <argsstring>(std::function&lt; std::vector&lt; float &gt;(std::string_view)&gt; embedder)</argsstring>
+        <name>setEmbedder</name>
+        <qualifiedname>themis::ProcessGraphManager::setEmbedder</qualifiedname>
+        <param>
+          <type>std::function&lt; std::vector&lt; float &gt;(std::string_view)&gt;</type>
+          <declname>embedder</declname>
+        </param>
+        <briefdescription>
+<para>Wire a text-embedding function for auto-generating process embeddings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <ref refid="classthemis_1_1_process_graph_manager_1a50cd2df19e19cf318ffdc8ff214e10e6" kindref="member">registerProcess()</ref> automatically computes and persists an embedding for the process name (and BPMN description if available) so that <ref refid="classthemis_1_1_process_graph_manager_1a56c9155684035b569092beff785f7d3d" kindref="member">findSimilarProcesses()</ref> / <ref refid="classthemis_1_1_process_graph_manager_1a7e7f047fd345f19f5da5a544670fa647" kindref="member">semanticSearchProcesses()</ref> work without manual pre-computation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>(std::string_view text) → std::vector&lt;float&gt;</computeroutput>. Pass an empty function to disable. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="527" column="10" bodyfile="src/index/process_graph.cpp" bodystart="472" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a50cd2df19e19cf318ffdc8ff214e10e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::registerProcess</definition>
+        <argsstring>(std::string_view process_id, std::string_view name, std::string_view bpmn_xml=&quot;&quot;)</argsstring>
+        <name>registerProcess</name>
+        <qualifiedname>themis::ProcessGraphManager::registerProcess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>bpmn_xml</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Register a process definition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Process Model Management =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bpmn_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>, empty(), std::string(), currentTimeMs(), substr(), size(), embedder_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="534" column="12" bodyfile="src/index/process_graph.cpp" bodystart="515" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1ad3d85947b83f0422cb2d3d9763023d31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::addProcessNode</definition>
+        <argsstring>(std::string_view process_id, const ProcessNodeInfo &amp;node)</argsstring>
+        <name>addProcessNode</name>
+        <qualifiedname>themis::ProcessGraphManager::addProcessNode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_node_info" kindref="compound">ProcessNodeInfo</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Add a node to a process model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Process Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>, entity(), setField(), bpmnNodeTypeToString(), epkNodeTypeToString(), count(), makeNodeKey_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="540" column="12" bodyfile="src/index/process_graph.cpp" bodystart="571" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1aca48aeaf60e37714cfb22a165d686be6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::addProcessEdge</definition>
+        <argsstring>(std::string_view process_id, const ProcessEdgeInfo &amp;edge)</argsstring>
+        <name>addProcessEdge</name>
+        <qualifiedname>themis::ProcessGraphManager::addProcessEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_edge_info" kindref="compound">ProcessEdgeInfo</ref> &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Add an edge (flow) to a process model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Process Edge.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>, entity(), setField(), processEdgeTypeToString(), count(), makeEdgeKey_(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="545" column="12" bodyfile="src/index/process_graph.cpp" bodystart="633" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1adbf6d0f7537125bfd0f9f36512e47cc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::addHyperedge</definition>
+        <argsstring>(std::string_view process_id, const Hyperedge &amp;hyperedge)</argsstring>
+        <name>addHyperedge</name>
+        <qualifiedname>themis::ProcessGraphManager::addHyperedge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_hyperedge" kindref="compound">Hyperedge</ref> &amp;</type>
+          <declname>hyperedge</declname>
+        </param>
+        <briefdescription>
+<para>Add a hyperedge (for AND-joins, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add <ref refid="structthemis_1_1_hyperedge" kindref="compound">Hyperedge</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperedge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>, entity(), setField(), dump(), makeHyperedgeKey_(), put(), serialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="550" column="12" bodyfile="src/index/process_graph.cpp" bodystart="677" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a61ee46006672f3f80035d487de49466d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_graph_manager_1_1_validation_result" kindref="compound">ValidationResult</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, ProcessGraphManager::ValidationResult &gt; themis::ProcessGraphManager::validateProcess</definition>
+        <argsstring>(std::string_view process_id) const</argsstring>
+        <name>validateProcess</name>
+        <qualifiedname>themis::ProcessGraphManager::validateProcess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="560" column="15" bodyfile="src/index/process_graph.cpp" bodystart="720" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a40abdc4134f2be625b19718a266ef00d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::string &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::string &gt; themis::ProcessGraphManager::startProcess</definition>
+        <argsstring>(std::string_view process_id, const nlohmann::json &amp;initial_variables={})</argsstring>
+        <name>startProcess</name>
+        <qualifiedname>themis::ProcessGraphManager::startProcess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>initial_variables</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Start a new process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Instance Entity. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instanceId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="567" column="15" bodyfile="src/index/process_graph.cpp" bodystart="894" bodyend="988"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1ae18d93c59a987930e4f9d0067a214619" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_instance" kindref="compound">ProcessInstance</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, ProcessInstance &gt; themis::ProcessGraphManager::getProcessInstance</definition>
+        <argsstring>(std::string_view instance_id) const</argsstring>
+        <name>getProcessInstance</name>
+        <qualifiedname>themis::ProcessGraphManager::getProcessInstance</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Get current state of a process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="575" column="15" bodyfile="src/index/process_graph.cpp" bodystart="991" bodyend="1077"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a278493922b44f284bcd358c93718b6b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::advanceToken</definition>
+        <argsstring>(std::string_view instance_id, std::string_view token_id)</argsstring>
+        <name>advanceToken</name>
+        <qualifiedname>themis::ProcessGraphManager::advanceToken</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>token_id</declname>
+        </param>
+        <briefdescription>
+<para>Advance a token to the next node(s). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance Token.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the token. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_process_graph_manager_1ae18d93c59a987930e4f9d0067a214619" kindref="member">getProcessInstance()</ref>, std::string(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>, scanPrefix(), keyStr(), rfind(), substr(), blob(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="580" column="12" bodyfile="src/index/process_graph.cpp" bodystart="1110" bodyend="1307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1aef53a9900aee5100887a6ac86c5d377c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::signalEvent</definition>
+        <argsstring>(std::string_view instance_id, std::string_view event_name, const nlohmann::json &amp;payload={})</argsstring>
+        <name>signalEvent</name>
+        <qualifiedname>themis::ProcessGraphManager::signalEvent</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>event_name</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Signal an event (for message/signal catching). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signal Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the event. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_process_graph_manager_1ae18d93c59a987930e4f9d0067a214619" kindref="member">getProcessInstance()</ref>, makeNodeKey_(), get(), BaseEntity::deserialize(), getFieldAsString(), value_or(), std::string(), items(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="585" column="12" bodyfile="src/index/process_graph.cpp" bodystart="1431" bodyend="1508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1adba31150b45fddf8ac929e68763b3176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::completeTask</definition>
+        <argsstring>(std::string_view instance_id, std::string_view task_node, const nlohmann::json &amp;output_variables={})</argsstring>
+        <name>completeTask</name>
+        <qualifiedname>themis::ProcessGraphManager::completeTask</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>task_node</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>output_variables</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Complete a user task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Complete Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_variables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_process_graph_manager_1ae18d93c59a987930e4f9d0067a214619" kindref="member">getProcessInstance()</ref>, std::string(), items(), <ref refid="classthemis_1_1_process_graph_manager_1a278493922b44f284bcd358c93718b6b4" kindref="member">advanceToken()</ref>, <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="591" column="12" bodyfile="src/index/process_graph.cpp" bodystart="1317" bodyend="1343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a2b969c3cca47f72f50a09a82b531c754" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::suspendProcess</definition>
+        <argsstring>(std::string_view instance_id)</argsstring>
+        <name>suspendProcess</name>
+        <qualifiedname>themis::ProcessGraphManager::suspendProcess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Suspend/resume a process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Suspend Process.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeInstanceKey_(), get(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>, BaseEntity::deserialize(), std::string(), setField(), put(), serialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="597" column="12" bodyfile="src/index/process_graph.cpp" bodystart="1351" bodyend="1366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1ab480134fe8ce83fef46afb4f872f4ca0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::resumeProcess</definition>
+        <argsstring>(std::string_view instance_id)</argsstring>
+        <name>resumeProcess</name>
+        <qualifiedname>themis::ProcessGraphManager::resumeProcess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Resume Process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeInstanceKey_(), get(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>, BaseEntity::deserialize(), std::string(), setField(), put(), serialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="598" column="12" bodyfile="src/index/process_graph.cpp" bodystart="1374" bodyend="1389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1aaa0559541203e41bae86a9845f23429d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::terminateProcess</definition>
+        <argsstring>(std::string_view instance_id, std::string_view reason=&quot;&quot;)</argsstring>
+        <name>terminateProcess</name>
+        <qualifiedname>themis::ProcessGraphManager::terminateProcess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Terminate a process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Terminate Process.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeInstanceKey_(), get(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" kindref="member">Status::Error()</ref>, BaseEntity::deserialize(), std::string(), setField(), currentTimeMs(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="603" column="12" bodyfile="src/index/process_graph.cpp" bodystart="1398" bodyend="1421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a1bd42d6d302027d0021dd52f2e7b435f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::optional&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::ProcessGraphManager::findTokenByTokenId</definition>
+        <argsstring>(std::string_view token_id) const</argsstring>
+        <name>findTokenByTokenId</name>
+        <qualifiedname>themis::ProcessGraphManager::findTokenByTokenId</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>token_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve a token-only task_id to its (instance_id, current_node) pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scans all stored tokens and returns the instance_id and current_node for the first READY or ACTIVE token whose token_id matches <computeroutput>token_id</computeroutput>. Used by WireProtocolServer to accept task_ids without the &quot;instance_id:node_id&quot; colon format. Stub #138 resolution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The token identifier (without instance prefix). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pair {instance_id, current_node} if a matching active token is found; std::nullopt otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Token id str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the token. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key format: &quot;process:token:&lt;instance_id&gt;:&lt;token_id&gt;&quot; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="620" column="5" bodyfile="src/index/process_graph.cpp" bodystart="1511" bodyend="1561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a1db94da2943e6ca1407d53c5d2c232bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessToken &gt; &gt; themis::ProcessGraphManager::findActiveTasks</definition>
+        <argsstring>(std::string_view assignee_or_role) const</argsstring>
+        <name>findActiveTasks</name>
+        <qualifiedname>themis::ProcessGraphManager::findActiveTasks</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>assignee_or_role</declname>
+        </param>
+        <briefdescription>
+<para>Find all active tasks for a user/role. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="625" column="15" bodyfile="src/index/process_graph.cpp" bodystart="1564" bodyend="1647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a2599849a6a063e2579a79cbca81253ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt; std::chrono::system_clock::time_point &gt; themis::ProcessGraphManager::getVisitTimestamp</definition>
+        <argsstring>(std::string_view instance_id, std::string_view node_id) const</argsstring>
+        <name>getVisitTimestamp</name>
+        <qualifiedname>themis::ProcessGraphManager::getVisitTimestamp</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the visit timestamp for a node within a process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the most recent time_point at which any token in the given instance visited <computeroutput>node_id</computeroutput>, or std::nullopt if the node has not been visited or the instance does not exist.</para>
+<para>When multiple tokens have visited the same node (e.g. in parallel gateway scenarios), the most recent timestamp across all tokens is returned. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="640" column="19" bodyfile="src/index/process_graph.cpp" bodystart="1080" bodyend="1101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1aaef977244857ed88508b8e1d9e45d6c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessToken &gt; &gt; themis::ProcessGraphManager::getNodeHistory</definition>
+        <argsstring>(std::string_view process_id, std::string_view node_id, std::optional&lt; int64_t &gt; since_ms=std::nullopt) const</argsstring>
+        <name>getNodeHistory</name>
+        <qualifiedname>themis::ProcessGraphManager::getNodeHistory</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; int64_t &gt;</type>
+          <declname>since_ms</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Get process history (all tokens that passed through a node). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="648" column="15" bodyfile="src/index/process_graph.cpp" bodystart="1650" bodyend="1776"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1aadb199dd1b23b6e8bc2f8ec1c9728f39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_node_metrics" kindref="compound">NodeMetrics</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessGraphManager::NodeMetrics &gt; &gt; themis::ProcessGraphManager::getProcessMetrics</definition>
+        <argsstring>(std::string_view process_id) const</argsstring>
+        <name>getProcessMetrics</name>
+        <qualifiedname>themis::ProcessGraphManager::getProcessMetrics</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="664" column="15" bodyfile="src/index/process_graph.cpp" bodystart="1779" bodyend="1915"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a19a71fd7a59fd8d7dc93e9d1bc083fa3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; std::string &gt; &gt; themis::ProcessGraphManager::findCriticalPath</definition>
+        <argsstring>(std::string_view process_id) const</argsstring>
+        <name>findCriticalPath</name>
+        <qualifiedname>themis::ProcessGraphManager::findCriticalPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <briefdescription>
+<para>Critical path analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="671" column="15" bodyfile="src/index/process_graph.cpp" bodystart="1918" bodyend="2068"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a0e52f4185b89b620e40894fc9d54f8e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_hyperedge" kindref="compound">Hyperedge</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, Hyperedge &gt; themis::ProcessGraphManager::getHyperedgeStatus</definition>
+        <argsstring>(std::string_view hyperedge_id) const</argsstring>
+        <name>getHyperedgeStatus</name>
+        <qualifiedname>themis::ProcessGraphManager::getHyperedgeStatus</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>hyperedge_id</declname>
+        </param>
+        <briefdescription>
+<para>Get hyperedge status (how many sources have been activated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="680" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2071" bodyend="2174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1ad0e00bb0256d43d8f2dc8a330f9f49dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, bool &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, bool &gt; themis::ProcessGraphManager::isHyperedgeReady</definition>
+        <argsstring>(std::string_view hyperedge_id) const</argsstring>
+        <name>isHyperedgeReady</name>
+        <qualifiedname>themis::ProcessGraphManager::isHyperedgeReady</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>hyperedge_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if hyperedge join condition is satisfied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="687" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2177" bodyend="2188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1af9e76eb8af9f490b1fd671c81d1fd8a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ProcessGraphManager::setAqlQueryExecutor</definition>
+        <argsstring>(AqlQueryExecutorFn fn)</argsstring>
+        <name>setAqlQueryExecutor</name>
+        <qualifiedname>themis::ProcessGraphManager::setAqlQueryExecutor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_process_graph_manager_1ae880cc56ea5929c859b587fbfdb081a0" kindref="member">AqlQueryExecutorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject an AQL query executor for index-backed multi-model queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ PERMANENT FALLBACK NOTE (ProcessGraph Multi-Model Query — in-process RocksDB scan): Purpose: Implement AQL-style multi-model queries (form-data filter, foreign-key join, aggregation) directly over the RocksDB in-process store using scanPrefix().</para>
+<para>When a non-null executor is provided the three multi-model query methods will build an AQL statement, invoke the executor, and map the results back to their typed return values. The in-process O(n) scan fallbacks are retained and used when no executor is set.</para>
+<para>Thread safety: call before any concurrent query; the function object is read under a shared lock from query methods.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+This avoids requiring a live ArangoDB/ThemisDB query engine for process graph analytics. The functions provide real query semantics for the in-process database. Activation: Always active — these functions run against the in-process RocksDB store regardless of whether a remote query engine is configured. Production Delta: Filter and join operations use O(n) full scans instead of index-backed AQL traversals. Performance degrades with large process instances (&gt; 10 K tokens per process): queryTasksByFormData is O(n) in tokens, queryForeignKeyJoin is O(n×m) in tokens×foreign docs. In production with a live query engine these would be replaced by AQL queries with server-side index acceleration. Note: Wire a ThemisDB AQL query engine reference via <ref refid="classthemis_1_1_process_graph_manager_1af9e76eb8af9f490b1fd671c81d1fd8a7" kindref="member">setAqlQueryExecutor()</ref> to delegate to engine-backed queries; the in-process scan path then becomes the offline fallback. Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §&quot;Process Graph Multi-Model Query Engine&quot; ============================================================================ Multi-Model Query Implementation ============================================================================ Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="719" column="10" bodyfile="src/index/process_graph.cpp" bodystart="2196" bodyend="2198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1ab3a89112cfe8063c0cf3553cbd4a0dae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessToken &gt; &gt; themis::ProcessGraphManager::queryTasksByFormData</definition>
+        <argsstring>(std::string_view process_id, const nlohmann::json &amp;filter_conditions) const</argsstring>
+        <name>queryTasksByFormData</name>
+        <qualifiedname>themis::ProcessGraphManager::queryTasksByFormData</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>filter_conditions</declname>
+        </param>
+        <briefdescription>
+<para>Query tasks by form field values (SQL-like). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: Find all tasks where order.amount &gt; 1000 </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Pid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Parse instance_id from key: &quot;process:token:{instance_id}:{token_id}&quot; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="728" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2201" bodyend="2319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1adeaa47c09f56c7728aca92826bd9158f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_join_result" kindref="compound">JoinResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessGraphManager::JoinResult &gt; &gt; themis::ProcessGraphManager::joinWithCollection</definition>
+        <argsstring>(std::string_view process_id, std::string_view collection_name, std::string_view local_field, std::string_view foreign_field) const</argsstring>
+        <name>joinWithCollection</name>
+        <qualifiedname>themis::ProcessGraphManager::joinWithCollection</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>local_field</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>foreign_field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Pid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lf. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local_field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ff. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">foreign_field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="742" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2322" bodyend="2463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a1d06bc7846f8d4ae9b7b78189684e699" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessGraphManager::AggregateResult &gt; &gt; themis::ProcessGraphManager::aggregateByField</definition>
+        <argsstring>(std::string_view process_id, std::string_view group_field, std::string_view agg_field, std::string_view agg_function) const</argsstring>
+        <name>aggregateByField</name>
+        <qualifiedname>themis::ProcessGraphManager::aggregateByField</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>group_field</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>agg_field</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>agg_function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Agg Fn. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_function</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Pid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Gf. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Af. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Fn. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_function</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="762" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2466" bodyend="2605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a56c9155684035b569092beff785f7d3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_similar_process" kindref="compound">SimilarProcess</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessGraphManager::SimilarProcess &gt; &gt; themis::ProcessGraphManager::findSimilarProcesses</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, size_t k=10, float min_similarity=0.7f) const</argsstring>
+        <name>findSimilarProcesses</name>
+        <qualifiedname>themis::ProcessGraphManager::findSimilarProcesses</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_similarity</declname>
+          <defval>0.7f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="781" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2655" bodyend="2710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a9bd6333db951adb795fe9f1528e9a762" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessToken &gt; &gt; themis::ProcessGraphManager::findSimilarTasks</definition>
+        <argsstring>(std::string_view instance_id, std::string_view task_node, size_t k=5) const</argsstring>
+        <name>findSimilarTasks</name>
+        <qualifiedname>themis::ProcessGraphManager::findSimilarTasks</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>task_node</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Find similar tasks for intelligent routing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Find tasks that are semantically similar to route to same handlers. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Load the reference token at task_node to get its embedding. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Node Id. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="792" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2713" bodyend="2832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a7e7f047fd345f19f5da5a544670fa647" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_similar_process" kindref="compound">SimilarProcess</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessGraphManager::SimilarProcess &gt; &gt; themis::ProcessGraphManager::semanticSearchProcesses</definition>
+        <argsstring>(std::string_view natural_language_query, size_t k=10) const</argsstring>
+        <name>semanticSearchProcesses</name>
+        <qualifiedname>themis::ProcessGraphManager::semanticSearchProcesses</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>natural_language_query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Semantic search in process descriptions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Natural language search across all process definitions. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Query. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">natural_language_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queryLower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="803" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2835" bodyend="2910"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1aa855749b0c20ced140ef8ba665e112a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_anomaly_result" kindref="compound">AnomalyResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessGraphManager::AnomalyResult &gt; &gt; themis::ProcessGraphManager::detectAnomalies</definition>
+        <argsstring>(std::string_view process_id, float threshold=0.8f) const</argsstring>
+        <name>detectAnomalies</name>
+        <qualifiedname>themis::ProcessGraphManager::detectAnomalies</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>0.8f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Pid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="819" column="15" bodyfile="src/index/process_graph.cpp" bodystart="2913" bodyend="3096"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1afbd6c7fc179ab8d24f657efd67774890" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessToken &gt; &gt; themis::ProcessGraphManager::findTasksInArea</definition>
+        <argsstring>(std::string_view process_id, double center_lon, double center_lat, double radius_km) const</argsstring>
+        <name>findTasksInArea</name>
+        <qualifiedname>themis::ProcessGraphManager::findTasksInArea</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>center_lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>center_lat</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>radius_km</declname>
+        </param>
+        <briefdescription>
+<para>Find tasks within geographic area. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: Find all field tasks within 10km of a location. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Pid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="831" column="15" bodyfile="src/index/process_graph.cpp" bodystart="3243" bodyend="3287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1ab575910af31762edae68a6272cc0d612" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessToken &gt; &gt; themis::ProcessGraphManager::findTasksInGeofence</definition>
+        <argsstring>(std::string_view process_id, std::string_view geofence_wkt) const</argsstring>
+        <name>findTasksInGeofence</name>
+        <qualifiedname>themis::ProcessGraphManager::findTasksInGeofence</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>geofence_wkt</declname>
+        </param>
+        <briefdescription>
+<para>Find tasks within a geofence polygon. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Wkt. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geofence_wkt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Pid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="841" column="15" bodyfile="src/index/process_graph.cpp" bodystart="3290" bodyend="3338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a0598cf5ee37cb4da87289cea1944ba8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_route_stop" kindref="compound">RouteStop</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessGraphManager::RouteStop &gt; &gt; themis::ProcessGraphManager::optimizeTaskRoute</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;task_ids, double start_lon, double start_lat) const</argsstring>
+        <name>optimizeTaskRoute</name>
+        <qualifiedname>themis::ProcessGraphManager::optimizeTaskRoute</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>task_ids</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>start_lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>start_lat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="856" column="15" bodyfile="src/index/process_graph.cpp" bodystart="3341" bodyend="3437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1ae08f0ad87d9dcb46ecae65c1514efaa9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, bool &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, bool &gt; themis::ProcessGraphManager::validateLocationConstraint</definition>
+        <argsstring>(std::string_view instance_id, std::string_view task_node, double execution_lon, double execution_lat) const</argsstring>
+        <name>validateLocationConstraint</name>
+        <qualifiedname>themis::ProcessGraphManager::validateLocationConstraint</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>task_node</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>execution_lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>execution_lat</declname>
+        </param>
+        <briefdescription>
+<para>Check if task location satisfies geo-constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="865" column="15" bodyfile="src/index/process_graph.cpp" bodystart="3440" bodyend="3493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a9f7be13f4a99661752a5aaa1fe751a9a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, nlohmann::json &gt; themis::ProcessGraphManager::getRegionalParameters</definition>
+        <argsstring>(std::string_view process_id, double lon, double lat) const</argsstring>
+        <name>getRegionalParameters</name>
+        <qualifiedname>themis::ProcessGraphManager::getRegionalParameters</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Get region-specific process parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns process variable overrides based on geographic region. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="877" column="15" bodyfile="src/index/process_graph.cpp" bodystart="3496" bodyend="3541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a966dd4bd145d696ed21e816f7d66da00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_graph_manager_1_1_multi_model_result" kindref="compound">MultiModelResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessGraphManager::Status, std::vector&lt; ProcessGraphManager::MultiModelResult &gt; &gt; themis::ProcessGraphManager::executeMultiModelQuery</definition>
+        <argsstring>(std::string_view process_id, const MultiModelQuery &amp;query) const</argsstring>
+        <name>executeMultiModelQuery</name>
+        <qualifiedname>themis::ProcessGraphManager::executeMultiModelQuery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query" kindref="compound">MultiModelQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Pid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ek Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ekey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="921" column="15" bodyfile="src/index/process_graph.cpp" bodystart="3544" bodyend="3729"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a3a1183089481a731dc9f7ce49e8ecd89" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::makeProcessKey_</definition>
+        <argsstring>(std::string_view process_id) const</argsstring>
+        <name>makeProcessKey_</name>
+        <qualifiedname>themis::ProcessGraphManager::makeProcessKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="932" column="17" bodyfile="src/index/process_graph.cpp" bodystart="478" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1aa9c415c138773e39b1581a892375fc19" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::makeNodeKey_</definition>
+        <argsstring>(std::string_view process_id, std::string_view node_id) const</argsstring>
+        <name>makeNodeKey_</name>
+        <qualifiedname>themis::ProcessGraphManager::makeNodeKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="933" column="17" bodyfile="src/index/process_graph.cpp" bodystart="482" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a99b0b341a61d37e0de1a9f1a98549f4b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::makeEdgeKey_</definition>
+        <argsstring>(std::string_view process_id, std::string_view edge_id) const</argsstring>
+        <name>makeEdgeKey_</name>
+        <qualifiedname>themis::ProcessGraphManager::makeEdgeKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="934" column="17" bodyfile="src/index/process_graph.cpp" bodystart="486" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a52e2db7f0ab5521a231647a7009c475d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::makeHyperedgeKey_</definition>
+        <argsstring>(std::string_view process_id, std::string_view hyperedge_id) const</argsstring>
+        <name>makeHyperedgeKey_</name>
+        <qualifiedname>themis::ProcessGraphManager::makeHyperedgeKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>hyperedge_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="935" column="17" bodyfile="src/index/process_graph.cpp" bodystart="490" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1abb0873a8fc087492d43fe3e0c8d803ed" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::makeInstanceKey_</definition>
+        <argsstring>(std::string_view instance_id) const</argsstring>
+        <name>makeInstanceKey_</name>
+        <qualifiedname>themis::ProcessGraphManager::makeInstanceKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="936" column="17" bodyfile="src/index/process_graph.cpp" bodystart="494" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a2828d38d17f8b0e3778e38d8d6d95f4a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::makeTokenKey_</definition>
+        <argsstring>(std::string_view instance_id, std::string_view token_id) const</argsstring>
+        <name>makeTokenKey_</name>
+        <qualifiedname>themis::ProcessGraphManager::makeTokenKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>token_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="937" column="17" bodyfile="src/index/process_graph.cpp" bodystart="498" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a6f026936b55e599366d57a9d78c8542a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::generateTokenId_</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTokenId_</name>
+        <qualifiedname>themis::ProcessGraphManager::generateTokenId_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="940" column="17" bodyfile="src/index/process_graph.cpp" bodystart="502" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a8975f41676341b6c7841d078c8ab3df2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::createToken_</definition>
+        <argsstring>(ProcessInstance &amp;instance, std::string_view node_id)</argsstring>
+        <name>createToken_</name>
+        <qualifiedname>themis::ProcessGraphManager::createToken_</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_process_instance" kindref="compound">ProcessInstance</ref> &amp;</type>
+          <declname>instance</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Create Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateTokenId_(), std::string(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aab49ec76c3b9fe1e5736d45a1547bd5a" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="941" column="12" bodyfile="src/index/process_graph.cpp" bodystart="3737" bodyend="3751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1afec7b38916d44449adaa3f99fc65f2f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::moveToken_</definition>
+        <argsstring>(ProcessInstance &amp;instance, ProcessToken &amp;token, std::string_view target_node)</argsstring>
+        <name>moveToken_</name>
+        <qualifiedname>themis::ProcessGraphManager::moveToken_</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_process_instance" kindref="compound">ProcessInstance</ref> &amp;</type>
+          <declname>instance</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_node</declname>
+        </param>
+        <briefdescription>
+<para>Move Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), push_back(), std::chrono::system_clock::now(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aab49ec76c3b9fe1e5736d45a1547bd5a" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="942" column="12" bodyfile="src/index/process_graph.cpp" bodystart="3761" bodyend="3770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a15d3b6a6d92ab1662232b280a927f537" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ProcessGraphManager::evaluateGateway_</definition>
+        <argsstring>(const ProcessNodeInfo &amp;gateway, const ProcessToken &amp;token, const std::vector&lt; ProcessEdgeInfo &gt; &amp;outgoing_edges) const</argsstring>
+        <name>evaluateGateway_</name>
+        <qualifiedname>themis::ProcessGraphManager::evaluateGateway_</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_node_info" kindref="compound">ProcessNodeInfo</ref> &amp;</type>
+          <declname>gateway</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_process_edge_info" kindref="compound">ProcessEdgeInfo</ref> &gt; &amp;</type>
+          <declname>outgoing_edges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="945" column="17" bodyfile="src/index/process_graph.cpp" bodystart="3772" bodyend="3787"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a8fc7584e5c2b3ab8f76ab7474cde1cb7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ProcessGraphManager::checkHyperedgeCondition_</definition>
+        <argsstring>(const Hyperedge &amp;hyperedge) const</argsstring>
+        <name>checkHyperedgeCondition_</name>
+        <qualifiedname>themis::ProcessGraphManager::checkHyperedgeCondition_</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_hyperedge" kindref="compound">Hyperedge</ref> &amp;</type>
+          <declname>hyperedge</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="952" column="10" bodyfile="src/index/process_graph.cpp" bodystart="3789" bodyend="3805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_graph_manager_1a6578223a8ea3e0be281fe4d78ce9895a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessGraphManager::Status themis::ProcessGraphManager::activateHyperedgeSource_</definition>
+        <argsstring>(Hyperedge &amp;hyperedge, std::string_view source_node)</argsstring>
+        <name>activateHyperedgeSource_</name>
+        <qualifiedname>themis::ProcessGraphManager::activateHyperedgeSource_</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_hyperedge" kindref="compound">Hyperedge</ref> &amp;</type>
+          <declname>hyperedge</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>source_node</declname>
+        </param>
+        <briefdescription>
+<para>Activate <ref refid="structthemis_1_1_hyperedge" kindref="compound">Hyperedge</ref> Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">hyperedge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), std::string(), checkHyperedgeCondition_(), <ref refid="structthemis_1_1_process_graph_manager_1_1_status_1aab49ec76c3b9fe1e5736d45a1547bd5a" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="953" column="12" bodyfile="src/index/process_graph.cpp" bodystart="3814" bodyend="3821"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1_process_graph_manager" kindref="compound">ProcessGraphManager</ref>: Manages process models and execution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>BPMN/EPK node and edge management</para>
+</listitem><listitem><para><ref refid="structthemis_1_1_hyperedge" kindref="compound">Hyperedge</ref> support for complex joins</para>
+</listitem><listitem><para>Process instance execution</para>
+</listitem><listitem><para>Token-based state tracking</para>
+</listitem><listitem><para>Temporal queries on process history </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="505" column="1" bodyfile="include/index/process_graph.h" bodystart="505" bodyend="954"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_process_graph_manager_1a6578223a8ea3e0be281fe4d78ce9895a" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>activateHyperedgeSource_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1adbf6d0f7537125bfd0f9f36512e47cc0" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>addHyperedge</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1aca48aeaf60e37714cfb22a165d686be6" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>addProcessEdge</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ad3d85947b83f0422cb2d3d9763023d31" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>addProcessNode</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a278493922b44f284bcd358c93718b6b4" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>advanceToken</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a1d06bc7846f8d4ae9b7b78189684e699" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>aggregateByField</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ac003f9d38e58484046c316bc43f47989" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>aql_query_executor_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ae880cc56ea5929c859b587fbfdb081a0" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>AqlQueryExecutorFn</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a8fc7584e5c2b3ab8f76ab7474cde1cb7" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>checkHyperedgeCondition_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1adba31150b45fddf8ac929e68763b3176" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>completeTask</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a8975f41676341b6c7841d078c8ab3df2" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>createToken_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a704e37f39341cec65109c4f83e721442" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1aa855749b0c20ced140ef8ba665e112a9" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>detectAnomalies</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1accf62c48feaa7e12fcbffcd6aac30a99" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>embedder_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a15d3b6a6d92ab1662232b280a927f537" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>evaluateGateway_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a966dd4bd145d696ed21e816f7d66da00" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>executeMultiModelQuery</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a1db94da2943e6ca1407d53c5d2c232bc" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>findActiveTasks</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a19a71fd7a59fd8d7dc93e9d1bc083fa3" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>findCriticalPath</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a56c9155684035b569092beff785f7d3d" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>findSimilarProcesses</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a9bd6333db951adb795fe9f1528e9a762" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>findSimilarTasks</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1afbd6c7fc179ab8d24f657efd67774890" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>findTasksInArea</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ab575910af31762edae68a6272cc0d612" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>findTasksInGeofence</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a1bd42d6d302027d0021dd52f2e7b435f" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>findTokenByTokenId</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a6f026936b55e599366d57a9d78c8542a" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>generateTokenId_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a0e52f4185b89b620e40894fc9d54f8e8" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>getHyperedgeStatus</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1aaef977244857ed88508b8e1d9e45d6c4" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>getNodeHistory</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ae18d93c59a987930e4f9d0067a214619" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>getProcessInstance</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1aadb199dd1b23b6e8bc2f8ec1c9728f39" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>getProcessMetrics</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a9f7be13f4a99661752a5aaa1fe751a9a" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>getRegionalParameters</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a2599849a6a063e2579a79cbca81253ef" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>getVisitTimestamp</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ad0e00bb0256d43d8f2dc8a330f9f49dd" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>isHyperedgeReady</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1adeaa47c09f56c7728aca92826bd9158f" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>joinWithCollection</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a99b0b341a61d37e0de1a9f1a98549f4b" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>makeEdgeKey_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a52e2db7f0ab5521a231647a7009c475d" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>makeHyperedgeKey_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1abb0873a8fc087492d43fe3e0c8d803ed" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>makeInstanceKey_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1aa9c415c138773e39b1581a892375fc19" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>makeNodeKey_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a3a1183089481a731dc9f7ce49e8ecd89" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>makeProcessKey_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a2828d38d17f8b0e3778e38d8d6d95f4a" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>makeTokenKey_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1afec7b38916d44449adaa3f99fc65f2f8" prot="private" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>moveToken_</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a0598cf5ee37cb4da87289cea1944ba8c" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>optimizeTaskRoute</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1aa9050c01325577571625419b2206fa27" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>ProcessGraphManager</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ab3a89112cfe8063c0cf3553cbd4a0dae" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>queryTasksByFormData</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a50cd2df19e19cf318ffdc8ff214e10e6" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>registerProcess</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ab480134fe8ce83fef46afb4f872f4ca0" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>resumeProcess</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a7e7f047fd345f19f5da5a544670fa647" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>semanticSearchProcesses</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1af9e76eb8af9f490b1fd671c81d1fd8a7" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>setAqlQueryExecutor</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a171f92bfaf466c86d7cbda23ffd8fb5b" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>setEmbedder</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1aef53a9900aee5100887a6ac86c5d377c" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>signalEvent</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a40abdc4134f2be625b19718a266ef00d" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>startProcess</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a2b969c3cca47f72f50a09a82b531c754" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>suspendProcess</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1aaa0559541203e41bae86a9845f23429d" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>terminateProcess</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1ae08f0ad87d9dcb46ecae65c1514efaa9" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>validateLocationConstraint</name></member>
+      <member refid="classthemis_1_1_process_graph_manager_1a61ee46006672f3f80035d487de49466d" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager</scope><name>validateProcess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

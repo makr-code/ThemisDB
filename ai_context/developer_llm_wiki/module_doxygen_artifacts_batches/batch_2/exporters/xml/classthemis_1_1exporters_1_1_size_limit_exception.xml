@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_size_limit_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::SizeLimitException</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_exporter_exception" prot="public" virt="non-virtual">themis::exporters::ExporterException</basecompoundref>
+    <includes refid="exporter__errors_8h" local="no">exporter_errors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_size_limit_exception_1ad023f2add2fb0af6756a34e04df9055f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::SizeLimitException::current_size_</definition>
+        <argsstring></argsstring>
+        <name>current_size_</name>
+        <qualifiedname>themis::exporters::SizeLimitException::current_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="105" column="12" bodyfile="include/exporters/exporter_errors.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_size_limit_exception_1a690675e5166b85f9f465b3ec865f5d88" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::SizeLimitException::max_size_</definition>
+        <argsstring></argsstring>
+        <name>max_size_</name>
+        <qualifiedname>themis::exporters::SizeLimitException::max_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="106" column="12" bodyfile="include/exporters/exporter_errors.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_size_limit_exception_1af4631efce966249a7fea66404f84ba25" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::SizeLimitException::SizeLimitException</definition>
+        <argsstring>(const std::string &amp;message, size_t current_size, size_t max_size)</argsstring>
+        <name>SizeLimitException</name>
+        <qualifiedname>themis::exporters::SizeLimitException::SizeLimitException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="88" column="14" bodyfile="include/exporters/exporter_errors.h" bodystart="88" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_size_limit_exception_1a4c81046594a4158bcffa267e12cba8d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::SizeLimitException::getCurrentSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentSize</name>
+        <qualifiedname>themis::exporters::SizeLimitException::getCurrentSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="101" column="12" bodyfile="include/exporters/exporter_errors.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_size_limit_exception_1a0cc2377a05e125740c0439bd41d4fd94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::SizeLimitException::getMaxSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxSize</name>
+        <qualifiedname>themis::exporters::SizeLimitException::getMaxSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="102" column="12" bodyfile="include/exporters/exporter_errors.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Size limit exceeded error. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::SizeLimitException</label>
+        <link refid="classthemis_1_1exporters_1_1_size_limit_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::SizeLimitException</label>
+        <link refid="classthemis_1_1exporters_1_1_size_limit_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/exporter_errors.h" line="86" column="1" bodyfile="include/exporters/exporter_errors.h" bodystart="86" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a65232c8890228b0b1a9c31d335809c93" prot="protected" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>context_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_size_limit_exception_1ad023f2add2fb0af6756a34e04df9055f" prot="private" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>current_size_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a1a80681187a67958b179e691695209fb" prot="protected" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1aaca93f87150fcb5c565671227d2a9ffd" prot="public" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>ExporterException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a2137749c86cb8b65f22035426c15ff94" prot="public" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1exporters_1_1_size_limit_exception_1a4c81046594a4158bcffa267e12cba8d7" prot="public" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>getCurrentSize</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a40e41cf979adc5dbb8ab0efc86dd5bb4" prot="public" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>getErrorCode</name></member>
+      <member refid="classthemis_1_1exporters_1_1_size_limit_exception_1a0cc2377a05e125740c0439bd41d4fd94" prot="public" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>getMaxSize</name></member>
+      <member refid="classthemis_1_1exporters_1_1_size_limit_exception_1a690675e5166b85f9f465b3ec865f5d88" prot="private" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>max_size_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_size_limit_exception_1af4631efce966249a7fea66404f84ba25" prot="public" virt="non-virtual"><scope>themis::exporters::SizeLimitException</scope><name>SizeLimitException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

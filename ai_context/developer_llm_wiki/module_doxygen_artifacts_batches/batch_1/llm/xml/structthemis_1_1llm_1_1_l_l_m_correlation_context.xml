@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_correlation_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMCorrelationContext</compoundname>
+    <includes refid="llm__correlation__context_8h" local="no">llm_correlation_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a988789b1d14a0eec5972d0bb5fac2958" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMCorrelationContext::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::llm::LLMCorrelationContext::trace_id</qualifiedname>
+        <briefdescription>
+<para>W3C traceparent trace-id: 128-bit, 32 lower-case hex characters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Empty string means the context was created without a parent trace (i.e. this is the root span). Callers MUST NOT treat an empty string as valid. Always use <computeroutput><ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a35a468290ee7b413c0f08cc2ff77ff56" kindref="member">isValid()</ref></computeroutput> or <computeroutput><ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1aa3e0253be6cebde4d3f28e801da78736" kindref="member">ensure()</ref></computeroutput> before reading. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_correlation_context.h" line="70" column="17" bodyfile="include/llm/llm_correlation_context.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a73e43908fc89508c282765a3983853d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMCorrelationContext::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::llm::LLMCorrelationContext::span_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>W3C traceparent parent-span-id: 64-bit, 16 lower-case hex characters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Identifies the specific span (call site) that originated this request. May be empty for synthetic/generated contexts. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_correlation_context.h" line="78" column="17" bodyfile="include/llm/llm_correlation_context.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a35a468290ee7b413c0f08cc2ff77ff56" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCorrelationContext::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::llm::LLMCorrelationContext::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when:<itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a988789b1d14a0eec5972d0bb5fac2958" kindref="member">trace_id</ref></computeroutput> is exactly 32 lower-case hex characters and is not all-zero, AND</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a73e43908fc89508c282765a3983853d3" kindref="member">span_id</ref></computeroutput> is exactly 16 lower-case hex characters and is not all-zero.</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+Enforces the W3C Trace Context spec: IDs must be valid lower-case hex and the all-zero value is explicitly forbidden as an invalid sentinel. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_correlation_context.h" line="92" column="11" bodyfile="include/llm/llm_correlation_context.h" bodystart="92" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_correlation_context_1aa3e0253be6cebde4d3f28e801da78736" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref></type>
+        <definition>LLMCorrelationContext themis::llm::LLMCorrelationContext::ensure</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ensure</name>
+        <qualifiedname>themis::llm::LLMCorrelationContext::ensure</qualifiedname>
+        <briefdescription>
+<para>Return a valid context: the current one if valid, otherwise a freshly generated one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_correlation_context.h" line="215" column="28" bodyfile="include/llm/llm_correlation_context.h" bodystart="215" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_correlation_context_1ad015667a0c795cf23ec5b7130f8acb2b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMCorrelationContext::toTraceparent</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>toTraceparent</name>
+        <qualifiedname>themis::llm::LLMCorrelationContext::toTraceparent</qualifiedname>
+        <briefdescription>
+<para>Produce a W3C <computeroutput>traceparent</computeroutput> header value for the version-0 format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><computeroutput>"00-{<ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a988789b1d14a0eec5972d0bb5fac2958" kindref="member">trace_id</ref>}-{<ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a73e43908fc89508c282765a3983853d3" kindref="member">span_id</ref>}-00"</computeroutput> when the context is valid; an empty string otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_correlation_context.h" line="229" column="18" bodyfile="include/llm/llm_correlation_context.h" bodystart="229" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_correlation_context_1ac072efd60613769e4412ecd8d537c232" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref></type>
+        <definition>static LLMCorrelationContext themis::llm::LLMCorrelationContext::fromTraceparent</definition>
+        <argsstring>(const std::string &amp;traceparent) noexcept</argsstring>
+        <name>fromTraceparent</name>
+        <qualifiedname>themis::llm::LLMCorrelationContext::fromTraceparent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>traceparent</declname>
+        </param>
+        <briefdescription>
+<para>Create a context from an incoming W3C <computeroutput>traceparent</computeroutput> header value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parses the <computeroutput>traceparent</computeroutput> header format: <computeroutput>{version}-{trace-id}-{parent-id}-{flags}</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>traceparent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw header value, e.g. <computeroutput>"00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated context if parsing succeeded; empty context otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_correlation_context.h" line="136" column="35" bodyfile="include/llm/llm_correlation_context.h" bodystart="136" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a5431c1bd5c81ecaa0df06e1f384f4ea1" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref></type>
+        <definition>static LLMCorrelationContext themis::llm::LLMCorrelationContext::generate</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llm::LLMCorrelationContext::generate</qualifiedname>
+        <briefdescription>
+<para>Generate a new root context with random trace_id and span_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used when no incoming traceparent header is present.</para>
+<para><simplesect kind="note"><para>Uses <computeroutput>std::mt19937_64</computeroutput> with <computeroutput>std::random_device</computeroutput> seeding. This is not cryptographically strong; use only for observability identifiers. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_correlation_context.h" line="172" column="35" bodyfile="include/llm/llm_correlation_context.h" bodystart="172" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight correlation context for a single LLM pipeline invocation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Intended to be created once per request at the topmost entry point and threaded downward through all pipeline stages by value. Copy is intentionally cheap (two <computeroutput>std::string</computeroutput> fields of at most 32 characters each). </para>
+    </detaileddescription>
+    <location file="include/llm/llm_correlation_context.h" line="62" column="1" bodyfile="include/llm/llm_correlation_context.h" bodystart="62" bodyend="233"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1aa3e0253be6cebde4d3f28e801da78736" prot="public" virt="non-virtual"><scope>themis::llm::LLMCorrelationContext</scope><name>ensure</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1ac072efd60613769e4412ecd8d537c232" prot="public" virt="non-virtual"><scope>themis::llm::LLMCorrelationContext</scope><name>fromTraceparent</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a5431c1bd5c81ecaa0df06e1f384f4ea1" prot="public" virt="non-virtual"><scope>themis::llm::LLMCorrelationContext</scope><name>generate</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a35a468290ee7b413c0f08cc2ff77ff56" prot="public" virt="non-virtual"><scope>themis::llm::LLMCorrelationContext</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a73e43908fc89508c282765a3983853d3" prot="public" virt="non-virtual"><scope>themis::llm::LLMCorrelationContext</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1ad015667a0c795cf23ec5b7130f8acb2b" prot="public" virt="non-virtual"><scope>themis::llm::LLMCorrelationContext</scope><name>toTraceparent</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a988789b1d14a0eec5972d0bb5fac2958" prot="public" virt="non-virtual"><scope>themis::llm::LLMCorrelationContext</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

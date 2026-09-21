@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::LockFreeMetrics::CounterEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry_1ad9268bc071dd9158ac6f54579ab025f8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::core::concerns::LockFreeMetrics::CounterEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::CounterEntry::value</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="135" column="21" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry_1a34e0cac75339f59bc693e1dce5ca1993" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::LockFreeMetrics::CounterEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::CounterEntry::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="136" column="30" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry_1ab375ba339f9975397d80fdcc26b6256d" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref></type>
+        <definition>Labels themis::core::concerns::LockFreeMetrics::CounterEntry::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::CounterEntry::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="137" column="30" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry_1a513a637134f61b355130e423e8ba78eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::LockFreeMetrics::CounterEntry::CounterEntry</definition>
+        <argsstring>(std::string n, Labels l)</argsstring>
+        <name>CounterEntry</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::CounterEntry::CounterEntry</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref></type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="139" column="9" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="139" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/lockfree_metrics.h" line="134" column="5" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="134" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry_1a513a637134f61b355130e423e8ba78eb" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::CounterEntry</scope><name>CounterEntry</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry_1ab375ba339f9975397d80fdcc26b6256d" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::CounterEntry</scope><name>labels</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry_1a34e0cac75339f59bc693e1dce5ca1993" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::CounterEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry_1ad9268bc071dd9158ac6f54579ab025f8" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::CounterEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

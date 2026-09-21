@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HnswLayerOptimizer::LayerStats</compoundname>
+    <includes refid="hnsw__layer__optimizer_8h" local="no">hnsw_layer_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a74afb01f3e963dbaf7fbc3853b108ec8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::HnswLayerOptimizer::LayerStats::layer</definition>
+        <argsstring></argsstring>
+        <name>layer</name>
+        <qualifiedname>themis::HnswLayerOptimizer::LayerStats::layer</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="67" column="13" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a2aa4e387f95adefbec841a2cab430c74" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::HnswLayerOptimizer::LayerStats::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::HnswLayerOptimizer::LayerStats::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="68" column="17" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a4fdc4db1146934db6c4914656382264d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::HnswLayerOptimizer::LayerStats::candidates_found</definition>
+        <argsstring></argsstring>
+        <name>candidates_found</name>
+        <qualifiedname>themis::HnswLayerOptimizer::LayerStats::candidates_found</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="69" column="17" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1ab6229da3643ffe8f17cbcb89e3a8333f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HnswLayerOptimizer::LayerStats::total_search_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_search_time_ms</name>
+        <qualifiedname>themis::HnswLayerOptimizer::LayerStats::total_search_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="70" column="16" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1acb8dd771f50ecf4f77cafd068c8f95fd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HnswLayerOptimizer::LayerStats::avg_search_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_search_time_ms</name>
+        <qualifiedname>themis::HnswLayerOptimizer::LayerStats::avg_search_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="71" column="16" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a320051f017cae7506f56adda3bf5c9a5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HnswLayerOptimizer::LayerStats::efficiency_score</definition>
+        <argsstring></argsstring>
+        <name>efficiency_score</name>
+        <qualifiedname>themis::HnswLayerOptimizer::LayerStats::efficiency_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="72" column="16" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1adcf6fefedd12885ea371abcc833e69f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HnswLayerOptimizer::LayerStats::update</definition>
+        <argsstring>(int64_t candidates, double search_time_ms)</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::HnswLayerOptimizer::LayerStats::update</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>search_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Fold one more layer-observation sample into this aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of candidates discovered in the sampled search. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>search_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time spent in the layer during the sampled search. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="79" column="14" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="79" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated runtime statistics for one HNSW layer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/hnsw_layer_optimizer.h" line="66" column="5" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="66" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a2aa4e387f95adefbec841a2cab430c74" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer::LayerStats</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1acb8dd771f50ecf4f77cafd068c8f95fd" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer::LayerStats</scope><name>avg_search_time_ms</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a4fdc4db1146934db6c4914656382264d" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer::LayerStats</scope><name>candidates_found</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a320051f017cae7506f56adda3bf5c9a5" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer::LayerStats</scope><name>efficiency_score</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a74afb01f3e963dbaf7fbc3853b108ec8" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer::LayerStats</scope><name>layer</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1ab6229da3643ffe8f17cbcb89e3a8333f" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer::LayerStats</scope><name>total_search_time_ms</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1adcf6fefedd12885ea371abcc833e69f7" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer::LayerStats</scope><name>update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

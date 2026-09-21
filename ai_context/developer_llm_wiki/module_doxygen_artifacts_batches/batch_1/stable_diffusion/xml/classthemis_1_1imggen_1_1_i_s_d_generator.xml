@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1imggen_1_1_i_s_d_generator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::imggen::ISDGenerator</compoundname>
+    <derivedcompoundref refid="class_throwing_generator" prot="public" virt="non-virtual">ThrowingGenerator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator" prot="public" virt="non-virtual">themis::imggen::InMemorySDGenerator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1imggen_1_1_s_d_stub_generator" prot="public" virt="non-virtual">themis::imggen::SDStubGenerator</derivedcompoundref>
+    <includes refid="sd__generator_8h" local="no">sd_generator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_s_d_generator_1a1cac8c129aba6caccfa55ea79695d8f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::imggen::ISDGenerator::~ISDGenerator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISDGenerator</name>
+        <qualifiedname>themis::imggen::ISDGenerator::~ISDGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="38" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_s_d_generator_1ad0cd30841df2b1d5fd9b68cce018769a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::imggen::ISDGenerator::initialize</definition>
+        <argsstring>(const SDConfig &amp;cfg)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::imggen::ISDGenerator::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a12322edbbe1257e39a1222747df5aa34">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1adbce9bc09b21adb5e70958a1f4147233">initialize</reimplementedby>
+        <reimplementedby refid="class_throwing_generator_1acb36c51fab88601d07c776d23ae767be">initialize</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1imggen_1_1_s_d_config" kindref="compound">SDConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="40" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_s_d_generator_1a9defb19fbe5f596d05a743283893b552" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::imggen::ISDGenerator::isInitialized</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::imggen::ISDGenerator::isInitialized</qualifiedname>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa5aea1f60935cfe3f8372479cc3b3c63">isInitialized</reimplementedby>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a83234f39ac4f12f5aebf64052929efac">isInitialized</reimplementedby>
+        <reimplementedby refid="class_throwing_generator_1aab1b776ec598cabc3eaeaf240e81071d">isInitialized</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="41" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_s_d_generator_1a7482335dd5fecd46ccbb84c42654a01e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::imggen::ISDGenerator::applyLoRA</definition>
+        <argsstring>(const std::string &amp;lora_path, float scale, std::string &amp;error_out)</argsstring>
+        <name>applyLoRA</name>
+        <qualifiedname>themis::imggen::ISDGenerator::applyLoRA</qualifiedname>
+        <reimplementedby refid="class_lo_r_a_failing_generator_1aee8d8085ada739dec04ab6c0aafa5b87">applyLoRA</reimplementedby>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad5537399173326f479e9e4ceabc09d32">applyLoRA</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Optionally apply a LoRA adapter for subsequent generation calls. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation is a no-op that succeeds for generators that do not support LoRA updates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to LoRA adapter (empty means clear LoRA state). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter scale factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detailed error text on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on validation/application failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="54" column="18" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="54" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_s_d_generator_1a4847d318384466186d1585c2bf00c741" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::imggen::ISDGenerator::generate</definition>
+        <argsstring>(const std::string &amp;prompt, const SDGenerationConfig &amp;cfg, int &amp;out_width, int &amp;out_height, uint64_t &amp;out_seed)=0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::imggen::ISDGenerator::generate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa0dc65de7f562c9c9a5141e3a3061d8">generate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a0aaf5642d107ef6bd413a51fb36eef40">generate</reimplementedby>
+        <reimplementedby refid="class_throwing_generator_1ae34d1baceceddb67b79ab86c10b5b903">generate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const SDGenerationConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_width</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_height</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out_seed</declname>
+        </param>
+        <briefdescription>
+<para>Generate raw RGB pixel data for a given prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sanitized text prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-request generation config. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual width of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual height of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed that was actually used (important for -1 random seeds). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raw RGB byte buffer (width * height * 3 bytes). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="72" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_s_d_generator_1ac1e9e28534394283082f52bce24469c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::imggen::ISDGenerator::generateImg2Img</definition>
+        <argsstring>(const std::string &amp;prompt, const Img2ImgConfig &amp;cfg, int &amp;out_width, int &amp;out_height, uint64_t &amp;out_seed)</argsstring>
+        <name>generateImg2Img</name>
+        <qualifiedname>themis::imggen::ISDGenerator::generateImg2Img</qualifiedname>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa7c67a8c5bd8573ecefaff6d37ad46e8">generateImg2Img</reimplementedby>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a4415ec42cae3288084409004e5125377">generateImg2Img</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const Img2ImgConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_width</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_height</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out_seed</declname>
+        </param>
+        <briefdescription>
+<para>Img2Img: generate raw RGB pixel data conditioned on an input image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation ignores the input image and delegates to <ref refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a4847d318384466186d1585c2bf00c741" kindref="member">generate()</ref>. SDCppGenerator will override this with real denoising inference.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sanitized text prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Img2Img config (includes input_image_rgb, strength, mask). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual width of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual height of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed actually used. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raw RGB byte buffer (width * height * 3 bytes). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="90" column="25" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="90" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_s_d_generator_1a35a4c3fe7186b5c40f0b058c2421f60f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::imggen::ISDGenerator::getModelId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::imggen::ISDGenerator::getModelId</qualifiedname>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1abb5ca2e27fb8b3338a2d933cd6da04dc">getModelId</reimplementedby>
+        <reimplementedby refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1abba4013e5989ad2df58da553956560a6">getModelId</reimplementedby>
+        <reimplementedby refid="class_throwing_generator_1a9e3ca641ab59c5ac349e0607e635a157">getModelId</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="98" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for the core image generation engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Separates model-loading / inference from the plugin lifecycle so that test doubles can be injected without linking stable-diffusion.cpp. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>LoRAFailingGenerator</label>
+        <link refid="class_lo_r_a_failing_generator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ThrowingGenerator</label>
+        <link refid="class_throwing_generator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+      <node id="3">
+        <label>themis::imggen::InMemorySDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::imggen::SDStubGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_s_d_stub_generator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/stable_diffusion/sd_generator.h" line="36" column="1" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="36" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a7482335dd5fecd46ccbb84c42654a01e" prot="public" virt="virtual"><scope>themis::imggen::ISDGenerator</scope><name>applyLoRA</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a4847d318384466186d1585c2bf00c741" prot="public" virt="pure-virtual"><scope>themis::imggen::ISDGenerator</scope><name>generate</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ac1e9e28534394283082f52bce24469c8" prot="public" virt="virtual"><scope>themis::imggen::ISDGenerator</scope><name>generateImg2Img</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a35a4c3fe7186b5c40f0b058c2421f60f" prot="public" virt="pure-virtual"><scope>themis::imggen::ISDGenerator</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ad0cd30841df2b1d5fd9b68cce018769a" prot="public" virt="pure-virtual"><scope>themis::imggen::ISDGenerator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a9defb19fbe5f596d05a743283893b552" prot="public" virt="pure-virtual"><scope>themis::imggen::ISDGenerator</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a1cac8c129aba6caccfa55ea79695d8f0" prot="public" virt="virtual"><scope>themis::imggen::ISDGenerator</scope><name>~ISDGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

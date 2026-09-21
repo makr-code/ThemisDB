@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__storage__layout__advisor_8cpp" kind="file" language="C++">
+    <compoundname>test_storage_layout_advisor.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="storage__layout__advisor_8h" local="yes">storage/storage_layout_advisor.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>storage/schema_dead_weight_detector.h</label>
+        <link refid="schema__dead__weight__detector_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>storage/storage_layout_advisor.h</label>
+        <link refid="storage__layout__advisor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_storage_layout_advisor.cpp</label>
+        <link refid="test__storage__layout__advisor_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>llm/decision_record_yaml_processor.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>set</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__storage__layout__advisor_8cpp_1a92637a11b26ecc8a1ff12cc705300361" prot="public" static="no">
+        <type><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" kindref="member">StorageLayoutAdvisor::LayoutType</ref></type>
+        <definition>using LT = StorageLayoutAdvisor::LayoutType</definition>
+        <argsstring></argsstring>
+        <name>LT</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="23" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, IsTimeSeriesTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>IsTimeSeriesTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="124" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="124" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1aa8b03a11da0c794d82628cca1f182fa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, TimeSeriesColumnlarCompressed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>TimeSeriesColumnlarCompressed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="133" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="133" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1a9df98b7dd008ad376d0d990de49b9e8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, UuidPointLookupRowOriented)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>UuidPointLookupRowOriented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="144" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="144" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1a65f0063e1042eb9ec76e4a99237cf03e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, BlobCollectionHybrid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>BlobCollectionHybrid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="155" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="155" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1a585b51da6e5accd69bdb7e6cd08684e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, FloatTimeSeriesCompressionRatio)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>FloatTimeSeriesCompressionRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="174" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="174" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1ab00b6670e62dcd5e65e533faafc793fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, GdprFieldRequiresApproval)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>GdprFieldRequiresApproval</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="185" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="185" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1a7279b457ce63e9ece550e3b88ede26d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, NoGdprFieldNoApproval)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>NoGdprFieldNoApproval</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="198" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="198" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1aea93627de5e7a6d276d2367f9bef1eb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, NonEmptyRationale)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>NonEmptyRationale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="209" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="209" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1a3b3280e822fc2bc8d86e0a4735aa8209" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, ConfidenceInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>ConfidenceInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="220" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="220" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__layout__advisor_8cpp_1a796156d85e60608ab498971d3e434b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StorageLayoutAdvisorTest, DefaultFallbackRowOriented)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StorageLayoutAdvisorTest</type>
+        </param>
+        <param>
+          <type>DefaultFallbackRowOriented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_layout_advisor.cpp" line="236" column="1" bodyfile="tests/storage/test_storage_layout_advisor.cpp" bodystart="236" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>—<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMPL-B10<sp/>/<sp/>S-8:<sp/>StorageLayoutAdvisor<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-01<sp/><sp/>isTimeSeries()<sp/>true<sp/>for<sp/>monotonic<sp/>timestamps<sp/>+<sp/>Float<sp/>payload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-02<sp/><sp/>analyze()<sp/>time-series<sp/>+<sp/>aggregation_ratio<sp/>&gt;<sp/>0.7<sp/>→<sp/>COLUMNAR_COMPRESSED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-03<sp/><sp/>analyze()<sp/>UUID<sp/>point-lookup<sp/>ratio<sp/>&gt;<sp/>0.8<sp/>→<sp/>ROW_ORIENTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-04<sp/><sp/>analyze()<sp/>blob<sp/>field<sp/>+<sp/>metadata_only<sp/>&gt;<sp/>0.5<sp/>→<sp/>HYBRID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-05<sp/><sp/>estimated_compression_ratio<sp/>&gt;=<sp/>5.0<sp/>for<sp/>float-heavy<sp/>time-series</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-06<sp/><sp/>GDPR<sp/>fields<sp/>→<sp/>gdpr_approval_required<sp/>=<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-07<sp/><sp/>No<sp/>GDPR<sp/>fields<sp/>→<sp/>gdpr_approval_required<sp/>=<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-08<sp/><sp/>analyze()<sp/>has<sp/>non-empty<sp/>rationale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-09<sp/><sp/>analyze()<sp/>returns<sp/>confidence<sp/>in<sp/>[0,<sp/>1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SLA-10<sp/><sp/>default<sp/>fallback<sp/>→<sp/>ROW_ORIENTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__layout__advisor_8h" kindref="compound">storage/storage_layout_advisor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">themis::storage</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a92637a11b26ecc8a1ff12cc705300361" kindref="member">LT</ref><sp/>=<sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" kindref="member">StorageLayoutAdvisor::LayoutType</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>monotonic<sp/>timestamp<sp/>series<sp/>(seconds<sp/>since<sp/>epoch,<sp/>1-second<sp/>interval)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;<sp/>makeMonotonicSeries(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>64)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>ts;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ts.reserve(n);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts.push_back(1&apos;700&apos;000&apos;000.0<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ts;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Typical<sp/>time-series<sp/>collection<sp/>(sensor<sp/>readings)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref><sp/>timeSeriesStats()</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref><sp/>s;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a24b8eea2ea66120e42256b3836a8090f" kindref="member">point_lookup_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a7ad303edc098809fe007a1892a09ed5f" kindref="member">range_scan_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a05263a9eba1ea30d7662ddbcf9ea008d" kindref="member">aggregation_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.85;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1ad744fc8a65343e97e3ef578c435eacee" kindref="member">metadata_only_access_ratio</ref><sp/><sp/>=<sp/>0.10;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1af8dddf733f233af44c5089f5551b3beb" kindref="member">has_blob_field</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a65034ba2778d03fda2a4ccfc063a99e8" kindref="member">has_monotonic_timestamp</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1af507bdb2a0c7b3987c6d7c099511f26e" kindref="member">timestamp_series</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>makeMonotonicSeries();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Typical<sp/>UUID<sp/>point-lookup<sp/>collection<sp/>(user<sp/>sessions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref><sp/>uuidStats()</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref><sp/>s;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a24b8eea2ea66120e42256b3836a8090f" kindref="member">point_lookup_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.90;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a7ad303edc098809fe007a1892a09ed5f" kindref="member">range_scan_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a05263a9eba1ea30d7662ddbcf9ea008d" kindref="member">aggregation_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.02;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1ad744fc8a65343e97e3ef578c435eacee" kindref="member">metadata_only_access_ratio</ref><sp/><sp/>=<sp/>0.03;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1af8dddf733f233af44c5089f5551b3beb" kindref="member">has_blob_field</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a65034ba2778d03fda2a4ccfc063a99e8" kindref="member">has_monotonic_timestamp</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mixed<sp/>BLOB<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref><sp/>blobStats()</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref><sp/>s;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a24b8eea2ea66120e42256b3836a8090f" kindref="member">point_lookup_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.10;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a7ad303edc098809fe007a1892a09ed5f" kindref="member">range_scan_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.30;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a05263a9eba1ea30d7662ddbcf9ea008d" kindref="member">aggregation_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1ad744fc8a65343e97e3ef578c435eacee" kindref="member">metadata_only_access_ratio</ref><sp/><sp/>=<sp/>0.60;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1af8dddf733f233af44c5089f5551b3beb" kindref="member">has_blob_field</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a65034ba2778d03fda2a4ccfc063a99e8" kindref="member">has_monotonic_timestamp</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schema<sp/>with<sp/>5<sp/>Float<sp/>fields<sp/>(ideal<sp/>for<sp/>columnar<sp/>compression)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_info" kindref="compound">SchemaInfo</ref><sp/>floatSchema(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sensor_readings&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_schema_info" kindref="compound">SchemaInfo</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a38d08b9e6249e36cffa89878ca6b9fc7" kindref="member">collection_name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fn<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;value_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a553cf7aac3e48f56eac01ae4e169d18a" kindref="member">field_names</ref>.push_back(fn);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[fn]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Float&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a553cf7aac3e48f56eac01ae4e169d18a" kindref="member">field_names</ref>.push_back(</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DateTime&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a84e808077b94ad4c3ea93ec4d51fdc97" kindref="member">has_blob</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schema<sp/>with<sp/>UUID<sp/>primary<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_info" kindref="compound">SchemaInfo</ref><sp/>uuidSchema(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_sessions&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_schema_info" kindref="compound">SchemaInfo</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a38d08b9e6249e36cffa89878ca6b9fc7" kindref="member">collection_name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a553cf7aac3e48f56eac01ae4e169d18a" kindref="member">field_names</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;session_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;session_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UUID&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Int&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;String&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DateTime&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a84e808077b94ad4c3ea93ec4d51fdc97" kindref="member">has_blob</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Empty<sp/>GDPR<sp/>registry<sp/>(no<sp/>protections)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gdpr_field_registry" kindref="compound">GdprFieldRegistry</ref><sp/>noGdpr()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GDPR<sp/>registry<sp/>that<sp/>protects<sp/>one<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gdpr_field_registry" kindref="compound">GdprFieldRegistry</ref><sp/>withGdpr(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gdpr_field_registry" kindref="compound">GdprFieldRegistry</ref><sp/>r;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1storage_1_1_gdpr_field_registry_1a78f5c6642767a47111257c0209f7fe31" kindref="member">protected_paths</ref>.insert(field);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-01<sp/><sp/>isTimeSeries()<sp/>=<sp/>true<sp/>for<sp/>monotonic<sp/>timestamps<sp/>+<sp/>large<sp/>series</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>IsTimeSeriesTrue)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ae7dc70ca8a5cc3c226a1a5435aca2985" kindref="member">isTimeSeries</ref>(timeSeriesStats()));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-02<sp/><sp/>time-series<sp/>+<sp/>aggregation<sp/>&gt;<sp/>0.7<sp/>→<sp/>COLUMNAR_COMPRESSED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>TimeSeriesColumnlarCompressed)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;sensor_readings&quot;</highlight><highlight class="normal">,<sp/>timeSeriesStats(),</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>floatSchema(),<sp/>noGdpr());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.recommended_layout,<sp/>LT::COLUMNAR_COMPRESSED);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-03<sp/><sp/>UUID<sp/>point-lookup<sp/>ratio<sp/>&gt;<sp/>0.8<sp/>→<sp/>ROW_ORIENTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>UuidPointLookupRowOriented)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;user_sessions&quot;</highlight><highlight class="normal">,<sp/>uuidStats(),</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uuidSchema(),<sp/>noGdpr());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.recommended_layout,<sp/>LT::ROW_ORIENTED);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-04<sp/><sp/>blob<sp/>+<sp/>metadata_only<sp/>&gt;<sp/>0.5<sp/>→<sp/>HYBRID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>BlobCollectionHybrid)</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_schema_info" kindref="compound">SchemaInfo</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a38d08b9e6249e36cffa89878ca6b9fc7" kindref="member">collection_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a553cf7aac3e48f56eac01ae4e169d18a" kindref="member">field_names</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;doc_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;title&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;doc_id&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UUID&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;title&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;String&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BLOB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a84e808077b94ad4c3ea93ec4d51fdc97" kindref="member">has_blob</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,<sp/>blobStats(),<sp/>sc,<sp/>noGdpr());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.recommended_layout,<sp/>LT::HYBRID);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-05<sp/><sp/>Float<sp/>time-series<sp/>→<sp/>estimated_compression_ratio<sp/>&gt;=<sp/>5.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>FloatTimeSeriesCompressionRatio)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;sensor_readings&quot;</highlight><highlight class="normal">,<sp/>timeSeriesStats(),</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>floatSchema(),<sp/>noGdpr());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rec.estimated_compression_ratio,<sp/>5.0);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-06<sp/><sp/>GDPR-protected<sp/>field<sp/>in<sp/>collection<sp/>→<sp/>gdpr_approval_required<sp/>=<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>GdprFieldRequiresApproval)</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protect<sp/>&quot;value_0&quot;<sp/>—<sp/>one<sp/>of<sp/>the<sp/>Float<sp/>fields<sp/>in<sp/>floatSchema()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gdpr<sp/>=<sp/>withGdpr(</highlight><highlight class="stringliteral">&quot;value_0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/><sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;sensor_readings&quot;</highlight><highlight class="normal">,<sp/>timeSeriesStats(),</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>floatSchema(),<sp/>gdpr);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rec.gdpr_approval_required);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-07<sp/><sp/>No<sp/>GDPR<sp/>fields<sp/>→<sp/>gdpr_approval_required<sp/>=<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>NoGdprFieldNoApproval)</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;user_sessions&quot;</highlight><highlight class="normal">,<sp/>uuidStats(),</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uuidSchema(),<sp/>noGdpr());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec.gdpr_approval_required);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-08<sp/><sp/>rationale<sp/>is<sp/>non-empty<sp/>(DBA-readable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>NonEmptyRationale)</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;sensor_readings&quot;</highlight><highlight class="normal">,<sp/>timeSeriesStats(),</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>floatSchema(),<sp/>noGdpr());</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec.rationale.empty());</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-09<sp/><sp/>confidence<sp/>∈<sp/>[0.0,<sp/>1.0]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>ConfidenceInRange)</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;ts_coll&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>timeSeriesStats(),<sp/>floatSchema(),<sp/>noGdpr());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;uuid_coll&quot;</highlight><highlight class="normal">,<sp/>uuidStats(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/>uuidSchema(),<sp/><sp/>noGdpr());</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(r1.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(r1.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(r2.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(r2.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLA-10<sp/><sp/>Completely<sp/>flat<sp/>stats<sp/>→<sp/>safe<sp/>default<sp/>ROW_ORIENTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__storage__layout__advisor_8cpp_1a8aa125b696e9aef74a08afcc72044552" kindref="member">TEST</ref>(StorageLayoutAdvisorTest,<sp/>DefaultFallbackRowOriented)</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref><sp/>adv;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref><sp/>flat;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>ratios<sp/>at<sp/>0<sp/>—<sp/>no<sp/>pattern<sp/>matches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>flat.<ref refid="structthemis_1_1storage_1_1_collection_access_stats_1a65034ba2778d03fda2a4ccfc063a99e8" kindref="member">has_monotonic_timestamp</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_schema_info" kindref="compound">SchemaInfo</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a38d08b9e6249e36cffa89878ca6b9fc7" kindref="member">collection_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;misc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1a553cf7aac3e48f56eac01ae4e169d18a" kindref="member">field_names</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Int&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" kindref="member">field_types</ref>[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;String&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>adv.<ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze</ref>(</highlight><highlight class="stringliteral">&quot;misc&quot;</highlight><highlight class="normal">,<sp/>flat,<sp/>sc,<sp/>noGdpr());</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.recommended_layout,<sp/>LT::ROW_ORIENTED);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_storage_layout_advisor.cpp"/>
+  </compounddef>
+</doxygen>

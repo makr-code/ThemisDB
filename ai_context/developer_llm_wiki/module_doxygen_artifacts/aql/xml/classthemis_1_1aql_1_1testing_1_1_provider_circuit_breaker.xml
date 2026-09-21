@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::ProviderCircuitBreaker</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aab15483d6e4e484c8437312d0ca1b7e1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::State</qualifiedname>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aab15483d6e4e484c8437312d0ca1b7e1a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aab15483d6e4e484c8437312d0ca1b7e1aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="43" column="5" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1acb83c201c2433b048a85a42765b567ad" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::ProviderCircuitBreaker::threshold_</definition>
+        <argsstring></argsstring>
+        <name>threshold_</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="59" column="11" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a984a41e4a973f801b4050823328df68d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::ProviderCircuitBreaker::failures_</definition>
+        <argsstring></argsstring>
+        <name>failures_</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="60" column="11" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aca9afe630ffdcb46f33a2ab28b17933e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aab15483d6e4e484c8437312d0ca1b7e1" kindref="member">State</ref></type>
+        <definition>State themis::aql::testing::ProviderCircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::state_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aab15483d6e4e484c8437312d0ca1b7e1a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">State::CLOSED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="61" column="11" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1af3c6f8ca7d3da422cc0c7cd66f8afab3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::ProviderCircuitBreaker::ProviderCircuitBreaker</definition>
+        <argsstring>(int threshold=3)</argsstring>
+        <name>ProviderCircuitBreaker</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::ProviderCircuitBreaker</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>threshold</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="41" column="14" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aa0286335cd60aaa6e6396d90507bae2d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::ProviderCircuitBreaker::allowRequest</definition>
+        <argsstring>() const</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::allowRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="45" column="10" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aa4b3f42f82b763852332fb846a6815d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::ProviderCircuitBreaker::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::recordFailure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="47" column="10" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a35cb6e804a2373138b6c8847d919e3ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::ProviderCircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="52" column="10" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a4a75792a79d392a9afb2860b18cecd3c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::ProviderCircuitBreaker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="53" column="10" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a0618522978cd6baa8c6f216f059bd41c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aab15483d6e4e484c8437312d0ca1b7e1" kindref="member">State</ref></type>
+        <definition>State themis::aql::testing::ProviderCircuitBreaker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="55" column="11" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a73c60a2e405dc5b872658b62229b7e38" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::testing::ProviderCircuitBreaker::failures</definition>
+        <argsstring>() const</argsstring>
+        <name>failures</name>
+        <qualifiedname>themis::aql::testing::ProviderCircuitBreaker::failures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="56" column="11" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_provider_degradation.cpp" line="39" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="39" bodyend="62"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aa0286335cd60aaa6e6396d90507bae2d" prot="public" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a73c60a2e405dc5b872658b62229b7e38" prot="public" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>failures</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a984a41e4a973f801b4050823328df68d" prot="private" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>failures_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a0618522978cd6baa8c6f216f059bd41c" prot="public" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1af3c6f8ca7d3da422cc0c7cd66f8afab3" prot="public" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>ProviderCircuitBreaker</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aa4b3f42f82b763852332fb846a6815d1" prot="public" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a35cb6e804a2373138b6c8847d919e3ec" prot="public" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1a4a75792a79d392a9afb2860b18cecd3c" prot="public" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aab15483d6e4e484c8437312d0ca1b7e1" prot="public" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1aca9afe630ffdcb46f33a2ab28b17933e" prot="private" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker_1acb83c201c2433b048a85a42765b567ad" prot="private" virt="non-virtual"><scope>themis::aql::testing::ProviderCircuitBreaker</scope><name>threshold_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

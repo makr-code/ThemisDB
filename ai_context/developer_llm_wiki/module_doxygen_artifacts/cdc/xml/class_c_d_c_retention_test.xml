@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_d_c_retention_test" kind="class" language="C++" prot="public">
+    <compoundname>CDCRetentionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_d_c_retention_test_1ae071103b572efdfde897088d3f187659" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CDCRetentionTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>CDCRetentionTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_retention.cpp" line="61" column="17" bodyfile="tests/cdc/test_cdc_retention.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_retention_test_1ae66b681ace3fdb5b8615351ce9de3183" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CDCRetentionTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>CDCRetentionTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_retention.cpp" line="62" column="21" bodyfile="tests/cdc/test_cdc_retention.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_retention_test_1a9c5d4abf6f5db2f4cedcc61110c77855" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CDCRetentionTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>CDCRetentionTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_retention.cpp" line="63" column="21" bodyfile="tests/cdc/test_cdc_retention.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_d_c_retention_test_1a44ef0eed17a482b7674e329939220410" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCRetentionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CDCRetentionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_retention.cpp" line="17" column="10" bodyfile="tests/cdc/test_cdc_retention.cpp" bodystart="17" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_retention_test_1aa74736fd0e8420d718898dc25d949ee1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCRetentionTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CDCRetentionTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_retention.cpp" line="48" column="10" bodyfile="tests/cdc/test_cdc_retention.cpp" bodystart="48" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CDCRetentionTest</label>
+        <link refid="class_c_d_c_retention_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CDCRetentionTest</label>
+        <link refid="class_c_d_c_retention_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_retention.cpp" line="15" column="1" bodyfile="tests/cdc/test_cdc_retention.cpp" bodystart="15" bodyend="64"/>
+    <listofallmembers>
+      <member refid="class_c_d_c_retention_test_1a9c5d4abf6f5db2f4cedcc61110c77855" prot="protected" virt="non-virtual"><scope>CDCRetentionTest</scope><name>changefeed_</name></member>
+      <member refid="class_c_d_c_retention_test_1ae66b681ace3fdb5b8615351ce9de3183" prot="protected" virt="non-virtual"><scope>CDCRetentionTest</scope><name>db_</name></member>
+      <member refid="class_c_d_c_retention_test_1a44ef0eed17a482b7674e329939220410" prot="protected" virt="non-virtual"><scope>CDCRetentionTest</scope><name>SetUp</name></member>
+      <member refid="class_c_d_c_retention_test_1aa74736fd0e8420d718898dc25d949ee1" prot="protected" virt="non-virtual"><scope>CDCRetentionTest</scope><name>TearDown</name></member>
+      <member refid="class_c_d_c_retention_test_1ae071103b572efdfde897088d3f187659" prot="protected" virt="non-virtual"><scope>CDCRetentionTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

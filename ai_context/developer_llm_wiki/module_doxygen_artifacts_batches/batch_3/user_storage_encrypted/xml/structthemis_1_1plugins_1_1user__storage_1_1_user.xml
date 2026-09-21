@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1user__storage_1_1_user" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::User</compoundname>
+    <includes refid="user__models_8hpp" local="no">user_models.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1a3e1311cd428909557de063263ba19c88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::User::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::plugins::user_storage::User::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="27" column="17" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1a00cfba6b96c12f884946f334522d6cf7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::User::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::plugins::user_storage::User::username</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="28" column="17" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1ae0a16a8f9b953dc0ae91a0adb03534cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::User::email</definition>
+        <argsstring></argsstring>
+        <name>email</name>
+        <qualifiedname>themis::plugins::user_storage::User::email</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="29" column="17" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1af2ec314abdd976488024df37973d8a85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::User::full_name</definition>
+        <argsstring></argsstring>
+        <name>full_name</name>
+        <qualifiedname>themis::plugins::user_storage::User::full_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="30" column="17" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1a7158c50273df23fb161023901d86652a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::user_storage::User::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::plugins::user_storage::User::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="31" column="17" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1a861427143f2238e76ab7013268e60365" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::plugins::user_storage::User::classification</definition>
+        <argsstring></argsstring>
+        <name>classification</name>
+        <qualifiedname>themis::plugins::user_storage::User::classification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="32" column="19" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1ab3a4d5e517e08bfb426f9fb98f353838" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::user_storage::User::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::plugins::user_storage::User::created_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="33" column="13" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1a70815aa7ca85f5130e5a429e9aaa4e89" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::user_storage::User::updated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>updated_at_ms</name>
+        <qualifiedname>themis::plugins::user_storage::User::updated_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="34" column="13" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1user__storage_1_1_user_1a8d897f8533a80a0e67d4f3fa1614f9a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::User::User</definition>
+        <argsstring>()</argsstring>
+        <name>User</name>
+        <qualifiedname>themis::plugins::user_storage::User::User</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="36" column="5" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> data model for encrypted storage. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/user_models.hpp" line="26" column="1" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="26" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a861427143f2238e76ab7013268e60365" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>classification</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1ab3a4d5e517e08bfb426f9fb98f353838" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1ae0a16a8f9b953dc0ae91a0adb03534cc" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>email</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1af2ec314abdd976488024df37973d8a85" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>full_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a7158c50273df23fb161023901d86652a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>roles</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a70815aa7ca85f5130e5a429e9aaa4e89" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>updated_at_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a8d897f8533a80a0e67d4f3fa1614f9a6" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>User</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a3e1311cd428909557de063263ba19c88" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a00cfba6b96c12f884946f334522d6cf7" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::User</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

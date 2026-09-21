@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardLoadDetector::Config</compoundname>
+    <includes refid="shard__load__detector_8h" local="no">shard_load_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1aacf6679396664004f9e545c8daa7d702" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadDetector::Config::storage_imbalance_threshold</definition>
+        <argsstring></argsstring>
+        <name>storage_imbalance_threshold</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::storage_imbalance_threshold</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="144" column="16" bodyfile="include/sharding/shard_load_detector.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a11f9331446b2fe47946dfcf73c44d34b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadDetector::Config::request_imbalance_threshold</definition>
+        <argsstring></argsstring>
+        <name>request_imbalance_threshold</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::request_imbalance_threshold</qualifiedname>
+        <initializer>= 0.50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="145" column="16" bodyfile="include/sharding/shard_load_detector.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1ab5e4d9312e4dfc779d4be4d2bc87d428" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadDetector::Config::latency_degradation_threshold</definition>
+        <argsstring></argsstring>
+        <name>latency_degradation_threshold</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::latency_degradation_threshold</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="146" column="16" bodyfile="include/sharding/shard_load_detector.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a166f3f42b889b35470fc443be60b75c3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadDetector::Config::cpu_exhaustion_threshold</definition>
+        <argsstring></argsstring>
+        <name>cpu_exhaustion_threshold</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::cpu_exhaustion_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="147" column="16" bodyfile="include/sharding/shard_load_detector.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3b961d1d94221f3925195de28bf6ec45" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadDetector::Config::storage_exhaustion_threshold</definition>
+        <argsstring></argsstring>
+        <name>storage_exhaustion_threshold</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::storage_exhaustion_threshold</qualifiedname>
+        <initializer>= 0.85</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="148" column="16" bodyfile="include/sharding/shard_load_detector.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3190289e408e619d2cde86290f21a794" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ShardLoadDetector::Config::min_shards_for_detection</definition>
+        <argsstring></argsstring>
+        <name>min_shards_for_detection</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::min_shards_for_detection</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="151" column="16" bodyfile="include/sharding/shard_load_detector.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1af435f28d7c6ffc09a0471d5d0695a3d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ShardLoadDetector::Config::min_samples_per_shard</definition>
+        <argsstring></argsstring>
+        <name>min_samples_per_shard</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::min_samples_per_shard</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="152" column="16" bodyfile="include/sharding/shard_load_detector.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a7537e9c21b56dcf773b7d3a40a5a7dce" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::ShardLoadDetector::Config::detection_interval</definition>
+        <argsstring></argsstring>
+        <name>detection_interval</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::detection_interval</qualifiedname>
+        <initializer>{std::chrono::minutes(5)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="155" column="35" bodyfile="include/sharding/shard_load_detector.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1afdab7a1f36760bde158427a2a3f96133" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::ShardLoadDetector::Config::rebalance_cooldown</definition>
+        <argsstring></argsstring>
+        <name>rebalance_cooldown</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::Config::rebalance_cooldown</qualifiedname>
+        <initializer>{std::chrono::hours(1)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="158" column="35" bodyfile="include/sharding/shard_load_detector.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime thresholds and cadence for imbalance detection logic. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_detector.h" line="142" column="5" bodyfile="include/sharding/shard_load_detector.h" bodystart="142" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a166f3f42b889b35470fc443be60b75c3" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>cpu_exhaustion_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a7537e9c21b56dcf773b7d3a40a5a7dce" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>detection_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1ab5e4d9312e4dfc779d4be4d2bc87d428" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>latency_degradation_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1af435f28d7c6ffc09a0471d5d0695a3d5" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>min_samples_per_shard</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3190289e408e619d2cde86290f21a794" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>min_shards_for_detection</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1afdab7a1f36760bde158427a2a3f96133" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>rebalance_cooldown</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a11f9331446b2fe47946dfcf73c44d34b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>request_imbalance_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3b961d1d94221f3925195de28bf6ec45" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>storage_exhaustion_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1aacf6679396664004f9e545c8daa7d702" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector::Config</scope><name>storage_imbalance_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

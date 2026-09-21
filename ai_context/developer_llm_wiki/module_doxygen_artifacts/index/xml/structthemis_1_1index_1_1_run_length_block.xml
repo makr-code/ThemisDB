@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_run_length_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::RunLengthBlock</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_run_length_block_1_1_run" prot="public">themis::index::RunLengthBlock::Run</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_run_length_block_1ab22efabdf88267295a2e283fb8d95227" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_run_length_block_1_1_run" kindref="compound">Run</ref> &gt;</type>
+        <definition>std::vector&lt;Run&gt; themis::index::RunLengthBlock::runs</definition>
+        <argsstring></argsstring>
+        <name>runs</name>
+        <qualifiedname>themis::index::RunLengthBlock::runs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="200" column="17" bodyfile="include/index/index_compression.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1index_1_1_run_length_block_1a33393aa46e239e68155b562f6164efd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::index::RunLengthBlock::decompress</definition>
+        <argsstring>() const</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::index::RunLengthBlock::decompress</qualifiedname>
+        <briefdescription>
+<para>Reconstruct the original value sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="203" column="17" bodyfile="src/index/index_compression.cpp" bodystart="407" bodyend="409"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Run-Length Encoding (RLE) for repeated string values.</para>
+<para>Consecutive equal values are stored as (value, count) pairs. </para>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="195" column="1" bodyfile="include/index/index_compression.h" bodystart="195" bodyend="204"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_run_length_block_1a33393aa46e239e68155b562f6164efd6" prot="public" virt="non-virtual"><scope>themis::index::RunLengthBlock</scope><name>decompress</name></member>
+      <member refid="structthemis_1_1index_1_1_run_length_block_1ab22efabdf88267295a2e283fb8d95227" prot="public" virt="non-virtual"><scope>themis::index::RunLengthBlock</scope><name>runs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

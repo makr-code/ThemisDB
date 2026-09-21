@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1frg_1_1_state_sync_msg" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::frg::StateSyncMsg</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a4e56da02a4470b06fe75c4cb4b46808e" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::frg::StateSyncMsg::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::bench::frg::StateSyncMsg::epoch</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="112" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a63629a9efb5be84f80ae1974bae860e6" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::frg::StateSyncMsg::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::bench::frg::StateSyncMsg::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="113" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a44a8006f8971f93e33b94e751128161a" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::bench::frg::StateSyncMsg::data[64]</definition>
+        <argsstring>[64]</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::bench::frg::StateSyncMsg::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="114" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="111" column="1" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="111" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a44a8006f8971f93e33b94e751128161a" prot="public" virt="non-virtual"><scope>themis::bench::frg::StateSyncMsg</scope><name>data</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a4e56da02a4470b06fe75c4cb4b46808e" prot="public" virt="non-virtual"><scope>themis::bench::frg::StateSyncMsg</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a63629a9efb5be84f80ae1974bae860e6" prot="public" virt="non-virtual"><scope>themis::bench::frg::StateSyncMsg</scope><name>offset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

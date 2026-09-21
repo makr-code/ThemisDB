@@ -1,0 +1,1021 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_replication_event_stream" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationEventStream</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_i_replication_listener" prot="public" virt="non-virtual">themisdb::replication::IReplicationListener</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; ReplicationEventStream &gt;</basecompoundref>
+    <includes refid="event__stream_8h" local="no">event_stream.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" prot="public">themisdb::replication::ReplicationEventStream::Event</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" prot="public">themisdb::replication::ReplicationEventStream::Subscription</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_record" prot="private">themisdb::replication::ReplicationEventStream::SubscriptionRecord</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EventType</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::EventType</qualifiedname>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a2b15f86d8f5d15618a1e3410c27457b2" prot="public">
+          <name>WRITE_REPLICATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65ab25a05ea6bb4eecb8d92eb0db9d625c7" prot="public">
+          <name>ROLE_CHANGED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a3154460e008063d518b5e659504c58e8" prot="public">
+          <name>LEADER_ELECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a6a22cd8aa5f1a1a511e07ab391597f3a" prot="public">
+          <name>REPLICA_ADDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a85366fccc0357736a9de9ab82ca5d5c8" prot="public">
+          <name>REPLICA_REMOVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a23d9a86a1aea3325993ee71844b849af" prot="public">
+          <name>FAILOVER_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a3986ad9bab09619982e5b4fe230e93c0" prot="public">
+          <name>FAILOVER_COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a6fbe56857871933947ed0c5ff31d13bc" prot="public">
+          <name>CONFLICT_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65adc896ba9da604ccc07379a1a300eca73" prot="public">
+          <name>CONFLICT_RESOLVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65af10aec69f6495edbfc84e95833a95eee" prot="public">
+          <name>LAG_WARNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65af0fc848d79f32c305a5d9c0155192ba3" prot="public">
+          <name>NETWORK_PARTITION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="94" column="5" bodyfile="include/replication/event_stream.h" bodystart="94" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" kindref="compound">Event</ref> &amp;)&gt;</type>
+        <definition>using themisdb::replication::ReplicationEventStream::EventCallback = std::function&lt;void(const Event&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EventCallback</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::EventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="118" column="5" bodyfile="include/replication/event_stream.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" prot="public" static="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_config" kindref="compound">ReplicationEventStreamConfig</ref></type>
+        <definition>using themisdb::replication::ReplicationEventStream::StreamConfig = ReplicationEventStreamConfig</definition>
+        <argsstring></argsstring>
+        <name>StreamConfig</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::StreamConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="161" column="5" bodyfile="include/replication/event_stream.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_event_stream_1ab81079f8a61e4a8d9fd5f7a9ca34a9eb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" kindref="member">StreamConfig</ref></type>
+        <definition>StreamConfig themisdb::replication::ReplicationEventStream::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="236" column="18" bodyfile="include/replication/event_stream.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_event_stream_1adc4b23f4cbded1649925fdda68fe2822" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ReplicationEventStream::subs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>subs_mutex_</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::subs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="245" column="38" bodyfile="include/replication/event_stream.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a5c2f245d8ec41fc461ea46153d430bfa" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; SubscriptionRecord &gt;</type>
+        <definition>std::vector&lt;SubscriptionRecord&gt; themisdb::replication::ReplicationEventStream::subscriptions_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::subscriptions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="246" column="18" bodyfile="include/replication/event_stream.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a1ba9288d19e37085a1371299fd1e4a85" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationEventStream::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::next_id_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="247" column="28" bodyfile="include/replication/event_stream.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a37a4e6504e97b0e3de144625cef3da92" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ReplicationEventStream::buffer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>buffer_mutex_</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::buffer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="250" column="38" bodyfile="include/replication/event_stream.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a7bc887e3ff26784de80a52c2db0e4f7f" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::deque&lt;Event&gt; themisdb::replication::ReplicationEventStream::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="251" column="31" bodyfile="include/replication/event_stream.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationEventStream::ReplicationEventStream</definition>
+        <argsstring>(const StreamConfig &amp;config=StreamConfig{})</argsstring>
+        <name>ReplicationEventStream</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::ReplicationEventStream</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" kindref="member">StreamConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" kindref="member">StreamConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="166" column="14" bodyfile="src/replication/event_stream.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a171815ced0b97664d4fe0e55b68c9b60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationEventStream::~ReplicationEventStream</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ReplicationEventStream</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::~ReplicationEventStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="167" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a5090d2282eeaa086d6a6a0e96f7a419a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationEventStream::ReplicationEventStream</definition>
+        <argsstring>(const ReplicationEventStream &amp;)=delete</argsstring>
+        <name>ReplicationEventStream</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::ReplicationEventStream</qualifiedname>
+        <param>
+          <type>const ReplicationEventStream &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="169" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a6abdf69705f02bb12d848b7bada5be92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref> &amp;</type>
+        <definition>ReplicationEventStream &amp; themisdb::replication::ReplicationEventStream::operator=</definition>
+        <argsstring>(const ReplicationEventStream &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="170" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a26194078a9ead834fbfea88efd2741f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" kindref="compound">Subscription</ref></type>
+        <definition>ReplicationEventStream::Subscription themisdb::replication::ReplicationEventStream::subscribe</definition>
+        <argsstring>(EventType type, EventCallback callback)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::subscribe</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65" kindref="member">EventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" kindref="member">EventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Subscribe to a specific event type. Returns a <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" kindref="compound">Subscription</ref> handle; the subscription is active until the handle is destroyed or cancel() is called.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Only events of this type are delivered to callback. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Invoked synchronously on the emitting thread; must not block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="184" column="18" bodyfile="src/replication/event_stream.cpp" bodystart="68" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1ae01af4219127f445aea4b75d9278790c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" kindref="compound">Subscription</ref></type>
+        <definition>ReplicationEventStream::Subscription themisdb::replication::ReplicationEventStream::subscribeAll</definition>
+        <argsstring>(EventCallback callback)</argsstring>
+        <name>subscribeAll</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::subscribeAll</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" kindref="member">EventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Subscribe to all event types. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Invoked for every event regardless of type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="190" column="18" bodyfile="src/replication/event_stream.cpp" bodystart="84" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1aba1192e75f6b0e0aaec320c44f3227a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::unsubscribe</definition>
+        <argsstring>(uint64_t subscription_id)</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::unsubscribe</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>subscription_id</declname>
+        </param>
+        <briefdescription>
+<para>Unsubscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Manually unsubscribe a previously registered handler. Safe to call after the stream is destroyed (no-op).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscription_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subscription. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="196" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="103" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1ab317783b4a41f608775538a29a1d9f46" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicationEventStream::Event &gt; themisdb::replication::ReplicationEventStream::getEvents</definition>
+        <argsstring>(std::chrono::system_clock::time_point start, std::chrono::system_clock::time_point end, std::optional&lt; EventType &gt; filter=std::nullopt) const</argsstring>
+        <name>getEvents</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::getEvents</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65" kindref="member">EventType</ref> &gt;</type>
+          <declname>filter</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return events from the in-memory ring buffer within [start, end). If filter is set only events of that type are returned. Events are returned in chronological order. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="207" column="17" bodyfile="src/replication/event_stream.cpp" bodystart="124" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a68755d7e33c7978481d94328701aa6e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::replication::ReplicationEventStream::bufferedEventCount</definition>
+        <argsstring>() const</argsstring>
+        <name>bufferedEventCount</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::bufferedEventCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of events currently held in the ring buffer. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="214" column="12" bodyfile="src/replication/event_stream.cpp" bodystart="152" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a3e6f7fed05ddc9b333ef13fa3b0a1992" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onRoleChange</definition>
+        <argsstring>(ReplicationRole from, ReplicationRole to) override</argsstring>
+        <name>onRoleChange</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onRoleChange</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a2cdbbc2a8a075ed4a4285542d16b3c7a">onRoleChange</reimplements>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>On Role Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="219" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="251" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a7cdaef9eccfb1d854fab5606fe4658d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onLeaderElected</definition>
+        <argsstring>(const std::string &amp;leader_id) override</argsstring>
+        <name>onLeaderElected</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onLeaderElected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a3fcbfce08a82f5f74f1b060a5a6d082f">onLeaderElected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <briefdescription>
+<para>On Leader Elected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the leader. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="220" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="266" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a9f512f72ef848fa683694c62a7054d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onReplicaAdded</definition>
+        <argsstring>(const ReplicaInfo &amp;replica) override</argsstring>
+        <name>onReplicaAdded</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onReplicaAdded</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a16aa55efb52c2495bf50b719e7497b43">onReplicaAdded</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+<para>On Replica Added. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="221" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="280" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1ab4d2cb15821589fdaa3ed1d9633561cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onReplicaRemoved</definition>
+        <argsstring>(const std::string &amp;node_id) override</argsstring>
+        <name>onReplicaRemoved</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onReplicaRemoved</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a4303b3ab155bb1c2df41f89069b02931">onReplicaRemoved</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>On Replica Removed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="222" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="296" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a7fc48cb30a971e75b3d4a5113e81f4e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onConflictDetected</definition>
+        <argsstring>(const std::string &amp;document_id) override</argsstring>
+        <name>onConflictDetected</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onConflictDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a261c025241caa1597f4ae8cb0f20947f">onConflictDetected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>On Conflict Detected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="223" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="310" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a66208a77b2fc4c1a2385bd83e4a90603" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onReplicationLagWarning</definition>
+        <argsstring>(int64_t lag_ms) override</argsstring>
+        <name>onReplicationLagWarning</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onReplicationLagWarning</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a5f00cb59d9e5f4286dbee3f8418c1375">onReplicationLagWarning</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+<para>On Replication Lag Warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="224" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="323" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a760666c37c3decfae1c863421fb6ff9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onReplicaHealthChanged</definition>
+        <argsstring>(const std::string &amp;node_id, HealthStatus old_status, HealthStatus new_status) override</argsstring>
+        <name>onReplicaHealthChanged</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onReplicaHealthChanged</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1ace538bfc02cb257542fb2b11d55e7139">onReplicaHealthChanged</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+          <declname>old_status</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+          <declname>new_status</declname>
+        </param>
+        <briefdescription>
+<para>On Replica Health Changed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="225" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="338" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a56377fc7bc663ec9f903ec2b15e5f493" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onFailoverStarted</definition>
+        <argsstring>(const std::string &amp;failed_node, const std::string &amp;new_leader) override</argsstring>
+        <name>onFailoverStarted</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onFailoverStarted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a03c09e34da59b2594d79810c33b2420d">onFailoverStarted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_leader</declname>
+        </param>
+        <briefdescription>
+<para>On Failover Started. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_leader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="228" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="358" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1ae75d93f943260295628534ce963b100c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onFailoverCompleted</definition>
+        <argsstring>(const std::string &amp;new_leader, bool success) override</argsstring>
+        <name>onFailoverCompleted</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onFailoverCompleted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a68c566bb34bb71967ab672e492b4024f">onFailoverCompleted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_leader</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>On Failover Completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_leader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="230" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="375" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1aa6fdd9a3b3dce8deb128281e066f723a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onNetworkPartitionDetected</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;affected) override</argsstring>
+        <name>onNetworkPartitionDetected</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onNetworkPartitionDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a1e9909fe6f6bc69a4fd284819647ff7c">onNetworkPartitionDetected</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>affected</declname>
+        </param>
+        <briefdescription>
+<para>On Network Partition Detected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">affected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="232" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="392" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a91a3cc03f3496e5c951907c145cc77e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::onWALEntryApplied</definition>
+        <argsstring>(const WALEntry &amp;entry) override</argsstring>
+        <name>onWALEntryApplied</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::onWALEntryApplied</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1af5af59bfb9d4a5136514552f110de9c8">onWALEntryApplied</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>On <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> Applied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="233" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="413" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_event_stream_1a62cf95e813c7c6fd3dc29ab2b192e220" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationEventStream::emit</definition>
+        <argsstring>(Event ev)</argsstring>
+        <name>emit</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStream::emit</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" kindref="compound">Event</ref></type>
+          <declname>ev</declname>
+        </param>
+        <briefdescription>
+<para>Emit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit an event: append to ring buffer and invoke matching callbacks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ev</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="254" column="10" bodyfile="src/replication/event_stream.cpp" bodystart="171" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream" kindref="compound">ReplicationEventStream</ref></para>
+<para>Captures all replication lifecycle events that flow through <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref> and delivers them to subscriber callbacks.</para>
+<para>Usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stream<sp/>=<sp/>std::make_shared&lt;ReplicationEventStream&gt;();</highlight></codeline>
+<codeline><highlight class="normal">repl_mgr.addListener(stream);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Subscribe<sp/>to<sp/>a<sp/>specific<sp/>event<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handle<sp/>=<sp/>stream-&gt;subscribe(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a3986ad9bab09619982e5b4fe230e93c0" kindref="member">ReplicationEventStream::EventType::FAILOVER_COMPLETED</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ReplicationEventStream::Event&amp;<sp/>ev)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>handle<sp/>auto-unsubscribes<sp/>when<sp/>it<sp/>goes<sp/>out<sp/>of<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wildcard<sp/>subscription</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit_handle<sp/>=<sp/>stream-&gt;subscribeAll([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev)<sp/>{<sp/>log(ev);<sp/>});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; ReplicationEventStream &gt;</label>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::ReplicationEventStream</label>
+        <link refid="classthemisdb_1_1replication_1_1_replication_event_stream"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; ReplicationEventStream &gt;</label>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::ReplicationEventStream</label>
+        <link refid="classthemisdb_1_1replication_1_1_replication_event_stream"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/event_stream.h" line="87" column="1" bodyfile="include/replication/event_stream.h" bodystart="89" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a7bc887e3ff26784de80a52c2db0e4f7f" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>buffer_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a37a4e6504e97b0e3de144625cef3da92" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>buffer_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a68755d7e33c7978481d94328701aa6e0" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>bufferedEventCount</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ab81079f8a61e4a8d9fd5f7a9ca34a9eb" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a62cf95e813c7c6fd3dc29ab2b192e220" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>emit</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>EventCallback</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>EventType</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ab317783b4a41f608775538a29a1d9f46" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>getEvents</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a1ba9288d19e37085a1371299fd1e4a85" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>next_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a7fc48cb30a971e75b3d4a5113e81f4e1" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onConflictDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ae75d93f943260295628534ce963b100c" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onFailoverCompleted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a56377fc7bc663ec9f903ec2b15e5f493" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onFailoverStarted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a7cdaef9eccfb1d854fab5606fe4658d2" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onLeaderElected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1aa6fdd9a3b3dce8deb128281e066f723a" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onNetworkPartitionDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a9f512f72ef848fa683694c62a7054d9d" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onReplicaAdded</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a760666c37c3decfae1c863421fb6ff9c" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onReplicaHealthChanged</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ab4d2cb15821589fdaa3ed1d9633561cd" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onReplicaRemoved</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a66208a77b2fc4c1a2385bd83e4a90603" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onReplicationLagWarning</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a3e6f7fed05ddc9b333ef13fa3b0a1992" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onRoleChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a91a3cc03f3496e5c951907c145cc77e7" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>onWALEntryApplied</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a6abdf69705f02bb12d848b7bada5be92" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>ReplicationEventStream</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a5090d2282eeaa086d6a6a0e96f7a419a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>ReplicationEventStream</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>StreamConfig</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1adc4b23f4cbded1649925fdda68fe2822" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>subs_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a26194078a9ead834fbfea88efd2741f2" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>subscribe</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ae01af4219127f445aea4b75d9278790c" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>subscribeAll</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a5c2f245d8ec41fc461ea46153d430bfa" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>subscriptions_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1aba1192e75f6b0e0aaec320c44f3227a1" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>unsubscribe</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1acb88cf6198e73097f327c58dbbe23d67" prot="public" virt="virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>~IReplicationListener</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a171815ced0b97664d4fe0e55b68c9b60" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStream</scope><name>~ReplicationEventStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

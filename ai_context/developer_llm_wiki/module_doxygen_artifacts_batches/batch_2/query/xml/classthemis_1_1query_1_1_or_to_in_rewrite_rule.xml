@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_or_to_in_rewrite_rule" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::OrToInRewriteRule</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" prot="public" virt="non-virtual">themis::query::IQueryRewriteRule</basecompoundref>
+    <includes refid="query__rewrite__rule_8h" local="no">query_rewrite_rule.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1ac65e3477ea084635adaf69c6a195045d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::OrToInRewriteRule::~OrToInRewriteRule</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~OrToInRewriteRule</name>
+        <qualifiedname>themis::query::OrToInRewriteRule::~OrToInRewriteRule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1a5aa7f0b0d34443d2ca8fe0134335ef9a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::OrToInRewriteRule::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::OrToInRewriteRule::name</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a7188c91178e7a315f921bce09de1e456">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="78" column="17" bodyfile="include/query/query_rewrite_rule.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aba25e16500ac02834ec61ff380feda1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::OrToInRewriteRule::applies</definition>
+        <argsstring>(const nlohmann::json &amp;plan, const RewriteContext &amp;ctx) const override</argsstring>
+        <name>applies</name>
+        <qualifiedname>themis::query::OrToInRewriteRule::applies</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1aa5f40172d8eeecc21b3c66f936cda68d">applies</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="79" column="10" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="333" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aafbf7f17bc309bcfcfb2be6d35c16a0f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::OrToInRewriteRule::apply</definition>
+        <argsstring>(nlohmann::json &amp;plan, const RewriteContext &amp;ctx) const override</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::query::OrToInRewriteRule::apply</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a9091b6186534bf99d50fc785ca8bf9a1">apply</reimplements>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="80" column="12" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="351" bodyend="387"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::IQueryRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_i_query_rewrite_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::query::OrToInRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::IQueryRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_i_query_rewrite_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::query::OrToInRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_rewrite_rule.h" line="75" column="1" bodyfile="include/query/query_rewrite_rule.h" bodystart="75" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aba25e16500ac02834ec61ff380feda1b" prot="public" virt="virtual"><scope>themis::query::OrToInRewriteRule</scope><name>applies</name></member>
+      <member refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aafbf7f17bc309bcfcfb2be6d35c16a0f" prot="public" virt="virtual"><scope>themis::query::OrToInRewriteRule</scope><name>apply</name></member>
+      <member refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1a5aa7f0b0d34443d2ca8fe0134335ef9a" prot="public" virt="virtual"><scope>themis::query::OrToInRewriteRule</scope><name>name</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1ae198d76b9e5f1ce78389e8af51f5636e" prot="public" virt="virtual"><scope>themis::query::OrToInRewriteRule</scope><name>~IQueryRewriteRule</name></member>
+      <member refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1ac65e3477ea084635adaf69c6a195045d" prot="public" virt="non-virtual"><scope>themis::query::OrToInRewriteRule</scope><name>~OrToInRewriteRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

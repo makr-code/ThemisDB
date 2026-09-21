@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d067304271176075046317330056116035345213275061337" kind="namespace" language="C++">
+    <compoundname>@067304271176075046317330056116035345213275061337</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_resource_exhaustion.cpp" line="30" column="1"/>
+  </compounddef>
+</doxygen>

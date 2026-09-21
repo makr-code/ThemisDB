@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::multimodal::MultiModalRAGResult</compoundname>
+    <includes refid="multimodal__rag_8h" local="no">multimodal_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1a3b743c06bc22703da363a0ec3a3eaba9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source" kindref="compound">MultiModalSource</ref> &gt;</type>
+        <definition>std::vector&lt;MultiModalSource&gt; themis::rag::multimodal::MultiModalRAGResult::sources</definition>
+        <argsstring></argsstring>
+        <name>sources</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGResult::sources</qualifiedname>
+        <briefdescription>
+<para>Retrieved sources, sorted by relevance_score descending. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="116" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1a3384ff3dde0c015ff93734effbeeb49c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::MultiModalRAGResult::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGResult::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Formatted LLM context string built from <computeroutput>sources</computeroutput>. Suitable for direct injection into an LLM prompt. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="120" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1aed9213efbe22fbd7cb350c29f91fe6c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::multimodal::MultiModalRAGResult::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGResult::elapsed_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock duration for the complete query (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="123" column="12" bodyfile="include/rag/multimodal_rag.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a multi-modal RAG query. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multimodal_rag.h" line="114" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="114" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1a3384ff3dde0c015ff93734effbeeb49c" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGResult</scope><name>context</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1aed9213efbe22fbd7cb350c29f91fe6c2" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGResult</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1a3b743c06bc22703da363a0ec3a3eaba9" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGResult</scope><name>sources</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

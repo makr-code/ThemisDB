@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_partition_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::PartitionInfo</compoundname>
+    <includes refid="online__schema__migration_8h" local="no">online_schema_migration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_partition_info_1ace1a85a9215e0621f3b6b2369db0fcfa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::PartitionInfo::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::storage::PartitionInfo::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="98" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_partition_info_1a65d80a48fb56c7486d3bde906ac1336f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::PartitionInfo::partition_key</definition>
+        <argsstring></argsstring>
+        <name>partition_key</name>
+        <qualifiedname>themis::storage::PartitionInfo::partition_key</qualifiedname>
+        <briefdescription>
+<para>Column used as partition key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="99" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_partition_info_1a7de68b8c7426a1500ecc56eec243b62c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::PartitionInfo::num_partitions</definition>
+        <argsstring></argsstring>
+        <name>num_partitions</name>
+        <qualifiedname>themis::storage::PartitionInfo::num_partitions</qualifiedname>
+        <initializer>{4}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="100" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_partition_info_1a98d30ce4d2c95c2b7b8b1ef319e5fffd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::storage::PartitionInfo::partition_names</definition>
+        <argsstring></argsstring>
+        <name>partition_names</name>
+        <qualifiedname>themis::storage::PartitionInfo::partition_names</qualifiedname>
+        <briefdescription>
+<para>Generated on partition creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="101" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Partition strategy for PARTITION_TABLE operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/online_schema_migration.h" line="97" column="1" bodyfile="include/storage/online_schema_migration.h" bodystart="97" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_partition_info_1a7de68b8c7426a1500ecc56eec243b62c" prot="public" virt="non-virtual"><scope>themis::storage::PartitionInfo</scope><name>num_partitions</name></member>
+      <member refid="structthemis_1_1storage_1_1_partition_info_1a65d80a48fb56c7486d3bde906ac1336f" prot="public" virt="non-virtual"><scope>themis::storage::PartitionInfo</scope><name>partition_key</name></member>
+      <member refid="structthemis_1_1storage_1_1_partition_info_1a98d30ce4d2c95c2b7b8b1ef319e5fffd" prot="public" virt="non-virtual"><scope>themis::storage::PartitionInfo</scope><name>partition_names</name></member>
+      <member refid="structthemis_1_1storage_1_1_partition_info_1ace1a85a9215e0621f3b6b2369db0fcfa" prot="public" virt="non-virtual"><scope>themis::storage::PartitionInfo</scope><name>table_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

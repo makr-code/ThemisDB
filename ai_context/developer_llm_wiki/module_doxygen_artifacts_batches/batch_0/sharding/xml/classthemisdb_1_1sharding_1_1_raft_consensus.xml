@@ -1,0 +1,1337 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_raft_consensus" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftConsensus</compoundname>
+    <includes refid="raft__consensus_8h" local="no">raft_consensus.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config" prot="public">themisdb::sharding::RaftConsensus::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a95911b1181e78ae1d3448457c4b808aa" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;node_id, const <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &amp;entry)&gt;</type>
+        <definition>using themisdb::sharding::RaftConsensus::ReplicationCallback = std::function&lt;bool(const std::string&amp; node_id, 
+                                                  const LogEntry&amp; entry)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReplicationCallback</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::ReplicationCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="84" column="5" bodyfile="include/sharding/raft_consensus.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a398eace331787feac4a00223023fba32" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;node_id, const <ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref> &amp;heartbeat)&gt;</type>
+        <definition>using themisdb::sharding::RaftConsensus::HeartbeatCallback = std::function&lt;bool(const std::string&amp; node_id,
+                                                const Heartbeat&amp; heartbeat)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HeartbeatCallback</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::HeartbeatCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="86" column="5" bodyfile="include/sharding/raft_consensus.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a828a7c7fe1d3027e300c4673a6ef4a52" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::RaftConsensus::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="246" column="12" bodyfile="include/sharding/raft_consensus.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a04ee69ef87f33438520c9c4d054de0f2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_state" kindref="compound">RaftState</ref></type>
+        <definition>RaftState themisdb::sharding::RaftConsensus::raft_state_</definition>
+        <argsstring></argsstring>
+        <name>raft_state_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::raft_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="247" column="15" bodyfile="include/sharding/raft_consensus.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a0eadba0af8cdd69db59834bbe5e86edb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a95911b1181e78ae1d3448457c4b808aa" kindref="member">ReplicationCallback</ref></type>
+        <definition>ReplicationCallback themisdb::sharding::RaftConsensus::replication_callback_</definition>
+        <argsstring></argsstring>
+        <name>replication_callback_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::replication_callback_</qualifiedname>
+        <briefdescription>
+<para>Log replication transport callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="250" column="25" bodyfile="include/sharding/raft_consensus.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a6f133b10c6a89bcaa38b88b06c5100e1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a398eace331787feac4a00223023fba32" kindref="member">HeartbeatCallback</ref></type>
+        <definition>HeartbeatCallback themisdb::sharding::RaftConsensus::heartbeat_callback_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_callback_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::heartbeat_callback_</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref> transport callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="251" column="23" bodyfile="include/sharding/raft_consensus.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1aeb105e3b6ddff7aa8bee3a45b03d0b2d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::RaftConsensus::replica_mutex_</definition>
+        <argsstring></argsstring>
+        <name>replica_mutex_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::replica_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="254" column="24" bodyfile="include/sharding/raft_consensus.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a96260e6ca0281ea7274de12cf9598b6c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_replica_state" kindref="compound">ReplicaState</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ReplicaState&gt; themisdb::sharding::RaftConsensus::replica_states_</definition>
+        <argsstring></argsstring>
+        <name>replica_states_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::replica_states_</qualifiedname>
+        <briefdescription>
+<para>Per-replica replication and health state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="255" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a627ff7f1c50a3f163f907ddaf775fa89" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::RaftConsensus::partition_mutex_</definition>
+        <argsstring></argsstring>
+        <name>partition_mutex_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::partition_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="258" column="24" bodyfile="include/sharding/raft_consensus.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a533674ab7a22a9d472a8adf6938084dc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_partition_status" kindref="compound">PartitionStatus</ref></type>
+        <definition>PartitionStatus themisdb::sharding::RaftConsensus::partition_status_</definition>
+        <argsstring></argsstring>
+        <name>partition_status_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::partition_status_</qualifiedname>
+        <briefdescription>
+<para>Latest detected partition status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="259" column="21" bodyfile="include/sharding/raft_consensus.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1aab0cce0abddc6c070713e8bf5c50c5f6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::RaftConsensus::read_only_mode_</definition>
+        <argsstring></argsstring>
+        <name>read_only_mode_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::read_only_mode_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when writes must be rejected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="260" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a63860838cb2afdb36748e81853f75c6f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::RaftConsensus::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Lifecycle flag shared by background threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="263" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a25f3661b77489d8f7d0c71f87c4f9a57" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::RaftConsensus::heartbeat_thread_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_thread_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::heartbeat_thread_</qualifiedname>
+        <briefdescription>
+<para>Leader heartbeat worker thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="264" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1af6f02d28fe3df1458d64a03098aabeea" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::RaftConsensus::election_thread_</definition>
+        <argsstring></argsstring>
+        <name>election_thread_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::election_thread_</qualifiedname>
+        <briefdescription>
+<para>Election timeout worker thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="265" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1aea017a706fec7b8aefda8a7ddbd123f5" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::RaftConsensus::partition_detector_thread_</definition>
+        <argsstring></argsstring>
+        <name>partition_detector_thread_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::partition_detector_thread_</qualifiedname>
+        <briefdescription>
+<para>Partition detector worker thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="266" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1ab893f8345e75ab5d2bc9f2bda907f51f" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::sharding::RaftConsensus::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::cv_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="269" column="29" bodyfile="include/sharding/raft_consensus.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a77a93df4cb24414b24b4edcb9a45943a" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::RaftConsensus::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::cv_mutex_</qualifiedname>
+        <briefdescription>
+<para>Wait mutex for worker thread sleep/wake. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="270" column="16" bodyfile="include/sharding/raft_consensus.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1aef3fc416c14bdffd09c9b624a5cfd9b3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftConsensus::RaftConsensus</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RaftConsensus</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::RaftConsensus</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct enhanced Raft consensus engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus configuration and timing thresholds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="106" column="14" bodyfile="src/sharding/raft_consensus.cpp" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a260e1111adc1b33b2d9c12344e183147" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftConsensus::~RaftConsensus</definition>
+        <argsstring>()</argsstring>
+        <name>~RaftConsensus</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::~RaftConsensus</qualifiedname>
+        <briefdescription>
+<para>Stop background threads and release owned resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="109" column="5" bodyfile="src/sharding/raft_consensus.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1ac9c5590f56c5f3b1ed82622cc74e6934" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftConsensus::RaftConsensus</definition>
+        <argsstring>(const RaftConsensus &amp;)=delete</argsstring>
+        <name>RaftConsensus</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::RaftConsensus</qualifiedname>
+        <param>
+          <type>const RaftConsensus &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1aedf45dec27378b7723a3b6eacb054805" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aef3fc416c14bdffd09c9b624a5cfd9b3" kindref="member">RaftConsensus</ref> &amp;</type>
+        <definition>RaftConsensus &amp; themisdb::sharding::RaftConsensus::operator=</definition>
+        <argsstring>(const RaftConsensus &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aef3fc416c14bdffd09c9b624a5cfd9b3" kindref="member">RaftConsensus</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="113" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a5656fd95c55707235931d892afbffd39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::start</qualifiedname>
+        <briefdescription>
+<para>Start consensus protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: exchange(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="118" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="39" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a227bddc7c4a71c37fdc57cc98eb22718" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::stop</qualifiedname>
+        <briefdescription>
+<para>Stop consensus protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: exchange(), notify_all(), themis::utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="123" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="57" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a58c453b45550aab2e21a7cb4a48f0325" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; bool &gt;</type>
+        <definition>std::future&lt; bool &gt; themisdb::sharding::RaftConsensus::propose</definition>
+        <argsstring>(const std::string &amp;command)</argsstring>
+        <name>propose</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::propose</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>command</declname>
+        </param>
+        <briefdescription>
+<para>Propose a new log entry (leader only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Propose.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Command to replicate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future that resolves when entry is committed or fails</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_future(), lock(), <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aea00fc9635916336583fc66b9bf8fe68" kindref="member">isLeader()</ref>, set_value(), <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a59025292eec5d76912a60970ac259e06" kindref="member">isReadOnly()</ref>, getLog(), getLastLogIndex(), <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a8df52443aa5c73f0d7f644e75119a05e" kindref="member">getCurrentTerm()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="130" column="17" bodyfile="src/sharding/raft_consensus.cpp" bodystart="83" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1aea00fc9635916336583fc66b9bf8fe68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftConsensus::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::isLeader</qualifiedname>
+        <briefdescription>
+<para>Check if this node is the leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when underlying Raft state is leader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="136" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="171" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a55c60ea5638a9363a7d5b0d47d61218f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftConsensus::hasQuorum</definition>
+        <argsstring>() const</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::hasQuorum</qualifiedname>
+        <briefdescription>
+<para>Check if cluster has quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when enough healthy replicas are reachable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="142" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1ab15f177270c343012d163757794a57e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_partition_status" kindref="compound">PartitionStatus</ref></type>
+        <definition>PartitionStatus themisdb::sharding::RaftConsensus::getPartitionStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getPartitionStatus</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::getPartitionStatus</qualifiedname>
+        <briefdescription>
+<para>Get current partition status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot of latest partition detection result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="148" column="21" bodyfile="src/sharding/raft_consensus.cpp" bodystart="179" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a59025292eec5d76912a60970ac259e06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftConsensus::isReadOnly</definition>
+        <argsstring>() const</argsstring>
+        <name>isReadOnly</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::isReadOnly</qualifiedname>
+        <briefdescription>
+<para>Check if node is in read-only mode (minority partition). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when write operations should be refused. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="154" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="189" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a7c023b2ae5c5290b1beb0b8f36aec5e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftConsensus::getLeaderId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderId</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::getLeaderId</qualifiedname>
+        <briefdescription>
+<para>Get current leader ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current known leader identifier, possibly empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="160" column="17" bodyfile="src/sharding/raft_consensus.cpp" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a8df52443aa5c73f0d7f644e75119a05e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftConsensus::getCurrentTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTerm</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::getCurrentTerm</qualifiedname>
+        <briefdescription>
+<para>Get current term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current Raft term. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="166" column="14" bodyfile="src/sharding/raft_consensus.cpp" bodystart="197" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1ab87410b47db7dc20f39d74b2a2b10799" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_replica_state" kindref="compound">ReplicaState</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicaState &gt; themisdb::sharding::RaftConsensus::getReplicaStates</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicaStates</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::getReplicaStates</qualifiedname>
+        <briefdescription>
+<para>Get replica states. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Copy of tracked follower replication/health states. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="172" column="17" bodyfile="src/sharding/raft_consensus.cpp" bodystart="201" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a5ab9ae86d8b0425403b433a30a1223a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::setReplicationCallback</definition>
+        <argsstring>(ReplicationCallback callback)</argsstring>
+        <name>setReplicationCallback</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::setReplicationCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a95911b1181e78ae1d3448457c4b808aa" kindref="member">ReplicationCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set replication callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Replication Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback used to send replicated log entries to peers.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="178" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="222" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a1efc073fc1130085c85961dc8a65221f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::setHeartbeatCallback</definition>
+        <argsstring>(HeartbeatCallback callback)</argsstring>
+        <name>setHeartbeatCallback</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::setHeartbeatCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a398eace331787feac4a00223023fba32" kindref="member">HeartbeatCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set heartbeat callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref> Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback used to send leader heartbeats to peers.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="184" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="234" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1ab5eec7235cd77578af170ad3a8588bf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::receiveHeartbeat</definition>
+        <argsstring>(const Heartbeat &amp;heartbeat)</argsstring>
+        <name>receiveHeartbeat</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::receiveHeartbeat</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref> &amp;</type>
+          <declname>heartbeat</declname>
+        </param>
+        <briefdescription>
+<para>Handle incoming heartbeat from leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive <ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>heartbeat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Incoming heartbeat payload.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">heartbeat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a8df52443aa5c73f0d7f644e75119a05e" kindref="member">getCurrentTerm()</ref>, getState(), becomeFollower(), resetElectionTimeout(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="190" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="244" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a3894c3db264a0d9e0614293d0eb12c15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::receiveAppendEntriesResponse</definition>
+        <argsstring>(const std::string &amp;node_id, const AppendEntriesResponse &amp;response)</argsstring>
+        <name>receiveAppendEntriesResponse</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::receiveAppendEntriesResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_append_entries_response" kindref="compound">AppendEntriesResponse</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Handle append entries response from follower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive Append Entries Response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Follower identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AppendEntries RPC response from follower.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::chrono::steady_clock::now(), updateReplicaHealthLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="197" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="263" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a4cf4b0f75159fc44569bb79a94dea8a3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_state" kindref="compound">RaftState</ref> &amp;</type>
+        <definition>RaftState &amp; themisdb::sharding::RaftConsensus::getRaftState</definition>
+        <argsstring>()</argsstring>
+        <name>getRaftState</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::getRaftState</qualifiedname>
+        <briefdescription>
+<para>Get reference to underlying Raft state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mutable reference to underlying Raft state machine. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="204" column="15" bodyfile="include/sharding/raft_consensus.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a432e99d5d799f814c70ab6472e256131" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_state" kindref="compound">RaftState</ref> &amp;</type>
+        <definition>const RaftState &amp; themisdb::sharding::RaftConsensus::getRaftState</definition>
+        <argsstring>() const</argsstring>
+        <name>getRaftState</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::getRaftState</qualifiedname>
+        <briefdescription>
+<para>Return const reference to underlying Raft state machine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="206" column="21" bodyfile="include/sharding/raft_consensus.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a463b5ff3cebccab1f745bc7ebaeddfd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::addReplicaNode</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>addReplicaNode</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::addReplicaNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Register a new peer node for replication and health tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Replica Node.</para>
+<para>Called after a membership change is committed so that the new node appears in replica_states_ and will receive heartbeats/AppendEntries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new peer&apos;s node identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), getLog(), getLastLogIndex(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="216" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="540" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a9e4fb6e1539df1c90b07c4d7e174ceca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::removeReplicaNode</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>removeReplicaNode</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::removeReplicaNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a peer node from replication and health tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Replica Node.</para>
+<para>Called after a membership change is committed so the removed node is no longer contacted for heartbeats/AppendEntries or counted in quorum.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The removed peer&apos;s node identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="226" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="559" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a557afb98f3f090d43113d16e886780c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::updatePeerAddress</definition>
+        <argsstring>(const std::string &amp;node_id, const std::string &amp;new_endpoint)</argsstring>
+        <name>updatePeerAddress</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::updatePeerAddress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Update the network endpoint (address) of a known peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Peer Address.</para>
+<para>Called during hardware migration (Phase 5) to reflect a shard&apos;s new physical host:port after the operator runs <computeroutput>POST /api/v1/shards/{id}/migrate-hardware</computeroutput>.</para>
+<para>Thread-safe. Logs a warning (via spdlog) if node_id is not present in replica_states_; the call is a no-op in that case.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The peer whose endpoint is changing (must match an existing replica state entry). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New &quot;host:port&quot; or URL string.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="242" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="570" bodyend="580"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1ab602eaa902bf099bb7ce1669ca1aa9fc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::heartbeatLoop</definition>
+        <argsstring>()</argsstring>
+        <name>heartbeatLoop</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::heartbeatLoop</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref> loop (for leader). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref> Loop.</para>
+<para>Calls: <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aea00fc9635916336583fc66b9bf8fe68" kindref="member">isLeader()</ref>, sendHeartbeats(), lock(), wait_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="275" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="284" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a714c5240987a80e082a6ce3b7a561b88" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::electionLoop</definition>
+        <argsstring>()</argsstring>
+        <name>electionLoop</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::electionLoop</qualifiedname>
+        <briefdescription>
+<para>Election timeout loop (for followers). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Election Loop.</para>
+<para>Calls: isFollower(), isElectionTimeout(), <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a59025292eec5d76912a60970ac259e06" kindref="member">isReadOnly()</ref>, startElection(), lock(), wait_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="280" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="300" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a1ef7bf81107e7c8969908c229c7888dd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::partitionDetectionLoop</definition>
+        <argsstring>()</argsstring>
+        <name>partitionDetectionLoop</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::partitionDetectionLoop</qualifiedname>
+        <briefdescription>
+<para>Partition detection loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Partition Detection Loop.</para>
+<para>Calls: detectPartition(), lock(), store(), wait_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="285" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="321" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a30005e2fb0946fd4be6c7da6d7ec4937" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::sendHeartbeats</definition>
+        <argsstring>()</argsstring>
+        <name>sendHeartbeats</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::sendHeartbeats</qualifiedname>
+        <briefdescription>
+<para>Send heartbeats to all followers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Heartbeats.</para>
+<para>Calls: getNodeId(), <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a8df52443aa5c73f0d7f644e75119a05e" kindref="member">getCurrentTerm()</ref>, getLog(), getCommitIndex(), std::chrono::steady_clock::now(), lock(), reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="290" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="347" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a98d4906d5057f934cc00b184a1d97792" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftConsensus::replicateToFollower</definition>
+        <argsstring>(const std::string &amp;node_id, const LogEntry &amp;entry, const ReplicationCallback &amp;callback)</argsstring>
+        <name>replicateToFollower</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::replicateToFollower</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a95911b1181e78ae1d3448457c4b808aa" kindref="member">ReplicationCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Replicate log entry to follower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replicate To Follower.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Follower identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Log entry to replicate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transport callback to invoke. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when replication callback reports success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: callback(), updateReplicaHealth(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="299" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="390" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a1eb2c7acd7ad28f7c7fa4a1a0e1af6e9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_partition_status" kindref="compound">PartitionStatus</ref></type>
+        <definition>PartitionStatus themisdb::sharding::RaftConsensus::detectPartition</definition>
+        <argsstring>()</argsstring>
+        <name>detectPartition</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::detectPartition</qualifiedname>
+        <briefdescription>
+<para>Detect network partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Partition.</para>
+<para><simplesect kind="return"><para>Newly computed partition status snapshot.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), reserve(), size(), push_back(), getQuorumSize(), std::sort(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="307" column="21" bodyfile="src/sharding/raft_consensus.cpp" bodystart="407" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a1afb7fdf346f8da49fa8c8eb70ff73a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::updateReplicaHealth</definition>
+        <argsstring>(const std::string &amp;node_id, bool success)</argsstring>
+        <name>updateReplicaHealth</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::updateReplicaHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Update replica health status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Replica Health.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True when the most recent contact succeeded.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), updateReplicaHealthLocked(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="314" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="453" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a856a771b02ec5e8d5339db8c53529f30" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::updateReplicaHealthLocked</definition>
+        <argsstring>(ReplicaState &amp;state, bool success, std::chrono::steady_clock::time_point now)</argsstring>
+        <name>updateReplicaHealthLocked</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::updateReplicaHealthLocked</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_replica_state" kindref="compound">ReplicaState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+<para>Update a single replica state&apos;s health with replica_mutex_ already held. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Replica Health Locked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mutable replica state to update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True when the most recent contact succeeded. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>now</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timestamp used for staleness calculations.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateReplicaHealthLocked without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="322" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="489" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1a0c2f51d24e17541162741cd206e5909e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftConsensus::checkQuorum</definition>
+        <argsstring>() const</argsstring>
+        <name>checkQuorum</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::checkQuorum</qualifiedname>
+        <briefdescription>
+<para>Check if have quorum of healthy replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when reachable healthy/degraded nodes satisfy quorum. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="330" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="463" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_consensus_1ab1ec03f2af4968d00c6c572150903f57" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftConsensus::initializeReplicaStates</definition>
+        <argsstring>()</argsstring>
+        <name>initializeReplicaStates</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::initializeReplicaStates</qualifiedname>
+        <briefdescription>
+<para>Initialize replica states. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize Replica States.</para>
+<para>Calls: lock(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="335" column="10" bodyfile="src/sharding/raft_consensus.cpp" bodystart="515" bodyend="533"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Enhanced Raft Consensus with Partition Detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends basic Raft implementation with:<itemizedlist>
+<listitem><para>Network partition detection</para>
+</listitem><listitem><para>Split-brain prevention</para>
+</listitem><listitem><para>Quorum-enforced operations</para>
+</listitem><listitem><para>Automatic partition healing </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/raft_consensus.h" line="82" column="1" bodyfile="include/sharding/raft_consensus.h" bodystart="82" bodyend="336"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a463b5ff3cebccab1f745bc7ebaeddfd2" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>addReplicaNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a0c2f51d24e17541162741cd206e5909e" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>checkQuorum</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a828a7c7fe1d3027e300c4673a6ef4a52" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1ab893f8345e75ab5d2bc9f2bda907f51f" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a77a93df4cb24414b24b4edcb9a45943a" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>cv_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a1eb2c7acd7ad28f7c7fa4a1a0e1af6e9" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>detectPartition</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1af6f02d28fe3df1458d64a03098aabeea" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>election_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a714c5240987a80e082a6ce3b7a561b88" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>electionLoop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a8df52443aa5c73f0d7f644e75119a05e" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>getCurrentTerm</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a7c023b2ae5c5290b1beb0b8f36aec5e6" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>getLeaderId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1ab15f177270c343012d163757794a57e6" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>getPartitionStatus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a4cf4b0f75159fc44569bb79a94dea8a3" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>getRaftState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a432e99d5d799f814c70ab6472e256131" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>getRaftState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1ab87410b47db7dc20f39d74b2a2b10799" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>getReplicaStates</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a55c60ea5638a9363a7d5b0d47d61218f" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>hasQuorum</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a6f133b10c6a89bcaa38b88b06c5100e1" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>heartbeat_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a25f3661b77489d8f7d0c71f87c4f9a57" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>heartbeat_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a398eace331787feac4a00223023fba32" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>HeartbeatCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1ab602eaa902bf099bb7ce1669ca1aa9fc" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>heartbeatLoop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1ab1ec03f2af4968d00c6c572150903f57" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>initializeReplicaStates</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aea00fc9635916336583fc66b9bf8fe68" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>isLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a59025292eec5d76912a60970ac259e06" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>isReadOnly</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aedf45dec27378b7723a3b6eacb054805" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aea017a706fec7b8aefda8a7ddbd123f5" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>partition_detector_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a627ff7f1c50a3f163f907ddaf775fa89" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>partition_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a533674ab7a22a9d472a8adf6938084dc" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>partition_status_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a1ef7bf81107e7c8969908c229c7888dd" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>partitionDetectionLoop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a58c453b45550aab2e21a7cb4a48f0325" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>propose</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a04ee69ef87f33438520c9c4d054de0f2" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>raft_state_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aef3fc416c14bdffd09c9b624a5cfd9b3" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>RaftConsensus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1ac9c5590f56c5f3b1ed82622cc74e6934" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>RaftConsensus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aab0cce0abddc6c070713e8bf5c50c5f6" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>read_only_mode_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a3894c3db264a0d9e0614293d0eb12c15" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>receiveAppendEntriesResponse</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1ab5eec7235cd77578af170ad3a8588bf4" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>receiveHeartbeat</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a9e4fb6e1539df1c90b07c4d7e174ceca" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>removeReplicaNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1aeb105e3b6ddff7aa8bee3a45b03d0b2d" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>replica_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a96260e6ca0281ea7274de12cf9598b6c" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>replica_states_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a98d4906d5057f934cc00b184a1d97792" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>replicateToFollower</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a0eadba0af8cdd69db59834bbe5e86edb" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>replication_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a95911b1181e78ae1d3448457c4b808aa" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>ReplicationCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a63860838cb2afdb36748e81853f75c6f" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a30005e2fb0946fd4be6c7da6d7ec4937" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>sendHeartbeats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a1efc073fc1130085c85961dc8a65221f" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>setHeartbeatCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a5ab9ae86d8b0425403b433a30a1223a4" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>setReplicationCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a5656fd95c55707235931d892afbffd39" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a227bddc7c4a71c37fdc57cc98eb22718" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a557afb98f3f090d43113d16e886780c3" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>updatePeerAddress</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a1afb7fdf346f8da49fa8c8eb70ff73a5" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>updateReplicaHealth</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a856a771b02ec5e8d5339db8c53529f30" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>updateReplicaHealthLocked</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_consensus_1a260e1111adc1b33b2d9c12344e183147" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus</scope><name>~RaftConsensus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

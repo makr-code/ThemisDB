@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_h_t_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HTNode</compoundname>
+    <includes refid="ht__train_8h" local="no">ht_train.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1a251133758518ee4dad8c0f443c59e14d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::HTNode::is_leaf</definition>
+        <argsstring></argsstring>
+        <name>is_leaf</name>
+        <qualifiedname>themis::tensor::HTNode::is_leaf</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true → leaf; false → internal </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="45" column="17" bodyfile="include/tensor/ht_train.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1a90758bd8d9cfe9bd392da6bd558ee55a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTNode::mode_index</definition>
+        <argsstring></argsstring>
+        <name>mode_index</name>
+        <qualifiedname>themis::tensor::HTNode::mode_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Physical mode index (leaf only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="46" column="17" bodyfile="include/tensor/ht_train.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1a1a12d036df29996c8cacc7d0bb51896a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTNode::n_k</definition>
+        <argsstring></argsstring>
+        <name>n_k</name>
+        <qualifiedname>themis::tensor::HTNode::n_k</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Physical mode size, i.e. shape[mode_index] (leaf only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="47" column="17" bodyfile="include/tensor/ht_train.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1a066ca5c8ba4ddc5ea2871d671c34434b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTNode::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::tensor::HTNode::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Output rank of this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="48" column="17" bodyfile="include/tensor/ht_train.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1aeeebffcec0927a7231adf5a877328b2e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::tensor::HTNode::U</definition>
+        <argsstring></argsstring>
+        <name>U</name>
+        <qualifiedname>themis::tensor::HTNode::U</qualifiedname>
+        <briefdescription>
+<para>Basis matrix U ∈ ℝ^{n_k × rank}. Stored row-major. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="52" column="17" bodyfile="include/tensor/ht_train.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1a6b35c5420f3f12bb8abdfedab4885404" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTNode::r_left</definition>
+        <argsstring></argsstring>
+        <name>r_left</name>
+        <qualifiedname>themis::tensor::HTNode::r_left</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rank of left child&apos;s output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="55" column="17" bodyfile="include/tensor/ht_train.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1af47877f4ac901d5e18040d7cf85cfe90" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTNode::r_right</definition>
+        <argsstring></argsstring>
+        <name>r_right</name>
+        <qualifiedname>themis::tensor::HTNode::r_right</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rank of right child&apos;s output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="56" column="17" bodyfile="include/tensor/ht_train.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1a79f4c77cf98c5feefaff1c69c56d8688" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::tensor::HTNode::B</definition>
+        <argsstring></argsstring>
+        <name>B</name>
+        <qualifiedname>themis::tensor::HTNode::B</qualifiedname>
+        <briefdescription>
+<para>Transfer tensor B ∈ ℝ^{r_left × r_right × rank}. Stored row-major. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="59" column="17" bodyfile="include/tensor/ht_train.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1aff906c961f19819e49596765be0590ca" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1tensor_1_1_h_t_node" kindref="compound">HTNode</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;HTNode&gt; themis::tensor::HTNode::left</definition>
+        <argsstring></argsstring>
+        <name>left</name>
+        <qualifiedname>themis::tensor::HTNode::left</qualifiedname>
+        <briefdescription>
+<para>Left child (nullptr for leaves). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="62" column="21" bodyfile="include/tensor/ht_train.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_h_t_node_1ac83e9dac888832c38236b151464113a9" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1tensor_1_1_h_t_node" kindref="compound">HTNode</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;HTNode&gt; themis::tensor::HTNode::right</definition>
+        <argsstring></argsstring>
+        <name>right</name>
+        <qualifiedname>themis::tensor::HTNode::right</qualifiedname>
+        <briefdescription>
+<para>Right child (nullptr for leaves). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="64" column="21" bodyfile="include/tensor/ht_train.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_node_1ae2fcf6e90e06baeb741dc255b24d780d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::tensor::HTNode::atU</definition>
+        <argsstring>(std::size_t i, std::size_t alpha) const</argsstring>
+        <name>atU</name>
+        <qualifiedname>themis::tensor::HTNode::atU</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+<para>U[i, alpha] — only valid for leaf nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="69" column="12" bodyfile="include/tensor/ht_train.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_node_1a7c0a8603f128d67781e0bb87f5ac3153" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float &amp;</type>
+        <definition>float &amp; themis::tensor::HTNode::atU</definition>
+        <argsstring>(std::size_t i, std::size_t alpha)</argsstring>
+        <name>atU</name>
+        <qualifiedname>themis::tensor::HTNode::atU</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="70" column="11" bodyfile="include/tensor/ht_train.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_node_1af063548ff006f62be66677a5179ff5b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::tensor::HTNode::atB</definition>
+        <argsstring>(std::size_t l, std::size_t r, std::size_t alpha) const</argsstring>
+        <name>atB</name>
+        <qualifiedname>themis::tensor::HTNode::atB</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+<para>B[l, r, alpha] — only valid for internal nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="73" column="12" bodyfile="include/tensor/ht_train.h" bodystart="73" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_node_1abe20de9381bbb8ebaaf7529564a314ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float &amp;</type>
+        <definition>float &amp; themis::tensor::HTNode::atB</definition>
+        <argsstring>(std::size_t l, std::size_t r, std::size_t alpha)</argsstring>
+        <name>atB</name>
+        <qualifiedname>themis::tensor::HTNode::atB</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="75" column="11" bodyfile="include/tensor/ht_train.h" bodystart="75" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_node_1a9b7e9632aa1367d313afeda7f732e50b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTNode::numParams</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>numParams</name>
+        <qualifiedname>themis::tensor::HTNode::numParams</qualifiedname>
+        <briefdescription>
+<para>Total float parameters stored in this node (not recursing into children). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="79" column="17" bodyfile="include/tensor/ht_train.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_node_1a9f17d9f97be33a77574c504c22fa685c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HTNode::totalParams</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalParams</name>
+        <qualifiedname>themis::tensor::HTNode::totalParams</qualifiedname>
+        <briefdescription>
+<para>Recursive total: all float parameters in this subtree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="82" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_h_t_node_1a872baf75282f80682b8ea00360c0174b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1tensor_1_1_h_t_node" kindref="compound">HTNode</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; HTNode &gt; themis::tensor::HTNode::clone</definition>
+        <argsstring>() const</argsstring>
+        <name>clone</name>
+        <qualifiedname>themis::tensor::HTNode::clone</qualifiedname>
+        <briefdescription>
+<para>Deep copy of this subtree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="85" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One node in the Hierarchical Tucker binary tree. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Leaf node</bold> (is_leaf == true):<itemizedlist>
+<listitem><para>Stores basis matrix U ∈ ℝ^{n_k × rank} (row-major: U[i,α] = U[i*rank+α]).</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_node_1a066ca5c8ba4ddc5ea2871d671c34434b" kindref="member">rank</ref></computeroutput> is the output rank this leaf contributes to its parent.</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Internal node</bold> (is_leaf == false):<itemizedlist>
+<listitem><para>Stores transfer tensor B ∈ ℝ^{r_left × r_right × rank} (row-major: B[l,r,α] = B[l*r_right*rank + r*rank + α]).</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_node_1a6b35c5420f3f12bb8abdfedab4885404" kindref="member">r_left</ref></computeroutput> = rank of the left child&apos;s output.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_node_1af47877f4ac901d5e18040d7cf85cfe90" kindref="member">r_right</ref></computeroutput> = rank of the right child&apos;s output.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1tensor_1_1_h_t_node_1a066ca5c8ba4ddc5ea2871d671c34434b" kindref="member">rank</ref></computeroutput> = output rank of this node (1 at the root). </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/tensor/ht_train.h" line="44" column="1" bodyfile="include/tensor/ht_train.h" bodystart="44" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1af063548ff006f62be66677a5179ff5b3" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>atB</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1abe20de9381bbb8ebaaf7529564a314ae" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>atB</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1ae2fcf6e90e06baeb741dc255b24d780d" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>atU</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a7c0a8603f128d67781e0bb87f5ac3153" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>atU</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a79f4c77cf98c5feefaff1c69c56d8688" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>B</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a872baf75282f80682b8ea00360c0174b" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>clone</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a251133758518ee4dad8c0f443c59e14d" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>is_leaf</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1aff906c961f19819e49596765be0590ca" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>left</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a90758bd8d9cfe9bd392da6bd558ee55a" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>mode_index</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a1a12d036df29996c8cacc7d0bb51896a" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>n_k</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a9b7e9632aa1367d313afeda7f732e50b" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>numParams</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a6b35c5420f3f12bb8abdfedab4885404" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>r_left</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1af47877f4ac901d5e18040d7cf85cfe90" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>r_right</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a066ca5c8ba4ddc5ea2871d671c34434b" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>rank</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1ac83e9dac888832c38236b151464113a9" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>right</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1a9f17d9f97be33a77574c504c22fa685c" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>totalParams</name></member>
+      <member refid="structthemis_1_1tensor_1_1_h_t_node_1aeeebffcec0927a7231adf5a877328b2e" prot="public" virt="non-virtual"><scope>themis::tensor::HTNode</scope><name>U</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

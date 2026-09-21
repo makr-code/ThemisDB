@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::lora::vulkan::VulkanBuffer</compoundname>
+    <includes refid="vulkan__buffer_8h" local="no">vulkan_buffer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ad4b5bf3531a6c871874dd16c074e1868" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Usage</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::Usage</qualifiedname>
+        <enumvalue id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ad4b5bf3531a6c871874dd16c074e1868ab61e4392ba9fbbb214a368e95f1d5582" prot="public">
+          <name>DeviceLocal</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ad4b5bf3531a6c871874dd16c074e1868a1bee0d8aaede29ac319901e96850adee" prot="public">
+          <name>Staging</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ad4b5bf3531a6c871874dd16c074e1868af19516d11f2946f894070e92fcb56b6d" prot="public">
+          <name>Uniform</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="115" column="5" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1affb92f11a515a363b4df3f729e513db4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::lora::vulkan::VulkanBuffer::VulkanBuffer</definition>
+        <argsstring>(VulkanContext *, size_t, Usage)</argsstring>
+        <name>VulkanBuffer</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::VulkanBuffer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context" kindref="compound">VulkanContext</ref> *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ad4b5bf3531a6c871874dd16c074e1868" kindref="member">Usage</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="117" column="5" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a828bc393845b58a7568eb692c8547425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::lora::vulkan::VulkanBuffer::~VulkanBuffer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VulkanBuffer</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::~VulkanBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="118" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a11b6268e5c0d61c89725926209667dee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::VulkanBuffer::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="125" column="10" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a50a49020b7bf325e8be98fd1aff0dbfc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::VulkanBuffer::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements cleanup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="130" column="10" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a28e51bc6666bb93350cca45ea231a468" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::VulkanBuffer::upload</definition>
+        <argsstring>(const void *, size_t)</argsstring>
+        <name>upload</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::upload</qualifiedname>
+        <param>
+          <type>const void *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+<para>Upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements upload without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="138" column="10" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a41f9febe6db925d08e8295cd091c7b1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::VulkanBuffer::download</definition>
+        <argsstring>(void *, size_t)</argsstring>
+        <name>download</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::download</qualifiedname>
+        <param>
+          <type>void *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+<para>Download. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements download without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="146" column="10" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ada644ecf782e767102206c280558a7f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::lora::vulkan::VulkanBuffer::map</definition>
+        <argsstring>()</argsstring>
+        <name>map</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::map</qualifiedname>
+        <briefdescription>
+<para>Map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements map without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="152" column="10" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ac773ed9592e59e52d93195e255d491ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::VulkanBuffer::unmap</definition>
+        <argsstring>()</argsstring>
+        <name>unmap</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::unmap</qualifiedname>
+        <briefdescription>
+<para>Unmap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements unmap without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="157" column="10" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a5cb675368ef65abaf3735d90ac84c15c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::VulkanBuffer::is_mapped</definition>
+        <argsstring>() const</argsstring>
+        <name>is_mapped</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::is_mapped</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="158" column="10" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a846d246bc56b4b03874981111fb1d6c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::lora::vulkan::VulkanBuffer::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::lora::vulkan::VulkanBuffer::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_buffer.h" line="159" column="12" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/vulkan_buffer.h" line="113" column="1" bodyfile="include/llm/lora_framework/vulkan_buffer.h" bodystart="113" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a50a49020b7bf325e8be98fd1aff0dbfc" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a41f9febe6db925d08e8295cd091c7b1c" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>download</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a11b6268e5c0d61c89725926209667dee" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a5cb675368ef65abaf3735d90ac84c15c" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>is_mapped</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ada644ecf782e767102206c280558a7f5" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>map</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a846d246bc56b4b03874981111fb1d6c8" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>size</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ac773ed9592e59e52d93195e255d491ed" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>unmap</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a28e51bc6666bb93350cca45ea231a468" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>upload</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1ad4b5bf3531a6c871874dd16c074e1868" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>Usage</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1affb92f11a515a363b4df3f729e513db4" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>VulkanBuffer</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer_1a828bc393845b58a7568eb692c8547425" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanBuffer</scope><name>~VulkanBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

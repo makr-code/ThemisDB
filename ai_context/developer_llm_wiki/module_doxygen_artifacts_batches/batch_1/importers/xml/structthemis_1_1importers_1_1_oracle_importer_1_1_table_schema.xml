@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::OracleImporter::TableSchema</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1a5d594f9b83d91764b85bcd86902aa8db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OracleImporter::TableSchema::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::OracleImporter::TableSchema::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="46" column="21" bodyfile="include/importers/oracle_importer.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1a64f53ae45a21ef103e692936c09b786a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OracleImporter::TableSchema::schema</definition>
+        <argsstring></argsstring>
+        <name>schema</name>
+        <qualifiedname>themis::importers::OracleImporter::TableSchema::schema</qualifiedname>
+        <briefdescription>
+<para>Owner/schema name (from CREATE TABLE &quot;OWNER&quot;.&quot;TABLE&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="47" column="21" bodyfile="include/importers/oracle_importer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1a335ad02c06e0e4c58f1fa96e780006f4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::OracleImporter::TableSchema::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::importers::OracleImporter::TableSchema::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="48" column="21" bodyfile="include/importers/oracle_importer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1aaa18925cc175b33bdb895208474ac278" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::OracleImporter::TableSchema::column_types</definition>
+        <argsstring></argsstring>
+        <name>column_types</name>
+        <qualifiedname>themis::importers::OracleImporter::TableSchema::column_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="49" column="18" bodyfile="include/importers/oracle_importer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1a7f24979347ecc3729ee2c1978af36ef0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::OracleImporter::TableSchema::primary_keys</definition>
+        <argsstring></argsstring>
+        <name>primary_keys</name>
+        <qualifiedname>themis::importers::OracleImporter::TableSchema::primary_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="50" column="21" bodyfile="include/importers/oracle_importer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/oracle_importer.h" line="45" column="5" bodyfile="include/importers/oracle_importer.h" bodystart="45" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1aaa18925cc175b33bdb895208474ac278" prot="public" virt="non-virtual"><scope>themis::importers::OracleImporter::TableSchema</scope><name>column_types</name></member>
+      <member refid="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1a335ad02c06e0e4c58f1fa96e780006f4" prot="public" virt="non-virtual"><scope>themis::importers::OracleImporter::TableSchema</scope><name>columns</name></member>
+      <member refid="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1a5d594f9b83d91764b85bcd86902aa8db" prot="public" virt="non-virtual"><scope>themis::importers::OracleImporter::TableSchema</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1a7f24979347ecc3729ee2c1978af36ef0" prot="public" virt="non-virtual"><scope>themis::importers::OracleImporter::TableSchema</scope><name>primary_keys</name></member>
+      <member refid="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema_1a64f53ae45a21ef103e692936c09b786a" prot="public" virt="non-virtual"><scope>themis::importers::OracleImporter::TableSchema</scope><name>schema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

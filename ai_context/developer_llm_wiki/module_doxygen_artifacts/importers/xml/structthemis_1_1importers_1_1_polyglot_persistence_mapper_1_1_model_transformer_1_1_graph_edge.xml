@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge</compoundname>
+    <includes refid="polyglot__mapper_8h" local="no">polyglot_mapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge_1aa35a30a37c1cfe45bc706e1e7571fffe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge::from_id</definition>
+        <argsstring></argsstring>
+        <name>from_id</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge::from_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="79" column="25" bodyfile="include/importers/polyglot_mapper.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge_1aa6bf3eded885ccabad9bbf5aca6c2a28" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge::to_id</definition>
+        <argsstring></argsstring>
+        <name>to_id</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge::to_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="80" column="25" bodyfile="include/importers/polyglot_mapper.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge_1aaa1cf29cdcec5df7f6e63f75a727c71e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge::relationship_type</definition>
+        <argsstring></argsstring>
+        <name>relationship_type</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge::relationship_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="81" column="25" bodyfile="include/importers/polyglot_mapper.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge_1af7c80d83f3ecf9763d34d1dc3ff2756b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="82" column="18" bodyfile="include/importers/polyglot_mapper.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/polyglot_mapper.h" line="78" column="9" bodyfile="include/importers/polyglot_mapper.h" bodystart="78" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge_1aa35a30a37c1cfe45bc706e1e7571fffe" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge</scope><name>from_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge_1af7c80d83f3ecf9763d34d1dc3ff2756b" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge</scope><name>properties</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge_1aaa1cf29cdcec5df7f6e63f75a727c71e" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge</scope><name>relationship_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_edge_1aa6bf3eded885ccabad9bbf5aca6c2a28" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphEdge</scope><name>to_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

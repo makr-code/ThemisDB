@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1query_1_1functions_1_1_rerank_function" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::query::functions::RerankFunction</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IFunction</basecompoundref>
+    <includes refid="ai__ml__functions_8h" local="no">ai_ml_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_rerank_function_1a4a1a99cb0e6b65c2df3e7addf754a2a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::query::functions::RerankFunction::~RerankFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~RerankFunction</name>
+        <qualifiedname>themisdb::query::functions::RerankFunction::~RerankFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_rerank_function_1a0f9e9e39c186a768cbc6d796594247d3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>FunctionSignature</type>
+        <definition>FunctionSignature themisdb::query::functions::RerankFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themisdb::query::functions::RerankFunction::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="139" column="23" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="139" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_rerank_function_1a9141dfe0b7c812534876a1180186dac7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>JsonValue</type>
+        <definition>JsonValue themisdb::query::functions::RerankFunction::execute</definition>
+        <argsstring>(const std::vector&lt; JsonValue &gt; &amp;args, ExecutionContext &amp;ctx) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::query::functions::RerankFunction::execute</qualifiedname>
+        <param>
+          <type>const std::vector&lt; JsonValue &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>ExecutionContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="150" column="15" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="150" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::RerankFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_rerank_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::RerankFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_rerank_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/ai_ml_functions.h" line="136" column="1" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="136" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_rerank_function_1a9141dfe0b7c812534876a1180186dac7" prot="public" virt="non-virtual"><scope>themisdb::query::functions::RerankFunction</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_rerank_function_1a0f9e9e39c186a768cbc6d796594247d3" prot="public" virt="non-virtual"><scope>themisdb::query::functions::RerankFunction</scope><name>signature</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_rerank_function_1a4a1a99cb0e6b65c2df3e7addf754a2a2" prot="public" virt="non-virtual"><scope>themisdb::query::functions::RerankFunction</scope><name>~RerankFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

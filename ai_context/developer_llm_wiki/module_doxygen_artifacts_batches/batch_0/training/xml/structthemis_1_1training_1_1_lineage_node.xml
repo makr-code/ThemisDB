@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_lineage_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::LineageNode</compoundname>
+    <includes refid="provenance__tracker_8h" local="no">provenance_tracker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lineage_node_1a65d7e808e2829ca70545cffd3f695c93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LineageNode::node_type</definition>
+        <argsstring></argsstring>
+        <name>node_type</name>
+        <qualifiedname>themis::training::LineageNode::node_type</qualifiedname>
+        <briefdescription>
+<para>&quot;model&quot; | &quot;sample&quot; | &quot;document&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="58" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lineage_node_1abb8ebf6480c4a9d2f381937325791363" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LineageNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::training::LineageNode::node_id</qualifiedname>
+        <briefdescription>
+<para>Key / ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="59" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lineage_node_1afd8dc3bf3d1f99b442b6bdd5fb008eb4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LineageNode::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::training::LineageNode::label</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="60" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lineage_node_1a03dfa42b214152daba297ff72974ed47" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_lineage_node_1a76c75f687067807904def97d49223964" kindref="member">LineageNode</ref> &gt;</type>
+        <definition>std::vector&lt;LineageNode&gt; themis::training::LineageNode::parents</definition>
+        <argsstring></argsstring>
+        <name>parents</name>
+        <qualifiedname>themis::training::LineageNode::parents</qualifiedname>
+        <briefdescription>
+<para>Upstream nodes (recursive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="61" column="17" bodyfile="include/training/provenance_tracker.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_lineage_node_1a76c75f687067807904def97d49223964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LineageNode::LineageNode</definition>
+        <argsstring>()=default</argsstring>
+        <name>LineageNode</name>
+        <qualifiedname>themis::training::LineageNode::LineageNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="63" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lineage node returned when tracing a model back to its sources. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/provenance_tracker.h" line="57" column="1" bodyfile="include/training/provenance_tracker.h" bodystart="57" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_lineage_node_1afd8dc3bf3d1f99b442b6bdd5fb008eb4" prot="public" virt="non-virtual"><scope>themis::training::LineageNode</scope><name>label</name></member>
+      <member refid="structthemis_1_1training_1_1_lineage_node_1a76c75f687067807904def97d49223964" prot="public" virt="non-virtual"><scope>themis::training::LineageNode</scope><name>LineageNode</name></member>
+      <member refid="structthemis_1_1training_1_1_lineage_node_1abb8ebf6480c4a9d2f381937325791363" prot="public" virt="non-virtual"><scope>themis::training::LineageNode</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1training_1_1_lineage_node_1a65d7e808e2829ca70545cffd3f695c93" prot="public" virt="non-virtual"><scope>themis::training::LineageNode</scope><name>node_type</name></member>
+      <member refid="structthemis_1_1training_1_1_lineage_node_1a03dfa42b214152daba297ff72974ed47" prot="public" virt="non-virtual"><scope>themis::training::LineageNode</scope><name>parents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

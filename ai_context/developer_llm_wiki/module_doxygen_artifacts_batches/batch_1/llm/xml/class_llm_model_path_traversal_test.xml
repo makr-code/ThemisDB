@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_llm_model_path_traversal_test" kind="class" language="C++" prot="public">
+    <compoundname>LlmModelPathTraversalTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_llm_model_path_traversal_test_1ab03324d00bd59bd93b299b0773b038a0" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path LlmModelPathTraversalTest::model_root_</definition>
+        <argsstring></argsstring>
+        <name>model_root_</name>
+        <qualifiedname>LlmModelPathTraversalTest::model_root_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_path_traversal.cpp" line="60" column="14" bodyfile="tests/llm/test_llm_model_path_traversal.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_llm_model_path_traversal_test_1a904e599263484e04f002375e900f4735" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlmModelPathTraversalTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LlmModelPathTraversalTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_path_traversal.cpp" line="62" column="10" bodyfile="tests/llm/test_llm_model_path_traversal.cpp" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_llm_model_path_traversal_test_1ab90b448e25bb23f88b6f788bcc537044" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlmModelPathTraversalTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LlmModelPathTraversalTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_path_traversal.cpp" line="72" column="10" bodyfile="tests/llm/test_llm_model_path_traversal.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LlmModelPathTraversalTest</label>
+        <link refid="class_llm_model_path_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LlmModelPathTraversalTest</label>
+        <link refid="class_llm_model_path_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_model_path_traversal.cpp" line="58" column="1" bodyfile="tests/llm/test_llm_model_path_traversal.cpp" bodystart="58" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_llm_model_path_traversal_test_1ab03324d00bd59bd93b299b0773b038a0" prot="protected" virt="non-virtual"><scope>LlmModelPathTraversalTest</scope><name>model_root_</name></member>
+      <member refid="class_llm_model_path_traversal_test_1a904e599263484e04f002375e900f4735" prot="protected" virt="non-virtual"><scope>LlmModelPathTraversalTest</scope><name>SetUp</name></member>
+      <member refid="class_llm_model_path_traversal_test_1ab90b448e25bb23f88b6f788bcc537044" prot="protected" virt="non-virtual"><scope>LlmModelPathTraversalTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

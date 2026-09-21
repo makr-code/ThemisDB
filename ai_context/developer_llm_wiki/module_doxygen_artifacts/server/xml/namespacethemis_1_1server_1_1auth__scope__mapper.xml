@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1server_1_1auth__scope__mapper" kind="namespace" language="C++">
+    <compoundname>themis::server::auth_scope_mapper</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1auth__scope__mapper_1a65a57b8d74e159b893b915231132a9c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::auth_scope_mapper::mapPolicyRoleToScope</definition>
+        <argsstring>(const std::string &amp;required_role)</argsstring>
+        <name>mapPolicyRoleToScope</name>
+        <qualifiedname>themis::server::auth_scope_mapper::mapPolicyRoleToScope</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_role</declname>
+        </param>
+        <briefdescription>
+<para>Map Policy Role To Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">required_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mapPolicyRoleToScope without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_scope_mapper.h" line="30" column="20" bodyfile="include/server/auth_scope_mapper.h" bodystart="30" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1auth__scope__mapper_1ad17e8e68ecf6a41cb0f6b77e916d1495" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::auth_scope_mapper::mapAuditRoleToScope</definition>
+        <argsstring>(const std::string &amp;required_role)</argsstring>
+        <name>mapAuditRoleToScope</name>
+        <qualifiedname>themis::server::auth_scope_mapper::mapAuditRoleToScope</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_role</declname>
+        </param>
+        <briefdescription>
+<para>Map Audit Role To Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">required_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mapAuditRoleToScope without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_scope_mapper.h" line="46" column="20" bodyfile="include/server/auth_scope_mapper.h" bodystart="46" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/auth_scope_mapper.h" line="22" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::ApiKeyAuthenticator::Config</compoundname>
+    <includes refid="api__key__authenticator_8h" local="no">api_key_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1a7da802814c8daaee6063a123a46686af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::ApiKeyAuthenticator::Config::check_expiry</definition>
+        <argsstring></argsstring>
+        <name>check_expiry</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::Config::check_expiry</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Reject keys whose expiry has passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="67" column="14" bodyfile="include/auth/api_key_authenticator.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1a307d257f46ab481c9739ccc2c4b7ce5b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::ApiKeyAuthenticator::Config::max_key_id_length</definition>
+        <argsstring></argsstring>
+        <name>max_key_id_length</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::Config::max_key_id_length</qualifiedname>
+        <initializer>{128}</initializer>
+        <briefdescription>
+<para>Maximum allowed key_id length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="68" column="16" bodyfile="include/auth/api_key_authenticator.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1acf9a5742ba7ecb096ecf1d8db0266f7e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::ApiKeyAuthenticator::Config::max_secret_length</definition>
+        <argsstring></argsstring>
+        <name>max_secret_length</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::Config::max_secret_length</qualifiedname>
+        <initializer>{512}</initializer>
+        <briefdescription>
+<para>Maximum allowed secret length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="69" column="16" bodyfile="include/auth/api_key_authenticator.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1ae66908c32addb26ae698f76b9262dbb5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::auth::ApiKeyAuthenticator::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="75" column="23" bodyfile="include/auth/api_key_authenticator.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/api_key_authenticator.h" line="66" column="5" bodyfile="include/auth/api_key_authenticator.h" bodystart="66" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1a7da802814c8daaee6063a123a46686af" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator::Config</scope><name>check_expiry</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1ae66908c32addb26ae698f76b9262dbb5" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1a307d257f46ab481c9739ccc2c4b7ce5b" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator::Config</scope><name>max_key_id_length</name></member>
+      <member refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1acf9a5742ba7ecb096ecf1d8db0266f7e" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator::Config</scope><name>max_secret_length</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

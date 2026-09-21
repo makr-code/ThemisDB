@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d071157125363143045044110165374111223175300105356" kind="namespace" language="C++">
+    <compoundname>@071157125363143045044110165374111223175300105356</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d071157125363143045044110165374111223175300105356_1ac81516d61968a60a5db94712119ea3b4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransportKind</name>
+        <qualifiedname>@071157125363143045044110165374111223175300105356::TransportKind</qualifiedname>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1ac81516d61968a60a5db94712119ea3b4ab136ef5f6a01d816991fe3cf7a6ac763" prot="public">
+          <name>TCP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1ac81516d61968a60a5db94712119ea3b4afc07a52f432282cead75b799ea8ab8b0" prot="public">
+          <name>WEBSOCKET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1ac81516d61968a60a5db94712119ea3b4af5ef036b4d8b630721e51fe23489fbc9" prot="public">
+          <name>UDP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1ac81516d61968a60a5db94712119ea3b4a7b29f92724524ca2b8d74a0f2c39c438" prot="public">
+          <name>QUIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1ac81516d61968a60a5db94712119ea3b4a2c1276969f5525ad4cf2dbd0e8676f96" prot="public">
+          <name>GRPC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="141" column="1" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d071157125363143045044110165374111223175300105356_1add601632178d814dfc2e83542dfc5507" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransportPhase</name>
+        <qualifiedname>@071157125363143045044110165374111223175300105356::TransportPhase</qualifiedname>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1add601632178d814dfc2e83542dfc5507aa5afd6edd5336d91316964e493936858" prot="public">
+          <name>CONNECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1add601632178d814dfc2e83542dfc5507aabb166aeee725020a7b183612ace2a94" prot="public">
+          <name>FALLBACK_ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1add601632178d814dfc2e83542dfc5507a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1add601632178d814dfc2e83542dfc5507a084f4ca2c0fe703e46514a144b4d6ead" prot="public">
+          <name>UNAVAILABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="142" column="1" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d071157125363143045044110165374111223175300105356_1acd64687ff7387912b9120695610f371c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PoolState</name>
+        <qualifiedname>@071157125363143045044110165374111223175300105356::PoolState</qualifiedname>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1acd64687ff7387912b9120695610f371ca18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1acd64687ff7387912b9120695610f371ca6a83fb962e26a218fee9b429eb62dbc6" prot="public">
+          <name>DRAINING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d071157125363143045044110165374111223175300105356_1acd64687ff7387912b9120695610f371ca110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="186" column="1" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="186" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_network_transport_resilience_focused.cpp" line="136" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="federated__consensus__contract_8h" kind="file" language="C++">
+    <compoundname>federated_consensus_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/federated_consensus_contract.h</label>
+        <link refid="federated__consensus__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_consensus_log_entry" prot="public">themis::process::ConsensusLogEntry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_consensus_snapshot" prot="public">themis::process::ConsensusSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_raft_vote_request" prot="public">themis::process::RaftVoteRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_raft_vote_response" prot="public">themis::process::RaftVoteResponse</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_raft_append_entries_request" prot="public">themis::process::RaftAppendEntriesRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_raft_append_entries_response" prot="public">themis::process::RaftAppendEntriesResponse</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_paxos_prepare_request" prot="public">themis::process::PaxosPrepareRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_paxos_prepare_response" prot="public">themis::process::PaxosPrepareResponse</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_paxos_accept_request" prot="public">themis::process::PaxosAcceptRequest</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_paxos_accept_response" prot="public">themis::process::PaxosAcceptResponse</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_gossip_version_vector" prot="public">themis::process::GossipVersionVector</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_gossip_message" prot="public">themis::process::GossipMessage</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_split_brain_config" prot="public">themis::process::SplitBrainConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Distributed consensus contracts for federated process module deployments. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.1.0-beta</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>Defines consensus protocols, leader election semantics, replication contracts, and split-brain recovery procedures for cross-shard process model consistency in federated deployments (3+ shards).</para>
+</sect1>
+<sect1 id="federated__consensus__contract_8h_1consensus_model">
+<title>Consensus Model</title><para>The federated process module supports three consensus types:<itemizedlist>
+<listitem><para><bold>Raft:</bold> Leader-based, strongly consistent, automatic leader election</para>
+</listitem><listitem><para><bold>Paxos:</bold> Quorum-based, strongly consistent, no single leader required</para>
+</listitem><listitem><para><bold>Gossip:</bold> Leaderless, eventual consistency, Byzantine-tolerant</para>
+</listitem></itemizedlist>
+</para>
+<para>Selection is configuration-time; runtime switching deferred to v3.0.</para>
+</sect1>
+<sect1 id="federated__consensus__contract_8h_1process_replication">
+<title>Process Replication</title><para>Process model changes are replicated via consensus log:<itemizedlist>
+<listitem><para><bold>LogEntry:</bold> {term/epoch, index, timestamp, operation_type (import/link/delete), model_id, payload_hash}</para>
+</listitem><listitem><para><bold>Versioning:</bold> Extends existing process module version clocks with shard_id prefix</para>
+</listitem><listitem><para><bold>Snapshot:</bold> Full model snapshot + delta log (every N entries)</para>
+</listitem><listitem><para><bold>Rollback:</bold> Rejected entries expire; diverged replicas sync from leader via snapshot</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="federated__consensus__contract_8h_1leader_election">
+<title>Leader Election (Raft/Paxos)</title><para><bold>Raft Heartbeat:</bold><itemizedlist>
+<listitem><para>Leader sends heartbeat every 150ms (configurable)</para>
+</listitem><listitem><para>Heartbeat failure detection: 3-5 consecutive missed → follower → candidate → election</para>
+</listitem><listitem><para>Election timeout: 150-300ms jitter (prevents simultaneous candidates)</para>
+</listitem><listitem><para>Quorum: simple majority (e.g., 3-node cluster requires 2 votes)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Split-Brain Detection &amp; Recovery:</bold><itemizedlist>
+<listitem><para>Split-brain occurs when cluster partitions into two quorums</para>
+</listitem><listitem><para>Outcome: Each partition elects a leader; higher term wins on reunion</para>
+</listitem><listitem><para>Detection window: &lt;30 seconds (heartbeat + election timeout)</para>
+</listitem><listitem><para>Recovery: Leader with higher term invalidates lower-term leader; replicas resync from winner</para>
+</listitem></itemizedlist>
+</para>
+<para>**Byzantine Tolerance (Gossip only):**<itemizedlist>
+<listitem><para>Gossip protocol tolerates up to (n-1)/3 faulty nodes</para>
+</listitem><listitem><para>Faulty node detection: version vector divergence + majority voting</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="federated__consensus__contract_8h_1replication_protocol">
+<title>Replication Protocol</title><para><heading level="3">Raft-Style Replication</heading>
+</para>
+<para><bold>Phase 1: Leader receives write request</bold><itemizedlist>
+<listitem><para>Write request arrives at leader (or forwarded from follower)</para>
+</listitem><listitem><para>Request logged locally; returns immediately with term + index (uncommitted)</para>
+</listitem><listitem><para>Client waits for confirmation</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Phase 2: Leader replicates to followers</bold><itemizedlist>
+<listitem><para>Leader appends entry to each follower&apos;s log</para>
+</listitem><listitem><para>Follower acknowledges receipt; leader counts votes</para>
+</listitem><listitem><para>Quorum achieved: entry committed; leader notifies followers</para>
+</listitem><listitem><para>Timeout (e.g., 5 seconds): leader assumes follower failed; retries or excludes</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Phase 3: Leader applies and responds</bold><itemizedlist>
+<listitem><para>Committed entry applied to process model state machine</para>
+</listitem><listitem><para>Response sent to client with final version number</para>
+</listitem><listitem><para>Followers eventually apply committed entries (asynchronous)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Paxos-Style Consensus</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Proposer sends Prepare request; acceptors respond with accepted values</para>
+</listitem><listitem><para>Proposer sends Accept request with new proposal number; acceptors persist</para>
+</listitem><listitem><para>Learners collect majority acceptances; model state machine applies</para>
+</listitem><listitem><para>No single leader, but proposer with highest ballot number dominates</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__concurrency__contract_8h_1conflict_resolution">
+<title>Conflict Resolution at Federation Boundary</title><para>When writes arrive at different shards:<itemizedlist>
+<listitem><para>Each shard applies consensus locally; version clock records shard_id + term</para>
+</listitem><listitem><para>Federation sync detects version conflicts via version vector comparison</para>
+</listitem><listitem><para>Resolution: Use existing last-write-wins (LWW) with tiebreaker (shard_id → term)</para>
+</listitem><listitem><para>Deterministic outcome: same conflict input → same winner</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="federated__consensus__contract_8h_1failure_modes">
+<title>Failure Modes &amp; Guarantees</title><para><table rows="5" cols="5"><row>
+<entry thead="yes"><para>Scenario  </para>
+</entry><entry thead="yes"><para>Raft  </para>
+</entry><entry thead="yes"><para>Paxos  </para>
+</entry><entry thead="yes"><para>Gossip  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Single node failure  </para>
+</entry><entry thead="no"><para>Follower demoted; new leader elected  </para>
+</entry><entry thead="no"><para>Proposer switches; learner waits  </para>
+</entry><entry thead="no"><para>Node gossips last state  </para>
+</entry><entry thead="no"><para>Automatic (new leader within election timeout)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Network partition  </para>
+</entry><entry thead="no"><para>Split brain risk; quorum survives  </para>
+</entry><entry thead="no"><para>Same  </para>
+</entry><entry thead="no"><para>All nodes may have stale data  </para>
+</entry><entry thead="no"><para>Manual intervention or tie-breaker policy  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Leader crash  </para>
+</entry><entry thead="no"><para>Automatic election  </para>
+</entry><entry thead="no"><para>No leader, proposer switches  </para>
+</entry><entry thead="no"><para>No impact  </para>
+</entry><entry thead="no"><para>&lt;30 sec to new leader  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Byzantine fault (faulty node)  </para>
+</entry><entry thead="no"><para>Not tolerated  </para>
+</entry><entry thead="no"><para>Not tolerated  </para>
+</entry><entry thead="no"><para>Tolerates &lt;1/3 faulty  </para>
+</entry><entry thead="no"><para>Depends on gossip strategy  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="federated__consensus__contract_8h_1rpc_interface">
+<title>RPC Interface for Consensus</title><para><bold>Raft RPCs:</bold><itemizedlist>
+<listitem><para>RequestVote(term, candidate_id, last_log_index, last_log_term) → (term, vote_granted)</para>
+</listitem><listitem><para>AppendEntries(term, leader_id, prev_log_index, prev_log_term, entries[], leader_commit) → (term, success)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Paxos RPCs:</bold><itemizedlist>
+<listitem><para>Prepare(proposal_number) → (highest_accepted_number, accepted_value)</para>
+</listitem><listitem><para>Accept(proposal_number, value) → (success, promised_number)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>General RPC Contract:</bold><itemizedlist>
+<listitem><para>Timeout: 5 seconds (configurable); retry with exponential backoff</para>
+</listitem><listitem><para>Correlation ID: W3C Trace Context propagated in all RPC headers</para>
+</listitem><listitem><para>Failure: network error returns transient error; server-side rejection returns permanent</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="federated__consensus__contract_8h_1performance_targets">
+<title>Performance Targets</title><para><itemizedlist>
+<listitem><para>Single-shard operations: ≤5% consensus overhead (backward compatibility)</para>
+</listitem><listitem><para>Leader election: &lt;30 seconds (Raft/Paxos), eventual (Gossip)</para>
+</listitem><listitem><para>Log replication latency: &lt;50ms P95 for quorum commit (3-node cluster, LAN)</para>
+</listitem><listitem><para>Consensus metadata: &lt;1% storage overhead (vs. model size)</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1contract_freeze">
+<title>Contract Freeze</title><para>This contract is frozen for ThemisDB v2.1; breaking changes require v3.0. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Consensus<sp/>Type<sp/>Enum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070" kindref="member">ConsensusType</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070af831d834df040618e0117917ac0dcb62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070af831d834df040618e0117917ac0dcb62" kindref="member">RAFT</ref><sp/>=<sp/>6100,</highlight></codeline>
+<codeline lineno="140" refid="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070aaa1968070500759fe3e25480f899282b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070aaa1968070500759fe3e25480f899282b" kindref="member">PAXOS</ref><sp/>=<sp/>6101,</highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070a3d35b67f7532ad5204628c67a94d08d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a732dc7de1ad56fd0c80a405a07489070a3d35b67f7532ad5204628c67a94d08d6" kindref="member">GOSSIP</ref><sp/>=<sp/>6102,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26" kindref="member">ConsensusNodeState</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26a8026987f2531b5fa5178a851c108397c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26a8026987f2531b5fa5178a851c108397c" kindref="member">FOLLOWER</ref><sp/>=<sp/>6110,</highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26abea4821516973214973a70aea8337c38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26abea4821516973214973a70aea8337c38" kindref="member">CANDIDATE</ref><sp/>=<sp/>6111,</highlight></codeline>
+<codeline lineno="154" refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26ab8058aa3ecd39b676ce80d6aaadc5e64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26ab8058aa3ecd39b676ce80d6aaadc5e64" kindref="member">LEADER</ref><sp/>=<sp/>6112,</highlight></codeline>
+<codeline lineno="156" refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26aff728df6b722b64ac3eb9019959d716c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26aff728df6b722b64ac3eb9019959d716c" kindref="member">OBSERVER</ref><sp/>=<sp/>6113,</highlight></codeline>
+<codeline lineno="158" refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26a58fd3b3b1f27606728077423eb21d8d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26a58fd3b3b1f27606728077423eb21d8d6" kindref="member">UNREACHABLE</ref><sp/>=<sp/>6114,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Replication<sp/>Log<sp/>Structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1process_1_1_consensus_log_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1process_1_1_consensus_log_entry_1ad9e81ca363d1a6c874f266cadfcd31b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1ad9e81ca363d1a6c874f266cadfcd31b8" kindref="member">term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1process_1_1_consensus_log_entry_1abb545dd12f886d7d59a8672daa6526f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1abb545dd12f886d7d59a8672daa6526f3" kindref="member">index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1process_1_1_consensus_log_entry_1ad10963fd5fdb1a6f0b08b6b431dad616" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1ad10963fd5fdb1a6f0b08b6b431dad616" kindref="member">timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1process_1_1_consensus_log_entry_1a89c83043927698f7c4fac0d76b92c781" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1a89c83043927698f7c4fac0d76b92c781" kindref="member">operation_type</ref>;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1process_1_1_consensus_log_entry_1ac1af56dbbea435c44ffd799516b71d00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1ac1af56dbbea435c44ffd799516b71d00" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1process_1_1_consensus_log_entry_1a1132f93ae9710d7e31d0ed2cde73d689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1a1132f93ae9710d7e31d0ed2cde73d689" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1process_1_1_consensus_log_entry_1a94d61aee7572de2b8f7be3f3ea93eb90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1a94d61aee7572de2b8f7be3f3ea93eb90" kindref="member">payload_hash</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1process_1_1_consensus_log_entry_1acee87807fe883aa76b0ae6f4ae548b9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1acee87807fe883aa76b0ae6f4ae548b9d" kindref="member">payload</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1process_1_1_consensus_log_entry_1aba69cbae6f51132a3a7671725a705293" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1aba69cbae6f51132a3a7671725a705293" kindref="member">commit_term</ref>;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1process_1_1_consensus_log_entry_1ab26c498c194477a9c493ae10ac6882fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1ab26c498c194477a9c493ae10ac6882fe" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;term&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1ad9e81ca363d1a6c874f266cadfcd31b8" kindref="member">term</ref>},</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;index&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1abb545dd12f886d7d59a8672daa6526f3" kindref="member">index</ref>},</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp_ns&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1ad10963fd5fdb1a6f0b08b6b431dad616" kindref="member">timestamp_ns</ref>},</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;operation_type&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1a89c83043927698f7c4fac0d76b92c781" kindref="member">operation_type</ref>},</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;model_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1ac1af56dbbea435c44ffd799516b71d00" kindref="member">model_id</ref>},</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1a1132f93ae9710d7e31d0ed2cde73d689" kindref="member">shard_id</ref>},</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;payload_hash&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1a94d61aee7572de2b8f7be3f3ea93eb90" kindref="member">payload_hash</ref>},</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry_1acee87807fe883aa76b0ae6f4ae548b9d" kindref="member">payload</ref>},</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1process_1_1_consensus_log_entry_1aba69cbae6f51132a3a7671725a705293" kindref="member">commit_term</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;commit_term&quot;</highlight><highlight class="normal">]<sp/>=<sp/>*<ref refid="structthemis_1_1process_1_1_consensus_log_entry_1aba69cbae6f51132a3a7671725a705293" kindref="member">commit_term</ref>;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1process_1_1_consensus_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_consensus_snapshot" kindref="compound">ConsensusSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1process_1_1_consensus_snapshot_1ab45d032173e4dbee3d789758647e1e3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_consensus_snapshot_1ab45d032173e4dbee3d789758647e1e3f" kindref="member">snapshot_term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1process_1_1_consensus_snapshot_1a6f157e919f9c4bf45ebe80f7092b137a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_consensus_snapshot_1a6f157e919f9c4bf45ebe80f7092b137a" kindref="member">snapshot_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1process_1_1_consensus_snapshot_1af150b6ae3b1c890f99292d245a771833" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_consensus_snapshot_1af150b6ae3b1c890f99292d245a771833" kindref="member">timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1process_1_1_consensus_snapshot_1a9a9ecb71652db031f73907d62cb03f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_consensus_snapshot_1a9a9ecb71652db031f73907d62cb03f18" kindref="member">model_state</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1process_1_1_consensus_snapshot_1ab697eb5e856c34a5b34dd83a487a3387" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_consensus_snapshot_1ab697eb5e856c34a5b34dd83a487a3387" kindref="member">model_state_hash</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1process_1_1_consensus_snapshot_1a27f9f1533eaa9e27b5fd2288c9ba0ac6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_consensus_snapshot_1a27f9f1533eaa9e27b5fd2288c9ba0ac6" kindref="member">persisted_shards</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="structthemis_1_1process_1_1_consensus_snapshot_1a87b902b3ef91eca71f5bd8a158c7511d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_consensus_snapshot_1a87b902b3ef91eca71f5bd8a158c7511d" kindref="member">isValid</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>computed_hash)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_consensus_snapshot_1ab697eb5e856c34a5b34dd83a487a3387" kindref="member">model_state_hash</ref><sp/>==<sp/>computed_hash;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Raft-Specific<sp/>Structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="structthemis_1_1process_1_1_raft_vote_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_raft_vote_request" kindref="compound">RaftVoteRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="264" refid="structthemis_1_1process_1_1_raft_vote_request_1ae219f57a5af847b20a81d2feaf4f3349" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_vote_request_1ae219f57a5af847b20a81d2feaf4f3349" kindref="member">term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267" refid="structthemis_1_1process_1_1_raft_vote_request_1a55c60fd56f819b57c3a1b9a890cd8f53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_raft_vote_request_1a55c60fd56f819b57c3a1b9a890cd8f53" kindref="member">candidate_id</ref>;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1process_1_1_raft_vote_request_1ab8533877ca318356a8c496a68cdbda5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_vote_request_1ab8533877ca318356a8c496a68cdbda5e" kindref="member">last_log_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="structthemis_1_1process_1_1_raft_vote_request_1aaacc6001219e2459ec06d52e6fb95485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_vote_request_1aaacc6001219e2459ec06d52e6fb95485" kindref="member">last_log_term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1process_1_1_raft_vote_request_1ad725c37afca966e698776f61fbb444c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_raft_vote_request_1ad725c37afca966e698776f61fbb444c8" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="structthemis_1_1process_1_1_raft_vote_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_raft_vote_response" kindref="compound">RaftVoteResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="284" refid="structthemis_1_1process_1_1_raft_vote_response_1a48756b7543a3a9ba20cbcdf61f9b3837" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_vote_response_1a48756b7543a3a9ba20cbcdf61f9b3837" kindref="member">term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287" refid="structthemis_1_1process_1_1_raft_vote_response_1a5bac3d6601662a77091d908b6865448d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_raft_vote_response_1a5bac3d6601662a77091d908b6865448d" kindref="member">vote_granted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="structthemis_1_1process_1_1_raft_vote_response_1ac0128a28e40054813bdafdb1c6a122dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_raft_vote_response_1ac0128a28e40054813bdafdb1c6a122dc" kindref="member">denial_reason</ref>;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="structthemis_1_1process_1_1_raft_vote_response_1a10159262056dd50cd5baaf296821f8aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_raft_vote_response_1a10159262056dd50cd5baaf296821f8aa" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="structthemis_1_1process_1_1_raft_append_entries_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_raft_append_entries_request" kindref="compound">RaftAppendEntriesRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="301" refid="structthemis_1_1process_1_1_raft_append_entries_request_1a75b52656c0bf064c3689e5387d415dbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_request_1a75b52656c0bf064c3689e5387d415dbc" kindref="member">term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304" refid="structthemis_1_1process_1_1_raft_append_entries_request_1ab703c351fb9e07fe0747191e94b420e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_request_1ab703c351fb9e07fe0747191e94b420e0" kindref="member">leader_id</ref>;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307" refid="structthemis_1_1process_1_1_raft_append_entries_request_1a4a9dd820caa66239c575f84e8de69e89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_request_1a4a9dd820caa66239c575f84e8de69e89" kindref="member">prev_log_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1process_1_1_raft_append_entries_request_1aeb2c6a1fdb5e66f160bfa55905dbe509" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_request_1aeb2c6a1fdb5e66f160bfa55905dbe509" kindref="member">prev_log_term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313" refid="structthemis_1_1process_1_1_raft_append_entries_request_1aa4873533091754486edbc04085943007" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConsensusLogEntry&gt;<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_request_1aa4873533091754486edbc04085943007" kindref="member">entries</ref>;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="structthemis_1_1process_1_1_raft_append_entries_request_1adb9d6e068a1bcbd059bbd177729f509b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_request_1adb9d6e068a1bcbd059bbd177729f509b" kindref="member">leader_commit</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1process_1_1_raft_append_entries_request_1a3847251795d3f789b341936ac9a1f343" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_request_1a3847251795d3f789b341936ac9a1f343" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1process_1_1_raft_append_entries_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_raft_append_entries_response" kindref="compound">RaftAppendEntriesResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="327" refid="structthemis_1_1process_1_1_raft_append_entries_response_1a83218e0b119c7e7a05de98a6da6daecd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_response_1a83218e0b119c7e7a05de98a6da6daecd" kindref="member">term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330" refid="structthemis_1_1process_1_1_raft_append_entries_response_1a19419cd8e1ee09a3165933c15fee53f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_response_1a19419cd8e1ee09a3165933c15fee53f0" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333" refid="structthemis_1_1process_1_1_raft_append_entries_response_1a9e1db467dc9cfa68b84492233e4bcfe6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_response_1a9e1db467dc9cfa68b84492233e4bcfe6" kindref="member">failure_reason</ref>;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="structthemis_1_1process_1_1_raft_append_entries_response_1a5a57e8e8dfc254701167c50e30c67426" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_response_1a5a57e8e8dfc254701167c50e30c67426" kindref="member">match_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339" refid="structthemis_1_1process_1_1_raft_append_entries_response_1a9013c0401b42013daad1f1ca68d44ddd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_raft_append_entries_response_1a9013c0401b42013daad1f1ca68d44ddd" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Paxos-Specific<sp/>Structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349" refid="structthemis_1_1process_1_1_paxos_prepare_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_paxos_prepare_request" kindref="compound">PaxosPrepareRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="351" refid="structthemis_1_1process_1_1_paxos_prepare_request_1a78b897b34a37a8c927f60735f29751cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_request_1a78b897b34a37a8c927f60735f29751cb" kindref="member">proposal_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354" refid="structthemis_1_1process_1_1_paxos_prepare_request_1aee4bbf3ee993636e9e005f783a828320" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_request_1aee4bbf3ee993636e9e005f783a828320" kindref="member">proposer_id</ref>;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357" refid="structthemis_1_1process_1_1_paxos_prepare_request_1a2089108dbe1163c4b091466c3dd07f70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_request_1a2089108dbe1163c4b091466c3dd07f70" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363" refid="structthemis_1_1process_1_1_paxos_prepare_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_paxos_prepare_response" kindref="compound">PaxosPrepareResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="365" refid="structthemis_1_1process_1_1_paxos_prepare_response_1a123283956b42b637602a6b00674efacf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_response_1a123283956b42b637602a6b00674efacf" kindref="member">promised_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368" refid="structthemis_1_1process_1_1_paxos_prepare_response_1a45aec76f8c249c0fc6216cbf1e285bff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_response_1a45aec76f8c249c0fc6216cbf1e285bff" kindref="member">accepted_number</ref>;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371" refid="structthemis_1_1process_1_1_paxos_prepare_response_1a4f97508048a88c93d6906cd2e02548e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ConsensusLogEntry&gt;<sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_response_1a4f97508048a88c93d6906cd2e02548e1" kindref="member">accepted_value</ref>;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374" refid="structthemis_1_1process_1_1_paxos_prepare_response_1a7ed07473520b82f1804ba79b6ab5e4e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_response_1a7ed07473520b82f1804ba79b6ab5e4e8" kindref="member">promise_granted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377" refid="structthemis_1_1process_1_1_paxos_prepare_response_1a39ffd912477b13cc0672a13cececefc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_response_1a39ffd912477b13cc0672a13cececefc5" kindref="member">denial_reason</ref>;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380" refid="structthemis_1_1process_1_1_paxos_prepare_response_1a5153fc9ab01b806d65bf14eaff15e677" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_paxos_prepare_response_1a5153fc9ab01b806d65bf14eaff15e677" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386" refid="structthemis_1_1process_1_1_paxos_accept_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_paxos_accept_request" kindref="compound">PaxosAcceptRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="388" refid="structthemis_1_1process_1_1_paxos_accept_request_1a12244c1395e2a44be506386782c13453" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_paxos_accept_request_1a12244c1395e2a44be506386782c13453" kindref="member">proposal_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391" refid="structthemis_1_1process_1_1_paxos_accept_request_1a482838f3aadb9b946163c86d3fc93152" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_paxos_accept_request_1a482838f3aadb9b946163c86d3fc93152" kindref="member">proposer_id</ref>;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394" refid="structthemis_1_1process_1_1_paxos_accept_request_1a57938fede5bea47e555af6d83d3939ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref><sp/><ref refid="structthemis_1_1process_1_1_paxos_accept_request_1a57938fede5bea47e555af6d83d3939ad" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397" refid="structthemis_1_1process_1_1_paxos_accept_request_1a08fc6d327d65af18e46cea4bb47cc683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_paxos_accept_request_1a08fc6d327d65af18e46cea4bb47cc683" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403" refid="structthemis_1_1process_1_1_paxos_accept_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_paxos_accept_response" kindref="compound">PaxosAcceptResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="405" refid="structthemis_1_1process_1_1_paxos_accept_response_1a037263198e23be6d4d83c012358ac462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_paxos_accept_response_1a037263198e23be6d4d83c012358ac462" kindref="member">accepted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408" refid="structthemis_1_1process_1_1_paxos_accept_response_1a488b4f0f117b9201560247a5f6a63b24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_paxos_accept_response_1a488b4f0f117b9201560247a5f6a63b24" kindref="member">accepted_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411" refid="structthemis_1_1process_1_1_paxos_accept_response_1a403194c6f9080b71dac862e8d0409325" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_paxos_accept_response_1a403194c6f9080b71dac862e8d0409325" kindref="member">denial_reason</ref>;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414" refid="structthemis_1_1process_1_1_paxos_accept_response_1ab2abf0607e5c5031ece0b8be35a58a8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_paxos_accept_response_1ab2abf0607e5c5031ece0b8be35a58a8c" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gossip-Specific<sp/>Structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426" refid="structthemis_1_1process_1_1_gossip_version_vector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_gossip_version_vector" kindref="compound">GossipVersionVector</ref><sp/>{</highlight></codeline>
+<codeline lineno="428" refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434" refid="structthemis_1_1process_1_1_gossip_version_vector_1a688af70028d97e9d983533c5fd8e4bdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a688af70028d97e9d983533c5fd8e4bdf" kindref="member">increment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/>{</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>.find(shard_id)<sp/>==<sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>.end())<sp/>{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>[shard_id]<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>[shard_id]++;</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446" refid="structthemis_1_1process_1_1_gossip_version_vector_1af17f40b6b9f9c2bf763a9d579b8b5f9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1af17f40b6b9f9c2bf763a9d579b8b5f9b" kindref="member">merge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector" kindref="compound">GossipVersionVector</ref>&amp;<sp/>other)<sp/>{</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[shard_id,<sp/>clock_value]<sp/>:<sp/>other.<ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>.find(shard_id)<sp/>==<sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>.end())<sp/>{</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>[shard_id]<sp/>=<sp/>clock_value;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>[shard_id]<sp/>=<sp/>std::max(<ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>[shard_id],<sp/>clock_value);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461" refid="structthemis_1_1process_1_1_gossip_version_vector_1aa04c10ac3c2b60061bcfe2904bb1e81f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1aa04c10ac3c2b60061bcfe2904bb1e81f" kindref="member">happensBefore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector" kindref="compound">GossipVersionVector</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[shard_id,<sp/>other_clock]<sp/>:<sp/>other.<ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>.find(shard_id);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" kindref="member">clock</ref>.end()<sp/>||<sp/>it-&gt;second<sp/>&lt;<sp/>other_clock)<sp/>{</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>event<sp/>or<sp/>older<sp/>clock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>events<sp/>in<sp/>other<sp/>have<sp/>been<sp/>seen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="470"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475" refid="structthemis_1_1process_1_1_gossip_message" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_gossip_message" kindref="compound">GossipMessage</ref><sp/>{</highlight></codeline>
+<codeline lineno="477" refid="structthemis_1_1process_1_1_gossip_message_1a60c495a5791bafe7e87b11ff86869071" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_gossip_message_1a60c495a5791bafe7e87b11ff86869071" kindref="member">sender_id</ref>;</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480" refid="structthemis_1_1process_1_1_gossip_message_1ad3353c79ac046768cf05874084d0efc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_gossip_version_vector" kindref="compound">GossipVersionVector</ref><sp/><ref refid="structthemis_1_1process_1_1_gossip_message_1ad3353c79ac046768cf05874084d0efc2" kindref="member">version_vector</ref>;</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483" refid="structthemis_1_1process_1_1_gossip_message_1a922d1edea637eae5864b129b8a9798d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConsensusLogEntry&gt;<sp/><ref refid="structthemis_1_1process_1_1_gossip_message_1a922d1edea637eae5864b129b8a9798d8" kindref="member">entries</ref>;</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486" refid="structthemis_1_1process_1_1_gossip_message_1acdea84e7aefc6f4c1d5d34941084eda7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_gossip_message_1acdea84e7aefc6f4c1d5d34941084eda7" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Split-Brain<sp/>Detection<sp/>&amp;<sp/>Recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496" refid="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaea" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaea" kindref="member">SplitBrainState</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="498" refid="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaae12ab2013376ab01a1cdf04277af2399" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaae12ab2013376ab01a1cdf04277af2399" kindref="member">UNIFIED</ref><sp/>=<sp/>6130,</highlight></codeline>
+<codeline lineno="500" refid="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaadf7965066d17ab3d75c2929dd4e9dade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaadf7965066d17ab3d75c2929dd4e9dade" kindref="member">SPLIT_DETECTED</ref><sp/>=<sp/>6131,</highlight></codeline>
+<codeline lineno="502" refid="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaad6c1942ed53f9fb0e986c163ff2e785e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aacfcb7493363b25e737885d1e89bcaeaad6c1942ed53f9fb0e986c163ff2e785e" kindref="member">RECOVERY_IN_PROGRESS</ref><sp/>=<sp/>6132,</highlight></codeline>
+<codeline lineno="503"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508" refid="structthemis_1_1process_1_1_split_brain_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_split_brain_config" kindref="compound">SplitBrainConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="510" refid="structthemis_1_1process_1_1_split_brain_config_1a652ac5676ceda9221dacb11a6ffc6670" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_split_brain_config_1a652ac5676ceda9221dacb11a6ffc6670" kindref="member">election_timeout_ms</ref><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight></codeline>
+<codeline lineno="513" refid="structthemis_1_1process_1_1_split_brain_config_1a32bd868520625b242345626a4da966ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_split_brain_config_1a32bd868520625b242345626a4da966ad" kindref="member">detection_window_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+<codeline lineno="516" refid="structthemis_1_1process_1_1_split_brain_config_1a084fe3036d63e315a0ba314326686943" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_split_brain_config_1a084fe3036d63e315a0ba314326686943" kindref="member">recovery_policy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fail_closed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="519" refid="structthemis_1_1process_1_1_split_brain_config_1a829f6c4c850f7bd336450b835780a91b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_split_brain_config_1a829f6c4c850f7bd336450b835780a91b" kindref="member">auto_recover</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"></highlight></codeline>
+<codeline lineno="522" refid="structthemis_1_1process_1_1_split_brain_config_1a5634de5339f536ffa4d379e78966b4f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_split_brain_config_1a5634de5339f536ffa4d379e78966b4f6" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="523"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/federated_consensus_contract.h"/>
+  </compounddef>
+</doxygen>

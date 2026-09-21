@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_model_generator_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessModelGenerator::ValidationResult</compoundname>
+    <includes refid="process__model__generator_8h" local="no">process_model_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_generator_1_1_validation_result_1acd696fdb705b2d06f36de6edb35b93ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessModelGenerator::ValidationResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::ValidationResult::ok</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="103" column="14" bodyfile="include/process/process_model_generator.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_generator_1_1_validation_result_1ada599df2f31a7376fae357d837238b88" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ProcessModelGenerator::ValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::ValidationResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="104" column="21" bodyfile="include/process/process_model_generator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of BPMN semantic validation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_model_generator.h" line="102" column="5" bodyfile="include/process/process_model_generator.h" bodystart="102" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_model_generator_1_1_validation_result_1ada599df2f31a7376fae357d837238b88" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator::ValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_generator_1_1_validation_result_1acd696fdb705b2d06f36de6edb35b93ee" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator::ValidationResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

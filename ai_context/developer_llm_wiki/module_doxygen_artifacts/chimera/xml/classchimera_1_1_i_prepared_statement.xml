@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_i_prepared_statement" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>chimera::IPreparedStatement</compoundname>
+    <derivedcompoundref refid="classchimera_1_1_themis_d_b_prepared_statement" prot="public" virt="non-virtual">chimera::ThemisDBPreparedStatement</derivedcompoundref>
+    <includes refid="database__adapter_8hpp" local="no">database_adapter.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1a90e15bb3711363dbd5246ca1605b0cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual chimera::IPreparedStatement::~IPreparedStatement</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPreparedStatement</name>
+        <qualifiedname>chimera::IPreparedStatement::~IPreparedStatement</qualifiedname>
+        <briefdescription>
+<para>IPrepared Statement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="211" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1a080439098b98c72828e274e35b7591ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string chimera::IPreparedStatement::get_id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_id</name>
+        <qualifiedname>chimera::IPreparedStatement::get_id</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1a671262ccfb6b8c31e5e3b38b9e9b58c4">get_id</reimplementedby>
+        <briefdescription>
+<para>Get id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="217" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1a9e7ec49095f6ca962e10f73555d58b39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string chimera::IPreparedStatement::get_query</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_query</name>
+        <qualifiedname>chimera::IPreparedStatement::get_query</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1a2481b66d0beb822ff27d40816b115026">get_query</reimplementedby>
+        <briefdescription>
+<para>Get query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="223" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1abd5dcecdddb8399b34278fca149f36d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IPreparedStatement::bind</definition>
+        <argsstring>(const std::string &amp;name, const Scalar &amp;value)=0</argsstring>
+        <name>bind</name>
+        <qualifiedname>chimera::IPreparedStatement::bind</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1adc99bb9848abbb8719f349250047b04d">bind</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Bind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="231" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1a1caf8d741e4fc38f0e67ccdf6e3644a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IPreparedStatement::bind</definition>
+        <argsstring>(size_t position, const Scalar &amp;value)=0</argsstring>
+        <name>bind</name>
+        <qualifiedname>chimera::IPreparedStatement::bind</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1af6cf6e9a41562a8ffb89f5a06c7f2b7f">bind</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Bind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="239" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1aafb9c998474b8ce81fede75a88c9d251" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IPreparedStatement::bind_all</definition>
+        <argsstring>(const std::map&lt; std::string, Scalar &gt; &amp;params)=0</argsstring>
+        <name>bind_all</name>
+        <qualifiedname>chimera::IPreparedStatement::bind_all</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1ae90d787dcb8e1811b47de91ec20fdbe8">bind_all</reimplementedby>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="241" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1a600027edcb889ca4345aad4703ddd445" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref> &gt;</type>
+        <definition>virtual Result&lt; RelationalTable &gt; chimera::IPreparedStatement::execute</definition>
+        <argsstring>()=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>chimera::IPreparedStatement::execute</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1a005985e490009e10cec5901a0da98021">execute</reimplementedby>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="249" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1ab21573eb43327d93ee009aff0a1dc236" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref> &gt; &gt;</type>
+        <definition>virtual std::future&lt; Result&lt; RelationalTable &gt; &gt; chimera::IPreparedStatement::execute_async</definition>
+        <argsstring>()=0</argsstring>
+        <name>execute_async</name>
+        <qualifiedname>chimera::IPreparedStatement::execute_async</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1afc89832392f7be26bf5552272cec9977">execute_async</reimplementedby>
+        <briefdescription>
+<para>Execute async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="255" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1a641507cba7aa0fd50569f526820316f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IPreparedStatement::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>chimera::IPreparedStatement::reset</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1aa3cc5614c9fda21696d4cfeef2f958c2">reset</reimplementedby>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="261" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_prepared_statement_1ae23f2b2ebb664ad24aa3cd8f36bc8e57" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_query_statistics" kindref="compound">QueryStatistics</ref> &gt;</type>
+        <definition>virtual Result&lt; QueryStatistics &gt; chimera::IPreparedStatement::get_statistics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_statistics</name>
+        <qualifiedname>chimera::IPreparedStatement::get_statistics</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_prepared_statement_1adf4b0bf32bd9cf9c1f5104780dbf1515">get_statistics</reimplementedby>
+        <briefdescription>
+<para>Get statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="267" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>chimera::IPreparedStatement</label>
+        <link refid="classchimera_1_1_i_prepared_statement"/>
+      </node>
+      <node id="2">
+        <label>chimera::ThemisDBPreparedStatement</label>
+        <link refid="classchimera_1_1_themis_d_b_prepared_statement"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/chimera/database_adapter.hpp" line="205" column="1" bodyfile="include/chimera/database_adapter.hpp" bodystart="205" bodyend="268"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_i_prepared_statement_1abd5dcecdddb8399b34278fca149f36d1" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>bind</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1a1caf8d741e4fc38f0e67ccdf6e3644a3" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>bind</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1aafb9c998474b8ce81fede75a88c9d251" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>bind_all</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1a600027edcb889ca4345aad4703ddd445" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>execute</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1ab21573eb43327d93ee009aff0a1dc236" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>execute_async</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1a080439098b98c72828e274e35b7591ac" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>get_id</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1a9e7ec49095f6ca962e10f73555d58b39" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>get_query</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1ae23f2b2ebb664ad24aa3cd8f36bc8e57" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>get_statistics</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1a641507cba7aa0fd50569f526820316f7" prot="public" virt="pure-virtual"><scope>chimera::IPreparedStatement</scope><name>reset</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1a90e15bb3711363dbd5246ca1605b0cf0" prot="public" virt="virtual"><scope>chimera::IPreparedStatement</scope><name>~IPreparedStatement</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

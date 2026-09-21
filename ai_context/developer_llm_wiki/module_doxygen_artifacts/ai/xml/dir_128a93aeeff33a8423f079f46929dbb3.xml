@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_128a93aeeff33a8423f079f46929dbb3" kind="dir">
+    <compoundname>src/ai</compoundname>
+    <innerfile refid="ai__plugin__generator_8cpp">ai_plugin_generator.cpp</innerfile>
+    <innerfile refid="cai__ethics__integration_8cpp">cai_ethics_integration.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ai/"/>
+  </compounddef>
+</doxygen>

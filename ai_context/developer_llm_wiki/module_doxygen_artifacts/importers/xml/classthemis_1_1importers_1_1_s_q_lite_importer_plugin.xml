@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::SQLiteImporterPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">plugins::IThemisPlugin</basecompoundref>
+    <includes refid="sqlite__importer_8h" local="no">sqlite_importer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a9aee9248f212f63e555e94e435cc71d6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_s_q_lite_importer" kindref="compound">SQLiteImporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SQLiteImporter&gt; themis::importers::SQLiteImporterPlugin::importer_</definition>
+        <argsstring></argsstring>
+        <name>importer_</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::importer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="171" column="21" bodyfile="include/importers/sqlite_importer.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a357788b4989f1d94b2f4bc436ccdc623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::SQLiteImporterPlugin::SQLiteImporterPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>SQLiteImporterPlugin</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::SQLiteImporterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="156" column="5" bodyfile="src/importers/sqlite_importer.cpp" bodystart="1340" bodyend="1341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a3c7ff0d508922e801f8b714103f528d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::SQLiteImporterPlugin::~SQLiteImporterPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~SQLiteImporterPlugin</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::~SQLiteImporterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="157" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a4fe5dc51bc09d7bca649756a85c61e0d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::SQLiteImporterPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="160" column="16" bodyfile="include/importers/sqlite_importer.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1af9ba42e674b67445976a7ee2f4c5b994" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::SQLiteImporterPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="161" column="16" bodyfile="include/importers/sqlite_importer.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1aa2f030acc99d737972be9c53342d7d38" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginType</type>
+        <definition>plugins::PluginType themis::importers::SQLiteImporterPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="162" column="25" bodyfile="include/importers/sqlite_importer.h" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a407e49f4b57c0da7c97c6219b5c2271d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::importers::SQLiteImporterPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="165" column="33" bodyfile="src/importers/sqlite_importer.cpp" bodystart="1343" bodyend="1349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1af92e4d76271e8731af617bc07278db26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::SQLiteImporterPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="166" column="10" bodyfile="src/importers/sqlite_importer.cpp" bodystart="1357" bodyend="1362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a08a650a2aedd144f1de4f4f6eac7f0e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::SQLiteImporterPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cancel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="167" column="10" bodyfile="src/importers/sqlite_importer.cpp" bodystart="1368" bodyend="1372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a86b2605e54a344de2f3f85498b9fdca6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::importers::SQLiteImporterPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::importers::SQLiteImporterPlugin::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="168" column="10" bodyfile="include/importers/sqlite_importer.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::SQLiteImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::SQLiteImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/sqlite_importer.h" line="154" column="1" bodyfile="include/importers/sqlite_importer.h" bodystart="154" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a407e49f4b57c0da7c97c6219b5c2271d" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a86b2605e54a344de2f3f85498b9fdca6" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a4fe5dc51bc09d7bca649756a85c61e0d" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1aa2f030acc99d737972be9c53342d7d38" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1af9ba42e674b67445976a7ee2f4c5b994" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a9aee9248f212f63e555e94e435cc71d6" prot="private" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>importer_</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1af92e4d76271e8731af617bc07278db26" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a08a650a2aedd144f1de4f4f6eac7f0e5" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a357788b4989f1d94b2f4bc436ccdc623" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>SQLiteImporterPlugin</name></member>
+      <member refid="classthemis_1_1importers_1_1_s_q_lite_importer_plugin_1a3c7ff0d508922e801f8b714103f528d7" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporterPlugin</scope><name>~SQLiteImporterPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

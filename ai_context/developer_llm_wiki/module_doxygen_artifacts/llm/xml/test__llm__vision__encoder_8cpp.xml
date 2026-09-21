@@ -1,0 +1,506 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__vision__encoder_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_vision_encoder.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="vision__encoder_8h" local="yes">llm/vision_encoder.h</includes>
+    <includes refid="vision__config_8h" local="yes">llm/vision_config.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>llm/vision_config.h</label>
+        <link refid="vision__config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/vision_encoder.h</label>
+        <link refid="vision__encoder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/vision_resource_monitor.h</label>
+        <link refid="vision__resource__monitor_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_vision_encoder.cpp</label>
+        <link refid="test__llm__vision__encoder_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="16">
+        <label>queue</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1a9ad6638f2593eabcd94beb0ad0597745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionRequestTest, DefaultConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionRequestTest</type>
+        </param>
+        <param>
+          <type>DefaultConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="17" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="17" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1afbf0623faa11af349897d663c8e15403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionRequestTest, PopulateSingleImage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionRequestTest</type>
+        </param>
+        <param>
+          <type>PopulateSingleImage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="30" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="30" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1af326fb6429661cd07118db6d0696e7cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionRequestTest, PopulateMultipleImages)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionRequestTest</type>
+        </param>
+        <param>
+          <type>PopulateMultipleImages</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="41" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="41" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1aa62a5428dd6ecbb3a59df82ff856095a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionResponseTest, DefaultConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionResponseTest</type>
+        </param>
+        <param>
+          <type>DefaultConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="55" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="55" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1a10c8bc4eb3f0dfc7daffc8c472a87b72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionResponseTest, FailureResponse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionResponseTest</type>
+        </param>
+        <param>
+          <type>FailureResponse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="66" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1a2857962801daeec6bf1373bfef02095c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionResponseTest, SuccessResponse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionResponseTest</type>
+        </param>
+        <param>
+          <type>SuccessResponse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="75" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="75" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1aad9c03c06ca65522d96ffbd8735cbaa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionConfigTest, DefaultConfigNotNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultConfigNotNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="96" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1a0ae3d96e18db528a0858ca701c0235f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionConfigTest, DefaultAPIVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultAPIVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="101" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1a96e53aa748df1c370cc355bf6925646f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionConfigTest, DefaultAPIStabilityIsStable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultAPIStabilityIsStable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="106" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1ac8ae9922177e38de896a9cc7691a7b37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionConfigTest, DefaultBackwardCompatible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultBackwardCompatible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="111" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1a4349d4efc87977e626a9c5912beddc88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionConfigTest, DefaultResourceLimitsHavePositiveCPUThreads)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultResourceLimitsHavePositiveCPUThreads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="116" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="116" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1ac56033ceddf723f7e0eceb6989d6fc31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionEncoderTest, DISABLED_ThrowsOnMissingModelFile)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionEncoderTest</type>
+        </param>
+        <param>
+          <type>DISABLED_ThrowsOnMissingModelFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="125" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="125" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__encoder_8cpp_1ae3b0414b83bb3697caa6c3ba458dd581" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VisionEncoderTest, DISABLED_ThrowsOnMissingModelFileWithConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VisionEncoderTest</type>
+        </param>
+        <param>
+          <type>DISABLED_ThrowsOnMissingModelFileWithConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_encoder.cpp" line="132" column="1" bodyfile="tests/llm/test_llm_vision_encoder.cpp" bodystart="132" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1llm_1_1_vision_encoder" kindref="compound">VisionEncoder</ref> API, <ref refid="structthemis_1_1llm_1_1_vision_request" kindref="compound">VisionRequest</ref>, <ref refid="structthemis_1_1llm_1_1_vision_response" kindref="compound">VisionResponse</ref>, and <ref refid="classthemis_1_1llm_1_1_vision_config" kindref="compound">VisionConfig</ref> — no CLIP model file is required. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vision__encoder_8h" kindref="compound">llm/vision_encoder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vision__config_8h" kindref="compound">llm/vision_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VisionRequest<sp/>struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionRequestTest,<sp/>DefaultConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_request" kindref="compound">VisionRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" kindref="member">text_prompt</ref>.empty());</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1af5046edae0c94186c4243a4af8aec891" kindref="member">image_path</ref>.empty());</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref>.empty());</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1afbded3ed7acd7adfba0894ad81b2a1b8" kindref="member">max_tokens</ref>,<sp/>256);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ac490bda383293fed3ca1081a412c5333" kindref="member">temperature</ref>,<sp/>0.7f);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a20a0e8b8242256004e6fff13d28970b2" kindref="member">top_p</ref>,<sp/>0.9f);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a52b2603f0fcd0f643f51033bb9dfa855" kindref="member">top_k</ref>,<sp/>40);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a27fc38c1e2274bdec5015468958d89a8" kindref="member">use_image_start_end</ref>);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a151ab308430ea4bc12d424776882d0b2" kindref="member">image_token</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&lt;image&gt;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionRequestTest,<sp/>PopulateSingleImage)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_request" kindref="compound">VisionRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" kindref="member">text_prompt</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>in<sp/>this<sp/>image?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_vision_request_1af5046edae0c94186c4243a4af8aec891" kindref="member">image_path</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/image.jpg&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_vision_request_1afbded3ed7acd7adfba0894ad81b2a1b8" kindref="member">max_tokens</ref><sp/><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" kindref="member">text_prompt</ref>,<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>in<sp/>this<sp/>image?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1af5046edae0c94186c4243a4af8aec891" kindref="member">image_path</ref>,<sp/></highlight><highlight class="stringliteral">&quot;/path/to/image.jpg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1afbded3ed7acd7adfba0894ad81b2a1b8" kindref="member">max_tokens</ref>,<sp/>512);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionRequestTest,<sp/>PopulateMultipleImages)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_request" kindref="compound">VisionRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" kindref="member">text_prompt</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Compare<sp/>these<sp/>images&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/img1.png&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/img2.png&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref>.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref>[0],<sp/></highlight><highlight class="stringliteral">&quot;/img1.png&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref>[1],<sp/></highlight><highlight class="stringliteral">&quot;/img2.png&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VisionResponse<sp/>struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionResponseTest,<sp/>DefaultConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_response" kindref="compound">VisionResponse</ref><sp/>resp;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a634c09277e5917909bf338b840b1d7fe" kindref="member">success</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a6a97726271c1d017a261032662f73d6d" kindref="member">text</ref>.empty());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a2298b750c7b23fa7aee0234007d6a864" kindref="member">error_message</ref>.empty());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a6f3827a4c3837dd8fc66a2fa3f6d8a27" kindref="member">tokens_generated</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1aa126b6ce17581b2f30436bd609310f5a" kindref="member">inference_time_ms</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a982a61f39e0c33e89822062fe50f5c16" kindref="member">image_encoding_time_ms</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a43f24021d842bdf802f5af2a461273e0" kindref="member">model_name</ref>.empty());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionResponseTest,<sp/>FailureResponse)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_response" kindref="compound">VisionResponse</ref><sp/>resp;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a634c09277e5917909bf338b840b1d7fe" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a2298b750c7b23fa7aee0234007d6a864" kindref="member">error_message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Vision<sp/>support<sp/>not<sp/>enabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a634c09277e5917909bf338b840b1d7fe" kindref="member">success</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a2298b750c7b23fa7aee0234007d6a864" kindref="member">error_message</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Vision<sp/>support<sp/>not<sp/>enabled&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionResponseTest,<sp/>SuccessResponse)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_response" kindref="compound">VisionResponse</ref><sp/>resp;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a634c09277e5917909bf338b840b1d7fe" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a6a97726271c1d017a261032662f73d6d" kindref="member">text</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>scenic<sp/>mountain<sp/>landscape.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a6f3827a4c3837dd8fc66a2fa3f6d8a27" kindref="member">tokens_generated</ref><sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1aa126b6ce17581b2f30436bd609310f5a" kindref="member">inference_time_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>350;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a982a61f39e0c33e89822062fe50f5c16" kindref="member">image_encoding_time_ms</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a43f24021d842bdf802f5af2a461273e0" kindref="member">model_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llava-v1.5-7b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a634c09277e5917909bf338b840b1d7fe" kindref="member">success</ref>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a6a97726271c1d017a261032662f73d6d" kindref="member">text</ref>,<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>scenic<sp/>mountain<sp/>landscape.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a6f3827a4c3837dd8fc66a2fa3f6d8a27" kindref="member">tokens_generated</ref>,<sp/>6);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1aa126b6ce17581b2f30436bd609310f5a" kindref="member">inference_time_ms</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a982a61f39e0c33e89822062fe50f5c16" kindref="member">image_encoding_time_ms</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.<ref refid="structthemis_1_1llm_1_1_vision_response_1a43f24021d842bdf802f5af2a461273e0" kindref="member">model_name</ref>,<sp/></highlight><highlight class="stringliteral">&quot;llava-v1.5-7b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VisionConfig::getDefault()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionConfigTest,<sp/>DefaultConfigNotNull)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_vision_config_1a5809946b16cd3f0ccf55747c05f36ff3" kindref="member">VisionConfig::getDefault</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionConfigTest,<sp/>DefaultAPIVersion)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_vision_config_1a5809946b16cd3f0ccf55747c05f36ff3" kindref="member">VisionConfig::getDefault</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg-&gt;getAPIVersion().empty());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionConfigTest,<sp/>DefaultAPIStabilityIsStable)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_vision_config_1a5809946b16cd3f0ccf55747c05f36ff3" kindref="member">VisionConfig::getDefault</ref>();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg-&gt;getAPIStability(),<sp/><ref refid="namespacethemis_1_1llm_1a78341ead3ab67dc633bf7cb3a2403049a32987cdf8a725702042ab18f5c700905" kindref="member">VisionAPIStability::STABLE</ref>);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionConfigTest,<sp/>DefaultBackwardCompatible)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_vision_config_1a5809946b16cd3f0ccf55747c05f36ff3" kindref="member">VisionConfig::getDefault</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg-&gt;isBackwardCompatible());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionConfigTest,<sp/>DefaultResourceLimitsHavePositiveCPUThreads)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_vision_config_1a5809946b16cd3f0ccf55747c05f36ff3" kindref="member">VisionConfig::getDefault</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg-&gt;getResourceLimits().cpu_inference_threads,<sp/>0);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VisionEncoder<sp/>—<sp/>constructor<sp/>rejects<sp/>missing<sp/>model<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionEncoderTest,<sp/>DISABLED_ThrowsOnMissingModelFile)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Regardless<sp/>of<sp/>THEMIS_ENABLE_LLM,<sp/>constructing<sp/>with<sp/>a<sp/>missing<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>throw<sp/>(either<sp/>&quot;not<sp/>found&quot;<sp/>or<sp/>&quot;LLM<sp/>support<sp/>not<sp/>enabled&quot;).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Fix<sp/>ambiguous<sp/>VisionEncoder<sp/>constructor<sp/>overload<sp/>(C2668)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipped:<sp/>VisionEncoder<sp/>constructor<sp/>overload<sp/>ambiguity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(VisionEncoderTest,<sp/>DISABLED_ThrowsOnMissingModelFileWithConfig)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_vision_config_1a5809946b16cd3f0ccf55747c05f36ff3" kindref="member">VisionConfig::getDefault</ref>();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Fix<sp/>ambiguous<sp/>VisionEncoder<sp/>constructor<sp/>overload<sp/>(C2668)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipped:<sp/>VisionEncoder<sp/>constructor<sp/>overload<sp/>ambiguity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_vision_encoder.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_continuous_query_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ContinuousQuerySpec</compoundname>
+    <includes refid="continuous__query__engine_8h" local="no">continuous_query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_spec_1a3a23ef255baec07a346d5f526bc7529c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContinuousQuerySpec::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::ContinuousQuerySpec::name</qualifiedname>
+        <briefdescription>
+<para>Unique query name (used as DDL identifier). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="70" column="17" bodyfile="include/query/continuous_query_engine.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_spec_1ad8f2b665f8eef5ff165b633fefd3b6bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContinuousQuerySpec::source_collection</definition>
+        <argsstring></argsstring>
+        <name>source_collection</name>
+        <qualifiedname>themis::query::ContinuousQuerySpec::source_collection</qualifiedname>
+        <briefdescription>
+<para>AQL collection to stream from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="71" column="17" bodyfile="include/query/continuous_query_engine.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_spec_1a53862ca1f881f03cb779dd311f952598" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_window_spec" kindref="compound">WindowSpec</ref></type>
+        <definition>WindowSpec themis::query::ContinuousQuerySpec::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themis::query::ContinuousQuerySpec::window</qualifiedname>
+        <briefdescription>
+<para>Window definition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="72" column="17" bodyfile="include/query/continuous_query_engine.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_spec_1a2e68271a1cfeee0a3363bceed9e35baa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContinuousQuerySpec::aql_body</definition>
+        <argsstring></argsstring>
+        <name>aql_body</name>
+        <qualifiedname>themis::query::ContinuousQuerySpec::aql_body</qualifiedname>
+        <briefdescription>
+<para>AQL expression evaluated each tick. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="73" column="17" bodyfile="include/query/continuous_query_engine.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_spec_1abf21786d2c18779b9753d2c514942615" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a61d302e9f3648ff09de0dfba2611ea88" kindref="member">ResultMode</ref></type>
+        <definition>ResultMode themis::query::ContinuousQuerySpec::result_mode</definition>
+        <argsstring></argsstring>
+        <name>result_mode</name>
+        <qualifiedname>themis::query::ContinuousQuerySpec::result_mode</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1query_1a61d302e9f3648ff09de0dfba2611ea88aa789408ec4ddae81bd2f72ad5ec6bf3b" kindref="member">ResultMode::DELTA</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="75" column="16" bodyfile="include/query/continuous_query_engine.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_spec_1ab90f90389f797e9fdc93b56b4e8e841b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::ContinuousQuerySpec::allowed_lateness_ms</definition>
+        <argsstring></argsstring>
+        <name>allowed_lateness_ms</name>
+        <qualifiedname>themis::query::ContinuousQuerySpec::allowed_lateness_ms</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Late-event budget in ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="77" column="13" bodyfile="include/query/continuous_query_engine.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_spec_1a0d34327b38614c9eb10967f021a04f44" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ContinuousQuerySpec::max_window_tuples</definition>
+        <argsstring></argsstring>
+        <name>max_window_tuples</name>
+        <qualifiedname>themis::query::ContinuousQuerySpec::max_window_tuples</qualifiedname>
+        <initializer>{10&apos;000&apos;000}</initializer>
+        <briefdescription>
+<para>Max tuples per window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="78" column="13" bodyfile="include/query/continuous_query_engine.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_spec_1a9160467abb656ded4f25a87447f381d2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ContinuousQuerySpec::max_window_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_window_bytes</name>
+        <qualifiedname>themis::query::ContinuousQuerySpec::max_window_bytes</qualifiedname>
+        <initializer>{1ULL &lt;&lt; 30}</initializer>
+        <briefdescription>
+<para>Max bytes per window (1 GiB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="79" column="13" bodyfile="include/query/continuous_query_engine.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::ContinuousQuerySpec</label>
+        <link refid="structthemis_1_1query_1_1_continuous_query_spec"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>window</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::WindowSpec</label>
+        <link refid="structthemis_1_1query_1_1_window_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/continuous_query_engine.h" line="69" column="1" bodyfile="include/query/continuous_query_engine.h" bodystart="69" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_continuous_query_spec_1ab90f90389f797e9fdc93b56b4e8e841b" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQuerySpec</scope><name>allowed_lateness_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_spec_1a2e68271a1cfeee0a3363bceed9e35baa" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQuerySpec</scope><name>aql_body</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_spec_1a9160467abb656ded4f25a87447f381d2" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQuerySpec</scope><name>max_window_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_spec_1a0d34327b38614c9eb10967f021a04f44" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQuerySpec</scope><name>max_window_tuples</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_spec_1a3a23ef255baec07a346d5f526bc7529c" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQuerySpec</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_spec_1abf21786d2c18779b9753d2c514942615" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQuerySpec</scope><name>result_mode</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_spec_1ad8f2b665f8eef5ff165b633fefd3b6bf" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQuerySpec</scope><name>source_collection</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_spec_1a53862ca1f881f03cb779dd311f952598" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQuerySpec</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::FIBase</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" prot="public" virt="non-virtual">themisdb::sharding::fi_test::CascadeMultiFailureTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" prot="public" virt="non-virtual">themisdb::sharding::fi_test::CoordinatorFailureTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" prot="public" virt="non-virtual">themisdb::sharding::fi_test::NetworkPartitionTest</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1abb32563e38686bad45d36fb23800fa19" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref></type>
+        <definition>SimWAL themisdb::sharding::fi_test::FIBase::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::fi_test::FIBase::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1000" column="12" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1000" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1a2edd1309c2b49e0eb0758b2cf4614026" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::sharding::fi_test::FIBase::txnId</definition>
+        <argsstring>(const std::string &amp;suffix)</argsstring>
+        <name>txnId</name>
+        <qualifiedname>themisdb::sharding::fi_test::FIBase::txnId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>suffix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1002" column="24" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1002" bodyend="1004"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1a21bba77a7388b96d7891a6fa7d07fd91" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; SimParticipant &gt; &gt; themisdb::sharding::fi_test::FIBase::makeParticipants</definition>
+        <argsstring>(int n, bool vote_yes=true, SimWAL *w=nullptr)</argsstring>
+        <name>makeParticipants</name>
+        <qualifiedname>themisdb::sharding::fi_test::FIBase::makeParticipants</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>vote_yes</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>w</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1007" column="5" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1007" bodyend="1016"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base fixture providing shared <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> and factory helpers. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::sharding::fi_test::CascadeMultiFailureTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themisdb::sharding::fi_test::CoordinatorFailureTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::fi_test::FIBase</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themisdb::sharding::fi_test::NetworkPartitionTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::fi_test::FIBase</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>wal_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themisdb::sharding::fi_test::SimWAL</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="998" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="998" bodyend="1017"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1a21bba77a7388b96d7891a6fa7d07fd91" prot="protected" virt="non-virtual"><scope>themisdb::sharding::fi_test::FIBase</scope><name>makeParticipants</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1a2edd1309c2b49e0eb0758b2cf4614026" prot="protected" virt="non-virtual"><scope>themisdb::sharding::fi_test::FIBase</scope><name>txnId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1abb32563e38686bad45d36fb23800fa19" prot="protected" virt="non-virtual"><scope>themisdb::sharding::fi_test::FIBase</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

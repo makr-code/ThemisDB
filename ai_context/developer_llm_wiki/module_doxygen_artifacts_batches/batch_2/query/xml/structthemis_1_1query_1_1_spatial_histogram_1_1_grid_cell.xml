@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SpatialHistogram::GridCell</compoundname>
+    <includes refid="geospatial__cost__model_8h" local="no">geospatial_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1ade540124c6134610c542412ea0521d73" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::GridCell::minLon</definition>
+        <argsstring></argsstring>
+        <name>minLon</name>
+        <qualifiedname>themis::query::SpatialHistogram::GridCell::minLon</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="29" column="16" bodyfile="include/query/geospatial_cost_model.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a1c112cc05eba5a3f195a12cb5af0329c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::GridCell::maxLon</definition>
+        <argsstring></argsstring>
+        <name>maxLon</name>
+        <qualifiedname>themis::query::SpatialHistogram::GridCell::maxLon</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="29" column="23" bodyfile="include/query/geospatial_cost_model.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a2d7c6eccef406e0b23fc6926ace747a3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::GridCell::minLat</definition>
+        <argsstring></argsstring>
+        <name>minLat</name>
+        <qualifiedname>themis::query::SpatialHistogram::GridCell::minLat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="30" column="16" bodyfile="include/query/geospatial_cost_model.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a9fb9a13ae1dc2ecada3f11214791e29e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::GridCell::maxLat</definition>
+        <argsstring></argsstring>
+        <name>maxLat</name>
+        <qualifiedname>themis::query::SpatialHistogram::GridCell::maxLat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="30" column="23" bodyfile="include/query/geospatial_cost_model.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a5f10f59ef00f7cb2b731f335218b52a8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::SpatialHistogram::GridCell::pointCount</definition>
+        <argsstring></argsstring>
+        <name>pointCount</name>
+        <qualifiedname>themis::query::SpatialHistogram::GridCell::pointCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="31" column="16" bodyfile="include/query/geospatial_cost_model.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a7e2ddbff1876cc0c6327380cd3376046" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::GridCell::density</definition>
+        <argsstring></argsstring>
+        <name>density</name>
+        <qualifiedname>themis::query::SpatialHistogram::GridCell::density</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="32" column="16" bodyfile="include/query/geospatial_cost_model.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_cost_model.h" line="28" column="5" bodyfile="include/query/geospatial_cost_model.h" bodystart="28" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a7e2ddbff1876cc0c6327380cd3376046" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram::GridCell</scope><name>density</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a9fb9a13ae1dc2ecada3f11214791e29e" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram::GridCell</scope><name>maxLat</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a1c112cc05eba5a3f195a12cb5af0329c" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram::GridCell</scope><name>maxLon</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a2d7c6eccef406e0b23fc6926ace747a3" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram::GridCell</scope><name>minLat</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1ade540124c6134610c542412ea0521d73" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram::GridCell</scope><name>minLon</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a5f10f59ef00f7cb2b731f335218b52a8" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram::GridCell</scope><name>pointCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

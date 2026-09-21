@@ -1,0 +1,502 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::prompt_engineering::SimplePromptCompressor</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor" prot="public" virt="non-virtual">themis::prompt_engineering::IPromptCompressor</basecompoundref>
+    <includes refid="prompt__compressor_8h" local="no">prompt_compressor.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a86f6fff940e4d5252bde55d15a00cc8a" prot="public" static="no">
+        <type>std::function&lt; int(const std::string &amp;)&gt;</type>
+        <definition>using themis::prompt_engineering::SimplePromptCompressor::TokenEstimatorFn = std::function&lt;int(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenEstimatorFn</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::TokenEstimatorFn</qualifiedname>
+        <briefdescription>
+<para>Tokeniser function type: maps text → token count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="106" column="5" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a3281363c217d171f34896bcdfcca3293" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;omitted_text, const std::string &amp;model_id)&gt;</type>
+        <definition>using themis::prompt_engineering::SimplePromptCompressor::SummaryFn = std::function&lt;std::string(const std::string&amp; omitted_text,
+                                                const std::string&amp; model_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SummaryFn</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::SummaryFn</qualifiedname>
+        <briefdescription>
+<para>Summary function type: maps (omitted_text, model_id) → summary string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="109" column="5" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a1d8b5dc61565e11b3f825ccc43c9efda" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a86f6fff940e4d5252bde55d15a00cc8a" kindref="member">TokenEstimatorFn</ref></type>
+        <definition>TokenEstimatorFn themis::prompt_engineering::SimplePromptCompressor::token_estimator_</definition>
+        <argsstring></argsstring>
+        <name>token_estimator_</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::token_estimator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="156" column="22" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a4dd994ce639787848d23075c6194b334" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a3281363c217d171f34896bcdfcca3293" kindref="member">SummaryFn</ref></type>
+        <definition>SummaryFn themis::prompt_engineering::SimplePromptCompressor::summary_fn_</definition>
+        <argsstring></argsstring>
+        <name>summary_fn_</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::summary_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="157" column="22" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aadec243bcacd689bbd4dd54267f3734e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::SimplePromptCompressor::SimplePromptCompressor</definition>
+        <argsstring>()</argsstring>
+        <name>SimplePromptCompressor</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::SimplePromptCompressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="112" column="5" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="99" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a4a35a57238b8e5875b2007d5419151b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SimplePromptCompressor::setTokenEstimator</definition>
+        <argsstring>(TokenEstimatorFn fn)</argsstring>
+        <name>setTokenEstimator</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::setTokenEstimator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a86f6fff940e4d5252bde55d15a00cc8a" kindref="member">TokenEstimatorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Replace the built-in GPT-2 token estimator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Token Estimator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="115" column="10" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a5df536684c5297bb6381a046da56eeab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SimplePromptCompressor::setSummaryFn</definition>
+        <argsstring>(SummaryFn fn)</argsstring>
+        <name>setSummaryFn</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::setSummaryFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a3281363c217d171f34896bcdfcca3293" kindref="member">SummaryFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Replace the built-in placeholder summary function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Summary Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="118" column="10" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="190" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af8c871b220449918a9c9ea5f360ad1c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::prompt_engineering::SimplePromptCompressor::compress</definition>
+        <argsstring>(const std::string &amp;prompt, const PromptCompressionConfig &amp;config) override</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::compress</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a1dfb3656a6cecca2b99494ee83df3998">compress</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" kindref="compound">PromptCompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), token_estimator_(), count(), std::max(), truncateHead(), truncateTail(), selectiveTrim(), summarize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="121" column="23" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="374" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aad5e78c8361b23d3d5584faf76d2098d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>int</type>
+        <definition>int themis::prompt_engineering::SimplePromptCompressor::estimateTokenCount</definition>
+        <argsstring>(const std::string &amp;text) override</argsstring>
+        <name>estimateTokenCount</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::estimateTokenCount</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a2f4966baae97e193ffdb62ba34fd7b4b">estimateTokenCount</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Token Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: token_estimator_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="125" column="9" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="206" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af29cb4a3d6739edb4cfb8b7f28ff6a4a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735ec" kindref="member">CompressionStrategy</ref> &gt;</type>
+        <definition>std::vector&lt; CompressionStrategy &gt; themis::prompt_engineering::SimplePromptCompressor::supportedStrategies</definition>
+        <argsstring>() const override</argsstring>
+        <name>supportedStrategies</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::supportedStrategies</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a3e696160088670653bc3bad12e574b40">supportedStrategies</reimplements>
+        <briefdescription>
+<para>Returns the set of strategies this compressor supports. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="127" column="17" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="453" bodyend="461"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a0b0cf57b429ae2560740e1f87b589126" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SimplePromptCompressor::truncateHead</definition>
+        <argsstring>(const std::string &amp;prompt, int budget) const</argsstring>
+        <name>truncateHead</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::truncateHead</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>budget</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="132" column="17" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="214" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a8ccd600ebd04764b84c456ebbc8dcbee" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SimplePromptCompressor::truncateTail</definition>
+        <argsstring>(const std::string &amp;prompt, int budget) const</argsstring>
+        <name>truncateTail</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::truncateTail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>budget</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="133" column="17" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="240" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a704a9994b03d9b23c6bcae1a0d63131e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SimplePromptCompressor::selectiveTrim</definition>
+        <argsstring>(const std::string &amp;prompt, int budget, bool preserve_system, int preserve_turns) const</argsstring>
+        <name>selectiveTrim</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::selectiveTrim</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>budget</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>preserve_system</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>preserve_turns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="134" column="17" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="261" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a24ddef94fdc66f70c863e3d3ab9e35ca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SimplePromptCompressor::summarize</definition>
+        <argsstring>(const std::string &amp;prompt, int budget, bool preserve_system, int preserve_turns, const std::string &amp;model_id) const</argsstring>
+        <name>summarize</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::summarize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>budget</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>preserve_system</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>preserve_turns</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="138" column="17" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="307" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a29f7fc9b057d4c193b44c0e70f32ce3c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::SimplePromptCompressor::splitParagraphs</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>splitParagraphs</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::splitParagraphs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Split <computeroutput>text</computeroutput> into paragraphs separated by blank lines. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Split Paragraphs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ss(), std::getline(), empty(), find_first_not_of(), push_back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="147" column="24" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="31" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a8b34b80db41fd3aba877dad192201982" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::SimplePromptCompressor::splitWords</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>splitWords</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::splitWords</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Split <computeroutput>text</computeroutput> into words (by whitespace). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Split Words.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ss(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="150" column="24" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="64" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1acbdba541147f19b53629d3bb425e91df" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SimplePromptCompressor::joinWords</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;words)</argsstring>
+        <name>joinWords</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptCompressor::joinWords</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>words</declname>
+        </param>
+        <briefdescription>
+<para>Join <computeroutput>words</computeroutput> back into a space-separated string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Join Words.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">words</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="153" column="24" bodyfile="src/prompt_engineering/prompt_compressor.cpp" bodystart="82" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standard library–only implementation of <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor" kindref="compound">IPromptCompressor</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Dependency injection points:<itemizedlist>
+<listitem><para><computeroutput>setTokenEstimator(fn)</computeroutput> — swap in a proper tokeniser.</para>
+</listitem><listitem><para><computeroutput>setSummaryFn(fn)</computeroutput> — inject a real LLM summarisation call for the <computeroutput>SUMMARY</computeroutput> strategy; the default writes a placeholder <computeroutput>[…summary of N omitted tokens…]</computeroutput>. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptCompressor</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::SimplePromptCompressor</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptCompressor</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::SimplePromptCompressor</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/prompt_compressor.h" line="103" column="1" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="103" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af8c871b220449918a9c9ea5f360ad1c1" prot="public" virt="virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>compress</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aad5e78c8361b23d3d5584faf76d2098d" prot="public" virt="virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>estimateTokenCount</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1acbdba541147f19b53629d3bb425e91df" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>joinWords</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a704a9994b03d9b23c6bcae1a0d63131e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>selectiveTrim</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a5df536684c5297bb6381a046da56eeab" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>setSummaryFn</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a4a35a57238b8e5875b2007d5419151b9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>setTokenEstimator</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aadec243bcacd689bbd4dd54267f3734e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>SimplePromptCompressor</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a29f7fc9b057d4c193b44c0e70f32ce3c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>splitParagraphs</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a8b34b80db41fd3aba877dad192201982" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>splitWords</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a24ddef94fdc66f70c863e3d3ab9e35ca" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>summarize</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a4dd994ce639787848d23075c6194b334" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>summary_fn_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a3281363c217d171f34896bcdfcca3293" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>SummaryFn</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af29cb4a3d6739edb4cfb8b7f28ff6a4a" prot="public" virt="virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>supportedStrategies</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a1d8b5dc61565e11b3f825ccc43c9efda" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>token_estimator_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a86f6fff940e4d5252bde55d15a00cc8a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>TokenEstimatorFn</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a0b0cf57b429ae2560740e1f87b589126" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>truncateHead</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a8ccd600ebd04764b84c456ebbc8dcbee" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>truncateTail</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a9e4e3243e2d1c225e2bc9ba9aa518682" prot="public" virt="virtual"><scope>themis::prompt_engineering::SimplePromptCompressor</scope><name>~IPromptCompressor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

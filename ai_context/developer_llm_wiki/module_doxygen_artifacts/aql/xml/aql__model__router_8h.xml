@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__model__router_8h" kind="file" language="C++">
+    <compoundname>aql_model_router.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="aql__model__router_8cpp" local="yes">src/aql/aql_model_router.cpp</includedby>
+    <includedby refid="test__aql__model__router_8cpp" local="yes">tests/aql/test_aql_model_router.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/aql_model_router.h</label>
+        <link refid="aql__model__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aql/aql_model_router.h</label>
+        <link refid="aql__model__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/aql/aql_model_router.cpp</label>
+        <link refid="aql__model__router_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/aql/test_aql_model_router.cpp</label>
+        <link refid="test__aql__model__router_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1aql_1_1_model_route" prot="public">themis::aql::ModelRoute</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_routing_decision" prot="public">themis::aql::RoutingDecision</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_i_model_router" prot="public">themis::aql::IModelRouter</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_a_q_l_model_router" prot="public">themis::aql::AQLModelRouter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.9 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IModelRouter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a87752381b583740610f1dfeb07fdad7e" kindref="member">VECTOR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ae27e2917b6444fcd3452d2d87046a487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ae27e2917b6444fcd3452d2d87046a487" kindref="member">GRAPH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a4a221f74494f1ac7a498e6524292eaef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a4a221f74494f1ac7a498e6524292eaef" kindref="member">GEO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ace55d2310a16b80d5444c790ab6a32ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ace55d2310a16b80d5444c790ab6a32ac" kindref="member">FULLTEXT</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a5eb907bdd20f7bdad174e0525e3c4097" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a5eb907bdd20f7bdad174e0525e3c4097" kindref="member">TIMESERIES</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a179518da8867f0b4237259ea3241a2ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a179518da8867f0b4237259ea3241a2ec" kindref="member">RELATIONAL</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ab93c13848c6490ae962feec15fbdd151" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ab93c13848c6490ae962feec15fbdd151" kindref="member">PROCESS</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1aql_1_1_model_route" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_model_route_1a79a8c86359d6eea8d4edac07b8614be8" kindref="member">ModelRoute</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1aql_1_1_model_route_1a84913082b676e402952ea38c3cfd3987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref><sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a84913082b676e402952ea38c3cfd3987" kindref="member">model_type</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1aql_1_1_model_route_1a21df16937fe441fbce9298ecac32d78f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a21df16937fe441fbce9298ecac32d78f" kindref="member">model_alias</ref>;<sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1aql_1_1_model_route_1a97580071986aafbbdd40048aaced5385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a97580071986aafbbdd40048aaced5385" kindref="member">priority</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1aql_1_1_model_route_1aa11bd860ba7d07bc13e051e799b22620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_model_route_1aa11bd860ba7d07bc13e051e799b22620" kindref="member">enabled</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1aql_1_1_model_route_1a79a8c86359d6eea8d4edac07b8614be8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a79a8c86359d6eea8d4edac07b8614be8" kindref="member">ModelRoute</ref>()<sp/>:<sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a84913082b676e402952ea38c3cfd3987" kindref="member">model_type</ref>(<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref>::<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a179518da8867f0b4237259ea3241a2ec" kindref="member">RELATIONAL</ref>),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a97580071986aafbbdd40048aaced5385" kindref="member">priority</ref>(100),<sp/><ref refid="structthemis_1_1aql_1_1_model_route_1aa11bd860ba7d07bc13e051e799b22620" kindref="member">enabled</ref>(true)<sp/>{}</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1aql_1_1_model_route_1a3752e52d9f4f063bc578ad0d98779c09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a3752e52d9f4f063bc578ad0d98779c09" kindref="member">ModelRoute</ref>(<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref><sp/>t,<sp/>std::string<sp/>alias,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>prio<sp/>=<sp/>100)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a84913082b676e402952ea38c3cfd3987" kindref="member">model_type</ref>(t),<sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a21df16937fe441fbce9298ecac32d78f" kindref="member">model_alias</ref>(std::move(alias)),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_model_route_1a97580071986aafbbdd40048aaced5385" kindref="member">priority</ref>(prio),<sp/><ref refid="structthemis_1_1aql_1_1_model_route_1aa11bd860ba7d07bc13e051e799b22620" kindref="member">enabled</ref>(true)<sp/>{}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1aql_1_1_routing_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1aql_1_1_routing_decision_1ad0c842023d70277a201d481f27a306b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref><sp/><ref refid="structthemis_1_1aql_1_1_routing_decision_1ad0c842023d70277a201d481f27a306b3" kindref="member">primary_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">QueryModelType::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1aql_1_1_routing_decision_1a0ef728bf7217f48a998ff6e4ecac9a4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryModelType&gt;<sp/><ref refid="structthemis_1_1aql_1_1_routing_decision_1a0ef728bf7217f48a998ff6e4ecac9a4b" kindref="member">detected_types</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1aql_1_1_routing_decision_1a5f43b8fbb1d0e48377d73db5380f9e1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ModelRoute&gt;<sp/><ref refid="structthemis_1_1aql_1_1_routing_decision_1a5f43b8fbb1d0e48377d73db5380f9e1d" kindref="member">selected_route</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1aql_1_1_routing_decision_1aebf9edd8054bac054e31e651fa1c03ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ModelRoute&gt;<sp/><ref refid="structthemis_1_1aql_1_1_routing_decision_1aebf9edd8054bac054e31e651fa1c03ec" kindref="member">fallback_route</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1aql_1_1_routing_decision_1ab66435ef792dd552f86d3fb0868fe130" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_routing_decision_1ab66435ef792dd552f86d3fb0868fe130" kindref="member">explanation</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1aql_1_1_i_model_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_i_model_router" kindref="compound">IModelRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1aql_1_1_i_model_router_1a1dbdccf089db54a96944eb3740d36eb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_i_model_router_1a1dbdccf089db54a96944eb3740d36eb5" kindref="member">~IModelRouter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1aql_1_1_i_model_router_1a3891b975744d0957ca03d9640e76876d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_i_model_router_1a3891b975744d0957ca03d9640e76876d" kindref="member">registerRoute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_model_route" kindref="compound">ModelRoute</ref>&amp;<sp/><ref refid="classthemis_1_1aql_1_1_i_model_router_1abdd7b7d1d62589bba2d8631248bade89" kindref="member">route</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1aql_1_1_i_model_router_1a00e40e1531bf729694ecf0ec3326bd3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_i_model_router_1a00e40e1531bf729694ecf0ec3326bd3e" kindref="member">removeRoute</ref>(<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref><sp/>type)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1aql_1_1_i_model_router_1abdd7b7d1d62589bba2d8631248bade89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/><ref refid="classthemis_1_1aql_1_1_i_model_router_1abdd7b7d1d62589bba2d8631248bade89" kindref="member">route</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_query)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1aql_1_1_i_model_router_1a064010ed266a9ced61d2b599496c8550" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;QueryModelType&gt;<sp/><ref refid="classthemis_1_1aql_1_1_i_model_router_1a064010ed266a9ced61d2b599496c8550" kindref="member">classify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_query)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1aql_1_1_a_q_l_model_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1af823607e5ee11b3c8b2386ffa970c91d" kindref="member">AQLModelRouter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_i_model_router" kindref="compound">IModelRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1aql_1_1_a_q_l_model_router_1af823607e5ee11b3c8b2386ffa970c91d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1af823607e5ee11b3c8b2386ffa970c91d" kindref="member">AQLModelRouter</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a65dd19a070e6e30dd0d1a01392b2cf03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a65dd19a070e6e30dd0d1a01392b2cf03" kindref="member">~AQLModelRouter</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1ab716d3d7e0936d1e616881419de7fd53" kindref="member">registerRoute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_model_route" kindref="compound">ModelRoute</ref>&amp;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a3fa69a0a88b32965b4d369ab07d5c286" kindref="member">route</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a6456cdb0bcb4c1f0814259157b2b0103" kindref="member">removeRoute</ref>(<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref><sp/>type)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a3fa69a0a88b32965b4d369ab07d5c286" kindref="member">route</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_query)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryModelType&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1ad7b77bf584fde5720fd1a01e4696ecc0" kindref="member">classify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_query)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ModelRoute&gt;<sp/>routes_;<sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/aql_model_router.h"/>
+  </compounddef>
+</doxygen>

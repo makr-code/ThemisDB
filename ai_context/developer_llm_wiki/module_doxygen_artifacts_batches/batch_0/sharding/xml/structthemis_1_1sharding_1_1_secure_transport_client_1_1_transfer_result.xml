@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SecureTransportClient::TransferResult</compoundname>
+    <includes refid="secure__transport__client_8h" local="no">secure_transport_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a5c53ae1b823b8590abc8c776ac53b30a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::SecureTransportClient::TransferResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::TransferResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="86" column="14" bodyfile="include/sharding/secure_transport_client.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a4bb92f23d0bf2a14f0d41c5fa15c3581" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::SecureTransportClient::TransferResult::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::TransferResult::status_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="87" column="13" bodyfile="include/sharding/secure_transport_client.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a2f9d07c9332aac65e645c99fb9271f24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::TransferResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::TransferResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="88" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a638fd88dec9a2e053669b79c048acef6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::SecureTransportClient::TransferResult::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::TransferResult::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="89" column="16" bodyfile="include/sharding/secure_transport_client.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1afa3c5b0ee22d4aa47febfccb19fb19bc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::SecureTransportClient::TransferResult::bytes_compressed</definition>
+        <argsstring></argsstring>
+        <name>bytes_compressed</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::TransferResult::bytes_compressed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="90" column="16" bodyfile="include/sharding/secure_transport_client.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1ad98dcb2015ffb2bd7f9effe298923432" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::SecureTransportClient::TransferResult::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::TransferResult::compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="91" column="16" bodyfile="include/sharding/secure_transport_client.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1aa257650f347105309c6184756a7f645b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::SecureTransportClient::TransferResult::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::TransferResult::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="92" column="13" bodyfile="include/sharding/secure_transport_client.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Transfer result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/secure_transport_client.h" line="85" column="5" bodyfile="include/sharding/secure_transport_client.h" bodystart="85" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1afa3c5b0ee22d4aa47febfccb19fb19bc" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::TransferResult</scope><name>bytes_compressed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a638fd88dec9a2e053669b79c048acef6" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::TransferResult</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1ad98dcb2015ffb2bd7f9effe298923432" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::TransferResult</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a2f9d07c9332aac65e645c99fb9271f24" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::TransferResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1aa257650f347105309c6184756a7f645b" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::TransferResult</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a4bb92f23d0bf2a14f0d41c5fa15c3581" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::TransferResult</scope><name>status_code</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a5c53ae1b823b8590abc8c776ac53b30a" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::TransferResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

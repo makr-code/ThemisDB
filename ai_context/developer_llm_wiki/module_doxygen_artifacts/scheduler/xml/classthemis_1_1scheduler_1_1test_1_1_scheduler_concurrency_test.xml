@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::scheduler::test::SchedulerConcurrencyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test_1ad313959588554844a131107a590afdb3" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::scheduler::test::SchedulerConcurrencyTest::kNumThreads</definition>
+        <argsstring></argsstring>
+        <name>kNumThreads</name>
+        <qualifiedname>themis::scheduler::test::SchedulerConcurrencyTest::kNumThreads</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="36" column="26" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test_1a6c86feb5b3be199a8bbed4a3c5370f3f" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::scheduler::test::SchedulerConcurrencyTest::kTasksPerThread</definition>
+        <argsstring></argsstring>
+        <name>kTasksPerThread</name>
+        <qualifiedname>themis::scheduler::test::SchedulerConcurrencyTest::kTasksPerThread</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="37" column="26" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test_1a386cbf89a096295ecf979347aa761028" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::scheduler::test::SchedulerConcurrencyTest::kTotalTasks</definition>
+        <argsstring></argsstring>
+        <name>kTotalTasks</name>
+        <qualifiedname>themis::scheduler::test::SchedulerConcurrencyTest::kTotalTasks</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test_1ad313959588554844a131107a590afdb3" kindref="member">kNumThreads</ref> * <ref refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test_1a6c86feb5b3be199a8bbed4a3c5370f3f" kindref="member">kTasksPerThread</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="38" column="26" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::scheduler::test::SchedulerConcurrencyTest</label>
+        <link refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::scheduler::test::SchedulerConcurrencyTest</label>
+        <link refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" line="34" column="1" bodyfile="tests/scheduler/test_scheduler_concurrency_edge_cases.cpp" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test_1ad313959588554844a131107a590afdb3" prot="protected" virt="non-virtual"><scope>themis::scheduler::test::SchedulerConcurrencyTest</scope><name>kNumThreads</name></member>
+      <member refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test_1a6c86feb5b3be199a8bbed4a3c5370f3f" prot="protected" virt="non-virtual"><scope>themis::scheduler::test::SchedulerConcurrencyTest</scope><name>kTasksPerThread</name></member>
+      <member refid="classthemis_1_1scheduler_1_1test_1_1_scheduler_concurrency_test_1a386cbf89a096295ecf979347aa761028" prot="protected" virt="non-virtual"><scope>themis::scheduler::test::SchedulerConcurrencyTest</scope><name>kTotalTasks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

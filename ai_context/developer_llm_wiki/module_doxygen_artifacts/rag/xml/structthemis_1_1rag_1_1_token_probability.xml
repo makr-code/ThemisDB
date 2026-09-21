@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_token_probability" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::TokenProbability</compoundname>
+    <includes refid="llm__integration_8h" local="no">llm_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_token_probability_1a115899d463991cc9d289f63830db5627" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::TokenProbability::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::rag::TokenProbability::token</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="30" column="17" bodyfile="include/rag/llm_integration.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_token_probability_1a9b1f841624669eda22425ec9ec0863fa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::TokenProbability::probability</definition>
+        <argsstring></argsstring>
+        <name>probability</name>
+        <qualifiedname>themis::rag::TokenProbability::probability</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="31" column="12" bodyfile="include/rag/llm_integration.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_token_probability_1ab2c8804263d52aa8af53605dfb91a4be" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::TokenProbability::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::rag::TokenProbability::position</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="32" column="12" bodyfile="include/rag/llm_integration.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Token probability information from LLM generation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/llm_integration.h" line="29" column="1" bodyfile="include/rag/llm_integration.h" bodystart="29" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_token_probability_1ab2c8804263d52aa8af53605dfb91a4be" prot="public" virt="non-virtual"><scope>themis::rag::TokenProbability</scope><name>position</name></member>
+      <member refid="structthemis_1_1rag_1_1_token_probability_1a9b1f841624669eda22425ec9ec0863fa" prot="public" virt="non-virtual"><scope>themis::rag::TokenProbability</scope><name>probability</name></member>
+      <member refid="structthemis_1_1rag_1_1_token_probability_1a115899d463991cc9d289f63830db5627" prot="public" virt="non-virtual"><scope>themis::rag::TokenProbability</scope><name>token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

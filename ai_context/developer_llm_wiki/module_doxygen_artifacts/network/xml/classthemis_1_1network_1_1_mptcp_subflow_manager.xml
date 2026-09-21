@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_mptcp_subflow_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::MptcpSubflowManager</compoundname>
+    <includes refid="multipath__tcp_8h" local="no">multipath_tcp.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1acb4094a96f4b85a23fa63a1db9c8d916" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::MptcpSubflowManager::socket_fd_</definition>
+        <argsstring></argsstring>
+        <name>socket_fd_</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::socket_fd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="194" column="27" bodyfile="include/network/multipath_tcp.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1a003bf5973562e5a8e2bb5b027ffdec75" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_mptcp_config" kindref="compound">MptcpConfig</ref></type>
+        <definition>MptcpConfig themis::network::MptcpSubflowManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="195" column="27" bodyfile="include/network/multipath_tcp.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1aff061e2d378a939b7ec8a69c171d64e6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::MptcpSubflowManager::mptcp_enabled_</definition>
+        <argsstring></argsstring>
+        <name>mptcp_enabled_</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::mptcp_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="196" column="27" bodyfile="include/network/multipath_tcp.h" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1afc1a8e42d8b88a8fcdb8172149e09c92" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_mptcp_subflow_info" kindref="compound">MptcpSubflowInfo</ref> &gt;</type>
+        <definition>std::vector&lt;MptcpSubflowInfo&gt; themis::network::MptcpSubflowManager::last_snapshot_</definition>
+        <argsstring></argsstring>
+        <name>last_snapshot_</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::last_snapshot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="198" column="25" bodyfile="include/network/multipath_tcp.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1aef78e52bb6736bfb6e95dada8c76bb61" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1network_1_1_mptcp_subflow_info" kindref="compound">MptcpSubflowInfo</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const MptcpSubflowInfo&amp;)&gt; themis::network::MptcpSubflowManager::state_cb_</definition>
+        <argsstring></argsstring>
+        <name>state_cb_</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::state_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="199" column="19" bodyfile="include/network/multipath_tcp.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MptcpSubflowManager::MptcpSubflowManager</definition>
+        <argsstring>(int socket_fd, const MptcpConfig &amp;config={})</argsstring>
+        <name>MptcpSubflowManager</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::MptcpSubflowManager</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>socket_fd</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_mptcp_config" kindref="compound">MptcpConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a manager for the given connected socket fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>socket_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File descriptor of a connected MPTCP or TCP socket. The caller retains ownership; close the fd after <computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager" kindref="compound">MptcpSubflowManager</ref></computeroutput> is destroyed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MPTCP configuration options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="118" column="14" bodyfile="src/network/multipath_tcp.cpp" bodystart="131" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1aa990d5a8857353f6b46d0d7ad787146a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MptcpSubflowManager::~MptcpSubflowManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MptcpSubflowManager</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::~MptcpSubflowManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="120" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1a878cf553d4284979e2ad821d68efebbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MptcpSubflowManager::MptcpSubflowManager</definition>
+        <argsstring>(const MptcpSubflowManager &amp;)=delete</argsstring>
+        <name>MptcpSubflowManager</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::MptcpSubflowManager</qualifiedname>
+        <param>
+          <type>const MptcpSubflowManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1a80cd5ffc44490cbb51398a5ddbc24dfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref> &amp;</type>
+        <definition>MptcpSubflowManager &amp; themis::network::MptcpSubflowManager::operator=</definition>
+        <argsstring>(const MptcpSubflowManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="124" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1a02479b563caeb9e1329b48425fc7b633" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MptcpSubflowManager::MptcpSubflowManager</definition>
+        <argsstring>(MptcpSubflowManager &amp;&amp;) noexcept=default</argsstring>
+        <name>MptcpSubflowManager</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::MptcpSubflowManager</qualifiedname>
+        <param>
+          <type>MptcpSubflowManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1a92c778110f8b0e64a3589e44c18446e8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref> &amp;</type>
+        <definition>MptcpSubflowManager &amp; themis::network::MptcpSubflowManager::operator=</definition>
+        <argsstring>(MptcpSubflowManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="126" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1a8a812bcabc8aa37b7f773f82a6eac684" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::MptcpSubflowManager::isMptcpEnabled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isMptcpEnabled</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::isMptcpEnabled</qualifiedname>
+        <briefdescription>
+<para>Return true if the underlying socket uses MPTCP (not plain TCP). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false after fallback or on platforms without MPTCP support. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="137" column="10" bodyfile="src/network/multipath_tcp.cpp" bodystart="145" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1abafb0a5888dbe2612a91aaa484a8458d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_mptcp_subflow_info" kindref="compound">MptcpSubflowInfo</ref> &gt;</type>
+        <definition>std::vector&lt; MptcpSubflowInfo &gt; themis::network::MptcpSubflowManager::enumerateSubflows</definition>
+        <argsstring>() const</argsstring>
+        <name>enumerateSubflows</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::enumerateSubflows</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all subflows for this connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On platforms without MPTCP or in fallback mode, returns a single synthetic entry representing the plain TCP path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="145" column="17" bodyfile="src/network/multipath_tcp.cpp" bodystart="149" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1aa3c05602e3d92175350ac77a5d591ad6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_mptcp_connection_stats" kindref="compound">MptcpConnectionStats</ref></type>
+        <definition>MptcpConnectionStats themis::network::MptcpSubflowManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Return aggregate connection statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="150" column="26" bodyfile="src/network/multipath_tcp.cpp" bodystart="213" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1ae74fb7cf381c9c53a89b14a4936060e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::MptcpSubflowManager::setPriority</definition>
+        <argsstring>(uint32_t subflow_id, uint32_t priority)</argsstring>
+        <name>setPriority</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::setPriority</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>subflow_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+<para>Set the priority (backup flag) for a subflow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>subflow_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subflow to modify (from <computeroutput><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1ab6eeaecb28a99534522fe991ec3baa26" kindref="member">MptcpSubflowInfo::subflow_id</ref></computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>0 = primary active, &gt;0 = backup (lower = higher priority). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if subflow_id not found or MPTCP unavailable.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subflow_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subflow. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: defined(), setsockopt(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="163" column="10" bodyfile="src/network/multipath_tcp.cpp" bodystart="235" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1a82130f4d1cd8aa12b6e1d1cafec2bd44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::MptcpSubflowManager::removeSubflow</definition>
+        <argsstring>(uint32_t subflow_id)</argsstring>
+        <name>removeSubflow</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::removeSubflow</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>subflow_id</declname>
+        </param>
+        <briefdescription>
+<para>Request removal of a subflow from the connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Subflow.</para>
+<para>The kernel will complete any in-flight data on the subflow before tearing it down. Returns false if MPTCP is unavailable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>subflow_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subflow to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if removal was initiated; false on error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subflow_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subflow. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: defined(), <ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1ae74fb7cf381c9c53a89b14a4936060e7" kindref="member">setPriority()</ref>, else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="174" column="10" bodyfile="src/network/multipath_tcp.cpp" bodystart="265" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_mptcp_subflow_manager_1aedb13d1a7b0fdd9816912c2270076e89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::MptcpSubflowManager::setSubflowStateCallback</definition>
+        <argsstring>(std::function&lt; void(const MptcpSubflowInfo &amp;)&gt; callback)</argsstring>
+        <name>setSubflowStateCallback</name>
+        <qualifiedname>themis::network::MptcpSubflowManager::setSubflowStateCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1network_1_1_mptcp_subflow_info" kindref="compound">MptcpSubflowInfo</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked whenever a subflow changes state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback signature: void(const MptcpSubflowInfo&amp; updated_info) Callbacks are invoked from the calling thread during <computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1abafb0a5888dbe2612a91aaa484a8458d" kindref="member">enumerateSubflows()</ref></computeroutput> when state changes are detected via diff against the last snapshot.</para>
+<para><simplesect kind="note"><para>No background polling thread is created. State-change detection happens lazily on the next <computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1abafb0a5888dbe2612a91aaa484a8458d" kindref="member">enumerateSubflows()</ref></computeroutput> call. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="190" column="10" bodyfile="src/network/multipath_tcp.cpp" bodystart="280" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages MPTCP subflows for a single connection socket. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps a connected MPTCP socket (or a plain TCP socket in fallback mode) and exposes operations to enumerate, prioritise, and observe subflows.</para>
+<para>Thread safety:<itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1abafb0a5888dbe2612a91aaa484a8458d" kindref="member">enumerateSubflows()</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aa3c05602e3d92175350ac77a5d591ad6" kindref="member">getStats()</ref></computeroutput>, and <computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a8a812bcabc8aa37b7f773f82a6eac684" kindref="member">isMptcpEnabled()</ref></computeroutput> are safe to call concurrently from multiple threads.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1ae74fb7cf381c9c53a89b14a4936060e7" kindref="member">setPriority()</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a82130f4d1cd8aa12b6e1d1cafec2bd44" kindref="member">removeSubflow()</ref></computeroutput>, and <computeroutput>close()</computeroutput> must not be called concurrently with each other.</para>
+</listitem></itemizedlist>
+</para>
+<para>Platform behaviour:<itemizedlist>
+<listitem><para>Linux ≥ 5.6 with CONFIG_MPTCP: full MPTCP subflow management via IPPROTO_MPTCP sockets and MPTCP_INFO getsockopt.</para>
+</listitem><listitem><para>All other platforms: no-op methods; <computeroutput><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a8a812bcabc8aa37b7f773f82a6eac684" kindref="member">isMptcpEnabled()</ref></computeroutput> returns false. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/network/multipath_tcp.h" line="108" column="1" bodyfile="include/network/multipath_tcp.h" bodystart="108" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a003bf5973562e5a8e2bb5b027ffdec75" prot="private" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1abafb0a5888dbe2612a91aaa484a8458d" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>enumerateSubflows</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aa3c05602e3d92175350ac77a5d591ad6" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a8a812bcabc8aa37b7f773f82a6eac684" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>isMptcpEnabled</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1afc1a8e42d8b88a8fcdb8172149e09c92" prot="private" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>last_snapshot_</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aff061e2d378a939b7ec8a69c171d64e6" prot="private" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>mptcp_enabled_</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>MptcpSubflowManager</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a878cf553d4284979e2ad821d68efebbd" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>MptcpSubflowManager</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a02479b563caeb9e1329b48425fc7b633" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>MptcpSubflowManager</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a80cd5ffc44490cbb51398a5ddbc24dfe" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a92c778110f8b0e64a3589e44c18446e8" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a82130f4d1cd8aa12b6e1d1cafec2bd44" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>removeSubflow</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1ae74fb7cf381c9c53a89b14a4936060e7" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>setPriority</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aedb13d1a7b0fdd9816912c2270076e89" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>setSubflowStateCallback</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1acb4094a96f4b85a23fa63a1db9c8d916" prot="private" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>socket_fd_</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aef78e52bb6736bfb6e95dada8c76bb61" prot="private" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>state_cb_</name></member>
+      <member refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aa990d5a8857353f6b46d0d7ad787146a" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowManager</scope><name>~MptcpSubflowManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

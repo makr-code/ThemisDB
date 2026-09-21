@@ -1,0 +1,793 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_m_t_l_s_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::MTLSClient</compoundname>
+    <includes refid="mtls__client_8h" local="no">mtls_client.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config" prot="public">themis::sharding::MTLSClient::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" prot="public">themis::sharding::MTLSClient::Response</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl" prot="public">themis::sharding::MTLSClient::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1aedecdd1856c167ff3957959874143deb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::MTLSClient::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::MTLSClient::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="214" column="12" bodyfile="include/sharding/mtls_client.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a2495975e598dde72d559cfd50137f8f4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::sharding::MTLSClient::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::sharding::MTLSClient::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="218" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1aca7d431991276198050e20c64aff96a4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager" kindref="compound">MTLSConnectionPoolManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MTLSConnectionPoolManager&gt; themis::sharding::MTLSClient::pool_manager_</definition>
+        <argsstring></argsstring>
+        <name>pool_manager_</name>
+        <qualifiedname>themis::sharding::MTLSClient::pool_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="221" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a878b827873c102892b107e4dc96936bc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSClient::MTLSClient</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>MTLSClient</name>
+        <qualifiedname>themis::sharding::MTLSClient::MTLSClient</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct mTLS client with configuration <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Client configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="107" column="14" bodyfile="src/sharding/mtls_client.cpp" bodystart="38" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a383bd67c18cc5bfc7c3797908ed74f64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSClient::~MTLSClient</definition>
+        <argsstring>()</argsstring>
+        <name>~MTLSClient</name>
+        <qualifiedname>themis::sharding::MTLSClient::~MTLSClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor - cleanup <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> context and connections </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a6fe32e72ed97a0f9af3628074a9d2776" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref></type>
+        <definition>MTLSClient::Response themis::sharding::MTLSClient::get</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::string &amp;path)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::sharding::MTLSClient::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform HTTP GET request with mTLS <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server endpoint (e.g., &quot;https://shard-001.dc1:8080&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path (e.g., &quot;/api/v1/status&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref> with JSON body, or error</para>
+</simplesect>
+<xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>v2.0: Direct connection creation via <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> is being phased out in favor of <ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool" kindref="compound">EndpointConnectionPool</ref> with injected <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory" kindref="compound">MTLSConnectionFactory</ref>. Use the connection pool API instead: <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a56a1eb45f2b77c158db302596d70ab86" kindref="member">MTLSConnectionPoolManager::getConnection()</ref>. This method remains for backward compatibility but will be removed in v3.0. Transition guide: See <ref refid="mtls__connection__factory_8h" kindref="compound">include/sharding/mtls_connection_factory.h</ref> </para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: request(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="126" column="14" bodyfile="src/sharding/mtls_client.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a4330a7181f79ffbc9beb19b16b44620b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref></type>
+        <definition>MTLSClient::Response themis::sharding::MTLSClient::post</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::string &amp;path, const nlohmann::json &amp;body)</argsstring>
+        <name>post</name>
+        <qualifiedname>themis::sharding::MTLSClient::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform HTTP POST request with mTLS <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request body (JSON) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref> with JSON body, or error</para>
+</simplesect>
+<xrefsect id="deprecated_1_deprecated000002"><xreftitle>Deprecated</xreftitle><xrefdescription><para>v2.0: See <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a6fe32e72ed97a0f9af3628074a9d2776" kindref="member">get()</ref> for migration details. Transition to <ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool" kindref="compound">EndpointConnectionPool</ref> with <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory" kindref="compound">MTLSConnectionFactory</ref>. </para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: request(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="138" column="14" bodyfile="src/sharding/mtls_client.cpp" bodystart="131" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a6ec53304042e7e2550782f012f3e2be8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref></type>
+        <definition>MTLSClient::Response themis::sharding::MTLSClient::post</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::string &amp;path, const nlohmann::json &amp;body, const std::string &amp;authorization_header)</argsstring>
+        <name>post</name>
+        <qualifiedname>themis::sharding::MTLSClient::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>authorization_header</declname>
+        </param>
+        <briefdescription>
+<para>Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform HTTP POST request with mTLS and custom Authorization header <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request body (JSON) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>authorization_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value for the Authorization header (e.g. &quot;Bearer &lt;token&gt;&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref> with JSON body, or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">authorization_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: request(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="150" column="14" bodyfile="src/sharding/mtls_client.cpp" bodystart="146" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a207d4c51e174f22b3abb7c0b2f7827a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref></type>
+        <definition>MTLSClient::Response themis::sharding::MTLSClient::put</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::string &amp;path, const nlohmann::json &amp;body)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::sharding::MTLSClient::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform HTTP PUT request with mTLS <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request body (JSON) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref> with JSON body, or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: request(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="162" column="14" bodyfile="src/sharding/mtls_client.cpp" bodystart="162" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a9dafc787e65cd9799a0f0ca328e5c708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref></type>
+        <definition>MTLSClient::Response themis::sharding::MTLSClient::del</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::string &amp;path)</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::sharding::MTLSClient::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Del. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform HTTP DELETE request with mTLS <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref> with JSON body, or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: request(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="172" column="14" bodyfile="src/sharding/mtls_client.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a57d324daf93e612fad43ae67030664c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSClient::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::sharding::MTLSClient::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if client is configured and ready <simplesect kind="return"><para>true if client is ready to make requests </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="178" column="10" bodyfile="src/sharding/mtls_client.cpp" bodystart="329" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a272638ebed137e3f6243e8431cd23ad1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::sharding::MTLSClient::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::sharding::MTLSClient::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current configuration <simplesect kind="return"><para>Client configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="184" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="184" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1afcc42470bd1837361014f85f837b647d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::MTLSClient::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::sharding::MTLSClient::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Close all connections and reset connection pool</para>
+<para>Calls: initSSLContext(), shutdown(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="189" column="10" bodyfile="src/sharding/mtls_client.cpp" bodystart="341" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a19ea460428591a931315da977fe09b1c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::MTLSClient::getPoolStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getPoolStatistics</name>
+        <qualifiedname>themis::sharding::MTLSClient::getPoolStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get connection pool statistics (JSON format for monitoring) <simplesect kind="return"><para>JSON object with pool statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="195" column="20" bodyfile="src/sharding/mtls_client.cpp" bodystart="438" bodyend="469"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a3ee95582206ac06adacbc360b0e6715f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; themis::sharding::MTLSClient::parseEndpoint</definition>
+        <argsstring>(const std::string &amp;endpoint)</argsstring>
+        <name>parseEndpoint</name>
+        <qualifiedname>themis::sharding::MTLSClient::parseEndpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse endpoint into host and port Supports both IPv4 and IPv6 addresses</para>
+<para>Examples:<itemizedlist>
+<listitem><para>IPv4: &quot;192.168.1.1:8080&quot; -&gt; (&quot;192.168.1.1&quot;, &quot;8080&quot;)</para>
+</listitem><listitem><para>IPv6 with port: &quot;[2001:db8::1]:8080&quot; -&gt; (&quot;2001:db8::1&quot;, &quot;8080&quot;)</para>
+</listitem><listitem><para>IPv6 without port: &quot;2001:db8::1&quot; -&gt; (&quot;2001:db8::1&quot;, &quot;8080&quot;)</para>
+</listitem><listitem><para>Hostname: &quot;example.com:9090&quot; -&gt; (&quot;example.com&quot;, &quot;9090&quot;)</para>
+</listitem><listitem><para>With protocol: &quot;https://[::1]:8080&quot; -&gt; (&quot;::1&quot;, &quot;8080&quot;)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Endpoint string to parse </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of (host, port) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="211" column="22" bodyfile="src/sharding/mtls_client.cpp" bodystart="381" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a280e32be2dbff1d1c2fdb9d1c56ebd75" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">Response</ref></type>
+        <definition>MTLSClient::Response themis::sharding::MTLSClient::request</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;endpoint, const std::string &amp;path, const std::optional&lt; nlohmann::json &gt; &amp;body=std::nullopt, const std::string &amp;authorization_header={})</argsstring>
+        <name>request</name>
+        <qualifiedname>themis::sharding::MTLSClient::request</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; nlohmann::json &gt; &amp;</type>
+          <declname>body</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>authorization_header</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform HTTP request with retry logic</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">authorization_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>beast::system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a3ee95582206ac06adacbc360b0e6715f" kindref="member">parseEndpoint()</ref>, resolver(), resolve(), stream(), SSL_set_tlsext_host_name(), native_handle(), c_str(), beast::error_code(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="226" column="14" bodyfile="src/sharding/mtls_client.cpp" bodystart="190" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a7b54bff7b5682f8e59f46250b8f9ae8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSClient::initSSLContext</definition>
+        <argsstring>()</argsstring>
+        <name>initSSLContext</name>
+        <qualifiedname>themis::sharding::MTLSClient::initSSLContext</qualifiedname>
+        <briefdescription>
+<para>Init SSLContext. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> context with certificates</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: set_options(), use_certificate_chain_file(), empty(), set_password_callback(), use_private_key_file(), load_verify_file(), set_verify_mode(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="235" column="10" bodyfile="src/sharding/mtls_client.cpp" bodystart="61" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_m_t_l_s_client_1a4e758ee4ce56325f1caa5ce9ffa7a06b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSClient::verifyPeerCertificate</definition>
+        <argsstring>(bool preverified, void *ctx)</argsstring>
+        <name>verifyPeerCertificate</name>
+        <qualifiedname>themis::sharding::MTLSClient::verifyPeerCertificate</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>preverified</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Verify Peer Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify peer certificate (called during TLS handshake)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">preverified</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements verifyPeerCertificate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="240" column="10" bodyfile="src/sharding/mtls_client.cpp" bodystart="368" bodyend="379"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>mTLS Client for Secure Shard-to-Shard Communication</para>
+<para>Implements mutual TLS (mTLS) for authenticated and encrypted communication between shards. Both client and server present certificates during the TLS handshake.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Mutual TLS authentication</para>
+</listitem><listitem><para>Certificate verification against Root CA</para>
+</listitem><listitem><para>CRL (Certificate Revocation List) checking</para>
+</listitem><listitem><para>Connection pooling and reuse</para>
+</listitem><listitem><para>Automatic retry with exponential backoff </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/mtls_client.h" line="55" column="1" bodyfile="include/sharding/mtls_client.h" bodystart="55" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1aedecdd1856c167ff3957959874143deb" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a9dafc787e65cd9799a0f0ca328e5c708" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>del</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a6fe32e72ed97a0f9af3628074a9d2776" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>get</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a272638ebed137e3f6243e8431cd23ad1" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a19ea460428591a931315da977fe09b1c" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>getPoolStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a2495975e598dde72d559cfd50137f8f4" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a7b54bff7b5682f8e59f46250b8f9ae8d" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>initSSLContext</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a57d324daf93e612fad43ae67030664c9" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a878b827873c102892b107e4dc96936bc" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>MTLSClient</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a3ee95582206ac06adacbc360b0e6715f" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>parseEndpoint</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1aca7d431991276198050e20c64aff96a4" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>pool_manager_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a4330a7181f79ffbc9beb19b16b44620b" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>post</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a6ec53304042e7e2550782f012f3e2be8" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>post</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a207d4c51e174f22b3abb7c0b2f7827a2" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>put</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a280e32be2dbff1d1c2fdb9d1c56ebd75" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>request</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1afcc42470bd1837361014f85f837b647d" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>reset</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a4e758ee4ce56325f1caa5ce9ffa7a06b" prot="private" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>verifyPeerCertificate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a383bd67c18cc5bfc7c3797908ed74f64" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient</scope><name>~MTLSClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

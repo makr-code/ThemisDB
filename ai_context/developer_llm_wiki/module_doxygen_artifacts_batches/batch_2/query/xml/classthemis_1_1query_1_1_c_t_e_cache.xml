@@ -1,0 +1,707 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_c_t_e_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::CTECache</compoundname>
+    <includes refid="cte__cache_8h" local="no">cte_cache.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config" prot="public">themis::query::CTECache::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry" prot="public">themis::query::CTECache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats" prot="public">themis::query::CTECache::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_t_e_cache_1a7e9d225f9c37ce7f6a4c45defb5c4a7d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::CTECache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::CTECache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="157" column="12" bodyfile="include/query/cte_cache.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_t_e_cache_1a6a481f6a37b0e46097abb6b6c9b26cf9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CacheEntry&gt; themis::query::CTECache::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::query::CTECache::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="158" column="24" bodyfile="include/query/cte_cache.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_t_e_cache_1a4867fe16d7c32e7ff5413f3149ec16ca" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::current_memory_usage_</definition>
+        <argsstring></argsstring>
+        <name>current_memory_usage_</name>
+        <qualifiedname>themis::query::CTECache::current_memory_usage_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="159" column="12" bodyfile="include/query/cte_cache.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_t_e_cache_1a4953365740c23ada119017f4ced67dca" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::stat_spill_operations_</definition>
+        <argsstring></argsstring>
+        <name>stat_spill_operations_</name>
+        <qualifiedname>themis::query::CTECache::stat_spill_operations_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="162" column="20" bodyfile="include/query/cte_cache.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_t_e_cache_1a7aa08802b13e164910f44e5f6bec5975" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::stat_disk_reads_</definition>
+        <argsstring></argsstring>
+        <name>stat_disk_reads_</name>
+        <qualifiedname>themis::query::CTECache::stat_disk_reads_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="163" column="20" bodyfile="include/query/cte_cache.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CTECache::CTECache</definition>
+        <argsstring>()</argsstring>
+        <name>CTECache</name>
+        <qualifiedname>themis::query::CTECache::CTECache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="45" column="5" bodyfile="src/query/cte_cache.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1abae5a8552a4fce6671a7a4dc8d79a2ee" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CTECache::CTECache</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>CTECache</name>
+        <qualifiedname>themis::query::CTECache::CTECache</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1query_1_1_c_t_e_cache" kindref="compound">CTECache</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="51" column="14" bodyfile="src/query/cte_cache.cpp" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a825b2922f06ea8ed3805eedb06bf8519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CTECache::~CTECache</definition>
+        <argsstring>()</argsstring>
+        <name>~CTECache</name>
+        <qualifiedname>themis::query::CTECache::~CTECache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="53" column="5" bodyfile="src/query/cte_cache.cpp" bodystart="31" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a8061991fecd37bb71241ea1dfa2a11c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CTECache::CTECache</definition>
+        <argsstring>(const CTECache &amp;)=delete</argsstring>
+        <name>CTECache</name>
+        <qualifiedname>themis::query::CTECache::CTECache</qualifiedname>
+        <param>
+          <type>const CTECache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a5ffca5abd782e195c75448ada46899df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref> &amp;</type>
+        <definition>CTECache &amp; themis::query::CTECache::operator=</definition>
+        <argsstring>(const CTECache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::CTECache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="57" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1ad86441e347018624142bfccfd016d2b8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CTECache::CTECache</definition>
+        <argsstring>(CTECache &amp;&amp;) noexcept=default</argsstring>
+        <name>CTECache</name>
+        <qualifiedname>themis::query::CTECache::CTECache</qualifiedname>
+        <param>
+          <type>CTECache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a9c8a821c787600f56b5c1524f9dc05b8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref> &amp;</type>
+        <definition>CTECache &amp; themis::query::CTECache::operator=</definition>
+        <argsstring>(CTECache &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::CTECache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="61" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1ad48fc62b958e9971510bed85057ecab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CTECache::store</definition>
+        <argsstring>(const std::string &amp;name, std::vector&lt; nlohmann::json &gt; results)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::query::CTECache::store</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; nlohmann::json &gt;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), <ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a549afe8ae6d41f823012d21f92fc00b0" kindref="member">contains()</ref>, <ref refid="classthemis_1_1query_1_1_c_t_e_cache_1aac2a29348ef4a453514c42d838c88a7e" kindref="member">remove()</ref>, estimateSize(), makeRoom(), THEMIS_DEBUG(), spillToDisk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="69" column="10" bodyfile="src/query/cte_cache.cpp" bodystart="58" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a624adb1e51af108bc73a03aea57a76b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; nlohmann::json &gt; &gt; themis::query::CTECache::get</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::query::CTECache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), loadFromDisk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="76" column="19" bodyfile="src/query/cte_cache.cpp" bodystart="120" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a549afe8ae6d41f823012d21f92fc00b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CTECache::contains</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::query::CTECache::contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Contains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="83" column="10" bodyfile="src/query/cte_cache.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1aac2a29348ef4a453514c42d838c88a7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CTECache::remove</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::query::CTECache::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), empty(), THEMIS_WARN(), what(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="89" column="10" bodyfile="src/query/cte_cache.cpp" bodystart="147" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1aae1121a4ef8d1acb651c4d80ec7dfd0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CTECache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::CTECache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), std::filesystem::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="94" column="10" bodyfile="src/query/cte_cache.cpp" bodystart="174" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a38e40bcf9069b1d18c58286c5b93af40" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::getCurrentMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentMemoryUsage</name>
+        <qualifiedname>themis::query::CTECache::getCurrentMemoryUsage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="96" column="12" bodyfile="include/query/cte_cache.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1ad981790ad652c351bf1afd8f5018b5de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::query::CTECache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="98" column="12" bodyfile="include/query/cte_cache.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a64aea4ee88cbaff70348c2466d5a3a96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>CTECache::Stats themis::query::CTECache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::query::CTECache::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="113" column="11" bodyfile="src/query/cte_cache.cpp" bodystart="189" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1abb0f3f47720229c35755830f3e66e112" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::estimateSize</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;data) const</argsstring>
+        <name>estimateSize</name>
+        <qualifiedname>themis::query::CTECache::estimateSize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="121" column="12" bodyfile="src/query/cte_cache.cpp" bodystart="208" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a5d5afefd81b886f95d4b1773aea3b702" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CTECache::spillToDisk</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; nlohmann::json &gt; &amp;data)</argsstring>
+        <name>spillToDisk</name>
+        <qualifiedname>themis::query::CTECache::spillToDisk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Spill To Disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: ensureSpillDirectory(), getSpillFilePath(), file(), is_open(), THEMIS_ERROR(), <ref refid="classthemis_1_1query_1_1_c_t_e_cache_1ad981790ad652c351bf1afd8f5018b5de" kindref="member">size()</ref>, write(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="129" column="10" bodyfile="src/query/cte_cache.cpp" bodystart="244" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a94328fcb90686e284492dc5b76b20511" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; nlohmann::json &gt; &gt; themis::query::CTECache::loadFromDisk</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>loadFromDisk</name>
+        <qualifiedname>themis::query::CTECache::loadFromDisk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Load From Disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), file(), is_open(), THEMIS_ERROR(), read(), reserve(), serialized(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="136" column="19" bodyfile="src/query/cte_cache.cpp" bodystart="290" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a75c14638fc1fdbe93c243c9731f91336" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CTECache::makeRoom</definition>
+        <argsstring>(size_t required_bytes)</argsstring>
+        <name>makeRoom</name>
+        <qualifiedname>themis::query::CTECache::makeRoom</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>required_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Make Room. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">required_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">required_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), find(), end(), THEMIS_DEBUG(), spillToDisk(), getSpillFilePath(), <ref refid="classthemis_1_1query_1_1_c_t_e_cache_1aae1121a4ef8d1acb651c4d80ec7dfd0f" kindref="member">clear()</ref>, shrink_to_fit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="143" column="10" bodyfile="src/query/cte_cache.cpp" bodystart="342" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a0ca6f956ccb38738cde0fe236958bcba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::CTECache::getSpillFilePath</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getSpillFilePath</name>
+        <qualifiedname>themis::query::CTECache::getSpillFilePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Spill File Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="150" column="17" bodyfile="src/query/cte_cache.cpp" bodystart="384" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_t_e_cache_1a5cac7c81223db8a6e4843443f7914f57" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CTECache::ensureSpillDirectory</definition>
+        <argsstring>()</argsstring>
+        <name>ensureSpillDirectory</name>
+        <qualifiedname>themis::query::CTECache::ensureSpillDirectory</qualifiedname>
+        <briefdescription>
+<para>Ensure Spill Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::filesystem::exists(), std::filesystem::create_directories(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="155" column="10" bodyfile="src/query/cte_cache.cpp" bodystart="400" bodyend="408"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cte_cache.h" line="27" column="1" bodyfile="include/query/cte_cache.h" bodystart="27" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1aae1121a4ef8d1acb651c4d80ec7dfd0f" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a7e9d225f9c37ce7f6a4c45defb5c4a7d" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a549afe8ae6d41f823012d21f92fc00b0" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>contains</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>CTECache</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1abae5a8552a4fce6671a7a4dc8d79a2ee" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>CTECache</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a8061991fecd37bb71241ea1dfa2a11c2" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>CTECache</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1ad86441e347018624142bfccfd016d2b8" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>CTECache</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a4867fe16d7c32e7ff5413f3149ec16ca" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>current_memory_usage_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a5cac7c81223db8a6e4843443f7914f57" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>ensureSpillDirectory</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a6a481f6a37b0e46097abb6b6c9b26cf9" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1abb0f3f47720229c35755830f3e66e112" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>estimateSize</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a624adb1e51af108bc73a03aea57a76b3" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>get</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a38e40bcf9069b1d18c58286c5b93af40" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>getCurrentMemoryUsage</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a0ca6f956ccb38738cde0fe236958bcba" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>getSpillFilePath</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a64aea4ee88cbaff70348c2466d5a3a96" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a94328fcb90686e284492dc5b76b20511" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>loadFromDisk</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a75c14638fc1fdbe93c243c9731f91336" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>makeRoom</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a5ffca5abd782e195c75448ada46899df" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a9c8a821c787600f56b5c1524f9dc05b8" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1aac2a29348ef4a453514c42d838c88a7e" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>remove</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1ad981790ad652c351bf1afd8f5018b5de" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>size</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a5d5afefd81b886f95d4b1773aea3b702" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>spillToDisk</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a7aa08802b13e164910f44e5f6bec5975" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>stat_disk_reads_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a4953365740c23ada119017f4ced67dca" prot="private" virt="non-virtual"><scope>themis::query::CTECache</scope><name>stat_spill_operations_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1ad48fc62b958e9971510bed85057ecab8" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>store</name></member>
+      <member refid="classthemis_1_1query_1_1_c_t_e_cache_1a825b2922f06ea8ed3805eedb06bf8519" prot="public" virt="non-virtual"><scope>themis::query::CTECache</scope><name>~CTECache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

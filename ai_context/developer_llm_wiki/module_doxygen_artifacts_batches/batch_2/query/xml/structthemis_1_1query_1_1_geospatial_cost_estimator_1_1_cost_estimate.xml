@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GeospatialCostEstimator::CostEstimate</compoundname>
+    <includes refid="geospatial__cost__model_8h" local="no">geospatial_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1ac40aff4b734184de63bcf1c937802d7a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::CostEstimate::cpuCostUs</definition>
+        <argsstring></argsstring>
+        <name>cpuCostUs</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::CostEstimate::cpuCostUs</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="77" column="16" bodyfile="include/query/geospatial_cost_model.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1acfd58115a0a00acb159e4e983686c502" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::CostEstimate::ioCostMs</definition>
+        <argsstring></argsstring>
+        <name>ioCostMs</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::CostEstimate::ioCostMs</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="78" column="16" bodyfile="include/query/geospatial_cost_model.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1a1f887ad5d11ceea0b566a9658f34d8eb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::GeospatialCostEstimator::CostEstimate::estimatedRows</definition>
+        <argsstring></argsstring>
+        <name>estimatedRows</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::CostEstimate::estimatedRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="79" column="16" bodyfile="include/query/geospatial_cost_model.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1aa085319c9f90f1f9e19d529de2e805e3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::CostEstimate::selectivity</definition>
+        <argsstring></argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::CostEstimate::selectivity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="80" column="16" bodyfile="include/query/geospatial_cost_model.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1a4ce57f25f215585e8701a880314f4269" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::GeospatialCostEstimator::CostEstimate::indexUsed</definition>
+        <argsstring></argsstring>
+        <name>indexUsed</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::CostEstimate::indexUsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="81" column="21" bodyfile="include/query/geospatial_cost_model.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_cost_model.h" line="76" column="5" bodyfile="include/query/geospatial_cost_model.h" bodystart="76" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1ac40aff4b734184de63bcf1c937802d7a" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator::CostEstimate</scope><name>cpuCostUs</name></member>
+      <member refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1a1f887ad5d11ceea0b566a9658f34d8eb" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator::CostEstimate</scope><name>estimatedRows</name></member>
+      <member refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1a4ce57f25f215585e8701a880314f4269" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator::CostEstimate</scope><name>indexUsed</name></member>
+      <member refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1acfd58115a0a00acb159e4e983686c502" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator::CostEstimate</scope><name>ioCostMs</name></member>
+      <member refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1aa085319c9f90f1f9e19d529de2e805e3" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator::CostEstimate</scope><name>selectivity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

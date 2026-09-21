@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rabitq_8h" kind="file" language="C++">
+    <compoundname>rabitq.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">array</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="rabitq_8cpp" local="yes">src/performance/rabitq.cpp</includedby>
+    <includedby refid="test__rabitq__product__quantizer_8cpp" local="yes">tests/performance/test_rabitq_product_quantizer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/rabitq.h</label>
+        <link refid="rabitq_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>array</label>
+      </node>
+      <node id="5">
+        <label>cmath</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/rabitq.h</label>
+        <link refid="rabitq_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/rabitq.cpp</label>
+        <link refid="rabitq_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/test_rabitq_product_quantizer.cpp</label>
+        <link refid="test__rabitq__product__quantizer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1performance_1_1_ra_bit_q_vector" prot="public">themis::performance::RaBitQVector</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_ra_bit_q_encoder" prot="public">themis::performance::RaBitQEncoder</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_ra_bit_q_index" prot="public">themis::performance::RaBitQIndex</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_search_result" prot="public">themis::performance::RaBitQIndex::SearchResult</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats" prot="public">themis::performance::RaBitQIndex::MemoryStats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_product_quantizer" prot="public">themis::performance::ProductQuantizer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RaBitQ:<sp/>Quantization<sp/>for<sp/>High-Dimensional<sp/>Vector<sp/>Search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Paper:<sp/>&quot;RaBitQ:<sp/>Quantizing<sp/>High-Dimensional<sp/>Vectors<sp/>with<sp/>a<sp/>Theoretical<sp/>Error<sp/>Bound<sp/>for<sp/>Approximate<sp/>Nearest<sp/>Neighbor<sp/>Search&quot;<sp/>(SIGMOD&apos;24)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Jianyang<sp/>Gao,<sp/>Cheng<sp/>Long<sp/>(NTU<sp/>Singapore)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>idea:<sp/>2-bit<sp/>product<sp/>quantization<sp/>with<sp/>theoretical<sp/>error<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>16x<sp/>memory<sp/>reduction,<sp/>+50-80%<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reference:<sp/>https://dl.acm.org/doi/10.1145/3626246.3653368</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1performance_1_1_ra_bit_q_vector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a256d99eba80006fcea3ca81c753f90b6" kindref="member">RaBitQVector</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pack<sp/>4<sp/>2-bit<sp/>values<sp/>into<sp/>1<sp/>byte</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a46440718291bed62a661a8d4d2fd1e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a46440718291bed62a661a8d4d2fd1e81" kindref="member">BITS_PER_VALUE</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a7bbd21113ca4f3b0be9484292e3d2392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a7bbd21113ca4f3b0be9484292e3d2392" kindref="member">VALUES_PER_BYTE</ref><sp/>=<sp/>8<sp/>/<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a46440718291bed62a661a8d4d2fd1e81" kindref="member">BITS_PER_VALUE</ref>;<sp/></highlight><highlight class="comment">//<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a256d99eba80006fcea3ca81c753f90b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a256d99eba80006fcea3ca81c753f90b6" kindref="member">RaBitQVector</ref>()<sp/>:<sp/>dimension_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a1042d7bdd4be0a2e63d8023cc2241fe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a1042d7bdd4be0a2e63d8023cc2241fe0" kindref="member">RaBitQVector</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1ac556a738c3f7c614ae19aefc0da7a69c" kindref="member">dimension</ref>)<sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>dimension_(<ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1ac556a738c3f7c614ae19aefc0da7a69c" kindref="member">dimension</ref>),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quantized_data_((<ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1ac556a738c3f7c614ae19aefc0da7a69c" kindref="member">dimension</ref><sp/>+<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a7bbd21113ca4f3b0be9484292e3d2392" kindref="member">VALUES_PER_BYTE</ref><sp/>-<sp/>1)<sp/>/<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a7bbd21113ca4f3b0be9484292e3d2392" kindref="member">VALUES_PER_BYTE</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1ac556a738c3f7c614ae19aefc0da7a69c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1ac556a738c3f7c614ae19aefc0da7a69c" kindref="member">dimension</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dimension_;<sp/>}</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a355245ede55bc6488124144d9bbe32c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a355245ede55bc6488124144d9bbe32c1" kindref="member">compressed_size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>quantized_data_.size();<sp/>}</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a9f98ee06dda945ed04bb3dd2c94ea63e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a9f98ee06dda945ed04bb3dd2c94ea63e" kindref="member">data</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>quantized_data_;<sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>2-bit<sp/>value<sp/>at<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a194978d19ba4ebff23c47a9c3287dfa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a194978d19ba4ebff23c47a9c3287dfa6" kindref="member">get</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>byte_idx<sp/>=<sp/>index<sp/>/<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a7bbd21113ca4f3b0be9484292e3d2392" kindref="member">VALUES_PER_BYTE</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bit_offset<sp/>=<sp/>(index<sp/>%<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a7bbd21113ca4f3b0be9484292e3d2392" kindref="member">VALUES_PER_BYTE</ref>)<sp/>*<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a46440718291bed62a661a8d4d2fd1e81" kindref="member">BITS_PER_VALUE</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(quantized_data_[byte_idx]<sp/>&gt;&gt;<sp/>bit_offset)<sp/>&amp;<sp/>0x3;<sp/></highlight><highlight class="comment">//<sp/>Mask<sp/>2<sp/>bits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>2-bit<sp/>value<sp/>at<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a796e14cea7b4448e40dc20d763e3e7ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a796e14cea7b4448e40dc20d763e3e7ea" kindref="member">set</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index,<sp/>uint8_t<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>byte_idx<sp/>=<sp/>index<sp/>/<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a7bbd21113ca4f3b0be9484292e3d2392" kindref="member">VALUES_PER_BYTE</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bit_offset<sp/>=<sp/>(index<sp/>%<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a7bbd21113ca4f3b0be9484292e3d2392" kindref="member">VALUES_PER_BYTE</ref>)<sp/>*<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector_1a46440718291bed62a661a8d4d2fd1e81" kindref="member">BITS_PER_VALUE</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quantized_data_[byte_idx]<sp/>&amp;=<sp/>~(0x3<sp/>&lt;&lt;<sp/>bit_offset);<sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>2<sp/>bits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quantized_data_[byte_idx]<sp/>|=<sp/>((value<sp/>&amp;<sp/>0x3)<sp/>&lt;&lt;<sp/>bit_offset);<sp/></highlight><highlight class="comment">//<sp/>Set<sp/>2<sp/>bits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dimension_;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>quantized_data_;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1performance_1_1_ra_bit_q_encoder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aba0502bd86d8d97b9f2320ac5bbc84fa" kindref="member">RaBitQEncoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aba0502bd86d8d97b9f2320ac5bbc84fa" kindref="member">RaBitQEncoder</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dimension);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Train<sp/>quantization<sp/>parameters<sp/>from<sp/>dataset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a004b2404e0c319c4a4ccd992029d5057" kindref="member">train</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>training_data);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encode<sp/>float32<sp/>vector<sp/>to<sp/>2-bit<sp/>representation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a2d47318b7857aab3b69f21d7d47632ad" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>vec)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Decode<sp/>2-bit<sp/>vector<sp/>back<sp/>to<sp/>float32<sp/>(for<sp/>verification)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1aea18e40dedeaa61d0a39e44f60048a06" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref>&amp;<sp/>quantized)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>quantized<sp/>distance<sp/>(faster<sp/>than<sp/>decoding<sp/>+<sp/>computing<sp/>distance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a7a215d092b72de8eb74b88ee4d0b9e49" kindref="member">compute_distance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref>&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref>&amp;<sp/>b)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Asymmetric<sp/>distance:<sp/>query<sp/>(full<sp/>precision)<sp/>vs<sp/>database<sp/>vector<sp/>(quantized)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_encoder_1a750ace1b1f0a10eece71310e355fec85" kindref="member">asymmetric_distance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_vector" kindref="compound">RaBitQVector</ref>&amp;<sp/>db_vector)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dimension_;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>mean_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-dimension<sp/>mean</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>scale_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-dimension<sp/>scale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantization<sp/>thresholds<sp/>for<sp/>2-bit<sp/>encoding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::array&lt;float,<sp/>3&gt;&gt;<sp/>thresholds_;<sp/></highlight><highlight class="comment">//<sp/>3<sp/>thresholds<sp/>for<sp/>4<sp/>bins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Quantize<sp/>single<sp/>float<sp/>value<sp/>to<sp/>2<sp/>bits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>quantize_value(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>value,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Dequantize<sp/>2-bit<sp/>value<sp/>to<sp/>float</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>dequantize_value(uint8_t<sp/>quantized,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1performance_1_1_ra_bit_q_index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_ra_bit_q_index_1a555d20bec9cebea4a8ca36e7df877834" kindref="member">RaBitQIndex</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_index_1a555d20bec9cebea4a8ca36e7df877834" kindref="member">RaBitQIndex</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dimension,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_capacity<sp/>=<sp/>1000000);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Train<sp/>encoder<sp/>with<sp/>initial<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_index_1af8b77e393cf78447d77432176570bfb5" kindref="member">train</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>training_vectors);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>vector<sp/>to<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_index_1ae8339f15d53d84e0a493bbf9d38007e2" kindref="member">add</ref>(uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>vector);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>for<sp/>k<sp/>nearest<sp/>neighbors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_search_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_search_result" kindref="compound">SearchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_search_result_1a73ed4e7ecb14acaf9ac0e62a61685367" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_search_result_1ad1fb83f6195f138db4131e32ab9bb1f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_search_result_1ad1fb83f6195f138db4131e32ab9bb1f9" kindref="member">distance</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SearchResult&gt;<sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_index_1a88a3585a48937c86bbb0934fdb548d1b" kindref="member">search</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>memory<sp/>usage<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats" kindref="compound">MemoryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1a555407103eba04c857f9d2adb7655671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1a555407103eba04c857f9d2adb7655671" kindref="member">uncompressed_bytes</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>float32<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1a06255efcb402c250138b01c29a463a3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1a06255efcb402c250138b01c29a463a3e" kindref="member">compressed_bytes</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2-bit<sp/>quantized<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1aeb5f7d884631eaf79bd036cb432d597e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1aeb5f7d884631eaf79bd036cb432d597e" kindref="member">compression_ratio</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats" kindref="compound">MemoryStats</ref><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_index_1a6943cccf7176592fec59434d0c7c152f" kindref="member">get_memory_stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1performance_1_1_ra_bit_q_index_1a7b38145410aea00308853a9b0921eb30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_ra_bit_q_index_1a7b38145410aea00308853a9b0921eb30" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vectors_.size();<sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dimension_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RaBitQEncoder&gt;<sp/>encoder_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Storage:<sp/>ID<sp/>-&gt;<sp/>quantized<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/>ids_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RaBitQVector&gt;<sp/>vectors_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Linear<sp/>scan<sp/>with<sp/>quantized<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SearchResult&gt;<sp/>linear_scan(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1performance_1_1_product_quantizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_product_quantizer_1ad6b1bb6e884d45e6d03a04508a72e2be" kindref="member">ProductQuantizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_product_quantizer_1ad6b1bb6e884d45e6d03a04508a72e2be" kindref="member">ProductQuantizer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dimension,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_subvectors);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Split<sp/>vector<sp/>into<sp/>subvectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="classthemis_1_1performance_1_1_product_quantizer_1af25f4a512722acab40ae09107ae4c690" kindref="member">split_vector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>vec)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Train<sp/>codebooks<sp/>for<sp/>each<sp/>subvector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_product_quantizer_1aa8ddab83a2e6db8dbeabea0839e20263" kindref="member">train</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>training_data);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encode<sp/>vector<sp/>using<sp/>product<sp/>quantization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1performance_1_1_product_quantizer_1aba06f68eb0836ccf80dc96c069a52720" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>vec)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dimension_;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_subvectors_;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>subvector_dimension_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Codebooks<sp/>for<sp/>each<sp/>subvector<sp/>(k-means<sp/>centroids)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;std::vector&lt;float&gt;&gt;&gt;<sp/>codebooks_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/rabitq.h"/>
+  </compounddef>
+</doxygen>

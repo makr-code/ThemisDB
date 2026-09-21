@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__tensor__legacy__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_tensor_legacy_bridge.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="gpu__tensor_8h" local="yes">llm/lora_framework/gpu_tensor.h</includes>
+    <includes refid="lora__layers_8h" local="yes">llm/lora_framework/lora_layers.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>llm/lora_framework/lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/lora_framework/tensor_dtype.h</label>
+        <link refid="tensor__dtype_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_gpu_tensor_legacy_bridge.cpp</label>
+        <link refid="test__gpu__tensor__legacy__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>cstring</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__tensor__legacy__bridge_8cpp_1a4f6f7d567a52d691b5d38cf37f56d77d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUTensorLegacyBridgeTest, FromLegacyTensorPreservesShapeAndDataOnCpu)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUTensorLegacyBridgeTest</type>
+        </param>
+        <param>
+          <type>FromLegacyTensorPreservesShapeAndDataOnCpu</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_legacy_bridge.cpp" line="17" column="1" bodyfile="tests/llm/test_gpu_tensor_legacy_bridge.cpp" bodystart="17" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor__legacy__bridge_8cpp_1aaf5138ee56650747775d65834d1ccb99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUTensorLegacyBridgeTest, ToLegacyTensorPreservesShapeAndDataOnCpu)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUTensorLegacyBridgeTest</type>
+        </param>
+        <param>
+          <type>ToLegacyTensorPreservesShapeAndDataOnCpu</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_legacy_bridge.cpp" line="31" column="1" bodyfile="tests/llm/test_gpu_tensor_legacy_bridge.cpp" bodystart="31" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor__legacy__bridge_8cpp_1aca35cbbb721e0cf9a3125df9cbd8474b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUTensorLegacyBridgeTest, RoundTripPreservesPayload)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUTensorLegacyBridgeTest</type>
+        </param>
+        <param>
+          <type>RoundTripPreservesPayload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_legacy_bridge.cpp" line="41" column="1" bodyfile="tests/llm/test_gpu_tensor_legacy_bridge.cpp" bodystart="41" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Tests<sp/>for<sp/>GPUTensor<sp/>legacy<sp/>Tensor<sp/>bridge<sp/>(STUB<sp/>#4)</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Covers:<sp/>GT-LB-01..GT-LB-03</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-LB-01<sp/>—<sp/>from_legacy_tensor()<sp/>preserves<sp/>shape/data<sp/>on<sp/>CPU</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-LB-02<sp/>—<sp/>to_legacy_tensor()<sp/>preserves<sp/>shape/data<sp/>on<sp/>CPU</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-LB-03<sp/>—<sp/>round-trip<sp/>Tensor<sp/>-&gt;<sp/>GPUTensor<sp/>-&gt;<sp/>Tensor<sp/>preserves<sp/>payload</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__tensor_8h" kindref="compound">llm/lora_framework/gpu_tensor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__layers_8h" kindref="compound">llm/lora_framework/lora_layers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">themis::llm::lora</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><ref refid="test__gpu__tensor__legacy__bridge_8cpp_1a4f6f7d567a52d691b5d38cf37f56d77d" kindref="member">TEST</ref>(GPUTensorLegacyBridgeTest,<sp/>FromLegacyTensorPreservesShapeAndDataOnCpu)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref><sp/>legacy({2,<sp/>3});</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>legacy.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>legacy[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gpu_tensor<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a4d0de48856c0003e231cb2be1a0f323e" kindref="member">gpu_tensor_utils::from_legacy_tensor</ref>(legacy,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gpu_tensor.shape(),<sp/>legacy.shape());</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gpu_tensor.dtype(),<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(gpu_tensor.is_cpu());</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gpu_tensor.cpu_data(),<sp/>legacy.data());</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__gpu__tensor__legacy__bridge_8cpp_1a4f6f7d567a52d691b5d38cf37f56d77d" kindref="member">TEST</ref>(GPUTensorLegacyBridgeTest,<sp/>ToLegacyTensorPreservesShapeAndDataOnCpu)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/>gpu_tensor({2,<sp/>2},<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>gpu_tensor.<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a50ef9f1be15a69f0c189e33c67934053" kindref="member">upload</ref>(std::vector&lt;float&gt;{1.5f,<sp/>2.5f,<sp/>3.5f,<sp/>4.5f});</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>legacy<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1ab8fc34008e69afa7728bb3e1bddd82ca" kindref="member">gpu_tensor_utils::to_legacy_tensor</ref>(gpu_tensor);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(legacy.shape(),<sp/>std::vector&lt;size_t&gt;({2,<sp/>2}));</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(legacy.data(),<sp/>std::vector&lt;float&gt;({1.5f,<sp/>2.5f,<sp/>3.5f,<sp/>4.5f}));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__gpu__tensor__legacy__bridge_8cpp_1a4f6f7d567a52d691b5d38cf37f56d77d" kindref="member">TEST</ref>(GPUTensorLegacyBridgeTest,<sp/>RoundTripPreservesPayload)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref><sp/>original({3});</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>original[0]<sp/>=<sp/>-1.0f;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>original[1]<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>original[2]<sp/>=<sp/>42.0f;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gpu_tensor<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a4d0de48856c0003e231cb2be1a0f323e" kindref="member">gpu_tensor_utils::from_legacy_tensor</ref>(original,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1ab8fc34008e69afa7728bb3e1bddd82ca" kindref="member">gpu_tensor_utils::to_legacy_tensor</ref>(gpu_tensor);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.shape(),<sp/>original.shape());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.data(),<sp/>original.data());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_gpu_tensor_legacy_bridge.cpp"/>
+  </compounddef>
+</doxygen>

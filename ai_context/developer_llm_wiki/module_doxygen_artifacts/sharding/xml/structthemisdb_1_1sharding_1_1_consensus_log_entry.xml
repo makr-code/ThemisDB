@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_consensus_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConsensusLogEntry</compoundname>
+    <includes refid="consensus__module_8h" local="no">consensus_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aa34b3027a9706324749e760ed35d3f1a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ConsensusLogEntry::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themisdb::sharding::ConsensusLogEntry::index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="54" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a4ed8c95aaa0d22a795ebe1cad344814b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ConsensusLogEntry::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::ConsensusLogEntry::term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="55" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a24919fec424e8407915f666deecfa752" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ConsensusLogEntry::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themisdb::sharding::ConsensusLogEntry::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="56" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aabfca85b901e28828cbffd53f656704d" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ConsensusLogEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::sharding::ConsensusLogEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="57" column="20" bodyfile="include/sharding/consensus_module.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a82f568bcf9f5ae45dd4ae1befa2d22f4" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::ConsensusLogEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::ConsensusLogEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="58" column="43" bodyfile="include/sharding/consensus_module.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a8887aaa39ce7ed4e9daa241eaf90b8ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ConsensusLogEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::ConsensusLogEntry::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="60" column="20" bodyfile="include/sharding/consensus_module.h" bodystart="60" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Log entry for consensus replication. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/consensus_module.h" line="53" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="53" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aabfca85b901e28828cbffd53f656704d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusLogEntry</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aa34b3027a9706324749e760ed35d3f1a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusLogEntry</scope><name>index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a24919fec424e8407915f666deecfa752" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusLogEntry</scope><name>operation</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a4ed8c95aaa0d22a795ebe1cad344814b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusLogEntry</scope><name>term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a82f568bcf9f5ae45dd4ae1befa2d22f4" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusLogEntry</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a8887aaa39ce7ed4e9daa241eaf90b8ca" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusLogEntry</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

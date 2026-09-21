@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_prefix_cache_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMPrefixCacheTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_prefix_cache_test_1a12c80060130752432ab0f53c30e5cf52" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" kindref="compound">LLMPrefixCache::Config</ref></type>
+        <definition>LLMPrefixCache::Config LLMPrefixCacheTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>LLMPrefixCacheTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_prefix_cache.cpp" line="18" column="28" bodyfile="tests/llm/test_llm_prefix_cache.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_prefix_cache_test_1a2fd527b845ccaf7ad498c8c07b798b07" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMPrefixCacheTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMPrefixCacheTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_prefix_cache.cpp" line="10" column="10" bodyfile="tests/llm/test_llm_prefix_cache.cpp" bodystart="10" bodyend="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMPrefixCacheTest</label>
+        <link refid="class_l_l_m_prefix_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMPrefixCacheTest</label>
+        <link refid="class_l_l_m_prefix_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::LLMPrefixCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_prefix_cache.cpp" line="8" column="1" bodyfile="tests/llm/test_llm_prefix_cache.cpp" bodystart="8" bodyend="19"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_prefix_cache_test_1a12c80060130752432ab0f53c30e5cf52" prot="protected" virt="non-virtual"><scope>LLMPrefixCacheTest</scope><name>config_</name></member>
+      <member refid="class_l_l_m_prefix_cache_test_1a2fd527b845ccaf7ad498c8c07b798b07" prot="protected" virt="non-virtual"><scope>LLMPrefixCacheTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

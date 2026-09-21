@@ -1,0 +1,650 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_slo_reporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::SloReporter</compoundname>
+    <includes refid="slo__reporter_8h" local="no">slo_reporter.h</includes>
+    <innerclass refid="structthemis_1_1observability_1_1_slo_reporter_1_1_config" prot="public">themis::observability::SloReporter::Config</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_slo_reporter_1_1_sample" prot="private">themis::observability::SloReporter::Sample</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_slo_reporter_1_1_slo_state" prot="private">themis::observability::SloReporter::SloState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_slo_reporter_1a68d0490b890b976bbfc6c87d837bc8b6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::SloReporter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::SloReporter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="343" column="24" bodyfile="include/observability/slo_reporter.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_slo_reporter_1a6a0cb9b9e426460e67e157856982bd80" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_slo_reporter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::observability::SloReporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::SloReporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="344" column="12" bodyfile="include/observability/slo_reporter.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_slo_reporter_1ae42039ad629b3eef47e2f0ce277e0c22" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, SloState &gt;</type>
+        <definition>std::map&lt;std::string, SloState&gt; themis::observability::SloReporter::slos_</definition>
+        <argsstring></argsstring>
+        <name>slos_</name>
+        <qualifiedname>themis::observability::SloReporter::slos_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="345" column="14" bodyfile="include/observability/slo_reporter.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a7e0203b2822b4aca3756af75c43825a3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::SloReporter::SloReporter</definition>
+        <argsstring>()</argsstring>
+        <name>SloReporter</name>
+        <qualifiedname>themis::observability::SloReporter::SloReporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="210" column="14" bodyfile="src/observability/slo_reporter.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1ac8e7f5303e0df8a6ad50fdeaa00c7ceb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::SloReporter::SloReporter</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>SloReporter</name>
+        <qualifiedname>themis::observability::SloReporter::SloReporter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_slo_reporter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="211" column="14" bodyfile="src/observability/slo_reporter.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a3a572e6286daa53b9ee87a25adf49fd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::SloReporter::~SloReporter</definition>
+        <argsstring>()</argsstring>
+        <name>~SloReporter</name>
+        <qualifiedname>themis::observability::SloReporter::~SloReporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="212" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1ad9a2c46f816606708b4808943abc7fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::SloReporter::SloReporter</definition>
+        <argsstring>(const SloReporter &amp;)=delete</argsstring>
+        <name>SloReporter</name>
+        <qualifiedname>themis::observability::SloReporter::SloReporter</qualifiedname>
+        <param>
+          <type>const SloReporter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="215" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a9ebb0901b3c95bb39c41377fe508ba2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_slo_reporter_1a7e0203b2822b4aca3756af75c43825a3" kindref="member">SloReporter</ref> &amp;</type>
+        <definition>SloReporter &amp; themis::observability::SloReporter::operator=</definition>
+        <argsstring>(const SloReporter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::SloReporter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_slo_reporter_1a7e0203b2822b4aca3756af75c43825a3" kindref="member">SloReporter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="216" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a60c7b3e9c0c502f010e4a2d6685158a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::SloReporter::registerSlo</definition>
+        <argsstring>(const SloDefinition &amp;slo)</argsstring>
+        <name>registerSlo</name>
+        <qualifiedname>themis::observability::SloReporter::registerSlo</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_slo_definition" kindref="compound">SloDefinition</ref> &amp;</type>
+          <declname>slo</declname>
+        </param>
+        <briefdescription>
+<para>Register a new SLO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Slo.</para>
+<para>If an SLO with the same name already exists it is replaced.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SLO definition to register.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">slo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="225" column="10" bodyfile="src/observability/slo_reporter.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1ac7de331fd182c3f90548c31fbe3b9107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::SloReporter::record</definition>
+        <argsstring>(const std::string &amp;slo_name, bool good_request, std::chrono::system_clock::time_point timestamp=std::chrono::system_clock::now())</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::observability::SloReporter::record</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slo_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>good_request</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>timestamp</declname>
+          <defval>std::chrono::system_clock::now()</defval>
+        </param>
+        <briefdescription>
+<para>Record one request observation for a named SLO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slo_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the SLO (must have been registered via <computeroutput>registerSlo</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>good_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>true</computeroutput> if the request satisfied the SLI, <computeroutput>false</computeroutput> otherwise. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_observation" kindref="compound">Observation</ref> timestamp (defaults to now).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Observations for unknown SLO names are silently ignored.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slo_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the slo. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">good_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), push_back(), size(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="236" column="10" bodyfile="src/observability/slo_reporter.cpp" bodystart="82" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1ab1377b1e374136e3a8c13d322475b0c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_slo_status" kindref="compound">SloStatus</ref></type>
+        <definition>SloStatus themis::observability::SloReporter::getStatus</definition>
+        <argsstring>(const std::string &amp;slo_name) const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::observability::SloReporter::getStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slo_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the current compliance status for one SLO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the SLO name is not registered. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="245" column="15" bodyfile="src/observability/slo_reporter.cpp" bodystart="101" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a9e7e46ed434f16df25075851171c3696" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_slo_status" kindref="compound">SloStatus</ref> &gt;</type>
+        <definition>std::vector&lt; SloStatus &gt; themis::observability::SloReporter::getAllStatuses</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllStatuses</name>
+        <qualifiedname>themis::observability::SloReporter::getAllStatuses</qualifiedname>
+        <briefdescription>
+<para>Return compliance status snapshots for all registered SLOs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="250" column="17" bodyfile="src/observability/slo_reporter.cpp" bodystart="118" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a259b4d4e6e2464568db4a3aa4bd01b4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::SloReporter::publishMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>publishMetrics</name>
+        <qualifiedname>themis::observability::SloReporter::publishMetrics</qualifiedname>
+        <briefdescription>
+<para>Publish SLO metrics to <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_collector" kindref="compound">MetricsCollector</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emits the following gauge families:<itemizedlist>
+<listitem><para><computeroutput>themis_slo_current_sli{slo="&lt;name&gt;"}</computeroutput> – current SLI value</para>
+</listitem><listitem><para><computeroutput>themis_slo_error_budget_remaining{slo="&lt;name&gt;"}</computeroutput> – fraction remaining (0–1)</para>
+</listitem><listitem><para><computeroutput>themis_slo_burn_rate{slo="&lt;name&gt;"}</computeroutput> – current burn rate</para>
+</listitem><listitem><para><computeroutput>themis_slo_met{slo="&lt;name&gt;"}</computeroutput> – 1 if SLO is met, 0 otherwise </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="261" column="10" bodyfile="src/observability/slo_reporter.cpp" bodystart="141" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a0640c278925fd88858f8c058283d8d97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SloReporter::generateReport</definition>
+        <argsstring>() const</argsstring>
+        <name>generateReport</name>
+        <qualifiedname>themis::observability::SloReporter::generateReport</qualifiedname>
+        <briefdescription>
+<para>Generate a human-readable compliance report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="266" column="17" bodyfile="src/observability/slo_reporter.cpp" bodystart="169" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a65ff03221b552417c356d0d9a611e1ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::SloReporter::generateReportJson</definition>
+        <argsstring>() const</argsstring>
+        <name>generateReportJson</name>
+        <qualifiedname>themis::observability::SloReporter::generateReportJson</qualifiedname>
+        <briefdescription>
+<para>Generate a JSON compliance report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="271" column="10" bodyfile="src/observability/slo_reporter.cpp" bodystart="200" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1ab552400333dc3864b712cce4fe53a9e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::SloReporter::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::observability::SloReporter::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all registered SLOs and clear all accumulated data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="276" column="10" bodyfile="src/observability/slo_reporter.cpp" bodystart="222" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a6e0b3b60e1ec9d2f9a6ed6ac00a9a017" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::SloReporter::sloCount</definition>
+        <argsstring>() const</argsstring>
+        <name>sloCount</name>
+        <qualifiedname>themis::observability::SloReporter::sloCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of registered SLOs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="281" column="12" bodyfile="src/observability/slo_reporter.cpp" bodystart="227" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1aefc748f4c4f9fdd821ad36ba788b5a95" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::SloReporter::expireSamples</definition>
+        <argsstring>(SloState &amp;state, std::chrono::system_clock::time_point now)</argsstring>
+        <name>expireSamples</name>
+        <qualifiedname>themis::observability::SloReporter::expireSamples</qualifiedname>
+        <param>
+          <type>SloState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+<para>Expire samples that fall outside the SLO&apos;s window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Expire Samples.</para>
+<para><computeroutput>now</computeroutput> is passed in to avoid calling <computeroutput>system_clock::now()</computeroutput> repeatedly under the lock.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="309" column="17" bodyfile="src/observability/slo_reporter.cpp" bodystart="247" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a9e1bafb3cf599dfe86e2c3352f0b6a9e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_slo_status" kindref="compound">SloStatus</ref></type>
+        <definition>SloStatus themis::observability::SloReporter::computeStatus</definition>
+        <argsstring>(const SloState &amp;state)</argsstring>
+        <name>computeStatus</name>
+        <qualifiedname>themis::observability::SloReporter::computeStatus</qualifiedname>
+        <param>
+          <type>const SloState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Compute the <ref refid="structthemis_1_1observability_1_1_slo_status" kindref="compound">SloStatus</ref> from the current <computeroutput>SloState</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Status.</para>
+<para><computeroutput>now</computeroutput> must equal the value used for <computeroutput>expireSamples</computeroutput> so that counts and statistics are consistent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::max(), std::chrono::system_clock::now(), std::chrono::hours(), <ref refid="namespacethemis_1_1observability_1a02474498809eda37d541b0d8eba79ab8" kindref="member">burnRateMultiplier()</ref>, computeBurnRate(), <ref refid="namespacethemis_1_1observability_1aabf73e07466d18bfd1ab0565f154749d" kindref="member">burnRateSeverity()</ref>, std::setprecision(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="318" column="22" bodyfile="src/observability/slo_reporter.cpp" bodystart="261" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a2f7c330bdaef594af4106c32a160a02d" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::SloReporter::computeBurnRate</definition>
+        <argsstring>(const std::deque&lt; Sample &gt; &amp;samples, std::chrono::seconds window, std::chrono::system_clock::time_point now, double allowed_error_rate) noexcept</argsstring>
+        <name>computeBurnRate</name>
+        <qualifiedname>themis::observability::SloReporter::computeBurnRate</qualifiedname>
+        <param>
+          <type>const std::deque&lt; Sample &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>now</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>allowed_error_rate</declname>
+        </param>
+        <briefdescription>
+<para>Compute the burn rate for a subset of samples in the given window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Complete sample deque (already expired to the full window). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sub-window duration to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>now</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference point (wall clock at evaluation time). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allowed_error_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>= 1 - slo.objective </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Burn rate, or 0.0 if there are no samples in the window. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="329" column="19" bodyfile="src/observability/slo_reporter.cpp" bodystart="344" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_slo_reporter_1a0cb6e32250633ffc58325e805af4644e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::SloReporter::computeBurnRateLevelPublish</definition>
+        <argsstring>(const SloStatus &amp;s, BurnRateLevel level) const</argsstring>
+        <name>computeBurnRateLevelPublish</name>
+        <qualifiedname>themis::observability::SloReporter::computeBurnRateLevelPublish</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_slo_status" kindref="compound">SloStatus</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1abb51662243eb9fec357bc002b2cdc8fc" kindref="member">BurnRateLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Extract the burn-rate gauge value for a specific level from a pre-computed <ref refid="structthemis_1_1observability_1_1_slo_status" kindref="compound">SloStatus</ref> (used by publishMetrics to avoid redundant re-computation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="339" column="12" bodyfile="src/observability/slo_reporter.cpp" bodystart="372" bodyend="387"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SLO/SLA compliance reporter with multi-window burn-rate alerting. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Overview</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1observability_1_1_slo_reporter" kindref="compound">SloReporter</ref></computeroutput> tracks user-defined SLOs by maintaining a sliding ring-buffer of request observations per SLO. On each call to <computeroutput><ref refid="classthemis_1_1observability_1_1_slo_reporter_1ac7de331fd182c3f90548c31fbe3b9107" kindref="member">record()</ref></computeroutput> the caller classifies the request as good (successful) or bad (error). The reporter continuously computes:</para>
+<para><itemizedlist>
+<listitem><para><bold>SLI</bold> (Service Level Indicator): <computeroutput>good_requests / total_requests</computeroutput></para>
+</listitem><listitem><para><bold>Error budget remaining</bold>: how much of the allowed error rate is left</para>
+</listitem><listitem><para><bold>Burn rate</bold>: <computeroutput>actual_error_rate / target_error_rate</computeroutput></para>
+</listitem><listitem><para><bold>Burn-rate alerts</bold>: FAST (14.4×), MEDIUM (6×), SLOW (3×) levels</para>
+</listitem></itemizedlist>
+</para>
+<para>Metrics are published to <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_collector" kindref="compound">MetricsCollector</ref></computeroutput> under the <computeroutput>themis_slo_*</computeroutput> namespace so they can be scraped by Prometheus.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_slo_reporter_1a7e0203b2822b4aca3756af75c43825a3" kindref="member">SloReporter</ref><sp/>reporter;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">SloDefinition<sp/>slo;</highlight></codeline>
+<codeline><highlight class="normal">slo.name<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;query_availability&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">slo.objective<sp/>=<sp/>0.999;</highlight></codeline>
+<codeline><highlight class="normal">slo.window<sp/><sp/><sp/><sp/>=<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline><highlight class="normal">reporter.registerSlo(slo);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>For<sp/>every<sp/>request:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">reporter.record(</highlight><highlight class="stringliteral">&quot;query_availability&quot;</highlight><highlight class="normal">,<sp/>!request_failed);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Periodic<sp/>or<sp/>on-demand:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">reporter.publishMetrics();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>reporter.generateReport();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/observability/slo_reporter.h" line="196" column="1" bodyfile="include/observability/slo_reporter.h" bodystart="196" bodyend="346"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1ab552400333dc3864b712cce4fe53a9e1" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>clear</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a2f7c330bdaef594af4106c32a160a02d" prot="private" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>computeBurnRate</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a0cb6e32250633ffc58325e805af4644e" prot="private" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>computeBurnRateLevelPublish</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a9e1bafb3cf599dfe86e2c3352f0b6a9e" prot="private" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>computeStatus</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a6a0cb9b9e426460e67e157856982bd80" prot="private" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1aefc748f4c4f9fdd821ad36ba788b5a95" prot="private" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>expireSamples</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a0640c278925fd88858f8c058283d8d97" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>generateReport</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a65ff03221b552417c356d0d9a611e1ea" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>generateReportJson</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a9e7e46ed434f16df25075851171c3696" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>getAllStatuses</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1ab1377b1e374136e3a8c13d322475b0c0" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a68d0490b890b976bbfc6c87d837bc8b6" prot="private" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a9ebb0901b3c95bb39c41377fe508ba2c" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a259b4d4e6e2464568db4a3aa4bd01b4f" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>publishMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1ac7de331fd182c3f90548c31fbe3b9107" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>record</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a60c7b3e9c0c502f010e4a2d6685158a5" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>registerSlo</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a6e0b3b60e1ec9d2f9a6ed6ac00a9a017" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>sloCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a7e0203b2822b4aca3756af75c43825a3" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>SloReporter</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1ac8e7f5303e0df8a6ad50fdeaa00c7ceb" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>SloReporter</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1ad9a2c46f816606708b4808943abc7fc0" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>SloReporter</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1ae42039ad629b3eef47e2f0ce277e0c22" prot="private" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>slos_</name></member>
+      <member refid="classthemis_1_1observability_1_1_slo_reporter_1a3a572e6286daa53b9ee87a25adf49fd0" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter</scope><name>~SloReporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

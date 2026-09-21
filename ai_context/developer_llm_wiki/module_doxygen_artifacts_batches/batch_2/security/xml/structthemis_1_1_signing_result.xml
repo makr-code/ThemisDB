@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_signing_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SigningResult</compoundname>
+    <includes refid="signing_8h" local="no">signing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_signing_result_1ab36953f808547e94ff9f35c6e8ee2a6a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::SigningResult::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::SigningResult::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/signing.h" line="26" column="17" bodyfile="include/security/signing.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_signing_result_1adde2dcad6a779f20694e512e47858c1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SigningResult::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::SigningResult::algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/signing.h" line="27" column="17" bodyfile="include/security/signing.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_signing_result_1ad6efb3e46916c88629b8c16747c12b27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SigningResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::SigningResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/signing.h" line="28" column="17" bodyfile="include/security/signing.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/signing.h" line="25" column="1" bodyfile="include/security/signing.h" bodystart="25" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_signing_result_1adde2dcad6a779f20694e512e47858c1b" prot="public" virt="non-virtual"><scope>themis::SigningResult</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1_signing_result_1ad6efb3e46916c88629b8c16747c12b27" prot="public" virt="non-virtual"><scope>themis::SigningResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1_signing_result_1ab36953f808547e94ff9f35c6e8ee2a6a" prot="public" virt="non-virtual"><scope>themis::SigningResult</scope><name>signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

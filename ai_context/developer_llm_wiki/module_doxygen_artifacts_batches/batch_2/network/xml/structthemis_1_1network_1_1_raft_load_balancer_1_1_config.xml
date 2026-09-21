@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::RaftLoadBalancer::Config</compoundname>
+    <includes refid="raft__load__balancer_8h" local="no">raft_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1adaae59a4b9073c24951f05d266750df3" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::RaftLoadBalancer::Config::raft_port</definition>
+        <argsstring></argsstring>
+        <name>raft_port</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::raft_port</qualifiedname>
+        <initializer>= 8774</initializer>
+        <briefdescription>
+<para>Port used for intra-cluster Raft communication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="77" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a2735bacf0ab2d52707012b08da31b32c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RaftLoadBalancer::Config::health_check_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval_ms</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::health_check_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Interval between backend health checks (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="80" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a41c2c32ab2d99bd795abea684f2bde4a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::RaftLoadBalancer::Config::rebalance_threshold</definition>
+        <argsstring></argsstring>
+        <name>rebalance_threshold</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::rebalance_threshold</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fractional load imbalance that triggers a rebalance event. E.g., 0.2 means rebalance when any backend deviates &gt;20 % from mean. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="84" column="16" bodyfile="include/network/raft_load_balancer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1ab6ad8483856acec645b97998e9483c63" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RaftLoadBalancer::Config::unhealthy_threshold</definition>
+        <argsstring></argsstring>
+        <name>unhealthy_threshold</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::unhealthy_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of consecutive health-check failures before a backend is marked unhealthy. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="88" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1ad89670e897423b4c7ea167eb7f85125e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RaftLoadBalancer::Config::recovery_threshold</definition>
+        <argsstring></argsstring>
+        <name>recovery_threshold</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::recovery_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of consecutive health-check successes before a previously unhealthy backend is re-admitted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="92" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1aa3bf9aba5e0b016c28e9b9de92910e59" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1adf7beaa0e1b2b326c031d92e605afe0b" kindref="member">LoadBalancingStrategy</ref></type>
+        <definition>LoadBalancingStrategy themis::network::RaftLoadBalancer::Config::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1network_1adf7beaa0e1b2b326c031d92e605afe0ba9b5adc9c167d99cbc016b883cf6a8600" kindref="member">LoadBalancingStrategy::LEAST_CONNECTIONS</ref></initializer>
+        <briefdescription>
+<para>Routing algorithm to use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="95" column="31" bodyfile="include/network/raft_load_balancer.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1ae0f898c320c103ce58fa28bb0d7eb75d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::RaftLoadBalancer::Config::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::datacenter</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Datacenter / region label for this node. Used for cross-DC routing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="98" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1ae10d0302e03e9bde07be0a3c0b76e8a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::RaftLoadBalancer::Config::prefer_local_datacenter</definition>
+        <argsstring></argsstring>
+        <name>prefer_local_datacenter</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::prefer_local_datacenter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Prefer local-datacenter backends when available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="101" column="14" bodyfile="include/network/raft_load_balancer.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a8c777a8eff90d0fa6c47aad5ef33ff21" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RaftLoadBalancer::Config::election_timeout_min_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_min_ms</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::election_timeout_min_ms</qualifiedname>
+        <initializer>= 150</initializer>
+        <briefdescription>
+<para>Raft election timeout range (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="104" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a14e0a5f3350c596564430108efb58ef4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RaftLoadBalancer::Config::election_timeout_max_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_max_ms</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::election_timeout_max_ms</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="105" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a43144255ba0481af5640ad566f0644dd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RaftLoadBalancer::Config::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Config::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Raft heartbeat interval (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="108" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1network_1_1_raft_load_balancer" kindref="compound">RaftLoadBalancer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/raft_load_balancer.h" line="75" column="5" bodyfile="include/network/raft_load_balancer.h" bodystart="75" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1ae0f898c320c103ce58fa28bb0d7eb75d" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>datacenter</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a14e0a5f3350c596564430108efb58ef4" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>election_timeout_max_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a8c777a8eff90d0fa6c47aad5ef33ff21" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>election_timeout_min_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a2735bacf0ab2d52707012b08da31b32c" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>health_check_interval_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a43144255ba0481af5640ad566f0644dd" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1ae10d0302e03e9bde07be0a3c0b76e8a9" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>prefer_local_datacenter</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1adaae59a4b9073c24951f05d266750df3" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>raft_port</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1a41c2c32ab2d99bd795abea684f2bde4a" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>rebalance_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1ad89670e897423b4c7ea167eb7f85125e" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>recovery_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1aa3bf9aba5e0b016c28e9b9de92910e59" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_config_1ab6ad8483856acec645b97998e9483c63" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Config</scope><name>unhealthy_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

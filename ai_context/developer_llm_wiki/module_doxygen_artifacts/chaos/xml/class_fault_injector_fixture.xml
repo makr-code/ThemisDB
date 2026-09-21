@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fault_injector_fixture" kind="class" language="C++" prot="public">
+    <compoundname>FaultInjectorFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_fault_injector_fixture_1af3a8aa85ae6de03cbd4336ce9f6e258f" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FaultInjector&gt; FaultInjectorFixture::injector</definition>
+        <argsstring></argsstring>
+        <name>injector</name>
+        <qualifiedname>FaultInjectorFixture::injector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_stress.cpp" line="68" column="21" bodyfile="benchmarks/chaos/bench_chaos_stress.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_fault_injector_fixture_1aee46acc9e0e046c0c7bce851c2812a35" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FaultInjectorFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FaultInjectorFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_stress.cpp" line="59" column="10" bodyfile="benchmarks/chaos/bench_chaos_stress.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fault_injector_fixture_1a31b02ca0435c5dc156d102169246955a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FaultInjectorFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>FaultInjectorFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chaos/bench_chaos_stress.cpp" line="63" column="10" bodyfile="benchmarks/chaos/bench_chaos_stress.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FaultInjectorFixture</label>
+        <link refid="class_fault_injector_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FaultInjectorFixture</label>
+        <link refid="class_fault_injector_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/chaos/bench_chaos_stress.cpp" line="57" column="1" bodyfile="benchmarks/chaos/bench_chaos_stress.cpp" bodystart="57" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_fault_injector_fixture_1af3a8aa85ae6de03cbd4336ce9f6e258f" prot="public" virt="non-virtual"><scope>FaultInjectorFixture</scope><name>injector</name></member>
+      <member refid="class_fault_injector_fixture_1aee46acc9e0e046c0c7bce851c2812a35" prot="public" virt="non-virtual"><scope>FaultInjectorFixture</scope><name>SetUp</name></member>
+      <member refid="class_fault_injector_fixture_1a31b02ca0435c5dc156d102169246955a" prot="public" virt="non-virtual"><scope>FaultInjectorFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

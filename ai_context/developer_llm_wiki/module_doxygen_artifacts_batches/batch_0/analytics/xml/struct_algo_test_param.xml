@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_algo_test_param" kind="struct" language="C++" prot="public">
+    <compoundname>AlgoTestParam</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_algo_test_param_1a6e603f28304b5265520c9c141fea788b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref></type>
+        <definition>ModelAlgorithm AlgoTestParam::algo</definition>
+        <argsstring></argsstring>
+        <name>algo</name>
+        <qualifiedname>AlgoTestParam::algo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="492" column="20" bodyfile="tests/analytics/test_automl.cpp" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_algo_test_param_1a31d9d2dc15624cdaff7684eb5a922e19" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref></type>
+        <definition>AutoMLTask AlgoTestParam::task</definition>
+        <argsstring></argsstring>
+        <name>task</name>
+        <qualifiedname>AlgoTestParam::task</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="493" column="20" bodyfile="tests/analytics/test_automl.cpp" bodystart="493" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_automl.cpp" line="491" column="1" bodyfile="tests/analytics/test_automl.cpp" bodystart="491" bodyend="494"/>
+    <listofallmembers>
+      <member refid="struct_algo_test_param_1a6e603f28304b5265520c9c141fea788b" prot="public" virt="non-virtual"><scope>AlgoTestParam</scope><name>algo</name></member>
+      <member refid="struct_algo_test_param_1a31d9d2dc15624cdaff7684eb5a922e19" prot="public" virt="non-virtual"><scope>AlgoTestParam</scope><name>task</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_stress_scenario_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::StressScenarioResult</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_stress_scenario_result_1aaa164982d9905b662630878ca59592f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::StressScenarioResult::is_expected</definition>
+        <argsstring></argsstring>
+        <name>is_expected</name>
+        <qualifiedname>themis::process::StressScenarioResult::is_expected</qualifiedname>
+        <briefdescription>
+<para>Did the scenario complete as expected (success or graceful failure)? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="81" column="10" bodyfile="include/process/process_stress_scenarios.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_stress_scenario_result_1a42e407f116c2f59bf7e7ab9996c2810e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::StressScenarioResult::is_fatal</definition>
+        <argsstring></argsstring>
+        <name>is_fatal</name>
+        <qualifiedname>themis::process::StressScenarioResult::is_fatal</qualifiedname>
+        <briefdescription>
+<para>Did a fatal or silent failure occur? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="83" column="10" bodyfile="include/process/process_stress_scenarios.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_stress_scenario_result_1a8fa8cd2da1fbc1bbb6a4b1f8e13a9302" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::StressScenarioResult::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::process::StressScenarioResult::latency_ms</qualifiedname>
+        <briefdescription>
+<para>Latency in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="85" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_stress_scenario_result_1a4175836dab15450bdcae2fbafd1e69ca" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int32_t &gt;</type>
+        <definition>std::optional&lt;int32_t&gt; themis::process::StressScenarioResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::process::StressScenarioResult::error_code</qualifiedname>
+        <briefdescription>
+<para>Optional error code if failure occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="87" column="19" bodyfile="include/process/process_stress_scenarios.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_stress_scenario_result_1aaec02f3c692dda040e045543a9898f46" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::process::StressScenarioResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::process::StressScenarioResult::message</qualifiedname>
+        <briefdescription>
+<para>Optional diagnostic message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="89" column="19" bodyfile="include/process/process_stress_scenarios.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_stress_scenario_result_1ad2f37d791a60a3d0cbaf4abac683802b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::StressScenarioResult::isFatal</definition>
+        <argsstring>() const</argsstring>
+        <name>isFatal</name>
+        <qualifiedname>themis::process::StressScenarioResult::isFatal</qualifiedname>
+        <briefdescription>
+<para>Check if this result is a fatal failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if result indicates unrecoverable failure or silent data loss </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="95" column="11" bodyfile="include/process/process_stress_scenarios.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_stress_scenario_result_1a93e30bc18a55a83ac1e54a22065d3171" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::StressScenarioResult::isWithinPerformanceEnvelope</definition>
+        <argsstring>(int32_t max_latency_ms) const</argsstring>
+        <name>isWithinPerformanceEnvelope</name>
+        <qualifiedname>themis::process::StressScenarioResult::isWithinPerformanceEnvelope</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>max_latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Check if this result is within performance envelope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum acceptable latency </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if latency_ms &lt;= max_latency_ms </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="102" column="11" bodyfile="include/process/process_stress_scenarios.h" bodystart="102" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a stress scenario test. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used to classify whether a scenario completed successfully, failed gracefully, or encountered a fatal/silent failure. </para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="79" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="79" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_stress_scenario_result_1a4175836dab15450bdcae2fbafd1e69ca" prot="public" virt="non-virtual"><scope>themis::process::StressScenarioResult</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1process_1_1_stress_scenario_result_1aaa164982d9905b662630878ca59592f8" prot="public" virt="non-virtual"><scope>themis::process::StressScenarioResult</scope><name>is_expected</name></member>
+      <member refid="structthemis_1_1process_1_1_stress_scenario_result_1a42e407f116c2f59bf7e7ab9996c2810e" prot="public" virt="non-virtual"><scope>themis::process::StressScenarioResult</scope><name>is_fatal</name></member>
+      <member refid="structthemis_1_1process_1_1_stress_scenario_result_1ad2f37d791a60a3d0cbaf4abac683802b" prot="public" virt="non-virtual"><scope>themis::process::StressScenarioResult</scope><name>isFatal</name></member>
+      <member refid="structthemis_1_1process_1_1_stress_scenario_result_1a93e30bc18a55a83ac1e54a22065d3171" prot="public" virt="non-virtual"><scope>themis::process::StressScenarioResult</scope><name>isWithinPerformanceEnvelope</name></member>
+      <member refid="structthemis_1_1process_1_1_stress_scenario_result_1a8fa8cd2da1fbc1bbb6a4b1f8e13a9302" prot="public" virt="non-virtual"><scope>themis::process::StressScenarioResult</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_stress_scenario_result_1aaec02f3c692dda040e045543a9898f46" prot="public" virt="non-virtual"><scope>themis::process::StressScenarioResult</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

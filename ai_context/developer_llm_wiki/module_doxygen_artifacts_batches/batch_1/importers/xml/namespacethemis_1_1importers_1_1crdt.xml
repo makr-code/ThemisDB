@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1importers_1_1crdt" kind="namespace" language="C++">
+    <compoundname>themis::importers::crdt</compoundname>
+    <innerclass refid="classthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state" prot="public">themis::importers::crdt::CRDTTableState</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1importers_1_1crdt_1a194fe690522048e783aa78af181b22ce" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::importers::crdt::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::importers::crdt::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="23" column="1" bodyfile="include/importers/crdt_importer.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/crdt_importer.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

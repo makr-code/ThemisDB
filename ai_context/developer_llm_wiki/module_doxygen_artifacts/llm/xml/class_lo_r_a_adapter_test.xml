@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_lo_r_a_adapter_test" kind="class" language="C++" prot="public">
+    <compoundname>LoRAAdapterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_lo_r_a_adapter_test_1ae5465425633b90db6824632ba2703fbc" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path LoRAAdapterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>LoRAAdapterTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapters.cpp" line="68" column="14" bodyfile="tests/llm/test_lora_adapters.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_lo_r_a_adapter_test_1ab09dca1f02ecfeac5adcd211cfaedf4f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LoRAAdapterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LoRAAdapterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapters.cpp" line="44" column="10" bodyfile="tests/llm/test_lora_adapters.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_adapter_test_1acd71fa98f3b9b8b09d52ac5e1c89eca9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LoRAAdapterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LoRAAdapterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapters.cpp" line="49" column="10" bodyfile="tests/llm/test_lora_adapters.cpp" bodystart="49" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_adapter_test_1af9da8f8d9cbce61e5e659bd266c71ef0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string LoRAAdapterTest::createMockAdapter</definition>
+        <argsstring>(const std::string &amp;name, size_t size_bytes=1024)</argsstring>
+        <name>createMockAdapter</name>
+        <qualifiedname>LoRAAdapterTest::createMockAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+          <defval>1024</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapters.cpp" line="56" column="17" bodyfile="tests/llm/test_lora_adapters.cpp" bodystart="56" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Test fixture for LoRA adapter tests </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LoRAAdapterTest</label>
+        <link refid="class_lo_r_a_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LoRAAdapterTest</label>
+        <link refid="class_lo_r_a_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_lora_adapters.cpp" line="42" column="1" bodyfile="tests/llm/test_lora_adapters.cpp" bodystart="42" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_lo_r_a_adapter_test_1af9da8f8d9cbce61e5e659bd266c71ef0" prot="protected" virt="non-virtual"><scope>LoRAAdapterTest</scope><name>createMockAdapter</name></member>
+      <member refid="class_lo_r_a_adapter_test_1ab09dca1f02ecfeac5adcd211cfaedf4f" prot="protected" virt="non-virtual"><scope>LoRAAdapterTest</scope><name>SetUp</name></member>
+      <member refid="class_lo_r_a_adapter_test_1acd71fa98f3b9b8b09d52ac5e1c89eca9" prot="protected" virt="non-virtual"><scope>LoRAAdapterTest</scope><name>TearDown</name></member>
+      <member refid="class_lo_r_a_adapter_test_1ae5465425633b90db6824632ba2703fbc" prot="protected" virt="non-virtual"><scope>LoRAAdapterTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

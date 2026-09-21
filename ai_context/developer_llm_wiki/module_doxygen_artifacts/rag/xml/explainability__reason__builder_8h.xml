@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="explainability__reason__builder_8h" kind="file" language="C++">
+    <compoundname>explainability_reason_builder.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="explainability__reason__builder_8cpp" local="yes">src/rag/explainability_reason_builder.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/explainability_reason_builder.h</label>
+        <link refid="explainability__reason__builder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/explainability_reason_builder.h</label>
+        <link refid="explainability__reason__builder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/explainability_reason_builder.cpp</label>
+        <link refid="explainability__reason__builder_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_a_i_decision_record" prot="public">themis::rag::AIDecisionRecord</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_explainability_reason_builder" prot="public">themis::rag::ExplainabilityReasonBuilder</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" prot="public">themis::rag::ExplainabilityReasonBuilder::CausalChain</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry" prot="public">themis::rag::ExplainabilityReasonBuilder::TemplateEntry</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor" prot="public">themis::rag::FederatedAIDecisionAuditor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AIDecisionRecord<sp/>—<sp/>lightweight<sp/>input<sp/>type<sp/>(no<sp/>RocksDB<sp/>dependency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1_a_i_decision_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1_a_i_decision_record_1a4b5242f4c838eb5b8c88c5f461b26542" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record_1a4b5242f4c838eb5b8c88c5f461b26542" kindref="member">decision_type</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1_a_i_decision_record_1a311ebb519454647f39d548861973c497" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record_1a311ebb519454647f39d548861973c497" kindref="member">decision_id</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1_a_i_decision_record_1a123c8d5e04557268a99dcb571466cece" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record_1a123c8d5e04557268a99dcb571466cece" kindref="member">parameters</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1rag_1_1_a_i_decision_record_1a56a294769708b629c1d9fd9f8e82a357" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record_1a56a294769708b629c1d9fd9f8e82a357" kindref="member">confidence</ref>{0.0};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1_a_i_decision_record_1a179745b2d113ef8b382674d76c8e0799" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record_1a179745b2d113ef8b382674d76c8e0799" kindref="member">timestamp</ref>{std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1_a_i_decision_record_1a1e2d27575177af98ff183d390c86bdbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record_1a1e2d27575177af98ff183d390c86bdbb" kindref="member">guardrail_passed</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1_a_i_decision_record_1afca6fbb246dd0860526294d18a9d1798" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record_1afca6fbb246dd0860526294d18a9d1798" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ExplainabilityReasonBuilder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1rag_1_1_explainability_reason_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>CausalChain<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1af6f32bf103c2b2eadd67d31c86907841" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1af6f32bf103c2b2eadd67d31c86907841" kindref="member">signal</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1a0ba025d2b2b70d110f73507f5e3b0b5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1a0ba025d2b2b70d110f73507f5e3b0b5c" kindref="member">analysis</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1a1e6e30e3c6d3ee4a2c7ef31fecde516e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1a1e6e30e3c6d3ee4a2c7ef31fecde516e" kindref="member">decision</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1ac9cfee630439a31be4dade3090c893f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1ac9cfee630439a31be4dade3090c893f8" kindref="member">confidence</ref>{0.0};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1aeeaf2bbabde18a92304c79472185b412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1aeeaf2bbabde18a92304c79472185b412" kindref="member">impact</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1ae5c07878908fcf89a5697a04eac9eee6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1ae5c07878908fcf89a5697a04eac9eee6" kindref="member">dba_action_required</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1ae5642192e3a7df3a1ef6f87b160ab21d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain_1ae5642192e3a7df3a1ef6f87b160ab21d" kindref="member">decision_type</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Construction<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5e679f7615ffe90633d23097e831fd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5e679f7615ffe90633d23097e831fd0" kindref="member">~ExplainabilityReasonBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a956a60eb67d627c141a01db046cebd9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a956a60eb67d627c141a01db046cebd9f" kindref="member">ExplainabilityReasonBuilder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6e663cba725977701cfb19dbd69f5eea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6e663cba725977701cfb19dbd69f5eea" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a0e31a9a34716aff58f5ca0791f9cd135" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a0e31a9a34716aff58f5ca0791f9cd135" kindref="member">ExplainabilityReasonBuilder</ref>(<ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a5f0942aacb9583ecfe4b451aa7a8cf5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>NL<sp/>Generator<sp/>injection<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6b9832cb7bee59cb61f7d1ed8b82be65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6b9832cb7bee59cb61f7d1ed8b82be65" kindref="member">NlGeneratorFn</ref><sp/>=<sp/>std::function&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">(const<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1afedf85df281e6d81f8138a70a95d8dc7" kindref="member">setNlGeneratorFn</ref>(<ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6b9832cb7bee59cb61f7d1ed8b82be65" kindref="member">NlGeneratorFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Core<sp/>API<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5b86add952fcd9e0fd790e7c6df1063" kindref="member">build</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref>&amp;<sp/>record)<sp/>const;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a54d42c83ba132e607b5204e8b99b5cec" kindref="member">toNaturalLanguage</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref>&amp;<sp/>chain)<sp/>const;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1afbb1f9dc940048f81c27b066f53e1da8" kindref="member">enrichAuditor</ref>(std::vector&lt;<ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref>&gt;&amp;<sp/>records)<sp/>const;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry" kindref="compound">TemplateEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry_1ae174cbb65eda4e5f11871489121b91a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry_1ae174cbb65eda4e5f11871489121b91a3" kindref="member">signal_tmpl</ref>;</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry_1a45a3857a68eb1722f10d48129c63a6c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry_1a45a3857a68eb1722f10d48129c63a6c7" kindref="member">analysis_tmpl</ref>;</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry_1a2baeaf59961757471eb61f3f04a8a77e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry_1a2baeaf59961757471eb61f3f04a8a77e" kindref="member">decision_tmpl</ref>;</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry_1af6eb29fd133ef125a4b2194c3304f2e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry_1af6eb29fd133ef125a4b2194c3304f2e1" kindref="member">impact_tmpl</ref>;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6b9832cb7bee59cb61f7d1ed8b82be65" kindref="member">NlGeneratorFn</ref><sp/>nl_generator_fn_;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requiresDbaAction(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref>&amp;<sp/>record);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry" kindref="compound">TemplateEntry</ref>&amp;<sp/>getTemplate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision_type);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FederatedAIDecisionAuditor<sp/>—<sp/>cross-shard<sp/>timeline<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a4c6c6e8256cde2bf3e7c561a3901efdb" kindref="member">FederatedAIDecisionAuditor</ref><sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref><sp/>=</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::vector&lt;AIDecisionRecord&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)&gt;;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a4c6c6e8256cde2bf3e7c561a3901efdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a4c6c6e8256cde2bf3e7c561a3901efdb" kindref="member">FederatedAIDecisionAuditor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a847f39568c01c952c35a108b5c8ffd34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a847f39568c01c952c35a108b5c8ffd34" kindref="member">~FederatedAIDecisionAuditor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a18d89c8fe06ad3c7f4f459e24c01d15c" kindref="member">addShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;AIDecisionRecord&gt;<sp/>records);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AIDecisionRecord&gt;<sp/><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1aa726b413f7a4271bd46df2ba1a14bace" kindref="member">mergeTimeline</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1ad08120bd4f3cfe5e445099c682a916f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1ad08120bd4f3cfe5e445099c682a916f0" kindref="member">shardCount</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shard_records_.size();<sp/>}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a4262de26ba5a3584f4f7371b45763bd1" kindref="member">totalRecords</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1ab461218eb258fdac3b6d667f90efb7a7" kindref="member">setShardRecordFetcher</ref>(<ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref>&gt;&gt;<sp/>shard_records_;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref><sp/>shard_fetcher_;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/explainability_reason_builder.h"/>
+  </compounddef>
+</doxygen>

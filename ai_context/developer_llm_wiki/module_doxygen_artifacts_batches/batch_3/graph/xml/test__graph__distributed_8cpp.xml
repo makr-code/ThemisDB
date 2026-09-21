@@ -1,0 +1,1231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__graph__distributed_8cpp" kind="file" language="C++">
+    <compoundname>test_graph_distributed.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="distributed__graph_8h" local="yes">graph/distributed_graph.h</includes>
+    <includes refid="graph__query__optimizer_8h" local="yes">graph/graph_query_optimizer.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>graph/distributed_graph.h</label>
+        <link refid="distributed__graph_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>graph/graph_query_optimizer.h</label>
+        <link refid="graph__query__optimizer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_graph_distributed.cpp</label>
+        <link refid="test__graph__distributed_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>chrono</label>
+      </node>
+      <node id="23">
+        <label>filesystem</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="18">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>index/graph_analytics.h</label>
+      </node>
+      <node id="5">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="14">
+        <label>list</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="19">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>shared_mutex</label>
+      </node>
+      <node id="22">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="21">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>unordered_set</label>
+      </node>
+      <node id="7">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_distributed_graph_test" prot="public">DistributedGraphTest</innerclass>
+    <innerclass refid="class_stub_shard_executor" prot="public">StubShardExecutor</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a0b13e2710b3ae05b641b5437ddf9d7a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void populateTestGraph</definition>
+        <argsstring>(themis::GraphIndexManager &amp;mgr)</argsstring>
+        <name>populateTestGraph</name>
+        <param>
+          <type>themis::GraphIndexManager &amp;</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="21" column="13" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="21" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphUtilTest, ParseVertexId_WithQualifier)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphUtilTest</type>
+        </param>
+        <param>
+          <type>ParseVertexId_WithQualifier</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="103" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1aeed2d51aa384493ed824198e026778fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphUtilTest, ParseVertexId_WithoutQualifier)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphUtilTest</type>
+        </param>
+        <param>
+          <type>ParseVertexId_WithoutQualifier</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="110" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a831bfe147663c8b517fd3de26b2d1502" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphUtilTest, ParseVertexId_EmptyString)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphUtilTest</type>
+        </param>
+        <param>
+          <type>ParseVertexId_EmptyString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="117" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="117" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1adfbf6cff9e68c146a8da4cd045ff4e21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphUtilTest, ParseVertexId_MultipleAtSigns_LastWins)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphUtilTest</type>
+        </param>
+        <param>
+          <type>ParseVertexId_MultipleAtSigns_LastWins</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="124" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a502ce7cd08e4c11fd3e749829c33b163" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphManagerBasicTest, DefaultConfig_NoShards)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphManagerBasicTest</type>
+        </param>
+        <param>
+          <type>DefaultConfig_NoShards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="135" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="135" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a3bf8e04fb94e059635cf7d851c6599ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphManagerBasicTest, AddAndRemoveShard)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphManagerBasicTest</type>
+        </param>
+        <param>
+          <type>AddAndRemoveShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="141" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="141" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, ResolveShardForVertex_Deterministic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>ResolveShardForVertex_Deterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="160" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="160" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a88aeb8bbb254ad298ffda47b742e8540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, ResolveShardForVertex_KnownShard)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>ResolveShardForVertex_KnownShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="168" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="168" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a9112d63deb8f025b69c04bc46c526824" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphManagerBasicTest, ResolveShardForVertex_NoShards_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphManagerBasicTest</type>
+        </param>
+        <param>
+          <type>ResolveShardForVertex_NoShards_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="176" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="176" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a0577654ab53a95716ed6d4da318b42e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphManagerBasicTest, ShortestPath_NoShards_ReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphManagerBasicTest</type>
+        </param>
+        <param>
+          <type>ShortestPath_NoShards_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="185" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="185" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1ab8c929d94f923fea7ff9388a0cb3e9b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, ShortestPath_FindsPath)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>ShortestPath_FindsPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="195" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="195" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a2b7cbcb3dbe07b677bfb2dda7b1f2ab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, ShortestPath_WithShardQualifier_FindsPath)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>ShortestPath_WithShardQualifier_FindsPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="202" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="202" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a691e3acabbcc0ee0d465673385dff6d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, ShortestPath_NonExistentVertex_ReturnsPathNotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>ShortestPath_NonExistentVertex_ReturnsPathNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="209" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="209" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1ae8a07054d34e2a3244334c07f7a0c028" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, ShortestPath_CostIsPositive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>ShortestPath_CostIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="215" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="215" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a5db442b6d49f563f999196cad75e3fa6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphManagerBasicTest, KHopNeighbors_NoShards_ReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphManagerBasicTest</type>
+        </param>
+        <param>
+          <type>KHopNeighbors_NoShards_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="225" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="225" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a53d339c5720a7c2c76a21e0d155a7d39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, KHopNeighbors_ReturnsVertices)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>KHopNeighbors_ReturnsVertices</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="231" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1af2947a512de4467cb8f84a5d2bbc9d4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, KHopNeighbors_VerticesAreQualified)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>KHopNeighbors_VerticesAreQualified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="237" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="237" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1aed2b20f742cd85f4ae624bf0039c9269" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, KHopNeighbors_NoDuplicates)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>KHopNeighbors_NoDuplicates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="246" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="246" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a529c3a8f2f24d929e8895f274f31ba8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphManagerBasicTest, OptimizePlan_NoShards_ReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphManagerBasicTest</type>
+        </param>
+        <param>
+          <type>OptimizePlan_NoShards_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="259" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a6e4e87434c8e2de50fd18395bfc1b1fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, OptimizePlan_IsDistributed_WithMultipleShards)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>OptimizePlan_IsDistributed_WithMultipleShards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="266" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="266" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a86d392867b68bd2511ac2299e0ea85da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, OptimizePlan_ContainsBothShardIds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>OptimizePlan_ContainsBothShardIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="275" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="275" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1aa7f80918b795dee443e4f77a2125a01c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, OptimizePlan_CostPositive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>OptimizePlan_CostPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="286" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="286" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1ae41d051fb1c1638fedb33094ee1d823f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, OptimizePlan_KHopPattern)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>OptimizePlan_KHopPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="293" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="293" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1ab4bf4c95e65c1a9be35f6ecf466e4db6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, OptimizationPlan_SingleNode_NotDistributed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>OptimizationPlan_SingleNode_NotDistributed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="305" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="305" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1aaf003962bfd974f4e6f15696ebccc335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DistributedGraphTest, ExplainPlan_DistributedPlanContainsShardInfo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainPlan_DistributedPlanContainsShardInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="341" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="341" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1af7027fd96c15df830410b348572f40b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphConfigTest, PartitionStrategyValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphConfigTest</type>
+        </param>
+        <param>
+          <type>PartitionStrategyValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="387" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="387" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a82873404eab439f8af1416d27a564a30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphConfigTest, ConsistencyLevelValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphConfigTest</type>
+        </param>
+        <param>
+          <type>ConsistencyLevelValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="393" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="393" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a49620e26ee47e134ee89c6b9e54b9109" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphConfigTest, DefaultConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="398" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="398" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__distributed_8cpp_1a16ed4f555f2f94790dbfba6ef59ddbdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedGraphSharedMutexStressTest, ConcurrentReadsAndOneWriter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedGraphSharedMutexStressTest</type>
+        </param>
+        <param>
+          <type>ConcurrentReadsAndOneWriter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="432" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="432" bodyend="483"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__graph_8h" kindref="compound">graph/distributed_graph.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__query__optimizer_8h" kindref="compound">graph/graph_query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>small<sp/>test<sp/>graph<sp/>in<sp/>a<sp/>fresh<sp/>RocksDB<sp/>instance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>populateTestGraph(themis::GraphIndexManager&amp;<sp/>mgr)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>-&gt;<sp/>C<sp/>-&gt;<sp/>D<sp/><sp/>(weights<sp/>1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>A<sp/>-&gt;<sp/>C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(weight<sp/><sp/>2.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addEdge<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>weight)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::BaseEntity<sp/>e(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/>from);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/>to);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_weight&quot;</highlight><highlight class="normal">,<sp/>weight);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.addEdge(e);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>two<sp/>independent<sp/>shards<sp/>each<sp/>backed<sp/>by<sp/>a<sp/>real<sp/>GraphIndexManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="class_distributed_graph_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_distributed_graph_test_1a6514d736a9284b71af0154c5d2659f38" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1af29c6e6c260e3f31621102fcb801a26a" kindref="member">path1_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_dist_graph_shard1_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1a540cdeaf486da3ee078a4d9f70ee2e04" kindref="member">path2_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_dist_graph_shard2_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_distributed_graph_test_1af29c6e6c260e3f31621102fcb801a26a" kindref="member">path1_</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_distributed_graph_test_1a540cdeaf486da3ee078a4d9f70ee2e04" kindref="member">path2_</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>makeDB<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/>path;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_background_jobs<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.compression_default<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lz4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.compression_bottommost<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>db<sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(db-&gt;open());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>db;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1af2eb17441130f89e8a5ea6ec40ab554b" kindref="member">db1_</ref><sp/>=<sp/>makeDB(<ref refid="class_distributed_graph_test_1af29c6e6c260e3f31621102fcb801a26a" kindref="member">path1_</ref>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1a13369864b8af938c2aec0a5cb4ecde0b" kindref="member">db2_</ref><sp/>=<sp/>makeDB(<ref refid="class_distributed_graph_test_1a540cdeaf486da3ee078a4d9f70ee2e04" kindref="member">path2_</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1a2dc5273ea1f26a0881f882d32db6b144" kindref="member">mgr1_</ref><sp/>=<sp/>std::make_unique&lt;themis::GraphIndexManager&gt;(*<ref refid="class_distributed_graph_test_1af2eb17441130f89e8a5ea6ec40ab554b" kindref="member">db1_</ref>);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1a61ac236f3df097f89bbac8f27bad1bd5" kindref="member">mgr2_</ref><sp/>=<sp/>std::make_unique&lt;themis::GraphIndexManager&gt;(*<ref refid="class_distributed_graph_test_1a13369864b8af938c2aec0a5cb4ecde0b" kindref="member">db2_</ref>);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>populateTestGraph(*<ref refid="class_distributed_graph_test_1a2dc5273ea1f26a0881f882d32db6b144" kindref="member">mgr1_</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>populateTestGraph(*<ref refid="class_distributed_graph_test_1a61ac236f3df097f89bbac8f27bad1bd5" kindref="member">mgr2_</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>the<sp/>manager<sp/>with<sp/>two<sp/>local<sp/>shards.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config" kindref="compound">themis::graph::DistributedGraphConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a2c974dc3f779b12708c85cebecee8ffb" kindref="member">partitioning</ref><sp/>=<sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a50b7748612b28db487d115f220bb77ab" kindref="member">themis::graph::PartitionStrategy::HASH</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1abb05858e697b86a4f42667a4cd42457b" kindref="member">dist_mgr_</ref><sp/>=<sp/>std::make_unique&lt;themis::graph::DistributedGraphManager&gt;(cfg);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1abb05858e697b86a4f42667a4cd42457b" kindref="member">dist_mgr_</ref>-&gt;addShard(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;themis::graph::LocalShardGraphExecutor&gt;(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>*<ref refid="class_distributed_graph_test_1a2dc5273ea1f26a0881f882d32db6b144" kindref="member">mgr1_</ref>));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1abb05858e697b86a4f42667a4cd42457b" kindref="member">dist_mgr_</ref>-&gt;addShard(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;themis::graph::LocalShardGraphExecutor&gt;(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,<sp/>*<ref refid="class_distributed_graph_test_1a61ac236f3df097f89bbac8f27bad1bd5" kindref="member">mgr2_</ref>));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_distributed_graph_test_1a0dc44759a26a1e7a095304bf921817e7" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1abb05858e697b86a4f42667a4cd42457b" kindref="member">dist_mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1a2dc5273ea1f26a0881f882d32db6b144" kindref="member">mgr1_</ref>.reset();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1a61ac236f3df097f89bbac8f27bad1bd5" kindref="member">mgr2_</ref>.reset();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1af2eb17441130f89e8a5ea6ec40ab554b" kindref="member">db1_</ref>.reset();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_graph_test_1a13369864b8af938c2aec0a5cb4ecde0b" kindref="member">db2_</ref>.reset();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_distributed_graph_test_1af29c6e6c260e3f31621102fcb801a26a" kindref="member">path1_</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_distributed_graph_test_1a540cdeaf486da3ee078a4d9f70ee2e04" kindref="member">path2_</ref>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_distributed_graph_test_1af29c6e6c260e3f31621102fcb801a26a" kindref="member">path1_</ref>,<sp/><ref refid="class_distributed_graph_test_1a540cdeaf486da3ee078a4d9f70ee2e04" kindref="member">path2_</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::RocksDBWrapper&gt;<sp/><ref refid="class_distributed_graph_test_1af2eb17441130f89e8a5ea6ec40ab554b" kindref="member">db1_</ref>,<sp/><ref refid="class_distributed_graph_test_1a13369864b8af938c2aec0a5cb4ecde0b" kindref="member">db2_</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::GraphIndexManager&gt;<sp/><ref refid="class_distributed_graph_test_1a2dc5273ea1f26a0881f882d32db6b144" kindref="member">mgr1_</ref>,<sp/><ref refid="class_distributed_graph_test_1a61ac236f3df097f89bbac8f27bad1bd5" kindref="member">mgr2_</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::graph::DistributedGraphManager&gt;<sp/><ref refid="class_distributed_graph_test_1abb05858e697b86a4f42667a4cd42457b" kindref="member">dist_mgr_</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>parseVertexId<sp/>–<sp/>static<sp/>utility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphUtilTest,<sp/>ParseVertexId_WithQualifier)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[local,<sp/>shard]<sp/>=</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a865357b9ea7d56296fc048aa75b8f1a7" kindref="member">themis::graph::DistributedGraphManager::parseVertexId</ref>(</highlight><highlight class="stringliteral">&quot;node_A@shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(local,<sp/></highlight><highlight class="stringliteral">&quot;node_A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(shard,<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphUtilTest,<sp/>ParseVertexId_WithoutQualifier)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[local,<sp/>shard]<sp/>=</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a865357b9ea7d56296fc048aa75b8f1a7" kindref="member">themis::graph::DistributedGraphManager::parseVertexId</ref>(</highlight><highlight class="stringliteral">&quot;node_A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(local,<sp/></highlight><highlight class="stringliteral">&quot;node_A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(shard,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphUtilTest,<sp/>ParseVertexId_EmptyString)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[local,<sp/>shard]<sp/>=</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a865357b9ea7d56296fc048aa75b8f1a7" kindref="member">themis::graph::DistributedGraphManager::parseVertexId</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(local,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(shard,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphUtilTest,<sp/>ParseVertexId_MultipleAtSigns_LastWins)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[local,<sp/>shard]<sp/>=</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a865357b9ea7d56296fc048aa75b8f1a7" kindref="member">themis::graph::DistributedGraphManager::parseVertexId</ref>(</highlight><highlight class="stringliteral">&quot;a@b@c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(local,<sp/></highlight><highlight class="stringliteral">&quot;a@b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(shard,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedGraphManager<sp/>–<sp/>shard<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphManagerBasicTest,<sp/>DefaultConfig_NoShards)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager" kindref="compound">themis::graph::DistributedGraphManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" kindref="member">shardCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a6ea69cf68c570b7e3fecd2be2abd974f" kindref="member">shardIds</ref>().empty());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphManagerBasicTest,<sp/>AddAndRemoveShard)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager" kindref="compound">themis::graph::DistributedGraphManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>pass<sp/>a<sp/>nullptr<sp/>executor<sp/>for<sp/>this<sp/>registry-only<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a40725cb6cd5f2852c1c458457b2ee3e1" kindref="member">addShard</ref>(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" kindref="member">shardCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a40725cb6cd5f2852c1c458457b2ee3e1" kindref="member">addShard</ref>(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" kindref="member">shardCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af1dc4b7fd8a88a19f20cb9978ea1126f" kindref="member">removeShard</ref>(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" kindref="member">shardCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ids<sp/>=<sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a6ea69cf68c570b7e3fecd2be2abd974f" kindref="member">shardIds</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ids.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ids[0],<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>resolveShardForVertex<sp/>–<sp/>hash<sp/>partitioning<sp/>determinism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>ResolveShardForVertex_Deterministic)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>same<sp/>vertex<sp/>should<sp/>always<sp/>map<sp/>to<sp/>the<sp/>same<sp/>shard.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>s1<sp/>=<sp/>dist_mgr_-&gt;resolveShardForVertex(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>s2<sp/>=<sp/>dist_mgr_-&gt;resolveShardForVertex(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s1,<sp/>s2);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s1.empty());</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>ResolveShardForVertex_KnownShard)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>must<sp/>be<sp/>one<sp/>of<sp/>the<sp/>registered<sp/>shards.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>s<sp/>=<sp/>dist_mgr_-&gt;resolveShardForVertex(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ids<sp/>=<sp/>dist_mgr_-&gt;shardIds();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>known<sp/>=<sp/>(std::find(ids.begin(),<sp/>ids.end(),<sp/>s)<sp/>!=<sp/>ids.end());</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(known);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphManagerBasicTest,<sp/>ResolveShardForVertex_NoShards_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager" kindref="compound">themis::graph::DistributedGraphManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a7f2a05dac61345f634e67ab3294b8fcc" kindref="member">resolveShardForVertex</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>shortestPath<sp/>–<sp/>error<sp/>when<sp/>no<sp/>shards<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphManagerBasicTest,<sp/>ShortestPath_NoShards_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager" kindref="compound">themis::graph::DistributedGraphManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1ad8a92078ac7a497b14f065586d2dd720" kindref="member">shortestPath</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>shortestPath<sp/>–<sp/>finds<sp/>path<sp/>across<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>ShortestPath_FindsPath)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>shards<sp/>contain<sp/>A-&gt;B-&gt;C-&gt;D;<sp/>at<sp/>least<sp/>one<sp/>should<sp/>return<sp/>a<sp/>valid<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;shortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value())<sp/>&lt;&lt;<sp/>res.error().message();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res-&gt;path.empty());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>ShortestPath_WithShardQualifier_FindsPath)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provide<sp/>an<sp/>explicit<sp/>shard<sp/>qualifier;<sp/>the<sp/>manager<sp/>should<sp/>respect<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;shortestPath(</highlight><highlight class="stringliteral">&quot;A@shard1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D@shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value())<sp/>&lt;&lt;<sp/>res.error().message();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res-&gt;path.empty());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>ShortestPath_NonExistentVertex_ReturnsPathNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Neither<sp/>shard<sp/>has<sp/>&quot;Z&quot;;<sp/>expect<sp/>ERR_GRAPH_PATH_NOT_FOUND.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;shortestPath(</highlight><highlight class="stringliteral">&quot;Z&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;W&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>ShortestPath_CostIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;shortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(res-&gt;totalCost,<sp/>0.0);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>kHopNeighbors<sp/>–<sp/>fans<sp/>out<sp/>to<sp/>all<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphManagerBasicTest,<sp/>KHopNeighbors_NoShards_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager" kindref="compound">themis::graph::DistributedGraphManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a19cbe8607826a0d3f23b4e075c6a68d9" kindref="member">kHopNeighbors</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>KHopNeighbors_ReturnsVertices)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;kHopNeighbors(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value())<sp/>&lt;&lt;<sp/>res.error().message();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(res-&gt;size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>KHopNeighbors_VerticesAreQualified)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;kHopNeighbors(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>*res)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(v.find(</highlight><highlight class="charliteral">&apos;@&apos;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Vertex<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>v<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>missing<sp/>shard<sp/>qualifier&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>KHopNeighbors_NoDuplicates)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;kHopNeighbors(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>sorted<sp/>=<sp/>*res;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(sorted.begin(),<sp/>sorted.end());</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unique_end<sp/>=<sp/>std::unique(sorted.begin(),<sp/>sorted.end());</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(unique_end,<sp/>sorted.end())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>vertices<sp/>in<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>optimizePlan<sp/>–<sp/>shard-aware<sp/>plan<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphManagerBasicTest,<sp/>OptimizePlan_NoShards_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager" kindref="compound">themis::graph::DistributedGraphManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a44b9812d183185cee99250a14e972e73" kindref="member">optimizePlan</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a50a7316887f56d2d783d2bbbf813c108" kindref="member">themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH</ref>);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>OptimizePlan_IsDistributed_WithMultipleShards)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;optimizePlan(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a50a7316887f56d2d783d2bbbf813c108" kindref="member">themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH</ref>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value())<sp/>&lt;&lt;<sp/>res.error().message();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res-&gt;is_distributed);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res-&gt;shard_ids.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(res-&gt;recommended_parallelism,<sp/>1u);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>OptimizePlan_ContainsBothShardIds)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;optimizePlan(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a50a7316887f56d2d783d2bbbf813c108" kindref="member">themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH</ref>);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ids<sp/>=<sp/>res-&gt;shard_ids;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_shard1<sp/>=<sp/>std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>ids.end();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_shard2<sp/>=<sp/>std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>ids.end();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_shard1);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_shard2);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>OptimizePlan_CostPositive)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;optimizePlan(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a50a7316887f56d2d783d2bbbf813c108" kindref="member">themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH</ref>);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(res-&gt;estimated_cost,<sp/>0.0);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>OptimizePlan_KHopPattern)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dist_mgr_-&gt;optimizePlan(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a53ad0668f2928355709bd63ee20ee946" kindref="member">themis::graph::GraphQueryOptimizer::QueryPattern::K_HOP_NEIGHBORS</ref>);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res-&gt;pattern,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a53ad0668f2928355709bd63ee20ee946" kindref="member">themis::graph::GraphQueryOptimizer::QueryPattern::K_HOP_NEIGHBORS</ref>);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OptimizationPlan<sp/>–<sp/>backward-compatible<sp/>shard-aware<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>OptimizationPlan_SingleNode_NotDistributed)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>plan<sp/>produced<sp/>by<sp/>a<sp/>regular<sp/>GraphQueryOptimizer<sp/>(no<sp/>DistributedGraphManager)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>have<sp/>is_distributed<sp/>==<sp/>false<sp/>and<sp/>empty<sp/>shard_ids<sp/>(default<sp/>values).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>db_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_plan_shard_compat_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(db_path);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/>db_path;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_background_jobs<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.compression_default<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lz4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.compression_bottommost<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>db<sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(db-&gt;open());</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mgr<sp/>=<sp/>std::make_unique&lt;themis::GraphIndexManager&gt;(*db);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>populateTestGraph(*mgr);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">themis::graph::GraphQueryOptimizer</ref><sp/>optimizer(*mgr);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref><sp/>=<sp/>optimizer.optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.has_value());</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single-node<sp/>plan<sp/>must<sp/>not<sp/>be<sp/>marked<sp/>distributed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>-&gt;is_distributed);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>-&gt;shard_ids.empty());</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>-&gt;recommended_parallelism,<sp/>1u);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(db_path);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="comment">//<sp/>explainPlan<sp/>–<sp/>shard<sp/>info<sp/>printed<sp/>for<sp/>distributed<sp/>plans</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a6df953285f800724ba89bc45c9a00a10" kindref="member">TEST_F</ref>(<ref refid="class_distributed_graph_test" kindref="compound">DistributedGraphTest</ref>,<sp/>ExplainPlan_DistributedPlanContainsShardInfo)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>single-shard<sp/>DB<sp/>just<sp/>to<sp/>get<sp/>an<sp/>optimizer<sp/>for<sp/>explainPlan.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>db_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_explain_dist_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(db_path);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/>db_path;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_background_jobs<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.compression_default<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lz4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.compression_bottommost<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>db<sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(db-&gt;open());</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mgr<sp/>=<sp/>std::make_unique&lt;themis::GraphIndexManager&gt;(*db);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">themis::graph::GraphQueryOptimizer</ref><sp/>optimizer(*mgr);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>distributed<sp/>plan<sp/>manually<sp/>and<sp/>verify<sp/>explainPlan<sp/>output.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">themis::graph::GraphQueryOptimizer::OptimizationPlan</ref><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.algorithm<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56a79f676ad8a477dbf2582d8c7133ce481" kindref="member">themis::graph::GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA</ref>;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.pattern<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5a50a7316887f56d2d783d2bbbf813c108" kindref="member">themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH</ref>;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.estimated_cost<sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.estimated_time_ms<sp/>=<sp/>20.0;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.estimated_nodes_explored<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.use_index<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.enable_parallel<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.is_distributed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.shard_ids<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>.recommended_parallelism<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer.explainPlan(<ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Distributed&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Parallelism&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(db_path);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PartitionStrategy<sp/>and<sp/>ConsistencyLevel<sp/>–<sp/>enum<sp/>values<sp/>accessible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphConfigTest,<sp/>PartitionStrategyValues)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a50b7748612b28db487d115f220bb77ab" kindref="member">themis::graph::PartitionStrategy::HASH</ref>,<sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a01036ddcc971d02f6c32c3da31a119f2" kindref="member">themis::graph::PartitionStrategy::RANGE</ref>);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a01036ddcc971d02f6c32c3da31a119f2" kindref="member">themis::graph::PartitionStrategy::RANGE</ref>,<sp/><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a4a221f74494f1ac7a498e6524292eaef" kindref="member">themis::graph::PartitionStrategy::GEO</ref>);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a4a221f74494f1ac7a498e6524292eaef" kindref="member">themis::graph::PartitionStrategy::GEO</ref>,<sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a72baef04098f035e8a320b03ad197818" kindref="member">themis::graph::PartitionStrategy::CUSTOM</ref>);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphConfigTest,<sp/>ConsistencyLevelValues)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a1c24fbd27d8776c209d0d7d22584e46f" kindref="member">themis::graph::ConsistencyLevel::EVENTUAL</ref>,</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a3dfb3ae3cdaa322f0388f1a531c39520" kindref="member">themis::graph::ConsistencyLevel::STRONG</ref>);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphConfigTest,<sp/>DefaultConfig)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config" kindref="compound">themis::graph::DistributedGraphConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a2c974dc3f779b12708c85cebecee8ffb" kindref="member">partitioning</ref>,<sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a50b7748612b28db487d115f220bb77ab" kindref="member">themis::graph::PartitionStrategy::HASH</ref>);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1ad56c05ab65972ac511ca020b3ac620ee" kindref="member">replication_factor</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1acfafcfdd4bec36d6517c6888bcea78ae" kindref="member">consistency</ref>,<sp/><ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a1c24fbd27d8776c209d0d7d22584e46f" kindref="member">themis::graph::ConsistencyLevel::EVENTUAL</ref>);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a179afb1a3eb8d724683484aec9c2d6a3" kindref="member">timeout_ms</ref>,<sp/>5000u);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a5c854bc69fec8c3bb56568e9bfe1dc9d" kindref="member">max_parallel_shards</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSAN<sp/>stress<sp/>test:<sp/>8<sp/>concurrent<sp/>execute()<sp/>threads<sp/>+<sp/>1<sp/>addShard()<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>stub<sp/>executor<sp/>used<sp/>only<sp/>for<sp/>the<sp/>concurrency<sp/>stress<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412" refid="class_stub_shard_executor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_shard_executor_1af6041e3b4f4061137fa23067fec41534" kindref="member">StubShardExecutor</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor" kindref="compound">themis::graph::ShardGraphExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_stub_shard_executor_1af6041e3b4f4061137fa23067fec41534" kindref="member">StubShardExecutor</ref>(std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>:<sp/>id_(std::move(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">))<sp/>{}</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_stub_shard_executor_1aa99ca3839a037bd8da18e6f63cfeb722" kindref="member">shardId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id_;<sp/>}</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;std::vector&lt;std::string&gt;&gt;<sp/><ref refid="class_stub_shard_executor_1af1092c10c1fa5d54cbd4b566aa6fe7c9" kindref="member">executeBFS</ref>(</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">themis::graph::GraphQueryOptimizer::QueryConstraints</ref>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::Ok(std::vector&lt;std::string&gt;{});</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;themis::GraphIndexManager::PathResult&gt;<sp/><ref refid="class_stub_shard_executor_1a902cc743416cb0cf141aab1b1f09fbc6" kindref="member">executeDijkstra</ref>(</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">themis::graph::GraphQueryOptimizer::QueryConstraints</ref>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::GraphIndexManager::PathResult<sp/>r;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.totalCost<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::Ok(r);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>id_<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="430"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><ref refid="test__graph__distributed_8cpp_1a208795df681cbadf06b938b48e42cfca" kindref="member">TEST</ref>(DistributedGraphSharedMutexStressTest,<sp/>ConcurrentReadsAndOneWriter)<sp/>{</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager" kindref="compound">themis::graph::DistributedGraphManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-populate<sp/>with<sp/>some<sp/>shards<sp/>so<sp/>readers<sp/>have<sp/>work<sp/>to<sp/>do.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a40725cb6cd5f2852c1c458457b2ee3e1" kindref="member">addShard</ref>(</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;StubShardExecutor&gt;(</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><sp/>read_ops{0};</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>8<sp/>reader<sp/>threads:<sp/>continuously<sp/>call<sp/>kHopNeighbors()<sp/>(the<sp/>&quot;execute()&quot;<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>that<sp/>exercises<sp/>healthyShards()<sp/>under<sp/>shared_lock)<sp/>until<sp/>the<sp/>writer<sp/>is<sp/>done.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>readers;</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>readers.reserve(8);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>8;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>readers.emplace_back([&amp;mgr,<sp/>&amp;stop,<sp/>&amp;read_ops,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!stop.load(std::memory_order_relaxed))<sp/>{</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kHopNeighbors<sp/>calls<sp/>healthyShards()<sp/>(shared_lock)<sp/>then<sp/>fans<sp/>out.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a19cbe8607826a0d3f23b4e075c6a68d9" kindref="member">kHopNeighbors</ref>(</highlight><highlight class="stringliteral">&quot;vertex_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t),<sp/>1);</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)res;</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Also<sp/>exercise<sp/>the<sp/>simpler<sp/>read<sp/>helpers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" kindref="member">shardCount</ref>();</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a7f2a05dac61345f634e67ab3294b8fcc" kindref="member">resolveShardForVertex</ref>(</highlight><highlight class="stringliteral">&quot;vertex_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t));</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++read_ops;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>writer<sp/>thread:<sp/>add<sp/>then<sp/>remove<sp/>8<sp/>extra<sp/>shards.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>writer([&amp;mgr]()<sp/>{</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>4;<sp/>i<sp/>&lt;<sp/>12;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>sid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dynamic_shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a40725cb6cd5f2852c1c458457b2ee3e1" kindref="member">addShard</ref>(sid,<sp/>std::make_shared&lt;StubShardExecutor&gt;(sid));</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af1dc4b7fd8a88a19f20cb9978ea1126f" kindref="member">removeShard</ref>(sid);</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>writer.join();</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>stop.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>readers)<sp/>{</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r.join();</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>some<sp/>read<sp/>operations<sp/>were<sp/>completed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(read_ops.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>the<sp/>writer<sp/>finishes,<sp/>only<sp/>the<sp/>original<sp/>4<sp/>shards<sp/>should<sp/>remain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" kindref="member">shardCount</ref>(),<sp/>4u);</highlight></codeline>
+<codeline lineno="483"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_graph_distributed.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUSafeFail::Config</compoundname>
+    <includes refid="safe__fail_8h" local="no">safe_fail.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a1b954642893cc8c8d1d0ebf44d41cd0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUSafeFail::Config::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::gpu::GPUSafeFail::Config::failure_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Number of consecutive failures before opening the circuit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/safe_fail.h" line="65" column="16" bodyfile="include/themis/gpu/safe_fail.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1acc6f49794b861522a9561e9c32b8e3b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUSafeFail::Config::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::gpu::GPUSafeFail::Config::success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Number of consecutive successes needed to close a half-open circuit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/safe_fail.h" line="67" column="16" bodyfile="include/themis/gpu/safe_fail.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a41caa6cf8cbeb2178021631e02c91bdc" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::gpu::GPUSafeFail::Config::circuit_reset_timeout</definition>
+        <argsstring></argsstring>
+        <name>circuit_reset_timeout</name>
+        <qualifiedname>themis::gpu::GPUSafeFail::Config::circuit_reset_timeout</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>How long the circuit stays open before attempting a probe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/safe_fail.h" line="69" column="30" bodyfile="include/themis/gpu/safe_fail.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a2f6bd01c1f9c2ee0010a877c0ad819b3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUSafeFail::Config::oom_threshold</definition>
+        <argsstring></argsstring>
+        <name>oom_threshold</name>
+        <qualifiedname>themis::gpu::GPUSafeFail::Config::oom_threshold</qualifiedname>
+        <initializer>= 0.90f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum VRAM utilisation fraction (0.0–1.0, exclusive) above which an OOM warning is triggered. A value of 0.90 means the check fails when <emphasis>used</emphasis> VRAM ≥ 90 % of total (i.e. ≥ threshold, not &gt; threshold). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/safe_fail.h" line="73" column="15" bodyfile="include/themis/gpu/safe_fail.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a75dda215075ef3136c147faaecff5003" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUSafeFail::Config::enable_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>enable_cpu_fallback</name>
+        <qualifiedname>themis::gpu::GPUSafeFail::Config::enable_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to automatically fall back to CPU when GPU is not attempted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/safe_fail.h" line="75" column="14" bodyfile="include/themis/gpu/safe_fail.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/safe_fail.h" line="63" column="5" bodyfile="include/themis/gpu/safe_fail.h" bodystart="63" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a41caa6cf8cbeb2178021631e02c91bdc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUSafeFail::Config</scope><name>circuit_reset_timeout</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a75dda215075ef3136c147faaecff5003" prot="public" virt="non-virtual"><scope>themis::gpu::GPUSafeFail::Config</scope><name>enable_cpu_fallback</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a1b954642893cc8c8d1d0ebf44d41cd0b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUSafeFail::Config</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1a2f6bd01c1f9c2ee0010a877c0ad819b3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUSafeFail::Config</scope><name>oom_threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_safe_fail_1_1_config_1acc6f49794b861522a9561e9c32b8e3b5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUSafeFail::Config</scope><name>success_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wake__word__detector_8h" kind="file" language="C++">
+    <compoundname>wake_word_detector.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__voice__assistant_8cpp" local="yes">benchmarks/voice/bench_voice_assistant.cpp</includedby>
+    <includedby refid="bench__voice__wake__word__batch_8cpp" local="yes">benchmarks/voice/bench_voice_wake_word_batch.cpp</includedby>
+    <includedby refid="voice__assistant_8h" local="yes">include/voice/voice_assistant.h</includedby>
+    <includedby refid="wake__word__detector_8cpp" local="yes">src/voice/wake_word_detector.cpp</includedby>
+    <includedby refid="test__phase3__error__handling_8cpp" local="yes">tests/voice/test_phase3_error_handling.cpp</includedby>
+    <includedby refid="test__voice__assistant_8cpp" local="yes">tests/voice/test_voice_assistant.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/wake_word_detector.h</label>
+        <link refid="wake__word__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/voice/bench_voice_assistant.cpp</label>
+        <link refid="bench__voice__assistant_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/voice/bench_voice_wake_word_batch.cpp</label>
+        <link refid="bench__voice__wake__word__batch_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/voice/voice_assistant.h</label>
+        <link refid="voice__assistant_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/voice/wake_word_detector.h</label>
+        <link refid="wake__word__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/voice/voice_assistant.cpp</label>
+        <link refid="voice__assistant_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/voice/voice_assistant_llm.cpp</label>
+        <link refid="voice__assistant__llm_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/voice/wake_word_detector.cpp</label>
+        <link refid="wake__word__detector_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/voice/test_phase3_error_handling.cpp</label>
+        <link refid="test__phase3__error__handling_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/voice/test_voice_api_handler.cpp</label>
+        <link refid="test__voice__api__handler_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/voice/test_voice_assistant.cpp</label>
+        <link refid="test__voice__assistant_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp</label>
+        <link refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/voice/test_voice_assistant_verifyIdentify_qw38.cpp</label>
+        <link refid="test__voice__assistant__verify_identify__qw38_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_wake_word_detection_result" prot="public">themis::voice::WakeWordDetectionResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_wake_word_config" prot="public">themis::voice::WakeWordConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_wake_word_detector" prot="public">themis::voice::WakeWordDetector</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_wake_word_detector_1_1_wake_word" prot="private">themis::voice::WakeWordDetector::WakeWord</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.16 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1voice_1a2bcf38f228ebe648b92ae25077c5f8e4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a2bcf38f228ebe648b92ae25077c5f8e4" kindref="member">WakeWordID</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1voice_1_1_wake_word_detection_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result" kindref="compound">WakeWordDetectionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a885a2d2f70c0e5d4fb938a7e783766b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a885a2d2f70c0e5d4fb938a7e783766b5" kindref="member">detected</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a44da93bff87f87450d8a9fddb92f48e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a2bcf38f228ebe648b92ae25077c5f8e4" kindref="member">WakeWordID</ref><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a44da93bff87f87450d8a9fddb92f48e7" kindref="member">wake_word_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a3b75b0936966a2e854394e8c41a9a004" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a3b75b0936966a2e854394e8c41a9a004" kindref="member">confidence</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1voice_1_1_wake_word_detection_result_1acc9a84b5a5475935ae7594e21f503194" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result_1acc9a84b5a5475935ae7594e21f503194" kindref="member">detection_timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1voice_1_1_wake_word_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_wake_word_config" kindref="compound">WakeWordConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1voice_1_1_wake_word_config_1ae77de216d1862fe9fae7d5e889ffc3f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1ae77de216d1862fe9fae7d5e889ffc3f4" kindref="member">sensitivity</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5f;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1voice_1_1_wake_word_config_1aaed7496285d07427cbd2518cfd7f9db0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1aaed7496285d07427cbd2518cfd7f9db0" kindref="member">buffer_length_ms</ref><sp/><sp/><sp/>=<sp/>1500;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1voice_1_1_wake_word_config_1af89f234b3a20c62e5f8ccd4f7c75dd9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1af89f234b3a20c62e5f8ccd4f7c75dd9a" kindref="member">continuous_listen</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1voice_1_1_wake_word_config_1a73eb5508ff37b78199eb0e73af152a06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1a73eb5508ff37b78199eb0e73af152a06" kindref="member">cooldown_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1voice_1_1_wake_word_config_1a89863f51c7331a55c442274fe3c87944" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1a89863f51c7331a55c442274fe3c87944" kindref="member">sample_rate</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>16000;<sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1voice_1_1_wake_word_config_1af364c499369373f48078991129dbd948" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1af364c499369373f48078991129dbd948" kindref="member">vad_min_energy</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.005f;<sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Confidence<sp/>thresholds<sp/>and<sp/>safe<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1voice_1_1_wake_word_config_1aae0f14ab5b314acec1f08ae8842ca0e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1aae0f14ab5b314acec1f08ae8842ca0e7" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.6f;<sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1voice_1_1_wake_word_config_1a2da559a89564bbe0bb6a912ce582af3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1a2da559a89564bbe0bb6a912ce582af3e" kindref="member">reject_low_confidence</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1voice_1_1_wake_word_config_1a6a009675e4794feffaa802cd2bed7b63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1a6a009675e4794feffaa802cd2bed7b63" kindref="member">use_timeout_protection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1voice_1_1_wake_word_config_1ab33faf012094a298c2fccf3c291b60fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config_1ab33faf012094a298c2fccf3c291b60fd" kindref="member">detection_timeout_ms</ref><sp/>=<sp/>5000;<sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WakeWordDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1voice_1_1_wake_word_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a210679f9cd8d5ab5a8481307e508144b" kindref="member">WakeWordDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1voice_1_1_wake_word_detector_1a7c3663994fd0181bd08b918a3610a6c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a7c3663994fd0181bd08b918a3610a6c7" kindref="member">DetectionCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result" kindref="compound">WakeWordDetectionResult</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1ad406c0359bd3f0cf3d6b35cb5e98dd7a" kindref="member">WakeWordDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config" kindref="compound">WakeWordConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1voice_1_1_wake_word_detector_1a31d7f5414bbf8a7e4c2adc415386d405" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a31d7f5414bbf8a7e4c2adc415386d405" kindref="member">~WakeWordDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1voice_1_1_wake_word_detector_1a636c49852de2e86445f31073a15f67bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a636c49852de2e86445f31073a15f67bf" kindref="member">WakeWordDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a210679f9cd8d5ab5a8481307e508144b" kindref="member">WakeWordDetector</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1voice_1_1_wake_word_detector_1a12cec0cfb2f50f732c0895a59d2644fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a210679f9cd8d5ab5a8481307e508144b" kindref="member">WakeWordDetector</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a12cec0cfb2f50f732c0895a59d2644fa" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a210679f9cd8d5ab5a8481307e508144b" kindref="member">WakeWordDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1voice_1_1_wake_word_detector_1a109c52b0f7297986e11c7ef73b6ff4aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a109c52b0f7297986e11c7ef73b6ff4aa" kindref="member">WakeWordDetector</ref>(<ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a210679f9cd8d5ab5a8481307e508144b" kindref="member">WakeWordDetector</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1voice_1_1_wake_word_detector_1a0853354f4464752a03db4e890bdb1227" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a210679f9cd8d5ab5a8481307e508144b" kindref="member">WakeWordDetector</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a210679f9cd8d5ab5a8481307e508144b" kindref="member">WakeWordDetector</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wake-word<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a086236e0026825dc9cb68c085f4ec362" kindref="member">addWakeWord</ref>(const<sp/><ref refid="namespacethemis_1_1voice_1a2bcf38f228ebe648b92ae25077c5f8e4" kindref="member">WakeWordID</ref>&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>phrase);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1aa8db3cbb5f5ac79c20fa1ba3bd553949" kindref="member">removeWakeWord</ref>(const<sp/><ref refid="namespacethemis_1_1voice_1a2bcf38f228ebe648b92ae25077c5f8e4" kindref="member">WakeWordID</ref>&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="namespacethemis_1_1voice_1a2bcf38f228ebe648b92ae25077c5f8e4" kindref="member">WakeWordID</ref>&gt;<sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1af142cc4c30241c6632b4b7aca24552f7" kindref="member">listWakeWords</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audio<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result" kindref="compound">WakeWordDetectionResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1abe415ef556be5f13e2bdf078219a871b" kindref="member">processAudioChunk</ref>(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_chunk);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1ae9fecf4acba407f47eb3d651223813ae" kindref="member">setDetectionCallback</ref>(<ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a7c3663994fd0181bd08b918a3610a6c7" kindref="member">DetectionCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>&amp;<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a374316cab011846ebc0325b58bd19b70" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config" kindref="compound">WakeWordConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config" kindref="compound">WakeWordConfig</ref><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a5e2cd7be67904b4735dd476268f54fbc" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1ab517e3f6e87cf77fdc7299d65111de16" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a25d3be204b604b593336f74fde3a052e" kindref="member">getStatistics</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Confidence<sp/>Thresholds<sp/>and<sp/>Safe<sp/>Defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1ab31bd3849c4855d6a94f4bc95bfb7451" kindref="member">meetsConfidenceThreshold</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>confidence)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a0003e813adbfb92dca8b65150c554331" kindref="member">isTimeoutDetected</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result" kindref="compound">WakeWordDetectionResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a1dac18b667ebb3819f78187cf16d350a" kindref="member">getTimeoutDefault</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config" kindref="compound">WakeWordConfig</ref><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>WakeWord<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a2bcf38f228ebe648b92ae25077c5f8e4" kindref="member">WakeWordID</ref><sp/><sp/>id;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>phrase;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>tokens;<sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WakeWord&gt;<sp/>wake_words_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rolling<sp/>PCM<sp/>sample<sp/>buffer<sp/>(float)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>sample_buffer_;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_detection_ms_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_chunks_processed_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_detections_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>low_confidence_rejects_<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>confidence<sp/>threshold<sp/>rejections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>timeout_fallbacks_<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>timeout<sp/>fallback<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector_1a7c3663994fd0181bd08b918a3610a6c7" kindref="member">DetectionCallback</ref><sp/>detection_callback_;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Timeout<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>last_processing_start_ms_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timeout_detected_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeRMS(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>samples)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>pcmToFloat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>raw)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scorePhrase(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>phrase,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>samples)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>nowMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>voice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/wake_word_detector.h"/>
+  </compounddef>
+</doxygen>

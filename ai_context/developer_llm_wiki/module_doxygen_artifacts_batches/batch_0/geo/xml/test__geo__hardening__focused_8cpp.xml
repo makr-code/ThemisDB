@@ -1,0 +1,378 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="gpu__buffer__guard_8h" local="yes">geo/gpu_buffer_guard.h</includes>
+    <includes refid="geo__policy_8h" local="yes">geo/geo_policy.h</includes>
+    <includes refid="spatial__backend_8h" local="yes">geo/spatial_backend.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>geo/geo_policy.h</label>
+        <link refid="geo__policy_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>geo/gpu_buffer_guard.h</label>
+        <link refid="gpu__buffer__guard_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_hardening_focused.cpp</label>
+        <link refid="test__geo__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPolicy, GCH20_DefaultValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPolicy</type>
+        </param>
+        <param>
+          <type>GCH20_DefaultValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>GCH-20 — defaultSpatialQueryPolicy() returns documented defaults. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_hardening_focused.cpp" line="122" column="1" bodyfile="tests/geo/test_geo_hardening_focused.cpp" bodystart="122" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__hardening__focused_8cpp_1ab110cd09936cc8f67e1d690bd8d70c99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPolicy, GCH21_RejectsNegativeMaxDepth)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPolicy</type>
+        </param>
+        <param>
+          <type>GCH21_RejectsNegativeMaxDepth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>GCH-21 — validateSpatialQueryPolicy() rejects negative max_depth. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_hardening_focused.cpp" line="139" column="1" bodyfile="tests/geo/test_geo_hardening_focused.cpp" bodystart="139" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__hardening__focused_8cpp_1ab7173307bddff87cf3489f6f61be6fac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPolicy, GCH22_RejectsNegativeTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPolicy</type>
+        </param>
+        <param>
+          <type>GCH22_RejectsNegativeTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>GCH-22 — validateSpatialQueryPolicy() rejects negative timeout. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_hardening_focused.cpp" line="152" column="1" bodyfile="tests/geo/test_geo_hardening_focused.cpp" bodystart="152" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__hardening__focused_8cpp_1a56f61affe4b0bfad23380f260c10b3d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPolicy, GCH23_CollectionPermitted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPolicy</type>
+        </param>
+        <param>
+          <type>GCH23_CollectionPermitted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>GCH-23 — isSpatialCollectionPermitted(): open and closed policy. An empty allowed_collections permits everything; a non-empty list is an allowlist. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_hardening_focused.cpp" line="165" column="1" bodyfile="tests/geo/test_geo_hardening_focused.cpp" bodystart="165" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__hardening__focused_8cpp_1abdbb660860d89f70776d2de31ea8d2ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoVincenty, GCH24_AntipodalFallbackFinite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoVincenty</type>
+        </param>
+        <param>
+          <type>GCH24_AntipodalFallbackFinite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>GCH-24 — geodesicDistance() returns a finite, non-negative result for nearly-antipodal points (which previously caused Vincenty non-convergence and returned -1.0; now falls back to Haversine).</para>
+</xrefdescription></xrefsect></para>
+<para>This test uses the CPU exact backend which contains the fixed Vincenty loop. The nearly-antipodal points are (0°N, 0°E) and (0°N, 179.9°E). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_hardening_focused.cpp" line="194" column="1" bodyfile="tests/geo/test_geo_hardening_focused.cpp" bodystart="194" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused tests for geo module Phase 1–3 hardening deliverables. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs GCH-17 through GCH-24 cover: GCH-17 CudaBuffer RAII: alloc + automatic free on scope exit GCH-18 CudaBuffer RAII: move semantics transfer ownership GCH-19 CudaBuffer RAII: explicit free() is idempotent GCH-20 geo_policy: defaultSpatialQueryPolicy() values GCH-21 geo_policy: validateSpatialQueryPolicy() rejects negative max_depth GCH-22 geo_policy: validateSpatialQueryPolicy() rejects negative timeout GCH-23 geo_policy: isSpatialCollectionPermitted open/closed policy GCH-24 Vincenty geodesicDistance — non-convergence returns finite result (Haversine fallback, not -1.0) </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Geo<sp/>module<sp/>headers<sp/>under<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__buffer__guard_8h" kindref="compound">geo/gpu_buffer_guard.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__policy_8h" kindref="compound">geo/geo_policy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__backend_8h" kindref="compound">geo/spatial_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPU<sp/>buffer<sp/>guard<sp/>tests<sp/>(host-side;<sp/>no<sp/>GPU<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Trivial<sp/>mock:<sp/>replace<sp/>cudaMalloc/cudaFree<sp/>with<sp/>a<sp/>flag-based<sp/>sentinel<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>RAII<sp/>destructor<sp/>can<sp/>be<sp/>verified<sp/>without<sp/>a<sp/>real<sp/>CUDA<sp/>device.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>compile<sp/>and<sp/>run<sp/>on<sp/>any<sp/>host;<sp/>actual<sp/>GPU<sp/>allocation<sp/>is<sp/>tested</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>via<sp/>the<sp/>CUDA<sp/>integration<sp/>test<sp/>suite.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoCudaBufferGuard,<sp/>GCH17_DefaultNullptr)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::geo::CudaBuffer<sp/>buf;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf.ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-17:<sp/>default-constructed<sp/>CudaBuffer<sp/>must<sp/>have<sp/>ptr<sp/>==<sp/>nullptr&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoCudaBufferGuard,<sp/>GCH18_MoveTransfersOwnership)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::geo::CudaBuffer<sp/>src;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manually<sp/>set<sp/>a<sp/>non-null<sp/>sentinel<sp/>(no<sp/>real<sp/>GPU<sp/>allocation<sp/>for<sp/>portability).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>call<sp/>free()<sp/>on<sp/>src<sp/>before<sp/>destruction<sp/>to<sp/>avoid<sp/>an<sp/>actual<sp/>cudaFree<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>on<sp/>a<sp/>sentinel<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>src.ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0xDEAD));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>expected<sp/>=<sp/>src.ptr;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::geo::CudaBuffer<sp/>dst(std::move(src));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dst.ptr,<sp/>expected)<sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-18:<sp/>moved-to<sp/>buffer<sp/>should<sp/>own<sp/>the<sp/>pointer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(src.ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-18:<sp/>moved-from<sp/>buffer<sp/>must<sp/>be<sp/>null&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>actual<sp/>cudaFree<sp/>on<sp/>sentinel<sp/>by<sp/>clearing<sp/>before<sp/>destructor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>dst.ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoCudaBufferGuard,<sp/>GCH19_FreeIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::geo::CudaBuffer<sp/>buf;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>buf.ptr<sp/>is<sp/>nullptr;<sp/>free()<sp/>on<sp/>nullptr<sp/>must<sp/>be<sp/>a<sp/>no-op.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(buf.free())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-19:<sp/>free()<sp/>on<sp/>null<sp/>buffer<sp/>must<sp/>not<sp/>throw&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(buf.free())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-19:<sp/>second<sp/>free()<sp/>on<sp/>null<sp/>buffer<sp/>must<sp/>not<sp/>throw&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf.ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-19:<sp/>ptr<sp/>must<sp/>remain<sp/>null<sp/>after<sp/>free()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_GEO_HIP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoHipBufferGuard,<sp/>GCH17H_DefaultNullptr)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::geo::HipBuffer<sp/>buf;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf.ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-17H:<sp/>default-constructed<sp/>HipBuffer<sp/>must<sp/>have<sp/>ptr<sp/>==<sp/>nullptr&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoHipBufferGuard,<sp/>GCH18H_MoveTransfersOwnership)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::geo::HipBuffer<sp/>src;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>src.ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0xBEEF));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>expected<sp/>=<sp/>src.ptr;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::geo::HipBuffer<sp/>dst(std::move(src));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dst.ptr,<sp/>expected);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(src.ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>dst.ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>prevent<sp/>hipFree<sp/>on<sp/>sentinel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_GEO_HIP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>geo_policy<sp/>tests<sp/>(always<sp/>compiled;<sp/>no<sp/>GPU<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoPolicy,<sp/>GCH20_DefaultValues)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1aea477c2e5ce1ecb1ab3ef48d14fba003" kindref="member">themis::geo::defaultSpatialQueryPolicy</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.max_candidates,<sp/>100&apos;000u)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-20:<sp/>default<sp/>max_candidates<sp/>must<sp/>be<sp/>100<sp/>000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.max_depth,<sp/>64)</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-20:<sp/>default<sp/>max_depth<sp/>must<sp/>be<sp/>64&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.timeout.count(),<sp/>5&apos;000)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-20:<sp/>default<sp/>timeout<sp/>must<sp/>be<sp/>5<sp/>000<sp/>ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.max_result_pairs,<sp/>1&apos;000&apos;000u)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-20:<sp/>default<sp/>max_result_pairs<sp/>must<sp/>be<sp/>1<sp/>000<sp/>000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.allowed_collections.empty())</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-20:<sp/>default<sp/>allowed_collections<sp/>must<sp/>be<sp/>empty<sp/>(open<sp/>policy)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoPolicy,<sp/>GCH21_RejectsNegativeMaxDepth)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_query_policy" kindref="compound">themis::geo::SpatialQueryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1geo_1_1_spatial_query_policy_1a8386ae5ee415154bb7c7b34ce841e089" kindref="member">max_depth</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1abb4df39a5bd1792349b3b0b9e68527ff" kindref="member">themis::geo::validateSpatialQueryPolicy</ref>(p);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(v.ok())</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-21:<sp/>negative<sp/>max_depth<sp/>must<sp/>not<sp/>pass<sp/>validation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(v.violations.empty())</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-21:<sp/>at<sp/>least<sp/>one<sp/>violation<sp/>must<sp/>be<sp/>reported&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoPolicy,<sp/>GCH22_RejectsNegativeTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_query_policy" kindref="compound">themis::geo::SpatialQueryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1geo_1_1_spatial_query_policy_1a5dba3d4dadf168935f720d3ca08fed8b" kindref="member">timeout</ref><sp/>=<sp/>std::chrono::milliseconds(-1);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1abb4df39a5bd1792349b3b0b9e68527ff" kindref="member">themis::geo::validateSpatialQueryPolicy</ref>(p);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(v.ok())</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-22:<sp/>negative<sp/>timeout<sp/>must<sp/>not<sp/>pass<sp/>validation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoPolicy,<sp/>GCH23_CollectionPermitted)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Open<sp/>policy:<sp/>everything<sp/>permitted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_query_policy" kindref="compound">themis::geo::SpatialQueryPolicy</ref><sp/>open;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a8679b43f5ae67b512bcad290984082f6" kindref="member">themis::geo::isSpatialCollectionPermitted</ref>(open,<sp/></highlight><highlight class="stringliteral">&quot;any_collection&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-23:<sp/>open<sp/>policy<sp/>(empty<sp/>ACL)<sp/>must<sp/>permit<sp/>any<sp/>collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a8679b43f5ae67b512bcad290984082f6" kindref="member">themis::geo::isSpatialCollectionPermitted</ref>(open,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-23:<sp/>open<sp/>policy<sp/>must<sp/>permit<sp/>even<sp/>an<sp/>empty<sp/>name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Closed<sp/>policy:<sp/>only<sp/>listed<sp/>collections<sp/>permitted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_query_policy" kindref="compound">themis::geo::SpatialQueryPolicy</ref><sp/>closed;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>closed.<ref refid="structthemis_1_1geo_1_1_spatial_query_policy_1a2e5acf3abbe24964a0e695263bfd383b" kindref="member">allowed_collections</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;geo_data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;poi&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a8679b43f5ae67b512bcad290984082f6" kindref="member">themis::geo::isSpatialCollectionPermitted</ref>(closed,<sp/></highlight><highlight class="stringliteral">&quot;geo_data&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-23:<sp/>&apos;geo_data&apos;<sp/>is<sp/>in<sp/>allowlist;<sp/>must<sp/>be<sp/>permitted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a8679b43f5ae67b512bcad290984082f6" kindref="member">themis::geo::isSpatialCollectionPermitted</ref>(closed,<sp/></highlight><highlight class="stringliteral">&quot;poi&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-23:<sp/>&apos;poi&apos;<sp/>is<sp/>in<sp/>allowlist;<sp/>must<sp/>be<sp/>permitted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a8679b43f5ae67b512bcad290984082f6" kindref="member">themis::geo::isSpatialCollectionPermitted</ref>(closed,<sp/></highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-23:<sp/>&apos;secret&apos;<sp/>is<sp/>not<sp/>in<sp/>allowlist;<sp/>must<sp/>be<sp/>denied&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a8679b43f5ae67b512bcad290984082f6" kindref="member">themis::geo::isSpatialCollectionPermitted</ref>(closed,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-23:<sp/>empty<sp/>name<sp/>is<sp/>not<sp/>in<sp/>allowlist;<sp/>must<sp/>be<sp/>denied&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__geo__hardening__focused_8cpp_1a87ad4b5b85d04181da12bf9a489e8549" kindref="member">TEST</ref>(GeoVincenty,<sp/>GCH24_AntipodalFallbackFinite)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">themis::geo::getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(backend,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-24:<sp/>getCpuExactBackend()<sp/>must<sp/>return<sp/>non-null&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Near-antipodal<sp/>pair<sp/>that<sp/>historically<sp/>caused<sp/>Vincenty<sp/>non-convergence.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat1<sp/>=<sp/>0.0,<sp/>lon1<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat2<sp/>=<sp/>0.0,<sp/>lon2<sp/>=<sp/>179.9;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend-&gt;geodesicDistance(lat1,<sp/>lon1,<sp/>lat2,<sp/>lon2);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(dist,<sp/>0.0)</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-24:<sp/>distance<sp/>between<sp/>non-coincident<sp/>points<sp/>must<sp/>be<sp/>positive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::isfinite(dist))</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-24:<sp/>geodesicDistance<sp/>must<sp/>return<sp/>a<sp/>finite<sp/>value<sp/>(not<sp/>-1.0)<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;for<sp/>near-antipodal<sp/>input&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Earth<sp/>half-circumference<sp/>≈<sp/>20<sp/>000<sp/>km;<sp/>result<sp/>should<sp/>be<sp/>in<sp/>that<sp/>ballpark.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist,<sp/>25&apos;000&apos;000.0)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GCH-24:<sp/>distance<sp/>must<sp/>be<sp/>&lt;<sp/>25<sp/>000<sp/>km<sp/>for<sp/>near-antipodal<sp/>input&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

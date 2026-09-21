@@ -1,0 +1,350 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="query__profiler_8h" kind="file" language="C++">
+    <compoundname>query_profiler.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__observability__block__b__gates_8cpp" local="yes">benchmarks/observability/bench_observability_block_b_gates.cpp</includedby>
+    <includedby refid="performance__analyzer_8h" local="yes">include/observability/performance_analyzer.h</includedby>
+    <includedby refid="query__profiler_8cpp" local="yes">src/observability/query_profiler.cpp</includedby>
+    <includedby refid="test__observability__block__b__focused_8cpp" local="yes">tests/observability/test_observability_block_b_focused.cpp</includedby>
+    <includedby refid="test__observability__profilers_8cpp" local="yes">tests/observability/test_observability_profilers.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/query_profiler.h</label>
+        <link refid="query__profiler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/observability/bench_observability_block_b_gates.cpp</label>
+        <link refid="bench__observability__block__b__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/observability/performance_analyzer.h</label>
+        <link refid="performance__analyzer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/query_profiler.h</label>
+        <link refid="query__profiler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/observability/root_cause_analyzer.h</label>
+        <link refid="root__cause__analyzer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/observability/performance_analyzer.cpp</label>
+        <link refid="performance__analyzer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/observability/query_profiler.cpp</label>
+        <link refid="query__profiler_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/observability/root_cause_analyzer.cpp</label>
+        <link refid="root__cause__analyzer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/observability/test_observability_block_a_focused.cpp</label>
+        <link refid="test__observability__block__a__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/observability/test_observability_block_b_focused.cpp</label>
+        <link refid="test__observability__block__b__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/observability/test_observability_profilers.cpp</label>
+        <link refid="test__observability__profilers_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_operator_stats" prot="public">themis::observability::OperatorStats</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_query_profile" prot="public">themis::observability::QueryProfile</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_query_profiler_config" prot="public">themis::observability::QueryProfilerConfig</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_query_profiler" prot="public">themis::observability::QueryProfiler</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_scoped_query_profile" prot="public">themis::observability::ScopedQueryProfile</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_scoped_operator_profile" prot="public">themis::observability::ScopedOperatorProfile</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134" kindref="member">QueryPhase</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134a8eef4a5cbd5a1a05ed82d2f7ffe276b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134a8eef4a5cbd5a1a05ed82d2f7ffe276b0" kindref="member">PARSE</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134aca9ed3118a19ef7e8ebfbd25598dd2f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134aca9ed3118a19ef7e8ebfbd25598dd2f3" kindref="member">VALIDATE</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134a1e3694515211d22b83d11e850b588c79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134a1e3694515211d22b83d11e850b588c79" kindref="member">OPTIMIZE</ref>,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134ac80c3c45ed0d54cbc6991b6a762edab4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134ac80c3c45ed0d54cbc6991b6a762edab4" kindref="member">PLAN</ref>,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134a5d76688e2261e6805ee36ad961b3fa7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134a5d76688e2261e6805ee36ad961b3fa7a" kindref="member">EXECUTE</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134aee2aeb62ae7fc01c11a073614ebe6153" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134aee2aeb62ae7fc01c11a073614ebe6153" kindref="member">FETCH_RESULTS</ref></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688f" kindref="member">OperatorType</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fae0740abfbc61bc2be0bfa78af61106ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fae0740abfbc61bc2be0bfa78af61106ae" kindref="member">SCAN</ref>,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fafd6e2b3ea2d9a9fba7e559ba2da7ba20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fafd6e2b3ea2d9a9fba7e559ba2da7ba20" kindref="member">INDEX_SCAN</ref>,</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fae75ab17a550f46adbbe891b819cf951d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fae75ab17a550f46adbbe891b819cf951d" kindref="member">FILTER</ref>,</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa1781f676dedf5767f3243db0a9738b35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa1781f676dedf5767f3243db0a9738b35" kindref="member">PROJECT</ref>,</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa361d91ce0f028b6708f607b76b12a318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa361d91ce0f028b6708f607b76b12a318" kindref="member">AGGREGATE</ref>,</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688faa6fa1cdf9c1a71978751b35b88763f8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688faa6fa1cdf9c1a71978751b35b88763f8f" kindref="member">JOIN</ref>,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688faa7bdfbfac6ba2252b889996b1430abb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688faa7bdfbfac6ba2252b889996b1430abb4" kindref="member">SORT</ref>,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa3d49b5cb41d88e381beb0d887d7023a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa3d49b5cb41d88e381beb0d887d7023a2" kindref="member">LIMIT</ref>,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688faece5b631ea0b2cdd22da5287e7b1213e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688faece5b631ea0b2cdd22da5287e7b1213e" kindref="member">SUBQUERY</ref>,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa4939a0c5f946aa98a33244d2f3cfef58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa4939a0c5f946aa98a33244d2f3cfef58" kindref="member">VECTOR_SEARCH</ref>,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa36d8337b5c7021442cdc705dae453576" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa36d8337b5c7021442cdc705dae453576" kindref="member">GRAPH_TRAVERSE</ref>,</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fa696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1observability_1_1_operator_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_operator_stats" kindref="compound">OperatorStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1observability_1_1_operator_stats_1a5f0f45af1781d57b7b91ae39beea0120" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688f" kindref="member">OperatorType</ref><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1a5f0f45af1781d57b7b91ae39beea0120" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1observability_1_1_operator_stats_1a7a18be350aca60138bb0b5f9b9199e90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1a7a18be350aca60138bb0b5f9b9199e90" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1observability_1_1_operator_stats_1a5263ec356dc6f6d5fbf100fa231e6c41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1a5263ec356dc6f6d5fbf100fa231e6c41" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1observability_1_1_operator_stats_1ac48f1827f73f448137d341c316acc9ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1ac48f1827f73f448137d341c316acc9ad" kindref="member">rows_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1observability_1_1_operator_stats_1a89f3bb479a2e58ca3fb24f45ba25f0d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1a89f3bb479a2e58ca3fb24f45ba25f0d7" kindref="member">bytes_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1observability_1_1_operator_stats_1ae470356ddb528d2717235f5a2fe1b2b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1ae470356ddb528d2717235f5a2fe1b2b9" kindref="member">disk_reads</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1observability_1_1_operator_stats_1a4990b259e0f9febed47eba07a913d14b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1a4990b259e0f9febed47eba07a913d14b" kindref="member">cache_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1observability_1_1_operator_stats_1a7cd686e5c3da5b7386d1e70e9ca276ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1a7cd686e5c3da5b7386d1e70e9ca276ba" kindref="member">cache_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1observability_1_1_operator_stats_1ad8e4e9dc0c9b86d4d18e1fc8389e79bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1ad8e4e9dc0c9b86d4d18e1fc8389e79bc" kindref="member">details</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats_1aa8db1cf64576cd0a7341bd19d688edb5" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1observability_1_1_query_profile" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_query_profile" kindref="compound">QueryProfile</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1observability_1_1_query_profile_1aae22722e137aa219f60569842071b318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1aae22722e137aa219f60569842071b318" kindref="member">query_id</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1observability_1_1_query_profile_1a45e73ff78203e2d7a9b750fe83e21cfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a45e73ff78203e2d7a9b750fe83e21cfb" kindref="member">query_text</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_query_profile_1abcd2fa898fbe5f16ab3f67a760d8dbd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1abcd2fa898fbe5f16ab3f67a760d8dbd6" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1observability_1_1_query_profile_1ab41d74db8ad01f0cdd10459c7fa14a6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1ab41d74db8ad01f0cdd10459c7fa14a6f" kindref="member">total_duration</ref>{0};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>timings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1observability_1_1_query_profile_1a7e9f85ac2a114c2fea79e162d3bc20c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;QueryPhase,<sp/>std::chrono::microseconds&gt;<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a7e9f85ac2a114c2fea79e162d3bc20c4" kindref="member">phase_timings</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operator<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1observability_1_1_query_profile_1a7873af2a04a447c35f3180557a529b94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;OperatorStats&gt;<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a7873af2a04a447c35f3180557a529b94" kindref="member">operator_stats</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1observability_1_1_query_profile_1a05c6da101978ae2c021573b7c10d980a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a05c6da101978ae2c021573b7c10d980a" kindref="member">peak_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1observability_1_1_query_profile_1ae9972bde2c6bb42588a63d51e1791477" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1ae9972bde2c6bb42588a63d51e1791477" kindref="member">total_disk_io_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1observability_1_1_query_profile_1a0731935b4cf4b1fbd4a5a0fc5567bd75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a0731935b4cf4b1fbd4a5a0fc5567bd75" kindref="member">total_network_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimization<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1observability_1_1_query_profile_1a314e2d25ead8f0762144327ad9503df0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a314e2d25ead8f0762144327ad9503df0" kindref="member">used_index</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1observability_1_1_query_profile_1a9f33d3f3957d71a25500eb9024608f21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a9f33d3f3957d71a25500eb9024608f21" kindref="member">used_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1observability_1_1_query_profile_1ad06fbc6b19ff3ef5117e9069310b64af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1ad06fbc6b19ff3ef5117e9069310b64af" kindref="member">indexes_used</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1observability_1_1_query_profile_1ac482b8736b9c3ff2f1a74043acb50dbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1ac482b8736b9c3ff2f1a74043acb50dbf" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1observability_1_1_query_profile_1a6a4460b7e1e86c5cebc7778f9a0e9b14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a6a4460b7e1e86c5cebc7778f9a0e9b14" kindref="member">optimization_hints</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1observability_1_1_query_profile_1a6b7c99eb422a92a9dd36fe8968e2dd5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a6b7c99eb422a92a9dd36fe8968e2dd5c" kindref="member">result_rows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1observability_1_1_query_profile_1a1ff33decf9ea7491cfacfdcd6d5cf5d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1a1ff33decf9ea7491cfacfdcd6d5cf5d1" kindref="member">result_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1ac8dc52bef5b360c1f2e92079b73ab7a0" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_query_profile_1ada0e92177468205a7f5c949fc53fed99" kindref="member">toSummary</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1observability_1_1_query_profiler_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1observability_1_1_query_profiler_config_1a2452b654111b671fed2c25cef87b5595" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1a2452b654111b671fed2c25cef87b5595" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1observability_1_1_query_profiler_config_1a07a916749dc3d7ef7ae421acf98d97be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1a07a916749dc3d7ef7ae421acf98d97be" kindref="member">profile_all_queries</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1observability_1_1_query_profiler_config_1a76e8cb027d18281a1f2cfd9cd542d9c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1a76e8cb027d18281a1f2cfd9cd542d9c3" kindref="member">collect_operator_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1observability_1_1_query_profiler_config_1a2c9079203a420223fed9140e84a869fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1a2c9079203a420223fed9140e84a869fd" kindref="member">collect_memory_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1observability_1_1_query_profiler_config_1a07fc735a9878ded353d6372cf0bdaaa4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1a07fc735a9878ded353d6372cf0bdaaa4" kindref="member">collect_io_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1observability_1_1_query_profiler_config_1a1729f1d5fda66bef92a19c1602184850" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1a1729f1d5fda66bef92a19c1602184850" kindref="member">max_profiles_retained</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1observability_1_1_query_profiler_config_1a6118ab4d1ad4abc6010124eb360b7443" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1a6118ab4d1ad4abc6010124eb360b7443" kindref="member">retention_duration</ref>{3600};<sp/></highlight><highlight class="comment">//<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1observability_1_1_query_profiler_config_1a6ac9ee44be1c3493a1e1a191c744e490" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1a6ac9ee44be1c3493a1e1a191c744e490" kindref="member">log_slow_queries</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1observability_1_1_query_profiler_config_1aaccbc5f58944d119a419a12e718aaa71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config_1aaccbc5f58944d119a419a12e718aaa71" kindref="member">slow_query_threshold</ref>{1000};<sp/></highlight><highlight class="comment">//<sp/>1<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1observability_1_1_query_profiler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" kindref="member">QueryProfiler</ref><sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" kindref="member">QueryProfiler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref>{});</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1observability_1_1_query_profiler_1a0b18420f068c708c1ad2d4be48fd7bb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a0b18420f068c708c1ad2d4be48fd7bb4" kindref="member">~QueryProfiler</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1observability_1_1_query_profiler_1a8564fc77c182f7158d125ef432f0bb15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a8564fc77c182f7158d125ef432f0bb15" kindref="member">QueryProfiler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" kindref="member">QueryProfiler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1observability_1_1_query_profiler_1a2041915bc9499a93d876a364612488fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" kindref="member">QueryProfiler</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a2041915bc9499a93d876a364612488fd" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" kindref="member">QueryProfiler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1abd3f7e936029a680d1a1993f1a048e76" kindref="member">start_query</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_text);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a4558bdfbedddaf23f4b522bb30985ce6" kindref="member">end_query</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a4bd328e1c1fda0233c2979f6f2048c16" kindref="member">record_phase</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134" kindref="member">QueryPhase</ref><sp/>phase,<sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/>duration);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a187903e965ea4da59a3ecdcba87eb35f" kindref="member">record_operator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats" kindref="compound">OperatorStats</ref>&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1ad80e003ec45baa7f635ef51e356c0fe2" kindref="member">record_index_usage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1ad024e89a98e75cff8dff760519c55fc1" kindref="member">record_cache_usage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cache_hit);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1ab5e6f33cea228f5b99b091c21645fd49" kindref="member">add_hint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hint);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a627e9e76ce01f125a7ae913c5fad62ae" kindref="member">add_warning</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>warning);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;QueryProfile&gt;<sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a1d2f8000c1e67f88b8f4e9b97b0e8986" kindref="member">get_profile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;QueryProfile&gt;&gt;<sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a365b54a5fdd2300e0c839427ea8cffdc" kindref="member">get_all_profiles</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;QueryProfile&gt;&gt;<sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a8404e257326a0356a6dd37a5e80f6204" kindref="member">get_slow_queries</ref>(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>threshold)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;QueryProfile&gt;&gt;<sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a9af4dc6abe7f1ccf55d85fc27fc9b6bb" kindref="member">get_top_queries</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a28046c38afb057f7dce07f0c9f0dcd66" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a49c775ba84bf9f5706d648462839192b" kindref="member">export_to_json</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1ae8de4d0e6f22e1d8de592f4705fd0aef" kindref="member">get_config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a2060454ad3db6b49a597b18139632e86" kindref="member">set_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a1f7ac0a7c1e443246095755f27b82414" kindref="member">enable</ref>();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a41c6ea20cf3f0c0557b74b5e6c786daa" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1a6c5c3c79842331cf7a8388c466ad2ef2" kindref="member">is_enabled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler_1ae229f4d46f1074d1fa01a2647556f88f" kindref="member">get_statistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanup_old_profiles();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>log_slow_query(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_query_profile" kindref="compound">QueryProfile</ref>&amp;<sp/>profile);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="classthemis_1_1observability_1_1_scoped_query_profile" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a6ef71ccf4a8ded2e073da007d0ed9032" kindref="member">ScopedQueryProfile</ref><sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a6ef71ccf4a8ded2e073da007d0ed9032" kindref="member">ScopedQueryProfile</ref>(<ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref>&amp;<sp/>profiler,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,<sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_text);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a18e5a7900d69e9d7a4f1dd60b6f6e859" kindref="member">~ScopedQueryProfile</ref>();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1observability_1_1_scoped_query_profile_1a037dc4a2e62ba88fcbcbc2e56b3ca1cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a037dc4a2e62ba88fcbcbc2e56b3ca1cc" kindref="member">ScopedQueryProfile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a6ef71ccf4a8ded2e073da007d0ed9032" kindref="member">ScopedQueryProfile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284" refid="classthemis_1_1observability_1_1_scoped_query_profile_1a66e6334653182fd5ba21519c3eed9dec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a6ef71ccf4a8ded2e073da007d0ed9032" kindref="member">ScopedQueryProfile</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a66e6334653182fd5ba21519c3eed9dec" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a6ef71ccf4a8ded2e073da007d0ed9032" kindref="member">ScopedQueryProfile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a2bbe9611237cd141eea0f2213b547756" kindref="member">record_phase</ref>(<ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134" kindref="member">QueryPhase</ref><sp/>phase,<sp/>std::chrono::microseconds<sp/>duration);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a721f85ee44e7e8daa8f3ddfcd1b15b46" kindref="member">record_operator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats" kindref="compound">OperatorStats</ref>&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a1098c0a690c93fc69380582fb2b900fa" kindref="member">add_hint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hint);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_query_profile_1a983f31a00e07617007826b13f5ed21c9" kindref="member">add_warning</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>warning);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref>&amp;<sp/>profiler_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>query_id_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="classthemis_1_1observability_1_1_scoped_operator_profile" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" kindref="member">ScopedOperatorProfile</ref><sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" kindref="member">ScopedOperatorProfile</ref>(<ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref>&amp;<sp/>profiler,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_id,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688f" kindref="member">OperatorType</ref><sp/>type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a1cac2c16098f7adb2da0c08e0d5fa01d" kindref="member">~ScopedOperatorProfile</ref>();</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a9ea71f46727850aa4f4f3ef63dfdbe3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a9ea71f46727850aa4f4f3ef63dfdbe3e" kindref="member">ScopedOperatorProfile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" kindref="member">ScopedOperatorProfile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307" refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a76e15d5d8b3f19e4ba5609988fbb9224" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" kindref="member">ScopedOperatorProfile</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a76e15d5d8b3f19e4ba5609988fbb9224" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" kindref="member">ScopedOperatorProfile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ae6989dfeefc8f7151a64be4124bb194a" kindref="member">record_rows</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ac050af07970c32103f6efdcacf69dc4f" kindref="member">record_bytes</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a989f0c00b29fb7fe292fd2d1366a8877" kindref="member">record_disk_read</ref>();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1aab7724f2d0ed753345d31b3fe38702e3" kindref="member">record_cache_hit</ref>();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a5fd57f3f71df088da14951a447dad074" kindref="member">record_cache_miss</ref>();</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ace2c5042edf62ef3373ce513c9a01074" kindref="member">set_details</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>details);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref>&amp;<sp/>profiler_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>query_id_;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_operator_stats" kindref="compound">OperatorStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::time_point<sp/>start_;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1observability_1a3df39fa46e41033417f0bfa840e932b3" kindref="member">to_string</ref>(<ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134" kindref="member">QueryPhase</ref><sp/>phase);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1observability_1a3df39fa46e41033417f0bfa840e932b3" kindref="member">to_string</ref>(<ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688f" kindref="member">OperatorType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/query_profiler.h"/>
+  </compounddef>
+</doxygen>

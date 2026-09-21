@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_counting_stage" kind="class" language="C++" prot="public">
+    <compoundname>CountingStage</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_i_utils_stage" prot="public" virt="non-virtual">themis::utils::IUtilsStage</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_counting_stage_1ae1c1ffb50048ac34884cc96b09a2be07" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CountingStage::torn_down_</definition>
+        <argsstring></argsstring>
+        <name>torn_down_</name>
+        <qualifiedname>CountingStage::torn_down_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="385" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="385" bodyend="385"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_counting_stage_1a27e0402b0f6226d12ad212f1bd498fd1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt; &amp;</type>
+        <definition>std::atomic&lt;int&gt;&amp; CountingStage::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <qualifiedname>CountingStage::counter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="388" column="17" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_counting_stage_1ac4d2bf4e6d54d72f7f80bc04aba3e796" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CountingStage::succeed_</definition>
+        <argsstring></argsstring>
+        <name>succeed_</name>
+        <qualifiedname>CountingStage::succeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="389" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="389" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_counting_stage_1acbe78c5e66166a2288ab74c88add2767" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CountingStage::CountingStage</definition>
+        <argsstring>(std::atomic&lt; int &gt; &amp;counter, bool succeed=true)</argsstring>
+        <name>CountingStage</name>
+        <qualifiedname>CountingStage::CountingStage</qualifiedname>
+        <param>
+          <type>std::atomic&lt; int &gt; &amp;</type>
+          <declname>counter</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>succeed</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="373" column="14" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="373" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_stage_1a717cbd0e7b77cc860402228f7c77b7a5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string CountingStage::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>CountingStage::name</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_utils_stage_1ae4a2772164f47a81f4d832bbec5d032b">name</reimplements>
+        <briefdescription>
+<para>Human-readable stage name (for logging/diagnostics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="376" column="17" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="376" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_stage_1a6e21c9aceb2552299c3d3cb9cf503a40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool CountingStage::execute</definition>
+        <argsstring>() override</argsstring>
+        <name>execute</name>
+        <qualifiedname>CountingStage::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_utils_stage_1a6d7f7ae423c1bdbaa78b35af6e215454">execute</reimplements>
+        <briefdescription>
+<para>Execute this stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true on success; false causes the pipeline to record an error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="378" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="378" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_stage_1a1d13fa4d7c543c142db10bfaa4ab3301" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void CountingStage::teardown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>teardown</name>
+        <qualifiedname>CountingStage::teardown</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_utils_stage_1a9a7cc646f03e272e924015c3a3034f65">teardown</reimplements>
+        <briefdescription>
+<para>Called by the pipeline during shutdown to release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations must not throw. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="383" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="383" bodyend="383"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CountingStage</label>
+        <link refid="class_counting_stage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::utils::IUtilsStage</label>
+        <link refid="classthemis_1_1utils_1_1_i_utils_stage"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CountingStage</label>
+        <link refid="class_counting_stage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::utils::IUtilsStage</label>
+        <link refid="classthemis_1_1utils_1_1_i_utils_stage"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_interfaces.cpp" line="371" column="1" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="371" bodyend="390"/>
+    <listofallmembers>
+      <member refid="class_counting_stage_1a27e0402b0f6226d12ad212f1bd498fd1" prot="private" virt="non-virtual"><scope>CountingStage</scope><name>counter_</name></member>
+      <member refid="class_counting_stage_1acbe78c5e66166a2288ab74c88add2767" prot="public" virt="non-virtual"><scope>CountingStage</scope><name>CountingStage</name></member>
+      <member refid="class_counting_stage_1a6e21c9aceb2552299c3d3cb9cf503a40" prot="public" virt="virtual"><scope>CountingStage</scope><name>execute</name></member>
+      <member refid="class_counting_stage_1a717cbd0e7b77cc860402228f7c77b7a5" prot="public" virt="virtual"><scope>CountingStage</scope><name>name</name></member>
+      <member refid="class_counting_stage_1ac4d2bf4e6d54d72f7f80bc04aba3e796" prot="private" virt="non-virtual"><scope>CountingStage</scope><name>succeed_</name></member>
+      <member refid="class_counting_stage_1a1d13fa4d7c543c142db10bfaa4ab3301" prot="public" virt="virtual"><scope>CountingStage</scope><name>teardown</name></member>
+      <member refid="class_counting_stage_1ae1c1ffb50048ac34884cc96b09a2be07" prot="public" virt="non-virtual"><scope>CountingStage</scope><name>torn_down_</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_utils_stage_1a078838c2d3a7cc97b9e79d5aac47cf01" prot="public" virt="virtual"><scope>CountingStage</scope><name>~IUtilsStage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

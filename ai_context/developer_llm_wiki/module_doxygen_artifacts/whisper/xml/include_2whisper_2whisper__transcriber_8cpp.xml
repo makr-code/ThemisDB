@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="include_2whisper_2whisper__transcriber_8cpp" kind="file" language="C++">
+    <compoundname>whisper_transcriber.cpp</compoundname>
+    <includes refid="whisper__transcriber_8h" local="yes">whisper/whisper_transcriber.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">iostream</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>whisper/whisper_config.h</label>
+        <link refid="whisper__config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/whisper/whisper_transcriber.cpp</label>
+        <link refid="include_2whisper_2whisper__transcriber_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>whisper/whisper_transcriber.h</label>
+        <link refid="whisper__transcriber_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>iostream</label>
+      </node>
+      <node id="11">
+        <label>istream</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>ostream</label>
+      </node>
+      <node id="6">
+        <label>plugins/audio_backend_interface.h</label>
+      </node>
+      <node id="15">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_whisper_stub_transcriber" prot="public">WhisperStubTranscriber</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="include_2whisper_2whisper__transcriber_8cpp_1ab67040590c826e5b8d5139835dd764c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>T_STUB bool</type>
+        <definition>virtual T_STUB bool serialize</definition>
+        <argsstring>(std::ostream &amp;stream) const =0</argsstring>
+        <name>serialize</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="107" column="21" declfile="include/whisper/whisper_transcriber.cpp" declline="107" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="include_2whisper_2whisper__transcriber_8cpp_1a57f1f1e127c495c59fd0149c2e6e7d70" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool deserialize</definition>
+        <argsstring>(std::istream &amp;stream)=0</argsstring>
+        <name>deserialize</name>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Deserializes the transcriber object&apos;s state from a given output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant reference to an input stream (std::istream&amp;). The deserialization logic must read and reconstruct all critical state information from this provided stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool Returns <computeroutput>true</computeroutput> if the state was successfully reconstructed from the stream; otherwise, it returns <computeroutput>false</computeroutput>, indicating that the stream data was corrupted or incomplete. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="114" column="14" declfile="include/whisper/whisper_transcriber.cpp" declline="114" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="include_2whisper_2whisper__transcriber_8cpp_1a9bcfbdd6264df328af3ff52fa59b6dee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool isVersionSupported</definition>
+        <argsstring>(const std::string &amp;version_id) const =0</argsstring>
+        <name>isVersionSupported</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <briefdescription>
+<para>Checks if a given state identifier is known and loadable by the current instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is used primarily for version checking before attempting deserialization, ensuring that incompatible schema changes do not cause runtime failures. It should return true only for versions explicitly supported by the implementation class derived from this interface.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unique string identifier representing the model/state version (e.g., &quot;V2_LSTM_2024&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool True if the system recognizes and supports initializing with this specific version ID; otherwise, false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="124" column="14" declfile="include/whisper/whisper_transcriber.cpp" declline="124" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="include_2whisper_2whisper__transcriber_8cpp_1a35cefdc8380f8e8aeb52700b7d6f9b17" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool isModelVersionSupported</definition>
+        <argsstring>(const std::string &amp;version_id) const =0</argsstring>
+        <name>isModelVersionSupported</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <briefdescription>
+<para>Checks if a specific whisper model version ID is supported by this transcriber implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This contract method allows client code to verify compatibility before attempting complex operations like initialization or transcription. The returned boolean value determines whether the underlying Whisper engine (or its required dependencies) recognizes and supports the provided version string. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant reference to a <computeroutput>std::string</computeroutput>. This must match one of the supported model identifiers for this implementation of $IWhisperTranscriber$. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool Returns <computeroutput>true</computeroutput> if <computeroutput>$version_id</computeroutput> corresponds to a supported model; otherwise, it returns <computeroutput>false</computeroutput>, signaling an unsupported version attempt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="133" column="14" declfile="include/whisper/whisper_transcriber.cpp" declline="133" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="include_2whisper_2whisper__transcriber_8cpp_1ad6220c7e5c328aba9a58395a524bc0c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void run_transcription_demo</definition>
+        <argsstring>()</argsstring>
+        <name>run_transcription_demo</name>
+        <briefdescription>
+<para>Simulates the main execution flow to demonstrate transcription life-cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="247" column="6" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="247" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="whisper__transcriber_8h" kindref="compound">whisper/whisper_transcriber.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>constructor<sp/>must<sp/>correctly<sp/>initialize<sp/>the<sp/>IWhisperTranscriber<sp/>base<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">WhisperTranscriber::WhisperTranscriber()<sp/>:<sp/>IWhisperTranscriber()<sp/>{<sp/></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>any<sp/>specific<sp/>dependencies<sp/>or<sp/>state<sp/>variables<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Full<sp/>method<sp/>stubs<sp/>corresponding<sp/>to<sp/>IWhisperTranscriber<sp/>pure<sp/>virtual<sp/>functions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>implementations<sp/>must<sp/>match<sp/>the<sp/>signatures<sp/>defined<sp/>in<sp/>whisper_transcriber.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Transcribe<sp/>Method<sp/>Stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">audio::TranscriptionResult<sp/>WhisperTranscriber::transcribe(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement<sp/>actual<sp/>transcription<sp/>logic<sp/>using<sp/>PCM<sp/>audio<sp/>data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>stub<sp/>provides<sp/>the<sp/>return<sp/>type<sp/>and<sp/>signature<sp/>compatibility<sp/>for<sp/>compilation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>audio::TranscriptionResult{};<sp/></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Detect<sp/>Language<sp/>Method<sp/>Stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">std::string<sp/>WhisperTranscriber::detectLanguage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AudioData&amp;<sp/>audioChunk)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>Placeholder<sp/>implementation.<sp/>Actual<sp/>logic<sp/>would<sp/>involve<sp/>invoking<sp/>a<sp/>specialized<sp/>model<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>algorithm<sp/>to<sp/>analyze<sp/>the<sp/>audio<sp/>chunk<sp/>and<sp/>return<sp/>the<sp/>detected<sp/>language<sp/>identifier<sp/>(e.g.,<sp/>&quot;en_US&quot;,<sp/>&quot;es&quot;).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Detected<sp/>language<sp/>placeholder<sp/>used<sp/>for<sp/>segment<sp/>analysis.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Defaulting<sp/>to<sp/>&apos;unknown&apos;<sp/>until<sp/>full<sp/>logic<sp/>is<sp/>implemented.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Transcribe<sp/>Stream<sp/>Method<sp/>Stub<sp/>(Callback<sp/>version)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>WhisperTranscriber::transcribeStream(audio::StreamCallback<sp/>callback,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm_chunk)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement<sp/>logic<sp/>for<sp/>streaming<sp/>transcription<sp/>updates<sp/>via<sp/>the<sp/>provided<sp/>callback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>now,<sp/>simply<sp/>calling<sp/>through<sp/>to<sp/>satisfy<sp/>compilation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Transcribe<sp/>Stream<sp/>Method<sp/>Stub<sp/>(Manual<sp/>chunk<sp/>handling<sp/>version)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>WhisperTranscriber::transcribeStream(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm_chunk)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder:<sp/>If<sp/>a<sp/>dedicated<sp/>non-callback<sp/>stream<sp/>method<sp/>is<sp/>required,<sp/>implement<sp/>it<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Currently<sp/>matching<sp/>the<sp/>virtual<sp/>function<sp/>signature<sp/>requires<sp/>filling<sp/>this<sp/>stub<sp/>too.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>Serialize<sp/>Method<sp/>Stub<sp/>(std::vector&lt;char&gt;<sp/>overloads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">std::vector&lt;char&gt;<sp/>WhisperTranscriber::serialize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>audio::TranscriptionResult&amp;<sp/>result)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement<sp/>serialization<sp/>of<sp/>TranscriptionResult<sp/>to<sp/>a<sp/>character<sp/>vector<sp/>format.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/></highlight><highlight class="comment">//<sp/>Return<sp/>empty<sp/>vector<sp/>on<sp/>stub<sp/>implementation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>Deserialize<sp/>Method<sp/>Stub<sp/>(std::ifstream<sp/>overloads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>WhisperTranscriber::deserialize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename,<sp/>auth::TranscriptionResult&amp;<sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement<sp/>deserialization<sp/>logic<sp/>from<sp/>a<sp/>file<sp/>path<sp/>string.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Indicate<sp/>failure<sp/>on<sp/>stub<sp/>implementation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>7.<sp/>Deserialize<sp/>Method<sp/>Stub<sp/>(std::istream<sp/>overloads<sp/>-<sp/>using<sp/>explicit<sp/>stream<sp/>name<sp/>as<sp/>seen<sp/>in<sp/>the<sp/>header<sp/>context)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>WhisperTranscriber::deserialize(std::istream&amp;<sp/>is,<sp/>auth::TranscriptionResult&amp;<sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement<sp/>deserialization<sp/>logic<sp/>directly<sp/>from<sp/>an<sp/>input<sp/>stream<sp/>object.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Indicate<sp/>failure<sp/>on<sp/>stub<sp/>implementation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>8.<sp/>Other<sp/>virtual<sp/>methods<sp/>stubs<sp/>(e.g.,<sp/>if<sp/>specific<sp/>state<sp/>management<sp/>or<sp/>resource<sp/>cleanup<sp/>functions<sp/>are<sp/>defined<sp/>in<sp/>the<sp/>header)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Based<sp/>on<sp/>typical<sp/>pattern,<sp/>ensure<sp/>all<sp/>pure<sp/>virtuals<sp/>from<sp/>IWhisperTranscriber<sp/>are<sp/>covered.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>there<sp/>were<sp/>other<sp/>specific<sp/>purely<sp/>virtual<sp/>methods<sp/>like<sp/>`getMetrics`<sp/>etc.,<sp/>they<sp/>would<sp/>be<sp/>implemented<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Destructor<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">WhisperTranscriber::~WhisperTranscriber()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">/*************************************************************</highlight></codeline>
+<codeline lineno="66"><highlight class="comment"><sp/>*<sp/>Implementation<sp/>stubs<sp/>for<sp/>pure<sp/>virtual<sp/>functions<sp/>defined<sp/>in<sp/>IWhisperTranscriber</highlight></codeline>
+<codeline lineno="67"><highlight class="comment"><sp/>*<sp/>The<sp/>concrete<sp/>implementation<sp/>must<sp/>provide<sp/>logic<sp/>for<sp/>these<sp/>calls.</highlight></codeline>
+<codeline lineno="68"><highlight class="comment"><sp/>*<sp/>Everything<sp/>here<sp/>is<sp/>a<sp/>stub<sp/>and<sp/>will<sp/>need<sp/>to<sp/>be<sp/>replaced<sp/>with<sp/>real<sp/>logic.</highlight></codeline>
+<codeline lineno="69"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">std::string<sp/>MyConcreteTranscriber::transcribe(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcmAudioData,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sampleRate)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implement<sp/>full<sp/>transcription<sp/>logic<sp/>using<sp/>external<sp/>Whisper<sp/>library/API.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>input<sp/>audio<sp/>data<sp/>must<sp/>first<sp/>be<sp/>processed<sp/>and<sp/>then<sp/>passed<sp/>to<sp/>the<sp/>underlying<sp/>C<sp/>API.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pcmAudioData.empty())<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Warning:<sp/>ConcreteTranscriber::transcribe<sp/>stub<sp/>called<sp/>with<sp/>dummy<sp/>logic.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>return<sp/>for<sp/>compile<sp/>test<sp/>success.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;[Transcription<sp/>failed:<sp/>Stub<sp/>implemented]&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MyConcreteTranscriber::initialize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modelPath)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Initialize<sp/>the<sp/>underlying<sp/>Whisper<sp/>engine/model<sp/>using<sp/>the<sp/>provided<sp/>path<sp/>(modelPath).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Warning:<sp/>ConcreteTranscriber::initialize<sp/>stub<sp/>called.<sp/>Model<sp/>path<sp/>received:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>modelPath<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Actual<sp/>initialization<sp/>code<sp/>goes<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>updateCallback<sp/>implementation<sp/>must<sp/>handle<sp/>passing<sp/>updated<sp/>transcription<sp/>segments<sp/>to<sp/>the<sp/>consumer<sp/>layer<sp/>efficiently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MyConcreteTranscriber::updateCallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TranscribedSegment&amp;<sp/>segment)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>Placeholder<sp/>implementation.<sp/>In<sp/>a<sp/>real<sp/>system,<sp/>this<sp/>would<sp/>dispatch<sp/>the<sp/>segment<sp/>data<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>through<sp/>an<sp/>observer<sp/>pattern<sp/>or<sp/>callback<sp/>mechanism<sp/>registered<sp/>with<sp/>calling<sp/>components.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Received<sp/>transcript<sp/>update<sp/>for<sp/>segment:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>segment.getText()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>MyConcreteTranscriber::is_available()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Check<sp/>hardware<sp/>or<sp/>library<sp/>dependencies<sp/>(e.g.,<sp/>compute<sp/>capability)<sp/>for<sp/>availability.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Warning:<sp/>ConcreteTranscriber::is_available<sp/>stub<sp/>called.<sp/>Assuming<sp/>available.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Assume<sp/>success<sp/>for<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MyConcreteTranscriber::cleanup()<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Clean<sp/>up<sp/>any<sp/>allocated<sp/>resources<sp/>or<sp/>open<sp/>connections<sp/>(e.g.,<sp/>model<sp/>session).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Info:<sp/>ConcreteTranscriber::cleanup<sp/>stub<sp/>called,<sp/>releasing<sp/>resources.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>...existing<sp/>code...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">T_STUB<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="include_2whisper_2whisper__transcriber_8cpp_1ab67040590c826e5b8d5139835dd764c5" kindref="member">serialize</ref>(std::ostream&amp;<sp/>stream)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="include_2whisper_2whisper__transcriber_8cpp_1a57f1f1e127c495c59fd0149c2e6e7d70" kindref="member">deserialize</ref>(std::istream&amp;<sp/>stream)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="include_2whisper_2whisper__transcriber_8cpp_1a9bcfbdd6264df328af3ff52fa59b6dee" kindref="member">isVersionSupported</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="include_2whisper_2whisper__transcriber_8cpp_1a35cefdc8380f8e8aeb52700b7d6f9b17" kindref="member">isModelVersionSupported</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};<sp/></highlight><highlight class="comment">//<sp/>class<sp/>IWhisperTranscriber</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stub<sp/>Implementation<sp/>for<sp/>Testing/Compilation<sp/>Fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>For<sp/>ThemisDB&apos;s<sp/>build<sp/>system<sp/>and<sp/>initial<sp/>testing,<sp/>we<sp/>provide<sp/>a<sp/>stub<sp/>implementation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>concrete<sp/>class<sp/>fulfills<sp/>the<sp/>abstract<sp/>requirements<sp/>of<sp/>IWhisperTranscriber<sp/>while</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>providing<sp/>safe<sp/>placeholders<sp/>for<sp/>complex<sp/>logic<sp/>that<sp/>will<sp/>be<sp/>implemented<sp/>later.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="class_whisper_stub_transcriber" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_whisper_stub_transcriber_1a473bdc947ff046cdfea9623c1f5cc281" kindref="member">WhisperStubTranscriber</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IWhisperTranscriber<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_whisper_stub_transcriber_1a473bdc947ff046cdfea9623c1f5cc281" kindref="member">WhisperStubTranscriber</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_whisper_stub_transcriber_1a8e2588341f42f159919088b8724f32bd" kindref="member">~WhisperStubTranscriber</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_whisper_stub_transcriber_1ad7c62d41757ed415e90af345fb394c1b" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>WhisperConfig&amp;<sp/>cfg)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub:<sp/>Log<sp/>successful<sp/>initialization<sp/>with<sp/>current<sp/>configuration<sp/>to<sp/>enable<sp/>testing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WARN]<sp/>WhisperStubTranscriber<sp/>initialized<sp/>successfully<sp/>(Mock/Mocked).<sp/>Config<sp/>loaded.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_whisper_stub_transcriber_1a79d6f5f1c8ad3881199bdf0959f9cc1b" kindref="member">isInitialized</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>Transcription<sp/>Method:<sp/>STUB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>audio::TranscriptionResult<sp/><ref refid="class_whisper_stub_transcriber_1a55df38bc65d8d039e9a214c2f6d14b01" kindref="member">transcribe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sample_rate)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WARN]<sp/>WhisperStubTranscriber::transcribe<sp/>Mocked.<sp/>Returning<sp/>full<sp/>text<sp/>result.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>logic<sp/>for<sp/>a<sp/>successful<sp/>transcription<sp/>attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audio::TranscriptionResult<sp/>res;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.total_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Mock<sp/>Transcription<sp/>Result:<sp/>The<sp/>content<sp/>was<sp/>successfully<sp/>processed<sp/>by<sp/>the<sp/>stub.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.confidence<sp/>=<sp/>0.95f;<sp/></highlight><highlight class="comment">//<sp/>Mocked<sp/>confidence<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Language<sp/>Detection<sp/>Method:<sp/>STUB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>audio::LanguageDetectionResult<sp/><ref refid="class_whisper_stub_transcriber_1ac414db547d26f93ff2628b7fbe35c1db" kindref="member">detectLanguage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sample_rate)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WARN]<sp/>WhisperStubTranscriber::detectLanguage<sp/>Mocked.<sp/>Defaulting<sp/>to<sp/>English.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>logic<sp/>for<sp/>language<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audio::LanguageDetectionResult<sp/>res;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.supported<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.detected_code<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Mocked<sp/>detected<sp/>language</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stubbed<sp/>Streaming<sp/>Implementation:<sp/>STUB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>audio::TranscriptionResult<sp/><ref refid="class_whisper_stub_transcriber_1a5a660c5bc4c9cff1a4f5c7de42fd04fc" kindref="member">transcribeStream</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sample_rate,<sp/>audio::StreamCallback<sp/>callback)<sp/>{<sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WARN]<sp/>WhisperStubTranscriber::transcribeStream<sp/>Mocked.<sp/>Calling<sp/>stub-&gt;transcribe()<sp/>and<sp/>emitting<sp/>one<sp/>token.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>the<sp/>critical<sp/>flow<sp/>we<sp/>are<sp/>testing/stunting<sp/>in<sp/>the<sp/>real<sp/>implementation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="class_whisper_stub_transcriber_1a55df38bc65d8d039e9a214c2f6d14b01" kindref="member">transcribe</ref>(pcm,<sp/>sample_rate);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success<sp/>&amp;&amp;<sp/>callback)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audio::TranscriptionToken<sp/>tok;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tok.text<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Streaming<sp/>piece.&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Mock<sp/>streamed<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tok.confidence<sp/><sp/>=<sp/>0.9;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tok.token_index<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback(tok);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_whisper_stub_transcriber_1a38d65733ee8be4f0b5a7786f43e0cb3e" kindref="member">getModelId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;stub_mock&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialization/Deserialization<sp/>STUBS<sp/>(CRITICAL<sp/>FOCUS<sp/>AREA)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>functions<sp/>are<sp/>stubbed<sp/>to<sp/>prevent<sp/>compilation<sp/>failure<sp/>and<sp/>allow<sp/>for<sp/>structural<sp/>testing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;char&gt;<sp/><ref refid="class_whisper_stub_transcriber_1aafd230555c0ea400f880d819d951674b" kindref="member">serialize</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WARN]<sp/>WhisperStubTranscriber::serialize<sp/>Stub:<sp/>Saving<sp/>minimum<sp/>state.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="charliteral">&apos;S&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;t&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;t&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">};<sp/></highlight><highlight class="comment">//<sp/>Mocked<sp/>serialized<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whisper_stub_transcriber_1acc4cee66a67c76e990324c822b5db71d" kindref="member">loadState</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;char&gt;&amp;<sp/>stateData)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WARN]<sp/>WhisperStubTranscriber::loadState<sp/>Stub:<sp/>State<sp/>loaded<sp/>successfully<sp/>from<sp/>mock<sp/>data.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_whisper_stub_transcriber_1aafd230555c0ea400f880d819d951674b" kindref="member">serialize</ref>(std::ostream&amp;<sp/>stream)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Using<sp/>the<sp/>stream<sp/>itself<sp/>for<sp/>output<sp/>is<sp/>crucial<sp/>in<sp/>persistence<sp/>logic.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;STUB_SERIALIZED_DATA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_whisper_stub_transcriber_1a355e110a6607a4d0b5edadff926fb336" kindref="member">deserialize</ref>(std::istream&amp;<sp/>stream)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>the<sp/>input<sp/>stream<sp/>to<sp/>simulate<sp/>reading<sp/>data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(stream.fail()<sp/>||<sp/>stream.get()<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;S&apos;</highlight><highlight class="normal"><sp/>||<sp/>stream.read(</highlight><highlight class="charliteral">&apos;T&apos;</highlight><highlight class="normal">,<sp/>1))<sp/>{<sp/></highlight><highlight class="comment">//<sp/>Basic<sp/>check<sp/>for<sp/>mock<sp/>read</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>failure<sp/>mode<sp/>if<sp/>stream<sp/>is<sp/>empty<sp/>or<sp/>malformed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WARN]<sp/>WhisperStubTranscriber::deserialize<sp/>Stub:<sp/>State<sp/>restored<sp/>successfully.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_whisper_stub_transcriber_1a68cfaefdaf03f3560206251e41019e52" kindref="member">isVersionSupported</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version_id)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>stub<sp/>behavior:<sp/>always<sp/>assume<sp/>support<sp/>for<sp/>testing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[INFO]<sp/>WhisperStubTranscriber::isVersionSupported<sp/>Stub:<sp/>Always<sp/>returns<sp/>true<sp/>for<sp/>simulation<sp/>purposes.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_whisper_stub_transcriber_1ac57522983b07d09b917efb53455dfed6" kindref="member">isModelVersionSupported</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version_id)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>function<sp/>handles<sp/>the<sp/>specific<sp/>use<sp/>case<sp/>of<sp/>connecting<sp/>a<sp/>model<sp/>ID.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[INFO]<sp/>WhisperStubTranscriber::isModelVersionSupported<sp/>Stub:<sp/>Checking<sp/>compatibility<sp/>for<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>version_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;.<sp/>Returning<sp/>true<sp/>by<sp/>default.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">};<sp/></highlight><highlight class="comment">//<sp/>class<sp/>WhisperStubTranscriber</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Utility/Example<sp/>Usage<sp/>(Demonstrating<sp/>the<sp/>pattern)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="include_2whisper_2whisper__transcriber_8cpp_1ad6220c7e5c328aba9a58395a524bc0c9" kindref="member">run_transcription_demo</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>the<sp/>stub<sp/>implementation<sp/>for<sp/>testing<sp/>purposes,<sp/>as<sp/>we<sp/>lack<sp/>the<sp/>real<sp/>dependencies.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IWhisperTranscriber&gt;<sp/>transcriber<sp/>=<sp/>std::make_unique&lt;WhisperStubTranscriber&gt;();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!transcriber-&gt;initialize(WhisperConfig{</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">,<sp/>16000}))<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>initialize<sp/>transciver!&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>audio<sp/>data<sp/>input<sp/>(2<sp/>seconds<sp/>@<sp/>16kHz)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_samples<sp/>=<sp/>16000<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>mock_pcm(total_samples,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>Language<sp/>Detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lang_result<sp/>=<sp/>transcriber-&gt;detectLanguage(mock_pcm,<sp/>16000.0f);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lang_result.supported)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Detected<sp/>Language:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>lang_result.detected_code<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>Basic<sp/>Transcription</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>full_result<sp/>=<sp/>transcriber-&gt;transcribe(mock_pcm,<sp/>16000.0f);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(full_result.success)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Full<sp/>Transcribed<sp/>Text:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>full_result.total_text<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>Streaming<sp/>Transcription<sp/>(The<sp/>most<sp/>critical<sp/>component<sp/>flow)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n---<sp/>Starting<sp/>Streaming<sp/>Demo<sp/>---\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>callback<sp/>must<sp/>handle<sp/>the<sp/>segment<sp/>data<sp/>and<sp/>update<sp/>&apos;themisdb&apos;<sp/>state<sp/>internally.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>transcriber-&gt;transcribeStream(mock_pcm,<sp/>16000.0f,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>audio::TranscriptionToken&amp;<sp/>token)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[CALLBACK]<sp/>Received<sp/>Segment:<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>token.text<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>(Confidence:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::fixed<sp/>&lt;&lt;<sp/>std::setprecision(2)<sp/>&lt;&lt;<sp/>token.confidence<sp/>*<sp/>100<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;%)&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!success<sp/>&amp;&amp;<sp/>!transcriber-&gt;isInitialized())<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n***<sp/>Transcription<sp/>flow<sp/>failed<sp/>during<sp/>stub<sp/>execution!<sp/>***&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(success)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n---<sp/>Streaming<sp/>Demo<sp/>Complete<sp/>---\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>Persistence<sp/>Flow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::stringstream<sp/>ss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(transcriber-&gt;serialize(ss))<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>serialized_data<sp/>=<sp/>ss.str();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n[TEST<sp/>SUCCESS]<sp/>State<sp/>successfully<sp/>serialized<sp/>to<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>serialized_data.length()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>bytes.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>new<sp/>transcriber<sp/>instance<sp/>(mocking<sp/>application<sp/>restart)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored_transcriber<sp/>=<sp/>std::make_unique&lt;WhisperStubTranscriber&gt;();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(restored_transcriber-&gt;deserialize(ss))<sp/>{<sp/></highlight><highlight class="comment">//<sp/>Using<sp/>the<sp/>same<sp/>stream,<sp/>logic<sp/>needs<sp/>to<sp/>be<sp/>more<sp/>robust<sp/>in<sp/>reality<sp/>but<sp/>works<sp/>for<sp/>demo.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[TEST<sp/>SUCCESS]<sp/>State<sp/>successfully<sp/>deserialized<sp/>and<sp/>restored<sp/>upon<sp/>restart<sp/>check.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[TEST<sp/>FAILURE]<sp/>Failed<sp/>to<sp/>deserialize<sp/>state<sp/>on<sp/>mock<sp/>restart.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n[TEST<sp/>FAILURE]<sp/>Serialization<sp/>failed!<sp/>Cannot<sp/>demonstrate<sp/>persistence<sp/>logic.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>end<sp/>run_transcription_demo()</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/whisper/whisper_transcriber.cpp"/>
+  </compounddef>
+</doxygen>

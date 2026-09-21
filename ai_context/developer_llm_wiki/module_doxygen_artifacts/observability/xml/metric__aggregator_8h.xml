@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="metric__aggregator_8h" kind="file" language="C++">
+    <compoundname>metric_aggregator.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__observability__block__b__gates_8cpp" local="yes">benchmarks/observability/bench_observability_block_b_gates.cpp</includedby>
+    <includedby refid="metric__aggregator_8cpp" local="yes">src/observability/metric_aggregator.cpp</includedby>
+    <includedby refid="test__observability__block__b__focused_8cpp" local="yes">tests/observability/test_observability_block_b_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/metric_aggregator.h</label>
+        <link refid="metric__aggregator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>deque</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/observability/bench_observability_block_b_gates.cpp</label>
+        <link refid="bench__observability__block__b__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/observability/metric_aggregator.h</label>
+        <link refid="metric__aggregator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/observability/metric_aggregator.cpp</label>
+        <link refid="metric__aggregator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/observability/test_observability_block_b_focused.cpp</label>
+        <link refid="test__observability__block__b__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_aggregation_rule" prot="public">themis::observability::AggregationRule</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_histogram_snapshot" prot="public">themis::observability::HistogramSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_aggregated_metric" prot="public">themis::observability::AggregatedMetric</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_shard_metrics" prot="public">themis::observability::ShardMetrics</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot" prot="public">themis::observability::ShardAggregationSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_metric_aggregator" prot="public">themis::observability::MetricAggregator</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_metric_aggregator_1_1_rate_sample" prot="private">themis::observability::MetricAggregator::RateSample</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723a6970bdc2201030b9c03fbdcf3973858a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723a6970bdc2201030b9c03fbdcf3973858a" kindref="member">SUM</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723afcefd647d6a866603c627b11347c707a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723afcefd647d6a866603c627b11347c707a" kindref="member">AVG</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723a26a4b44a837bf97b972628509912b4a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723a26a4b44a837bf97b972628509912b4a5" kindref="member">MAX</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723ace31e2a082d17e038fcc6e3006166653" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723ace31e2a082d17e038fcc6e3006166653" kindref="member">MIN</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723ae0e09951f61fed537fba9bd4673c6673" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723ae0e09951f61fed537fba9bd4673c6673" kindref="member">P50</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723a0f6c1553c917483dba7e0a31f3a48157" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723a0f6c1553c917483dba7e0a31f3a48157" kindref="member">P95</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723ab3fcb15d812e12b902042bfb3e6203fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723ab3fcb15d812e12b902042bfb3e6203fa" kindref="member">P99</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723a79521cdea3eff83f517d31c49f9082f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723a79521cdea3eff83f517d31c49f9082f5" kindref="member">RATE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1observability_1_1_aggregation_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_aggregation_rule" kindref="compound">AggregationRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1observability_1_1_aggregation_rule_1aac49588d8562e5e84087ad414418cfda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_aggregation_rule_1aac49588d8562e5e84087ad414418cfda" kindref="member">metric_name</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1observability_1_1_aggregation_rule_1af44b722b09a9e6f924a9fa6ea431b324" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref><sp/><ref refid="structthemis_1_1observability_1_1_aggregation_rule_1af44b722b09a9e6f924a9fa6ea431b324" kindref="member">type</ref>{<ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723afcefd647d6a866603c627b11347c707a" kindref="member">AggregationType::AVG</ref>};</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_aggregation_rule_1a4e5d92fd6d0888702520c396835bc506" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1observability_1_1_aggregation_rule_1a4e5d92fd6d0888702520c396835bc506" kindref="member">interval</ref>{60};</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1observability_1_1_aggregation_rule_1a1aef051d4cae3e9dc6a0bdb314cf8ece" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_aggregation_rule_1a1aef051d4cae3e9dc6a0bdb314cf8ece" kindref="member">group_by_labels</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1observability_1_1_aggregation_rule_1a7361ec20190a985257d2f1d969d24e1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_aggregation_rule_1a7361ec20190a985257d2f1d969d24e1d" kindref="member">drop_labels</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1observability_1_1_histogram_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_histogram_snapshot" kindref="compound">HistogramSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1observability_1_1_histogram_snapshot_1a84a28a2344aa1b67b8e3c4e85d67792c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_histogram_snapshot_1a84a28a2344aa1b67b8e3c4e85d67792c" kindref="member">metric_name</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1observability_1_1_histogram_snapshot_1a392721e696c1924129f1d2e96316f5cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_histogram_snapshot_1a392721e696c1924129f1d2e96316f5cb" kindref="member">labels</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1observability_1_1_histogram_snapshot_1adce37bbc5e5a6741c49f13d5faa31d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1observability_1_1_histogram_snapshot_1adce37bbc5e5a6741c49f13d5faa31d7b" kindref="member">values</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1observability_1_1_histogram_snapshot_1aa119b1a46d22b69377a505945d70c95c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_histogram_snapshot_1aa119b1a46d22b69377a505945d70c95c" kindref="member">timestamp</ref>{std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1observability_1_1_aggregated_metric" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_aggregated_metric" kindref="compound">AggregatedMetric</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1observability_1_1_aggregated_metric_1a6100e2707cc0632d9a4cc46d827868f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_aggregated_metric_1a6100e2707cc0632d9a4cc46d827868f1" kindref="member">metric_name</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1observability_1_1_aggregated_metric_1ac3ee9806d44f261661fea6684ffc6036" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_aggregated_metric_1ac3ee9806d44f261661fea6684ffc6036" kindref="member">labels</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_aggregated_metric_1a09bac658942da03c78480a257aecffb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_aggregated_metric_1a09bac658942da03c78480a257aecffb6" kindref="member">value</ref>{0.0};</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1observability_1_1_aggregated_metric_1ab038bcf86fc266e689f6c0d10ed1043f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref><sp/><ref refid="structthemis_1_1observability_1_1_aggregated_metric_1ab038bcf86fc266e689f6c0d10ed1043f" kindref="member">type</ref>{<ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723afcefd647d6a866603c627b11347c707a" kindref="member">AggregationType::AVG</ref>};</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1observability_1_1_aggregated_metric_1a0970a5d3a54613a74129e535bd49ec99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_aggregated_metric_1a0970a5d3a54613a74129e535bd49ec99" kindref="member">timestamp</ref>{std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1observability_1_1_shard_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_shard_metrics" kindref="compound">ShardMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1observability_1_1_shard_metrics_1ae63505d1a29a01c529a87f1271bc802f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_shard_metrics_1ae63505d1a29a01c529a87f1271bc802f" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1observability_1_1_shard_metrics_1ab3dc445776a961465a7d3d348849a0ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;double&gt;&gt;<sp/><ref refid="structthemis_1_1observability_1_1_shard_metrics_1ab3dc445776a961465a7d3d348849a0ba" kindref="member">metrics</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1observability_1_1_shard_metrics_1a9fa2167dba202d6e2696f1a595ef070c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_shard_metrics_1a9fa2167dba202d6e2696f1a595ef070c" kindref="member">labels</ref>;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1observability_1_1_shard_metrics_1a04aacefee151fc96466b87c886849d50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_shard_metrics_1a04aacefee151fc96466b87c886849d50" kindref="member">timestamp</ref>{std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot" kindref="compound">ShardAggregationSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot_1a5f2818e913b64046b86a4f75a82da7cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AggregatedMetric&gt;<sp/><ref refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot_1a5f2818e913b64046b86a4f75a82da7cc" kindref="member">metrics</ref>;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot_1a7efe0d32d3e76934e3b1b89a716d96ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot_1a7efe0d32d3e76934e3b1b89a716d96ac" kindref="member">timestamp</ref>{std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1observability_1_1_metric_aggregator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref><sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1observability_1_1_metric_aggregator_1a2ebba3e4ae1cd8074eea16d853a80a49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a2ebba3e4ae1cd8074eea16d853a80a49" kindref="member">~MetricAggregator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>(mutex<sp/>member<sp/>prevents<sp/>move<sp/>semantics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1observability_1_1_metric_aggregator_1abb96b601aea017eb528d55eb07914b08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1abb96b601aea017eb528d55eb07914b08" kindref="member">MetricAggregator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1observability_1_1_metric_aggregator_1a955d6354675f3e0a2e64291319802906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a955d6354675f3e0a2e64291319802906" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1observability_1_1_metric_aggregator_1ab587cab37503059b1e9668b1f87caf33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1ab587cab37503059b1e9668b1f87caf33" kindref="member">MetricAggregator</ref>(<ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1observability_1_1_metric_aggregator_1ad56aba5e683eafd767a1e6b0ae7fb1df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1ad56aba5e683eafd767a1e6b0ae7fb1df" kindref="member">operator=</ref>(<ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a163d5bd851757db778c1f01e18669ebc" kindref="member">recordCounterSample</ref>(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/>int64_t<sp/>value,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>window<sp/>=<sp/>std::chrono::seconds{120});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1ac2df9d038752079623227fb7e423f71a" kindref="member">calculateRate</ref>(</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Histogram<sp/>aggregation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a62d0d26e805595cd8f059a826ff4fb42" kindref="member">addHistogramSnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HistogramSnapshot&amp;<sp/>snapshot);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>AggregatedMetric<sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a933c636fecce490acfc935fef871cdd0" kindref="member">aggregateHistograms</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>filter_labels<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rule-based<sp/>aggregation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a9b15989bf56a82f081b379385337f168" kindref="member">addAggregationRule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AggregationRule&amp;<sp/>rule);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1addde1b2f02f03e61730dfdd9b077f260" kindref="member">removeAggregationRule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AggregationRule&gt;<sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a5a73534607bf608fb870ea25ef4c9360" kindref="member">getRules</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AggregatedMetric&gt;<sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a3b014125bb6898e0df43ce660e2c38bd" kindref="member">applyRules</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardAggregationSnapshot<sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a021d305daaa752d19d6a613481d0cf71" kindref="member">aggregateShardMetrics</ref>(</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardMetrics&gt;&amp;<sp/>shard_metrics)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a386527af70eeb142f18d12f22a3e9846" kindref="member">rollupMetrics</ref>(std::chrono::minutes<sp/>window);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cardinality<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a27910a4252bf64e52021f4de20eb3ce0" kindref="member">setMetricCardinalityLimit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a320f92a86b441092fc087c1f3435f915" kindref="member">getSeriesCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1ae0d25872206e6261b5e4511005177602" kindref="member">getDroppedSnapshotCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1ac1d8ceb46f1f3d988adb9a1bcc44e37c" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a126579316621d84fd0ffe69bd9f7e3a3" kindref="member">pruneRateSamples</ref>(std::chrono::seconds<sp/>window<sp/>=<sp/>std::chrono::seconds{120});</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>rate<sp/>state<sp/>----------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RateSample<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>value;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>timestamp;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>key<sp/>→<sp/>ordered<sp/>deque<sp/>of<sp/>samples<sp/>(oldest<sp/>first)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::deque&lt;RateSample&gt;&gt;<sp/>rate_samples_;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>histogram<sp/>state<sp/>-----------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>key<sp/>(metric_name<sp/>+<sp/>label<sp/>fingerprint)<sp/>→<sp/>snapshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;HistogramSnapshot&gt;&gt;<sp/>snapshots_;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>cardinality<sp/>state<sp/>---------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>metric_name<sp/>→<sp/>series<sp/>limit<sp/>(0<sp/>=<sp/>unlimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/>cardinality_limits_;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>metric_name<sp/>→<sp/>set<sp/>of<sp/>label<sp/>fingerprints<sp/>already<sp/>seen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/>known_series_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>dropped_snapshots_{0};</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>rule<sp/>state<sp/>----------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>metric_name<sp/>→<sp/>rule</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>AggregationRule&gt;<sp/>rules_;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>internal<sp/>helpers<sp/>----------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeSeriesKey(</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeLabelFingerprint(</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>applyDropLabels(</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels,</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>drop);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>reduce(std::vector&lt;double&gt;<sp/>sorted_values,<sp/><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkSnapshotCardinality(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>label_fingerprint);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/metric_aggregator.h"/>
+  </compounddef>
+</doxygen>

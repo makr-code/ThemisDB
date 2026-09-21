@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__content__con007__con012__remediations_8cpp_1aba784479c2bcc622699336741e5fad51" kindref="member">TEST</ref>  (VideoProcessorHealthCheckCON007, NotInitialized_AlwaysUnhealthy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>An un-initialized VideoProcessor must always report unhealthy, regardless of FFmpeg availability. This is a baseline invariant.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__content__con007__con012__remediations_8cpp_1a3cc7ebe96b674c2469920ac2af3b2933" kindref="member">TEST</ref>  (VideoProcessorHealthCheckCON007, SimulationMode_InitializedButUnhealthy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>CON-007 regression: in a no-FFmpeg (simulation-mode) build an initialized VideoProcessor must report unhealthy so aggregators can surface the missing FFmpeg dependency. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__content__con007__con012__remediations_8cpp_1ad3aa261ad44683ff92706b9da33c6012" kindref="member">TEST</ref>  (VideoProcessorHealthCheckCON007, FFmpegMode_InitializedAndHealthy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>CON-007 regression guard: in an FFmpeg build an initialized VideoProcessor must still report healthy (the FFmpeg path is unchanged).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__content__con007__con012__remediations_8cpp_1a4011ecf74a3eda8e846f032ed9efdb8e" kindref="member">TEST</ref>  (VideoProcessorHealthCheckCON007, AfterShutdown_AlwaysUnhealthy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>CON-007: shutdown resets health regardless of build.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__content__con007__con012__remediations_8cpp_1a8a35041ec59df25916a4853df1538114" kindref="member">TEST</ref>  (AsyncIngestionWorkerCON012, DestructorIsNoexcept)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>CON-012 compile-time check: AsyncIngestionWorker::~AsyncIngestionWorker() must be noexcept.</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

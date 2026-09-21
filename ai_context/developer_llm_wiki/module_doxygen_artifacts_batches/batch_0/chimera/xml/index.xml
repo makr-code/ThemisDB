@@ -1,0 +1,795 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structchimera_1_1_batch_config" kind="struct"><name>chimera::BatchConfig</name>
+    <member refid="structchimera_1_1_batch_config_1ac0391b0bd49b4b3829134ebcb001d3fc" kind="variable"><name>batch_size</name></member>
+    <member refid="structchimera_1_1_batch_config_1a8cf2c6700faa1d678ea3ca45aaf652a3" kind="variable"><name>pipeline_depth</name></member>
+    <member refid="structchimera_1_1_batch_config_1a9121041890eeef3f1475944b073358c9" kind="variable"><name>timeout_ms</name></member>
+    <member refid="structchimera_1_1_batch_config_1aa54a86f030c0215d8b20d208a97d651b" kind="variable"><name>auto_commit</name></member>
+    <member refid="structchimera_1_1_batch_config_1a98cb413c96e6a22c1776cc8ad62d8001" kind="variable"><name>fail_fast</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_batch_statistics" kind="struct"><name>chimera::BatchStatistics</name>
+    <member refid="structchimera_1_1_batch_statistics_1a50fafc437ced3be0011b8e872d954ad2" kind="variable"><name>rows_processed</name></member>
+    <member refid="structchimera_1_1_batch_statistics_1a9b037deacf07bd5edf112d66867611cf" kind="variable"><name>rows_committed</name></member>
+    <member refid="structchimera_1_1_batch_statistics_1aae52ab88c9cfa361b0ed6404f28941c4" kind="variable"><name>rows_failed</name></member>
+    <member refid="structchimera_1_1_batch_statistics_1a905356b0ede31efff7d2f3d2a4cb8928" kind="variable"><name>total_time_ms</name></member>
+    <member refid="structchimera_1_1_batch_statistics_1a8e4033bfb3d3492538afe653e2bc2455" kind="variable"><name>operation_count</name></member>
+    <member refid="structchimera_1_1_batch_statistics_1a747773c1ff1897f72242e4a8403c3161" kind="variable"><name>last_error</name></member>
+  </compound>
+  <compound refid="class_chimera_adapter_fixture" kind="class"><name>ChimeraAdapterFixture</name>
+    <member refid="class_chimera_adapter_fixture_1a250be516bed6e3acda6f19a6ede25b27" kind="variable"><name>adapter_</name></member>
+    <member refid="class_chimera_adapter_fixture_1a89b41cd8a8ddddab813e268ad2cfe99a" kind="function"><name>SetUp</name></member>
+    <member refid="class_chimera_adapter_fixture_1a8cb3aaec58fbe44723a83d097c594a50" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_chimera_prepared_statement_test" kind="class"><name>ChimeraPreparedStatementTest</name>
+    <member refid="class_chimera_prepared_statement_test_1a44bcc7732fcf293e0e19efd2297b7308" kind="variable"><name>adapter_</name></member>
+    <member refid="class_chimera_prepared_statement_test_1a1f4a14f1353ad90892ad580f4d59a898" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="class_chimera_streaming_test" kind="class"><name>ChimeraStreamingTest</name>
+    <member refid="class_chimera_streaming_test_1a5ca982a2a8c09ec9e2f01bc227a021a1" kind="variable"><name>adapter_</name></member>
+    <member refid="class_chimera_streaming_test_1a3e579b79e2dda47d29249d971a0a4c61" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_i_batch_adapter" kind="class"><name>chimera::IBatchAdapter</name>
+    <member refid="classchimera_1_1_i_batch_adapter_1a3b13094d4f2875c5682d37ad891c1a0d" kind="function"><name>~IBatchAdapter</name></member>
+    <member refid="classchimera_1_1_i_batch_adapter_1a06a669ff9a00cbaf7add1d0b8675b497" kind="function"><name>queue_insert</name></member>
+    <member refid="classchimera_1_1_i_batch_adapter_1ac8c18ce7b1b88be91f753c76909a9891" kind="function"><name>queue_insert_batch</name></member>
+    <member refid="classchimera_1_1_i_batch_adapter_1a51edda8e8032b7cc1736da4b6a913347" kind="function"><name>queue_update</name></member>
+    <member refid="classchimera_1_1_i_batch_adapter_1a1e5db3984d63b99cda6c27af6869a936" kind="function"><name>queue_delete</name></member>
+    <member refid="classchimera_1_1_i_batch_adapter_1af9886ab465bca45b2a1e9b167fce345e" kind="function"><name>flush</name></member>
+    <member refid="classchimera_1_1_i_batch_adapter_1afe84ae9ea2d76d718cf9f469323f51c3" kind="function"><name>get_pending_count</name></member>
+    <member refid="classchimera_1_1_i_batch_adapter_1abf33b0d9e45a4b4d96d4caa463e2f920" kind="function"><name>set_batch_config</name></member>
+    <member refid="classchimera_1_1_i_batch_adapter_1a4072a7f9d05047ad5da5bf06d6e40599" kind="function"><name>get_batch_config</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_i_prepared_statement" kind="class"><name>chimera::IPreparedStatement</name>
+    <member refid="classchimera_1_1_i_prepared_statement_1a90e15bb3711363dbd5246ca1605b0cf0" kind="function"><name>~IPreparedStatement</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1a080439098b98c72828e274e35b7591ac" kind="function"><name>get_id</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1a9e7ec49095f6ca962e10f73555d58b39" kind="function"><name>get_query</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1abd5dcecdddb8399b34278fca149f36d1" kind="function"><name>bind</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1a1caf8d741e4fc38f0e67ccdf6e3644a3" kind="function"><name>bind</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1aafb9c998474b8ce81fede75a88c9d251" kind="function"><name>bind_all</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1a600027edcb889ca4345aad4703ddd445" kind="function"><name>execute</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1ab21573eb43327d93ee009aff0a1dc236" kind="function"><name>execute_async</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1a641507cba7aa0fd50569f526820316f7" kind="function"><name>reset</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_1ae23f2b2ebb664ad24aa3cd8f36bc8e57" kind="function"><name>get_statistics</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_i_prepared_statement_adapter" kind="class"><name>chimera::IPreparedStatementAdapter</name>
+    <member refid="classchimera_1_1_i_prepared_statement_adapter_1a0e39605ff0c39a90e2836391a1c8df2d" kind="function"><name>~IPreparedStatementAdapter</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_adapter_1a5d7b6e6fd23484e55d385573d83fb668" kind="function"><name>prepare</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_adapter_1af92e0f0becd539c3db87a02b340568c4" kind="function"><name>unprepare</name></member>
+    <member refid="classchimera_1_1_i_prepared_statement_adapter_1ad92fb6de1c1186c8d954a66a46167720" kind="function"><name>list_prepared</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_i_result_stream" kind="class"><name>chimera::IResultStream</name>
+    <member refid="classchimera_1_1_i_result_stream_1ab0c82e3dba9d21dff91ed482b98610e6" kind="function"><name>~IResultStream</name></member>
+    <member refid="classchimera_1_1_i_result_stream_1a20e91df78ea1e202ff76821212e61569" kind="function"><name>has_more</name></member>
+    <member refid="classchimera_1_1_i_result_stream_1a556531b47277a91d4e785212ad38b687" kind="function"><name>next_batch</name></member>
+    <member refid="classchimera_1_1_i_result_stream_1a2133b74bff64e896130ec0d2d554aabe" kind="function"><name>position</name></member>
+    <member refid="classchimera_1_1_i_result_stream_1ac31688f837b01600a5029cc43b3f7f78" kind="function"><name>total_size</name></member>
+    <member refid="classchimera_1_1_i_result_stream_1a6fdc6ce9ec149d83a9a5ad609aa49353" kind="function"><name>close</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_i_streaming_adapter" kind="class"><name>chimera::IStreamingAdapter</name>
+    <member refid="classchimera_1_1_i_streaming_adapter_1afc46f3c638326eee7f8519d302febfc0" kind="function"><name>~IStreamingAdapter</name></member>
+    <member refid="classchimera_1_1_i_streaming_adapter_1adc44d3af066cfbed27b0d221bfb26a4c" kind="function"><name>execute_query_stream</name></member>
+    <member refid="classchimera_1_1_i_streaming_adapter_1a6ed5e4b63ea3729ecc29932d47090dc4" kind="function"><name>set_stream_config</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_mongo_d_b_adapter" kind="class"><name>chimera::MongoDBAdapter</name>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ab803da5ffedc65c2a185d994f8ac4a43" kind="variable"><name>client_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ab03db50efea7c4587e19c187ccda8aca" kind="variable"><name>database_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a689830b2b93215ecefc1521c49d71f2b" kind="variable"><name>connected_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a0fb4d9f4245bddcd5fe719f543078186" kind="variable"><name>connection_string_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1af6c5d7dc750e673fb2a08a82018f7cc9" kind="variable"><name>batch_mutex_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1af12781b16522ed12b34e5c8f856003da" kind="variable"><name>batch_queue_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ade44a2ec3082329da26897f78bb05bb4" kind="variable"><name>batch_config_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a2f8e36a9c914cbdf524caeb421812d8a" kind="variable"><name>txn_mutex_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a9e6f2b0d5844f2143fe29ee82bdab387" kind="variable"><name>active_transactions_</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a576d584a764d651030fe5c8d7e7d06bb" kind="function"><name>MongoDBAdapter</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a375a76c3f7a8f6723a219b05fb6a9979" kind="function"><name>~MongoDBAdapter</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a95154c1931cfffc260108071ab13d1f1" kind="function"><name>connect</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ab00ea12635698ca724a05af161da7daf" kind="function"><name>disconnect</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ad887cf0a18e69b86b7e51bc4b2d604a9" kind="function"><name>is_connected</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a7d9391af46c0f5c318c8daa9899cc91b" kind="function"><name>execute_query</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1acad514d772ffcf17dab2684874dcbf99" kind="function"><name>insert_row</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1aa3750960ba8cbef8b9014c8ae2b79d3f" kind="function"><name>batch_insert</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a41c58f330ec2f38c5b6cbaae5be83bf1" kind="function"><name>get_query_statistics</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1aa12333e7436d4521a0d3543912f022ee" kind="function"><name>insert_vector</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a62d70fbce9fc1feec50c1c9a5397f323" kind="function"><name>batch_insert_vectors</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1aa31f186a6e6f9edf081c10521ab98237" kind="function"><name>search_vectors</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1af4768dc7334e67db31e067c2f1945aff" kind="function"><name>create_index</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ad9d12d5084e467948120e9afddd0b4b2" kind="function"><name>insert_node</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a7e88a437683ad4d4c7dc29d618877159" kind="function"><name>insert_edge</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a113ecb86bccfa806c8062a5765675c13" kind="function"><name>shortest_path</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a9057626aa4345fcfdfb7dbf3f993d379" kind="function"><name>traverse</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a136ec7afea086ff9c092212e2d14c0b8" kind="function"><name>execute_graph_query</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a5dcf6d7cdbebef86bc54bbf278aed32a" kind="function"><name>insert_document</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1aff400c011e32edfeccfdf25d7e665c07" kind="function"><name>batch_insert_documents</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a05c8ee33c75dd2b7b4098070414960c1" kind="function"><name>find_documents</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a12579c5401c72c17bac8904ee5f1208d" kind="function"><name>update_documents</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a4ab90b867309d2635cad3af2b0ac9434" kind="function"><name>begin_transaction</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ac20c430237d234ba6daac8565763abe0" kind="function"><name>commit_transaction</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ae3686e82de4f0dc9f8d2697c8b2a91d2" kind="function"><name>rollback_transaction</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a12f3e5471839351bfd6492d75bacd6fd" kind="function"><name>create_savepoint</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a7dffb1ce8109ba7df605b1ed5c3c4b6c" kind="function"><name>rollback_to_savepoint</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a23f10d792679458926cfaac231f40c2b" kind="function"><name>release_savepoint</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a37f2349c489264520f4bf19b5c33ef54" kind="function"><name>get_transaction_stats</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a0c84cbfaf694aa7b67b0d2b1037c51cd" kind="function"><name>get_transaction_state</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a24b8a69e4dab04ba25ae1810d8721aaa" kind="function"><name>get_system_info</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1aa716f4169025bf993fb3054beb4f5a32" kind="function"><name>get_metrics</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a59f6f05623782e96657331eff993bdd7" kind="function"><name>has_capability</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ab7ecb5850a802861bc888d9d761918ae" kind="function"><name>get_capabilities</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a87d4ca6b78c99d2c25b54399d4bf4277" kind="function"><name>begin_transaction</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ab453517478e6203ccbebb73407140a71" kind="function"><name>commit_transaction</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a9f053ab6c9f41e8e368a8a9b4ec0158b" kind="function"><name>rollback_transaction</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a9b16d31814d0e197777f4d2fe056499e" kind="function"><name>create_savepoint</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a711a68ae4b4d7b397e7196026f278721" kind="function"><name>rollback_to_savepoint</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a8d27b31b2feeb9156f37507775303094" kind="function"><name>get_transaction_state</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1afbf7499f841c78d6ff7f32f5c672bd86" kind="function"><name>queue_insert</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a610cfb4f858d2d87822c59280677eef8" kind="function"><name>queue_insert_batch</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1ac1096953a282f1f2d39282e77c86266a" kind="function"><name>queue_update</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a9a397d3ab21cfb05df9d59eaa1b544a3" kind="function"><name>queue_delete</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a1f3a558e6b14f92f83ae024f93ae5ef4" kind="function"><name>flush</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a6d97adad6412b3961a68e81f7f27d6a0" kind="function"><name>get_pending_count</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a4c503811fd0345771b22bc9546004768" kind="function"><name>set_batch_config</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1acd37b234bfcfbb7d3428cdcc033a09be" kind="function"><name>get_batch_config</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a3391b1b1ef780f94bfb98e712b0d3354" kind="function"><name>generate_id</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a01ff2fa7942f288cb1e56be1adebd827" kind="function"><name>is_valid_connection_string</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1aa0f5a4b34232ed9f5130c16d76a2771d" kind="function"><name>mask_credentials</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1add8092bcef3b69d62a12d5724c4a26d3" kind="function"><name>scalar_to_bson_string</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a6f69bcf61404263ef1f1e47d9e92186f" kind="function"><name>row_to_bson_document</name></member>
+    <member refid="classchimera_1_1_mongo_d_b_adapter_1a559048b24f61f32b52001528d02cb60a" kind="function"><name>parse_query_to_mongo</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_neo4j_adapter" kind="class"><name>chimera::Neo4jAdapter</name>
+    <member refid="classchimera_1_1_neo4j_adapter_1aea28601b849f60ad2438ba441f98ec5c" kind="variable"><name>connected_</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a23eebd173a70488b460fef42ffa9d0b1" kind="variable"><name>connection_string_</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1afc1de1866e6558c09b12456fd5e306a9" kind="variable"><name>session_mutex_</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1ae22ea86b10de92dadfbf2f75932c8ce4" kind="variable"><name>active_sessions_</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a47e9427b3f2056c46c4d5a930938453e" kind="function"><name>Neo4jAdapter</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1abcee98288419f3da9ee2f93da415ee07" kind="function"><name>~Neo4jAdapter</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a5ee877bbb67edf1453cbb18235d34be2" kind="function"><name>connect</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a75e6b73cbed336a5386d12a552b030bf" kind="function"><name>disconnect</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1ad30fa31bbe9baab75f2ae65669d3db4b" kind="function"><name>is_connected</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1ab07b37b11c8bf305b72aab5caba2a477" kind="function"><name>execute_query</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a871020416bb132f260c6c640601bcb82" kind="function"><name>insert_row</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a5f74e17fbf7f0ad180f79d310b1d34e8" kind="function"><name>batch_insert</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1ad52aed7d8745c884efd9728146756994" kind="function"><name>get_query_statistics</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1aca7021e5fa5dc1d3ed42d75a158ef7f2" kind="function"><name>insert_vector</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a93b43ac005571bab89c5df64c8096c3a" kind="function"><name>batch_insert_vectors</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1ace91824d81ab71857edd4668ff89ceca" kind="function"><name>search_vectors</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a85d50c2dee771e68acc5c7903398c247" kind="function"><name>create_index</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a8f94baf7e909b3441fd9b30dcaf13d1c" kind="function"><name>insert_node</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1ac85041edb2f9baf4425ff40b27ee6189" kind="function"><name>insert_edge</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1acc534c27109721c4698ff05604b19aad" kind="function"><name>shortest_path</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a3c754bfc1c4fad2cf6392c1322b36701" kind="function"><name>traverse</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a47077bb509334e615016221352fbeb6e" kind="function"><name>execute_graph_query</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a06d8aa8e83e60df2aaf9bdb87d025cc7" kind="function"><name>insert_document</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1ab8ae782f5d78a2a1ff7cdca9cfed9604" kind="function"><name>batch_insert_documents</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a0c18d278ee4c2d6c59038964e0e670a6" kind="function"><name>find_documents</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a34adc688afc5cba7d7ad4e93e2cab199" kind="function"><name>update_documents</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a7887496ef20f13e12d1cce7728ffcdb4" kind="function"><name>begin_transaction</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a067b94a1b92a7a62811b063a98404015" kind="function"><name>commit_transaction</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a133654e5957620b24f468c428cfa4419" kind="function"><name>rollback_transaction</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a4a2eea8fa711f915fe38f0bbb066dd2c" kind="function"><name>create_savepoint</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1afe3e9cacd018901757a51ba4dc1f803c" kind="function"><name>rollback_to_savepoint</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1abb022217e942c04469f1dcd608fec1c4" kind="function"><name>release_savepoint</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a89f8c9862d9619cd032e8745801890e7" kind="function"><name>get_transaction_stats</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a54650861f1488e31cd654221d5f73ac8" kind="function"><name>get_transaction_state</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a73430473f54189cd4b717b45f9eb7c27" kind="function"><name>get_system_info</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a3a0d6cd399486a17ba229ea3e2a37854" kind="function"><name>get_metrics</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1acefe2d9d69d573169d49bb7f8764d365" kind="function"><name>has_capability</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a8409a919fa4e2dffbbd9348758325ce7" kind="function"><name>get_capabilities</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1ab3fb3f4827f3c07f65c5d8516ba3e080" kind="function"><name>generate_id</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a205de189e7a293c0a5f31b3fde683855" kind="function"><name>is_valid_connection_string</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a6fb1fbfbc297e4282656f53c42103bde" kind="function"><name>mask_credentials</name></member>
+    <member refid="classchimera_1_1_neo4j_adapter_1a706c7910c116b5c68f4a6951d0f916e0" kind="function"><name>scalar_to_cypher_literal</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_operation" kind="struct"><name>chimera::Operation</name>
+    <member refid="structchimera_1_1_operation_1ae0c58fba6dd171aace37d9e4b787c7e5" kind="variable"><name>op_type</name></member>
+    <member refid="structchimera_1_1_operation_1a10e9c9c8247be464528547339e05dc5e" kind="variable"><name>target</name></member>
+    <member refid="structchimera_1_1_operation_1afaaf3b3f2e7c97f56c222f21686ac35a" kind="variable"><name>data_snapshot</name></member>
+    <member refid="structchimera_1_1_operation_1a1b1878dbf740bfd44e734031a1710ce7" kind="variable"><name>timestamp</name></member>
+    <member refid="structchimera_1_1_operation_1a2df0f48f5b0fe0801a89d54973478210" kind="variable"><name>is_reversible</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_qdrant_adapter" kind="class"><name>chimera::QdrantAdapter</name>
+    <member refid="classchimera_1_1_qdrant_adapter_1a4e7f75914572e2a80d819fe479813206" kind="variable"><name>connected_</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a09efab3ae24d469db7fc2babfb3f6dee" kind="variable"><name>connection_string_</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a37c210c4ec0b9e6993fbc018115097ee" kind="variable"><name>batch_mutex_</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1abee8d33e9c5b463b03e6d34ceeae9d2e" kind="variable"><name>vector_queue_</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a61165784a7f2c1ccf671e0320693b891" kind="variable"><name>batch_config_</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1aab83b39f719cc94b4b0c78859aa8ab63" kind="function"><name>QdrantAdapter</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a58992fea239374f01a7dce0c23a6ce44" kind="function"><name>~QdrantAdapter</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1aef3790a58fbabcbf3040486fba5650bd" kind="function"><name>connect</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1af661e74d6b7fcd13f898986feb6b207c" kind="function"><name>disconnect</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1ae97d308e62067edd7d8a90e6a485b144" kind="function"><name>is_connected</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a2bd688584441ccbd7116906f082b5258" kind="function"><name>execute_query</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a261aed28c9ebe0115b3a961e67127c11" kind="function"><name>insert_row</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a3dc507c13d73a1a3f20dfef2589a6c56" kind="function"><name>batch_insert</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1af55ba638e344eff8f05c115fe2d85af6" kind="function"><name>get_query_statistics</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a7431540a223c6776827bf0ae9862ea24" kind="function"><name>insert_vector</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a451804c11acdfa09a420ca72a4e5cb18" kind="function"><name>batch_insert_vectors</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a6cacd085ffdf8a5ccd35ca1a254f52f5" kind="function"><name>search_vectors</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a2ac5f76d895c353dfbd051023cd33c10" kind="function"><name>create_index</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a135d83cd5642160e83132e14e9ebce5a" kind="function"><name>insert_node</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a20f36b77550ebd7e3264b43b30ee3c03" kind="function"><name>insert_edge</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1abb5881296f66664aba1d0436ff2abdd4" kind="function"><name>shortest_path</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a4b242e339f2d2758b38279df35b096ff" kind="function"><name>traverse</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1ae7296fa6302f01905f5961e7b1d79335" kind="function"><name>execute_graph_query</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a7e1c97dd472fe1a2a1f11e8720801c23" kind="function"><name>insert_document</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a7fd240c36c62dc01533a6fd22ad1d4d5" kind="function"><name>batch_insert_documents</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1ae92e2032266c9c2d9e06581330b34276" kind="function"><name>find_documents</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a506c38f0477c7d5a836c3069aab084ea" kind="function"><name>update_documents</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a0964f665b4eb2fd5ee26060a7162b1a8" kind="function"><name>begin_transaction</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a0cddd8659e8b035e66a022691339c7dc" kind="function"><name>commit_transaction</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1af232895ea546015585f2cdec4d8c9b92" kind="function"><name>rollback_transaction</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a2ac319212e1102b360db8784d67340cf" kind="function"><name>create_savepoint</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a4d38293f6773c89d6c809b8da284d4be" kind="function"><name>rollback_to_savepoint</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a3c3f0f17863371452aa149f4bf89999a" kind="function"><name>release_savepoint</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a725e64c20ed75ed1c7e786ca59512ece" kind="function"><name>get_transaction_stats</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a6ec5e09cfe9540e2fc0c6d80af2bde63" kind="function"><name>get_transaction_state</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a8db02ca329a02184462fb05d325face7" kind="function"><name>get_system_info</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a9afd2c06cc28174315ec3e25c7dd95e9" kind="function"><name>get_metrics</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a7e2eb96da20960432d3692be3a519c73" kind="function"><name>has_capability</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1ad87361ff15bbbafb10b045935c1c7f83" kind="function"><name>get_capabilities</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a8b06c5af4406c8bc43412b9004ea0473" kind="function"><name>queue_insert</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1af84f053fb8fd412def3cb6642b000412" kind="function"><name>queue_insert_batch</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a4f6ec4093f345845e869fe5c2cd39665" kind="function"><name>queue_update</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a921cdd70656c8efe25debc1d32178fe0" kind="function"><name>queue_delete</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a6b536d3d3e3c736f936f6186a2cf6520" kind="function"><name>flush</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a3da7f1e194581f555fa8ef8ac80bc4c9" kind="function"><name>get_pending_count</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a1db2b0416f384fc442fbda29483e236f" kind="function"><name>set_batch_config</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a6796f65799ab94a18f5ccc47f74b5b3b" kind="function"><name>get_batch_config</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1afc51f72b08c7b39b142b2ddf267de171" kind="function"><name>generate_id</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a96bc55a07fac52ad979996c98d133c28" kind="function"><name>is_valid_connection_string</name></member>
+    <member refid="classchimera_1_1_qdrant_adapter_1a1e26f67a65162a22cd373d7c34c727fd" kind="function"><name>mask_credentials</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_query_statistics" kind="struct"><name>chimera::QueryStatistics</name>
+    <member refid="structchimera_1_1_query_statistics_1ac90944c4acecabc7e68767728bdf5c5f" kind="variable"><name>duration_ms</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation" kind="struct"><name>chimera::MongoDBAdapter::QueuedOperation</name>
+    <member refid="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a35267741e701e18560f391546e0c1723" kind="variable"><name>op_type</name></member>
+    <member refid="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a889b118b1d321da816699568ff991859" kind="variable"><name>table_name</name></member>
+    <member refid="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation_1a6a7a96f4f6950f3d2cd544a76e1052e0" kind="variable"><name>data</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_qdrant_adapter_1_1_queued_vector" kind="struct"><name>chimera::QdrantAdapter::QueuedVector</name>
+    <member refid="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1abc4712b4cd654c9d739c8988a1ef90df" kind="variable"><name>collection</name></member>
+    <member refid="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1aae74fe168dd84caf8f2abd0b3c82cba8" kind="variable"><name>vector</name></member>
+    <member refid="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1a19cc11b5fa267bccb935983b609d5739" kind="variable"><name>id</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_relational_row" kind="struct"><name>chimera::RelationalRow</name>
+    <member refid="structchimera_1_1_relational_row_1a398793e12df676d11915dc5bff746c51" kind="variable"><name>columns</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_relational_table" kind="struct"><name>chimera::RelationalTable</name>
+    <member refid="structchimera_1_1_relational_table_1a22ca238bb6029583b286c49555252ab5" kind="variable"><name>rows</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_result" kind="struct"><name>chimera::Result</name>
+    <member refid="structchimera_1_1_result_1a1a96ceed62a40a247fe495dfc9132ca0" kind="variable"><name>value</name></member>
+    <member refid="structchimera_1_1_result_1a43383af1d33d67e9ab9297ccda8607e4" kind="variable"><name>error_code</name></member>
+    <member refid="structchimera_1_1_result_1a27a12cb3abd72c9512c28e05eca327e7" kind="variable"><name>error_message</name></member>
+    <member refid="structchimera_1_1_result_1aa487c4740c612cd95fa30936c103a255" kind="function"><name>is_ok</name></member>
+    <member refid="structchimera_1_1_result_1a91ca2082e782477a9c3d60f978d0465d" kind="function"><name>is_err</name></member>
+    <member refid="structchimera_1_1_result_1aadbff86bf9dae4f2b2c6b80542139387" kind="function"><name>ok</name></member>
+    <member refid="structchimera_1_1_result_1abca5163413a761054330a66e4a6616aa" kind="function"><name>err</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_retry_executor" kind="class"><name>chimera::RetryExecutor</name>
+    <member refid="classchimera_1_1_retry_executor_1a09330bb7231ad1b7a50eb82cd812ea7c" kind="function"><name>RetryExecutor</name></member>
+    <member refid="classchimera_1_1_retry_executor_1a8ebe53fc5ea1ee289e31768f2a6423f8" kind="function"><name>~RetryExecutor</name></member>
+    <member refid="classchimera_1_1_retry_executor_1a08bbe57c53a12564f28a2ab0ddd3a6c1" kind="function"><name>execute_with_retry</name></member>
+    <member refid="classchimera_1_1_retry_executor_1ad6723dd7d366b021839978f111a54f21" kind="function"><name>calculate_backoff</name></member>
+    <member refid="classchimera_1_1_retry_executor_1ad551f1dffd96994b36345a7749048692" kind="function"><name>should_retry</name></member>
+    <member refid="classchimera_1_1_retry_executor_1aae6bc14d011997deb4f03cd80f134c53" kind="function"><name>get_jitter</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_retry_policy" kind="struct"><name>chimera::RetryPolicy</name>
+    <member refid="structchimera_1_1_retry_policy_1aeba8c5f829146c196b8838ad83f32465" kind="variable"><name>max_retries</name></member>
+    <member refid="structchimera_1_1_retry_policy_1af6510cec3d5acca29035780fde40b452" kind="variable"><name>initial_backoff_ms</name></member>
+    <member refid="structchimera_1_1_retry_policy_1aecb0d14461a1ca6294143a48b9d7e9ac" kind="variable"><name>max_backoff_ms</name></member>
+    <member refid="structchimera_1_1_retry_policy_1a466a46341c8f70712338f4610253d5e0" kind="variable"><name>backoff_multiplier</name></member>
+    <member refid="structchimera_1_1_retry_policy_1a480fedf4971d83f59eb747496c7749b4" kind="variable"><name>jitter_factor</name></member>
+    <member refid="structchimera_1_1_retry_policy_1a6d097f47243334f4c8e6d0053bb4e429" kind="variable"><name>retry_on_codes</name></member>
+    <member refid="structchimera_1_1_retry_policy_1a1ecf71770b3c36ea2a65c69437a02514" kind="variable"><name>retry_on_connection_error</name></member>
+    <member refid="structchimera_1_1_retry_policy_1a851e41e3614ba197f7bdf77af88d474b" kind="variable"><name>retry_on_resource_exhausted</name></member>
+    <member refid="structchimera_1_1_retry_policy_1a18bfc4e160b0c52955e78744c3f37d54" kind="variable"><name>retry_on_internal_error</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_neo4j_adapter_1_1_session_handle" kind="struct"><name>chimera::Neo4jAdapter::SessionHandle</name>
+    <member refid="structchimera_1_1_neo4j_adapter_1_1_session_handle_1aa17f8bbd6f7f9830968ea44c61d5cc3f" kind="variable"><name>session_id</name></member>
+    <member refid="structchimera_1_1_neo4j_adapter_1_1_session_handle_1a9dea7d42ec9649cac89a4189d360171b" kind="variable"><name>neo4j_session</name></member>
+    <member refid="structchimera_1_1_neo4j_adapter_1_1_session_handle_1a00eb8f6e645c1708c178778c89f059e5" kind="variable"><name>state</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_stream_config" kind="struct"><name>chimera::StreamConfig</name>
+    <member refid="structchimera_1_1_stream_config_1a5a8bc95260335716d6d2c10d6e570730" kind="variable"><name>default_batch_size</name></member>
+    <member refid="structchimera_1_1_stream_config_1a786b1d263655425fb4fa8be0b5cafaf2" kind="variable"><name>prefetch</name></member>
+    <member refid="structchimera_1_1_stream_config_1a291c5c2ad9a5403e600094fdd6ecaf08" kind="variable"><name>timeout_ms</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_themis_d_b_adapter" kind="class"><name>chimera::ThemisDBAdapter</name>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a77a9ee77211f230af0ad825c300485a1" kind="variable"><name>connected_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ada3ff0efc6519f29ee8f9ccf4afeaab4" kind="variable"><name>connection_string_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1adc757607bf15ba4ae5283239f994ee77" kind="variable"><name>query_engine_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1aba2f12cbaffecb74a1a4f6ff7c2baa0e" kind="variable"><name>vector_index_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1af96aed212722c012ec8d54a69700615f" kind="variable"><name>graph_index_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a6947459b45d1a160e4896b7d3766045a" kind="variable"><name>connection_pool_acquire_fn_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a84f2cc67c9a638d1a672b7f40d049e61" kind="variable"><name>store_mutex_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a84fecc873b00e7db2d9cc464a27711eb" kind="variable"><name>table_store_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a0098a6f07e2b2719cd065582d9b4f10c" kind="variable"><name>vector_store_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a7d74128751da9d7e9e57ee622f3b1efc" kind="variable"><name>graph_nodes_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ac1926919008608cacf1ffe5196cd7c5e" kind="variable"><name>graph_edges_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a060ad3af46c40f34e17904f00ea60b56" kind="variable"><name>adj_out_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ad73f54bbedfc58028ebcc37a39e4becc" kind="variable"><name>doc_store_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a7593ee61232908703329cf36577257b1" kind="variable"><name>txn_mutex_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a6e68652937a46c441d9d1e1d33167065" kind="variable"><name>active_transactions_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1aef1ae8a36dcb10df605261c5c9a93457" kind="variable"><name>next_txn_id_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1abf4474d5fe232d5fd6e83b5544c88797" kind="variable"><name>cancel_mutex_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a77a14fecbd50f2030aed473f1666896c" kind="variable"><name>cancel_tokens_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a7bfa76249b631f8a6da8c57e71b2b985" kind="variable"><name>stream_config_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ae150b9229a9f9368a114cda2bb594412" kind="variable"><name>prepared_mutex_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a99484665f85f3331f0ff6c02efc4c6b4" kind="variable"><name>prepared_queries_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a2c1f663b0e5fb778a8e5cbd4b8377d66" kind="function"><name>ThemisDBAdapter</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a0c2098afe9096dfb74941026f333d849" kind="function"><name>~ThemisDBAdapter</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a7c579fefdc5b2464686393289b87ef8f" kind="function"><name>ThemisDBAdapter</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a61c1ce7b68d069a20d5ef3ba780921da" kind="function"><name>connect</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a81334a948b53223aa4fe6e03db3cd58c" kind="function"><name>disconnect</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ae5c9d348734c169a2863c56bee18b5e1" kind="function"><name>is_connected</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1aa3f8c850cae0ed0e65593d1aa75ea7ed" kind="function"><name>execute_query</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1afe02bc72a4bbb9b262531ca5d9f59d8c" kind="function"><name>insert_row</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1afcbfabd13c24b65316648567d2ace79e" kind="function"><name>batch_insert</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a0de827135ce43ddf7a78dc1843299594" kind="function"><name>get_query_statistics</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a11cd7fe8328dd4731b798b1165826bdd" kind="function"><name>insert_vector</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1afdbd82b9c5138dea11289b9ad9a36c8e" kind="function"><name>batch_insert_vectors</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1afd73941323a912ef71a502732d235bc9" kind="function"><name>search_vectors</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1afdc518a7926ded1f4f9467ef766a7bcc" kind="function"><name>create_index</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ae8154645165b8b6b370c825026796d5a" kind="function"><name>insert_node</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a65b4ff554aa985ec66268bba282c3f0e" kind="function"><name>insert_edge</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a841550891c2b8433c1433365ea91f909" kind="function"><name>shortest_path</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ab31295c6b21555386a5a74072a2d4307" kind="function"><name>traverse</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1abb1f0848f806f0a72b6c38dfa22cf229" kind="function"><name>execute_graph_query</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ac4e1eeccd9b5bb6632772f7b333cf369" kind="function"><name>insert_document</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a0b64460641d57d8a1278bc4964177f77" kind="function"><name>batch_insert_documents</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ae7e150b581e652ca471249fd3b2474de" kind="function"><name>find_documents</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a069433fe22141d14692ab82f1aab13d7" kind="function"><name>update_documents</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1af31a62f66c6b56e7a9239061ca131a47" kind="function"><name>begin_transaction</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a5f9fd4064f60e0ab4b12156491232107" kind="function"><name>commit_transaction</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ad2a8a12a601bea7c456329ba70b68091" kind="function"><name>rollback_transaction</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a7586cba6634904cc8cee39f7a8bcaef7" kind="function"><name>create_savepoint</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a8ee00a9c6e76281ae4add2fae06ee02f" kind="function"><name>rollback_to_savepoint</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1afdce947fa00c5787342869a2308b69a7" kind="function"><name>release_savepoint</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ac1d20cb0f5d59588b6b7a461b9bfabfe" kind="function"><name>get_transaction_stats</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1aea06a6866489a03cc060d57fdea9bf7c" kind="function"><name>get_transaction_state</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a4d3e16dcd6a60fe635bc86908e8708e6" kind="function"><name>get_system_info</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a1687a4b8c72c06a45cdab0802e380704" kind="function"><name>get_metrics</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a4c2d0ebdce8370c35119f663aaafa599" kind="function"><name>has_capability</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a060496b7356089e4353a78aec6d1adca" kind="function"><name>get_capabilities</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ad0c2bc0f413cb205e72fefdd0259599b" kind="function"><name>execute_query_async</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a4cbc765531a0f1ac56aa429ddbb8f346" kind="function"><name>batch_insert_async</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1acbc1e93185e3c3e262f87ec31023c6ac" kind="function"><name>search_vectors_async</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a4892c13670fd3c017315c7c573a21155" kind="function"><name>cancel_async</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a0172e76f90204ed282168e32aedfc2a4" kind="function"><name>execute_query_stream</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ae12aa5def51472b64dbd60646b0f4d00" kind="function"><name>set_stream_config</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a02c4162838d04b0c5fd426d2f5ee2452" kind="function"><name>prepare</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1afbdebb26eb6618a4ae30618df88f3838" kind="function"><name>unprepare</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a0378d7c1435ebc2c7ad8c56b4e3bd6d0" kind="function"><name>list_prepared</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a456412bb1ff745a03307d678f251f7bd" kind="function"><name>setConnectionPool</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a7d7fcdcc6621677812567c2ed071b121" kind="function"><name>generate_id</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1ac69df08371537b6f492aef6f78a8877d" kind="function"><name>is_valid_connection_string</name></member>
+    <member refid="classchimera_1_1_themis_d_b_adapter_1a71e8d6ede43a726154cdb5255c1e8bb1" kind="function"><name>mask_credentials</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_capability_test" kind="class"><name>ThemisDBCapabilityTest</name>
+    <member refid="class_themis_d_b_capability_test_1a63b3230898a220fa374c11cceb5664e7" kind="variable"><name>adapter</name></member>
+    <member refid="class_themis_d_b_capability_test_1a1b53bb51def21cc087abc24bf0d500c6" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_connection_test" kind="class"><name>ThemisDBConnectionTest</name>
+    <member refid="class_themis_d_b_connection_test_1ad3ee0fcccda07d3b55153120ba865888" kind="variable"><name>adapter</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_document_test" kind="class"><name>ThemisDBDocumentTest</name>
+    <member refid="class_themis_d_b_document_test_1a4fb27d13e7a8d1d6b8e22a46fa537510" kind="variable"><name>adapter</name></member>
+    <member refid="class_themis_d_b_document_test_1a7bdec8e3d1a79cfc11298324fe7c62ff" kind="variable"><name>kCollection</name></member>
+    <member refid="class_themis_d_b_document_test_1a219a130cc137e0f1dd5b2c3e836c6674" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_engine_injection_test" kind="class"><name>ThemisDBEngineInjectionTest</name>
+    <member refid="class_themis_d_b_engine_injection_test_1a969369593f097ba68cf35c4bc5afbf9d" kind="function"><name>fake_qe</name></member>
+    <member refid="class_themis_d_b_engine_injection_test_1a15744ece4653605bb4f84939ed37eaee" kind="function"><name>fake_vi</name></member>
+    <member refid="class_themis_d_b_engine_injection_test_1a161a4dcbf1219fb0e2f690dc658832b4" kind="function"><name>fake_gi</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_graph_test" kind="class"><name>ThemisDBGraphTest</name>
+    <member refid="class_themis_d_b_graph_test_1a9feb7d061022d6d8a48941d844461e1a" kind="variable"><name>adapter</name></member>
+    <member refid="class_themis_d_b_graph_test_1ac13a8f062df35df86722151a0b376cbb" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_integration_test" kind="class"><name>ThemisDBIntegrationTest</name>
+    <member refid="class_themis_d_b_integration_test_1aa2b25d7e75c69cb765d0c918abb4f5b6" kind="variable"><name>adapter</name></member>
+    <member refid="class_themis_d_b_integration_test_1a473cf4a8798a7f871d9accaa822a3950" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_performance_test" kind="class"><name>ThemisDBPerformanceTest</name>
+    <member refid="class_themis_d_b_performance_test_1a955df846092746af173b94af68f63c14" kind="variable"><name>adapter</name></member>
+    <member refid="class_themis_d_b_performance_test_1ac129bab15968f83927f49e53707cfa9b" kind="variable"><name>kDocCol</name></member>
+    <member refid="class_themis_d_b_performance_test_1a628e476b08893bfe1457b711e43f5060" kind="variable"><name>kVecCol</name></member>
+    <member refid="class_themis_d_b_performance_test_1acce8ea075f434817f0a21fb58e9e8c4e" kind="variable"><name>kRowTbl</name></member>
+    <member refid="class_themis_d_b_performance_test_1aece82b4ce3f81406a1104b5652923d08" kind="variable"><name>kDocCount</name></member>
+    <member refid="class_themis_d_b_performance_test_1a9b1a3ba630b43b6cad56f0e2ec0832b5" kind="variable"><name>kVecDim</name></member>
+    <member refid="class_themis_d_b_performance_test_1a9ac676914b1d41cd1799d9141293745a" kind="variable"><name>kVecCount</name></member>
+    <member refid="class_themis_d_b_performance_test_1a60ecf069203d04455349398666116a11" kind="variable"><name>kSearchK</name></member>
+    <member refid="class_themis_d_b_performance_test_1a474a9e014bf64b92e0253f88d4c24cc5" kind="variable"><name>kSearchRuns</name></member>
+    <member refid="class_themis_d_b_performance_test_1aa331ed09e6dcb6ce20b98be7da12c92f" kind="variable"><name>kRowCount</name></member>
+    <member refid="class_themis_d_b_performance_test_1a84d818d519b5a799014392bdef324049" kind="variable"><name>kTxnRuns</name></member>
+    <member refid="class_themis_d_b_performance_test_1a1832b5c9956b471818ea5a8090dafd17" kind="variable"><name>kBulkDocMs</name></member>
+    <member refid="class_themis_d_b_performance_test_1a89d95468f376550ae342473bd320f8e7" kind="variable"><name>kBulkVecMs</name></member>
+    <member refid="class_themis_d_b_performance_test_1a4ae7e1e562e2db05da28e2ffc4388b4e" kind="variable"><name>kSearchMs</name></member>
+    <member refid="class_themis_d_b_performance_test_1a10819fe88221c5b22c1056bf7e53fae8" kind="variable"><name>kBulkRowMs</name></member>
+    <member refid="class_themis_d_b_performance_test_1ac1ea09af2144a0a772608b5f313e1cb1" kind="variable"><name>kTxnMs</name></member>
+    <member refid="class_themis_d_b_performance_test_1a84d47ea363636d15974442cbfb6c56e8" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_themis_d_b_prepared_statement" kind="class"><name>chimera::ThemisDBPreparedStatement</name>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a779b97d39e3b7e7d7f31c10781bf5ab9" kind="variable"><name>id_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1afaf7bd81710afaabdf338996b1eb8232" kind="variable"><name>query_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a918f1673c76df24445647eb64a2c1245" kind="variable"><name>adapter_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a8b14e84b5560202538794b7515178bb2" kind="variable"><name>named_params_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1afc102944a65b081692d2647d565ddbbe" kind="variable"><name>positional_params_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a70d2308362c67ee3aa72739bf67a634c" kind="variable"><name>stats_mutex_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a4aaf4e8764618683dabd6fadbf765e72" kind="variable"><name>exec_count_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1ab24f2a6fe613c2eb5bb13fabb434546d" kind="variable"><name>total_exec_time_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a8118fc7b26fc55a9db28f6c4c097e8da" kind="function"><name>ThemisDBPreparedStatement</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a671262ccfb6b8c31e5e3b38b9e9b58c4" kind="function"><name>get_id</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a2481b66d0beb822ff27d40816b115026" kind="function"><name>get_query</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1adc99bb9848abbb8719f349250047b04d" kind="function"><name>bind</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1af6cf6e9a41562a8ffb89f5a06c7f2b7f" kind="function"><name>bind</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1ae90d787dcb8e1811b47de91ec20fdbe8" kind="function"><name>bind_all</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a005985e490009e10cec5901a0da98021" kind="function"><name>execute</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1afc89832392f7be26bf5552272cec9977" kind="function"><name>execute_async</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1aa3cc5614c9fda21696d4cfeef2f958c2" kind="function"><name>reset</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1adf4b0bf32bd9cf9c1f5104780dbf1515" kind="function"><name>get_statistics</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1ad7766d0453a71aff5fb1f5c9a82a3e8e" kind="function"><name>apply_named_params</name></member>
+    <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a94f4d14cadd28a3ebbd4dd9f6462bc7e" kind="function"><name>build_positional_params</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_relational_test" kind="class"><name>ThemisDBRelationalTest</name>
+    <member refid="class_themis_d_b_relational_test_1a8a28b6db7ae55ec14bb73b49d169fad2" kind="variable"><name>adapter</name></member>
+    <member refid="class_themis_d_b_relational_test_1acd1f16d284696c5a09f4bbbe9a1b50d0" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_themis_d_b_result_stream" kind="class"><name>chimera::ThemisDBResultStream</name>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1a041b1ca38ae1395ded8d8025ca3383c4" kind="variable"><name>table_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1a015a871f42fb7e6b1493b9056b79a9cc" kind="variable"><name>config_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1a4136255ec90a65dab706dadc07c2344c" kind="variable"><name>cursor_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1af68313f7e1e07b11d5cf90be404b65ea" kind="variable"><name>closed_</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1afdd626b803ebaf4ba66b563401e5b783" kind="function"><name>ThemisDBResultStream</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1a3247f69af77f6c8de4c0ad4c93b8b07f" kind="function"><name>has_more</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1a68b1cd262bcf396315f2fd002654755d" kind="function"><name>next_batch</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1a12ed9ac75707a097dabb3216d00160e5" kind="function"><name>position</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1a503e003aa5536a394dd7bd1ee61d7b8e" kind="function"><name>total_size</name></member>
+    <member refid="classchimera_1_1_themis_d_b_result_stream_1afb7b7e9323bb4ed35ff22d2ed7f4ce41" kind="function"><name>close</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_transaction_test" kind="class"><name>ThemisDBTransactionTest</name>
+    <member refid="class_themis_d_b_transaction_test_1a62493349eaf7998cabe7082a1e8cc3e4" kind="variable"><name>adapter</name></member>
+    <member refid="class_themis_d_b_transaction_test_1ae9bd04e4d2dfdcb5084bf02df17e98f0" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="class_themis_d_b_vector_test" kind="class"><name>ThemisDBVectorTest</name>
+    <member refid="class_themis_d_b_vector_test_1a9bb6c6587cf1666914a155dee909f67e" kind="variable"><name>adapter</name></member>
+    <member refid="class_themis_d_b_vector_test_1aa5355f415e46ce2ec11f3f4f1f2a5a15" kind="variable"><name>kCollection</name></member>
+    <member refid="class_themis_d_b_vector_test_1affdd02e4690a1306a1b20ae4c58eda1d" kind="variable"><name>kDim</name></member>
+    <member refid="class_themis_d_b_vector_test_1acf6b54c0a6023b5305b85bdb8185a25f" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_transaction_context" kind="class"><name>chimera::TransactionContext</name>
+    <member refid="classchimera_1_1_transaction_context_1a0e70df09bf4bcb112e9313ba32fe88c0" kind="variable"><name>transaction_id_</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a78fcd551ad22a87d24a27e51ad7f0744" kind="variable"><name>isolation_level_</name></member>
+    <member refid="classchimera_1_1_transaction_context_1ab8ec4d4409a8d58448c338b682f12a41" kind="variable"><name>state_</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a837d41b6aebd96230694283f69f9a470" kind="variable"><name>start_time_</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a103f340a872e1d886a18189c44a7cd3f" kind="variable"><name>operations_</name></member>
+    <member refid="classchimera_1_1_transaction_context_1aaea46e71dbe434b2afc6740a03ae9671" kind="variable"><name>savepoints_</name></member>
+    <member refid="classchimera_1_1_transaction_context_1aa652c3acfd92b16d37c815677e10c5e3" kind="function"><name>TransactionContext</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a9036730abfd8205245f75953492803be" kind="function"><name>~TransactionContext</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a7e3274bc5e67adbfc382a7cef79a2d62" kind="function"><name>get_id</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a69b6c3127aaaa83beb965d2d1ab6c19d" kind="function"><name>get_state</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a2e34144f45def479c1034669d3543227" kind="function"><name>get_isolation_level</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a0b70856db4ee6b65bebb987133215c98" kind="function"><name>get_start_time</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a85b23ac6d461b7dbc5ed1ce80b47131a" kind="function"><name>mark_active</name></member>
+    <member refid="classchimera_1_1_transaction_context_1aa2985bffbc5bf0926e8fedcf35833703" kind="function"><name>mark_committed</name></member>
+    <member refid="classchimera_1_1_transaction_context_1af398df61e3129acf5ddebfec7e6d29f8" kind="function"><name>mark_aborted</name></member>
+    <member refid="classchimera_1_1_transaction_context_1ab12bc1bd8d06c86f08e697dd8282a68d" kind="function"><name>mark_failed</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a26d5525ace634bae9224e71d34c2f9b2" kind="function"><name>is_active</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a2649054aad447db756f4109a3a213362" kind="function"><name>is_terminal</name></member>
+    <member refid="classchimera_1_1_transaction_context_1aeb17c2de1e4d23ea853d445be347645f" kind="function"><name>record_operation</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a02c194db1e36b890d13f9ce382525735" kind="function"><name>get_operations</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a7b0f62f03567bed1f77a4799e4034722" kind="function"><name>clear_operations</name></member>
+    <member refid="classchimera_1_1_transaction_context_1a572393e7295edb590c476bb392987d52" kind="function"><name>create_savepoint</name></member>
+    <member refid="classchimera_1_1_transaction_context_1ab652b22dfcdab6ed7b32a1ae17b7ecb3" kind="function"><name>get_savepoints</name></member>
+    <member refid="classchimera_1_1_transaction_context_1ae3e1d11783de049af13e7378b5ac2e0b" kind="function"><name>get_savepoint_operation_count</name></member>
+  </compound>
+  <compound refid="classchimera_1_1_transaction_handle" kind="class"><name>chimera::TransactionHandle</name>
+    <member refid="classchimera_1_1_transaction_handle_1aba36b9060e3da61bcf06e20d0153ce4f" kind="variable"><name>context_</name></member>
+    <member refid="classchimera_1_1_transaction_handle_1a181e0cd338ec74f33b616481949635d0" kind="function"><name>TransactionHandle</name></member>
+    <member refid="classchimera_1_1_transaction_handle_1ac93c945af04680aaa66caebefde74e50" kind="function"><name>get</name></member>
+    <member refid="classchimera_1_1_transaction_handle_1ad0208b2a6381be7b349867c43cac74d6" kind="function"><name>get</name></member>
+    <member refid="classchimera_1_1_transaction_handle_1adb00260294587319b942db7c3085fede" kind="function"><name>operator*</name></member>
+    <member refid="classchimera_1_1_transaction_handle_1a71062c10917a627713f371aa6aa2fe27" kind="function"><name>operator*</name></member>
+    <member refid="classchimera_1_1_transaction_handle_1a104a6f718a330afdd095f7d961bf5d75" kind="function"><name>operator-&gt;</name></member>
+    <member refid="classchimera_1_1_transaction_handle_1a788919f7b1b6746cf4d71f834512fe9b" kind="function"><name>operator-&gt;</name></member>
+    <member refid="classchimera_1_1_transaction_handle_1ae3b87d57ee193badfaf739cd93e479fd" kind="function"><name>operator bool</name></member>
+  </compound>
+  <compound refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry" kind="struct"><name>chimera::ThemisDBAdapter::TxnEntry</name>
+    <member refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry_1a782755561154daf178742841a0dd706f" kind="variable"><name>options</name></member>
+    <member refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry_1a01b0c237acae933c3a932a437325e55e" kind="variable"><name>start_time</name></member>
+    <member refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry_1aa1a7eec09dec9727db5fe5948dc4a7cd" kind="variable"><name>steady_start</name></member>
+    <member refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry_1a46c2649935172ad8b4271dfb7bd528a8" kind="variable"><name>savepoints</name></member>
+    <member refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry_1a5487fe21931334261e1f8f4c99265177" kind="variable"><name>savepoint_set</name></member>
+    <member refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry_1ac63fb7a4ef6e00ff1b476ee17120532d" kind="variable"><name>operations_count</name></member>
+    <member refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry_1af30a280b5ed3ffb70b73d0df8b670e41" kind="variable"><name>retry_count</name></member>
+  </compound>
+  <compound refid="namespace_0d006331133103334303025223376351216371230151360146" kind="namespace"><name>@006331133103334303025223376351216371230151360146</name>
+  </compound>
+  <compound refid="namespace_0d111365301325371230015323020343100013344013346004" kind="namespace"><name>@111365301325371230015323020343100013344013346004</name>
+  </compound>
+  <compound refid="namespace_0d121101270303077172157154020227003362354132203153" kind="namespace"><name>@121101270303077172157154020227003362354132203153</name>
+  </compound>
+  <compound refid="namespace_0d137240047307255044001060055344125143037173354063" kind="namespace"><name>@137240047307255044001060055344125143037173354063</name>
+  </compound>
+  <compound refid="namespacebenchmark" kind="namespace"><name>benchmark</name>
+  </compound>
+  <compound refid="namespacechimera" kind="namespace"><name>chimera</name>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39" kind="enum"><name>ErrorCode</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39ad0749aaba8b833466dfcbb0428e4f89c" kind="enumvalue"><name>SUCCESS</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a3e860a081575fc82cc7b6ed2ca602947" kind="enumvalue"><name>NOT_IMPLEMENTED</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39af295a0c3e37c94f078e1c5476479132d" kind="enumvalue"><name>INVALID_ARGUMENT</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a8c02547a8a3b02382bac3557bcb2280d" kind="enumvalue"><name>NOT_FOUND</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a08e6da8e58b2bcd070be3b5274d51eed" kind="enumvalue"><name>ALREADY_EXISTS</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a255df50c140519133f1489ab44a389d9" kind="enumvalue"><name>PERMISSION_DENIED</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39ac77f1f09dab2c0c9980fca7cfae02518" kind="enumvalue"><name>CONNECTION_ERROR</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a070a0fb40f6c308ab544b227660aadff" kind="enumvalue"><name>TIMEOUT</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a4a739fa42dcdbdb8dfe5a5e4d9c5a627" kind="enumvalue"><name>RESOURCE_EXHAUSTED</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39ae8c0c70879b5895c615677261d64a1ee" kind="enumvalue"><name>INTERNAL_ERROR</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a40aa75f8e8cfdf7b660c5620e953229f" kind="enumvalue"><name>UNSUPPORTED</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39acbc105d7c0998520bf5abeccbe52f761" kind="enumvalue"><name>TRANSACTION_ABORTED</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a1d67a525f6cada988939ffdd393cae45" kind="enumvalue"><name>CONSTRAINT_VIOLATION</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a8f35b656de87c54e18710fc94d73a614" kind="enumvalue"><name>DEADLOCK</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39af084bb2f347532778764a8206854e27f" kind="enumvalue"><name>DISPATCH_FAILED</name></member>
+    <member refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a45933607bbffda9d4daf71f4a2c314ed" kind="enumvalue"><name>CAPABILITY_MISMATCH</name></member>
+    <member refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kind="enum"><name>IsolationLevel</name></member>
+    <member refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a7b5722b7d02a9d8ff3a8bdfcb7d278c3" kind="enumvalue"><name>READ_UNCOMMITTED</name></member>
+    <member refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a1671fb17b5ce9bd0af0cf47f3f4ea337" kind="enumvalue"><name>READ_COMMITTED</name></member>
+    <member refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81aa4b37efaa1a6b533614ed81660dbf912" kind="enumvalue"><name>REPEATABLE_READ</name></member>
+    <member refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81aadfafde622c8622bb72e4ff73e295cdb" kind="enumvalue"><name>SERIALIZABLE</name></member>
+    <member refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kind="enum"><name>TransactionState</name></member>
+    <member refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca17130e6c806885e23770df1519b18eb7" kind="enumvalue"><name>STARTED</name></member>
+    <member refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca18ff74f43da410c5529f7d6fca84f115" kind="enumvalue"><name>ACTIVE</name></member>
+    <member refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca1c372d13f50af5ca9a935ebc78006e82" kind="enumvalue"><name>COMMITTED</name></member>
+    <member refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca4e6c860e5da10e31c5fd9cb76ddc2025" kind="enumvalue"><name>ABORTED</name></member>
+    <member refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16cab9e14d9b2886bcff408b85aefa780419" kind="enumvalue"><name>FAILED</name></member>
+    <member refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kind="typedef"><name>Scalar</name></member>
+  </compound>
+  <compound refid="namespacechimera_1_1_0d051252242240106140134317350055200161040275130360" kind="namespace"><name>chimera::@051252242240106140134317350055200161040275130360</name>
+  </compound>
+  <compound refid="namespacechimera_1_1_0d176273071342074350357016112351274371221013000143" kind="namespace"><name>chimera::@176273071342074350357016112351274371221013000143</name>
+  </compound>
+  <compound refid="namespacechimera_1_1_0d312071053317361021361105377250016054367313307041" kind="namespace"><name>chimera::@312071053317361021361105377250016054367313307041</name>
+  </compound>
+  <compound refid="namespacechimera_1_1_0d341303121322265055317323115314104060151241166312" kind="namespace"><name>chimera::@341303121322265055317323115314104060151241166312</name>
+  </compound>
+  <compound refid="namespacemongocxx" kind="namespace"><name>mongocxx</name>
+  </compound>
+  <compound refid="namespacemongocxx_1_1collection" kind="namespace"><name>mongocxx::collection</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1chimera" kind="namespace"><name>themis::chimera</name>
+  </compound>
+  <compound refid="bench__chimera__adapter_8cpp" kind="file"><name>bench_chimera_adapter.cpp</name>
+    <member refid="bench__chimera__adapter_8cpp_1aad7b007391b040010de5cc1c5c74daf1" kind="variable"><name>kChimeraCanonicalSeed</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1a9d31281e8728c8ccb2a56410f88ba640" kind="variable"><name>kRepetitions</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kind="variable"><name>state</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kind="variable"><name>query</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1a980719d07b3ecc933124a01f5790472c" kind="variable"><name>queries</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1ac929efa573f500d1314b04b581789e39" kind="function"><name>Unit</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1ad6a7b6b73caa2bc27f897bd23d8740ec" kind="function"><name>for</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1ab66f823899ff34acba815a6fbbccf4ae" kind="function"><name>SetItemsProcessed</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1a928218f62d7212291d9bd1c033c9238c" kind="function"><name>for</name></member>
+    <member refid="bench__chimera__adapter_8cpp_1a27fc67752a886a853f26b205218baf69" kind="function"><name>SetItemsProcessed</name></member>
+  </compound>
+  <compound refid="bench__chimera__dedicated__gates_8cpp" kind="file"><name>bench_chimera_dedicated_gates.cpp</name>
+    <member refid="bench__chimera__dedicated__gates_8cpp_1a13812769cd701da777bc14fac0595c99" kind="function"><name>BM_CH_BM_01_HybridQueryThroughput</name></member>
+    <member refid="bench__chimera__dedicated__gates_8cpp_1aa12ee4eaee94e95f75905a8c65d880b2" kind="function"><name>Threads</name></member>
+    <member refid="bench__chimera__dedicated__gates_8cpp_1a8428993a38c5b248d4ccabb7586746cf" kind="function"><name>BM_CH_BM_02_FallbackLatency</name></member>
+    <member refid="bench__chimera__dedicated__gates_8cpp_1a20cd142a1794d4958f7a639b50a9c448" kind="function"><name>MinTime</name></member>
+    <member refid="bench__chimera__dedicated__gates_8cpp_1a68ab94464da76e621bc14de2d8c72c4c" kind="function"><name>BM_CH_BM_03_DispatchDecision</name></member>
+    <member refid="bench__chimera__dedicated__gates_8cpp_1aeffabb8041b9f380e176e054f614b9a8" kind="function"><name>BM_CH_BM_04_ResultMerge</name></member>
+    <member refid="bench__chimera__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="batch__executor_8hpp" kind="file"><name>batch_executor.hpp</name>
+  </compound>
+  <compound refid="database__adapter_8hpp" kind="file"><name>database_adapter.hpp</name>
+    <member refid="database__adapter_8hpp_1ad5fb997ceb121bf1e7698917c1b9be65" kind="define"><name>CHIMERA_STREAMING_PREPARED_INTERFACES_HPP</name></member>
+  </compound>
+  <compound refid="mongodb__adapter_8hpp" kind="file"><name>mongodb_adapter.hpp</name>
+  </compound>
+  <compound refid="neo4j__adapter_8hpp" kind="file"><name>neo4j_adapter.hpp</name>
+  </compound>
+  <compound refid="qdrant__adapter_8hpp" kind="file"><name>qdrant_adapter.hpp</name>
+  </compound>
+  <compound refid="retry__executor_8hpp" kind="file"><name>retry_executor.hpp</name>
+  </compound>
+  <compound refid="themisdb__adapter_8hpp" kind="file"><name>themisdb_adapter.hpp</name>
+  </compound>
+  <compound refid="transaction_8hpp" kind="file"><name>transaction.hpp</name>
+  </compound>
+  <compound refid="batch__executor_8cpp" kind="file"><name>batch_executor.cpp</name>
+  </compound>
+  <compound refid="mongodb__adapter_8cpp" kind="file"><name>mongodb_adapter.cpp</name>
+  </compound>
+  <compound refid="neo4j__adapter_8cpp" kind="file"><name>neo4j_adapter.cpp</name>
+  </compound>
+  <compound refid="qdrant__adapter_8cpp" kind="file"><name>qdrant_adapter.cpp</name>
+  </compound>
+  <compound refid="retry__executor_8cpp" kind="file"><name>retry_executor.cpp</name>
+  </compound>
+  <compound refid="themisdb__adapter_8cpp" kind="file"><name>themisdb_adapter.cpp</name>
+  </compound>
+  <compound refid="transaction_8cpp" kind="file"><name>transaction.cpp</name>
+  </compound>
+  <compound refid="test__chimera__highcardinality__stress_8cpp" kind="file"><name>test_chimera_highcardinality_stress.cpp</name>
+    <member refid="test__chimera__highcardinality__stress_8cpp_1af11de86d50b6353e275bc1ff58a4595b" kind="function"><name>TEST</name></member>
+    <member refid="test__chimera__highcardinality__stress_8cpp_1a2798dbdf33f5fd80502108ee6cb3bb6e" kind="function"><name>TEST</name></member>
+    <member refid="test__chimera__highcardinality__stress_8cpp_1a282f4e29bf2d89161d8854ed567ede15" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__chimera__prepared__statements_8cpp" kind="file"><name>test_chimera_prepared_statements.cpp</name>
+    <member refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a5e76476124ec2b7dc69e4b4158506f85" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a37248727db2cfc9d90a7bb178bd5ec6c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a7976e593e5e1318aaf48bb72acc8af71" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a6cbaf9bcfeca1d4390e7c0501e81e90c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1af1ec1810c5984111f7b8ba8b7b9fafeb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1aff7c01c44a951c759aaf6e1c5a8301c4" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a4845b008203cb2b412e885e57c6bcaa5" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a746f83576745be362b6c8ee139175af1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a059ab98f5a2a13eb4c6c1e44d77b1bee" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a39a84ec18e588b0c56d506e2b7a98c35" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a50cd68f675bab7b6ef2f8cb5162244d8" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1ad25c7c0b3798a18da283e6580a3d3c17" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a064f378a5ee3ba4e1a3c40bddd16d636" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1aedf5c026944fce0ed89c7d4e358d0a24" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1acf2e0002fa48ffca52305b16a9c5c634" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1aa9642748245cde293485016406ed7178" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a12eda88b777903a73b6f69562e23655b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1ae74974b473648ed9b90a816eaa8f405c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1abca6d30ab945e03a00bf00bba3910633" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a5d28a55ec4c65f6591a61384ed0b7e0d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1aff0ef2b390d46a8fd0f1dc42a909ebb1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a9022a1d4dde17338fe2761fb62935b36" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a4e4e3c23600896bd1fd79763712d6da6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a1d1744cf3feeacbad71a88b44a75a2d3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__prepared__statements_8cpp_1a3a1e3aff723d78a3bb43234364eac554" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__chimera__streaming_8cpp" kind="file"><name>test_chimera_streaming.cpp</name>
+    <member refid="test__chimera__streaming_8cpp_1aa08863bc38a4a80c61802315a4a1dcce" kind="function"><name>make_row</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a87076e4eadde73c4db64964655d3edf9" kind="function"><name>populate_table</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a787317e3ee6056db1eaeb50709fbc91b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1ab54f8f64b552f1da8e44ec6be8be078f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1aedd97de436546eb850490e7a0e91038f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a5d6895a6a3b23980b4d76c94e6db83e2" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a4d075b63684b0df5f944a0333c83b605" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1abf26ae57583e8b4a971ba90ea99ccb8d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a4b4d80ed4a779223ccdfed1a9d936aa4" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1adffe8a09d34d0ebe807e45918d195691" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a7b5512df29efd7591e646224abf253fa" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a2f1f1fe2e0beae03bcd50a8c5424f6e6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1aaff988854bd4951f0883e8ca09020d01" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a5a9553ec48aee26f5a413db80e5f3e21" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1abf2d6319b8de21bd5f46aad0a4ed1a0b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a1de1fc54e8f6420c484c606c11301ac5" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1a490bdd4c91c08d77d804b1c6da7b138e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__chimera__streaming_8cpp_1ae2d57a6b9613ee27ae8c204f5819b41f" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__themisdb__adapter_8cpp" kind="file"><name>test_themisdb_adapter.cpp</name>
+    <member refid="test__themisdb__adapter_8cpp_1a1e104d50c0296aee0d502dc6f80621f4" kind="function"><name>make_doc</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a13985adaa4f7242b5d17c0d693b1ec00" kind="function"><name>make_vector</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a862d924db263eab88d9d9900062fc13e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1aeffed840232ffb63853be2a28e79d66a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a7b9447aac8ed8c37250bb96ec2e9311a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a5841b4e42fadc7accc41ca53b74a12b0" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a6e7ad347adc81a760630caa48761b3cd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a1e136c55b29209ad176a534f48d24d83" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a2abe1c8b635fdd1955b2edb6cfea403f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a20af2d5baa695ff7d965d79cbd111c2b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a9f82fce095ddd3270eefb9f69b14ecf5" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ac05bc3753d4d7bbd98ac5fa4bd65fceb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a333ae09dfdd74abf02fe4783076e7a2f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a9a79f9f65ef08dbbd3ff22bf322d675c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a031a576ae1923f5a04c830e7351c41f5" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ae5dcda1f63be86a2f1f2b52d65baa913" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a1edd68123cb11166d0bf358ec9c7bf48" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a79592669256c6552dc16e79dc300e953" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a3b7803f0aaf3eb00392f8a2d13cf8f03" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a8f249139107a73d8465b5e407fd552e1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1aad4d3f56ec5694232bc2d7d1cb02bf30" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1aec370de7476f9b0603544f2147049088" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a99647f86c9f406834f27a5283dbc8401" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a90453eb8e47027b983653668e4fe636e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a0d499bae9f154a29fd3499fc3d2c4358" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a5664865af5ea3f4814fe9675576cfef3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a4a1f070ff5b8b26b4dedf1bfb5926c70" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a20098ef72bbcc29315a69e623dc50577" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a20ff77091e94688a3a05c9bb612f3c5b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a5dc3930fbd9065f5aa52de0c27a99f68" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ab9e5ee6ff40e8d4e9a141efe15d3ce8f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a661156a2a04d61e93bdc39a7218dc2a5" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a942f26ee98423035cdb1891a80b8ce13" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1aa41b3f73f6b7e4ea1f65af56c1b5c79c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a3c0c735046cd3c9fd38c09736ad82107" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a115eba692f45fc5327c05d9ab22fdf06" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1aada4d3c037530f9d69c2095ed5c5bd4c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1acd1592ce41055867c4393a6a9f1146ff" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a25b4b86a26f5cdb88e189121d655787d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1af75386ca5194d3fcfa975b680e64f74a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ac2a7c98d8c174ebe0a80bcb8df5ef698" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1aa948a5ea7778269b3dc1a38496ca67a0" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1abb27956fcd6a151300c3ef11963edfef" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1adbb4728587b3687e1d6217bcdc83256c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a49aa9e995cb796040ec8b171aea193bd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ad6c81989afbc84b443c2aee848b0e29b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a373d6785d05d94be4b4a0223e4d59321" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a269d842ced7203baa0ea1b5dae36ba46" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a503c8a85db6b540608f626d7a29a1dde" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a97d420b8559ad85ee915546fee7353c6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a4306ce2d68d9adf499a808367ef4bfc6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ac281343e97aeb3c740333979ee8ada31" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ab1223c502ae0c2b34affe44ab2b986fb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ae891ed424978b3caf6528d549018bec2" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a13ff2b0b4365082f8f29640dfab0184a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1abe6f8490244e901081cd903842246701" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ab18ee1d48f072d447d9ecee022b9592f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a32c60681f38d129291678e713e3eab9e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a046a1d7e08380bec382e8e3515dfcde4" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a1dd85214da8c9dba70b84964eb559a4f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a2891401223e86efcdfa4e4485b190cac" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ac1519f8c10c604178bcf194a6fc82fb3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a12d1d9b8f90aa36f5978ccabe548c623" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a70c27d01a951097301d7ad513c99f0d8" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a58c9c64a6fe85c83231789439ea20ec3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a8c5d0672bd5f2dba3dd206736cfa9511" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1aba3d2ce320e5e104fe3c4d147719875a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1adbe9496a2c7d09762184df1c8f111381" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a1131367cc81f386a9bd9782032042ba3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ac77c37af0d33ca592a732e03004b5771" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a5872c1ebc5d02b60aee5639372b4800b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ada565622019e20831c37a17fba2eedb6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a5b50fc284e1336662c7e56406cd1f139" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a88801bbe15ae23d3512d68a7e619562a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a1abdc24f15868ab6a8c16db29845c98b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a8c1aa907bab2f65524d92733ba79f38c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1afa82e90c89892e03eec65930d4d5face" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a621fcf62c4de5cb16c00a0122a733963" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ace74b31bb4b1c287a25decc7a19af020" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a53c722e831d1bbc2667c434e6dd07e84" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a1e5bd3ac202dc3fe0eee77863b82a4b3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a53c35c07bbcea7674498f27b0283f8ea" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1aaf4955cddb17e2c608ceefe8b51ab277" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a6bb5c228de358d246b84805bd08586b2" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a5370fa7b6622e43faa825a6b41b60ae8" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a2b178851a47ac6f4f322b3e3cc0005b6" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a78dfd6588714607981aeb160cebde3b2" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ad97d0f1495ca35fa79d0040800982db1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a2d56e7111b00e54aa4c87c0320dd5004" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a266a956e7973c505b2c1f4deeae26970" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ad3bd141beedf94f54960e1061b0d014f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a888fd8a6d9ebe6d1793bb9d54add1c9c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a0e4c824eda1b9de03f6ac2ef5fcd7d63" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a7246fbbb9bfe7a6c251d29344988955d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1af99b81622927186c231b12608729ec2f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a9ba9aafbf250a7cfed336a524178881e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a69523cdbf2caf89005008a770f519fcd" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a9cc05c8ba4723d6b249d7add028ffbd9" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1adf36465a298459771b1c7a7e8cfca13f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ab042ee1b67bb12f96e1d418f0e55cdb4" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1ab31cd55cee915586abff74bdb818f1de" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a4ea96a84d2d96afbaac35d8ca9529b0b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a3783c97ec48bae467aa13cf01e9bed93" kind="function"><name>TEST_F</name></member>
+    <member refid="test__themisdb__adapter_8cpp_1a80a3129561ec1a8dc326cf8ce30238cc" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="themis__adapter__fallback_8cpp" kind="file"><name>themis_adapter_fallback.cpp</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_45a378a94fad06ed07bc9f08148cfbfb" kind="dir"><name>benchmarks/chimera</name>
+  </compound>
+  <compound refid="dir_4e077741805401604dd63af878ea9b62" kind="dir"><name>include/chimera</name>
+  </compound>
+  <compound refid="dir_5b7d925392bc7c087db201f9f494eade" kind="dir"><name>src/chimera</name>
+  </compound>
+  <compound refid="dir_4fffc5d71c5fb4162d24d86f90394c16" kind="dir"><name>tests/chimera</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1examples_1_1_batch_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::examples::BatchMetadata</compoundname>
+    <includes refid="alignment__examples_8h" local="no">alignment_examples.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_batch_metadata_1a15e22eaa60ebad45d933805bde09cedc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::examples::BatchMetadata::batch_id</definition>
+        <argsstring></argsstring>
+        <name>batch_id</name>
+        <qualifiedname>themis::examples::BatchMetadata::batch_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="149" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_batch_metadata_1af37d0b3adfaf1d4340cf4da30f8e5571" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::examples::BatchMetadata::num_items</definition>
+        <argsstring></argsstring>
+        <name>num_items</name>
+        <qualifiedname>themis::examples::BatchMetadata::num_items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="150" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_batch_metadata_1a11eef6929211967499346c98131f3d3b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::examples::BatchMetadata::processed_items</definition>
+        <argsstring></argsstring>
+        <name>processed_items</name>
+        <qualifiedname>themis::examples::BatchMetadata::processed_items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="151" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_batch_metadata_1a3a308f4ef7ec864228752b111a21b473" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::examples::BatchMetadata::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::examples::BatchMetadata::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="152" column="17" bodyfile="include/performance/alignment_examples.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_batch_metadata_1a2de605ee67d38b1fe7ef53510c984f23" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::examples::BatchMetadata::reserved[40]</definition>
+        <argsstring>[40]</argsstring>
+        <name>reserved</name>
+        <qualifiedname>themis::examples::BatchMetadata::reserved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="153" column="10" bodyfile="include/performance/alignment_examples.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Batch metadata structure with cache-line alignment. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used in distributed processing where batch metadata is frequently accessed by multiple threads. Cache-line alignment prevents false sharing. </para>
+    </detaileddescription>
+    <location file="include/performance/alignment_examples.h" line="148" column="1" bodyfile="include/performance/alignment_examples.h" bodystart="148" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1examples_1_1_batch_metadata_1a15e22eaa60ebad45d933805bde09cedc" prot="public" virt="non-virtual"><scope>themis::examples::BatchMetadata</scope><name>batch_id</name></member>
+      <member refid="structthemis_1_1examples_1_1_batch_metadata_1af37d0b3adfaf1d4340cf4da30f8e5571" prot="public" virt="non-virtual"><scope>themis::examples::BatchMetadata</scope><name>num_items</name></member>
+      <member refid="structthemis_1_1examples_1_1_batch_metadata_1a11eef6929211967499346c98131f3d3b" prot="public" virt="non-virtual"><scope>themis::examples::BatchMetadata</scope><name>processed_items</name></member>
+      <member refid="structthemis_1_1examples_1_1_batch_metadata_1a2de605ee67d38b1fe7ef53510c984f23" prot="public" virt="non-virtual"><scope>themis::examples::BatchMetadata</scope><name>reserved</name></member>
+      <member refid="structthemis_1_1examples_1_1_batch_metadata_1a3a308f4ef7ec864228752b111a21b473" prot="public" virt="non-virtual"><scope>themis::examples::BatchMetadata</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

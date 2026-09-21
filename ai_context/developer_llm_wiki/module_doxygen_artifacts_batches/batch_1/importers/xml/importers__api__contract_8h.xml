@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="importers__api__contract_8h" kind="file" language="C++">
+    <compoundname>importers_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__importers__release__gates_8cpp" local="yes">benchmarks/importers/bench_importers_release_gates.cpp</includedby>
+    <includedby refid="test__importers__contract__hardening__focused_8cpp" local="yes">tests/importers/test_importers_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__importers__new__connectors__focused_8cpp" local="yes">tests/importers/test_importers_new_connectors_focused.cpp</includedby>
+    <includedby refid="test__importers__phase2__phase3__integration__focused_8cpp" local="yes">tests/importers/test_importers_phase2_phase3_integration_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/importers/importers_api_contract.h</label>
+        <link refid="importers__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/importers/bench_importers_release_gates.cpp</label>
+        <link refid="bench__importers__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/importers/importers_api_contract.h</label>
+        <link refid="importers__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/importers/test_importers_contract_hardening_focused.cpp</label>
+        <link refid="test__importers__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/importers/test_importers_new_connectors_focused.cpp</label>
+        <link refid="test__importers__new__connectors__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/importers/test_importers_phase2_phase3_integration_focused.cpp</label>
+        <link refid="test__importers__phase2__phase3__integration__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>Frozen importers contract: idempotency, schema evolution, error handling, and ordering. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the importers module. All importer implementations (FlatFile, PostgreSQL, MySQL, MongoDB, Kafka, S3, schema validators, conflict resolvers) must honour these semantics within v1.x.</para>
+<sect1 id="importers__api__contract_8h_1autotoc_md0_1s1"><sect2 id="importers__api__contract_8h_1autotoc_md0">
+<title>Import Ordering Contract</title><para>Row ordering as supplied by the source is preserved during import. The consumer observes rows in the same sequence they appear in the source file or stream. Reordering by the importer is a contract violation.</para>
+</sect2></sect1>
+<sect1 id="importers__api__contract_8h_1autotoc_md1_1s1"><sect2 id="importers__api__contract_8h_1autotoc_md1">
+<title>Visibility Contract</title><para>Partial import state is NOT visible to readers before the import transaction commits. Readers see either zero rows (pre-commit) or all committed rows.</para>
+</sect2></sect1>
+<sect1 id="importers__api__contract_8h_1autotoc_md2_1s1"><sect2 id="importers__api__contract_8h_1autotoc_md2">
+<title>Idempotency Contract</title><para>Re-importing the same source with the same <computeroutput>import_id</computeroutput> is idempotent. A second import of the same data must produce no additional rows. The <computeroutput>import_id</computeroutput> uniqueness is enforced at the import coordinator level.</para>
+</sect2></sect1>
+<sect1 id="importers__api__contract_8h_1autotoc_md3_1s1"><sect2 id="importers__api__contract_8h_1autotoc_md3">
+<title>Schema Evolution Contract</title><para>Additive column changes (new nullable columns) are supported and passed through transparently. Breaking changes (column removal, type changes, renamed primary key) require an explicit migration step declared via the schema migration API. Attempting a breaking change without migration surfaces IMPORT_SCHEMA_MISMATCH.</para>
+</sect2></sect1>
+<sect1 id="importers__api__contract_8h_1autotoc_md4_1s1"><sect2 id="importers__api__contract_8h_1autotoc_md4">
+<title>Error Handling Contract</title><para>Bad row disposition is configurable per import job:<itemizedlist>
+<listitem><para>SKIP: the row is excluded; its index appears in the error response.</para>
+</listitem><listitem><para>FAIL: the entire import is aborted; no rows are committed. The error response MUST include the exact count of bad rows encountered.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="importers__api__contract_8h_1autotoc_md5_1s1"><sect2 id="importers__api__contract_8h_1autotoc_md5">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump.</para>
+<para><simplesect kind="see"><para>src/importers/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="importer__interface_8h" kindref="compound">include/importers/importer_interface.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="schema__validator_8h" kindref="compound">include/importers/schema_validator.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="conflict__resolver_8h" kindref="compound">include/importers/conflict_resolver.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Import<sp/>ID<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1importers_1a6a99df42efe8e66ab8110993a090dd68" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1importers_1a6a99df42efe8e66ab8110993a090dd68" kindref="member">kMaxImportIdBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1importers_1a09d09cdd3d33ba19f696af1d53fa76a9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1importers_1a09d09cdd3d33ba19f696af1d53fa76a9" kindref="member">kMaxConcurrentImports</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Schema<sp/>evolution<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1a" kindref="member">SchemaChangeKind</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa4bac8cdf0a968472b519b3b295d0d48b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa4bac8cdf0a968472b519b3b295d0d48b" kindref="member">NoChange</ref><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa3f7b3d8ee7bf0d542bd50821c083888f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa3f7b3d8ee7bf0d542bd50821c083888f" kindref="member">Additive</ref><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa934d53e0042351b3003475fd8672bd66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa934d53e0042351b3003475fd8672bd66" kindref="member">Breaking</ref><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1importers_1a6c245d1b5602d4d99d3e740680d77129" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a6c245d1b5602d4d99d3e740680d77129" kindref="member">requiresMigration</ref>(<ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1a" kindref="member">SchemaChangeKind</ref><sp/>kind)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>kind<sp/>==<sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa934d53e0042351b3003475fd8672bd66" kindref="member">SchemaChangeKind::Breaking</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Row<sp/>disposition<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1" kindref="member">BadRowDisposition</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">Skip</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="105" refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1aceaa0734f0b3c738120c67344d8f3ec1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1aceaa0734f0b3c738120c67344d8f3ec1" kindref="member">Fail</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Import<sp/>sizing<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="namespacethemis_1_1importers_1a3717b402ae6dc78f73fe4dc3a138ab53" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1importers_1a3717b402ae6dc78f73fe4dc3a138ab53" kindref="member">kDefaultImportBatchRows</ref><sp/>=<sp/>10&apos;000u;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1importers_1ab7208a5cce7743d8e6d22c144d602489" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1importers_1ab7208a5cce7743d8e6d22c144d602489" kindref="member">kMaxImportBatchRows</ref><sp/>=<sp/>10&apos;000&apos;000u;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1importers_1ae8deae081ac390da9217e048cf2647f0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1importers_1ae8deae081ac390da9217e048cf2647f0" kindref="member">kDefaultMaxImportFileBytes</ref><sp/>=<sp/>10ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>10<sp/>GiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046dee" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046dee" kindref="member">ImporterErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeabbea13b44f7b0e345297db2e390d19ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeabbea13b44f7b0e345297db2e390d19ed" kindref="member">IMPORT_SCHEMA_MISMATCH</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deead7bc11ca0265a55adcfac56db6ba6bf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deead7bc11ca0265a55adcfac56db6ba6bf3" kindref="member">IMPORT_ROW_INVALID</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae26e7c0e56a614f19fa3d0f91369ae2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae26e7c0e56a614f19fa3d0f91369ae2d" kindref="member">IMPORT_DUPLICATE_KEY</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea6b5e2cf1f985e10f128d35a6ed9b2941" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea6b5e2cf1f985e10f128d35a6ed9b2941" kindref="member">IMPORT_FILE_NOT_FOUND</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea1a744885d9b5702132aa95663c78d0ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea1a744885d9b5702132aa95663c78d0ca" kindref="member">IMPORT_QUOTA_EXCEEDED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeac133a28da0ae684eef1f4aeb34de7a4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeac133a28da0ae684eef1f4aeb34de7a4a" kindref="member">IMPORT_DUPLICATE_ID</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea356f31b14432727828877e5fd2d5a8d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea356f31b14432727828877e5fd2d5a8d9" kindref="member">IMPORT_TIMEOUT</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeaa88dc44c69288c9fbf2e8e9db9119398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeaa88dc44c69288c9fbf2e8e9db9119398" kindref="member">IMPORT_CONNECTOR_UNAVAILABLE</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeaf27f71f9a63b9e4ae0174520243c03d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeaf27f71f9a63b9e4ae0174520243c03d6" kindref="member">IMPORT_ROLLBACK</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="namespacethemis_1_1importers_1a18d7e29f873fb845037beb551f735535" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a18d7e29f873fb845037beb551f735535" kindref="member">isRetryableImportError</ref>(<ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046dee" kindref="member">ImporterErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea356f31b14432727828877e5fd2d5a8d9" kindref="member">ImporterErrorCode::IMPORT_TIMEOUT</ref></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeaa88dc44c69288c9fbf2e8e9db9119398" kindref="member">ImporterErrorCode::IMPORT_CONNECTOR_UNAVAILABLE</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Commit<sp/>visibility<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>committed<sp/>import<sp/>is<sp/>visible<sp/>to<sp/>all<sp/>subsequent<sp/>read<sp/>transactions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Visibility<sp/>is<sp/>guaranteed<sp/>after<sp/>the<sp/>import<sp/>coordinator<sp/>returns<sp/>OK.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>read-after-write<sp/>guarantee<sp/>holds<sp/>within<sp/>a<sp/>single<sp/>node;<sp/>cross-node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>visibility<sp/>is<sp/>bounded<sp/>by<sp/>the<sp/>cluster<sp/>replication<sp/>lag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="namespacethemis_1_1importers_1a006c0509785138ff2e86226906504f32" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1importers_1a006c0509785138ff2e86226906504f32" kindref="member">kImportReplicationLagSlo</ref>{5};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>importers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/importers_api_contract.h"/>
+  </compounddef>
+</doxygen>

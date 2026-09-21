@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::FTSPhraseProximityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1a1d50c703cd14cbb7fa0d939f4be3c5e6" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AQLParser&gt; themis::query::FTSPhraseProximityTest::parser_</definition>
+        <argsstring></argsstring>
+        <name>parser_</name>
+        <qualifiedname>themis::query::FTSPhraseProximityTest::parser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_phrase_proximity.cpp" line="33" column="21" bodyfile="tests/query/test_aql_fts_phrase_proximity.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1af7b01df46fd58a3e1677e8c934c647b9" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_query_engine" kindref="compound">QueryEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;QueryEngine&gt; themis::query::FTSPhraseProximityTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::query::FTSPhraseProximityTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_phrase_proximity.cpp" line="34" column="21" bodyfile="tests/query/test_aql_fts_phrase_proximity.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1a6fabd8864d26e03292b58dac25a9b118" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;QueryProfiler&gt; themis::query::FTSPhraseProximityTest::profiler_</definition>
+        <argsstring></argsstring>
+        <name>profiler_</name>
+        <qualifiedname>themis::query::FTSPhraseProximityTest::profiler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_phrase_proximity.cpp" line="35" column="21" bodyfile="tests/query/test_aql_fts_phrase_proximity.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1a1ae0886c0020859a97f21497249ce0ca" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::FTSPhraseProximityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::query::FTSPhraseProximityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_phrase_proximity.cpp" line="37" column="10" bodyfile="tests/query/test_aql_fts_phrase_proximity.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1a81bd658bda2a395c7e6d19b0bd4ef8c5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::FTSPhraseProximityTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::query::FTSPhraseProximityTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_phrase_proximity.cpp" line="42" column="10" bodyfile="tests/query/test_aql_fts_phrase_proximity.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1ae904cb454f1fa2f48de5785c3e7f8c92" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::FTSPhraseProximityTest::ExecuteQueryAndMeasure</definition>
+        <argsstring>(const std::string &amp;query_str)</argsstring>
+        <name>ExecuteQueryAndMeasure</name>
+        <qualifiedname>themis::query::FTSPhraseProximityTest::ExecuteQueryAndMeasure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_phrase_proximity.cpp" line="47" column="13" bodyfile="tests/query/test_aql_fts_phrase_proximity.cpp" bodystart="47" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test suite for phrase and proximity search functionality. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::FTSPhraseProximityTest</label>
+        <link refid="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::FTSPhraseProximityTest</label>
+        <link refid="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_aql_fts_phrase_proximity.cpp" line="31" column="1" bodyfile="tests/query/test_aql_fts_phrase_proximity.cpp" bodystart="31" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1af7b01df46fd58a3e1677e8c934c647b9" prot="protected" virt="non-virtual"><scope>themis::query::FTSPhraseProximityTest</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1ae904cb454f1fa2f48de5785c3e7f8c92" prot="protected" virt="non-virtual"><scope>themis::query::FTSPhraseProximityTest</scope><name>ExecuteQueryAndMeasure</name></member>
+      <member refid="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1a1d50c703cd14cbb7fa0d939f4be3c5e6" prot="protected" virt="non-virtual"><scope>themis::query::FTSPhraseProximityTest</scope><name>parser_</name></member>
+      <member refid="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1a6fabd8864d26e03292b58dac25a9b118" prot="protected" virt="non-virtual"><scope>themis::query::FTSPhraseProximityTest</scope><name>profiler_</name></member>
+      <member refid="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1a1ae0886c0020859a97f21497249ce0ca" prot="protected" virt="non-virtual"><scope>themis::query::FTSPhraseProximityTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1query_1_1_f_t_s_phrase_proximity_test_1a81bd658bda2a395c7e6d19b0bd4ef8c5" prot="protected" virt="non-virtual"><scope>themis::query::FTSPhraseProximityTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

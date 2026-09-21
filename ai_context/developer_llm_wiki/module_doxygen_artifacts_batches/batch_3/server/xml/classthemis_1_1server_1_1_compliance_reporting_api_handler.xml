@@ -1,0 +1,520 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_compliance_reporting_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ComplianceReportingApiHandler</compoundname>
+    <includes refid="compliance__reporting__api__handler_8h" local="no">compliance_reporting_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1abfeb29f7c13a71d6273a85319228623b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::governance::ComplianceReporter &gt;</type>
+        <definition>std::shared_ptr&lt;themis::governance::ComplianceReporter&gt; themis::server::ComplianceReportingApiHandler::reporter_</definition>
+        <argsstring></argsstring>
+        <name>reporter_</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::reporter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="83" column="21" bodyfile="include/server/compliance_reporting_api_handler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1aa62f13cc914c74fe36fc87b6849ce1ac" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::ComplianceReportingApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="84" column="21" bodyfile="include/server/compliance_reporting_api_handler.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a42abaa4cc84f0918fca358bd263008ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ComplianceReportingApiHandler::ComplianceReportingApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::governance::ComplianceReporter &gt; reporter, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>ComplianceReportingApiHandler</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::ComplianceReportingApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::governance::ComplianceReporter &gt;</type>
+          <declname>reporter</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="30" column="5" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="24" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1ae1450c2e13937f051c054b563e1371b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ComplianceReportingApiHandler::handleCoverageAnalysis</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCoverageAnalysis</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::handleCoverageAnalysis</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Coverage Analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), body(), empty(), nlohmann::json::parse(), contains(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="40" column="20" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="42" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a5cd782e4da3d0100ea3fe0b75c5a4311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ComplianceReportingApiHandler::handleComplianceReport</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleComplianceReport</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::handleComplianceReport</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Compliance Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), url(), target(), getQueryParam(), generateComplianceReport(), value_or(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="49" column="20" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="87" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a60d94693bf82671728637e0a22899194" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ComplianceReportingApiHandler::handleGapAnalysis</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGapAnalysis</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::handleGapAnalysis</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Gap Analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), detectGaps(), nlohmann::json::array(), push_back(), toJson(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="58" column="20" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="123" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1aae6b7d0b908950e91aa2e3b59e4bb79f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ComplianceReportingApiHandler::handleGenerateReport</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGenerateReport</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::handleGenerateReport</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Generate Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), generateSummaryReport(), makeResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="67" column="20" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="163" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1abdc75dbfa13a2d9d2c45f25ee97372fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ComplianceReportingApiHandler::handleExportReport</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;report_id)</argsstring>
+        <name>handleExportReport</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::handleExportReport</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>report_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Export Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">report_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the report. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">report_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the report. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), url(), target(), getQueryParam(), value_or(), generateSummaryReport(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="77" column="20" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="259" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a901faad8cf5de6589d7503b1f88b3c1e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::ComplianceReportingApiHandler::checkAuth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_role) const</argsstring>
+        <name>checkAuth</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::checkAuth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_role</declname>
+        </param>
+        <briefdescription>
+<para>Check Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="92" column="10" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="316" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1ae248c8421ac9746173ae1e25b0df4aca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ComplianceReportingApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="101" column="20" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="363" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a1a0998ca61163b31a6d07fbcfe76a02e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ComplianceReportingApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="114" column="20" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="377" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a5eaac6e60ebd7636b2e27a26ce7e537b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::server::ComplianceReportingApiHandler::getQueryParam</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;param) const</argsstring>
+        <name>getQueryParam</name>
+        <qualifiedname>themis::server::ComplianceReportingApiHandler::getQueryParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+<para>Get Query Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/compliance_reporting_api_handler.h" line="126" column="19" bodyfile="src/server/compliance_reporting_api_handler.cpp" bodystart="389" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/compliance_reporting_api_handler.h" line="28" column="1" bodyfile="include/server/compliance_reporting_api_handler.h" bodystart="28" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1aa62f13cc914c74fe36fc87b6849ce1ac" prot="private" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a901faad8cf5de6589d7503b1f88b3c1e" prot="private" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>checkAuth</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a42abaa4cc84f0918fca358bd263008ba" prot="public" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>ComplianceReportingApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a5eaac6e60ebd7636b2e27a26ce7e537b" prot="private" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>getQueryParam</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a5cd782e4da3d0100ea3fe0b75c5a4311" prot="public" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>handleComplianceReport</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1ae1450c2e13937f051c054b563e1371b9" prot="public" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>handleCoverageAnalysis</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1abdc75dbfa13a2d9d2c45f25ee97372fa" prot="public" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>handleExportReport</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a60d94693bf82671728637e0a22899194" prot="public" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>handleGapAnalysis</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1aae6b7d0b908950e91aa2e3b59e4bb79f" prot="public" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>handleGenerateReport</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1a1a0998ca61163b31a6d07fbcfe76a02e" prot="private" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1ae248c8421ac9746173ae1e25b0df4aca" prot="private" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_compliance_reporting_api_handler_1abfeb29f7c13a71d6273a85319228623b" prot="private" virt="non-virtual"><scope>themis::server::ComplianceReportingApiHandler</scope><name>reporter_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_edfda061906b889f377457fa505e9c3b" kind="dir">
+    <compoundname>include/user_storage_encrypted</compoundname>
+    <innerfile refid="command__timeout__manager_8hpp">command_timeout_manager.hpp</innerfile>
+    <innerfile refid="encryption__backend__interface_8hpp">encryption_backend_interface.hpp</innerfile>
+    <innerfile refid="error__codes_8hpp">error_codes.hpp</innerfile>
+    <innerfile refid="gocryptfs__backend_8hpp">gocryptfs_backend.hpp</innerfile>
+    <innerfile refid="irotation__store_8hpp">irotation_store.hpp</innerfile>
+    <innerfile refid="key__derivation__service_8hpp">key_derivation_service.hpp</innerfile>
+    <innerfile refid="key__rotation__scheduler_8hpp">key_rotation_scheduler.hpp</innerfile>
+    <innerfile refid="multi__level__storage_8hpp">multi_level_storage.hpp</innerfile>
+    <innerfile refid="pipe__guard_8hpp">pipe_guard.hpp</innerfile>
+    <innerfile refid="security__level_8hpp">security_level.hpp</innerfile>
+    <innerfile refid="timed__file__operation_8hpp">timed_file_operation.hpp</innerfile>
+    <innerfile refid="user__models_8hpp">user_models.hpp</innerfile>
+    <innerfile refid="user__storage__encrypted__api__contract_8h">user_storage_encrypted_api_contract.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_completion_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::CompletionContext</compoundname>
+    <includes refid="aql__autocomplete_8h" local="no">aql_autocomplete.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_context_1aa3abc5d0c744af504650a6422d2b91ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompletionContext::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themis::aql::CompletionContext::query_text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="79" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_context_1a0a2218815f30845792f6332c0597dd4c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::CompletionContext::cursor_offset</definition>
+        <argsstring></argsstring>
+        <name>cursor_offset</name>
+        <qualifiedname>themis::aql::CompletionContext::cursor_offset</qualifiedname>
+        <initializer>= std::string::npos</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="81" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_context_1ad3d520c6ca7fb539d441f5bc0844eb02" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompletionContext::schema_context</definition>
+        <argsstring></argsstring>
+        <name>schema_context</name>
+        <qualifiedname>themis::aql::CompletionContext::schema_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="83" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_completion_context_1addae88f66e66d1bb836463b33fd4f6b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompletionContext::trigger_character</definition>
+        <argsstring></argsstring>
+        <name>trigger_character</name>
+        <qualifiedname>themis::aql::CompletionContext::trigger_character</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="85" column="17" bodyfile="include/aql/aql_autocomplete.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_autocomplete.h" line="78" column="1" bodyfile="include/aql/aql_autocomplete.h" bodystart="78" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_completion_context_1a0a2218815f30845792f6332c0597dd4c" prot="public" virt="non-virtual"><scope>themis::aql::CompletionContext</scope><name>cursor_offset</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_context_1aa3abc5d0c744af504650a6422d2b91ee" prot="public" virt="non-virtual"><scope>themis::aql::CompletionContext</scope><name>query_text</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_context_1ad3d520c6ca7fb539d441f5bc0844eb02" prot="public" virt="non-virtual"><scope>themis::aql::CompletionContext</scope><name>schema_context</name></member>
+      <member refid="structthemis_1_1aql_1_1_completion_context_1addae88f66e66d1bb836463b33fd4f6b2" prot="public" virt="non-virtual"><scope>themis::aql::CompletionContext</scope><name>trigger_character</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

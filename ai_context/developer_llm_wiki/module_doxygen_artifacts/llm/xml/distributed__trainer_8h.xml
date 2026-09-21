@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__trainer_8h" kind="file" language="C++">
+    <compoundname>distributed_trainer.h</compoundname>
+    <includes refid="lora__layers_8h" local="yes">lora_layers.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="distributed__trainer_8cpp" local="yes">src/llm/lora_framework/distributed_trainer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/distributed_trainer.h</label>
+        <link refid="distributed__trainer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/distributed_trainer.h</label>
+        <link refid="distributed__trainer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/lora_framework/distributed_trainer.cpp</label>
+        <link refid="distributed__trainer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" prot="public">themis::llm::lora::DistributedConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats" prot="public">themis::llm::lora::DistributedStats</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" prot="public">themis::llm::lora::DistributedTrainer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope" prot="public">themis::llm::lora::DistributedScope</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__layers_8h" kindref="compound">lora_layers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953" kindref="member">DistributedBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single<sp/>GPU/CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953a1ed15cc4178fd8ec4d845042a8f1ead0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953a1ed15cc4178fd8ec4d845042a8f1ead0" kindref="member">NCCL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NVIDIA<sp/>Collective<sp/>Communications<sp/>Library</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953aee883e67e470043533f4dab59392a250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953aee883e67e470043533f4dab59392a250" kindref="member">GLOO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Facebook<sp/>Gloo<sp/>(CPU/GPU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953a3b124f211648678733ce66a1b361f06c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953a3b124f211648678733ce66a1b361f06c" kindref="member">MPI</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Message<sp/>Passing<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a8043c5ef0317e0c17b3e0723ce2cca7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a8043c5ef0317e0c17b3e0723ce2cca7c" kindref="member">~DistributedConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a0287ef371b4ec529319bdc06e88938d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953" kindref="member">DistributedBackend</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a0287ef371b4ec529319bdc06e88938d7" kindref="member">backend</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953ab50339a10e1de285ac99d4c3990b8693" kindref="member">DistributedBackend::NONE</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a31b648683995a55b645459434a799e08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a31b648683995a55b645459434a799e08" kindref="member">world_size</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>number<sp/>of<sp/>processes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a517d490ec3c9cbde9fe2d7a10c101657" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a517d490ec3c9cbde9fe2d7a10c101657" kindref="member">rank</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>process<sp/>rank</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2c4db2f64a1e55caa69167d02d693770" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2c4db2f64a1e55caa69167d02d693770" kindref="member">master_addr</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ac4f100b070017cef8ba0c4648983dc58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ac4f100b070017cef8ba0c4648983dc58" kindref="member">master_port</ref><sp/>=<sp/>29500;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a93cbf273029a5b4b36ea8cb3139ffd48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a93cbf273029a5b4b36ea8cb3139ffd48" kindref="member">gradient_as_bucket_view</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ad22d20efcd36ecb400df832908ded1bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ad22d20efcd36ecb400df832908ded1bd" kindref="member">bucket_cap_mb</ref><sp/>=<sp/>25;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bucket<sp/>size<sp/>for<sp/>gradient<sp/>communication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a635eac63e338b1a931a4bee32d7a555a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a635eac63e338b1a931a4bee32d7a555a" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;backend&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a0287ef371b4ec529319bdc06e88938d7" kindref="member">backend</ref>)},</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;world_size&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a31b648683995a55b645459434a799e08" kindref="member">world_size</ref>},</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;rank&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a517d490ec3c9cbde9fe2d7a10c101657" kindref="member">rank</ref>},</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;master_addr&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2c4db2f64a1e55caa69167d02d693770" kindref="member">master_addr</ref>},</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;master_port&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ac4f100b070017cef8ba0c4648983dc58" kindref="member">master_port</ref>},</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;gradient_as_bucket_view&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a93cbf273029a5b4b36ea8cb3139ffd48" kindref="member">gradient_as_bucket_view</ref>},</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bucket_cap_mb&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ad22d20efcd36ecb400df832908ded1bd" kindref="member">bucket_cap_mb</ref>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2064db9387a9886694c5dd9c5db1a82e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2064db9387a9886694c5dd9c5db1a82e" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref><sp/>config<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;backend&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a0287ef371b4ec529319bdc06e88938d7" kindref="member">backend</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953" kindref="member">DistributedBackend</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(j[</highlight><highlight class="stringliteral">&quot;backend&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;world_size&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a31b648683995a55b645459434a799e08" kindref="member">world_size</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;world_size&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;rank&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a517d490ec3c9cbde9fe2d7a10c101657" kindref="member">rank</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;rank&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;master_addr&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2c4db2f64a1e55caa69167d02d693770" kindref="member">master_addr</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;master_addr&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;master_port&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ac4f100b070017cef8ba0c4648983dc58" kindref="member">master_port</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;master_port&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;gradient_as_bucket_view&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a93cbf273029a5b4b36ea8cb3139ffd48" kindref="member">gradient_as_bucket_view</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;gradient_as_bucket_view&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;bucket_cap_mb&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ad22d20efcd36ecb400df832908ded1bd" kindref="member">bucket_cap_mb</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;bucket_cap_mb&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats" kindref="compound">DistributedStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a15c55b3c9090c34567eb78c9a1bc99ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a15c55b3c9090c34567eb78c9a1bc99ad" kindref="member">~DistributedStats</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a33eca5e7b832c8bb36a638aa808c348c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a33eca5e7b832c8bb36a638aa808c348c" kindref="member">world_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1af5811ffc6e0daf1444a27e60c4851492" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1af5811ffc6e0daf1444a27e60c4851492" kindref="member">rank</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a3b8b2b55ee153e7630e52be9c9f10c0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a3b8b2b55ee153e7630e52be9c9f10c0e" kindref="member">communication_time_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1ab1b1593046a379fdca554ceba638fd7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1ab1b1593046a379fdca554ceba638fd7f" kindref="member">computation_time_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a074b6a6801156d6810e4a9b4724d94b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a074b6a6801156d6810e4a9b4724d94b8" kindref="member">bytes_communicated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a6d59bbe25aa0cf14a079ecac2689e71b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a6d59bbe25aa0cf14a079ecac2689e71b" kindref="member">num_syncs</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a2ab5b3f2a9a7f5c6c2f916966bcdace4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a2ab5b3f2a9a7f5c6c2f916966bcdace4" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;world_size&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a33eca5e7b832c8bb36a638aa808c348c" kindref="member">world_size</ref>},</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;rank&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1af5811ffc6e0daf1444a27e60c4851492" kindref="member">rank</ref>},</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;communication_time_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a3b8b2b55ee153e7630e52be9c9f10c0e" kindref="member">communication_time_ms</ref>},</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;computation_time_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1ab1b1593046a379fdca554ceba638fd7f" kindref="member">computation_time_ms</ref>},</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bytes_communicated&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a074b6a6801156d6810e4a9b4724d94b8" kindref="member">bytes_communicated</ref>},</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;num_syncs&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a6d59bbe25aa0cf14a079ecac2689e71b" kindref="member">num_syncs</ref>},</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;efficiency&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1ab1b1593046a379fdca554ceba638fd7f" kindref="member">computation_time_ms</ref><sp/>/<sp/>(<ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1ab1b1593046a379fdca554ceba638fd7f" kindref="member">computation_time_ms</ref><sp/>+<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a3b8b2b55ee153e7630e52be9c9f10c0e" kindref="member">communication_time_ms</ref><sp/>+<sp/>1e-6f)}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ae7a748daafec317bed98ddee07ec7884" kindref="member">DistributedTrainer</ref><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1af0bd952d2386c17da8fd78d088afaa94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1af0bd952d2386c17da8fd78d088afaa94" kindref="member">BarrierFn</ref><sp/>=<sp/>std::function&lt;void()&gt;;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a221257e88be9d15580982f0e36d13920" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a221257e88be9d15580982f0e36d13920" kindref="member">BroadcastFn</ref><sp/>=<sp/>std::function&lt;void(std::vector&lt;float&gt;&amp;)&gt;;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a43611bd48c6bbf479900b8e8c675b382" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a43611bd48c6bbf479900b8e8c675b382" kindref="member">AllReduceCpuFn</ref><sp/>=<sp/>std::function&lt;void(std::vector&lt;float&gt;&amp;<sp/>data)&gt;;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ae7a748daafec317bed98ddee07ec7884" kindref="member">DistributedTrainer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a6b643ee461afd92bfb637dd2f894bd33" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a6b3d9206a25c07f99c8f925f733c34df" kindref="member">~DistributedTrainer</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a587c6094b0d924ca25d4424b5996e21d" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ab6986d58f7dd8c1d5aea62df0a0a5f06" kindref="member">finalize</ref>();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac5a24a9c4e5e1e24acc6aee061ca5d12" kindref="member">is_distributed</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a369acb57766020e38d9b8bfd4b7326de" kindref="member">is_master</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a874e7243af69d498568909c13b2824eb" kindref="member">synchronize_gradients</ref>(std::vector&lt;Tensor*&gt;&amp;<sp/>gradients);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1abb6e1ce6d13181581c61db45ff66a2d0" kindref="member">broadcast_parameters</ref>(std::vector&lt;Tensor*&gt;&amp;<sp/>parameters);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a37b63907eac955df5a6981f3c206d65a" kindref="member">barrier</ref>();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a689ddbbeab72c01751c4faf4269d2f7e" kindref="member">setBarrierFn</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1af0bd952d2386c17da8fd78d088afaa94" kindref="member">BarrierFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a13c8dc95b729581f10ea4337796895fa" kindref="member">setBroadcastFn</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a221257e88be9d15580982f0e36d13920" kindref="member">BroadcastFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a770e06ae4b4daa9d955a701e3e81a59d" kindref="member">setAllReduceCpuFn</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a43611bd48c6bbf479900b8e8c675b382" kindref="member">AllReduceCpuFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a6b643ee461afd92bfb637dd2f894bd33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a6b643ee461afd92bfb637dd2f894bd33" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats" kindref="compound">DistributedStats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a212fe44fe341eae297102e2485d729a7" kindref="member">stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1afc966df483916784a841006e8937ac72" kindref="member">reset_stats</ref>();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208" refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ad561a788dd770ae92e6e0caabcfe9a5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ad561a788dd770ae92e6e0caabcfe9a5b" kindref="member">world_size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.world_size;<sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a209b2e5eadf5d4e9d3b3dd3bd33f80f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a209b2e5eadf5d4e9d3b3dd3bd33f80f5" kindref="member">rank</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.rank;<sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a7b5e2edfe3075b5a4445b679fc1565cb" kindref="member">scale_learning_rate</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>base_lr,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ad561a788dd770ae92e6e0caabcfe9a5b" kindref="member">world_size</ref>,<sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>strategy<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sqrt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats" kindref="compound">DistributedStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>allreduce_cpu(std::vector&lt;float&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>broadcast_cpu(std::vector&lt;float&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;BarrierFn&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>barrier_fn_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;BroadcastFn&gt;<sp/><sp/><sp/><sp/><sp/><sp/>broadcast_fn_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AllReduceCpuFn&gt;<sp/><sp/><sp/>allreduce_cpu_fn_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a6e07ddf12a99e52e005fc5d460ad97d8" kindref="member">DistributedScope</ref><sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a6e07ddf12a99e52e005fc5d460ad97d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a6e07ddf12a99e52e005fc5d460ad97d8" kindref="member">DistributedScope</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" kindref="compound">DistributedTrainer</ref>*<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a17ba5f45046a4484bc3492479bc4af9e" kindref="member">trainer</ref>)</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>trainer_(<ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a17ba5f45046a4484bc3492479bc4af9e" kindref="member">trainer</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(trainer_)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainer_-&gt;initialize();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a2b1e97d3271625702f83c7a16d03075e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a2b1e97d3271625702f83c7a16d03075e" kindref="member">~DistributedScope</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(trainer_)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainer_-&gt;finalize();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a17ba5f45046a4484bc3492479bc4af9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" kindref="compound">DistributedTrainer</ref>*<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a17ba5f45046a4484bc3492479bc4af9e" kindref="member">trainer</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>trainer_;<sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" kindref="compound">DistributedTrainer</ref>*<sp/>trainer_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal">std::vector&lt;DistributedBackend&gt;<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a308b118a39be06dea3ce1652ab6ebeea" kindref="member">detect_available_backends</ref>();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1af37249c290bc04702014aa7735172b42" kindref="member">is_nccl_available</ref>();</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a93214e6bc2c3f79cb16954fed9d1fb49" kindref="member">is_gloo_available</ref>();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1aac23e88ba298d95d349a2932688188bc" kindref="member">is_mpi_available</ref>();</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/distributed_trainer.h"/>
+  </compounddef>
+</doxygen>

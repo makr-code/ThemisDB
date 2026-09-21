@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1af423cc83a8a7e4f44241f22d6d53c37f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref>, <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config" kindref="compound">LevelConfig</ref> &gt;</type>
+        <definition>std::map&lt;SecurityLevel, LevelConfig&gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::level_configs</definition>
+        <argsstring></argsstring>
+        <name>level_configs</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::level_configs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/multi_level_storage.cpp" line="44" column="14" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1add28ebfdc898aec382734e186a7cdefb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref>, std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface" kindref="compound">EncryptionBackendInterface</ref> &gt; &gt;</type>
+        <definition>std::map&lt;SecurityLevel, std::shared_ptr&lt;EncryptionBackendInterface&gt; &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::backends</definition>
+        <argsstring></argsstring>
+        <name>backends</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::backends</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/multi_level_storage.cpp" line="45" column="14" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a6631bc0af512c4c0a540bce62bb86f81" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; KeyProvider &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;KeyProvider&gt; &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::key_providers</definition>
+        <argsstring></argsstring>
+        <name>key_providers</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::key_providers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/multi_level_storage.cpp" line="46" column="14" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a42186026475ec6849292bb73ee444975" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/multi_level_storage.cpp" line="47" column="16" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a9634928a2d10cf8b5bbe106942e80258" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::initialized</definition>
+        <argsstring></argsstring>
+        <name>initialized</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::initialized</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/multi_level_storage.cpp" line="48" column="10" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1aae96a9d671d3c2f61502d5ef234e955c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics" kindref="compound">StorageMetrics</ref></type>
+        <definition>StorageMetrics themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/multi_level_storage.cpp" line="49" column="20" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1ab83eb87807b68f79640c0e2fec4b3f28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/multi_level_storage.cpp" line="51" column="5" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</label>
+        <link refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::user_storage::StorageMetrics</label>
+        <link refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/user_storage_encrypted/multi_level_storage.cpp" line="43" column="1" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="43" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1add28ebfdc898aec382734e186a7cdefb" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</scope><name>backends</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1ab83eb87807b68f79640c0e2fec4b3f28" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a9634928a2d10cf8b5bbe106942e80258" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</scope><name>initialized</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a6631bc0af512c4c0a540bce62bb86f81" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</scope><name>key_providers</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1af423cc83a8a7e4f44241f22d6d53c37f" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</scope><name>level_configs</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1aae96a9d671d3c2f61502d5ef234e955c" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a42186026475ec6849292bb73ee444975" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</scope><name>mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1metrics" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::metrics</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_lo_r_a_metrics_collector" prot="public">themis::llm::lora::metrics::LoRAMetricsCollector</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer" prot="public">themis::llm::lora::metrics::MetricTimer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric" prot="public">themis::llm::lora::metrics::ScopedMetric</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1metrics_1aa49b59da587feefe650163459d8b24cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric" kindref="compound">ScopedMetric</ref>&lt; Func &gt;</type>
+        <definition>ScopedMetric&lt; Func &gt; themis::llm::lora::metrics::makeScopedMetric</definition>
+        <argsstring>(Func func)</argsstring>
+        <name>makeScopedMetric</name>
+        <qualifiedname>themis::llm::lora::metrics::makeScopedMetric</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Make Scoped Metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="410" column="14" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="410" bodyend="412"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_metrics.h" line="38" column="1"/>
+  </compounddef>
+</doxygen>

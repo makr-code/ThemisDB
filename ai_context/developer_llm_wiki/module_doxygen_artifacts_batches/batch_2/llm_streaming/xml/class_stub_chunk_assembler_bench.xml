@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_chunk_assembler_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubChunkAssemblerBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_chunk_assembler_bench_1a839b63b8b322d0de77d64ecb26ad8d59" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubChunkAssemblerBench::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>StubChunkAssemblerBench::count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="75" column="17" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_chunk_assembler_bench_1a87349b18a42f875be1318ff308f465a0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubChunkAssemblerBench::receive</definition>
+        <argsstring>(uint64_t seq, const std::string &amp;chunk)</argsstring>
+        <name>receive</name>
+        <qualifiedname>StubChunkAssemblerBench::receive</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="69" column="10" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_chunk_assembler_bench_1a286ae96509d8fbcdece010cb3f5acb3d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubChunkAssemblerBench::count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>count</name>
+        <qualifiedname>StubChunkAssemblerBench::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="73" column="14" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="67" column="1" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="67" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_stub_chunk_assembler_bench_1a286ae96509d8fbcdece010cb3f5acb3d" prot="public" virt="non-virtual"><scope>StubChunkAssemblerBench</scope><name>count</name></member>
+      <member refid="class_stub_chunk_assembler_bench_1a839b63b8b322d0de77d64ecb26ad8d59" prot="private" virt="non-virtual"><scope>StubChunkAssemblerBench</scope><name>count_</name></member>
+      <member refid="class_stub_chunk_assembler_bench_1a87349b18a42f875be1318ff308f465a0" prot="public" virt="non-virtual"><scope>StubChunkAssemblerBench</scope><name>receive</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

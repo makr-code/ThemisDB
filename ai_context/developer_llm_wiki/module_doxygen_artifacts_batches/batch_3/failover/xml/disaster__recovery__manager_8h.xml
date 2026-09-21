@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="disaster__recovery__manager_8h" kind="file" language="C++">
+    <compoundname>disaster_recovery_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">replication/replication_manager.h</includes>
+    <includes local="yes">sharding/epoch_fencing.h</includes>
+    <includedby refid="disaster__recovery__manager_8cpp" local="yes">src/failover/disaster_recovery_manager.cpp</includedby>
+    <includedby refid="test__failover__dr__edge__scenarios_8cpp" local="yes">tests/failover/test_failover_dr_edge_scenarios.cpp</includedby>
+    <includedby refid="test__failover__phase2__phase3__focused_8cpp" local="yes">tests/failover/test_failover_phase2_phase3_focused.cpp</includedby>
+    <includedby refid="test__failover__wave__c__fencing__security_8cpp" local="yes">tests/failover/test_failover_wave_c_fencing_security.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/failover/disaster_recovery_manager.h</label>
+        <link refid="disaster__recovery__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>replication/replication_manager.h</label>
+      </node>
+      <node id="12">
+        <label>sharding/epoch_fencing.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/failover/disaster_recovery_manager.h</label>
+        <link refid="disaster__recovery__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/failover/disaster_recovery_manager.cpp</label>
+        <link refid="disaster__recovery__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/failover/test_failover_dr_edge_scenarios.cpp</label>
+        <link refid="test__failover__dr__edge__scenarios_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/failover/test_failover_phase2_phase3_focused.cpp</label>
+        <link refid="test__failover__phase2__phase3__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/failover/test_failover_wave_c_fencing_security.cpp</label>
+        <link refid="test__failover__wave__c__fencing__security_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_config" prot="public">themis::failover::DisasterRecoveryConfig</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_plan" prot="public">themis::failover::DisasterRecoveryPlan</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_step_result" prot="public">themis::failover::DisasterRecoveryStepResult</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_result" prot="public">themis::failover::DisasterRecoveryResult</innerclass>
+    <innerclass refid="classthemis_1_1failover_1_1_disaster_recovery_manager" prot="public">themis::failover::DisasterRecoveryManager</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" prot="public">themis::failover::DisasterRecoveryManager::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_enum_hash" prot="private">themis::failover::DisasterRecoveryManager::EnumHash</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1failover">themis::failover</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.11 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;replication/replication_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/epoch_fencing.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1failover" kindref="compound">failover</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa5daf7f2ebbba4975d61dab1c40188c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa95dd7ceac214d9668600481386bdbfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa95dd7ceac214d9668600481386bdbfd" kindref="member">PRECHECKS</ref>,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326af274237df90551b4c1690102a80f9f0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326af274237df90551b4c1690102a80f9f0e" kindref="member">SNAPSHOT_VALIDATION</ref>,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a560ed638a779af425820b814c3283a17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a560ed638a779af425820b814c3283a17" kindref="member">EPOCH_FENCING</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ac95fa04340c629ddfa2d38e285e59245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ac95fa04340c629ddfa2d38e285e59245" kindref="member">RESTORE</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a40343c9dbda4a2a7cefca793adb8308a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a40343c9dbda4a2a7cefca793adb8308a" kindref="member">REPLICA_CATCHUP</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a0ec2edd0a73692758839c12efb1a284d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a0ec2edd0a73692758839c12efb1a284d" kindref="member">TRAFFIC_SHIFT</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a38e546ad5ae30263739bc07b278a910e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a38e546ad5ae30263739bc07b278a910e" kindref="member">VERIFICATION</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a4e6c860e5da10e31c5fd9cb76ddc2025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a4e6c860e5da10e31c5fd9cb76ddc2025" kindref="member">ABORTED</ref>,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kindref="member">DisasterRecoveryStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66aa95dd7ceac214d9668600481386bdbfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa95dd7ceac214d9668600481386bdbfd" kindref="member">PRECHECKS</ref>,</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66af274237df90551b4c1690102a80f9f0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326af274237df90551b4c1690102a80f9f0e" kindref="member">SNAPSHOT_VALIDATION</ref>,</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a560ed638a779af425820b814c3283a17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a560ed638a779af425820b814c3283a17" kindref="member">EPOCH_FENCING</ref>,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66ac95fa04340c629ddfa2d38e285e59245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ac95fa04340c629ddfa2d38e285e59245" kindref="member">RESTORE</ref>,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a40343c9dbda4a2a7cefca793adb8308a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a40343c9dbda4a2a7cefca793adb8308a" kindref="member">REPLICA_CATCHUP</ref>,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a0ec2edd0a73692758839c12efb1a284d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a0ec2edd0a73692758839c12efb1a284d" kindref="member">TRAFFIC_SHIFT</ref>,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a38e546ad5ae30263739bc07b278a910e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a38e546ad5ae30263739bc07b278a910e" kindref="member">VERIFICATION</ref>,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1failover_1_1_disaster_recovery_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config" kindref="compound">DisasterRecoveryConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe8b935a50bee74ad9520814cb33664" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe8b935a50bee74ad9520814cb33664" kindref="member">precheck_timeout</ref>{5000};</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe84d25078449799ca846b1b3aed85b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe84d25078449799ca846b1b3aed85b" kindref="member">catchup_timeout</ref>{30000};</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a816c2c8c18f598b692b017402f8c8479" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a816c2c8c18f598b692b017402f8c8479" kindref="member">verification_timeout</ref>{10000};</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a12137378db66a7f325253e86c196b6f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a12137378db66a7f325253e86c196b6f3" kindref="member">max_verification_retries</ref>{5};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1failover_1_1_disaster_recovery_config_1af4bbc6dd83a1c7d61f4c38cb6b27a21e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1af4bbc6dd83a1c7d61f4c38cb6b27a21e" kindref="member">require_quorum</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a8b5f23587ea484a61a6e8e63b9d29fb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a8b5f23587ea484a61a6e8e63b9d29fb4" kindref="member">enforce_epoch_fencing</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a63a7955707bad5f6eabc4182f7591ee5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a63a7955707bad5f6eabc4182f7591ee5" kindref="member">allow_dry_run_without_managers</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1failover_1_1_disaster_recovery_config_1ace9f893f8e3f20b9cbc931f79de09d85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1ace9f893f8e3f20b9cbc931f79de09d85" kindref="member">consensus_timeout_ms</ref>{30000};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1failover_1_1_disaster_recovery_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1acc769e38729cbc2b92c1d837ffcc7093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1acc769e38729cbc2b92c1d837ffcc7093" kindref="member">plan_id</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1aafefc723a59a53056a650305551d7045" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1aafefc723a59a53056a650305551d7045" kindref="member">primary_site</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a75d2ce13908023593475d239830898a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a75d2ce13908023593475d239830898a5" kindref="member">recovery_site</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a0e9a67ef0ea01eebd83e11393cb4edc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a0e9a67ef0ea01eebd83e11393cb4edc5" kindref="member">snapshot_id</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a7cd91f9548c952aa577bcb596faa98ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a7cd91f9548c952aa577bcb596faa98ed" kindref="member">critical_nodes</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" kindref="member">dry_run</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a2fbfc9fdada784b557e49fbb9455ea5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a2fbfc9fdada784b557e49fbb9455ea5a" kindref="member">shift_traffic</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1failover_1_1_disaster_recovery_step_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_disaster_recovery_step_result" kindref="compound">DisasterRecoveryStepResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1a8027a0d6353f3c018f8773f725bc70ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kindref="member">DisasterRecoveryStep</ref><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1a8027a0d6353f3c018f8773f725bc70ed" kindref="member">step</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1ab7fce3053ddf9c1308f3f02e5748a6d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1ab7fce3053ddf9c1308f3f02e5748a6d8" kindref="member">success</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1abaa9ced61f8dd8b70b50673f59b3a4a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1abaa9ced61f8dd8b70b50673f59b3a4a6" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1failover_1_1_disaster_recovery_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result" kindref="compound">DisasterRecoveryResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a568560f741608d91f06f4253e562142a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a568560f741608d91f06f4253e562142a" kindref="member">success</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a33ae5c0e2fb0219639e8d972fdebe4a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a33ae5c0e2fb0219639e8d972fdebe4a3" kindref="member">final_state</ref>{<ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">DisasterRecoveryState::IDLE</ref>};</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1failover_1_1_disaster_recovery_result_1ac0f9d14f56ec5cc211f54285d908615e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result_1ac0f9d14f56ec5cc211f54285d908615e" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1failover_1_1_disaster_recovery_result_1ad2013a8aaf023d7b6d94f75dcedc43c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result_1ad2013a8aaf023d7b6d94f75dcedc43c9" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1failover_1_1_disaster_recovery_result_1afa36d242c843225a4fe4abe52cfd0160" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result_1afa36d242c843225a4fe4abe52cfd0160" kindref="member">fenced_epoch</ref>{0};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1failover_1_1_disaster_recovery_result_1abb8ecea870696a082b08cfac9329fa84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DisasterRecoveryStepResult&gt;<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result_1abb8ecea870696a082b08cfac9329fa84" kindref="member">step_results</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1failover_1_1_disaster_recovery_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a7c1416ee75001a8760052ea117f6d5b8" kindref="member">DisasterRecoveryManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ace9e094909066612baaf308780aaae58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ace9e094909066612baaf308780aaae58" kindref="member">StepHook</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref>&amp;,<sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a7c1416ee75001a8760052ea117f6d5b8" kindref="member">DisasterRecoveryManager</ref>(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config" kindref="compound">DisasterRecoveryConfig</ref><sp/>config,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themisdb::replication::ReplicationManager&gt;<sp/>replication_mgr,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::EpochFencingManager&gt;<sp/>fencing_mgr);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result" kindref="compound">DisasterRecoveryResult</ref><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a4935f0ef7306fab7a33084cd965ba98c" kindref="member">executePlan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref>&amp;<sp/>plan);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1afdcaf061adabd69d3c75c259ecf9e373" kindref="member">validatePlan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref>&amp;<sp/>plan,<sp/>std::string&amp;<sp/>error)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1aa448b50e95845469e51935e3e17e7c68" kindref="member">setStepHook</ref>(<ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kindref="member">DisasterRecoveryStep</ref><sp/>step,<sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ace9e094909066612baaf308780aaae58" kindref="member">StepHook</ref><sp/>hook);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a5cd1a9dc5659577aeeb39eaead1ced8a" kindref="member">clearStepHooks</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ac15855c7331d23b4cc5bd94c8ff3aba3" kindref="member">getState</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8927ff51793506c24ab987baf76e53b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8927ff51793506c24ab987baf76e53b2" kindref="member">total_runs</ref>{0};</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a0055ff09041abaad9ba0c6a40bd5b49e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a0055ff09041abaad9ba0c6a40bd5b49e" kindref="member">successful_runs</ref>{0};</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8d782254ab85bb7e4aa734d311758490" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8d782254ab85bb7e4aa734d311758490" kindref="member">failed_runs</ref>{0};</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a33ecf81e7939c82575733a4b113cf51d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a33ecf81e7939c82575733a4b113cf51d" kindref="member">aborted_runs</ref>{0};</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a7ef9d3641cf7b763cef876c61335b427" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a7ef9d3641cf7b763cef876c61335b427" kindref="member">average_duration</ref>{0};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a0d549e94129b9472bab9a501397ea10e" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_BUILD</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>clearIdempotencyCache()<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(idempotency_mutex_);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>completed_plans_.clear();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">EnumHash<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>operator()(T<sp/>t)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(t);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>runStep(<ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kindref="member">DisasterRecoveryStep</ref><sp/>step,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref><sp/>state,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryPlan&amp;<sp/>plan,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DisasterRecoveryResult&amp;<sp/>result,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>error,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t&amp;<sp/>fenced_epoch);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>runPrechecks(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryPlan&amp;<sp/>plan,<sp/>std::string&amp;<sp/>detail);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateSnapshot(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryPlan&amp;<sp/>plan,<sp/>std::string&amp;<sp/>detail);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applyEpochFencing(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryPlan&amp;<sp/>plan,<sp/>std::string&amp;<sp/>detail,<sp/>uint64_t&amp;<sp/>fenced_epoch);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>runRestore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryPlan&amp;<sp/>plan,<sp/>std::string&amp;<sp/>detail);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>waitForCatchup(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryPlan&amp;<sp/>plan,<sp/>std::string&amp;<sp/>detail);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shiftTraffic(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryPlan&amp;<sp/>plan,<sp/>std::string&amp;<sp/>detail);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyRecoveredState(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryPlan&amp;<sp/>plan,<sp/>std::string&amp;<sp/>detail);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>transitionState(<ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref><sp/>next)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatistics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DisasterRecoveryResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>DisasterRecoveryConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themisdb::replication::ReplicationManager&gt;<sp/>replication_mgr_;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::EpochFencingManager&gt;<sp/>fencing_mgr_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;DisasterRecoveryStep,<sp/>StepHook,<sp/>EnumHash&gt;<sp/>hooks_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>state_mutex_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;DisasterRecoveryState&gt;<sp/>state_{<ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">DisasterRecoveryState::IDLE</ref>};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guards<sp/>against<sp/>concurrent<sp/>invocations<sp/>of<sp/>executePlan.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>execution_mutex_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>idempotency_mutex_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>DisasterRecoveryResult&gt;<sp/>completed_plans_;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::chrono::milliseconds&gt;<sp/>durations_;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>failover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/failover/disaster_recovery_manager.h"/>
+  </compounddef>
+</doxygen>

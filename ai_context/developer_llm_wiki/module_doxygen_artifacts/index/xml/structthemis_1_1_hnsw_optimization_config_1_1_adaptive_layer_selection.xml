@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HnswOptimizationConfig::AdaptiveLayerSelection</compoundname>
+    <includes refid="hnsw__layer__optimizer_8h" local="no">hnsw_layer_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1acb6f67618492439f55c80f23cda16b80" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HnswOptimizationConfig::AdaptiveLayerSelection::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::HnswOptimizationConfig::AdaptiveLayerSelection::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="40" column="14" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1a9992917a4c58c23776a27bdc33da116b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HnswOptimizationConfig::AdaptiveLayerSelection::stats_window_size</definition>
+        <argsstring></argsstring>
+        <name>stats_window_size</name>
+        <qualifiedname>themis::HnswOptimizationConfig::AdaptiveLayerSelection::stats_window_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="41" column="16" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1a93e1a6e0f4cb9fae9168d0184aaf2221" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HnswOptimizationConfig::AdaptiveLayerSelection::min_samples</definition>
+        <argsstring></argsstring>
+        <name>min_samples</name>
+        <qualifiedname>themis::HnswOptimizationConfig::AdaptiveLayerSelection::min_samples</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="42" column="16" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/hnsw_layer_optimizer.h" line="39" column="5" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="39" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1acb6f67618492439f55c80f23cda16b80" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig::AdaptiveLayerSelection</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1a93e1a6e0f4cb9fae9168d0184aaf2221" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig::AdaptiveLayerSelection</scope><name>min_samples</name></member>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1a9992917a4c58c23776a27bdc33da116b" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig::AdaptiveLayerSelection</scope><name>stats_window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

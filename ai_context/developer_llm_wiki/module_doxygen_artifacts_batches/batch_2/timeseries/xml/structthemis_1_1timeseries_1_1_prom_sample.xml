@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1_prom_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::PromSample</compoundname>
+    <includes refid="prometheus__remote__write_8h" local="no">prometheus_remote_write.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_prom_sample_1a5386d31420cddeffcb08344b69e0ae31" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::timeseries::PromSample::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::timeseries::PromSample::value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="70" column="14" bodyfile="include/timeseries/prometheus_remote_write.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_prom_sample_1a59b034e70db909ae2651883e3a5286bb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::timeseries::PromSample::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::timeseries::PromSample::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="71" column="14" bodyfile="include/timeseries/prometheus_remote_write.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A decoded Prometheus sample (double value + millisecond timestamp). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/prometheus_remote_write.h" line="69" column="1" bodyfile="include/timeseries/prometheus_remote_write.h" bodystart="69" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1_prom_sample_1a59b034e70db909ae2651883e3a5286bb" prot="public" virt="non-virtual"><scope>themis::timeseries::PromSample</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_prom_sample_1a5386d31420cddeffcb08344b69e0ae31" prot="public" virt="non-virtual"><scope>themis::timeseries::PromSample</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

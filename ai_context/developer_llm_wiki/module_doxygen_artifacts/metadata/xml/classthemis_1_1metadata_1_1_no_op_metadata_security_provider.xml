@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_no_op_metadata_security_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::NoOpMetadataSecurityProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1metadata_1_1_i_metadata_security_provider" prot="public" virt="non-virtual">themis::metadata::IMetadataSecurityProvider</basecompoundref>
+    <includes refid="imetadata__security__provider_8h" local="no">imetadata_security_provider.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_no_op_metadata_security_provider_1ad9c799ec9cb0ae0ee15a05024f5bfab2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::metadata::NoOpMetadataSecurityProvider::hasPermission</definition>
+        <argsstring>(std::string_view, MetadataOperation, std::string_view) const override</argsstring>
+        <name>hasPermission</name>
+        <qualifiedname>themis::metadata::NoOpMetadataSecurityProvider::hasPermission</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_security_provider_1a62761324446d3449d397df12a2e587bf">hasPermission</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Return true if <computeroutput>principal</computeroutput> may perform <computeroutput>op</computeroutput> on <computeroutput>resource</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity string (user, service account, role, …). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The requested metadata operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The affected resource name, or &quot;*&quot; for any resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the operation is permitted; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="139" column="10" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="139" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_no_op_metadata_security_provider_1a7d79ff4c38584f3ea6f6fa27dea26485" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::metadata::NoOpMetadataSecurityProvider::assertPermission</definition>
+        <argsstring>(std::string_view, MetadataOperation, std::string_view) const override</argsstring>
+        <name>assertPermission</name>
+        <qualifiedname>themis::metadata::NoOpMetadataSecurityProvider::assertPermission</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_security_provider_1a887256b7866e60113db5e41a1a92d2e8">assertPermission</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Assert that <computeroutput>principal</computeroutput> may perform <computeroutput>op</computeroutput> on <computeroutput>resource</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MetadataAccessDeniedException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if permission is denied. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="145" column="10" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="145" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Default (no-op) implementation that permits every operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used when no RBAC configuration is required. Production deployments that need access control should replace this with <ref refid="classthemis_1_1metadata_1_1_in_memory_rbac_metadata_security_provider" kindref="compound">InMemoryRbacMetadataSecurityProvider</ref> or a custom implementation. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::metadata::IMetadataSecurityProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_security_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::metadata::NoOpMetadataSecurityProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_no_op_metadata_security_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::metadata::IMetadataSecurityProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_security_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::metadata::NoOpMetadataSecurityProvider</label>
+        <link refid="classthemis_1_1metadata_1_1_no_op_metadata_security_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/imetadata_security_provider.h" line="137" column="1" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="137" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_no_op_metadata_security_provider_1a7d79ff4c38584f3ea6f6fa27dea26485" prot="public" virt="virtual"><scope>themis::metadata::NoOpMetadataSecurityProvider</scope><name>assertPermission</name></member>
+      <member refid="classthemis_1_1metadata_1_1_no_op_metadata_security_provider_1ad9c799ec9cb0ae0ee15a05024f5bfab2" prot="public" virt="virtual"><scope>themis::metadata::NoOpMetadataSecurityProvider</scope><name>hasPermission</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_security_provider_1aec947089c69baae3a23694cec7e76180" prot="public" virt="virtual"><scope>themis::metadata::NoOpMetadataSecurityProvider</scope><name>~IMetadataSecurityProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

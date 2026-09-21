@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_hybrid_encryption" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::HybridEncryption</compoundname>
+    <basecompoundref refid="classthemis_1_1_field_encryption" prot="public" virt="non-virtual">themis::FieldEncryption</basecompoundref>
+    <includes refid="post__quantum__crypto_8h" local="no">post_quantum_crypto.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_hybrid_encryption_1a5c36d3328756a93935f49d029f676e54" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" kindref="member">PQMigrationMode</ref></type>
+        <definition>PQMigrationMode themis::security::HybridEncryption::mode_</definition>
+        <argsstring></argsstring>
+        <name>mode_</name>
+        <qualifiedname>themis::security::HybridEncryption::mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="389" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_hybrid_encryption_1a2b1ad3fde6618a49a63b65a059c31316" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_kyber_k_e_m" kindref="compound">KyberKEM</ref></type>
+        <definition>KyberKEM themis::security::HybridEncryption::kyber_</definition>
+        <argsstring></argsstring>
+        <name>kyber_</name>
+        <qualifiedname>themis::security::HybridEncryption::kyber_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="390" column="14" bodyfile="include/security/post_quantum_crypto.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_hybrid_encryption_1a842379051f65336c83b89586c81c607e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HybridEncryption::HybridEncryption</definition>
+        <argsstring>(std::shared_ptr&lt; KeyProvider &gt; key_provider, PQMigrationMode mode=PQMigrationMode::HYBRID)</argsstring>
+        <name>HybridEncryption</name>
+        <qualifiedname>themis::security::HybridEncryption::HybridEncryption</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> &gt;</type>
+          <declname>key_provider</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" kindref="member">PQMigrationMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9a3bf07fe8ac3883060b1558113ba248d4" kindref="member">PQMigrationMode::HYBRID</ref></defval>
+        </param>
+        <briefdescription>
+<para>Construct hybrid encryption engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Classical key provider (may be wrapped in <ref refid="classthemis_1_1security_1_1_post_quantum_key_provider" kindref="compound">PostQuantumKeyProvider</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Migration mode (default: HYBRID) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="357" column="14" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="979" bodyend="986"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_hybrid_encryption_1a595cae7b6916f52cda0721d4442334b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HybridEncryption::~HybridEncryption</definition>
+        <argsstring>() override</argsstring>
+        <name>~HybridEncryption</name>
+        <qualifiedname>themis::security::HybridEncryption::~HybridEncryption</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="360" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_hybrid_encryption_1aa952ed1d38ae1c9df8a91cbbf6e8fe09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref></type>
+        <definition>EncryptedBlob themis::security::HybridEncryption::encryptHybrid</definition>
+        <argsstring>(const std::string &amp;key_id, const std::string &amp;plaintext)</argsstring>
+        <name>encryptHybrid</name>
+        <qualifiedname>themis::security::HybridEncryption::encryptHybrid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt using hybrid classical + PQ protection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key identifier for the classical AES key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plaintext string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_encrypted_blob" kindref="compound">EncryptedBlob</ref> with PQ metadata embedded </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>EncryptionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on failure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="370" column="19" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1114" bodyend="1179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_hybrid_encryption_1a95b5631f157f764b524b97c28e453312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::HybridEncryption::decryptHybrid</definition>
+        <argsstring>(const EncryptedBlob &amp;blob)</argsstring>
+        <name>decryptHybrid</name>
+        <qualifiedname>themis::security::HybridEncryption::decryptHybrid</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_encrypted_blob" kindref="compound">EncryptedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt a hybrid-encrypted blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supports blobs produced in HYBRID, CLASSICAL_ONLY (via <ref refid="classthemis_1_1_field_encryption_1ae07c0f662d9c57d8895ffaffff264294" kindref="member">FieldEncryption::decrypt</ref>), and POST_QUANTUM_ONLY modes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1_encrypted_blob" kindref="compound">EncryptedBlob</ref> produced by <ref refid="classthemis_1_1security_1_1_hybrid_encryption_1aa952ed1d38ae1c9df8a91cbbf6e8fe09" kindref="member">encryptHybrid()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Plaintext string </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>DecryptionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on failure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="383" column="17" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1182" bodyend="1244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_hybrid_encryption_1a53924eefd74def3c88dfd073346413e2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" kindref="member">PQMigrationMode</ref></type>
+        <definition>PQMigrationMode themis::security::HybridEncryption::getMigrationMode</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getMigrationMode</name>
+        <qualifiedname>themis::security::HybridEncryption::getMigrationMode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="385" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="385" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_hybrid_encryption_1af9f0ea73fa9ff8f8ddcd4b4b18b2bb67" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HybridEncryption::setMigrationMode</definition>
+        <argsstring>(PQMigrationMode mode) noexcept</argsstring>
+        <name>setMigrationMode</name>
+        <qualifiedname>themis::security::HybridEncryption::setMigrationMode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a15d98a05eb38cf4a0446078793bc01e9" kindref="member">PQMigrationMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="386" column="10" bodyfile="include/security/post_quantum_crypto.h" bodystart="386" bodyend="386"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hybrid encryption combining AES-256-GCM with Kyber-1024 KEM. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides defense-in-depth: secure even if one of the two algorithms is broken (classical or quantum attacker).</para>
+<para>Encryption flow (HYBRID mode):<orderedlist>
+<listitem><para>Generate an ephemeral Kyber key pair (ek, dk).</para>
+</listitem><listitem><para>Self-encapsulate: (kem_ct, kem_ss) = Kyber.Encap(ek). Rationale: in symmetric database field encryption, the encryptor and decryptor are the same process (the database engine). The ephemeral key pair is therefore &quot;self-owned&quot;: the secret key is stored in the blob alongside the ciphertext (see key_id encoding below), and the shared secret provides forward-secrecy within a single encryption event. In a future multi-party deployment (e.g. client-side encryption), the caller would supply a long-term recipient public key via the <ref refid="classthemis_1_1security_1_1_post_quantum_key_provider" kindref="compound">PostQuantumKeyProvider</ref> and store only the KEM ciphertext.</para>
+</listitem><listitem><para>Retrieve classical AES key from provider: aes_key = provider.getKey(key_id).</para>
+</listitem><listitem><para>Derive combined key: combined = HKDF(kem_ss ‖ aes_key, 32 bytes).</para>
+</listitem><listitem><para>Encrypt plaintext with AES-256-GCM(combined).</para>
+</listitem><listitem><para>Store {kem_ct, eph_sk (for decapsulation), aes_blob} in the <ref refid="structthemis_1_1_encrypted_blob" kindref="compound">EncryptedBlob</ref> key_id field using a structured prefix (see impl).</para>
+</listitem></orderedlist>
+</para>
+<para>The <ref refid="structthemis_1_1_encrypted_blob" kindref="compound">EncryptedBlob</ref> produced by <ref refid="classthemis_1_1security_1_1_hybrid_encryption_1aa952ed1d38ae1c9df8a91cbbf6e8fe09" kindref="member">encryptHybrid()</ref> is forward-compatible with <ref refid="classthemis_1_1security_1_1_hybrid_encryption_1a95b5631f157f764b524b97c28e453312" kindref="member">decryptHybrid()</ref>. Standard <ref refid="classthemis_1_1_field_encryption_1ae07c0f662d9c57d8895ffaffff264294" kindref="member">FieldEncryption::decrypt()</ref> will fall back to the classical path automatically in CLASSICAL_ONLY mode.</para>
+<para>Thread safety: all methods are thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>IFieldEncryption</label>
+      </node>
+      <node id="2">
+        <label>themis::FieldEncryption</label>
+        <link refid="classthemis_1_1_field_encryption"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::HybridEncryption</label>
+        <link refid="classthemis_1_1security_1_1_hybrid_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>IFieldEncryption</label>
+      </node>
+      <node id="2">
+        <label>themis::FieldEncryption</label>
+        <link refid="classthemis_1_1_field_encryption"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::HybridEncryption</label>
+        <link refid="classthemis_1_1security_1_1_hybrid_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/post_quantum_crypto.h" line="349" column="1" bodyfile="include/security/post_quantum_crypto.h" bodystart="349" bodyend="391"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_field_encryption_1a48b38794f8715c03c32aa313d2c9a734" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>createDefault</name></member>
+      <member refid="classthemis_1_1_field_encryption_1ae07c0f662d9c57d8895ffaffff264294" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>decrypt</name></member>
+      <member refid="classthemis_1_1_field_encryption_1ae70acf2b1d5ab072818f3c530559a709" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>decrypt_field</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a8fd155a50cd680d40c7c208a13bed0e3" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>decryptAndReEncrypt</name></member>
+      <member refid="classthemis_1_1security_1_1_hybrid_encryption_1a95b5631f157f764b524b97c28e453312" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>decryptHybrid</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a41e4445eb24c1699ce222f70eef990dd" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>decryptToBytes</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a189efd8aaf6fdeda8fda3cc3f3b0f2c5" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>decryptToString</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a1aac9ae49f085895ab0b42d4fb39f59f" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>decryptWithKey</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a8d67322879fbc6023ae9e0142775756a" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>encrypt</name></member>
+      <member refid="classthemis_1_1_field_encryption_1aec9e2a022d7b1e45efa0ac81688bba7a" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>encrypt</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a4f62ff7c113681b6e7502393a648e8fe" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>encrypt_field</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a6303f9f054a431448cbc880fb428e6d6" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>encryptEntityBatch</name></member>
+      <member refid="classthemis_1_1security_1_1_hybrid_encryption_1aa952ed1d38ae1c9df8a91cbbf6e8fe09" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>encryptHybrid</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a5c5efdb1e3c85e18fff6ac1f0b69c1c6" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>encryptWithKey</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a070efcdba8d62d317c7530155abbeca8" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>FieldEncryption</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a0a644dce77ddb767ca7eb82436e948d7" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>getKeyProvider</name></member>
+      <member refid="classthemis_1_1_field_encryption_1af4c149b29de1b83a48f4adbdc5b78dcd" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1security_1_1_hybrid_encryption_1a53924eefd74def3c88dfd073346413e2" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>getMigrationMode</name></member>
+      <member refid="classthemis_1_1security_1_1_hybrid_encryption_1a842379051f65336c83b89586c81c607e" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>HybridEncryption</name></member>
+      <member refid="classthemis_1_1security_1_1_hybrid_encryption_1a2b1ad3fde6618a49a63b65a059c31316" prot="private" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>kyber_</name></member>
+      <member refid="classthemis_1_1security_1_1_hybrid_encryption_1a5c36d3328756a93935f49d029f676e54" prot="private" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>mode_</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a572317a0c17df4ff69bc4fa16a9be1fb" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>needsReEncryption</name></member>
+      <member refid="classthemis_1_1_field_encryption_1adc5593da1c6a15e0c3334a513088bb93" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>setEncryptionConfig</name></member>
+      <member refid="classthemis_1_1security_1_1_hybrid_encryption_1af9f0ea73fa9ff8f8ddcd4b4b18b2bb67" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>setMigrationMode</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a7a63491e35edb8e089b79e05a161866b" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>should_encrypt</name></member>
+      <member refid="classthemis_1_1_field_encryption_1a4ce201c5b783ce8000e7675ff803aa28" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>~FieldEncryption</name></member>
+      <member refid="classthemis_1_1security_1_1_hybrid_encryption_1a595cae7b6916f52cda0721d4442334b4" prot="public" virt="non-virtual"><scope>themis::security::HybridEncryption</scope><name>~HybridEncryption</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

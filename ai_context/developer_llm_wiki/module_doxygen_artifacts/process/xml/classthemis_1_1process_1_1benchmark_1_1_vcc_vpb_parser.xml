@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_vcc_vpb_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::VccVpbParser</compoundname>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_vcc_vpb_parser_1_1_vcc_vpb_model" prot="public">themis::process::benchmark::VccVpbParser::VccVpbModel</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_vcc_vpb_parser_1acf98e2157ee57c069034e073fe6426dd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_vcc_vpb_parser_1_1_vcc_vpb_model" kindref="compound">VccVpbModel</ref></type>
+        <definition>static VccVpbModel themis::process::benchmark::VccVpbParser::parse</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::process::benchmark::VccVpbParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="250" column="24" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="250" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>VCC/VPB Parser. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_parser_gates.cpp" line="243" column="1" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="243" bodyend="264"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_vcc_vpb_parser_1acf98e2157ee57c069034e073fe6426dd" prot="public" virt="non-virtual"><scope>themis::process::benchmark::VccVpbParser</scope><name>parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

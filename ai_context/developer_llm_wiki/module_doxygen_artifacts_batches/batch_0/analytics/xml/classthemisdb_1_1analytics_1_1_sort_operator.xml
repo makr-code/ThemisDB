@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_sort_operator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::SortOperator</compoundname>
+    <includes refid="columnar__execution_8h" local="no">columnar_execution.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key" prot="public">themisdb::analytics::SortOperator::SortKey</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_sort_operator_1ad6bfa1bed83bb01412a7716670ac1994" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key" kindref="compound">SortKey</ref> &gt;</type>
+        <definition>std::vector&lt;SortKey&gt; themisdb::analytics::SortOperator::keys_</definition>
+        <argsstring></argsstring>
+        <name>keys_</name>
+        <qualifiedname>themisdb::analytics::SortOperator::keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="515" column="17" bodyfile="include/analytics/columnar_execution.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_sort_operator_1a940b9dae42f13ed8a6b5d85d318c57b6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::SortOperator::SortOperator</definition>
+        <argsstring>(std::vector&lt; SortKey &gt; keys)</argsstring>
+        <name>SortOperator</name>
+        <qualifiedname>themisdb::analytics::SortOperator::SortOperator</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key" kindref="compound">SortKey</ref> &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Sort Operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="505" column="14" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1278" bodyend="1278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_sort_operator_1a96376264812f38da39ebc1b0a03fd0f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::SortOperator::execute</definition>
+        <argsstring>(const ColumnBatch &amp;input) const</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::analytics::SortOperator::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Build a row-index array and sort it. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Produce reordered batch. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="512" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="1280" bodyend="1371"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/columnar_execution.h" line="493" column="1" bodyfile="include/analytics/columnar_execution.h" bodystart="493" bodyend="516"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_sort_operator_1a96376264812f38da39ebc1b0a03fd0f0" prot="public" virt="non-virtual"><scope>themisdb::analytics::SortOperator</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_sort_operator_1ad6bfa1bed83bb01412a7716670ac1994" prot="private" virt="non-virtual"><scope>themisdb::analytics::SortOperator</scope><name>keys_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_sort_operator_1a940b9dae42f13ed8a6b5d85d318c57b6" prot="public" virt="non-virtual"><scope>themisdb::analytics::SortOperator</scope><name>SortOperator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

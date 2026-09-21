@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1_1_circuit_breaker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig</compoundname>
+    <includes refid="otel__tracer__adapter_8h" local="no">otel_tracer_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1_1_circuit_breaker_config_1a9d1fd0d74cd905037b0d0580b6537371" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/otel_tracer_adapter.h" line="24" column="16" bodyfile="include/core/concerns/otel_tracer_adapter.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1_1_circuit_breaker_config_1a7e0cf55d8b29acf8e1fda56498e83c09" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig::timeout</qualifiedname>
+        <initializer>= std::chrono::seconds(30)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/otel_tracer_adapter.h" line="25" column="30" bodyfile="include/core/concerns/otel_tracer_adapter.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1_1_circuit_breaker_config_1a5ff0815a095f71cdcf78c4f5e87daf6f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig::success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/otel_tracer_adapter.h" line="26" column="16" bodyfile="include/core/concerns/otel_tracer_adapter.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/otel_tracer_adapter.h" line="23" column="5" bodyfile="include/core/concerns/otel_tracer_adapter.h" bodystart="23" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1_1_circuit_breaker_config_1a9d1fd0d74cd905037b0d0580b6537371" prot="public" virt="non-virtual"><scope>themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1_1_circuit_breaker_config_1a5ff0815a095f71cdcf78c4f5e87daf6f" prot="public" virt="non-virtual"><scope>themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig</scope><name>success_threshold</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1_1_circuit_breaker_config_1a7e0cf55d8b29acf8e1fda56498e83c09" prot="public" virt="non-virtual"><scope>themis::core::concerns::OpenTelemetryTracerAdapter::CircuitBreakerConfig</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

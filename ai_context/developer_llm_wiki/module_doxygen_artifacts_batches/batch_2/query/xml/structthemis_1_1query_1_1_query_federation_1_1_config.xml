@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_federation_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryFederation::Config</compoundname>
+    <includes refid="query__federation_8h" local="no">query_federation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1aae6f650b1a3df93c97870418643d4602" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryFederation::Config::enable_pushdown</definition>
+        <argsstring></argsstring>
+        <name>enable_pushdown</name>
+        <qualifiedname>themis::query::QueryFederation::Config::enable_pushdown</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="34" column="14" bodyfile="include/query/query_federation.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1a3a0d60f16eb4f6327b826f0a2c99901f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryFederation::Config::enable_parallel_execution</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel_execution</name>
+        <qualifiedname>themis::query::QueryFederation::Config::enable_parallel_execution</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="35" column="14" bodyfile="include/query/query_federation.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1a28d19230b6c44a1d6ad00015baa28234" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryFederation::Config::enable_result_streaming</definition>
+        <argsstring></argsstring>
+        <name>enable_result_streaming</name>
+        <qualifiedname>themis::query::QueryFederation::Config::enable_result_streaming</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="36" column="14" bodyfile="include/query/query_federation.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1a84a211242b0c966c14231fc64694b8c3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::QueryFederation::Config::max_parallel_shards</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_shards</name>
+        <qualifiedname>themis::query::QueryFederation::Config::max_parallel_shards</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="39" column="18" bodyfile="include/query/query_federation.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1ab5f84a2507c6a2d7e5ff8153364d45ed" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryFederation::Config::max_result_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_result_size_bytes</name>
+        <qualifiedname>themis::query::QueryFederation::Config::max_result_size_bytes</qualifiedname>
+        <initializer>= 100 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="40" column="18" bodyfile="include/query/query_federation.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1a1b337e57cad524e7951f1cbcf0984abe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::QueryFederation::Config::query_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>query_timeout_ms</name>
+        <qualifiedname>themis::query::QueryFederation::Config::query_timeout_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="41" column="18" bodyfile="include/query/query_federation.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1a01908edac9492e5bf63088f1f95adf80" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryFederation::Config::enable_broadcast_join</definition>
+        <argsstring></argsstring>
+        <name>enable_broadcast_join</name>
+        <qualifiedname>themis::query::QueryFederation::Config::enable_broadcast_join</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="44" column="14" bodyfile="include/query/query_federation.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1ad697fcf1502a0839bbb97e72cf13ceaf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryFederation::Config::broadcast_threshold_bytes</definition>
+        <argsstring></argsstring>
+        <name>broadcast_threshold_bytes</name>
+        <qualifiedname>themis::query::QueryFederation::Config::broadcast_threshold_bytes</qualifiedname>
+        <initializer>= 10 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="45" column="18" bodyfile="include/query/query_federation.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1a961da03ee5225bcff8b72f7aad4992f6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryFederation::Config::enable_result_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_result_cache</name>
+        <qualifiedname>themis::query::QueryFederation::Config::enable_result_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="48" column="14" bodyfile="include/query/query_federation.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_config_1a663074cb69a932df0ddc4efc29d277b7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::QueryFederation::Config::cache_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl_seconds</name>
+        <qualifiedname>themis::query::QueryFederation::Config::cache_ttl_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="49" column="18" bodyfile="include/query/query_federation.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation.h" line="32" column="5" bodyfile="include/query/query_federation.h" bodystart="32" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1ad697fcf1502a0839bbb97e72cf13ceaf" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>broadcast_threshold_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a663074cb69a932df0ddc4efc29d277b7" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>cache_ttl_seconds</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a01908edac9492e5bf63088f1f95adf80" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>enable_broadcast_join</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a3a0d60f16eb4f6327b826f0a2c99901f" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>enable_parallel_execution</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1aae6f650b1a3df93c97870418643d4602" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>enable_pushdown</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a961da03ee5225bcff8b72f7aad4992f6" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>enable_result_cache</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a28d19230b6c44a1d6ad00015baa28234" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>enable_result_streaming</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a84a211242b0c966c14231fc64694b8c3" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>max_parallel_shards</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1ab5f84a2507c6a2d7e5ff8153364d45ed" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>max_result_size_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a1b337e57cad524e7951f1cbcf0984abe" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::Config</scope><name>query_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

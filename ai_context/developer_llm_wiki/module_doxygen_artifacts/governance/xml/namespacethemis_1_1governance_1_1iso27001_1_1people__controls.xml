@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1people__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::people_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1people__controls_1a330caa7029513d0d5e3c3f7d059a0043" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::people_controls::kScreening</definition>
+        <argsstring></argsstring>
+        <name>kScreening</name>
+        <qualifiedname>themis::governance::iso27001::people_controls::kScreening</qualifiedname>
+        <initializer>= &quot;A.6.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="123" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1people__controls_1a416257778e437523b69d397537822409" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::people_controls::kTermsAndConditions</definition>
+        <argsstring></argsstring>
+        <name>kTermsAndConditions</name>
+        <qualifiedname>themis::governance::iso27001::people_controls::kTermsAndConditions</qualifiedname>
+        <initializer>= &quot;A.6.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="124" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1people__controls_1a8632d2614b31e7249a547d70b510f7da" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::people_controls::kAwarenessTraining</definition>
+        <argsstring></argsstring>
+        <name>kAwarenessTraining</name>
+        <qualifiedname>themis::governance::iso27001::people_controls::kAwarenessTraining</qualifiedname>
+        <initializer>= &quot;A.6.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="125" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="122" column="1"/>
+  </compounddef>
+</doxygen>

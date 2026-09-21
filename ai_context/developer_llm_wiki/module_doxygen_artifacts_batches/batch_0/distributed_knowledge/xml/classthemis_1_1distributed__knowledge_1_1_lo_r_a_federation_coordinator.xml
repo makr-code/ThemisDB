@@ -1,0 +1,1223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::LoRAFederationCoordinator</compoundname>
+    <basecompoundref refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator" prot="public" virt="non-virtual">themis::distributed_knowledge::ILoRAFederationCoordinator</basecompoundref>
+    <includes refid="lora__federation__coordinator_8h" local="no">lora_federation_coordinator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a4451e699b97d63017ddf6144c548f49e" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref> &amp;, const std::map&lt; std::string, <ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref> &gt; &amp;)&gt;</type>
+        <definition>using themis::distributed_knowledge::LoRAFederationCoordinator::GradientOutlierFilter = 
+std::function&lt;bool(const EncryptedGradient&amp;,
+                   const std::map&lt;std::string, EncryptedGradient&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GradientOutlierFilter</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::GradientOutlierFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="244" column="5" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ada2653033a02e590c5e24520ca224fb7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref></type>
+        <definition>FederationConfig themis::distributed_knowledge::LoRAFederationCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="260" column="46" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a1cae046a41fcd43154d0ee9ebe4ca010" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::LoRAFederationCoordinator::current_round_</definition>
+        <argsstring></argsstring>
+        <name>current_round_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::current_round_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="261" column="46" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="261" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a6a21b932ae3b8a179cac96ff6dd8c38d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref> &gt;</type>
+        <definition>std::map&lt;std::string, EncryptedGradient&gt; themis::distributed_knowledge::LoRAFederationCoordinator::pending_gradients_</definition>
+        <argsstring></argsstring>
+        <name>pending_gradients_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::pending_gradients_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="262" column="14" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8ae77521bd9e253376d2cc431902d2ce" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref> &gt;</type>
+        <definition>std::optional&lt;GlobalAdapterDelta&gt; themis::distributed_knowledge::LoRAFederationCoordinator::last_delta_</definition>
+        <argsstring></argsstring>
+        <name>last_delta_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::last_delta_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="263" column="26" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ac2b90609cc8543afbc5f8744e4b6f743" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const GlobalAdapterDelta&amp;)&gt; themis::distributed_knowledge::LoRAFederationCoordinator::delta_callback_</definition>
+        <argsstring></argsstring>
+        <name>delta_callback_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::delta_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="264" column="19" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2791a5986b141be01ea174077fecadee" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+        <definition>std::shared_ptr&lt;themis::llm::DecisionRecordYamlProcessor&gt; themis::distributed_knowledge::LoRAFederationCoordinator::dr_processor_</definition>
+        <argsstring></argsstring>
+        <name>dr_processor_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::dr_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="267" column="21" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aac54764d35df90bea9137583991d9149" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::LoRAFederationCoordinator::erase_count_</definition>
+        <argsstring></argsstring>
+        <name>erase_count_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::erase_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="270" column="12" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a211d716520a4fc962f3c7628a92bfb6a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::governance::CrossBorderTransferPolicy &gt;</type>
+        <definition>std::shared_ptr&lt;themis::governance::CrossBorderTransferPolicy&gt; themis::distributed_knowledge::LoRAFederationCoordinator::cross_border_policy_</definition>
+        <argsstring></argsstring>
+        <name>cross_border_policy_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::cross_border_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="273" column="21" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1adc8e0860eb97e2e2499b48735fc63bcf" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::distributed_knowledge::LoRAFederationCoordinator::shard_locations_</definition>
+        <argsstring></argsstring>
+        <name>shard_locations_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::shard_locations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="274" column="28" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a7b2b9b899c3145d7c9816eb2cf312dc1" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const nlohmann::json &amp;)&gt;</type>
+        <definition>std::function&lt;void(const nlohmann::json&amp;)&gt; themis::distributed_knowledge::LoRAFederationCoordinator::audit_record_callback_</definition>
+        <argsstring></argsstring>
+        <name>audit_record_callback_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::audit_record_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="277" column="25" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a787d7569d556f662005206eac809f8e4" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const nlohmann::json &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const nlohmann::json&amp;)&gt; themis::distributed_knowledge::LoRAFederationCoordinator::signing_callback_</definition>
+        <argsstring></argsstring>
+        <name>signing_callback_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::signing_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="278" column="19" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a7b8ac7d5ad22dca7c96ad5d2b01e87b0" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::LoRAFederationCoordinator::total_rounds_completed_</definition>
+        <argsstring></argsstring>
+        <name>total_rounds_completed_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::total_rounds_completed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="281" column="14" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="281" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab0cd994b848810a1053e0afacd22b1db" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::LoRAFederationCoordinator::total_gradients_processed_</definition>
+        <argsstring></argsstring>
+        <name>total_gradients_processed_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::total_gradients_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="282" column="14" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="282" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad26961104dfcca19b96eefc3310dfd3a" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::LoRAFederationCoordinator::total_epsilon_spent_</definition>
+        <argsstring></argsstring>
+        <name>total_epsilon_spent_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::total_epsilon_spent_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="283" column="14" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a32c9a6550e99a56d530adb6ac55a8a8a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::LoRAFederationCoordinator::total_gradients_filtered_</definition>
+        <argsstring></argsstring>
+        <name>total_gradients_filtered_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::total_gradients_filtered_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="284" column="14" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aeb6ca8595250e87eead35fb9abffd8a9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a4451e699b97d63017ddf6144c548f49e" kindref="member">GradientOutlierFilter</ref></type>
+        <definition>GradientOutlierFilter themis::distributed_knowledge::LoRAFederationCoordinator::gradient_outlier_filter_</definition>
+        <argsstring></argsstring>
+        <name>gradient_outlier_filter_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::gradient_outlier_filter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="287" column="27" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a0f26861056095100ebce13587a4854c8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::distributed_knowledge::LoRAFederationCoordinator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="289" column="24" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab978b84c0e19ac8a64654c66baa83547" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::LoRAFederationCoordinator::LoRAFederationCoordinator</definition>
+        <argsstring>(FederationConfig config={})</argsstring>
+        <name>LoRAFederationCoordinator</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::LoRAFederationCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="176" column="14" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="28" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2c2a974358fec43c49b1683e8896cc78" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::LoRAFederationCoordinator::~LoRAFederationCoordinator</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>~LoRAFederationCoordinator</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::~LoRAFederationCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="177" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab99aa30b0e8a8e897b40d2a9b3e7caf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::LoRAFederationCoordinator::LoRAFederationCoordinator</definition>
+        <argsstring>(const LoRAFederationCoordinator &amp;)=delete</argsstring>
+        <name>LoRAFederationCoordinator</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::LoRAFederationCoordinator</qualifiedname>
+        <param>
+          <type>const LoRAFederationCoordinator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="179" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aa213e480d8014692dd678f455de9491a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab978b84c0e19ac8a64654c66baa83547" kindref="member">LoRAFederationCoordinator</ref> &amp;</type>
+        <definition>LoRAFederationCoordinator &amp; themis::distributed_knowledge::LoRAFederationCoordinator::operator=</definition>
+        <argsstring>(const LoRAFederationCoordinator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab978b84c0e19ac8a64654c66baa83547" kindref="member">LoRAFederationCoordinator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="180" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad4b4474797812fdb0aff676d78d19a5f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::LoRAFederationCoordinator::LoRAFederationCoordinator</definition>
+        <argsstring>(LoRAFederationCoordinator &amp;&amp;) noexcept</argsstring>
+        <name>LoRAFederationCoordinator</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::LoRAFederationCoordinator</qualifiedname>
+        <param>
+          <type>LoRAFederationCoordinator &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="181" column="5" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="36" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2aafdd5edfb1b180f28ca11a96594a32" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab978b84c0e19ac8a64654c66baa83547" kindref="member">LoRAFederationCoordinator</ref> &amp;</type>
+        <definition>LoRAFederationCoordinator &amp; themis::distributed_knowledge::LoRAFederationCoordinator::operator=</definition>
+        <argsstring>(LoRAFederationCoordinator &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab978b84c0e19ac8a64654c66baa83547" kindref="member">LoRAFederationCoordinator</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk1. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adopt_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="182" column="31" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="50" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8a257289051836ba7c555fe0f98e1d82" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::submitGradient</definition>
+        <argsstring>(const EncryptedGradient &amp;gradient) override</argsstring>
+        <name>submitGradient</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::submitGradient</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a4acb4e0880b52647e46d1bda39bc28be">submitGradient</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref> &amp;</type>
+          <declname>gradient</declname>
+        </param>
+        <briefdescription>
+<para>Submit Gradient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), count(), size(), doAggregation(), std::max(), has_value(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="186" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="90" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8a3e354a23dedb87ea776810737ed4bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref></type>
+        <definition>GlobalAdapterDelta themis::distributed_knowledge::LoRAFederationCoordinator::triggerAggregation</definition>
+        <argsstring>() override</argsstring>
+        <name>triggerAggregation</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::triggerAggregation</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a07f9f226a7940488fd33ce7af25b64b3">triggerAggregation</reimplements>
+        <briefdescription>
+<para>Trigger Aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::to_string(), empty(), has_value(), find(), end(), checkTransfer(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="187" column="24" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="159" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1add63edd90358e5ffe6541324631ef9e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref></type>
+        <definition>GlobalAdapterDelta themis::distributed_knowledge::LoRAFederationCoordinator::triggerAggregation</definition>
+        <argsstring>(size_t timeout_ms) override</argsstring>
+        <name>triggerAggregation</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::triggerAggregation</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a8d4a58e984cec76f720a024fceb024f2">triggerAggregation</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── DK-OR: Operational Resilience — timeout overload, erase ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::async(), wait_for(), std::chrono::milliseconds(), std::to_string(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="188" column="24" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="568" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aabc3e76ebd2e826a7ca92cbe0d966279" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::setGlobalDeltaCallback</definition>
+        <argsstring>(std::function&lt; void(const GlobalAdapterDelta &amp;)&gt; cb) override</argsstring>
+        <name>setGlobalDeltaCallback</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::setGlobalDeltaCallback</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a693606094199b202f60311aa84f12325">setGlobalDeltaCallback</reimplements>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref> &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="189" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="382" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a6750ddd1085685507bcf76a57827bed9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::LoRAFederationCoordinator::currentRound</definition>
+        <argsstring>() const override</argsstring>
+        <name>currentRound</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::currentRound</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a06dadb42c605865a2f5344e95720d4ed">currentRound</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="192" column="15" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="392" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a136141d3a6697dec956a8719ab0fce2f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::LoRAFederationCoordinator::submittedCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>submittedCount</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::submittedCount</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a006deff0e20d78a0aca794574e929659">submittedCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="193" column="15" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="402" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2891dee456e55f22ab46ef9fca78b2b1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref> &gt;</type>
+        <definition>std::optional&lt; GlobalAdapterDelta &gt; themis::distributed_knowledge::LoRAFederationCoordinator::lastDelta</definition>
+        <argsstring>() const override</argsstring>
+        <name>lastDelta</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::lastDelta</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1ae0132820aab82823d0778e4d53bf1773">lastDelta</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="194" column="20" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="412" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1afa8e3f4fb14580df01cf77dec3fbeef8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::LoRAFederationCoordinator::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::getStats</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a3c12e47d954272b45dacc783614e44fd">getStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="195" column="21" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="422" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1af36d61fe3794acd4cf099130b03f71bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::advanceRound</definition>
+        <argsstring>()</argsstring>
+        <name>advanceRound</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::advanceRound</qualifiedname>
+        <briefdescription>
+<para>── Extra: manual round control ────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance Round.</para>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="201" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="443" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aa11541e89a68576070ad95b4b76cfa4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::setDecisionRecordProcessor</definition>
+        <argsstring>(std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt; processor)</argsstring>
+        <name>setDecisionRecordProcessor</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::setDecisionRecordProcessor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+          <declname>processor</declname>
+        </param>
+        <briefdescription>
+<para>Set Decision Record Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="207" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="458" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a86a1e619eeaba1efbeb94138ece960a8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref> &amp;</type>
+        <definition>const FederationConfig &amp; themis::distributed_knowledge::LoRAFederationCoordinator::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="210" column="29" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab6c5231ab1c1d0d9d201ac63719ca040" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::LoRAFederationCoordinator::privacyBudgetRemaining</definition>
+        <argsstring>() const</argsstring>
+        <name>privacyBudgetRemaining</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::privacyBudgetRemaining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="214" column="13" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="491" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a093310a9da560ff106c611d709f11aeb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::LoRAFederationCoordinator::verifyPrivacyBudget</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyPrivacyBudget</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::verifyPrivacyBudget</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="216" column="11" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="505" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a204343b976b505b174d6bf6601c85365" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::governance::StoreErasureResult</type>
+        <definition>themis::governance::StoreErasureResult themis::distributed_knowledge::LoRAFederationCoordinator::erase</definition>
+        <argsstring>(const std::string &amp;subject_id=&quot;&quot;, themis::governance::Regulation regulation=themis::governance::Regulation::GDPR)</argsstring>
+        <name>erase</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::erase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>themis::governance::Regulation</type>
+          <declname>regulation</declname>
+          <defval>themis::governance::Regulation::GDPR</defval>
+        </param>
+        <briefdescription>
+<para>Erase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">Regulation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="220" column="44" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="587" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a0339bae5a6003fa1d31073caddaffcb5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::LoRAFederationCoordinator::eraseCount</definition>
+        <argsstring>() const</argsstring>
+        <name>eraseCount</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::eraseCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="224" column="13" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="601" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad59855b91b436f360f17f3debb803fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::setCrossBorderPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; themis::governance::CrossBorderTransferPolicy &gt; policy)</argsstring>
+        <name>setCrossBorderPolicy</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::setCrossBorderPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::governance::CrossBorderTransferPolicy &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>── DK-7: Admin, GDPR, and audit hooks ────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── DK-7: GDPR + Audit + SphincsPlus DI setters ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="231" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="524" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a370f0b1fac5b3348a6f27d5bd794b433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::setShardLocations</definition>
+        <argsstring>(std::map&lt; std::string, std::string &gt; locations)</argsstring>
+        <name>setShardLocations</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::setShardLocations</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt;</type>
+          <declname>locations</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="234" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="530" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a052963646c461c81f8254efa76d068c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::setAuditRecordCallback</definition>
+        <argsstring>(std::function&lt; void(const nlohmann::json &amp;)&gt; callback)</argsstring>
+        <name>setAuditRecordCallback</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::setAuditRecordCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const nlohmann::json &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="236" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="540" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a770e96416117ba433d7899f0be8fde9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::setSigningCallback</definition>
+        <argsstring>(std::function&lt; std::string(const nlohmann::json &amp;)&gt; signing_fn)</argsstring>
+        <name>setSigningCallback</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::setSigningCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const nlohmann::json &amp;)&gt;</type>
+          <declname>signing_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="239" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="550" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a869212a1e33424dda07f2d283990eac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::setGradientOutlierFilter</definition>
+        <argsstring>(GradientOutlierFilter filter)</argsstring>
+        <name>setGradientOutlierFilter</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::setGradientOutlierFilter</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a4451e699b97d63017ddf6144c548f49e" kindref="member">GradientOutlierFilter</ref></type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Set Gradient Outlier Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── FPD: Gradient Outlier / Poisoning Detection ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="252" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="617" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a03f66237bc7a79245c71c9b70009e06b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::LoRAFederationCoordinator::filteredGradientsCount</definition>
+        <argsstring>() const</argsstring>
+        <name>filteredGradientsCount</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::filteredGradientsCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="254" column="13" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="622" bodyend="630"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2f325c8b6256a6e7faff34593ada2966" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a4451e699b97d63017ddf6144c548f49e" kindref="member">GradientOutlierFilter</ref></type>
+        <definition>LoRAFederationCoordinator::GradientOutlierFilter themis::distributed_knowledge::LoRAFederationCoordinator::makeL2NormOutlierFilter</definition>
+        <argsstring>(double z_threshold=2.5)</argsstring>
+        <name>makeL2NormOutlierFilter</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::makeL2NormOutlierFilter</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>z_threshold</declname>
+          <defval>2.5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="256" column="35" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="633" bodyend="696"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a1357cff5abe5f9026f073a13e3ab80b0" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref></type>
+        <definition>GlobalAdapterDelta themis::distributed_knowledge::LoRAFederationCoordinator::doAggregation</definition>
+        <argsstring>()</argsstring>
+        <name>doAggregation</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::doAggregation</qualifiedname>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── doAggregation (internal, caller holds mutex_) ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), gradient_outlier_filter_(), <ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a204343b976b505b174d6bf6601c85365" kindref="member">erase()</ref>, size(), std::to_string(), is_object(), items(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="292" column="25" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="238" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aab7f2a2dfec2009b568d43464c6ebf89" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::LoRAFederationCoordinator::applyDifferentialPrivacy</definition>
+        <argsstring>(const nlohmann::json &amp;aggregated) const</argsstring>
+        <name>applyDifferentialPrivacy</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::applyDifferentialPrivacy</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>aggregated</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="293" column="21" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="353" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1acf9e4b088c964ff072585185155a5ff1" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::LoRAFederationCoordinator::nextDeltaVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>nextDeltaVersion</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::nextDeltaVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="295" column="18" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="374" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a98b04ef4b5e18820e32760e81af20541" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::LoRAFederationCoordinator::emitFederationDecisionRecord</definition>
+        <argsstring>(const GlobalAdapterDelta &amp;delta, const std::string &amp;outcome) const</argsstring>
+        <name>emitFederationDecisionRecord</name>
+        <qualifiedname>themis::distributed_knowledge::LoRAFederationCoordinator::emitFederationDecisionRecord</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref> &amp;</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outcome</declname>
+        </param>
+        <briefdescription>
+<para>Emit Federation Decision Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="301" column="10" bodyfile="src/distributed_knowledge/lora_federation_coordinator.cpp" bodystart="464" bodyend="485"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::distributed_knowledge::ILoRAFederationCoordinator</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator"/>
+      </node>
+      <node id="1">
+        <label>themis::distributed_knowledge::LoRAFederationCoordinator</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::distributed_knowledge::ILoRAFederationCoordinator</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator"/>
+      </node>
+      <node id="1">
+        <label>themis::distributed_knowledge::LoRAFederationCoordinator</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="174" column="1" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="174" bodyend="303"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1af36d61fe3794acd4cf099130b03f71bd" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>advanceRound</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aab7f2a2dfec2009b568d43464c6ebf89" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>applyDifferentialPrivacy</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a7b2b9b899c3145d7c9816eb2cf312dc1" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>audit_record_callback_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a86a1e619eeaba1efbeb94138ece960a8" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>config</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ada2653033a02e590c5e24520ca224fb7" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a211d716520a4fc962f3c7628a92bfb6a" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>cross_border_policy_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a1cae046a41fcd43154d0ee9ebe4ca010" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>current_round_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a6750ddd1085685507bcf76a57827bed9" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>currentRound</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ac2b90609cc8543afbc5f8744e4b6f743" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>delta_callback_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a1357cff5abe5f9026f073a13e3ab80b0" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>doAggregation</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2791a5986b141be01ea174077fecadee" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>dr_processor_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a98b04ef4b5e18820e32760e81af20541" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>emitFederationDecisionRecord</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a204343b976b505b174d6bf6601c85365" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>erase</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aac54764d35df90bea9137583991d9149" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>erase_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a0339bae5a6003fa1d31073caddaffcb5" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>eraseCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a03f66237bc7a79245c71c9b70009e06b" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>filteredGradientsCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1afa8e3f4fb14580df01cf77dec3fbeef8" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aeb6ca8595250e87eead35fb9abffd8a9" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>gradient_outlier_filter_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a4451e699b97d63017ddf6144c548f49e" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>GradientOutlierFilter</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8ae77521bd9e253376d2cc431902d2ce" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>last_delta_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2891dee456e55f22ab46ef9fca78b2b1" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>lastDelta</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab978b84c0e19ac8a64654c66baa83547" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>LoRAFederationCoordinator</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab99aa30b0e8a8e897b40d2a9b3e7caf9" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>LoRAFederationCoordinator</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad4b4474797812fdb0aff676d78d19a5f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>LoRAFederationCoordinator</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2f325c8b6256a6e7faff34593ada2966" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>makeL2NormOutlierFilter</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a0f26861056095100ebce13587a4854c8" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1acf9e4b088c964ff072585185155a5ff1" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>nextDeltaVersion</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aa213e480d8014692dd678f455de9491a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2aafdd5edfb1b180f28ca11a96594a32" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a6a21b932ae3b8a179cac96ff6dd8c38d" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>pending_gradients_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab6c5231ab1c1d0d9d201ac63719ca040" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>privacyBudgetRemaining</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a052963646c461c81f8254efa76d068c6" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>setAuditRecordCallback</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad59855b91b436f360f17f3debb803fd1" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>setCrossBorderPolicy</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aa11541e89a68576070ad95b4b76cfa4c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>setDecisionRecordProcessor</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1aabc3e76ebd2e826a7ca92cbe0d966279" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>setGlobalDeltaCallback</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a869212a1e33424dda07f2d283990eac5" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>setGradientOutlierFilter</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a370f0b1fac5b3348a6f27d5bd794b433" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>setShardLocations</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a770e96416117ba433d7899f0be8fde9a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>setSigningCallback</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1adc8e0860eb97e2e2499b48735fc63bcf" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>shard_locations_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a787d7569d556f662005206eac809f8e4" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>signing_callback_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8a257289051836ba7c555fe0f98e1d82" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>submitGradient</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a136141d3a6697dec956a8719ab0fce2f" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>submittedCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ad26961104dfcca19b96eefc3310dfd3a" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>total_epsilon_spent_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a32c9a6550e99a56d530adb6ac55a8a8a" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>total_gradients_filtered_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1ab0cd994b848810a1053e0afacd22b1db" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>total_gradients_processed_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a7b8ac7d5ad22dca7c96ad5d2b01e87b0" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>total_rounds_completed_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a8a3e354a23dedb87ea776810737ed4bf" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>triggerAggregation</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1add63edd90358e5ffe6541324631ef9e6" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>triggerAggregation</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a093310a9da560ff106c611d709f11aeb" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>verifyPrivacyBudget</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_i_lo_r_a_federation_coordinator_1a30f8bc4c8f1be45672c4582337e32b9f" prot="public" virt="virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>~ILoRAFederationCoordinator</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator_1a2c2a974358fec43c49b1683e8896cc78" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::LoRAFederationCoordinator</scope><name>~LoRAFederationCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

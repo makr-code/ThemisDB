@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_gpu_clustering_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GpuClusteringConfig</compoundname>
+    <includes refid="geo__clustering_8h" local="no">geo_clustering.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_gpu_clustering_config_1a4c54a32258ea8a9a768204032220e701" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GpuClusteringConfig::use_gpu</definition>
+        <argsstring></argsstring>
+        <name>use_gpu</name>
+        <qualifiedname>themis::geo::GpuClusteringConfig::use_gpu</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Allow GPU acceleration when available. Default true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="93" column="10" bodyfile="include/geo/geo_clustering.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_gpu_clustering_config_1a08b4f09e160419310bf9a285b80a2569" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::GpuClusteringConfig::gpu_dbscan_max_n</definition>
+        <argsstring></argsstring>
+        <name>gpu_dbscan_max_n</name>
+        <qualifiedname>themis::geo::GpuClusteringConfig::gpu_dbscan_max_n</qualifiedname>
+        <initializer>{32768}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum point count for GPU DBSCAN (adjacency matrix = n² bits). At 32768 points the matrix is 128 MiB on GPU. Default: 32768. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="96" column="17" bodyfile="include/geo/geo_clustering.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration controlling GPU acceleration for clustering algorithms. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <computeroutput><ref refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a4c54a32258ea8a9a768204032220e701" kindref="member">use_gpu</ref></computeroutput> is true and CUDA is available, clustering will use GPU kernels for the distance computation phase:<itemizedlist>
+<listitem><para>k-Means: ECEF 3D projection + FAISS GPU FLAT_L2 for the assignment step.</para>
+</listitem><listitem><para>DBSCAN: GPU Haversine batch kernel for precomputing the adjacency matrix; BFS expansion runs on CPU using the precomputed matrix. Only datasets with <computeroutput>n ≤ <ref refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a08b4f09e160419310bf9a285b80a2569" kindref="member">gpu_dbscan_max_n</ref></computeroutput> are eligible (larger datasets fall back to CPU to stay within VRAM limits).</para>
+</listitem></itemizedlist>
+</para>
+<para>When <computeroutput><ref refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a4c54a32258ea8a9a768204032220e701" kindref="member">use_gpu</ref></computeroutput> is false, or when no CUDA device is present, the CPU path is used transparently — callers do not need to check this at the call site. </para>
+    </detaileddescription>
+    <location file="include/geo/geo_clustering.h" line="91" column="1" bodyfile="include/geo/geo_clustering.h" bodystart="91" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a08b4f09e160419310bf9a285b80a2569" prot="public" virt="non-virtual"><scope>themis::geo::GpuClusteringConfig</scope><name>gpu_dbscan_max_n</name></member>
+      <member refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a4c54a32258ea8a9a768204032220e701" prot="public" virt="non-virtual"><scope>themis::geo::GpuClusteringConfig</scope><name>use_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

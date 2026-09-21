@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1b7ef241a24201c1f2fe1e4e70c14fd6" kind="dir">
+    <compoundname>tests/aql/fixtures</compoundname>
+    <innerfile refid="mock__provider__factory_8h">mock_provider_factory.h</innerfile>
+    <innerfile refid="schema__context__builder_8h">schema_context_builder.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/fixtures/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RemoteExecutor::Result</compoundname>
+    <includes refid="remote__executor_8h" local="no">remote_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a7d3473e177341ac0ef3f72039a021d25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::Result::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Result::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="65" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a592f69c4c4c929a463e538b2706046e7" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::RemoteExecutor::Result::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Result::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="66" column="24" bodyfile="include/sharding/remote_executor.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a1444225ba07331d6119acdf40ad1d5d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RemoteExecutor::Result::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Result::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="67" column="14" bodyfile="include/sharding/remote_executor.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1ae65d7a867fc8fde1844efd156d6d2b5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::Result::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Result::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="68" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1adf8b6ca713df5fd0db0f5e56a308112e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RemoteExecutor::Result::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Result::execution_time_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="69" column="18" bodyfile="include/sharding/remote_executor.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a67bd84d3c18bde3dd9ff329acf70beab" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::RemoteExecutor::Result::http_status</definition>
+        <argsstring></argsstring>
+        <name>http_status</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Result::http_status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="70" column="13" bodyfile="include/sharding/remote_executor.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref> from remote execution </para>
+    </detaileddescription>
+    <location file="include/sharding/remote_executor.h" line="64" column="5" bodyfile="include/sharding/remote_executor.h" bodystart="64" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a592f69c4c4c929a463e538b2706046e7" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Result</scope><name>data</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1ae65d7a867fc8fde1844efd156d6d2b5f" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Result</scope><name>error</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1adf8b6ca713df5fd0db0f5e56a308112e" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Result</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a67bd84d3c18bde3dd9ff329acf70beab" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Result</scope><name>http_status</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a7d3473e177341ac0ef3f72039a021d25" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Result</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a1444225ba07331d6119acdf40ad1d5d6" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Result</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

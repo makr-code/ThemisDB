@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_legal_reference" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::LegalReference</compoundname>
+    <includes refid="agentic__reference__validator_8h" local="no">agentic_reference_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_reference_1a3755c791b3d4f189e2ad459b660d3b36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalReference::raw_text</definition>
+        <argsstring></argsstring>
+        <name>raw_text</name>
+        <qualifiedname>themis::ingestion::LegalReference::raw_text</qualifiedname>
+        <briefdescription>
+<para>Original matched text (e.g. &quot;§ 4 Abs. 1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="38" column="17" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_reference_1ad731eb4791af4c7ef5fa2ab6becc723d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalReference::law_id</definition>
+        <argsstring></argsstring>
+        <name>law_id</name>
+        <qualifiedname>themis::ingestion::LegalReference::law_id</qualifiedname>
+        <briefdescription>
+<para>Law identifier (e.g. &quot;BImSchG&quot;, &quot;StGB&quot;, &quot;&quot; = current doc). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="39" column="17" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_reference_1aba1f5ee37d46ae98f1f81b282462597f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalReference::section</definition>
+        <argsstring></argsstring>
+        <name>section</name>
+        <qualifiedname>themis::ingestion::LegalReference::section</qualifiedname>
+        <briefdescription>
+<para>Section/paragraph number (e.g. &quot;4&quot;, &quot;4a&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="40" column="17" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_reference_1a0d218d72e590e23e33348f5d5c16873f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalReference::subsection</definition>
+        <argsstring></argsstring>
+        <name>subsection</name>
+        <qualifiedname>themis::ingestion::LegalReference::subsection</qualifiedname>
+        <briefdescription>
+<para>Absatz number (e.g. &quot;1&quot;, empty if not specified). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="41" column="17" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_reference_1ad6d527230449eb63700ecdb1e1118f77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalReference::item</definition>
+        <argsstring></argsstring>
+        <name>item</name>
+        <qualifiedname>themis::ingestion::LegalReference::item</qualifiedname>
+        <briefdescription>
+<para>Nummer within subsection (e.g. &quot;2&quot;, empty if not specified). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="42" column="17" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_legal_reference_1a08ad5f9a4d4ca27f420cd867f9bde0a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::LegalReference::LegalReference</definition>
+        <argsstring>()=default</argsstring>
+        <name>LegalReference</name>
+        <qualifiedname>themis::ingestion::LegalReference::LegalReference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_legal_reference_1a3345023620a85fa262dce4895fccbb7c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::LegalReference::LegalReference</definition>
+        <argsstring>(std::string raw, std::string law, std::string sec, std::string sub=&quot;&quot;, std::string it=&quot;&quot;)</argsstring>
+        <name>LegalReference</name>
+        <qualifiedname>themis::ingestion::LegalReference::LegalReference</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>raw</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>law</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>sec</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>sub</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>it</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="45" column="5" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_legal_reference_1a926cb89cde48089b5de07427e90b326a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalReference::canonicalId</definition>
+        <argsstring>() const</argsstring>
+        <name>canonicalId</name>
+        <qualifiedname>themis::ingestion::LegalReference::canonicalId</qualifiedname>
+        <briefdescription>
+<para>Returns a canonical identifier string for this reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="52" column="17" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="52" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single cross-reference extracted from a legal text. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents a reference from one provision to another provision (within the same law, a different German law, or an EU directive).</para>
+<para>Examples:<itemizedlist>
+<listitem><para>§ 4 Abs. 1 → same-document reference</para>
+</listitem><listitem><para>BImSchG § 4 → inter-law reference</para>
+</listitem><listitem><para>Richtlinie 2010/75/EU → EU directive reference </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/ingestion/agentic_reference_validator.h" line="37" column="1" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="37" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_legal_reference_1a926cb89cde48089b5de07427e90b326a" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalReference</scope><name>canonicalId</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_reference_1ad6d527230449eb63700ecdb1e1118f77" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalReference</scope><name>item</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_reference_1ad731eb4791af4c7ef5fa2ab6becc723d" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalReference</scope><name>law_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_reference_1a08ad5f9a4d4ca27f420cd867f9bde0a0" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalReference</scope><name>LegalReference</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_reference_1a3345023620a85fa262dce4895fccbb7c" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalReference</scope><name>LegalReference</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_reference_1a3755c791b3d4f189e2ad459b660d3b36" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalReference</scope><name>raw_text</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_reference_1aba1f5ee37d46ae98f1f81b282462597f" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalReference</scope><name>section</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_reference_1a0d218d72e590e23e33348f5d5c16873f" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalReference</scope><name>subsection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

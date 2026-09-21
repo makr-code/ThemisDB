@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_update_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::UpdateCheckResult</compoundname>
+    <includes refid="update__checker_8h" local="no">update_checker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_update_check_result_1a4691b567364860991ac8c2dac11142db" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08f" kindref="member">UpdateStatus</ref></type>
+        <definition>UpdateStatus themis::utils::UpdateCheckResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::utils::UpdateCheckResult::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UpdateStatus::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="103" column="18" bodyfile="include/utils/update_checker.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_update_check_result_1aa1bc5c96c5db89f242fe394f6eff9f04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::UpdateCheckResult::current_version</definition>
+        <argsstring></argsstring>
+        <name>current_version</name>
+        <qualifiedname>themis::utils::UpdateCheckResult::current_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="104" column="17" bodyfile="include/utils/update_checker.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_update_check_result_1a85345a1ad00d23ee0f764943a2996abc" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1utils_1_1_release_info" kindref="compound">ReleaseInfo</ref> &gt;</type>
+        <definition>std::optional&lt;ReleaseInfo&gt; themis::utils::UpdateCheckResult::latest_release</definition>
+        <argsstring></argsstring>
+        <name>latest_release</name>
+        <qualifiedname>themis::utils::UpdateCheckResult::latest_release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="105" column="19" bodyfile="include/utils/update_checker.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_update_check_result_1a3393a8f3e844c006443b76300fa503b6" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1utils_1_1_release_info" kindref="compound">ReleaseInfo</ref> &gt;</type>
+        <definition>std::optional&lt;ReleaseInfo&gt; themis::utils::UpdateCheckResult::latest_critical_release</definition>
+        <argsstring></argsstring>
+        <name>latest_critical_release</name>
+        <qualifiedname>themis::utils::UpdateCheckResult::latest_critical_release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="106" column="19" bodyfile="include/utils/update_checker.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_update_check_result_1a1fb8147cc959034f7e67647bebe3334f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::UpdateCheckResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::utils::UpdateCheckResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="107" column="17" bodyfile="include/utils/update_checker.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_update_check_result_1a74d53342025cfa5338bf0dc790771ef0" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::UpdateCheckResult::last_check_time</definition>
+        <argsstring></argsstring>
+        <name>last_check_time</name>
+        <qualifiedname>themis::utils::UpdateCheckResult::last_check_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="108" column="43" bodyfile="include/utils/update_checker.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_update_check_result_1a4091ed5b2c57252903ec89684f9dd94c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref></type>
+        <definition>json themis::utils::UpdateCheckResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::utils::UpdateCheckResult::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON for HTTP API. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="113" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="174" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> of an update check. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/update_checker.h" line="102" column="1" bodyfile="include/utils/update_checker.h" bodystart="102" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_update_check_result_1aa1bc5c96c5db89f242fe394f6eff9f04" prot="public" virt="non-virtual"><scope>themis::utils::UpdateCheckResult</scope><name>current_version</name></member>
+      <member refid="structthemis_1_1utils_1_1_update_check_result_1a1fb8147cc959034f7e67647bebe3334f" prot="public" virt="non-virtual"><scope>themis::utils::UpdateCheckResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1utils_1_1_update_check_result_1a74d53342025cfa5338bf0dc790771ef0" prot="public" virt="non-virtual"><scope>themis::utils::UpdateCheckResult</scope><name>last_check_time</name></member>
+      <member refid="structthemis_1_1utils_1_1_update_check_result_1a3393a8f3e844c006443b76300fa503b6" prot="public" virt="non-virtual"><scope>themis::utils::UpdateCheckResult</scope><name>latest_critical_release</name></member>
+      <member refid="structthemis_1_1utils_1_1_update_check_result_1a85345a1ad00d23ee0f764943a2996abc" prot="public" virt="non-virtual"><scope>themis::utils::UpdateCheckResult</scope><name>latest_release</name></member>
+      <member refid="structthemis_1_1utils_1_1_update_check_result_1a4691b567364860991ac8c2dac11142db" prot="public" virt="non-virtual"><scope>themis::utils::UpdateCheckResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1utils_1_1_update_check_result_1a4091ed5b2c57252903ec89684f9dd94c" prot="public" virt="non-virtual"><scope>themis::utils::UpdateCheckResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator</compoundname>
+    <includes refid="federated__learning_8h" local="no">federated_learning.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient" prot="public">themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result" prot="public">themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1af2dd3b7e81db92ed33d255b0c8c4dcf1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result" kindref="compound">RoundAggregationResult</ref></type>
+        <definition>FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound</definition>
+        <argsstring>(const std::vector&lt; ParticipantGradient &gt; &amp;updates, const std::string &amp;aggregation_algorithm=&quot;FedAvg&quot;, bool use_secure_aggregation=false, const std::string &amp;round_id=&quot;round-0&quot;, double trim_ratio=0.1) const</argsstring>
+        <name>aggregateRound</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_participant_gradient" kindref="compound">ParticipantGradient</ref> &gt; &amp;</type>
+          <declname>updates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aggregation_algorithm</declname>
+          <defval>&quot;FedAvg&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_secure_aggregation</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>round_id</declname>
+          <defval>&quot;round-0&quot;</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>trim_ratio</declname>
+          <defval>0.1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="126" column="32" bodyfile="src/importers/federated_learning.cpp" bodystart="319" bodyend="404"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/federated_learning.h" line="110" column="5" bodyfile="include/importers/federated_learning.h" bodystart="110" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1af2dd3b7e81db92ed33d255b0c8c4dcf1" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator</scope><name>aggregateRound</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

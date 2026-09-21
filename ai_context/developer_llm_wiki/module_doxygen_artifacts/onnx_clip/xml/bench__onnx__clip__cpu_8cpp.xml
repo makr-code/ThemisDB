@@ -1,0 +1,884 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__onnx__clip__cpu_8cpp" kind="file" language="C++">
+    <compoundname>bench_onnx_clip_cpu.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">cmath</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp</label>
+        <link refid="bench__onnx__clip__cpu_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>numeric</label>
+      </node>
+      <node id="6">
+        <label>random</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model" prot="public">themis::bench::onnx_clip::MockOnnxClipModel</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture" prot="public">themis::bench::onnx_clip::OnnxClipCpuFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" prot="public">themis::bench::onnx_clip::OnnxClipCpuWarmFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture" prot="public">themis::bench::onnx_clip::OnnxClipLatencyRegressionFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler" prot="public">themis::bench::onnx_clip::OnnxClipInitializationProfiler</innerclass>
+    <innerclass refid="class_onnx_clip_cpu_fixture" prot="public">OnnxClipCpuFixture</innerclass>
+    <innerclass refid="class_onnx_clip_cpu_warm_fixture" prot="public">OnnxClipCpuWarmFixture</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1onnx__clip">themis::bench::onnx_clip</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" prot="public" static="no" mutable="no">
+        <type>benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <initializer>{
+    model_-&gt;<ref refid="bench__onnx__clip__cpu_8cpp_1a039e985393e1b06de015f75d17081446" kindref="member">initialize</ref>()</initializer>
+        <briefdescription>
+<para>FCP-01: Single-image latency benchmark (target: ≤ 150 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Memory scaling benchmark (batch size 64).</para>
+<para>Memory scaling benchmark (batch size 48).</para>
+<para>Memory scaling benchmark (batch size 32).</para>
+<para>Memory scaling benchmark (batch size 16).</para>
+<para>Memory scaling benchmark (batch size 8).</para>
+<para>Memory scaling benchmark (batch size 4).</para>
+<para>Memory scaling benchmark (batch size 2).</para>
+<para>Memory scaling benchmark (batch size 1).</para>
+<para>CUDA throughput scaling benchmark (batch size 64).</para>
+<para>CUDA throughput scaling benchmark (batch size 32).</para>
+<para>CUDA throughput scaling benchmark (batch size 16).</para>
+<para>CUDA throughput scaling benchmark (batch size 8).</para>
+<para>CUDA throughput scaling benchmark (batch size 1).</para>
+<para>CPU throughput scaling benchmark (batch size 64).</para>
+<para>CPU throughput scaling benchmark (batch size 32).</para>
+<para>CPU throughput scaling benchmark (batch size 16).</para>
+<para>CPU throughput scaling benchmark (batch size 8).</para>
+<para>CPU throughput scaling benchmark (batch size 1).</para>
+<para>Batch-splitting performance optimization validation.</para>
+<para>Memory footprint during runtime batch inference.</para>
+<para>FCP-06: Memory footprint during model load.</para>
+<para>CPU batch-16 throughput benchmark (baseline).</para>
+<para>Total initialization time (cold start to first inference).</para>
+<para>Measure warmup phase cost (first inference + cache fill).</para>
+<para>Measure session creation time (backend setup after model load).</para>
+<para>Measure model load time (weight deserialization + graph construction).</para>
+<para>Latency regression tracking for batch-16 encoding.</para>
+<para>Latency regression tracking for batch-8 encoding.</para>
+<para>Latency regression tracking for single-image encoding.</para>
+<para>Health-check operation latency (smoke test).</para>
+<para>FCP-04: Initialization latency benchmark (target: &lt; 500 ms).</para>
+<para>FCP-03: Text embedding latency benchmark (target: ≤ 5 ms).</para>
+<para>FCP-02: Batch-16 latency benchmark (target: ≤ 2.4 sec).</para>
+<para>Batch-8 latency benchmark (target: ≤ 1.2 sec).</para>
+<para>Measures wall-clock latency for encoding a single 224×224 RGB image to a 768-dimensional embedding on CPU.</para>
+<para>Gate threshold: p99 ≤ 150 ms</para>
+<para>Measures wall-clock latency for encoding a batch of 8 images on CPU.</para>
+<para>Measures wall-clock latency for encoding a batch of 16 images on CPU. This is a hard gate for Phase 2A.</para>
+<para>Gate threshold: p99 ≤ 2.4 sec</para>
+<para>Measures wall-clock latency for encoding a text prompt to a 768-dimensional embedding on CPU.</para>
+<para>Gate threshold: p99 ≤ 5 ms</para>
+<para>Measures wall-clock latency for cold-start model initialization:<itemizedlist>
+<listitem><para>Weight deserialization</para>
+</listitem><listitem><para>Graph construction</para>
+</listitem><listitem><para>Kernel compilation (if applicable)</para>
+</listitem></itemizedlist>
+</para>
+<para>No caching; each iteration loads the model from scratch.</para>
+<para>Gate threshold: &lt; 500 ms</para>
+<para>Measures overhead of model availability check. Typically a pointer dereference + validity flag check.</para>
+<para>Tracks detailed latency metrics with variance tracking:<itemizedlist>
+<listitem><para>Wall-clock latency per iteration</para>
+</listitem><listitem><para>Percentiles (p50, p90, p99) for gate compliance</para>
+</listitem><listitem><para>Min/max ranges and stddev for variance analysis</para>
+</listitem></itemizedlist>
+</para>
+<para>Acceptance: p99 ≤ 150 ms (FCP-01 gate) Regression detection: &gt; 10% above baseline blocks release</para>
+<para>Tracks detailed latency metrics with variance tracking. Acceptance: p99 ≤ 1.2 sec Regression detection: &gt; 10% above baseline</para>
+<para>Tracks detailed latency metrics with variance tracking. Acceptance: p99 ≤ 2.4 sec (FCP-02 gate) Regression detection: &gt; 10% above baseline</para>
+<para>Captures time to load model from serialized form. Includes file I/O and ONNX graph parsing.</para>
+<para>Captures backend-specific setup (CUDA stream creation, etc.). Executed after model load.</para>
+<para>Captures overhead of initial inference and cache warming. Typically 2-3 inferences to stabilize performance.</para>
+<para>Measures end-to-end initialization:<orderedlist>
+<listitem><para>Model load</para>
+</listitem><listitem><para>Session creation</para>
+</listitem><listitem><para>Warmup phase</para>
+</listitem></orderedlist>
+</para>
+<para>Acceptance: &lt; 500 ms (FCP-04 gate)</para>
+<para>Measures throughput (images/sec) for batch-16 inference on CPU. Used as baseline for CUDA comparison.</para>
+<para>Measures peak RSS (resident set size) during model weight loading. Includes:<itemizedlist>
+<listitem><para>Weight deserialization</para>
+</listitem><listitem><para>Graph construction</para>
+</listitem><listitem><para>Temporary allocations</para>
+</listitem></itemizedlist>
+</para>
+<para>Gate threshold: Tracked (regression &gt; 10% blocks release).</para>
+<para>Measures peak RSS during batch inference execution. Includes:<itemizedlist>
+<listitem><para>Input image buffers</para>
+</listitem><listitem><para>Activation maps (intermediate layers)</para>
+</listitem><listitem><para>Gradient buffers (if training mode)</para>
+</listitem></itemizedlist>
+</para>
+<para>Parametrized by batch size: 1, 8, 16, 64.</para>
+<para>Measures overhead of splitting a large batch (e.g., batch-64) into smaller sub-batches (split-4, split-8, split-16).</para>
+<para>Tests different split factors to validate batch-splitting optimization. A good implementation should show minimal overhead.</para>
+<para>Parametrized by split factor: 2, 4, 8, 16.</para>
+<para>Measures images/second for batch-1 on CPU. Baseline for scaling analysis.</para>
+<para>Measures images/second for batch-8 on CPU. Expected to show ~4-6x speedup vs batch-1 due to vectorization.</para>
+<para>Measures images/second for batch-16 on CPU. Expected to show further speedup from cache utilization.</para>
+<para>Measures images/second for batch-32 on CPU. Approaching memory bandwidth saturation threshold.</para>
+<para>Measures images/second for batch-64 on CPU. Reference point for CUDA speedup calculation (FCP-05 gate).</para>
+<para>Measures images/second for batch-1 on CUDA. Expected lower than CPU for small batches due to kernel launch overhead.</para>
+<para>Measures images/second for batch-8 on CUDA. Expected to show significant speedup vs CPU (~2-3x).</para>
+<para>Measures images/second for batch-16 on CUDA. Expected ~4x speedup vs CPU.</para>
+<para>Measures images/second for batch-32 on CUDA. Expected ~5x speedup vs CPU (approaching asymptotic speedup).</para>
+<para>Measures images/second for batch-64 on CUDA. Expected ~6x speedup vs CPU (FCP-05 gate verification).</para>
+<para>Measures RSS and peak memory for batch-1 inference. Baseline for memory-per-image ratio calculation.</para>
+<para>Intermediate point to capture scaling curve accurately.</para>
+<para>Maximum batch size for analysis. Identifies OOM cliff and peak memory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="319" column="22" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__onnx__clip__cpu_8cpp_1a92afbf9ce3c465b8d7cbcf83f8071629" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string test_text</definition>
+        <argsstring></argsstring>
+        <name>test_text</name>
+        <initializer>= &quot;A photo of a cat&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="386" column="23" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; latencies</definition>
+        <argsstring></argsstring>
+        <name>latencies</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="461" column="17" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="461" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__onnx__clip__cpu_8cpp_1ad6a7b6b73caa2bc27f897bd23d8740ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <param>
+          <type>auto _ :<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="322" column="5" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="322" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__onnx__clip__cpu_8cpp_1a380cbeafd72794f7b18b54d39fd07eea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>UseRealTime</definition>
+        <argsstring>() -&gt; Unit(benchmark::kMillisecond) -&gt;Arg(1)</argsstring>
+        <name>UseRealTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="328" column="5" declfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" declline="328" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__onnx__clip__cpu_8cpp_1a4bc8d3b68bcb967dc2f4ac8901e5f933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref></type>
+        <definition>latencies reserve</definition>
+        <argsstring>(state.max_iterations)</argsstring>
+        <name>reserve</name>
+        <param>
+          <type>state.</type>
+          <declname>max_iterations</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="462" column="14" declfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" declline="462" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__onnx__clip__cpu_8cpp_1a24581484d1f860a1abb8920f8eb33b37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>if</definition>
+        <argsstring>(latencies.size() &gt; 0)</argsstring>
+        <name>if</name>
+        <param>
+          <type>latencies.</type>
+          <declname>size</declname>
+          <array>()</array>
+        </param>
+        <param>
+          <type>0</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="474" column="5" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="474" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__onnx__clip__cpu_8cpp_1a039e985393e1b06de015f75d17081446" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>model_</type>
+        <definition>model_ initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="655" column="11" declfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" declline="655" declcolumn="11"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 2A CPU latency benchmarks for ONNX CLIP v0.3.0 model. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible wall-clock latency measurements for:<itemizedlist>
+<listitem><para>Single-image encoding (target: ≤ 150 ms)</para>
+</listitem><listitem><para>Batch-8 processing (target: ≤ 1.2 sec)</para>
+</listitem><listitem><para>Batch-16 processing (target: ≤ 2.4 sec)</para>
+</listitem><listitem><para>Text embedding (target: ≤ 5 ms)</para>
+</listitem><listitem><para>Model initialization (target: &lt; 500 ms)</para>
+</listitem><listitem><para>Health-check operations</para>
+</listitem></itemizedlist>
+</para>
+<para>All benchmarks follow Wave 1 measurement hygiene:<itemizedlist>
+<listitem><para>Canonical seed: kCanonicalRngSeed = 42</para>
+</listitem><listitem><para>Real-time mode for wall-clock latency measurement</para>
+</listitem><listitem><para>3-phase warmup protocol (cold, warm, hot)</para>
+</listitem><listitem><para>Deterministic data sequences</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="bench__onnx__clip__cpu_8cpp_1autotoc_md2_1s1"><sect2 id="bench__onnx__clip__cpu_8cpp_1autotoc_md2">
+<title>Release Gates</title><para><table rows="5" cols="4"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry><entry thead="yes"><para>Status  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>FCP-01  </para>
+</entry><entry thead="no"><para>BM_SingleImageLatency_ViTB32_CPU  </para>
+</entry><entry thead="no"><para>p99 ≤ 150 ms  </para>
+</entry><entry thead="no"><para>Hard gate  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>FCP-02  </para>
+</entry><entry thead="no"><para>BM_BatchLatency_ViTB32_CPU_Batch16  </para>
+</entry><entry thead="no"><para>p99 ≤ 2.4 sec  </para>
+</entry><entry thead="no"><para>Hard gate  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>FCP-03  </para>
+</entry><entry thead="no"><para>BM_TextEmbedding_Latency_CPU  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 ms  </para>
+</entry><entry thead="no"><para>Hard gate  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>FCP-04  </para>
+</entry><entry thead="no"><para>BM_Initialization_Latency_CPU  </para>
+</entry><entry thead="no"><para>&lt; 500 ms  </para>
+</entry><entry thead="no"><para>Hard gate  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="see"><para>benchmarks/MEASUREMENT_HYGIENE.md </para>
+</simplesect>
+<simplesect kind="see"><para>benchmarks/bench_fixtures.h </para>
+</simplesect>
+<simplesect kind="see"><para>benchmarks/onnx_clip/README.md </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measurement<sp/>hygiene<sp/>constants<sp/>(Wave<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1bench_1_1onnx__clip" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1onnx__clip" kindref="compound">onnx_clip</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kCanonicalRngSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWarmupIterationsCold<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWarmupIterationsWarm<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWarmupIterationsHot<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a9110fd6bb63bd1384b5c217839aa2ca9" kindref="member">MockOnnxClipModel</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a9110fd6bb63bd1384b5c217839aa2ca9" kindref="member">MockOnnxClipModel</ref>()<sp/>:<sp/>rng_(kCanonicalRngSeed),<sp/>initialized_(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a13aaf5445bd9d3b76a0e084525e67a71" kindref="member">initialize</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(initialized_)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>model<sp/>deserialization<sp/>overhead<sp/>(~100-400<sp/>ms<sp/>range)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>dummy_weights(1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>MB<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w<sp/>:<sp/>dummy_weights)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>w<sp/>=<sp/>dis_(rng_);<sp/><sp/></highlight><highlight class="comment">//<sp/>Synthetic<sp/>computation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a481197d0ef6e04a4fb8b7f10a77867b3" kindref="member">encodeImage</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>height<sp/>=<sp/>224,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>width<sp/>=<sp/>224)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>preprocessing<sp/>+<sp/>inference<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Preprocessing:<sp/>~10<sp/>ms<sp/>(normalization,<sp/>resize)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Inference:<sp/>~100-140<sp/>ms<sp/>(model<sp/>execution)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total:<sp/>110-150<sp/>ms<sp/>on<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>activations<sp/>=<sp/>height<sp/>*<sp/>width;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>features(768);<sp/><sp/></highlight><highlight class="comment">//<sp/>CLIP<sp/>ViT-B/32<sp/>output<sp/>dim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>activations<sp/>/<sp/>16;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>features[i<sp/>%<sp/>768]<sp/>+=<sp/>dis_(rng_);<sp/><sp/></highlight><highlight class="comment">//<sp/>Synthetic<sp/>workload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>features;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a8835cab917e7bf43d53e68516f64103b" kindref="member">encodeBatch</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>batch_size)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>batch;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>batch_size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch.push_back(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a481197d0ef6e04a4fb8b7f10a77867b3" kindref="member">encodeImage</ref>());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>batch;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a5712427e5f1fd7a51eb41894868c9c0a" kindref="member">encodeText</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>tokenization<sp/>+<sp/>inference<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Tokenization:<sp/>~1-2<sp/>ms<sp/>(vocab<sp/>lookup)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Inference:<sp/>~2-3<sp/>ms<sp/>(model<sp/>execution)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total:<sp/>3-5<sp/>ms<sp/>on<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>features(768);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>text.length();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>features[i<sp/>%<sp/>768]<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(text[i])<sp/>*<sp/>0.001f;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>features;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a62d0e913938861353323d025bc4fee39" kindref="member">healthCheck</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>initialized_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1ab6065a9562bc554ced0843b031e847d5" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dis_{-1.0f,<sp/>1.0f};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>OnnxClipCpuFixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="class_onnx_clip_cpu_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture" kindref="compound">OnnxClipCpuFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture_1abb6708789fc1e99a2150a1b127131f84" kindref="member">SetUp</ref>(::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_onnx_clip_cpu_fixture_1abc285050b0490e8a3b1444de8041db89" kindref="member">model_</ref><sp/>=<sp/>std::make_unique&lt;MockOnnxClipModel&gt;();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cold<sp/>start:<sp/>model<sp/>not<sp/>yet<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>intentional<sp/>for<sp/>initialization<sp/>benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture_1af07d6acdb06c54133df7d8778b903092" kindref="member">TearDown</ref>(::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_onnx_clip_cpu_fixture_1abc285050b0490e8a3b1444de8041db89" kindref="member">model_</ref>.reset();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockOnnxClipModel&gt;<sp/><ref refid="class_onnx_clip_cpu_fixture_1abc285050b0490e8a3b1444de8041db89" kindref="member">model_</ref>;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="class_onnx_clip_cpu_warm_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a033e0527cee9be71cd5448aaf5c1a308" kindref="member">kBatchSizeSmall</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a96202aaf4666f3a195c5f3d6ea70f7a0" kindref="member">kBatchSizeMedium</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a97fa4c306e1d726355b7e52712656f5e" kindref="member">kBatchSizeLarge</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture_1af4d72d1a7364ef7871082cbcdd8c47b2" kindref="member">SetUp</ref>(::benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kindref="member">model_</ref><sp/>=<sp/>std::make_unique&lt;MockOnnxClipModel&gt;();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>model<sp/>(outside<sp/>warmup/measurement<sp/>window)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kindref="member">model_</ref>-&gt;initialize();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3-phase<sp/>warmup<sp/>protocol</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>1:<sp/>Cold<sp/>(initialize<sp/>caches,<sp/>malloc<sp/>arenas)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterationsCold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch_size<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>=<sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kindref="member">model_</ref>-&gt;encodeBatch(batch_size);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Suppress<sp/>warning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Warm<sp/>(sequential<sp/>access<sp/>to<sp/>warm<sp/>caches)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterationsWarm;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch_size<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>=<sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kindref="member">model_</ref>-&gt;encodeBatch(batch_size);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Hot<sp/>(random<sp/>access<sp/>to<sp/>stabilize<sp/>branch<sp/>predictor)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(kCanonicalRngSeed);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;&gt;<sp/>batch_dist(1,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0)));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterationsHot;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>batch_size<sp/>=<sp/>batch_dist(rng);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>=<sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kindref="member">model_</ref>-&gt;encodeBatch(batch_size);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>measurement<sp/>window<sp/>starts<sp/>here<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture_1aa2739d0b02c48cb0d19c6e4348dbc76c" kindref="member">TearDown</ref>(::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kindref="member">model_</ref>.reset();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockOnnxClipModel&gt;<sp/><ref refid="class_onnx_clip_cpu_warm_fixture_1a5d5ae7a8a8927bec771cb81ac52f3c47" kindref="member">model_</ref>;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2B-01:<sp/>Latency<sp/>Regression<sp/>Framework</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture" kindref="compound">OnnxClipLatencyRegressionFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a65446554a87ba0023eff4cc099ae3f00" kindref="member">SetUp</ref>(::benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a1e16cad790c6612356c3325a70d9e217" kindref="member">model_</ref><sp/>=<sp/>std::make_unique&lt;MockOnnxClipModel&gt;();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a1e16cad790c6612356c3325a70d9e217" kindref="member">model_</ref>-&gt;initialize();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>3-phase<sp/>warmup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>batch_size<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterationsCold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>=<sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a1e16cad790c6612356c3325a70d9e217" kindref="member">model_</ref>-&gt;encodeBatch(batch_size);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterationsWarm;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>=<sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a1e16cad790c6612356c3325a70d9e217" kindref="member">model_</ref>-&gt;encodeBatch(batch_size);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)_;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(kCanonicalRngSeed);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;&gt;<sp/>batch_dist(1,<sp/>batch_size);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterationsHot;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>bs<sp/>=<sp/>batch_dist(rng);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>=<sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a1e16cad790c6612356c3325a70d9e217" kindref="member">model_</ref>-&gt;encodeBatch(bs);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a5ceb583323d53a8269104f4a2acb261c" kindref="member">TearDown</ref>(::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a1e16cad790c6612356c3325a70d9e217" kindref="member">model_</ref>.reset();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockOnnxClipModel&gt;<sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture_1a1e16cad790c6612356c3325a70d9e217" kindref="member">model_</ref>;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2B-04:<sp/>Initialization<sp/>&amp;<sp/>Warmup<sp/>Profiling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler" kindref="compound">OnnxClipInitializationProfiler</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1ae7033ee691a1fb1fd5d1a0d985e1a471" kindref="member">SetUp</ref>(::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>pre-initialization;<sp/>this<sp/>fixture<sp/>measures<sp/>cold<sp/>start</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a7a7d35fadc23614aa518ca538bfa3a4a" kindref="member">TearDown</ref>(::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a4223d0833f04e1aed3a409d7da95c025" kindref="member">model_</ref>.reset();</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockOnnxClipModel&gt;<sp/><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a4223d0833f04e1aed3a409d7da95c025" kindref="member">model_</ref>;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>onnx_clip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture" kindref="compound">themis::bench::onnx_clip::OnnxClipCpuFixture</ref>;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">themis::bench::onnx_clip::OnnxClipCpuWarmFixture</ref>;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal">BENCHMARK_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_SingleImageLatency_ViTB32_CPU)</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();<sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>embedding<sp/>=<sp/>model_-&gt;encodeImage(224,<sp/>224);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(embedding);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_SingleImageLatency_ViTB32_CPU)</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1);<sp/><sp/></highlight><highlight class="comment">//<sp/>batch_size<sp/>=<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal">BENCHMARK_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_BatchLatency_ViTB32_CPU_Batch8)</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();<sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>model_-&gt;encodeBatch(8);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(batch);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_BatchLatency_ViTB32_CPU_Batch8)</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(8);<sp/><sp/></highlight><highlight class="comment">//<sp/>batch_size<sp/>=<sp/>8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">BENCHMARK_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_BatchLatency_ViTB32_CPU_Batch16)</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();<sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>model_-&gt;encodeBatch(16);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(batch);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_BatchLatency_ViTB32_CPU_Batch16)</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(16);<sp/><sp/></highlight><highlight class="comment">//<sp/>batch_size<sp/>=<sp/>16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal">BENCHMARK_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_TextEmbedding_Latency_CPU)</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();<sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a92afbf9ce3c465b8d7cbcf83f8071629" kindref="member">test_text</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>photo<sp/>of<sp/>a<sp/>cat&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>embedding<sp/>=<sp/>model_-&gt;encodeText(<ref refid="bench__onnx__clip__cpu_8cpp_1a92afbf9ce3c465b8d7cbcf83f8071629" kindref="member">test_text</ref>);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(embedding);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_TextEmbedding_Latency_CPU)</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal">BENCHMARK_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture" kindref="compound">OnnxClipCpuFixture</ref>,<sp/>BM_Initialization_Latency_CPU)</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.PauseTiming();</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_<sp/>=<sp/>std::make_unique&lt;MockOnnxClipModel&gt;();</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.ResumeTiming();</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_-&gt;initialize();</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="419"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture" kindref="compound">OnnxClipCpuFixture</ref>,<sp/>BM_Initialization_Latency_CPU)</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal">BENCHMARK_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_HealthCheck_Latency_CPU)</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();<sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>model_-&gt;healthCheck();</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="437"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="438"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" kindref="compound">OnnxClipCpuWarmFixture</ref>,<sp/>BM_HealthCheck_Latency_CPU)</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2B-01:<sp/>Latency<sp/>Regression<sp/>Framework<sp/>Benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal">BENCHMARK_F(OnnxClipLatencyRegressionFixture,<sp/>BM_Latency_Regression_SingleImage)</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.reserve(<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.max_iterations);</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>embedding<sp/>=<sp/>model_-&gt;encodeImage(224,<sp/>224);</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>elapsed_ms<sp/>=<sp/>std::chrono::duration&lt;double,<sp/>std::milli&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.push_back(elapsed_ms);</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(embedding);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>percentiles<sp/>(approximated<sp/>via<sp/>sorted<sp/>array)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::sort(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.begin(),<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.end());</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p50_idx<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>/<sp/>2;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p90_idx<sp/>=<sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>*<sp/>9)<sp/>/<sp/>10;</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p99_idx<sp/>=<sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>*<sp/>99)<sp/>/<sp/>100;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p50_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p50_idx];</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p90_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p90_idx];</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p99_idx];</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;min_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.front();</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;max_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.back();</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>stddev</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mean<sp/>=<sp/>std::accumulate(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.begin(),<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.end(),<sp/>0.0)<sp/>/<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size();</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>variance<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lat<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variance<sp/>+=<sp/>(lat<sp/>-<sp/>mean)<sp/>*<sp/>(lat<sp/>-<sp/>mean);</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variance<sp/>/=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size();</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;stddev_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::sqrt(variance);</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="495"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="496"><highlight class="normal">BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture,<sp/>BM_Latency_Regression_SingleImage)</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Arg(1);</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal">BENCHMARK_F(OnnxClipLatencyRegressionFixture,<sp/>BM_Latency_Regression_Batch8)</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>;</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.reserve(<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.max_iterations);</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>model_-&gt;encodeBatch(8);</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>elapsed_ms<sp/>=<sp/>std::chrono::duration&lt;double,<sp/>std::milli&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.push_back(elapsed_ms);</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(batch);</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::sort(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.begin(),<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.end());</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p50_idx<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>/<sp/>2;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p90_idx<sp/>=<sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>*<sp/>9)<sp/>/<sp/>10;</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p99_idx<sp/>=<sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>*<sp/>99)<sp/>/<sp/>100;</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p50_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p50_idx];</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p90_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p90_idx];</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p99_idx];</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;min_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.front();</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;max_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.back();</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mean<sp/>=<sp/>std::accumulate(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.begin(),<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.end(),<sp/>0.0)<sp/>/<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size();</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>variance<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lat<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variance<sp/>+=<sp/>(lat<sp/>-<sp/>mean)<sp/>*<sp/>(lat<sp/>-<sp/>mean);</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variance<sp/>/=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size();</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;stddev_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::sqrt(variance);</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="544"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="545"><highlight class="normal">BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture,<sp/>BM_Latency_Regression_Batch8)</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Arg(8);</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal">BENCHMARK_F(OnnxClipLatencyRegressionFixture,<sp/>BM_Latency_Regression_Batch16)</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.reserve(<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.max_iterations);</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>model_-&gt;encodeBatch(16);</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>elapsed_ms<sp/>=<sp/>std::chrono::duration&lt;double,<sp/>std::milli&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.push_back(elapsed_ms);</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(batch);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::sort(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.begin(),<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.end());</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p50_idx<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>/<sp/>2;</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p90_idx<sp/>=<sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>*<sp/>9)<sp/>/<sp/>10;</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>p99_idx<sp/>=<sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size()<sp/>*<sp/>99)<sp/>/<sp/>100;</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p50_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p50_idx];</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p90_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p90_idx];</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>[p99_idx];</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;min_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.front();</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;max_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.back();</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mean<sp/>=<sp/>std::accumulate(<ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.begin(),<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.end(),<sp/>0.0)<sp/>/<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size();</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>variance<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lat<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variance<sp/>+=<sp/>(lat<sp/>-<sp/>mean)<sp/>*<sp/>(lat<sp/>-<sp/>mean);</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variance<sp/>/=<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a850b19aa4a6b2b8ba2a3bc926245692d" kindref="member">latencies</ref>.size();</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;stddev_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::sqrt(variance);</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="593"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="594"><highlight class="normal">BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture,<sp/>BM_Latency_Regression_Batch16)</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Arg(16);</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"></highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2B-04:<sp/>Initialization<sp/>&amp;<sp/>Warmup<sp/>Profiling<sp/>Benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal"></highlight></codeline>
+<codeline lineno="609"><highlight class="normal">BENCHMARK_F(OnnxClipInitializationProfiler,<sp/>BM_InitTime_ModelLoad)</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.PauseTiming();</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_<sp/>=<sp/>std::make_unique&lt;MockOnnxClipModel&gt;();</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.ResumeTiming();</highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_-&gt;initialize();</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="618"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="619"><highlight class="normal">BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler,<sp/>BM_InitTime_ModelLoad)</highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"></highlight></codeline>
+<codeline lineno="629"><highlight class="normal">BENCHMARK_F(OnnxClipInitializationProfiler,<sp/>BM_InitTime_SessionCreate)</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/>model_<sp/>=<sp/>std::make_unique&lt;MockOnnxClipModel&gt;();</highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="633"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.PauseTiming();</highlight></codeline>
+<codeline lineno="635"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>session<sp/>creation<sp/>overhead<sp/>(typically<sp/>~50-100<sp/>ms<sp/>for<sp/>CUDA)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>dummy(1024<sp/>*<sp/>100);</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.ResumeTiming();</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_-&gt;initialize();</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="641"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="642"><highlight class="normal">BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler,<sp/>BM_InitTime_SessionCreate)</highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"></highlight></codeline>
+<codeline lineno="652"><highlight class="normal">BENCHMARK_F(OnnxClipInitializationProfiler,<sp/>BM_InitTime_Warmup)</highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="654"><highlight class="normal"><sp/><sp/><sp/><sp/>model_<sp/>=<sp/>std::make_unique&lt;MockOnnxClipModel&gt;();</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/>model_-&gt;initialize();</highlight></codeline>
+<codeline lineno="656"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="657"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="658"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warmup:<sp/>3<sp/>iterations<sp/>to<sp/>stabilize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="659"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>=<sp/>model_-&gt;encodeImage(224,<sp/>224);</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)_;</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="664"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="665"><highlight class="normal">BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler,<sp/>BM_InitTime_Warmup)</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"></highlight></codeline>
+<codeline lineno="679"><highlight class="normal">BENCHMARK_F(OnnxClipInitializationProfiler,<sp/>BM_InitTime_Total)</highlight></codeline>
+<codeline lineno="680"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="681"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="682"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.PauseTiming();</highlight></codeline>
+<codeline lineno="683"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_<sp/>=<sp/>std::make_unique&lt;MockOnnxClipModel&gt;();</highlight></codeline>
+<codeline lineno="684"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.ResumeTiming();</highlight></codeline>
+<codeline lineno="685"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="686"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_-&gt;initialize();</highlight></codeline>
+<codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warmup<sp/>phase</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="689"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="690"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>=<sp/>model_-&gt;encodeImage(224,<sp/>224);</highlight></codeline>
+<codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)_;</highlight></codeline>
+<codeline lineno="692"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="693"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="694"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="695"><highlight class="normal">BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler,<sp/>BM_InitTime_Total)</highlight></codeline>
+<codeline lineno="696"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="697"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp"/>
+  </compounddef>
+</doxygen>

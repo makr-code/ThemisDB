@@ -1,0 +1,919 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_semantic_matcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::SemanticMatcher</compoundname>
+    <includes refid="entity__matcher_8h" local="no">entity_matcher.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a57637c4a402fab438fe4d3788c391c72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::SemanticMatcher::SemanticMatcher</definition>
+        <argsstring>()=default</argsstring>
+        <name>SemanticMatcher</name>
+        <qualifiedname>themis::importers::SemanticMatcher::SemanticMatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="120" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a33380c7e239691503d0c4ca0cb2d35b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_entity_match_score" kindref="compound">EntityMatchScore</ref></type>
+        <definition>EntityMatchScore themis::importers::SemanticMatcher::scoreEntityMatch</definition>
+        <argsstring>(const json &amp;incoming_entity, const json &amp;existing_entity, const std::string &amp;collection_name, const SemanticMatchConfig &amp;config) const</argsstring>
+        <name>scoreEntityMatch</name>
+        <qualifiedname>themis::importers::SemanticMatcher::scoreEntityMatch</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>incoming_entity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>existing_entity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_semantic_match_config" kindref="compound">SemanticMatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Score Entity Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming_entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">existing_entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="227" column="22" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="525" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a6707706f815af7d43c6c192d6b188309" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_entity_match_score" kindref="compound">EntityMatchScore</ref> &gt;</type>
+        <definition>std::vector&lt; EntityMatchScore &gt; themis::importers::SemanticMatcher::findSimilarEntities</definition>
+        <argsstring>(const json &amp;incoming_entity, const std::vector&lt; json &gt; &amp;candidates, const SemanticMatchConfig &amp;config) const</argsstring>
+        <name>findSimilarEntities</name>
+        <qualifiedname>themis::importers::SemanticMatcher::findSimilarEntities</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>incoming_entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_semantic_match_config" kindref="compound">SemanticMatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Find Similar Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming_entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="241" column="17" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="609" bodyend="632"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1ab959e721109e34012d279bdeebb13f8f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatcher::jaroWinklerDistance</definition>
+        <argsstring>(const std::string &amp;s1, const std::string &amp;s2)</argsstring>
+        <name>jaroWinklerDistance</name>
+        <qualifiedname>themis::importers::SemanticMatcher::jaroWinklerDistance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s2</declname>
+        </param>
+        <briefdescription>
+<para>Jaro Winkler Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: jaroSimilarity(), std::min(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="132" column="19" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="209" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1adb5a36b59ba3b044f19c884aa346a009" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatcher::levenshteinSimilarity</definition>
+        <argsstring>(const std::string &amp;s1, const std::string &amp;s2)</argsstring>
+        <name>levenshteinSimilarity</name>
+        <qualifiedname>themis::importers::SemanticMatcher::levenshteinSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s2</declname>
+        </param>
+        <briefdescription>
+<para>Levenshtein Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::max(), size(), levenshteinDistance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="140" column="19" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="264" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a31ba6c51eaba5aeae8059024637029b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SemanticMatcher::normalizeFullName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>normalizeFullName</name>
+        <qualifiedname>themis::importers::SemanticMatcher::normalizeFullName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Full Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(), find_first_not_of(), toLowerMatcher(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="151" column="24" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="300" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a43eeced35f84157d00e107fe38158ad5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatcher::soundexMatch</definition>
+        <argsstring>(const std::string &amp;name1, const std::string &amp;name2)</argsstring>
+        <name>soundexMatch</name>
+        <qualifiedname>themis::importers::SemanticMatcher::soundexMatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name2</declname>
+        </param>
+        <briefdescription>
+<para>Soundex Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), ss(), computeSoundex(), firstToken(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="159" column="19" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="363" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1ae82a299340ce53ff6dbfbc0db5a0de40" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatcher::scoreNameVariations</definition>
+        <argsstring>(const std::string &amp;n1, const std::string &amp;n2)</argsstring>
+        <name>scoreNameVariations</name>
+        <qualifiedname>themis::importers::SemanticMatcher::scoreNameVariations</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>n1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>n2</declname>
+        </param>
+        <briefdescription>
+<para>Score Name Variations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1importers_1_1_semantic_matcher_1a31ba6c51eaba5aeae8059024637029b4" kindref="member">normalizeFullName()</ref>, <ref refid="classthemis_1_1importers_1_1_semantic_matcher_1ab959e721109e34012d279bdeebb13f8f" kindref="member">jaroWinklerDistance()</ref>, <ref refid="classthemis_1_1importers_1_1_semantic_matcher_1a43eeced35f84157d00e107fe38158ad5" kindref="member">soundexMatch()</ref>, std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="167" column="19" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="393" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1aab3c8903213e4db1178f425bcafef9b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatcher::scoreEmailPair</definition>
+        <argsstring>(const std::string &amp;e1, const std::string &amp;e2)</argsstring>
+        <name>scoreEmailPair</name>
+        <qualifiedname>themis::importers::SemanticMatcher::scoreEmailPair</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>e1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>e2</declname>
+        </param>
+        <briefdescription>
+<para>Score Email Pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">e2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">e2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(), toLowerMatcher(), substr(), splitEmail(), <ref refid="classthemis_1_1importers_1_1_semantic_matcher_1ab959e721109e34012d279bdeebb13f8f" kindref="member">jaroWinklerDistance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="175" column="19" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="408" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1af2589bdf511b6d7a76c1209574f41d42" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::SemanticMatcher::isLikelyEmailTypo</definition>
+        <argsstring>(const std::string &amp;e1, const std::string &amp;e2)</argsstring>
+        <name>isLikelyEmailTypo</name>
+        <qualifiedname>themis::importers::SemanticMatcher::isLikelyEmailTypo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>e1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>e2</declname>
+        </param>
+        <briefdescription>
+<para>Is Likely Email Typo. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">e2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">e2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), find(), toLowerMatcher(), substr(), levenshteinDistance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="183" column="17" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="437" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1aceae7f3b5ae1fe42f4e14d157cd4d0a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SemanticMatcher::normalizePhoneNumber</definition>
+        <argsstring>(const std::string &amp;phone)</argsstring>
+        <name>normalizePhoneNumber</name>
+        <qualifiedname>themis::importers::SemanticMatcher::normalizePhoneNumber</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phone</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Phone Number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phone</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phone</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::isdigit(), size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="190" column="24" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="462" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a6e49c846571c2b283b2b99c8979a02e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatcher::scorePhonePair</definition>
+        <argsstring>(const std::string &amp;p1, const std::string &amp;p2)</argsstring>
+        <name>scorePhonePair</name>
+        <qualifiedname>themis::importers::SemanticMatcher::scorePhonePair</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p2</declname>
+        </param>
+        <briefdescription>
+<para>Score Phone Pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1importers_1_1_semantic_matcher_1aceae7f3b5ae1fe42f4e14d157cd4d0a2" kindref="member">normalizePhoneNumber()</ref>, empty(), <ref refid="classthemis_1_1importers_1_1_semantic_matcher_1adb5a36b59ba3b044f19c884aa346a009" kindref="member">levenshteinSimilarity()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="198" column="19" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="484" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a8f585521b91e91fc85fdad0d2fcd24df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatcher::vectorSimilarity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;v1, const std::vector&lt; float &gt; &amp;v2)</argsstring>
+        <name>vectorSimilarity</name>
+        <qualifiedname>themis::importers::SemanticMatcher::vectorSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>v2</declname>
+        </param>
+        <briefdescription>
+<para>Vector Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::sqrt(), std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="210" column="19" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="503" bodyend="519"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a1d12d8be0e84cae6730b4babb0d2668b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SemanticMatcher::computeSoundex</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>computeSoundex</name>
+        <qualifiedname>themis::importers::SemanticMatcher::computeSoundex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Compute Soundex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::toupper(), code(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="253" column="24" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="323" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a8fa3c18edf1c8141d00c5e1c6780ed30" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::importers::SemanticMatcher::levenshteinDistance</definition>
+        <argsstring>(const std::string &amp;s1, const std::string &amp;s2)</argsstring>
+        <name>levenshteinDistance</name>
+        <qualifiedname>themis::importers::SemanticMatcher::levenshteinDistance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s2</declname>
+        </param>
+        <briefdescription>
+<para>Levenshtein Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), dp(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="260" column="24" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="230" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_semantic_matcher_1a489d7b50f77f2e28819547de68cc76ac" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatcher::jaroSimilarity</definition>
+        <argsstring>(const std::string &amp;s1, const std::string &amp;s2)</argsstring>
+        <name>jaroSimilarity</name>
+        <qualifiedname>themis::importers::SemanticMatcher::jaroSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s2</declname>
+        </param>
+        <briefdescription>
+<para>Jaro Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Jaro similarity (prerequisite for Jaro-Winkler).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::max(), s1_matched(), s2_matched(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="267" column="24" bodyfile="src/importers/deterministic_matcher.cpp" bodystart="147" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/entity_matcher.h" line="118" column="1" bodyfile="include/importers/entity_matcher.h" bodystart="118" bodyend="268"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a1d12d8be0e84cae6730b4babb0d2668b" prot="private" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>computeSoundex</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a6707706f815af7d43c6c192d6b188309" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>findSimilarEntities</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1af2589bdf511b6d7a76c1209574f41d42" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>isLikelyEmailTypo</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a489d7b50f77f2e28819547de68cc76ac" prot="private" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>jaroSimilarity</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1ab959e721109e34012d279bdeebb13f8f" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>jaroWinklerDistance</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a8fa3c18edf1c8141d00c5e1c6780ed30" prot="private" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>levenshteinDistance</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1adb5a36b59ba3b044f19c884aa346a009" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>levenshteinSimilarity</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a31ba6c51eaba5aeae8059024637029b4" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>normalizeFullName</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1aceae7f3b5ae1fe42f4e14d157cd4d0a2" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>normalizePhoneNumber</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1aab3c8903213e4db1178f425bcafef9b8" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>scoreEmailPair</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a33380c7e239691503d0c4ca0cb2d35b1" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>scoreEntityMatch</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1ae82a299340ce53ff6dbfbc0db5a0de40" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>scoreNameVariations</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a6e49c846571c2b283b2b99c8979a02e6" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>scorePhonePair</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a57637c4a402fab438fe4d3788c391c72" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>SemanticMatcher</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a43eeced35f84157d00e107fe38158ad5" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>soundexMatch</name></member>
+      <member refid="classthemis_1_1importers_1_1_semantic_matcher_1a8f585521b91e91fc85fdad0d2fcd24df" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatcher</scope><name>vectorSimilarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

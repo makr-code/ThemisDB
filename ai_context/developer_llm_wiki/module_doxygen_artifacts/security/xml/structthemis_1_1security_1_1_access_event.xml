@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessEvent</compoundname>
+    <includes refid="behavioral__anomaly__detector_8h" local="no">behavioral_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_event_1a9574978089a1ec4dac45d8c42d34da7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessEvent::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::security::AccessEvent::user_id</qualifiedname>
+        <briefdescription>
+<para>Authenticated identity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="30" column="17" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_event_1ab8e95bac6c72fa4f528bd6d0b6a74290" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessEvent::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::security::AccessEvent::session_id</qualifiedname>
+        <briefdescription>
+<para>Logical session identifier (may equal user_id). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="31" column="17" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_event_1ae5b1fa6c8ae83715746cf09d66ac3373" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessEvent::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::security::AccessEvent::resource</qualifiedname>
+        <briefdescription>
+<para>Resource accessed (e.g. collection name or path). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="32" column="17" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_event_1acf67675e3aeb45c7408403a822d46cd8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessEvent::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::security::AccessEvent::action</qualifiedname>
+        <briefdescription>
+<para>Action performed (&quot;read&quot;, &quot;write&quot;, &quot;delete&quot;, &quot;admin&quot;, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="33" column="17" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_event_1aabb6e24ed2271032e1d42f75273f6428" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessEvent::client_ip</definition>
+        <argsstring></argsstring>
+        <name>client_ip</name>
+        <qualifiedname>themis::security::AccessEvent::client_ip</qualifiedname>
+        <briefdescription>
+<para>Source IP address. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="34" column="17" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_event_1adaf2cde01d52f172cd649be6050b8521" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::AccessEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::security::AccessEvent::timestamp</qualifiedname>
+        <initializer>= std::chrono::system_clock::now()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="35" column="43" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/behavioral_anomaly_detector.h" line="29" column="1" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="29" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_event_1acf67675e3aeb45c7408403a822d46cd8" prot="public" virt="non-virtual"><scope>themis::security::AccessEvent</scope><name>action</name></member>
+      <member refid="structthemis_1_1security_1_1_access_event_1aabb6e24ed2271032e1d42f75273f6428" prot="public" virt="non-virtual"><scope>themis::security::AccessEvent</scope><name>client_ip</name></member>
+      <member refid="structthemis_1_1security_1_1_access_event_1ae5b1fa6c8ae83715746cf09d66ac3373" prot="public" virt="non-virtual"><scope>themis::security::AccessEvent</scope><name>resource</name></member>
+      <member refid="structthemis_1_1security_1_1_access_event_1ab8e95bac6c72fa4f528bd6d0b6a74290" prot="public" virt="non-virtual"><scope>themis::security::AccessEvent</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1security_1_1_access_event_1adaf2cde01d52f172cd649be6050b8521" prot="public" virt="non-virtual"><scope>themis::security::AccessEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1security_1_1_access_event_1a9574978089a1ec4dac45d8c42d34da7e" prot="public" virt="non-virtual"><scope>themis::security::AccessEvent</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

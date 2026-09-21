@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1resource" kind="namespace" language="C++">
+    <compoundname>themis::resource</compoundname>
+    <innerclass refid="structthemis_1_1resource_1_1_work_item" prot="public">themis::resource::WorkItem</innerclass>
+    <innerclass refid="classthemis_1_1resource_1_1_work_stealing_thread_pool" prot="public">themis::resource::WorkStealingThreadPool</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/thread_pool_manager.h" line="36" column="1"/>
+  </compounddef>
+</doxygen>

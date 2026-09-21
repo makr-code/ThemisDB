@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::user_storage_encrypted::KeyDerivationRequest</compoundname>
+    <includes refid="user__storage__encrypted__api__contract_8h" local="no">user_storage_encrypted_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1aa45f22e62d4d6a1dd034042a02d03164" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::user_storage_encrypted::KeyDerivationRequest::passphrase</definition>
+        <argsstring></argsstring>
+        <name>passphrase</name>
+        <qualifiedname>themis::user_storage_encrypted::KeyDerivationRequest::passphrase</qualifiedname>
+        <briefdescription>
+<para>Raw passphrase (min kMinPassphraseBytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="131" column="18" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1aba0444c5f03f4b9cf37fa840f494b06a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::user_storage_encrypted::KeyDerivationRequest::salt</definition>
+        <argsstring></argsstring>
+        <name>salt</name>
+        <qualifiedname>themis::user_storage_encrypted::KeyDerivationRequest::salt</qualifiedname>
+        <briefdescription>
+<para>KDF salt (must be exactly kKdfSaltBytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="132" column="18" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1a1e69cf21bc8b32b533185105a807ff9d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::user_storage_encrypted::KeyDerivationRequest::iterations</definition>
+        <argsstring></argsstring>
+        <name>iterations</name>
+        <qualifiedname>themis::user_storage_encrypted::KeyDerivationRequest::iterations</qualifiedname>
+        <initializer>{100&apos;000}</initializer>
+        <briefdescription>
+<para>KDF iteration count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="133" column="18" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Inputs for the key derivation service. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The passphrase field is zeroed by the KDF after use; callers MUST NOT retain a reference to the passphrase buffer. </para>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" line="130" column="1" bodyfile="include/user_storage_encrypted/user_storage_encrypted_api_contract.h" bodystart="130" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1a1e69cf21bc8b32b533185105a807ff9d" prot="public" virt="non-virtual"><scope>themis::user_storage_encrypted::KeyDerivationRequest</scope><name>iterations</name></member>
+      <member refid="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1aa45f22e62d4d6a1dd034042a02d03164" prot="public" virt="non-virtual"><scope>themis::user_storage_encrypted::KeyDerivationRequest</scope><name>passphrase</name></member>
+      <member refid="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1aba0444c5f03f4b9cf37fa840f494b06a" prot="public" virt="non-virtual"><scope>themis::user_storage_encrypted::KeyDerivationRequest</scope><name>salt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

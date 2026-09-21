@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_azure_storage_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::AzureStorageProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider" prot="public" virt="non-virtual">themis::sharding::ICloudStorageProvider</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_azure_storage_provider_1af75973328f6cd5dd176fa5ebaace57b7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AzureStorageProvider::account_name_</definition>
+        <argsstring></argsstring>
+        <name>account_name_</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::account_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="508" column="17" bodyfile="src/sharding/cloud_backup.cpp" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_azure_storage_provider_1a8147075e3f7b66baa13cd060a67a0bc3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AzureStorageProvider::container_</definition>
+        <argsstring></argsstring>
+        <name>container_</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::container_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="509" column="17" bodyfile="src/sharding/cloud_backup.cpp" bodystart="509" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_azure_storage_provider_1a02d02309511d3dec0a274c525dc7e877" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::AzureStorageProvider::AzureStorageProvider</definition>
+        <argsstring>(const std::string &amp;account_name, const std::string &amp;container)</argsstring>
+        <name>AzureStorageProvider</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::AzureStorageProvider</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>account_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>container</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="323" column="5" bodyfile="src/sharding/cloud_backup.cpp" bodystart="323" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_azure_storage_provider_1ab59efe3a4b75e308091a81ca960879e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AzureStorageProvider::upload</definition>
+        <argsstring>(const std::string &amp;local_path, const std::string &amp;remote_path, const std::map&lt; std::string, std::string &gt; &amp;metadata) override</argsstring>
+        <name>upload</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::upload</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider_1a6377e1f6b0d218c4fe60bb8d0ea2935a">upload</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_path</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_cloud_backup_fn_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="331" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="331" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_azure_storage_provider_1a7f6525924a151e311f7c196efa95245c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AzureStorageProvider::download</definition>
+        <argsstring>(const std::string &amp;remote_path, const std::string &amp;local_path) override</argsstring>
+        <name>download</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::download</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider_1a4eb55e726c9225b7021a0f53a2f25b19">download</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_path</declname>
+        </param>
+        <briefdescription>
+<para>Download. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the remote. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">local_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the local. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_cloud_backup_fn_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="373" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="373" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_azure_storage_provider_1abae6506adf1cdb950edabb20f9ee3853" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AzureStorageProvider::deleteObject</definition>
+        <argsstring>(const std::string &amp;remote_path) override</argsstring>
+        <name>deleteObject</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::deleteObject</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider_1a312b67a586dc2178fe9d55185d911a7a">deleteObject</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_path</declname>
+        </param>
+        <briefdescription>
+<para>Delete Object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the remote. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_cloud_backup_fn_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="409" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="409" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_azure_storage_provider_1a1e8ef4dc17af067a18cf59f78bd7f6e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::AzureStorageProvider::listObjects</definition>
+        <argsstring>(const std::string &amp;prefix) override</argsstring>
+        <name>listObjects</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::listObjects</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider_1acc74f70d95dddb3b03ac1fecec195d53">listObjects</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>List Objects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_cloud_backup_fn_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="443" column="17" bodyfile="src/sharding/cloud_backup.cpp" bodystart="443" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_azure_storage_provider_1a6319f4b558dcf4d67676f46fbf73745f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AzureStorageProvider::exists</definition>
+        <argsstring>(const std::string &amp;remote_path) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::exists</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider_1a31aa7c0519491d2c7241dfd5ac740767">exists</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_path</declname>
+        </param>
+        <briefdescription>
+<para>Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the remote. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_cloud_backup_fn_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="473" column="10" bodyfile="src/sharding/cloud_backup.cpp" bodystart="473" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_azure_storage_provider_1a016d61cf499583d96407f6525f557772" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AzureStorageProvider::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::sharding::AzureStorageProvider::name</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider_1a0ad471e8ee8e91214c1c3f6e4498c449">name</reimplements>
+        <briefdescription>
+<para>Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/cloud_backup.cpp" line="503" column="17" bodyfile="src/sharding/cloud_backup.cpp" bodystart="503" bodyend="505"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::sharding::AzureStorageProvider</label>
+        <link refid="classthemis_1_1sharding_1_1_azure_storage_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ICloudStorageProvider</label>
+        <link refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::AzureStorageProvider</label>
+        <link refid="classthemis_1_1sharding_1_1_azure_storage_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ICloudStorageProvider</label>
+        <link refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/sharding/cloud_backup.cpp" line="321" column="1" bodyfile="src/sharding/cloud_backup.cpp" bodystart="321" bodyend="510"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1af75973328f6cd5dd176fa5ebaace57b7" prot="private" virt="non-virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>account_name_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1a02d02309511d3dec0a274c525dc7e877" prot="public" virt="non-virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>AzureStorageProvider</name></member>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1a8147075e3f7b66baa13cd060a67a0bc3" prot="private" virt="non-virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>container_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1abae6506adf1cdb950edabb20f9ee3853" prot="public" virt="virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>deleteObject</name></member>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1a7f6525924a151e311f7c196efa95245c" prot="public" virt="virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>download</name></member>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1a6319f4b558dcf4d67676f46fbf73745f" prot="public" virt="virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>exists</name></member>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1a1e8ef4dc17af067a18cf59f78bd7f6e1" prot="public" virt="virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>listObjects</name></member>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1a016d61cf499583d96407f6525f557772" prot="public" virt="virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>name</name></member>
+      <member refid="classthemis_1_1sharding_1_1_azure_storage_provider_1ab59efe3a4b75e308091a81ca960879e1" prot="public" virt="virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>upload</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_cloud_storage_provider_1ac3098c48d17184a248a7e65a16c08144" prot="public" virt="virtual"><scope>themis::sharding::AzureStorageProvider</scope><name>~ICloudStorageProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

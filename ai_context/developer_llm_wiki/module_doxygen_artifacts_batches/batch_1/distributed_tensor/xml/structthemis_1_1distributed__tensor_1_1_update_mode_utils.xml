@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_update_mode_utils" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::UpdateModeUtils</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="no">artifact_manifest.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_update_mode_utils_1a4f9ea64a5765a91d111e557181219965" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::UpdateModeUtils::modeToString</definition>
+        <argsstring>(UpdateMode mode)</argsstring>
+        <name>modeToString</name>
+        <qualifiedname>themis::distributed_tensor::UpdateModeUtils::modeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55f" kindref="member">UpdateMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Mode To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements modeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="157" column="24" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="214" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_update_mode_utils_1aa0fc02b5b4ef9c840eba898b0ebdedf0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55f" kindref="member">UpdateMode</ref> &gt;</type>
+        <definition>std::optional&lt; UpdateMode &gt; themis::distributed_tensor::UpdateModeUtils::stringToMode</definition>
+        <argsstring>(const std::string &amp;mode_str)</argsstring>
+        <name>stringToMode</name>
+        <qualifiedname>themis::distributed_tensor::UpdateModeUtils::stringToMode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode_str</declname>
+        </param>
+        <briefdescription>
+<para>String To Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mode_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mode_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToMode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="164" column="26" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="229" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/artifact_manifest.h" line="151" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="151" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_mode_utils_1a4f9ea64a5765a91d111e557181219965" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateModeUtils</scope><name>modeToString</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_mode_utils_1aa0fc02b5b4ef9c840eba898b0ebdedf0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateModeUtils</scope><name>stringToMode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

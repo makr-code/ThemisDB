@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::IoUringBatchedSender::SqRing</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1a6c2c7ab787acff48c85c0952b6669b94" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* themis::network::IoUringBatchedSender::SqRing::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::SqRing::head</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="143" column="18" bodyfile="include/network/io_uring_batcher.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1ae900180862c23bf189e61596254c317a" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* themis::network::IoUringBatchedSender::SqRing::tail</definition>
+        <argsstring></argsstring>
+        <name>tail</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::SqRing::tail</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="144" column="18" bodyfile="include/network/io_uring_batcher.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1a5915493166499156b59fbccbab7ac8d9" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* themis::network::IoUringBatchedSender::SqRing::ring_mask</definition>
+        <argsstring></argsstring>
+        <name>ring_mask</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::SqRing::ring_mask</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="145" column="18" bodyfile="include/network/io_uring_batcher.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1a067463458ac55ca6bbba5d3186a55776" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* themis::network::IoUringBatchedSender::SqRing::ring_entries</definition>
+        <argsstring></argsstring>
+        <name>ring_entries</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::SqRing::ring_entries</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="146" column="18" bodyfile="include/network/io_uring_batcher.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1ac73e9c95a2dbedd3de267a9a029010a5" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* themis::network::IoUringBatchedSender::SqRing::array</definition>
+        <argsstring></argsstring>
+        <name>array</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::SqRing::array</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="147" column="18" bodyfile="include/network/io_uring_batcher.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/io_uring_batcher.h" line="142" column="5" bodyfile="include/network/io_uring_batcher.h" bodystart="142" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1ac73e9c95a2dbedd3de267a9a029010a5" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender::SqRing</scope><name>array</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1a6c2c7ab787acff48c85c0952b6669b94" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender::SqRing</scope><name>head</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1a067463458ac55ca6bbba5d3186a55776" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender::SqRing</scope><name>ring_entries</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1a5915493166499156b59fbccbab7ac8d9" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender::SqRing</scope><name>ring_mask</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring_1ae900180862c23bf189e61596254c317a" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender::SqRing</scope><name>tail</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

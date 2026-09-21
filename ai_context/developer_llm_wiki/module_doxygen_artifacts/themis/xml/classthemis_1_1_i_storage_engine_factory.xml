@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_storage_engine_factory" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IStorageEngineFactory</compoundname>
+    <includes refid="storage__interface_8h" local="no">storage_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_factory_1a40c410f193b238098f5cdaac1328626f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IStorageEngineFactory::~IStorageEngineFactory</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStorageEngineFactory</name>
+        <qualifiedname>themis::IStorageEngineFactory::~IStorageEngineFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="175" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_factory_1a22faed5e1ac34493b17ca5e7a58cace4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1ae5c523644c20a9d51aba718f2290ac62" kindref="member">IStorageEnginePtr</ref></type>
+        <definition>virtual IStorageEnginePtr themis::IStorageEngineFactory::create</definition>
+        <argsstring>(const std::string &amp;db_path)=0</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::IStorageEngineFactory::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_path</declname>
+        </param>
+        <briefdescription>
+<para>Create a storage engine instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to database directory </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to storage engine </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="183" column="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory interface for storage engines. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/storage_interface.h" line="173" column="1" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="173" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_storage_engine_factory_1a22faed5e1ac34493b17ca5e7a58cace4" prot="public" virt="pure-virtual"><scope>themis::IStorageEngineFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_factory_1a40c410f193b238098f5cdaac1328626f" prot="public" virt="virtual"><scope>themis::IStorageEngineFactory</scope><name>~IStorageEngineFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

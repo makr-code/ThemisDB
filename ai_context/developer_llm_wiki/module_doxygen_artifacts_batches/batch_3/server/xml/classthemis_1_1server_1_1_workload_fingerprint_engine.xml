@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_workload_fingerprint_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::WorkloadFingerprintEngine</compoundname>
+    <includes refid="workload__fingerprint__engine_8h" local="no">workload_fingerprint_engine.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint" prot="public">themis::server::WorkloadFingerprintEngine::WorkloadFingerprint</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WorkloadPattern</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadPattern</qualifiedname>
+        <enumvalue id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7a3edb9cc3b98f151feb21dbde6323e82a" prot="public">
+          <name>OLTP</name>
+          <briefdescription>
+<para>Many small, short transactions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7ac9b0643ce6454d72f12fbe3475ed4899" prot="public">
+          <name>OLAP</name>
+          <briefdescription>
+<para>Few, heavy analytical queries. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7a3dba7f2d2578ffb4bd657af94b1add80" prot="public">
+          <name>BATCH</name>
+          <briefdescription>
+<para>Periodic bulk operations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7a516a2342953891f249b58ff1c3943723" prot="public">
+          <name>MIXED</name>
+          <briefdescription>
+<para>No single pattern dominates. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Insufficient data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="51" column="5" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="51" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a0e7d7cb7d0fc9c303f9a99cee1369a90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WorkloadFingerprintEngine::WorkloadFingerprintEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>WorkloadFingerprintEngine</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprintEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a79bcf27772ab4b8c7ec7914a45bce5ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WorkloadFingerprintEngine::~WorkloadFingerprintEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WorkloadFingerprintEngine</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::~WorkloadFingerprintEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1aebc4b3cd1bcf835805d4b15bab63119a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WorkloadFingerprintEngine::WorkloadFingerprintEngine</definition>
+        <argsstring>(const WorkloadFingerprintEngine &amp;)=default</argsstring>
+        <name>WorkloadFingerprintEngine</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprintEngine</qualifiedname>
+        <param>
+          <type>const WorkloadFingerprintEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1ad297bd5527fc0e5c50a85d845e427ca5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a0e7d7cb7d0fc9c303f9a99cee1369a90" kindref="member">WorkloadFingerprintEngine</ref> &amp;</type>
+        <definition>WorkloadFingerprintEngine &amp; themis::server::WorkloadFingerprintEngine::operator=</definition>
+        <argsstring>(const WorkloadFingerprintEngine &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a0e7d7cb7d0fc9c303f9a99cee1369a90" kindref="member">WorkloadFingerprintEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="81" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a7f80e042bcabbe4564abee4856bbb371" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint" kindref="compound">WorkloadFingerprint</ref></type>
+        <definition>WorkloadFingerprintEngine::WorkloadFingerprint themis::server::WorkloadFingerprintEngine::classify</definition>
+        <argsstring>(const std::string &amp;tenant_id, const TenantWorkloadStats &amp;stats) const</argsstring>
+        <name>classify</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::classify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_tenant_workload_stats" kindref="compound">TenantWorkloadStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Classify the semantic intent of a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="93" column="25" bodyfile="src/server/workload_fingerprint_engine.cpp" bodystart="55" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1abdfb2d7a6a56a41494f4a4d356077aac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::server::WorkloadFingerprintEngine::similarityTo</definition>
+        <argsstring>(const WorkloadFingerprint &amp;a, const WorkloadFingerprint &amp;b) const</argsstring>
+        <name>similarityTo</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::similarityTo</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint" kindref="compound">WorkloadFingerprint</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint" kindref="compound">WorkloadFingerprint</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Similarity To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="104" column="12" bodyfile="src/server/workload_fingerprint_engine.cpp" bodystart="181" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1aa007e1fd46b2fec7a40cfa5ab91aec08" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::WorkloadFingerprintEngine::patternName</definition>
+        <argsstring>(WorkloadPattern p)</argsstring>
+        <name>patternName</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::patternName</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7" kindref="member">WorkloadPattern</ref></type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Pattern Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements patternName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="114" column="24" bodyfile="src/server/workload_fingerprint_engine.cpp" bodystart="244" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_workload_fingerprint_engine_1a6eccaa65338524a8a8a9ffa963143754" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation" kindref="compound">WorkloadFingerprint::PolicyRecommendation</ref></type>
+        <definition>WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation themis::server::WorkloadFingerprintEngine::buildPolicy</definition>
+        <argsstring>(WorkloadPattern pattern)</argsstring>
+        <name>buildPolicy</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::buildPolicy</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7" kindref="member">WorkloadPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Build Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="122" column="54" bodyfile="src/server/workload_fingerprint_engine.cpp" bodystart="205" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/workload_fingerprint_engine.h" line="45" column="1" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="45" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a6eccaa65338524a8a8a9ffa963143754" prot="private" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>buildPolicy</name></member>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a7f80e042bcabbe4564abee4856bbb371" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>classify</name></member>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1ad297bd5527fc0e5c50a85d845e427ca5" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1aa007e1fd46b2fec7a40cfa5ab91aec08" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>patternName</name></member>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1abdfb2d7a6a56a41494f4a4d356077aac" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>similarityTo</name></member>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a0e7d7cb7d0fc9c303f9a99cee1369a90" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>WorkloadFingerprintEngine</name></member>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1aebc4b3cd1bcf835805d4b15bab63119a" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>WorkloadFingerprintEngine</name></member>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a90ba45d5c0e957a58b22cd0cbc3141a7" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>WorkloadPattern</name></member>
+      <member refid="classthemis_1_1server_1_1_workload_fingerprint_engine_1a79bcf27772ab4b8c7ec7914a45bce5ab" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine</scope><name>~WorkloadFingerprintEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

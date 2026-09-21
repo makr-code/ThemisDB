@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_module_loader_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ModuleLoaderFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_module_loader_fixture_1ac2a44478326abfac4c7ec4e460ecaa0e" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModuleLoader &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleLoader&gt; ModuleLoaderFixture::loader</definition>
+        <argsstring></argsstring>
+        <name>loader</name>
+        <qualifiedname>ModuleLoaderFixture::loader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="47" column="21" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_module_loader_fixture_1a9443260471e528055bb949a2b6d826a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ModuleLoaderFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ModuleLoaderFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="37" column="10" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_module_loader_fixture_1a9e9df4d2ed66800d5d4696b88025095c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ModuleLoaderFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ModuleLoaderFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="42" column="10" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ModuleLoaderFixture</label>
+        <link refid="class_module_loader_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ModuleLoaderFixture</label>
+        <link refid="class_module_loader_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="35" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="35" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_module_loader_fixture_1ac2a44478326abfac4c7ec4e460ecaa0e" prot="public" virt="non-virtual"><scope>ModuleLoaderFixture</scope><name>loader</name></member>
+      <member refid="class_module_loader_fixture_1a9443260471e528055bb949a2b6d826a1" prot="public" virt="non-virtual"><scope>ModuleLoaderFixture</scope><name>SetUp</name></member>
+      <member refid="class_module_loader_fixture_1a9e9df4d2ed66800d5d4696b88025095c" prot="public" virt="non-virtual"><scope>ModuleLoaderFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

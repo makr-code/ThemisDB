@@ -1,0 +1,571 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_object_storage_connector" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::ObjectStorageConnector</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_source_connector" prot="public" virt="non-virtual">themis::ingestion::ISourceConnector</basecompoundref>
+    <includes refid="object__storage__connector_8h" local="no">object_storage_connector.h</includes>
+    <innerclass refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl" prot="public">themis::ingestion::ObjectStorageConnector::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a4a2c33fa32e3b68e518df36d1773a7d1" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;()&gt;</type>
+        <definition>using themis::ingestion::ObjectStorageConnector::ObjectListFn = std::function&lt;std::vector&lt;std::string&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ObjectListFn</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::ObjectListFn</qualifiedname>
+        <briefdescription>
+<para>Function type for providing object-key batches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Usable both for tests and for custom production integrations that want to bridge an external object-storage listing backend into the connector.</para>
+<para>Each call should return the next batch of object keys. Return an empty vector to signal end-of-listing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="152" column="5" bodyfile="include/ingestion/object_storage_connector.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a4112586cd977e88f27b947869fc0975b" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;key)&gt;</type>
+        <definition>using themis::ingestion::ObjectStorageConnector::ObjectFetchFn = std::function&lt;std::string(const std::string&amp; key)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ObjectFetchFn</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::ObjectFetchFn</qualifiedname>
+        <briefdescription>
+<para>Function type for providing object bodies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Usable both for tests and for custom production integrations that want to bridge an external object fetch backend into the connector.</para>
+<para>Given an object key the function returns the raw object body as a string. Return an empty string to simulate a fetch failure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="163" column="5" bodyfile="include/ingestion/object_storage_connector.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a1238f2ebfc71c0e1d5adf4d5e9a6d16d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::ObjectStorageConnector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="182" column="21" bodyfile="include/ingestion/object_storage_connector.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a1d15bea65e11582de218124aea6790fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ObjectStorageConnector::ObjectStorageConnector</definition>
+        <argsstring>()</argsstring>
+        <name>ObjectStorageConnector</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::ObjectStorageConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="94" column="5" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="787" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a514bce830775faeaea852f1a1ef0bffb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ObjectStorageConnector::~ObjectStorageConnector</definition>
+        <argsstring>() override</argsstring>
+        <name>~ObjectStorageConnector</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::~ObjectStorageConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1af91578ec9dca78eb9f7fe1bdd6afaf4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ObjectStorageConnector::ObjectStorageConnector</definition>
+        <argsstring>(const ObjectStorageConnector &amp;)=delete</argsstring>
+        <name>ObjectStorageConnector</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::ObjectStorageConnector</qualifiedname>
+        <param>
+          <type>const ObjectStorageConnector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1ad8bde35b857e38914d9561ff787356d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a1d15bea65e11582de218124aea6790fd" kindref="member">ObjectStorageConnector</ref> &amp;</type>
+        <definition>ObjectStorageConnector &amp; themis::ingestion::ObjectStorageConnector::operator=</definition>
+        <argsstring>(const ObjectStorageConnector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a1d15bea65e11582de218124aea6790fd" kindref="member">ObjectStorageConnector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="99" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1ab4fc27e86523c97dbd0115a0e413073f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ObjectStorageConnector::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the connector from a source configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must have <computeroutput>type == <ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa92ac81a57898f56dd05e90483e0691b4" kindref="member">SourceType::OBJECT_STORAGE</ref></computeroutput>. <computeroutput>location</computeroutput> is the bucket / container name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="107" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="798" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a52fc97a030c083dc7ec87f064b021ce8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ObjectStorageConnector::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d">isAvailable</reimplements>
+        <briefdescription>
+<para>Check whether the bucket / container is reachable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when a test mock is injected. Without a mock the result depends on whether the required provider SDK flag is enabled and the credentials are valid. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="116" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="802" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a71b2535c8d3c1f0e68cfc63cc5dfa2e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::ObjectStorageConnector::getDocumentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::getDocumentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e">getDocumentCount</reimplements>
+        <briefdescription>
+<para>Returns 0 — object counts are not cheaply available without a full bucket listing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="122" column="12" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="806" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a058b3e4bbff1939fcbb8e3122f30d3ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::ObjectStorageConnector::ingest</definition>
+        <argsstring>(const std::string &amp;target_collection, ProgressCallback progress_callback) override</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::ingest</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb">ingest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>List objects in the bucket and ingest each one as a document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para>For each listed object key the connector downloads the object body, extracts text (plain text, or the configured <computeroutput>text_field</computeroutput> from a JSON object), and accumulates statistics. Pagination continues until all objects under the prefix have been processed or <computeroutput>max_keys</computeroutput> is reached.</para>
+<para>When neither a test mock nor a provider SDK is available, returns immediately with a <computeroutput>CONNECTOR_NOT_SUPPORTED</computeroutput> error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ingest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="135" column="20" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="817" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a901157ce777b578a2df83e903778d1b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;config)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure retry behaviour for this connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Retry Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="141" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="828" bodyend="830"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a3673d4412b98f511054442b3fa6f5188" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::setObjectListProvider</definition>
+        <argsstring>(ObjectListFn list_fn)</argsstring>
+        <name>setObjectListProvider</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::setObjectListProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4a2c33fa32e3b68e518df36d1773a7d1" kindref="member">ObjectListFn</ref></type>
+          <declname>list_fn</declname>
+          <defname>fn</defname>
+        </param>
+        <briefdescription>
+<para>Inject object-listing and object-fetch providers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Object List Provider.</para>
+<para>When both are set, every cloud API call is replaced by these functions. This is suitable both for tests and for custom production bridges to non-native or out-of-process object-storage backends.</para>
+<para>Pass empty <computeroutput><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4a2c33fa32e3b68e518df36d1773a7d1" kindref="member">ObjectListFn</ref>{}</computeroutput> / <computeroutput><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4112586cd977e88f27b947869fc0975b" kindref="member">ObjectFetchFn</ref>{}</computeroutput> to restore the real provider path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a539d3c0a3d76ed8e38d101b5320d1eb5" kindref="member">setObjectListForTesting()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="175" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="846" bodyend="848"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1af1c8774360460cb1592be408955865ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::setObjectFetchProvider</definition>
+        <argsstring>(ObjectFetchFn fetch_fn)</argsstring>
+        <name>setObjectFetchProvider</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::setObjectFetchProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4112586cd977e88f27b947869fc0975b" kindref="member">ObjectFetchFn</ref></type>
+          <declname>fetch_fn</declname>
+          <defname>fn</defname>
+        </param>
+        <briefdescription>
+<para>Set Object Fetch Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a5303a367cf03f77d6362fab535e57829" kindref="member">setObjectFetchForTesting()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="176" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="864" bodyend="866"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a539d3c0a3d76ed8e38d101b5320d1eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::setObjectListForTesting</definition>
+        <argsstring>(ObjectListFn list_fn)</argsstring>
+        <name>setObjectListForTesting</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::setObjectListForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4a2c33fa32e3b68e518df36d1773a7d1" kindref="member">ObjectListFn</ref></type>
+          <declname>list_fn</declname>
+          <defname>fn</defname>
+        </param>
+        <briefdescription>
+<para>Set Object List For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a3673d4412b98f511054442b3fa6f5188" kindref="member">setObjectListProvider()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="177" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="837" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1a5303a367cf03f77d6362fab535e57829" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::setObjectFetchForTesting</definition>
+        <argsstring>(ObjectFetchFn fetch_fn)</argsstring>
+        <name>setObjectFetchForTesting</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::setObjectFetchForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4112586cd977e88f27b947869fc0975b" kindref="member">ObjectFetchFn</ref></type>
+          <declname>fetch_fn</declname>
+          <defname>fn</defname>
+        </param>
+        <briefdescription>
+<para>Set Object Fetch For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1af1c8774360460cb1592be408955865ad" kindref="member">setObjectFetchProvider()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/object_storage_connector.h" line="178" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="855" bodyend="857"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Object-storage source connector for S3, GCS, and Azure Blob. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Lists objects in a bucket/container (optionally filtered by prefix) and ingests them as documents into ThemisDB. The provider is selected via <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" kindref="member">SourceConfig::options</ref>["provider"]</computeroutput>:<itemizedlist>
+<listitem><para><computeroutput>"s3"</computeroutput> → AWS S3 / S3-compatible (requires <computeroutput>THEMIS_ENABLE_S3</computeroutput>)</para>
+</listitem><listitem><para><computeroutput>"gcs"</computeroutput> → Google Cloud Storage (requires <computeroutput>THEMIS_ENABLE_GCS</computeroutput>)</para>
+</listitem><listitem><para><computeroutput>"azure"</computeroutput> → Azure Blob Storage (requires <computeroutput>THEMIS_ENABLE_AZURE</computeroutput>)</para>
+</listitem></itemizedlist>
+</para>
+<para>Without the corresponding compile-time flag the connector compiles but always returns <computeroutput>CONNECTOR_NOT_SUPPORTED</computeroutput> — unless a test mock has been injected via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a539d3c0a3d76ed8e38d101b5320d1eb5" kindref="member">setObjectListForTesting()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a5303a367cf03f77d6362fab535e57829" kindref="member">setObjectFetchForTesting()</ref></computeroutput>.</para>
+<para>Supported <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" kindref="member">SourceConfig::options</ref></computeroutput> keys: <table rows="15" cols="4"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Provider  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>provider</computeroutput>  </para>
+</entry><entry thead="no"><para>all  </para>
+</entry><entry thead="no"><para><computeroutput>"s3"</computeroutput>, <computeroutput>"gcs"</computeroutput>, or <computeroutput>"azure"</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>s3</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>bucket</computeroutput>  </para>
+</entry><entry thead="no"><para>S3 / GCS  </para>
+</entry><entry thead="no"><para>Bucket name (overrides <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">SourceConfig::location</ref></computeroutput>)  </para>
+</entry><entry thead="no"><para><computeroutput>location</computeroutput> field  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>container</computeroutput>  </para>
+</entry><entry thead="no"><para>Azure  </para>
+</entry><entry thead="no"><para>Container name (overrides <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">SourceConfig::location</ref></computeroutput>)  </para>
+</entry><entry thead="no"><para><computeroutput>location</computeroutput> field  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>prefix</computeroutput>  </para>
+</entry><entry thead="no"><para>all  </para>
+</entry><entry thead="no"><para>Key/blob prefix to filter listed objects  </para>
+</entry><entry thead="no"><para>(none)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>region</computeroutput>  </para>
+</entry><entry thead="no"><para>S3  </para>
+</entry><entry thead="no"><para>AWS region (e.g. <computeroutput>us-east-1</computeroutput>)  </para>
+</entry><entry thead="no"><para><computeroutput>us-east-1</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>endpoint_url</computeroutput>  </para>
+</entry><entry thead="no"><para>S3  </para>
+</entry><entry thead="no"><para>Custom endpoint URL for S3-compatible stores  </para>
+</entry><entry thead="no"><para>(AWS default)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>access_key</computeroutput>  </para>
+</entry><entry thead="no"><para>S3  </para>
+</entry><entry thead="no"><para>AWS access key ID (never logged)  </para>
+</entry><entry thead="no"><para>(env / IAM role)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>secret_key</computeroutput>  </para>
+</entry><entry thead="no"><para>S3  </para>
+</entry><entry thead="no"><para>AWS secret access key (never logged)  </para>
+</entry><entry thead="no"><para>(env / IAM role)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>project_id</computeroutput>  </para>
+</entry><entry thead="no"><para>GCS  </para>
+</entry><entry thead="no"><para>GCP project ID  </para>
+</entry><entry thead="no"><para>(ADC)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>service_account_json</computeroutput>  </para>
+</entry><entry thead="no"><para>GCS  </para>
+</entry><entry thead="no"><para>Path to service-account JSON key file (never logged)  </para>
+</entry><entry thead="no"><para>(ADC)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>connection_string</computeroutput>  </para>
+</entry><entry thead="no"><para>Azure  </para>
+</entry><entry thead="no"><para>Azure storage connection string (never logged)  </para>
+</entry><entry thead="no"><para>(env)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>sas_token</computeroutput>  </para>
+</entry><entry thead="no"><para>Azure  </para>
+</entry><entry thead="no"><para>Shared access signature token (never logged)  </para>
+</entry><entry thead="no"><para>(none)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_keys</computeroutput>  </para>
+</entry><entry thead="no"><para>all  </para>
+</entry><entry thead="no"><para>Max objects to list per run (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_field</computeroutput>  </para>
+</entry><entry thead="no"><para>all  </para>
+</entry><entry thead="no"><para>JSON key to use as document text for <computeroutput>.<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref></computeroutput> objects  </para>
+</entry><entry thead="no"><para><computeroutput>text</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">SourceConfig::location</ref></computeroutput> is used as the bucket / container name unless the provider-specific override key is set.</para>
+<para>Example – S3: <programlisting><codeline><highlight class="normal">SourceConfig<sp/>cfg{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data_lake&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa92ac81a57898f56dd05e90483e0691b4" kindref="member">SourceType::OBJECT_STORAGE</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my-bucket&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.options<sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;provider&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;prefix&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;docs/2026/&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_keys&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;500&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a1d15bea65e11582de218124aea6790fd" kindref="member">ObjectStorageConnector</ref><sp/>conn;</highlight></codeline>
+<codeline><highlight class="normal">conn.initialize(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>conn.ingest(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para>Example via <ref refid="classthemis_1_1ingestion_1_1_ingestion_builder" kindref="compound">IngestionBuilder</ref>: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mgr<sp/>=<sp/>IngestionBuilder(</highlight><highlight class="stringliteral">&quot;mydb&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withObjectStorageSource(</highlight><highlight class="stringliteral">&quot;lake&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;my-bucket&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;provider&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;prefix&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;2026/&quot;</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.build();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>mgr-&gt;ingestAll();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::ObjectStorageConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_object_storage_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::ObjectStorageConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_object_storage_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/object_storage_connector.h" line="92" column="1" bodyfile="include/ingestion/object_storage_connector.h" bodystart="92" bodyend="183"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a71b2535c8d3c1f0e68cfc63cc5dfa2e5" prot="public" virt="virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a1238f2ebfc71c0e1d5adf4d5e9a6d16d" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a058b3e4bbff1939fcbb8e3122f30d3ed" prot="public" virt="virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1ab4fc27e86523c97dbd0115a0e413073f" prot="public" virt="virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a52fc97a030c083dc7ec87f064b021ce8" prot="public" virt="virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4112586cd977e88f27b947869fc0975b" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>ObjectFetchFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4a2c33fa32e3b68e518df36d1773a7d1" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>ObjectListFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a1d15bea65e11582de218124aea6790fd" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>ObjectStorageConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1af91578ec9dca78eb9f7fe1bdd6afaf4d" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>ObjectStorageConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1ad8bde35b857e38914d9561ff787356d0" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84" prot="public" virt="virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>setDocumentValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a5303a367cf03f77d6362fab535e57829" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>setObjectFetchForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1af1c8774360460cb1592be408955865ad" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>setObjectFetchProvider</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a539d3c0a3d76ed8e38d101b5320d1eb5" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>setObjectListForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a3673d4412b98f511054442b3fa6f5188" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>setObjectListProvider</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a901157ce777b578a2df83e903778d1b5" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>~ISourceConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a514bce830775faeaea852f1a1ef0bffb" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector</scope><name>~ObjectStorageConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

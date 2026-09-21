@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ai_1_1_c_a_i_ethics_integration" kind="class" language="C++" prot="public">
+    <compoundname>themis::ai::CAIEthicsIntegration</compoundname>
+    <includes refid="cai__ethics__integration_8h" local="no">cai_ethics_integration.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0aa675a1181f7e550e13a7cc72ac0a76" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" kindref="compound">CAIEthicsConfig</ref></type>
+        <definition>CAIEthicsConfig themis::ai::CAIEthicsIntegration::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="119" column="60" bodyfile="include/ai/cai_ethics_integration.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a24e8ced7b868563a9b22b5cd0f30fa9b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; llm::ConstitutionalReasoningEngine &gt;</type>
+        <definition>std::unique_ptr&lt;llm::ConstitutionalReasoningEngine&gt; themis::ai::CAIEthicsIntegration::cai_engine_</definition>
+        <argsstring></argsstring>
+        <name>cai_engine_</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::cai_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="120" column="24" bodyfile="include/ai/cai_ethics_integration.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a06b9331ab6d95f3cd7d527da8dc8123b" prot="private" static="no" mutable="no">
+        <type>plugins::ethics::EthicsEvaluator</type>
+        <definition>plugins::ethics::EthicsEvaluator themis::ai::CAIEthicsIntegration::ethics_evaluator_</definition>
+        <argsstring></argsstring>
+        <name>ethics_evaluator_</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::ethics_evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="121" column="60" bodyfile="include/ai/cai_ethics_integration.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ai::CAIEthicsIntegration::CAIEthicsIntegration</definition>
+        <argsstring>(const CAIEthicsConfig &amp;config={})</argsstring>
+        <name>CAIEthicsIntegration</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::CAIEthicsIntegration</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" kindref="compound">CAIEthicsConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="70" column="14" bodyfile="src/ai/cai_ethics_integration.cpp" bodystart="170" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a91dcecda9ed9ebfde39eea7df6b3802b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ai::CAIEthicsIntegration::~CAIEthicsIntegration</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CAIEthicsIntegration</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::~CAIEthicsIntegration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1aadce3e2be0f2d33abedc53261d746902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ai::CAIEthicsIntegration::CAIEthicsIntegration</definition>
+        <argsstring>(const CAIEthicsIntegration &amp;)=delete</argsstring>
+        <name>CAIEthicsIntegration</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::CAIEthicsIntegration</qualifiedname>
+        <param>
+          <type>const CAIEthicsIntegration &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8bb76680eac0b76bc604a60be3db3167" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref> &amp;</type>
+        <definition>CAIEthicsIntegration &amp; themis::ai::CAIEthicsIntegration::operator=</definition>
+        <argsstring>(const CAIEthicsIntegration &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="76" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a7c9ff3df588d9f2c489b0c709cc32251" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ai::CAIEthicsIntegration::CAIEthicsIntegration</definition>
+        <argsstring>(CAIEthicsIntegration &amp;&amp;) noexcept=default</argsstring>
+        <name>CAIEthicsIntegration</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::CAIEthicsIntegration</qualifiedname>
+        <param>
+          <type>CAIEthicsIntegration &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a62d80872156410f34a7dc982a280f798" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref> &amp;</type>
+        <definition>CAIEthicsIntegration &amp; themis::ai::CAIEthicsIntegration::operator=</definition>
+        <argsstring>(CAIEthicsIntegration &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kindref="member">CAIEthicsIntegration</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="78" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a56702fd931e22ebe862c98acbf1843d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result" kindref="compound">CAIEvaluationResult</ref></type>
+        <definition>CAIEvaluationResult themis::ai::CAIEthicsIntegration::evaluate</definition>
+        <argsstring>(const std::string &amp;response, const std::string &amp;query, std::function&lt; std::string(const std::string &amp;)&gt; llm_fn=nullptr)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+          <declname>llm_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="84" column="25" bodyfile="src/ai/cai_ethics_integration.cpp" bodystart="192" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a69c080cad3c6ddcbc0b9c2bc4348a1ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ai::CAIEthicsIntegration::addPrinciple</definition>
+        <argsstring>(const llm::ConstitutionalPrinciple &amp;principle)</argsstring>
+        <name>addPrinciple</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::addPrinciple</qualifiedname>
+        <param>
+          <type>const llm::ConstitutionalPrinciple &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <briefdescription>
+<para>Add Principle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="95" column="10" bodyfile="src/ai/cai_ethics_integration.cpp" bodystart="270" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8a9ab6f90f4c687ce916ec4bd69f762d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; llm::ConstitutionalPrinciple &gt;</type>
+        <definition>std::vector&lt; llm::ConstitutionalPrinciple &gt; themis::ai::CAIEthicsIntegration::getPrinciples</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrinciples</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::getPrinciples</qualifiedname>
+        <briefdescription>
+<para>Get Principles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="101" column="17" bodyfile="src/ai/cai_ethics_integration.cpp" bodystart="275" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1ae49cf0e98ef90d70fbd6b84971e16bd7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ai::CAIEthicsIntegration::principleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>principleCount</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::principleCount</qualifiedname>
+        <briefdescription>
+<para>Principle Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="107" column="17" bodyfile="src/ai/cai_ethics_integration.cpp" bodystart="280" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0c9e143da9cd27b51dd6170bef618f50" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" kindref="compound">CAIEthicsConfig</ref> &amp;</type>
+        <definition>const CAIEthicsConfig &amp; themis::ai::CAIEthicsIntegration::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="113" column="27" bodyfile="include/ai/cai_ethics_integration.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a61373448f384fd2387f7a200aa90f233" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ai::CAIEthicsIntegration::passesAcceptanceCriteria</definition>
+        <argsstring>(const CAIEvaluationResult &amp;result, double min_safety_score=0.80)</argsstring>
+        <name>passesAcceptanceCriteria</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::passesAcceptanceCriteria</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result" kindref="compound">CAIEvaluationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_safety_score</declname>
+          <defval>0.80</defval>
+        </param>
+        <briefdescription>
+<para>Passes Acceptance Criteria. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_safety_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="115" column="17" bodyfile="src/ai/cai_ethics_integration.cpp" bodystart="295" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1aca98f1492e7e75181bad28c92ab98a84" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>plugins::ethics::EthicalDecision</type>
+        <definition>plugins::ethics::EthicalDecision themis::ai::CAIEthicsIntegration::buildDecision</definition>
+        <argsstring>(const llm::ConstitutionalReasoningResult &amp;cai_result, const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;formalized_principles, const std::vector&lt; std::string &gt; &amp;formalized_domains, const std::vector&lt; std::string &gt; &amp;argument_chain_ids) const</argsstring>
+        <name>buildDecision</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::buildDecision</qualifiedname>
+        <param>
+          <type>const llm::ConstitutionalReasoningResult &amp;</type>
+          <declname>cai_result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>formalized_principles</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>formalized_domains</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>argument_chain_ids</declname>
+        </param>
+        <briefdescription>
+<para>Build Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cai_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">formalized_principles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">formalized_domains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">argument_chain_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="132" column="38" bodyfile="src/ai/cai_ethics_integration.cpp" bodystart="306" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1ad6b0357a0df90608992bd5fa5cf1bdc0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; plugins::ethics::EthicalArgument &gt;</type>
+        <definition>std::vector&lt; plugins::ethics::EthicalArgument &gt; themis::ai::CAIEthicsIntegration::buildArguments</definition>
+        <argsstring>(const llm::ConstitutionalReasoningResult &amp;cai_result) const</argsstring>
+        <name>buildArguments</name>
+        <qualifiedname>themis::ai::CAIEthicsIntegration::buildArguments</qualifiedname>
+        <param>
+          <type>const llm::ConstitutionalReasoningResult &amp;</type>
+          <declname>cai_result</declname>
+        </param>
+        <briefdescription>
+<para>Build Arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cai_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="145" column="17" bodyfile="src/ai/cai_ethics_integration.cpp" bodystart="333" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/cai_ethics_integration.h" line="68" column="1" bodyfile="include/ai/cai_ethics_integration.h" bodystart="68" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a69c080cad3c6ddcbc0b9c2bc4348a1ce" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>addPrinciple</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1ad6b0357a0df90608992bd5fa5cf1bdc0" prot="private" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>buildArguments</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1aca98f1492e7e75181bad28c92ab98a84" prot="private" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>buildDecision</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a24e8ced7b868563a9b22b5cd0f30fa9b" prot="private" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>cai_engine_</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>CAIEthicsIntegration</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1aadce3e2be0f2d33abedc53261d746902" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>CAIEthicsIntegration</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a7c9ff3df588d9f2c489b0c709cc32251" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>CAIEthicsIntegration</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0c9e143da9cd27b51dd6170bef618f50" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>config</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0aa675a1181f7e550e13a7cc72ac0a76" prot="private" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>config_</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a06b9331ab6d95f3cd7d527da8dc8123b" prot="private" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>ethics_evaluator_</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a56702fd931e22ebe862c98acbf1843d2" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8a9ab6f90f4c687ce916ec4bd69f762d" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>getPrinciples</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8bb76680eac0b76bc604a60be3db3167" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a62d80872156410f34a7dc982a280f798" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a61373448f384fd2387f7a200aa90f233" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>passesAcceptanceCriteria</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1ae49cf0e98ef90d70fbd6b84971e16bd7" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>principleCount</name></member>
+      <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a91dcecda9ed9ebfde39eea7df6b3802b" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsIntegration</scope><name>~CAIEthicsIntegration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

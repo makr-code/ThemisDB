@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_compression_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::CompressionMetrics</compoundname>
+    <includes refid="compression__metrics_8h" local="no">compression_metrics.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_compression_metrics_1_1_method_stats" prot="public">themis::utils::CompressionMetrics::MethodStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_compression_metrics_1a1dca37df09cf79b417b01cae5aa4d0af" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::CompressionMetrics::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::utils::CompressionMetrics::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="93" column="24" bodyfile="include/utils/compression_metrics.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_compression_metrics_1aaa2153b0aaf389d7f7c56b472159475c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1utils_1_1_compression_metrics_1_1_method_stats" kindref="compound">MethodStats</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MethodStats&gt; themis::utils::CompressionMetrics::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::utils::CompressionMetrics::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="94" column="24" bodyfile="include/utils/compression_metrics.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_metrics_1a7cd74c37bab577bc67159f35704911a0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>CompressionMetrics &amp;</type>
+        <definition>static CompressionMetrics &amp; themis::utils::CompressionMetrics::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::utils::CompressionMetrics::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="57" column="31" bodyfile="include/utils/compression_metrics.h" bodystart="57" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_metrics_1a4e024adcd540b5848d864246bfd942a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::CompressionMetrics::record_compression</definition>
+        <argsstring>(const std::string &amp;method, size_t bytes_in, size_t bytes_out, std::chrono::microseconds duration)</argsstring>
+        <name>record_compression</name>
+        <qualifiedname>themis::utils::CompressionMetrics::record_compression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_in</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_out</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Record compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="63" column="10" bodyfile="src/utils/compression_metrics.cpp" bodystart="27" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_metrics_1a901535624fa7f987d56beb53a9c08486" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::CompressionMetrics::record_decompression</definition>
+        <argsstring>(const std::string &amp;method, size_t bytes_in, size_t bytes_out, std::chrono::microseconds duration)</argsstring>
+        <name>record_decompression</name>
+        <qualifiedname>themis::utils::CompressionMetrics::record_decompression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_in</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_out</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Record decompression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="71" column="10" bodyfile="src/utils/compression_metrics.cpp" bodystart="49" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_metrics_1af01b5c7fe7de3753823cf72b8e93e694" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_compression_metrics_1_1_method_stats" kindref="compound">MethodStats</ref></type>
+        <definition>CompressionMetrics::MethodStats themis::utils::CompressionMetrics::get_method_stats</definition>
+        <argsstring>(const std::string &amp;method) const</argsstring>
+        <name>get_method_stats</name>
+        <qualifiedname>themis::utils::CompressionMetrics::get_method_stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="79" column="17" bodyfile="src/utils/compression_metrics.cpp" bodystart="63" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_metrics_1aa65f7cf76144243e6808e53b98397bfd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::utils::CompressionMetrics::get_methods</definition>
+        <argsstring>() const</argsstring>
+        <name>get_methods</name>
+        <qualifiedname>themis::utils::CompressionMetrics::get_methods</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="82" column="17" bodyfile="src/utils/compression_metrics.cpp" bodystart="74" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_metrics_1a3a3d53f23a918403da3f33b6f3605397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::CompressionMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::CompressionMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="85" column="10" bodyfile="src/utils/compression_metrics.cpp" bodystart="94" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_metrics_1a17e7c26c2220e1ade1a23a7d06148c2e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::CompressionMetrics::get_summary</definition>
+        <argsstring>() const</argsstring>
+        <name>get_summary</name>
+        <qualifiedname>themis::utils::CompressionMetrics::get_summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="88" column="17" bodyfile="src/utils/compression_metrics.cpp" bodystart="99" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_metrics_1a4b3c4bf23d5e07b84ff2debce39e9825" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::CompressionMetrics::CompressionMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>CompressionMetrics</name>
+        <qualifiedname>themis::utils::CompressionMetrics::CompressionMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="91" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compression performance metrics tracker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks compression ratios, throughput, and performance across different compression methods and data types. </para>
+    </detaileddescription>
+    <location file="include/utils/compression_metrics.h" line="30" column="1" bodyfile="include/utils/compression_metrics.h" bodystart="30" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1a4b3c4bf23d5e07b84ff2debce39e9825" prot="private" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>CompressionMetrics</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1af01b5c7fe7de3753823cf72b8e93e694" prot="public" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>get_method_stats</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1aa65f7cf76144243e6808e53b98397bfd" prot="public" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>get_methods</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1a17e7c26c2220e1ade1a23a7d06148c2e" prot="public" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>get_summary</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1a7cd74c37bab577bc67159f35704911a0" prot="public" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>instance</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1a1dca37df09cf79b417b01cae5aa4d0af" prot="private" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1a4e024adcd540b5848d864246bfd942a7" prot="public" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>record_compression</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1a901535624fa7f987d56beb53a9c08486" prot="public" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>record_decompression</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1a3a3d53f23a918403da3f33b6f3605397" prot="public" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_metrics_1aaa2153b0aaf389d7f7c56b472159475c" prot="private" virt="non-virtual"><scope>themis::utils::CompressionMetrics</scope><name>stats_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

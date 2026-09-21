@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_circuit_breaker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc::CircuitBreakerConfig</compoundname>
+    <includes refid="circuit__breaker_8h" local="no">circuit_breaker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_config_1aa92e5c7b6b1993e5e33c134f4ade59d6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::CircuitBreakerConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::rpc::CircuitBreakerConfig::failure_threshold</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Number of consecutive failures that trip the circuit (CLOSED → OPEN). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="55" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_config_1a2cf57401c5eb3d1187e680072f606f60" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::CircuitBreakerConfig::min_calls_in_window</definition>
+        <argsstring></argsstring>
+        <name>min_calls_in_window</name>
+        <qualifiedname>themis::rpc::CircuitBreakerConfig::min_calls_in_window</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of calls in a sliding window before the failure rate is evaluated. Prevents tripping on a single cold-start call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="59" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_config_1a3d11aa339db33169bfe0157dc7785862" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rpc::CircuitBreakerConfig::recovery_window</definition>
+        <argsstring></argsstring>
+        <name>recovery_window</name>
+        <qualifiedname>themis::rpc::CircuitBreakerConfig::recovery_window</qualifiedname>
+        <initializer>{std::chrono::seconds{30}}</initializer>
+        <briefdescription>
+<para>How long the circuit stays OPEN before a probe is attempted (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="62" column="31" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_config_1af16681db71e44412a9aa278cf996192c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::CircuitBreakerConfig::half_open_success_threshold</definition>
+        <argsstring></argsstring>
+        <name>half_open_success_threshold</name>
+        <qualifiedname>themis::rpc::CircuitBreakerConfig::half_open_success_threshold</qualifiedname>
+        <initializer>{2}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of consecutive successes in HALF_OPEN before the circuit fully closes again. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="66" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_config_1a215cc6510821b65af76ceb9eb2a96137" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::CircuitBreakerConfig::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::rpc::CircuitBreakerConfig::name</qualifiedname>
+        <briefdescription>
+<para>Optional name for logging / Prometheus label. May be empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="69" column="17" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tuning parameters for a <ref refid="classthemis_1_1rpc_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> instance. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All timeout values use <computeroutput>std::chrono::milliseconds</computeroutput> for precision without requiring floating-point arithmetic. </para>
+    </detaileddescription>
+    <location file="include/rpc_grpc/circuit_breaker.h" line="53" column="1" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="53" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1aa92e5c7b6b1993e5e33c134f4ade59d6" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerConfig</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1af16681db71e44412a9aa278cf996192c" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerConfig</scope><name>half_open_success_threshold</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a2cf57401c5eb3d1187e680072f606f60" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerConfig</scope><name>min_calls_in_window</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a215cc6510821b65af76ceb9eb2a96137" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerConfig</scope><name>name</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_config_1a3d11aa339db33169bfe0157dc7785862" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerConfig</scope><name>recovery_window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

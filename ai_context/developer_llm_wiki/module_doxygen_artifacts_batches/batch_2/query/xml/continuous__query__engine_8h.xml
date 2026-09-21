@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="continuous__query__engine_8h" kind="file" language="C++">
+    <compoundname>continuous_query_engine.h</compoundname>
+    <includes refid="window__spec_8h" local="yes">query/window_spec.h</includes>
+    <includes refid="continuous__query__registry_8h" local="yes">query/continuous_query_registry.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__continuous__query_8cpp" local="yes">benchmarks/query/bench_continuous_query.cpp</includedby>
+    <includedby refid="continuous__query__engine__impl_8h" local="yes">include/query/continuous_query_engine_impl.h</includedby>
+    <includedby refid="continuous__query__planner_8h" local="yes">include/query/continuous_query_planner.h</includedby>
+    <includedby refid="test__continuous__query__e2e_8cpp" local="yes">tests/query/test_continuous_query_e2e.cpp</includedby>
+    <includedby refid="test__continuous__query__hardening_8cpp" local="yes">tests/query/test_continuous_query_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/continuous_query_engine.h</label>
+        <link refid="continuous__query__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>query/continuous_query_registry.h</label>
+        <link refid="continuous__query__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>query/window_spec.h</label>
+        <link refid="window__spec_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/query/bench_continuous_query.cpp</label>
+        <link refid="bench__continuous__query_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/query/continuous_query_engine.h</label>
+        <link refid="continuous__query__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/query/continuous_query_engine_impl.h</label>
+        <link refid="continuous__query__engine__impl_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/query/continuous_query_planner.h</label>
+        <link refid="continuous__query__planner_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/query/continuous_query_engine.cpp</label>
+        <link refid="continuous__query__engine_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/query/continuous_query_planner.cpp</label>
+        <link refid="continuous__query__planner_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/query/test_continuous_query_e2e.cpp</label>
+        <link refid="test__continuous__query__e2e_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_continuous_query_engine.cpp</label>
+        <link refid="test__continuous__query__engine_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/query/test_continuous_query_hardening.cpp</label>
+        <link refid="test__continuous__query__hardening_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_c_q_result" prot="public">themis::query::CQResult</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_c_q_result_stream" prot="public">themis::query::CQResultStream</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_continuous_query_spec" prot="public">themis::query::ContinuousQuerySpec</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_continuous_query_engine" prot="public">themis::query::ContinuousQueryEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="window__spec_8h" kindref="compound">query/window_spec.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__query__registry_8h" kindref="compound">query/continuous_query_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_result_queue" kindref="compound">ResultQueue</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1query_1_1_c_q_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_c_q_result" kindref="compound">CQResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1_c_q_result_1ad4806a131cbfa4b4da5f7ed857dc7f5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_c_q_result_1ad4806a131cbfa4b4da5f7ed857dc7f5d" kindref="member">payload</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_c_q_result_1abacdf9d6cf4e4e34c53f16f99e241600" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_c_q_result_1abacdf9d6cf4e4e34c53f16f99e241600" kindref="member">is_retract</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ResultStream<sp/>for<sp/>continuous<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1query_1_1_c_q_result_stream" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_c_q_result_stream" kindref="compound">CQResultStream</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1query_1_1_c_q_result_stream_1a312e8db06af834d1e95d57ccf502ec35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_q_result_stream_1a312e8db06af834d1e95d57ccf502ec35" kindref="member">~CQResultStream</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1query_1_1_c_q_result_stream_1ad3ad66ffd4cf699e129c6353dade0eb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_q_result_stream_1ad3ad66ffd4cf699e129c6353dade0eb1" kindref="member">hasMore</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1query_1_1_c_q_result_stream_1a4ea085fe9a77c699b94718ca5edf3c75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/>std::optional&lt;<ref refid="structthemis_1_1query_1_1_c_q_result" kindref="compound">CQResult</ref>&gt;<sp/><ref refid="classthemis_1_1query_1_1_c_q_result_stream_1a4ea085fe9a77c699b94718ca5edf3c75" kindref="member">next</ref>(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(5))<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1query_1_1_c_q_result_stream_1a0c41209ffde320756b19dff3bbd1fa73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_q_result_stream_1a0c41209ffde320756b19dff3bbd1fa73" kindref="member">cancel</ref>()<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1query_1_1_c_q_result_stream_1a84719b11f96f283c59808922bd3456f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_q_result_stream_1a84719b11f96f283c59808922bd3456f5" kindref="member">queueDepth</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Specification<sp/>for<sp/>registering<sp/>a<sp/>continuous<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1query_1_1_continuous_query_spec" refkind="compound"><highlight class="normal">struct<sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1query_1_1_continuous_query_spec_1a3a23ef255baec07a346d5f526bc7529c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a3a23ef255baec07a346d5f526bc7529c" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1query_1_1_continuous_query_spec_1ad8f2b665f8eef5ff165b633fefd3b6bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec_1ad8f2b665f8eef5ff165b633fefd3b6bf" kindref="member">source_collection</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1query_1_1_continuous_query_spec_1a53862ca1f881f03cb779dd311f952598" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_window_spec" kindref="compound">WindowSpec</ref><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a53862ca1f881f03cb779dd311f952598" kindref="member">window</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1query_1_1_continuous_query_spec_1a2e68271a1cfeee0a3363bceed9e35baa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a2e68271a1cfeee0a3363bceed9e35baa" kindref="member">aql_body</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1query_1_1_continuous_query_spec_1abf21786d2c18779b9753d2c514942615" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a61d302e9f3648ff09de0dfba2611ea88" kindref="member">ResultMode</ref><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec_1abf21786d2c18779b9753d2c514942615" kindref="member">result_mode</ref>{<ref refid="namespacethemis_1_1query_1a61d302e9f3648ff09de0dfba2611ea88aa789408ec4ddae81bd2f72ad5ec6bf3b" kindref="member">ResultMode::DELTA</ref>};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1query_1_1_continuous_query_spec_1ab90f90389f797e9fdc93b56b4e8e841b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec_1ab90f90389f797e9fdc93b56b4e8e841b" kindref="member">allowed_lateness_ms</ref>{500};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1query_1_1_continuous_query_spec_1a0d34327b38614c9eb10967f021a04f44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a0d34327b38614c9eb10967f021a04f44" kindref="member">max_window_tuples</ref>{10&apos;000&apos;000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1query_1_1_continuous_query_spec_1a9160467abb656ded4f25a87447f381d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a9160467abb656ded4f25a87447f381d2" kindref="member">max_window_bytes</ref>{1ULL<sp/>&lt;&lt;<sp/>30};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContinuousQueryEngine<sp/>—<sp/>public<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1query_1_1_continuous_query_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_continuous_query_engine" kindref="compound">ContinuousQueryEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1query_1_1_continuous_query_engine_1aa1b9f6d47297f0bc990dee9694d2c2d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_continuous_query_engine_1aa1b9f6d47297f0bc990dee9694d2c2d4" kindref="member">ContinuousQueryHandle</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1query_1_1_continuous_query_engine_1ac681f291c2f8987d7b73c3bcefd2eebd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_continuous_query_engine_1ac681f291c2f8987d7b73c3bcefd2eebd" kindref="member">ResultStreamPtr</ref><sp/>=<sp/>std::shared_ptr&lt;CQResultStream&gt;;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1query_1_1_continuous_query_engine_1ade11599119eef5dbf5a2fe6152b51318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_continuous_query_engine_1ade11599119eef5dbf5a2fe6152b51318" kindref="member">~ContinuousQueryEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1query_1_1_continuous_query_engine_1a82c2a7bad2b3e3e578b2728d9266e2a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;ContinuousQueryHandle&gt;<sp/><ref refid="classthemis_1_1query_1_1_continuous_query_engine_1a82c2a7bad2b3e3e578b2728d9266e2a4" kindref="member">registerQuery</ref>(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref><sp/>spec)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1query_1_1_continuous_query_engine_1a3584d23578b556962d02508e4f9ca9ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1query_1_1_continuous_query_engine_1a3584d23578b556962d02508e4f9ca9ba" kindref="member">dropQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1query_1_1_continuous_query_engine_1af26cec1040d45e58ce0ae4953ee566a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;ResultStreamPtr&gt;<sp/><ref refid="classthemis_1_1query_1_1_continuous_query_engine_1af26cec1040d45e58ce0ae4953ee566a7" kindref="member">subscribe</ref>(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a61d302e9f3648ff09de0dfba2611ea88" kindref="member">ResultMode</ref><sp/>mode)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1query_1_1_continuous_query_engine_1afa292c4a075417ae427e292e21376a72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ContinuousQueryInfo&gt;<sp/><ref refid="classthemis_1_1query_1_1_continuous_query_engine_1afa292c4a075417ae427e292e21376a72" kindref="member">listQueries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1query_1_1_continuous_query_engine_1a8b4d1870f11269eeac2a787ee265e299" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_continuous_query_engine_1a8b4d1870f11269eeac2a787ee265e299" kindref="member">injectTuple</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tuple,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>event_ts)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/continuous_query_engine.h"/>
+  </compounddef>
+</doxygen>

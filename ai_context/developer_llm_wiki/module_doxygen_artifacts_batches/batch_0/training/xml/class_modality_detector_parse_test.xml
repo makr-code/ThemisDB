@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_modality_detector_parse_test" kind="class" language="C++" prot="public">
+    <compoundname>ModalityDetectorParseTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_modality_detector_parse_test_1abfc1ff12f8cac49a0c78f85f7c33c7a7" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref></type>
+        <definition>ModalityParserConfig ModalityDetectorParseTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>ModalityDetectorParseTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_convergence.cpp" line="389" column="26" bodyfile="tests/training/test_training_convergence.cpp" bodystart="389" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_modality_detector_parse_test_1adf4f9320caa2a75527587d5848ad1067" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ModalityDetectorParseTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ModalityDetectorParseTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_convergence.cpp" line="390" column="10" bodyfile="tests/training/test_training_convergence.cpp" bodystart="390" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ModalityDetectorParseTest</label>
+        <link refid="class_modality_detector_parse_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ModalityDetectorParseTest</label>
+        <link refid="class_modality_detector_parse_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::training::ModalityParserConfig</label>
+        <link refid="structthemis_1_1training_1_1_modality_parser_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_training_convergence.cpp" line="387" column="1" bodyfile="tests/training/test_training_convergence.cpp" bodystart="387" bodyend="394"/>
+    <listofallmembers>
+      <member refid="class_modality_detector_parse_test_1abfc1ff12f8cac49a0c78f85f7c33c7a7" prot="protected" virt="non-virtual"><scope>ModalityDetectorParseTest</scope><name>cfg_</name></member>
+      <member refid="class_modality_detector_parse_test_1adf4f9320caa2a75527587d5848ad1067" prot="protected" virt="non-virtual"><scope>ModalityDetectorParseTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

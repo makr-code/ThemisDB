@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StaleArtifactDetector::Stats</compoundname>
+    <includes refid="stale__artifact__detector_8h" local="no">stale_artifact_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a0badb43fca85b61dfe527adae42148f6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StaleArtifactDetector::Stats::artifacts_currently_stale</definition>
+        <argsstring></argsstring>
+        <name>artifacts_currently_stale</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::Stats::artifacts_currently_stale</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="162" column="14" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a60e2aa009b686937b45da58fb8f99173" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StaleArtifactDetector::Stats::total_staleness_detections</definition>
+        <argsstring></argsstring>
+        <name>total_staleness_detections</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::Stats::total_staleness_detections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="164" column="14" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a3dea9987a330352679192a5460397db6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StaleArtifactDetector::Stats::cascade_invalidations_triggered</definition>
+        <argsstring></argsstring>
+        <name>cascade_invalidations_triggered</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::Stats::cascade_invalidations_triggered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="166" column="14" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1accb48bc134c33275b6c0ff858e4bd3d8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::StaleArtifactDetector::Stats::average_staleness_duration_sec</definition>
+        <argsstring></argsstring>
+        <name>average_staleness_duration_sec</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::Stats::average_staleness_duration_sec</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="168" column="12" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="161" column="3" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="161" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a0badb43fca85b61dfe527adae42148f6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::Stats</scope><name>artifacts_currently_stale</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1accb48bc134c33275b6c0ff858e4bd3d8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::Stats</scope><name>average_staleness_duration_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a3dea9987a330352679192a5460397db6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::Stats</scope><name>cascade_invalidations_triggered</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a60e2aa009b686937b45da58fb8f99173" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::Stats</scope><name>total_staleness_detections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

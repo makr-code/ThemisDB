@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="federation__consensus__manager_8h" kind="file" language="C++">
+    <compoundname>federation_consensus_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="federation__consensus__manager_8cpp" local="yes">src/process/federation_consensus_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/federation_consensus_manager.h</label>
+        <link refid="federation__consensus__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/federation_consensus_manager.h</label>
+        <link refid="federation__consensus__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/federation_consensus_manager.cpp</label>
+        <link refid="federation__consensus__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_federation_consensus_config" prot="public">themis::process::FederationConsensusConfig</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_federation_consensus_manager" prot="public">themis::process::FederationConsensusManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Raft-inspired quorum-based consensus manager for federated deployments. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-06 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_INCLUDE_PROCESS_FEDERATION_CONSENSUS_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMISDB_INCLUDE_PROCESS_FEDERATION_CONSENSUS_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_impl" kindref="compound">FederationConsensusManagerImpl</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1process_1_1_federation_consensus_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_federation_consensus_config" kindref="compound">FederationConsensusConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1process_1_1_federation_consensus_config_1af8e0ef0397813cb1c2a837eb8ffdd6dd" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_federation_consensus_config_1af8e0ef0397813cb1c2a837eb8ffdd6dd" kindref="member">network_latency_ms</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1process_1_1_federation_consensus_config_1a49093945775151b8a7794f67b796a62b" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_federation_consensus_config_1a49093945775151b8a7794f67b796a62b" kindref="member">heartbeat_interval_ms</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1process_1_1_federation_consensus_config_1a36b14bc828e4c84d59785231ea03aeb8" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_federation_consensus_config_1a36b14bc828e4c84d59785231ea03aeb8" kindref="member">election_timeout_ms</ref><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cd" kindref="member">ServerState</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cda8026987f2531b5fa5178a851c108397c" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26a8026987f2531b5fa5178a851c108397c" kindref="member">FOLLOWER</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cdabea4821516973214973a70aea8337c38" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26abea4821516973214973a70aea8337c38" kindref="member">CANDIDATE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1process_1aac7b4c90bb37716643d811eb10c196cdab8058aa3ecd39b676ce80d6aaadc5e64" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1process_1aef3ef3d0d56c42ba3307b8b3f1d7cf26ab8058aa3ecd39b676ce80d6aaadc5e64" kindref="member">LEADER</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1process_1_1_federation_consensus_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a1112ed4cbbeb67009b0dcaecf3338c17" kindref="member">FederationConsensusManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;FederationConsensusManager&gt;<sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1aa0df1072a8179e92be6a9410586c6c0d" kindref="member">Create</ref>(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_federation_consensus_config" kindref="compound">FederationConsensusConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>quorum_size);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a1112ed4cbbeb67009b0dcaecf3338c17" kindref="member">FederationConsensusManager</ref>(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;FederationConsensusManagerImpl&gt;<sp/>impl);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1process_1_1_federation_consensus_manager_1a4d26096c1a8e217970e43c06613daa4c" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a4d26096c1a8e217970e43c06613daa4c" kindref="member">~FederationConsensusManager</ref>();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a93ed144cb9c3eafae695f8fbcfe674d5" kindref="member">AppendEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a1bbfd858112e34c26d7582b51833a834" kindref="member">IsLeader</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a23a50ebb7b748f519e318388c1d03c4e" kindref="member">GetLeader</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1ab63d77cfcd9d8854bb943118f4f7b55b" kindref="member">RequestVote</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>candidate_id,<sp/>uint64_t<sp/>candidate_term,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>candidate_last_log_index,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>candidate_last_log_term);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a8e37a1b500d3e65c4d06d8f81338e9fe" kindref="member">AppendEntries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>leader_id,<sp/>uint64_t<sp/>leader_term,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>prev_log_index,<sp/>uint64_t<sp/>prev_log_term,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>entries,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>leader_commit);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a3b52216057f6d9600c79630bb69cc4bc" kindref="member">Tick</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;FederationConsensusManagerImpl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMISDB_INCLUDE_PROCESS_FEDERATION_CONSENSUS_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/federation_consensus_manager.h"/>
+  </compounddef>
+</doxygen>

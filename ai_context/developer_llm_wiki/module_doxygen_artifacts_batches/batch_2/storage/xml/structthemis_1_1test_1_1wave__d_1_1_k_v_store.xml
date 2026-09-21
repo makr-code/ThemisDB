@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_k_v_store" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::KVStore</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a870dde39d583d7c1f9bbfee64c532b81" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::KVStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::KVStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="69" column="49" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a287f9fb8323be2b63eaca2c9f9474dbf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::test::wave_d::KVStore::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::test::wave_d::KVStore::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="70" column="24" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a86b92665421ea171221b579524d6d618" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::KVStore::writes_</definition>
+        <argsstring></argsstring>
+        <name>writes_</name>
+        <qualifiedname>themis::test::wave_d::KVStore::writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="71" column="44" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1aeb0f77df59424cd89671d47b34dd308e" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::KVStore::reads_</definition>
+        <argsstring></argsstring>
+        <name>reads_</name>
+        <qualifiedname>themis::test::wave_d::KVStore::reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="72" column="44" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a6407521a1d250d1b7b8b9c04821f6c72" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::KVStore::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::test::wave_d::KVStore::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="44" column="10" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1ad70913fc23444bae10f0711b4c698a9a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::KVStore::get</definition>
+        <argsstring>(const std::string &amp;key, std::string *out) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::test::wave_d::KVStore::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="51" column="10" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1aaab654a70673b1f016a97702ae02bc78" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::test::wave_d::KVStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::test::wave_d::KVStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="60" column="17" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a2ce334999361c8951327a160705eaa9b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::KVStore::writes</definition>
+        <argsstring>() const</argsstring>
+        <name>writes</name>
+        <qualifiedname>themis::test::wave_d::KVStore::writes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="65" column="10" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1aa078d7d0ef305e866d1da37999a35802" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::KVStore::reads</definition>
+        <argsstring>() const</argsstring>
+        <name>reads</name>
+        <qualifiedname>themis::test::wave_d::KVStore::reads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="66" column="10" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="43" column="1" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="43" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1ad70913fc23444bae10f0711b4c698a9a" prot="public" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>get</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a870dde39d583d7c1f9bbfee64c532b81" prot="private" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a6407521a1d250d1b7b8b9c04821f6c72" prot="public" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>put</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1aa078d7d0ef305e866d1da37999a35802" prot="public" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>reads</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1aeb0f77df59424cd89671d47b34dd308e" prot="private" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>reads_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1aaab654a70673b1f016a97702ae02bc78" prot="public" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>size</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a287f9fb8323be2b63eaca2c9f9474dbf" prot="private" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>store_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a2ce334999361c8951327a160705eaa9b" prot="public" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>writes</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store_1a86b92665421ea171221b579524d6d618" prot="private" virt="non-virtual"><scope>themis::test::wave_d::KVStore</scope><name>writes_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

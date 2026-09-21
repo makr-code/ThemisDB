@@ -1,0 +1,1583 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_lock_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::LockManager</compoundname>
+    <includes refid="lock__manager_8h" local="no">lock_manager.h</includes>
+    <innerclass refid="structthemis_1_1_lock_manager_1_1_lock_result" prot="public">themis::LockManager::LockResult</innerclass>
+    <innerclass refid="structthemis_1_1_lock_manager_1_1_lock_stats" prot="public">themis::LockManager::LockStats</innerclass>
+    <innerclass refid="structthemis_1_1_lock_manager_1_1_lock_entry" prot="private">themis::LockManager::LockEntry</innerclass>
+    <innerclass refid="structthemis_1_1_lock_manager_1_1_lock_request" prot="private">themis::LockManager::LockRequest</innerclass>
+    <innerclass refid="structthemis_1_1_lock_manager_1_1_lock_table_entry" prot="private">themis::LockManager::LockTableEntry</innerclass>
+    <innerclass refid="structthemis_1_1_lock_manager_1_1_predicate_lock" prot="private">themis::LockManager::PredicateLock</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::LockManager::TransactionId = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>TransactionId</name>
+        <qualifiedname>themis::LockManager::TransactionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="47" column="5" bodyfile="include/transaction/lock_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a2f223678eb71598fcae98dc4e15859ea" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::LockManager::DEFAULT_LOCK_TIMEOUT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_LOCK_TIMEOUT</name>
+        <qualifiedname>themis::LockManager::DEFAULT_LOCK_TIMEOUT</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="49" column="48" bodyfile="include/transaction/lock_manager.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a43a8b920a1f6d254b361361bf54982eb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LockManager::DEFAULT_ESCALATION_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_ESCALATION_THRESHOLD</name>
+        <qualifiedname>themis::LockManager::DEFAULT_ESCALATION_THRESHOLD</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="50" column="29" bodyfile="include/transaction/lock_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a729ea855eab5f66bcc703186483b57a4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::LockManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::LockManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="287" column="24" bodyfile="include/transaction/lock_manager.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a6f429d45ab0fcad26e53b0e3a9b61dd1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, LockTableEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LockTableEntry&gt; themis::LockManager::lock_table_</definition>
+        <argsstring></argsstring>
+        <name>lock_table_</name>
+        <qualifiedname>themis::LockManager::lock_table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="289" column="24" bodyfile="include/transaction/lock_manager.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1ae32643790d7c81dde1391b7d89f52c87" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref>, std::unordered_map&lt; std::string, <ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;TransactionId, std::unordered_map&lt;std::string, LockType&gt; &gt; themis::LockManager::held_by_txn_</definition>
+        <argsstring></argsstring>
+        <name>held_by_txn_</name>
+        <qualifiedname>themis::LockManager::held_by_txn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="292" column="2" bodyfile="include/transaction/lock_manager.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a6bce01baa062350f17ce664f169815d3" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; <ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref> &gt;</type>
+        <definition>std::unordered_set&lt;TransactionId&gt; themis::LockManager::shrinking_txns_</definition>
+        <argsstring></argsstring>
+        <name>shrinking_txns_</name>
+        <qualifiedname>themis::LockManager::shrinking_txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="294" column="24" bodyfile="include/transaction/lock_manager.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a3c3261477eb08dcb477a13c136d5e34c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref>, std::string &gt;</type>
+        <definition>std::unordered_map&lt;TransactionId, std::string&gt; themis::LockManager::waiting_for_</definition>
+        <argsstring></argsstring>
+        <name>waiting_for_</name>
+        <qualifiedname>themis::LockManager::waiting_for_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="296" column="24" bodyfile="include/transaction/lock_manager.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1acfde1835d3c7e4516832734c2ac07831" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::LockManager::escalation_threshold_</definition>
+        <argsstring></argsstring>
+        <name>escalation_threshold_</name>
+        <qualifiedname>themis::LockManager::escalation_threshold_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1_lock_manager_1a43a8b920a1f6d254b361361bf54982eb" kindref="member">DEFAULT_ESCALATION_THRESHOLD</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="298" column="19" bodyfile="include/transaction/lock_manager.h" bodystart="298" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a2a861673131c0cdb70e984783470749a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::LockManager::default_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>default_timeout_ms_</name>
+        <qualifiedname>themis::LockManager::default_timeout_ms_</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="299" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a0acc995a93ddbc662a85f794716573be" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::LockManager::stats_acquired_</definition>
+        <argsstring></argsstring>
+        <name>stats_acquired_</name>
+        <qualifiedname>themis::LockManager::stats_acquired_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="302" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="302" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a580323799a94e644d2da187eb12be160" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::LockManager::stats_released_</definition>
+        <argsstring></argsstring>
+        <name>stats_released_</name>
+        <qualifiedname>themis::LockManager::stats_released_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="303" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a520b13bdeb965e181f690ca4b2edfdbc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::LockManager::stats_timeouts_</definition>
+        <argsstring></argsstring>
+        <name>stats_timeouts_</name>
+        <qualifiedname>themis::LockManager::stats_timeouts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="304" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="304" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a8d130e8122928a2e5055ca8430e6158b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::LockManager::stats_escalations_</definition>
+        <argsstring></argsstring>
+        <name>stats_escalations_</name>
+        <qualifiedname>themis::LockManager::stats_escalations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="305" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="305" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1a437e92216496ff19b0e30b351f6e571e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::LockManager::stats_waiting_</definition>
+        <argsstring></argsstring>
+        <name>stats_waiting_</name>
+        <qualifiedname>themis::LockManager::stats_waiting_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="306" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1af275bae11c6f7c6364191c22be6ce7d7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::LockManager::stats_deadlocks_</definition>
+        <argsstring></argsstring>
+        <name>stats_deadlocks_</name>
+        <qualifiedname>themis::LockManager::stats_deadlocks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="307" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="307" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1ab581aff941b51768d7bcb827394e6181" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; PredicateLock &gt;</type>
+        <definition>std::vector&lt;PredicateLock&gt; themis::LockManager::predicate_locks_</definition>
+        <argsstring></argsstring>
+        <name>predicate_locks_</name>
+        <qualifiedname>themis::LockManager::predicate_locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="317" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1aee252a533616889602903c2468dd2ca1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::LockManager::max_predicate_locks_</definition>
+        <argsstring></argsstring>
+        <name>max_predicate_locks_</name>
+        <qualifiedname>themis::LockManager::max_predicate_locks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="319" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="319" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1af915c872352e64436cb58f6ad59d7c6f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::LockManager::predicate_locking_enabled_</definition>
+        <argsstring></argsstring>
+        <name>predicate_locking_enabled_</name>
+        <qualifiedname>themis::LockManager::predicate_locking_enabled_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="321" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="321" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lock_manager_1ab8bd0425f8304c53d4fd9adb23689cf7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::LockManager::predicate_lock_drops_</definition>
+        <argsstring></argsstring>
+        <name>predicate_lock_drops_</name>
+        <qualifiedname>themis::LockManager::predicate_lock_drops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="323" column="17" bodyfile="include/transaction/lock_manager.h" bodystart="323" bodyend="323"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1ab9dfed7a54cfb087dc9b282576affa6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LockManager::LockManager</definition>
+        <argsstring>()</argsstring>
+        <name>LockManager</name>
+        <qualifiedname>themis::LockManager::LockManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="86" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a7330352de8e8feb3e04337b57aad3b4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LockManager::~LockManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LockManager</name>
+        <qualifiedname>themis::LockManager::~LockManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="87" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a5f75d4904f271e92550aa615187f1fc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LockManager::LockManager</definition>
+        <argsstring>(const LockManager &amp;)=delete</argsstring>
+        <name>LockManager</name>
+        <qualifiedname>themis::LockManager::LockManager</qualifiedname>
+        <param>
+          <type>const LockManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a3b6e36f2e45d794e4ed11b9b003c414b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_lock_manager_1ab9dfed7a54cfb087dc9b282576affa6d" kindref="member">LockManager</ref> &amp;</type>
+        <definition>LockManager &amp; themis::LockManager::operator=</definition>
+        <argsstring>(const LockManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::LockManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_lock_manager_1ab9dfed7a54cfb087dc9b282576affa6d" kindref="member">LockManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="90" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_lock_manager_1_1_lock_result" kindref="compound">LockResult</ref></type>
+        <definition>LockManager::LockResult themis::LockManager::acquireLock</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;key, LockType type, std::chrono::milliseconds timeout=DEFAULT_LOCK_TIMEOUT)</argsstring>
+        <name>acquireLock</name>
+        <qualifiedname>themis::LockManager::acquireLock</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval><ref refid="classthemis_1_1_lock_manager_1a2f223678eb71598fcae98dc4e15859ea" kindref="member">DEFAULT_LOCK_TIMEOUT</ref></defval>
+        </param>
+        <briefdescription>
+<para>Acquire Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="92" column="16" bodyfile="src/transaction/lock_manager.cpp" bodystart="64" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1aebb0827fcaea3d6dbff9cef61d50bbb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LockManager::releaseLock</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;key)</argsstring>
+        <name>releaseLock</name>
+        <qualifiedname>themis::LockManager::releaseLock</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Release Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), erase(), empty(), std::remove_if(), begin(), processWaiters(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="104" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="165" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::releaseAllLocks</definition>
+        <argsstring>(TransactionId txn_id)</argsstring>
+        <name>releaseAllLocks</name>
+        <qualifiedname>themis::LockManager::releaseAllLocks</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Release All Locks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), erase(), reserve(), size(), push_back(), std::remove_if(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="110" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="212" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1ab67c1ff48455b8e56f5d29ffc1608f1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_lock_manager_1_1_lock_result" kindref="compound">LockResult</ref></type>
+        <definition>LockManager::LockResult themis::LockManager::upgradeLock</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;key, std::chrono::milliseconds timeout=DEFAULT_LOCK_TIMEOUT)</argsstring>
+        <name>upgradeLock</name>
+        <qualifiedname>themis::LockManager::upgradeLock</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval><ref refid="classthemis_1_1_lock_manager_1a2f223678eb71598fcae98dc4e15859ea" kindref="member">DEFAULT_LOCK_TIMEOUT</ref></defval>
+        </param>
+        <briefdescription>
+<para>Upgrade Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="112" column="16" bodyfile="src/transaction/lock_manager.cpp" bodystart="266" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1ae89b584e01fbb60ed5f922d014a7898e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LockManager::holdsLock</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;key, LockType type) const</argsstring>
+        <name>holdsLock</name>
+        <qualifiedname>themis::LockManager::holdsLock</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Holds Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="124" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="374" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a542ca10e2111f406c3559b659ffdc2af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, <ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, LockType &gt; &gt; themis::LockManager::getLocksHeld</definition>
+        <argsstring>(TransactionId txn_id) const</argsstring>
+        <name>getLocksHeld</name>
+        <qualifiedname>themis::LockManager::getLocksHeld</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="126" column="17" bodyfile="src/transaction/lock_manager.cpp" bodystart="408" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a4bca35d98872da2469f4609ad3e683c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::beginShrinkingPhase</definition>
+        <argsstring>(TransactionId txn_id)</argsstring>
+        <name>beginShrinkingPhase</name>
+        <qualifiedname>themis::LockManager::beginShrinkingPhase</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Begin Shrinking Phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Two-Phase Locking phase management ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), insert(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="132" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="434" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1ae2603c40350360c553cf14cb8062365d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LockManager::isInShrinkingPhase</definition>
+        <argsstring>(TransactionId txn_id) const</argsstring>
+        <name>isInShrinkingPhase</name>
+        <qualifiedname>themis::LockManager::isInShrinkingPhase</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Is In Shrinking Phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="139" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="440" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a7e2cabcd5b01a2275b0dd1647f2dabc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::setEscalationThreshold</definition>
+        <argsstring>(size_t threshold)</argsstring>
+        <name>setEscalationThreshold</name>
+        <qualifiedname>themis::LockManager::setEscalationThreshold</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set Escalation Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="145" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="453" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1aaaba6a2075773df979366e28466ace22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::setDefaultTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout)</argsstring>
+        <name>setDefaultTimeout</name>
+        <qualifiedname>themis::LockManager::setDefaultTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Set Default Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="151" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="462" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a88af7d0451a877577eb9b05ddab582a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_lock_manager_1_1_lock_stats" kindref="compound">LockStats</ref></type>
+        <definition>LockManager::LockStats themis::LockManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::LockManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="157" column="15" bodyfile="src/transaction/lock_manager.cpp" bodystart="471" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1aab8cdb4af9fe8db3f078fec8083ac6ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref> &gt;</type>
+        <definition>std::vector&lt; LockManager::TransactionId &gt; themis::LockManager::getWaiters</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getWaiters</name>
+        <qualifiedname>themis::LockManager::getWaiters</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get Waiters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="164" column="17" bodyfile="src/transaction/lock_manager.cpp" bodystart="497" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a44fa504503bc734b3d1e6c0f6a6bad79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::LockManager::getWaitingFor</definition>
+        <argsstring>(TransactionId txn_id) const</argsstring>
+        <name>getWaitingFor</name>
+        <qualifiedname>themis::LockManager::getWaitingFor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Waiting For. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="171" column="17" bodyfile="src/transaction/lock_manager.cpp" bodystart="518" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LockManager::acquirePredicateLock</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;start_key, const std::string &amp;end_key)</argsstring>
+        <name>acquirePredicateLock</name>
+        <qualifiedname>themis::LockManager::acquirePredicateLock</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>end_key</declname>
+        </param>
+        <briefdescription>
+<para>Acquire Predicate Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="181" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="695" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1aaa532614d5bc06d110ecbe81b55caed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::setMaxPredicateLocks</definition>
+        <argsstring>(size_t max_locks)</argsstring>
+        <name>setMaxPredicateLocks</name>
+        <qualifiedname>themis::LockManager::setMaxPredicateLocks</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_locks</declname>
+        </param>
+        <briefdescription>
+<para>Set Max Predicate Locks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_locks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="189" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="725" bodyend="727"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1af3131ba6f369bf53b3efadf1299b8bf5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::LockManager::getMaxPredicateLocks</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxPredicateLocks</name>
+        <qualifiedname>themis::LockManager::getMaxPredicateLocks</qualifiedname>
+        <briefdescription>
+<para>Get Max Predicate Locks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="195" column="12" bodyfile="src/transaction/lock_manager.cpp" bodystart="729" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1acb9429186456ffd99d4d3209767d1899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::setPredicateLockingEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setPredicateLockingEnabled</name>
+        <qualifiedname>themis::LockManager::setPredicateLockingEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Predicate Locking Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="201" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="733" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a8216c115f599b6e7fa35937e536e0be3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LockManager::isPredicateLockingEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isPredicateLockingEnabled</name>
+        <qualifiedname>themis::LockManager::isPredicateLockingEnabled</qualifiedname>
+        <briefdescription>
+<para>Is Predicate Locking Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="207" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="737" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1afec54547d456d0005168275bf197fa09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::releasePredicateLocks</definition>
+        <argsstring>(TransactionId txn_id)</argsstring>
+        <name>releasePredicateLocks</name>
+        <qualifiedname>themis::LockManager::releasePredicateLocks</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Release Predicate Locks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="213" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="745" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1ab7937568d5d901368b8f085f928a3a2c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+        <definition>LockManager::TransactionId themis::LockManager::checkPredicateConflict</definition>
+        <argsstring>(TransactionId writing_txn_id, const std::string &amp;key) const</argsstring>
+        <name>checkPredicateConflict</name>
+        <qualifiedname>themis::LockManager::checkPredicateConflict</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>writing_txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Check Predicate Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writing_txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the writing txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="221" column="19" bodyfile="src/transaction/lock_manager.cpp" bodystart="761" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a20aba029862dc7269ba6e722e4424913" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::LockManager::getPredicateLockCount</definition>
+        <argsstring>(TransactionId txn_id) const</argsstring>
+        <name>getPredicateLockCount</name>
+        <qualifiedname>themis::LockManager::getPredicateLockCount</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Predicate Lock Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="229" column="12" bodyfile="src/transaction/lock_manager.cpp" bodystart="784" bodyend="797"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a5015a0b111d6bf3b31d13666ea72ff24" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::LockManager::getPredicateLockRanges</definition>
+        <argsstring>(TransactionId txn_id) const</argsstring>
+        <name>getPredicateLockRanges</name>
+        <qualifiedname>themis::LockManager::getPredicateLockRanges</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="231" column="17" bodyfile="src/transaction/lock_manager.cpp" bodystart="800" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1ad7754099c5ab8b5434560861ed68d08c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::LockManager::predicateLockDropCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>predicateLockDropCount</name>
+        <qualifiedname>themis::LockManager::predicateLockDropCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="326" column="14" bodyfile="include/transaction/lock_manager.h" bodystart="326" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a96fad9284d4201f65d718ffdb9c5c2ca" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LockManager::compatible</definition>
+        <argsstring>(LockType held, LockType requested) noexcept</argsstring>
+        <name>compatible</name>
+        <qualifiedname>themis::LockManager::compatible</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+          <declname>held</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+          <declname>requested</declname>
+        </param>
+        <briefdescription>
+<para>Compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">held</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requested</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="263" column="17" bodyfile="src/transaction/lock_manager.cpp" bodystart="29" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1ac6a1fab3bf79d6694061fac3c707afba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LockManager::tryGrantLock</definition>
+        <argsstring>(const std::string &amp;key, TransactionId txn_id, LockType type)</argsstring>
+        <name>tryGrantLock</name>
+        <qualifiedname>themis::LockManager::tryGrantLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Try Grant Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="272" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="544" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a2652913ebffe16df17eaa941927839ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::processWaiters</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>processWaiters</name>
+        <qualifiedname>themis::LockManager::processWaiters</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Process Waiters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), compatible(), push_back(), std::chrono::system_clock::now(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="278" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="570" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lock_manager_1a69ec35582afa2dc4ca69917a001bbe56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LockManager::checkEscalation</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;key)</argsstring>
+        <name>checkEscalation</name>
+        <qualifiedname>themis::LockManager::checkEscalation</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Check Escalation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), load(), size(), substr(), push_back(), tryGrantLock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="285" column="10" bodyfile="src/transaction/lock_manager.cpp" bodystart="612" bodyend="682"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/lock_manager.h" line="45" column="1" bodyfile="include/transaction/lock_manager.h" bodystart="45" bodyend="332"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>acquireLock</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>acquirePredicateLock</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a4bca35d98872da2469f4609ad3e683c0" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>beginShrinkingPhase</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a69ec35582afa2dc4ca69917a001bbe56" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>checkEscalation</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ab7937568d5d901368b8f085f928a3a2c" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>checkPredicateConflict</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a96fad9284d4201f65d718ffdb9c5c2ca" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>compatible</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a43a8b920a1f6d254b361361bf54982eb" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>DEFAULT_ESCALATION_THRESHOLD</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a2f223678eb71598fcae98dc4e15859ea" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>DEFAULT_LOCK_TIMEOUT</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a2a861673131c0cdb70e984783470749a" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>default_timeout_ms_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1acfde1835d3c7e4516832734c2ac07831" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>escalation_threshold_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a542ca10e2111f406c3559b659ffdc2af" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>getLocksHeld</name></member>
+      <member refid="classthemis_1_1_lock_manager_1af3131ba6f369bf53b3efadf1299b8bf5" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>getMaxPredicateLocks</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a20aba029862dc7269ba6e722e4424913" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>getPredicateLockCount</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a5015a0b111d6bf3b31d13666ea72ff24" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>getPredicateLockRanges</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a88af7d0451a877577eb9b05ddab582a9" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_lock_manager_1aab8cdb4af9fe8db3f078fec8083ac6ca" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>getWaiters</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a44fa504503bc734b3d1e6c0f6a6bad79" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>getWaitingFor</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ae32643790d7c81dde1391b7d89f52c87" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>held_by_txn_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ae89b584e01fbb60ed5f922d014a7898e" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>holdsLock</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ae2603c40350360c553cf14cb8062365d" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>isInShrinkingPhase</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a8216c115f599b6e7fa35937e536e0be3" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>isPredicateLockingEnabled</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a6f429d45ab0fcad26e53b0e3a9b61dd1" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>lock_table_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ab9dfed7a54cfb087dc9b282576affa6d" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>LockManager</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a5f75d4904f271e92550aa615187f1fc5" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>LockManager</name></member>
+      <member refid="classthemis_1_1_lock_manager_1aee252a533616889602903c2468dd2ca1" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>max_predicate_locks_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a729ea855eab5f66bcc703186483b57a4" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a3b6e36f2e45d794e4ed11b9b003c414b" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ab8bd0425f8304c53d4fd9adb23689cf7" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>predicate_lock_drops_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1af915c872352e64436cb58f6ad59d7c6f" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>predicate_locking_enabled_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ab581aff941b51768d7bcb827394e6181" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>predicate_locks_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ad7754099c5ab8b5434560861ed68d08c" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>predicateLockDropCount</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a2652913ebffe16df17eaa941927839ce" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>processWaiters</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>releaseAllLocks</name></member>
+      <member refid="classthemis_1_1_lock_manager_1aebb0827fcaea3d6dbff9cef61d50bbb9" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>releaseLock</name></member>
+      <member refid="classthemis_1_1_lock_manager_1afec54547d456d0005168275bf197fa09" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>releasePredicateLocks</name></member>
+      <member refid="classthemis_1_1_lock_manager_1aaaba6a2075773df979366e28466ace22" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>setDefaultTimeout</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a7e2cabcd5b01a2275b0dd1647f2dabc5" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>setEscalationThreshold</name></member>
+      <member refid="classthemis_1_1_lock_manager_1aaa532614d5bc06d110ecbe81b55caed0" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>setMaxPredicateLocks</name></member>
+      <member refid="classthemis_1_1_lock_manager_1acb9429186456ffd99d4d3209767d1899" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>setPredicateLockingEnabled</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a6bce01baa062350f17ce664f169815d3" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>shrinking_txns_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a0acc995a93ddbc662a85f794716573be" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>stats_acquired_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1af275bae11c6f7c6364191c22be6ce7d7" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>stats_deadlocks_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a8d130e8122928a2e5055ca8430e6158b" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>stats_escalations_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a580323799a94e644d2da187eb12be160" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>stats_released_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a520b13bdeb965e181f690ca4b2edfdbc" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>stats_timeouts_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a437e92216496ff19b0e30b351f6e571e" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>stats_waiting_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>TransactionId</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ac6a1fab3bf79d6694061fac3c707afba" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>tryGrantLock</name></member>
+      <member refid="classthemis_1_1_lock_manager_1ab67c1ff48455b8e56f5d29ffc1608f1e" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>upgradeLock</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a3c3261477eb08dcb477a13c136d5e34c" prot="private" virt="non-virtual"><scope>themis::LockManager</scope><name>waiting_for_</name></member>
+      <member refid="classthemis_1_1_lock_manager_1a7330352de8e8feb3e04337b57aad3b4e" prot="public" virt="non-virtual"><scope>themis::LockManager</scope><name>~LockManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

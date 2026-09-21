@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_udf_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::UdfRegistry</compoundname>
+    <includes refid="udf__registry_8h" local="no">udf_registry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1a5706132a68d9b199ca5b060b43655f25" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::functions::UdfRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="148" column="24" bodyfile="include/query/functions/udf_registry.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1aca2d73b6978c72a1bec581cd120d90a8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1query_1_1functions_1_1_udf_definition" kindref="compound">UdfDefinition</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, UdfDefinition&gt; themis::query::functions::UdfRegistry::udfs_</definition>
+        <argsstring></argsstring>
+        <name>udfs_</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::udfs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="149" column="24" bodyfile="include/query/functions/udf_registry.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1ad2c5caabee87d81f6a4e574ec616f3c9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>UdfRegistry &amp;</type>
+        <definition>static UdfRegistry &amp; themis::query::functions::UdfRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="108" column="24" bodyfile="include/query/functions/udf_registry.h" bodystart="108" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1ab436c92ee66f77661cf6372507861a76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::UdfRegistry::registerUdf</definition>
+        <argsstring>(UdfDefinition def)</argsstring>
+        <name>registerUdf</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::registerUdf</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1functions_1_1_udf_definition" kindref="compound">UdfDefinition</ref></type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>Register Udf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), <ref refid="structthemis_1_1query_1_1functions_1_1_udf_definition_1addcfa0c02e267b9a93d49c28f8fa0588" kindref="member">UdfDefinition::validateBody()</ref>, <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>, lock(), hasFunction(), find(), end(), utcNow(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="117" column="10" bodyfile="src/query/functions/udf_registry.cpp" bodystart="437" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1a895ec50bbc1fc0482e06d88ac60c4a19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::UdfRegistry::unregisterUdf</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterUdf</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::unregisterUdf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Udf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>, unregisterFunction(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="123" column="10" bodyfile="src/query/functions/udf_registry.cpp" bodystart="482" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1a231fb6d7137042abe0cf835788f1ed68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_udf_definition" kindref="compound">UdfDefinition</ref></type>
+        <definition>UdfDefinition themis::query::functions::UdfRegistry::getUdf</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getUdf</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::getUdf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Udf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="130" column="19" bodyfile="src/query/functions/udf_registry.cpp" bodystart="494" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1a4131f956a7f685665b4d61a7a925d349" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::functions::UdfRegistry::hasUdf</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasUdf</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::hasUdf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has Udf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="137" column="10" bodyfile="src/query/functions/udf_registry.cpp" bodystart="508" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1a33d09eb84b81b34b52b29ab9a9746db4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1functions_1_1_udf_definition" kindref="compound">UdfDefinition</ref> &gt;</type>
+        <definition>std::vector&lt; UdfDefinition &gt; themis::query::functions::UdfRegistry::listUdfs</definition>
+        <argsstring>() const</argsstring>
+        <name>listUdfs</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::listUdfs</qualifiedname>
+        <briefdescription>
+<para>List Udfs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="143" column="17" bodyfile="src/query/functions/udf_registry.cpp" bodystart="518" bodyend="532"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_udf_registry_1a690f4176291ebd9d29d948fa73601b1d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::UdfRegistry::UdfRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>UdfRegistry</name>
+        <qualifiedname>themis::query::functions::UdfRegistry::UdfRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/udf_registry.h" line="146" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/udf_registry.h" line="101" column="1" bodyfile="include/query/functions/udf_registry.h" bodystart="101" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1a231fb6d7137042abe0cf835788f1ed68" prot="public" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>getUdf</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1a4131f956a7f685665b4d61a7a925d349" prot="public" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>hasUdf</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1ad2c5caabee87d81f6a4e574ec616f3c9" prot="public" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1a33d09eb84b81b34b52b29ab9a9746db4" prot="public" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>listUdfs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1a5706132a68d9b199ca5b060b43655f25" prot="private" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1ab436c92ee66f77661cf6372507861a76" prot="public" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>registerUdf</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1a690f4176291ebd9d29d948fa73601b1d" prot="private" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>UdfRegistry</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1aca2d73b6978c72a1bec581cd120d90a8" prot="private" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>udfs_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_udf_registry_1a895ec50bbc1fc0482e06d88ac60c4a19" prot="public" virt="non-virtual"><scope>themis::query::functions::UdfRegistry</scope><name>unregisterUdf</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

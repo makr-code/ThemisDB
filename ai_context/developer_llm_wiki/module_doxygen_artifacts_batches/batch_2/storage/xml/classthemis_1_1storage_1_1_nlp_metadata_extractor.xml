@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_nlp_metadata_extractor" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::NlpMetadataExtractor</compoundname>
+    <includes refid="nlp__metadata__extractor_8h" local="no">nlp_metadata_extractor.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config" prot="public">themis::storage::NlpMetadataExtractor::Config</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_extracted_metadata" prot="public">themis::storage::NlpMetadataExtractor::ExtractedMetadata</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a28d9232e11bb7eb4af384bef4c1ab71f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::storage::NlpMetadataExtractor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="170" column="12" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a735ed353d37e449448b648276704d3ca" prot="private" static="no" mutable="yes">
+        <type>analytics::NlpTextAnalyzer</type>
+        <definition>analytics::NlpTextAnalyzer themis::storage::NlpMetadataExtractor::nlp_</definition>
+        <argsstring></argsstring>
+        <name>nlp_</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::nlp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="171" column="40" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1af35ff8a84b36f998944cad22f9b733bd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::NlpMetadataExtractor::NlpMetadataExtractor</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>NlpMetadataExtractor</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::NlpMetadataExtractor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Constructor with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="94" column="14" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="44" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a287e7fb92e5510a9a7ff4ce234e5cfa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_extracted_metadata" kindref="compound">ExtractedMetadata</ref></type>
+        <definition>NlpMetadataExtractor::ExtractedMetadata themis::storage::NlpMetadataExtractor::extractMetadata</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractMetadata</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::extractMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract metadata from text content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to analyze </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted metadata </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="102" column="23" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="58" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1adf0580d81877110b4ed4990d21f508ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_extracted_metadata" kindref="compound">ExtractedMetadata</ref></type>
+        <definition>NlpMetadataExtractor::ExtractedMetadata themis::storage::NlpMetadataExtractor::extractMetadataFromEntity</definition>
+        <argsstring>(const BaseEntity &amp;entity, const std::vector&lt; std::string &gt; &amp;text_fields={&quot;content&quot;, &quot;text&quot;, &quot;body&quot;}) const</argsstring>
+        <name>extractMetadataFromEntity</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::extractMetadataFromEntity</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_base_entity" kindref="compound">BaseEntity</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>text_fields</declname>
+          <defval>{&quot;content&quot;, &quot;text&quot;, &quot;body&quot;}</defval>
+        </param>
+        <briefdescription>
+<para>Extract metadata from <ref refid="classthemis_1_1_base_entity" kindref="compound">BaseEntity</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyzes text fields in the entity and returns metadata. Useful during document ingestion.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity to analyze </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fields to analyze (e.g., {&quot;content&quot;, &quot;description&quot;}) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted metadata </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="114" column="23" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a733ba9e1114f06602a93f6d4ccb11c71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NlpMetadataExtractor::enrichEntity</definition>
+        <argsstring>(BaseEntity &amp;entity, const std::vector&lt; std::string &gt; &amp;text_fields={&quot;content&quot;, &quot;text&quot;, &quot;body&quot;}) const</argsstring>
+        <name>enrichEntity</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::enrichEntity</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_base_entity" kindref="compound">BaseEntity</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>text_fields</declname>
+          <defval>{&quot;content&quot;, &quot;text&quot;, &quot;body&quot;}</defval>
+        </param>
+        <briefdescription>
+<para>Enrich entity with NLP metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adds metadata fields to entity:<itemizedlist>
+<listitem><para>nlp_keywords: array of keywords</para>
+</listitem><listitem><para>nlp_language: detected language</para>
+</listitem><listitem><para>nlp_sentiment: sentiment score</para>
+</listitem><listitem><para>nlp_complexity: text complexity</para>
+</listitem><listitem><para>nlp_entities: extracted named entities</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity to enrich (modified in-place) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fields to analyze </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="132" column="10" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="148" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a2763d8604b9672081a5675873da4c062" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::storage::NlpMetadataExtractor::extractKeywords</definition>
+        <argsstring>(const std::string &amp;text, size_t max_keywords=10) const</argsstring>
+        <name>extractKeywords</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::extractKeywords</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_keywords</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Extract keywords only (fast path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum keywords to return </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of keywords </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="143" column="17" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="206" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a1e3fd91bef5b6635c7006a81a6eaeae5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::NlpMetadataExtractor::detectLanguage</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::detectLanguage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect language only (fast path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Language code (en, de, fr, etc.) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="153" column="17" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1abcb9931860645e3bb2743acfb0494c19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; themis::storage::NlpMetadataExtractor::extractEntities</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractEntities</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::extractEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract named entities only (fast path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of entity type -&gt; list of entities </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="161" column="14" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="234" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a3c213e5859dbf519ea1cdc7fafa00324" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::storage::NlpMetadataExtractor::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="167" column="18" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a1ffdb7179dd6e89556162a17e9e647dd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::NlpMetadataExtractor::computeTextStats</definition>
+        <argsstring>(const std::string &amp;text, ExtractedMetadata &amp;meta) const</argsstring>
+        <name>computeTextStats</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::computeTextStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_extracted_metadata" kindref="compound">ExtractedMetadata</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+<para>Compute text statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="176" column="10" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="246" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_nlp_metadata_extractor_1ae6b7a6082170095b364d9ab5b12f3f93" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::NlpMetadataExtractor::concatenateFields</definition>
+        <argsstring>(const BaseEntity &amp;entity, const std::vector&lt; std::string &gt; &amp;fields) const</argsstring>
+        <name>concatenateFields</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::concatenateFields</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_base_entity" kindref="compound">BaseEntity</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+<para>Concatenate text from multiple fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="181" column="17" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="295" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>NLP-powered metadata extractor for document ingestion. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enriches documents with:<itemizedlist>
+<listitem><para>Keywords (TF-IDF based)</para>
+</listitem><listitem><para>Named entities (emails, URLs, dates, measurements)</para>
+</listitem><listitem><para>Language detection</para>
+</listitem><listitem><para>Content complexity metrics</para>
+</listitem><listitem><para>Sentiment analysis</para>
+</listitem><listitem><para>Text statistics </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/storage/nlp_metadata_extractor.h" line="34" column="1" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="34" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a1ffdb7179dd6e89556162a17e9e647dd" prot="private" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>computeTextStats</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1ae6b7a6082170095b364d9ab5b12f3f93" prot="private" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>concatenateFields</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a28d9232e11bb7eb4af384bef4c1ab71f" prot="private" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a1e3fd91bef5b6635c7006a81a6eaeae5" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>detectLanguage</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a733ba9e1114f06602a93f6d4ccb11c71" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>enrichEntity</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1abcb9931860645e3bb2743acfb0494c19" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>extractEntities</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a2763d8604b9672081a5675873da4c062" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>extractKeywords</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a287e7fb92e5510a9a7ff4ce234e5cfa0" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>extractMetadata</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1adf0580d81877110b4ed4990d21f508ba" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>extractMetadataFromEntity</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a3c213e5859dbf519ea1cdc7fafa00324" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1a735ed353d37e449448b648276704d3ca" prot="private" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>nlp_</name></member>
+      <member refid="classthemis_1_1storage_1_1_nlp_metadata_extractor_1af35ff8a84b36f998944cad22f9b733bd" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor</scope><name>NlpMetadataExtractor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

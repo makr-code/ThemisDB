@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geo_faiss_knn" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GeoFaissKnn</compoundname>
+    <includes refid="geo__faiss__knn_8h" local="no">geo_faiss_knn.h</includes>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" prot="public">themis::geo::GeoFaissKnn::Config</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_impl" prot="public">themis::geo::GeoFaissKnn::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_faiss_knn_1a3cd04bebced8c86204f8591b00f625ac" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::geo::GeoFaissKnn::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="86" column="21" bodyfile="include/geo/geo_faiss_knn.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoFaissKnn::GeoFaissKnn</definition>
+        <argsstring>(const Config &amp;cfg=Config{})</argsstring>
+        <name>GeoFaissKnn</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::GeoFaissKnn</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval><ref refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="35" column="14" bodyfile="src/geo/geo_faiss_knn.cpp" bodystart="271" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1a701c9f669587c4fcb4d88c32c5a87aaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoFaissKnn::~GeoFaissKnn</definition>
+        <argsstring>()</argsstring>
+        <name>~GeoFaissKnn</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::~GeoFaissKnn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1abacb8007bcb29b4e4902f3853875f930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoFaissKnn::GeoFaissKnn</definition>
+        <argsstring>(const GeoFaissKnn &amp;)=delete</argsstring>
+        <name>GeoFaissKnn</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::GeoFaissKnn</qualifiedname>
+        <param>
+          <type>const GeoFaissKnn &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1a57101d93ce946a31b905c4abf6bd8c02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref> &amp;</type>
+        <definition>GeoFaissKnn &amp; themis::geo::GeoFaissKnn::operator=</definition>
+        <argsstring>(const GeoFaissKnn &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="39" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1a923e4e82b9189743e7de1e7e8f50da99" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoFaissKnn::GeoFaissKnn</definition>
+        <argsstring>(GeoFaissKnn &amp;&amp;) noexcept</argsstring>
+        <name>GeoFaissKnn</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::GeoFaissKnn</qualifiedname>
+        <param>
+          <type>GeoFaissKnn &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1a32ce7164deb039ea97eaec5b6ad5319c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref> &amp;</type>
+        <definition>GeoFaissKnn &amp; themis::geo::GeoFaissKnn::operator=</definition>
+        <argsstring>(GeoFaissKnn &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" kindref="member">GeoFaissKnn</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="41" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1ae070f9fbba6bdd66527885db934d0ee3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoFaissKnn::build</definition>
+        <argsstring>(const std::vector&lt; GeometryInfo &gt; &amp;dataset)</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::build</qualifiedname>
+        <param>
+          <type>const std::vector&lt; GeometryInfo &gt; &amp;</type>
+          <declname>dataset</declname>
+        </param>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements build without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="48" column="10" bodyfile="src/geo/geo_faiss_knn.cpp" bodystart="284" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1ad41c26d44bfc45aa791f9a7596524c64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geo_knn_result" kindref="compound">GeoKnnResult</ref> &gt;</type>
+        <definition>std::vector&lt; GeoKnnResult &gt; themis::geo::GeoFaissKnn::knnSearch</definition>
+        <argsstring>(const GeometryInfo &amp;query, std::size_t k) const</argsstring>
+        <name>knnSearch</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::knnSearch</qualifiedname>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Knn Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="56" column="17" bodyfile="src/geo/geo_faiss_knn.cpp" bodystart="288" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1a6ea5d6576b2229847e34500ef27e241d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geo_knn_result" kindref="compound">GeoKnnResult</ref> &gt;</type>
+        <definition>std::vector&lt; GeoKnnResult &gt; themis::geo::GeoFaissKnn::radiusSearch</definition>
+        <argsstring>(const GeometryInfo &amp;query, double radius_m, std::size_t max_results=0) const</argsstring>
+        <name>radiusSearch</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::radiusSearch</qualifiedname>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>radius_m</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_results</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="59" column="17" bodyfile="src/geo/geo_faiss_knn.cpp" bodystart="293" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1a0a88df7bb915af6ac861f09ea3b6bfe3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoFaissKnn::isBuilt</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isBuilt</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::isBuilt</qualifiedname>
+        <briefdescription>
+<para>Is Built. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="68" column="10" bodyfile="src/geo/geo_faiss_knn.cpp" bodystart="298" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1ac1718b3d55ebb5e97b7f1f25f0bae974" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::GeoFaissKnn::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="75" column="17" bodyfile="src/geo/geo_faiss_knn.cpp" bodystart="302" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_faiss_knn_1af034d546c47e96940cfe46a4e3ab13fd" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::geo::GeoFaissKnn::getBackendName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::getBackendName</qualifiedname>
+        <briefdescription>
+<para>Get Backend Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="82" column="16" bodyfile="src/geo/geo_faiss_knn.cpp" bodystart="306" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_faiss_knn.h" line="28" column="1" bodyfile="include/geo/geo_faiss_knn.h" bodystart="28" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1ae070f9fbba6bdd66527885db934d0ee3" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>build</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a7fcd4243287c92294a060fd597bff11a" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>GeoFaissKnn</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1abacb8007bcb29b4e4902f3853875f930" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>GeoFaissKnn</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a923e4e82b9189743e7de1e7e8f50da99" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>GeoFaissKnn</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1af034d546c47e96940cfe46a4e3ab13fd" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a3cd04bebced8c86204f8591b00f625ac" prot="private" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a0a88df7bb915af6ac861f09ea3b6bfe3" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>isBuilt</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1ad41c26d44bfc45aa791f9a7596524c64" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>knnSearch</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a57101d93ce946a31b905c4abf6bd8c02" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a32ce7164deb039ea97eaec5b6ad5319c" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a6ea5d6576b2229847e34500ef27e241d" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>radiusSearch</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1ac1718b3d55ebb5e97b7f1f25f0bae974" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>size</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_faiss_knn_1a701c9f669587c4fcb4d88c32c5a87aaf" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn</scope><name>~GeoFaissKnn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

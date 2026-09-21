@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_abi_checker_version_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::AbiCheckerVersionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_abi_checker_version_test_1a07d61bdf3544ccaf6247ecd5d3fede6b" prot="protected" static="no" mutable="no">
+        <type>AbiChecker</type>
+        <definition>AbiChecker themis::modules::AbiCheckerVersionTest::checker_</definition>
+        <argsstring></argsstring>
+        <name>checker_</name>
+        <qualifiedname>themis::modules::AbiCheckerVersionTest::checker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="42" column="16" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::AbiCheckerVersionTest</label>
+        <link refid="classthemis_1_1modules_1_1_abi_checker_version_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::AbiCheckerVersionTest</label>
+        <link refid="classthemis_1_1modules_1_1_abi_checker_version_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_future_enhancements.cpp" line="40" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="40" bodyend="43"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_version_test_1a07d61bdf3544ccaf6247ecd5d3fede6b" prot="protected" virt="non-virtual"><scope>themis::modules::AbiCheckerVersionTest</scope><name>checker_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

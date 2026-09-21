@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_auto_binding_l_l_m_plugin" kind="class" language="C++" prot="public">
+    <compoundname>AutoBindingLLMPlugin</compoundname>
+    <basecompoundref refid="class_echo_l_l_m_plugin" prot="public" virt="non-virtual">EchoLLMPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_auto_binding_l_l_m_plugin_1ab77c453b06701c34c14b348ecd45d5c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AutoBindingLLMPlugin::model_loaded</definition>
+        <argsstring></argsstring>
+        <name>model_loaded</name>
+        <qualifiedname>AutoBindingLLMPlugin::model_loaded</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="172" column="10" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auto_binding_l_l_m_plugin_1afde6b58a3b35622067123f3d39558c57" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AutoBindingLLMPlugin::load_calls</definition>
+        <argsstring></argsstring>
+        <name>load_calls</name>
+        <qualifiedname>AutoBindingLLMPlugin::load_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="173" column="9" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auto_binding_l_l_m_plugin_1ab79711662327fb8d20fd8521d60ec87b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AutoBindingLLMPlugin::unload_calls</definition>
+        <argsstring></argsstring>
+        <name>unload_calls</name>
+        <qualifiedname>AutoBindingLLMPlugin::unload_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="174" column="9" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auto_binding_l_l_m_plugin_1a6d801eece137dec9ca9a25762b0628a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AutoBindingLLMPlugin::last_loaded_id</definition>
+        <argsstring></argsstring>
+        <name>last_loaded_id</name>
+        <qualifiedname>AutoBindingLLMPlugin::last_loaded_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="175" column="17" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auto_binding_l_l_m_plugin_1aa5d17beb29983d24a5f6cd7b55204258" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AutoBindingLLMPlugin::last_loaded_path</definition>
+        <argsstring></argsstring>
+        <name>last_loaded_path</name>
+        <qualifiedname>AutoBindingLLMPlugin::last_loaded_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="176" column="17" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auto_binding_l_l_m_plugin_1a8ec87e0d4974ce931a27007149e65536" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AutoBindingLLMPlugin::last_unloaded_id</definition>
+        <argsstring></argsstring>
+        <name>last_unloaded_id</name>
+        <qualifiedname>AutoBindingLLMPlugin::last_unloaded_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="177" column="17" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auto_binding_l_l_m_plugin_1ad46d4eef11c3a268539a98dbf639b608" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AutoBindingLLMPlugin::unload_ok</definition>
+        <argsstring></argsstring>
+        <name>unload_ok</name>
+        <qualifiedname>AutoBindingLLMPlugin::unload_ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="178" column="10" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_auto_binding_l_l_m_plugin_1a49be8fa289cc32a71c80872be111ec03" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; AutoBindingLLMPlugin::load_outcomes</definition>
+        <argsstring></argsstring>
+        <name>load_outcomes</name>
+        <qualifiedname>AutoBindingLLMPlugin::load_outcomes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="179" column="17" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_auto_binding_l_l_m_plugin_1a846d2a758f88c7b7c9038329ea87bd6f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool AutoBindingLLMPlugin::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>AutoBindingLLMPlugin::isModelLoaded</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698">isModelLoaded</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="150" column="10" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="class_auto_binding_l_l_m_plugin_1ab27ebb5c1b9b67079b8fe81de812d8e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool AutoBindingLLMPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id, const std::string &amp;lora_path, float) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>AutoBindingLLMPlugin::loadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b">loadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="152" column="10" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="152" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="class_auto_binding_l_l_m_plugin_1a682e664a962e7b282f7965943d4f357a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool AutoBindingLLMPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>AutoBindingLLMPlugin::unloadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667">unloadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="166" column="10" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="166" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AutoBindingLLMPlugin</label>
+        <link refid="class_auto_binding_l_l_m_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>EchoLLMPlugin</label>
+        <link refid="class_echo_l_l_m_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AutoBindingLLMPlugin</label>
+        <link refid="class_auto_binding_l_l_m_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>EchoLLMPlugin</label>
+        <link refid="class_echo_l_l_m_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ai_orchestrator.cpp" line="148" column="1" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="148" bodyend="180"/>
+    <listofallmembers>
+      <member refid="class_echo_l_l_m_plugin_1a9276386e3bfc76915fde6ff9157d5efe" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>embed</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a982bf70bb4e880d80bde3b2ddd268f53" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>exportLoRA</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a7862dcb8c6caa3cd284c81fe82ae00ae" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a39f153208a152c550b1db49a62385d23" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>generateRAG</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a46f03ea6165cfce7652569aa612f0b9c" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a17caeb32f6f1f45b82329169d27a0696" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a139806a6dc4750cb123a04842739b72d" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>getModelInfo</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a47699633be46066e859612b9d81bb302" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="class_echo_l_l_m_plugin_1aa504e723548880c70f9362c6d9a6d9df" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>importLoRA</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1a846d2a758f88c7b7c9038329ea87bd6f" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1a6d801eece137dec9ca9a25762b0628a7" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>last_loaded_id</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1aa5d17beb29983d24a5f6cd7b55204258" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>last_loaded_path</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1a8ec87e0d4974ce931a27007149e65536" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>last_unloaded_id</name></member>
+      <member refid="class_echo_l_l_m_plugin_1a3f1a0fcb2a32778e0001969e7d5b6bbc" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>listLoRAs</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1afde6b58a3b35622067123f3d39558c57" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>load_calls</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1a49be8fa289cc32a71c80872be111ec03" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>load_outcomes</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1ab27ebb5c1b9b67079b8fe81de812d8e9" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>loadLoRA</name></member>
+      <member refid="class_echo_l_l_m_plugin_1aa6defdea4f84a54130429004a4ad4813" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>loadModel</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1ab77c453b06701c34c14b348ecd45d5c4" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>model_loaded</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1ab79711662327fb8d20fd8521d60ec87b" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>unload_calls</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1ad46d4eef11c3a268539a98dbf639b608" prot="public" virt="non-virtual"><scope>AutoBindingLLMPlugin</scope><name>unload_ok</name></member>
+      <member refid="class_auto_binding_l_l_m_plugin_1a682e664a962e7b282f7965943d4f357a" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="class_echo_l_l_m_plugin_1acaad53bf47bb6af517da83b75ef6e1b2" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>AutoBindingLLMPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

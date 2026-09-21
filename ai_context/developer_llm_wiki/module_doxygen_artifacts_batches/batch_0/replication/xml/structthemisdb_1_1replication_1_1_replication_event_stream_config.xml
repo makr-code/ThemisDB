@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_event_stream_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationEventStreamConfig</compoundname>
+    <includes refid="event__stream_8h" local="no">event_stream.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_event_stream_config_1a7c8f4a6ffaf0728a834f2365a734e14c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::replication::ReplicationEventStreamConfig::max_history_events</definition>
+        <argsstring></argsstring>
+        <name>max_history_events</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStreamConfig::max_history_events</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Ring-buffer capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="61" column="12" bodyfile="include/replication/event_stream.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_event_stream_config_1a98756177b78206b3b2e7c0c48e5394b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationEventStreamConfig::drop_oldest_on_full</definition>
+        <argsstring></argsstring>
+        <name>drop_oldest_on_full</name>
+        <qualifiedname>themisdb::replication::ReplicationEventStreamConfig::drop_oldest_on_full</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>If false, new events are dropped when full. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/event_stream.h" line="62" column="12" bodyfile="include/replication/event_stream.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/event_stream.h" line="60" column="1" bodyfile="include/replication/event_stream.h" bodystart="60" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_event_stream_config_1a98756177b78206b3b2e7c0c48e5394b9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStreamConfig</scope><name>drop_oldest_on_full</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_event_stream_config_1a7c8f4a6ffaf0728a834f2365a734e14c" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationEventStreamConfig</scope><name>max_history_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,814 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_shard_topology" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardTopology</compoundname>
+    <includes refid="shard__topology_8h" local="no">shard_topology.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config" prot="public">themis::sharding::ShardTopology::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_topology_1afbcfc4b338040daa2079f355b9ccd541" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::ShardTopology::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::ShardTopology::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="216" column="12" bodyfile="include/sharding/shard_topology.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_topology_1a7df657976dfe12861b92943fce199e5e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ShardInfo&gt; themis::sharding::ShardTopology::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>themis::sharding::ShardTopology::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="217" column="14" bodyfile="include/sharding/shard_topology.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_topology_1a5596a3c48f88b3cb7662fd3226d1dfeb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ShardTopology::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::ShardTopology::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="218" column="24" bodyfile="include/sharding/shard_topology.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a4bd7d50caa9824a7bd09fc72019f2676" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardTopology::ShardTopology</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ShardTopology</name>
+        <qualifiedname>themis::sharding::ShardTopology::ShardTopology</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> with configuration <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="92" column="14" bodyfile="src/sharding/shard_topology.cpp" bodystart="113" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a954fdd6a3f04c423d69242de2e8defbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardTopology::ShardTopology</definition>
+        <argsstring>()</argsstring>
+        <name>ShardTopology</name>
+        <qualifiedname>themis::sharding::ShardTopology::ShardTopology</qualifiedname>
+        <briefdescription>
+<para>Convenience default constructor for tests/benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="95" column="5" bodyfile="src/sharding/shard_topology.cpp" bodystart="110" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a8b0d95b4818a94a483245dbac9050acf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::addShard</definition>
+        <argsstring>(const ShardInfo &amp;shard)</argsstring>
+        <name>addShard</name>
+        <qualifiedname>themis::sharding::ShardTopology::addShard</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+<para>Add Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add or update shard information <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard information</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="101" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1af965b45c86d4a0b18599f3459f4ef997" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::removeShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeShard</name>
+        <qualifiedname>themis::sharding::ShardTopology::removeShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove shard from topology <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="107" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="142" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a1dfae09fbb9d6bc4e557efb564ec46b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ShardInfo &gt; themis::sharding::ShardTopology::getShard</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getShard</name>
+        <qualifiedname>themis::sharding::ShardTopology::getShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get shard information by ID <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> if found, nullopt otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="114" column="19" bodyfile="src/sharding/shard_topology.cpp" bodystart="147" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1afabcf8713ecd40987d44dc30db57b209" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardInfo &gt; themis::sharding::ShardTopology::getAllShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllShards</name>
+        <qualifiedname>themis::sharding::ShardTopology::getAllShards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all shards in the cluster <simplesect kind="return"><para>Vector of all shard information </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="120" column="17" bodyfile="src/sharding/shard_topology.cpp" bodystart="163" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a00aac212f450d911dfe5a6c1f2063782" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardInfo &gt; themis::sharding::ShardTopology::getHealthyShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthyShards</name>
+        <qualifiedname>themis::sharding::ShardTopology::getHealthyShards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get healthy shards only <simplesect kind="return"><para>Vector of healthy shards </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="126" column="17" bodyfile="src/sharding/shard_topology.cpp" bodystart="182" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1afeb79d913b01cf356f61786c6365628c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::updateHealth</definition>
+        <argsstring>(const std::string &amp;shard_id, bool is_healthy)</argsstring>
+        <name>updateHealth</name>
+        <qualifiedname>themis::sharding::ShardTopology::updateHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_healthy</declname>
+        </param>
+        <briefdescription>
+<para>Update Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update shard health status <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_healthy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Health status</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_healthy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="133" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="207" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a9c6c91cc88ef4c960098774577bc89bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::refresh</definition>
+        <argsstring>()</argsstring>
+        <name>refresh</name>
+        <qualifiedname>themis::sharding::ShardTopology::refresh</qualifiedname>
+        <briefdescription>
+<para>Refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh topology from metadata store Loads latest shard configuration from etcd</para>
+<para>Calls: loadFromMetadataStore(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="139" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="220" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a631cb6c1268a30526c33c7bc566e8896" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::save</definition>
+        <argsstring>()</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::sharding::ShardTopology::save</qualifiedname>
+        <briefdescription>
+<para>Save. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save topology to metadata store Persists current topology to etcd</para>
+<para>Calls: saveToMetadataStore(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="145" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a7c57e108293619498a2d3549a7e9ec95" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ShardTopology::getShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardCount</name>
+        <qualifiedname>themis::sharding::ShardTopology::getShardCount</qualifiedname>
+        <briefdescription>
+<para>Return total shard count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="148" column="12" bodyfile="include/sharding/shard_topology.h" bodystart="148" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a48bd7f4d6ff1c57c696e12f116997f30" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardTopology::hasShard</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>hasShard</name>
+        <qualifiedname>themis::sharding::ShardTopology::hasShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Return whether shard id is present in topology map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="154" column="10" bodyfile="include/sharding/shard_topology.h" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1aeb24d207cc1552873a58c58e8f1a7bd4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::sharding::ShardTopology::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all shard entries (test helper). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="160" column="10" bodyfile="include/sharding/shard_topology.h" bodystart="160" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1abd77e780258aa29c246a9d1acff866f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::updateRaftStatus</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;role, uint64_t term, uint64_t commit_index, const std::string &amp;leader_id, bool has_quorum)</argsstring>
+        <name>updateRaftStatus</name>
+        <qualifiedname>themis::sharding::ShardTopology::updateRaftStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>commit_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>has_quorum</declname>
+        </param>
+        <briefdescription>
+<para>Update Raft Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Raft status for a shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raft role (LEADER, FOLLOWER, CANDIDATE) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current Raft term </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>commit_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raft commit index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current leader shard ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>has_quorum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Does shard have quorum?</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">commit_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the leader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">has_quorum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="174" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="433" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1aa06216b87c27652dd8e2e1dfc6363f82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ShardTopology::getRaftLeaders</definition>
+        <argsstring>() const</argsstring>
+        <name>getRaftLeaders</name>
+        <qualifiedname>themis::sharding::ShardTopology::getRaftLeaders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get shards that are Raft leaders <simplesect kind="return"><para>Vector of shard IDs that are leaders </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="185" column="17" bodyfile="src/sharding/shard_topology.cpp" bodystart="451" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a2c0b315195fabc34e2ce94ce7a1bce20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardInfo &gt; themis::sharding::ShardTopology::getShardsInRegion</definition>
+        <argsstring>(const std::string &amp;region) const</argsstring>
+        <name>getShardsInRegion</name>
+        <qualifiedname>themis::sharding::ShardTopology::getShardsInRegion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get shards in a specific region <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Region name (e.g. &quot;us-east&quot;, &quot;eu-west&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> for all shards in that region </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="192" column="17" bodyfile="src/sharding/shard_topology.cpp" bodystart="470" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1afdef7d55636de45d7c2db7e1d5ba1c0f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardInfo &gt; themis::sharding::ShardTopology::getHealthyShardsInRegion</definition>
+        <argsstring>(const std::string &amp;region) const</argsstring>
+        <name>getHealthyShardsInRegion</name>
+        <qualifiedname>themis::sharding::ShardTopology::getHealthyShardsInRegion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get healthy shards in a specific region <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Region name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of healthy <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> for that region </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="199" column="17" bodyfile="src/sharding/shard_topology.cpp" bodystart="487" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a0f52c6692b360c4799bd7c4bbb90ecc7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ShardTopology::getRegions</definition>
+        <argsstring>() const</argsstring>
+        <name>getRegions</name>
+        <qualifiedname>themis::sharding::ShardTopology::getRegions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all distinct regions present in the topology <simplesect kind="return"><para>Sorted list of unique region names </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="205" column="17" bodyfile="src/sharding/shard_topology.cpp" bodystart="504" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a39cfd4c85d8aad73e8791365fe13ac42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardTopology::regionHasQuorum</definition>
+        <argsstring>(const std::string &amp;region, uint32_t required) const</argsstring>
+        <name>regionHasQuorum</name>
+        <qualifiedname>themis::sharding::ShardTopology::regionHasQuorum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if a region has enough healthy shards to meet a quorum requirement <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Region name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum number of healthy shards required </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if region meets quorum </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="213" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="523" bodyend="537"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1a1345e615c8460ec08e732a6ca587ec6b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::loadFromMetadataStore</definition>
+        <argsstring>()</argsstring>
+        <name>loadFromMetadataStore</name>
+        <qualifiedname>themis::sharding::ShardTopology::loadFromMetadataStore</qualifiedname>
+        <briefdescription>
+<para>Load topology snapshot from configured metadata store backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From Metadata Store.</para>
+<para>Calls: empty(), client(), back(), push_back(), base64Encode(), post(), contains(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="221" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="238" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_topology_1afb14685ecc22d9f2a56417d1ceee337c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardTopology::saveToMetadataStore</definition>
+        <argsstring>()</argsstring>
+        <name>saveToMetadataStore</name>
+        <qualifiedname>themis::sharding::ShardTopology::saveToMetadataStore</qualifiedname>
+        <briefdescription>
+<para>Persist current topology snapshot to metadata store backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save To Metadata Store.</para>
+<para>Calls: empty(), client(), lock(), dump(), base64Encode(), post(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="224" column="10" bodyfile="src/sharding/shard_topology.cpp" bodystart="362" bodyend="421"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Shard Topology Manager</para>
+<para>Manages the cluster topology including shard locations, health status, and metadata. Integrates with metadata store (etcd) for distributed configuration.</para>
+<para>Thread-safe for concurrent access. </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_topology.h" line="76" column="1" bodyfile="include/sharding/shard_topology.h" bodystart="76" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a8b0d95b4818a94a483245dbac9050acf" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>addShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1aeb24d207cc1552873a58c58e8f1a7bd4" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>clear</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1afbcfc4b338040daa2079f355b9ccd541" prot="private" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1afabcf8713ecd40987d44dc30db57b209" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>getAllShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a00aac212f450d911dfe5a6c1f2063782" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>getHealthyShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1afdef7d55636de45d7c2db7e1d5ba1c0f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>getHealthyShardsInRegion</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1aa06216b87c27652dd8e2e1dfc6363f82" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>getRaftLeaders</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a0f52c6692b360c4799bd7c4bbb90ecc7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>getRegions</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a1dfae09fbb9d6bc4e557efb564ec46b7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>getShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a7c57e108293619498a2d3549a7e9ec95" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>getShardCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a2c0b315195fabc34e2ce94ce7a1bce20" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>getShardsInRegion</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a48bd7f4d6ff1c57c696e12f116997f30" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>hasShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a1345e615c8460ec08e732a6ca587ec6b" prot="private" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>loadFromMetadataStore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a5596a3c48f88b3cb7662fd3226d1dfeb" prot="private" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a9c6c91cc88ef4c960098774577bc89bd" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>refresh</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a39cfd4c85d8aad73e8791365fe13ac42" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>regionHasQuorum</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1af965b45c86d4a0b18599f3459f4ef997" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>removeShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a631cb6c1268a30526c33c7bc566e8896" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>save</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1afb14685ecc22d9f2a56417d1ceee337c" prot="private" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>saveToMetadataStore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a7df657976dfe12861b92943fce199e5e" prot="private" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>shards_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a4bd7d50caa9824a7bd09fc72019f2676" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>ShardTopology</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1a954fdd6a3f04c423d69242de2e8defbd" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>ShardTopology</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1afeb79d913b01cf356f61786c6365628c" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>updateHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_topology_1abd77e780258aa29c246a9d1acff866f9" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology</scope><name>updateRaftStatus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

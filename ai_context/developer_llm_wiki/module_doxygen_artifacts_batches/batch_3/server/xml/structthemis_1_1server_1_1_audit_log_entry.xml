@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_audit_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AuditLogEntry</compoundname>
+    <includes refid="audit__api__handler_8h" local="no">audit_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a2b1416b1822fe7254e851a66427be64a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::AuditLogEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::server::AuditLogEntry::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="27" column="13" bodyfile="include/server/audit_api_handler.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a2a8f604a0b165b413b0d8b87ff5eb33f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::AuditLogEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::server::AuditLogEntry::timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="28" column="13" bodyfile="include/server/audit_api_handler.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1ac8a0870b9183d21dd0666f9887ac6a11" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::user</definition>
+        <argsstring></argsstring>
+        <name>user</name>
+        <qualifiedname>themis::server::AuditLogEntry::user</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="29" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a3befcc8c641e28c75a543c178cce8dce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::server::AuditLogEntry::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="30" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a2d2a8b8f0faa67ff2beffab2ac2f0ed0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::entity_type</definition>
+        <argsstring></argsstring>
+        <name>entity_type</name>
+        <qualifiedname>themis::server::AuditLogEntry::entity_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="31" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a08900a94b28e94e9e726bdeb3a1df366" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themis::server::AuditLogEntry::entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="32" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a36c26c727129b4dbf875c4bd61cdd001" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::old_value</definition>
+        <argsstring></argsstring>
+        <name>old_value</name>
+        <qualifiedname>themis::server::AuditLogEntry::old_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="33" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a2e70db9175a1affa112e5511ace22b2f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::new_value</definition>
+        <argsstring></argsstring>
+        <name>new_value</name>
+        <qualifiedname>themis::server::AuditLogEntry::new_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="34" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a82ae62ab320c1f5e9ebc637823bc2599" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::AuditLogEntry::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::server::AuditLogEntry::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="35" column="10" bodyfile="include/server/audit_api_handler.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1ad35b09865a408577057617fe2a7420ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::ip_address</definition>
+        <argsstring></argsstring>
+        <name>ip_address</name>
+        <qualifiedname>themis::server::AuditLogEntry::ip_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="36" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a42efeb2443b9fd6ada4bcee4add75775" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::server::AuditLogEntry::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="37" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_audit_log_entry_1a1262a3d42d0bfa4977cb6cd18194d4db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditLogEntry::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::server::AuditLogEntry::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="38" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_audit_log_entry_1af1f37d8fec04aa1b86f400b72caefe9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::AuditLogEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::AuditLogEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="44" column="20" bodyfile="src/server/audit_api_handler.cpp" bodystart="48" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/audit_api_handler.h" line="26" column="1" bodyfile="include/server/audit_api_handler.h" bodystart="26" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a3befcc8c641e28c75a543c178cce8dce" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>action</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a08900a94b28e94e9e726bdeb3a1df366" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>entity_id</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a2d2a8b8f0faa67ff2beffab2ac2f0ed0" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>entity_type</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a1262a3d42d0bfa4977cb6cd18194d4db" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a2b1416b1822fe7254e851a66427be64a" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>id</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1ad35b09865a408577057617fe2a7420ef" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>ip_address</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a2e70db9175a1affa112e5511ace22b2f" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>new_value</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a36c26c727129b4dbf875c4bd61cdd001" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>old_value</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a42efeb2443b9fd6ada4bcee4add75775" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a82ae62ab320c1f5e9ebc637823bc2599" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>success</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1a2a8f604a0b165b413b0d8b87ff5eb33f" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1af1f37d8fec04aa1b86f400b72caefe9b" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1server_1_1_audit_log_entry_1ac8a0870b9183d21dd0666f9887ac6a11" prot="public" virt="non-virtual"><scope>themis::server::AuditLogEntry</scope><name>user</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

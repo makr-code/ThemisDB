@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_breaking_change_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::BreakingChangeInfo</compoundname>
+    <includes refid="api__version_8h" local="no">api_version.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_breaking_change_info_1a2e8f70642bace6adc5b3cf2127970516" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::BreakingChangeInfo::introduced_in</definition>
+        <argsstring></argsstring>
+        <name>introduced_in</name>
+        <qualifiedname>themis::server::BreakingChangeInfo::introduced_in</qualifiedname>
+        <briefdescription>
+<para>First version that contains the breaking change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="79" column="16" bodyfile="include/server/api_version.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_breaking_change_info_1a184b350195d89aee0cb5475cae639e9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::BreakingChangeInfo::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::server::BreakingChangeInfo::endpoint</qualifiedname>
+        <briefdescription>
+<para>Affected endpoint path (empty = all endpoints). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="80" column="17" bodyfile="include/server/api_version.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_breaking_change_info_1a9550d6d3c9d267825977bc245d1ee781" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::BreakingChangeInfo::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::server::BreakingChangeInfo::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="81" column="17" bodyfile="include/server/api_version.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_breaking_change_info_1a64c9e7ec5ee6ebed27804a00ff016370" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::BreakingChangeInfo::migration_guide_url</definition>
+        <argsstring></argsstring>
+        <name>migration_guide_url</name>
+        <qualifiedname>themis::server::BreakingChangeInfo::migration_guide_url</qualifiedname>
+        <briefdescription>
+<para>Link to migration documentation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="82" column="17" bodyfile="include/server/api_version.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::server::APIVersion</label>
+        <link refid="structthemis_1_1server_1_1_a_p_i_version"/>
+      </node>
+      <node id="1">
+        <label>themis::server::BreakingChangeInfo</label>
+        <link refid="structthemis_1_1server_1_1_breaking_change_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>introduced_in</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/api_version.h" line="78" column="1" bodyfile="include/server/api_version.h" bodystart="78" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_breaking_change_info_1a9550d6d3c9d267825977bc245d1ee781" prot="public" virt="non-virtual"><scope>themis::server::BreakingChangeInfo</scope><name>description</name></member>
+      <member refid="structthemis_1_1server_1_1_breaking_change_info_1a184b350195d89aee0cb5475cae639e9a" prot="public" virt="non-virtual"><scope>themis::server::BreakingChangeInfo</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1server_1_1_breaking_change_info_1a2e8f70642bace6adc5b3cf2127970516" prot="public" virt="non-virtual"><scope>themis::server::BreakingChangeInfo</scope><name>introduced_in</name></member>
+      <member refid="structthemis_1_1server_1_1_breaking_change_info_1a64c9e7ec5ee6ebed27804a00ff016370" prot="public" virt="non-virtual"><scope>themis::server::BreakingChangeInfo</scope><name>migration_guide_url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

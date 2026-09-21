@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::OcelParser::OcelLog</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log_1a5b2232c3ecbdac6abb8fef1a67679272" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::OcelParser::OcelLog::log_id</definition>
+        <argsstring></argsstring>
+        <name>log_id</name>
+        <qualifiedname>themis::process::benchmark::OcelParser::OcelLog::log_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="210" column="21" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log_1ace2fd85e5b82bcc013532d5ce44b0b7a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::OcelParser::OcelLog::event_count</definition>
+        <argsstring></argsstring>
+        <name>event_count</name>
+        <qualifiedname>themis::process::benchmark::OcelParser::OcelLog::event_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="211" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log_1a332d7cd906e57ac6310eaa51bf9d10f0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::OcelParser::OcelLog::object_count</definition>
+        <argsstring></argsstring>
+        <name>object_count</name>
+        <qualifiedname>themis::process::benchmark::OcelParser::OcelLog::object_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="212" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log_1aeb3125773c7f6da2e07007a8da0febac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::benchmark::OcelParser::OcelLog::event_types</definition>
+        <argsstring></argsstring>
+        <name>event_types</name>
+        <qualifiedname>themis::process::benchmark::OcelParser::OcelLog::event_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="213" column="21" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_parser_gates.cpp" line="209" column="5" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="209" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log_1ace2fd85e5b82bcc013532d5ce44b0b7a" prot="public" virt="non-virtual"><scope>themis::process::benchmark::OcelParser::OcelLog</scope><name>event_count</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log_1aeb3125773c7f6da2e07007a8da0febac" prot="public" virt="non-virtual"><scope>themis::process::benchmark::OcelParser::OcelLog</scope><name>event_types</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log_1a5b2232c3ecbdac6abb8fef1a67679272" prot="public" virt="non-virtual"><scope>themis::process::benchmark::OcelParser::OcelLog</scope><name>log_id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log_1a332d7cd906e57ac6310eaa51bf9d10f0" prot="public" virt="non-virtual"><scope>themis::process::benchmark::OcelParser::OcelLog</scope><name>object_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

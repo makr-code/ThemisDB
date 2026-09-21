@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_product_quantizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::ProductQuantizer</compoundname>
+    <includes refid="rabitq_8h" local="no">rabitq.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_product_quantizer_1a1e0a5b86f1d568be9923e047b5c6250a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::ProductQuantizer::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::performance::ProductQuantizer::dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="160" column="12" bodyfile="include/performance/rabitq.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_product_quantizer_1a35e994253dbf462fa8a2e5859dc7d99f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::ProductQuantizer::num_subvectors_</definition>
+        <argsstring></argsstring>
+        <name>num_subvectors_</name>
+        <qualifiedname>themis::performance::ProductQuantizer::num_subvectors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="161" column="12" bodyfile="include/performance/rabitq.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_product_quantizer_1a34a6dc22e9a352140f56eb937fbbbcd2" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::ProductQuantizer::subvector_dimension_</definition>
+        <argsstring></argsstring>
+        <name>subvector_dimension_</name>
+        <qualifiedname>themis::performance::ProductQuantizer::subvector_dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="162" column="12" bodyfile="include/performance/rabitq.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_product_quantizer_1abb2d98ae022bc95e420ff3349d827b37" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::vector&lt; float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::vector&lt;float&gt; &gt; &gt; themis::performance::ProductQuantizer::codebooks_</definition>
+        <argsstring></argsstring>
+        <name>codebooks_</name>
+        <qualifiedname>themis::performance::ProductQuantizer::codebooks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="165" column="17" bodyfile="include/performance/rabitq.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_product_quantizer_1ad6b1bb6e884d45e6d03a04508a72e2be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::ProductQuantizer::ProductQuantizer</definition>
+        <argsstring>(size_t dimension, size_t num_subvectors)</argsstring>
+        <name>ProductQuantizer</name>
+        <qualifiedname>themis::performance::ProductQuantizer::ProductQuantizer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_subvectors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="148" column="5" bodyfile="src/performance/rabitq.cpp" bodystart="277" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_product_quantizer_1af25f4a512722acab40ae09107ae4c690" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::performance::ProductQuantizer::split_vector</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vec) const</argsstring>
+        <name>split_vector</name>
+        <qualifiedname>themis::performance::ProductQuantizer::split_vector</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Subvectors. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_subvectors_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="151" column="17" bodyfile="src/performance/rabitq.cpp" bodystart="289" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_product_quantizer_1aa8ddab83a2e6db8dbeabea0839e20263" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::ProductQuantizer::train</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;training_data)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::performance::ProductQuantizer::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>training_data</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::min(), size(), std::max(), std::sqrt(), resize(), reserve(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="154" column="10" bodyfile="src/performance/rabitq.cpp" bodystart="313" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_product_quantizer_1aba06f68eb0836ccf80dc96c069a52720" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::performance::ProductQuantizer::encode</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vec) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::performance::ProductQuantizer::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Codes. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_subvectors_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="157" column="17" bodyfile="src/performance/rabitq.cpp" bodystart="432" bodyend="478"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Product Quantization helper (for sub-vector encoding) Used internally by RaBitQ for better compression </para>
+    </detaileddescription>
+    <location file="include/performance/rabitq.h" line="146" column="1" bodyfile="include/performance/rabitq.h" bodystart="146" bodyend="166"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_product_quantizer_1abb2d98ae022bc95e420ff3349d827b37" prot="private" virt="non-virtual"><scope>themis::performance::ProductQuantizer</scope><name>codebooks_</name></member>
+      <member refid="classthemis_1_1performance_1_1_product_quantizer_1a1e0a5b86f1d568be9923e047b5c6250a" prot="private" virt="non-virtual"><scope>themis::performance::ProductQuantizer</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1performance_1_1_product_quantizer_1aba06f68eb0836ccf80dc96c069a52720" prot="public" virt="non-virtual"><scope>themis::performance::ProductQuantizer</scope><name>encode</name></member>
+      <member refid="classthemis_1_1performance_1_1_product_quantizer_1a35e994253dbf462fa8a2e5859dc7d99f" prot="private" virt="non-virtual"><scope>themis::performance::ProductQuantizer</scope><name>num_subvectors_</name></member>
+      <member refid="classthemis_1_1performance_1_1_product_quantizer_1ad6b1bb6e884d45e6d03a04508a72e2be" prot="public" virt="non-virtual"><scope>themis::performance::ProductQuantizer</scope><name>ProductQuantizer</name></member>
+      <member refid="classthemis_1_1performance_1_1_product_quantizer_1af25f4a512722acab40ae09107ae4c690" prot="public" virt="non-virtual"><scope>themis::performance::ProductQuantizer</scope><name>split_vector</name></member>
+      <member refid="classthemis_1_1performance_1_1_product_quantizer_1a34a6dc22e9a352140f56eb937fbbbcd2" prot="private" virt="non-virtual"><scope>themis::performance::ProductQuantizer</scope><name>subvector_dimension_</name></member>
+      <member refid="classthemis_1_1performance_1_1_product_quantizer_1aa8ddab83a2e6db8dbeabea0839e20263" prot="public" virt="non-virtual"><scope>themis::performance::ProductQuantizer</scope><name>train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

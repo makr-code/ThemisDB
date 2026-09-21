@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacespdlog" kind="namespace" language="C++">
+    <compoundname>spdlog</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacespdlog_1abfac27f3c201763e7acaf1c63b5228ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void spdlog::debug</definition>
+        <argsstring>(const char *, Args &amp;&amp;...)</argsstring>
+        <name>debug</name>
+        <qualifiedname>spdlog::debug</qualifiedname>
+        <param>
+          <type>const char *</type>
+        </param>
+        <param>
+          <type>Args &amp;&amp;</type>
+          <declname>...</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="31" column="17" bodyfile="include/security/safe_iterator.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacespdlog_1a734e0e5b473dde09e3cea1da3df67ad5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void spdlog::warn</definition>
+        <argsstring>(const char *, Args &amp;&amp;...)</argsstring>
+        <name>warn</name>
+        <qualifiedname>spdlog::warn</qualifiedname>
+        <param>
+          <type>const char *</type>
+        </param>
+        <param>
+          <type>Args &amp;&amp;</type>
+          <declname>...</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="34" column="17" bodyfile="include/security/safe_iterator.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/safe_iterator.h" line="29" column="1"/>
+  </compounddef>
+</doxygen>

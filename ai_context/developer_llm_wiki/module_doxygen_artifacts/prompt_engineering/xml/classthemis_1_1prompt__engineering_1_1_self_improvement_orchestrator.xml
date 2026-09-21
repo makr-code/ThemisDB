@@ -1,0 +1,1022 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::SelfImprovementOrchestrator</compoundname>
+    <includes refid="self__improvement__orchestrator_8h" local="no">self_improvement_orchestrator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a5c34f8f52d6312af4a79008f339659d4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_improvement_config" kindref="compound">ImprovementConfig</ref></type>
+        <definition>ImprovementConfig themis::prompt_engineering::SelfImprovementOrchestrator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="265" column="23" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a618a3dc6eede9929c892fa0a5a455f4a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker" kindref="compound">PromptPerformanceTracker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptPerformanceTracker&gt; themis::prompt_engineering::SelfImprovementOrchestrator::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="266" column="21" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a244ebcb21e3dd975bcc7c83d14bc291e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer" kindref="compound">PromptOptimizer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptOptimizer&gt; themis::prompt_engineering::SelfImprovementOrchestrator::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="267" column="21" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a7bd50e4f25536a4cfa87cf5b88d4baa7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptManager&gt; themis::prompt_engineering::SelfImprovementOrchestrator::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="268" column="21" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1ae4a1ffe75dd876557c7a6cb4fa09d579" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator" kindref="compound">PromptEvaluator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptEvaluator&gt; themis::prompt_engineering::SelfImprovementOrchestrator::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="269" column="21" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a089864a7ffd576fa062d09659cef0bcc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;FeedbackCollector&gt; themis::prompt_engineering::SelfImprovementOrchestrator::feedback_collector_</definition>
+        <argsstring></argsstring>
+        <name>feedback_collector_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::feedback_collector_</qualifiedname>
+        <briefdescription>
+<para>Optional, for auto test-case synthesis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="270" column="21" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a4de0663bb24062a7dcddc65141ffa3c6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::SelfImprovementOrchestrator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="272" column="24" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1ad2d62f7d179b1425892c1a9cf1a0ac15" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_optimization_result" kindref="compound">OptimizationResult</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;OptimizationResult&gt; &gt; themis::prompt_engineering::SelfImprovementOrchestrator::optimization_history_</definition>
+        <argsstring></argsstring>
+        <name>optimization_history_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::optimization_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="275" column="24" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a8592e2caae79aca5dfeddad457550756" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_a_b_test" kindref="compound">ABTest</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ABTest&gt; themis::prompt_engineering::SelfImprovementOrchestrator::active_ab_tests_</definition>
+        <argsstring></argsstring>
+        <name>active_ab_tests_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::active_ab_tests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="278" column="24" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a49be1e44dc911529af77eb7cc8e3a7ef" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::chrono::system_clock::time_point&gt; themis::prompt_engineering::SelfImprovementOrchestrator::last_optimization_</definition>
+        <argsstring></argsstring>
+        <name>last_optimization_</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::last_optimization_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="281" column="24" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a48d2d7eb838300e90568dd0b01964110" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::SelfImprovementOrchestrator::SelfImprovementOrchestrator</definition>
+        <argsstring>(const ImprovementConfig &amp;config, std::shared_ptr&lt; PromptPerformanceTracker &gt; tracker, std::shared_ptr&lt; PromptOptimizer &gt; optimizer, std::shared_ptr&lt; PromptManager &gt; manager, std::shared_ptr&lt; PromptEvaluator &gt; evaluator)</argsstring>
+        <name>SelfImprovementOrchestrator</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::SelfImprovementOrchestrator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_improvement_config" kindref="compound">ImprovementConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker" kindref="compound">PromptPerformanceTracker</ref> &gt;</type>
+          <declname>tracker</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer" kindref="compound">PromptOptimizer</ref> &gt;</type>
+          <declname>optimizer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref> &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator" kindref="compound">PromptEvaluator</ref> &gt;</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Improvement configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tracker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Performance tracker </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>optimizer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt optimizer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt manager </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt evaluator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="139" column="5" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="83" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a5b2b13020661ca3caf456fdb568bde58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_optimization_result" kindref="compound">OptimizationResult</ref> &gt;</type>
+        <definition>std::vector&lt; OptimizationResult &gt; themis::prompt_engineering::SelfImprovementOrchestrator::runAutoOptimization</definition>
+        <argsstring>()</argsstring>
+        <name>runAutoOptimization</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::runAutoOptimization</qualifiedname>
+        <briefdescription>
+<para>Run automatic optimization check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Auto Optimization.</para>
+<para>Scans all tracked prompts and triggers optimization for those that meet the trigger conditions.</para>
+<para><simplesect kind="return"><para>Vector of optimization results</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), THEMIS_ERROR(), getAllMetrics(), THEMIS_INFO(), size(), <ref refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a3540c84d65a9a9c5a3cc060943d3e3e8" kindref="member">shouldOptimize()</ref>, buildTestCasesFromFeedback(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="155" column="17" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="105" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1adbb0fd26e90a62ae51b6e6a2dfaf0fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_optimization_result" kindref="compound">OptimizationResult</ref></type>
+        <definition>OptimizationResult themis::prompt_engineering::SelfImprovementOrchestrator::optimizePrompt</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::vector&lt; TestCase &gt; &amp;test_cases)</argsstring>
+        <name>optimizePrompt</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::optimizePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt; &amp;</type>
+          <declname>test_cases</declname>
+        </param>
+        <briefdescription>
+<para>Manually trigger optimization for a specific prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test cases for evaluation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optimization result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), push_back(), THEMIS_ERROR(), finalizeResult(), getTemplate(), has_value(), getMetrics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="163" column="24" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="160" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1aa90734b76c0c5617949a722e6a51a16e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SelfImprovementOrchestrator::startABTest</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;version_a, const std::string &amp;version_b, size_t sample_size=0)</argsstring>
+        <name>startABTest</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::startABTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_b</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sample_size</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Start an A/B test between two prompt versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start <ref refid="structthemis_1_1prompt__engineering_1_1_a_b_test" kindref="compound">ABTest</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Control version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Treatment version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of samples for the test </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Test ID</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateTestId(), std::chrono::system_clock::now(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="176" column="17" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="325" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a8c8e6bafbe6b1a0d256d5d77727bb1d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SelfImprovementOrchestrator::recordABTestObservation</definition>
+        <argsstring>(const std::string &amp;test_id, const std::string &amp;version_used, bool success, double latency_ms)</argsstring>
+        <name>recordABTestObservation</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::recordABTestObservation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_used</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record an A/B test observation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record <ref refid="structthemis_1_1prompt__engineering_1_1_a_b_test" kindref="compound">ABTest</ref> Observation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version that was used (a or b) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the execution succeeded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Execution latency</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the test. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_WARN(), THEMIS_DEBUG(), <ref refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a0fa8480e08e1859bb430bc2d826b6ba8" kindref="member">checkABTestCompletion()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="190" column="10" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="360" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a0fa8480e08e1859bb430bc2d826b6ba8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SelfImprovementOrchestrator::checkABTestCompletion</definition>
+        <argsstring>(const std::string &amp;test_id)</argsstring>
+        <name>checkABTestCompletion</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::checkABTestCompletion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if an A/B test is complete and analyze results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check <ref refid="structthemis_1_1prompt__engineering_1_1_a_b_test" kindref="compound">ABTest</ref> Completion.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if test is complete, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the test. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), analyzeABTest(), std::chrono::system_clock::now(), THEMIS_INFO(), deployOptimizedVersion(), contains(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="202" column="10" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="404" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a5b8e9e274bcd029c0e291326ecdfb786" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_a_b_test" kindref="compound">ABTest</ref> &gt;</type>
+        <definition>std::optional&lt; ABTest &gt; themis::prompt_engineering::SelfImprovementOrchestrator::getABTestResults</definition>
+        <argsstring>(const std::string &amp;test_id) const</argsstring>
+        <name>getABTestResults</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::getABTestResults</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Get A/B test results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Test results, or nullopt if test not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="209" column="19" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="457" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a7c326864e34e955155b1b6fc89fa4bda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SelfImprovementOrchestrator::rollbackPrompt</definition>
+        <argsstring>(const std::string &amp;prompt_id)</argsstring>
+        <name>rollbackPrompt</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::rollbackPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Rollback a prompt to its previous version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if rollback successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), empty(), THEMIS_WARN(), rbegin(), rend(), deployOptimizedVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="216" column="10" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="479" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1ac24bfe19d9cec776f7d04bf03fc23809" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_optimization_result" kindref="compound">OptimizationResult</ref> &gt;</type>
+        <definition>std::vector&lt; OptimizationResult &gt; themis::prompt_engineering::SelfImprovementOrchestrator::getOptimizationHistory</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>getOptimizationHistory</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::getOptimizationHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Get optimization history for a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of optimization results </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="223" column="17" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="506" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a88f35cc91921d6f8c8c9f8d68d7b2eb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_a_b_test" kindref="compound">ABTest</ref> &gt;</type>
+        <definition>std::vector&lt; ABTest &gt; themis::prompt_engineering::SelfImprovementOrchestrator::getActiveABTests</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveABTests</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::getActiveABTests</qualifiedname>
+        <briefdescription>
+<para>Get all active A/B tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of active tests </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="231" column="17" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="524" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1ab22cff089e815fc4cda58e77d187e2e3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_improvement_config" kindref="compound">ImprovementConfig</ref> &amp;</type>
+        <definition>const ImprovementConfig &amp; themis::prompt_engineering::SelfImprovementOrchestrator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="236" column="29" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a4e9ce2f8a671b5a2c5b9e66a1d4faed9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SelfImprovementOrchestrator::setConfig</definition>
+        <argsstring>(const ImprovementConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_improvement_config" kindref="compound">ImprovementConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="241" column="10" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="548" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1aed2086bbd297137b1dce931e8f438965" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SelfImprovementOrchestrator::setFeedbackCollector</definition>
+        <argsstring>(std::shared_ptr&lt; FeedbackCollector &gt; collector)</argsstring>
+        <name>setFeedbackCollector</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::setFeedbackCollector</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> &gt;</type>
+          <declname>collector</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> for synthetic test-case generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a5b2b13020661ca3caf456fdb568bde58" kindref="member">runAutoOptimization()</ref></computeroutput> will build test cases from historical positive-feedback entries (query → response) instead of skipping prompts that have no externally supplied test cases.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the <ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="252" column="10" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="252" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a3540c84d65a9a9c5a3cc060943d3e3e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SelfImprovementOrchestrator::shouldOptimize</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>shouldOptimize</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::shouldOptimize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if a prompt should be optimized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if optimization should be triggered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="262" column="10" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="554" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a258390512d1ea4389ecbf253bd87489d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SelfImprovementOrchestrator::generateTestId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestId</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::generateTestId</qualifiedname>
+        <briefdescription>
+<para>Generate unique test ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="286" column="17" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="591" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a64b65d5a24200c0703b7a72bd0c5bbdf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SelfImprovementOrchestrator::canReoptimize</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>canReoptimize</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::canReoptimize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if enough time has passed since last optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="291" column="10" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="605" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a799a91d17ce4217ee398fabd1e0ccde2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SelfImprovementOrchestrator::analyzeABTest</definition>
+        <argsstring>(ABTest &amp;test)</argsstring>
+        <name>analyzeABTest</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::analyzeABTest</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_test" kindref="compound">ABTest</ref> &amp;</type>
+          <declname>test</declname>
+        </param>
+        <briefdescription>
+<para>Perform statistical analysis on A/B test results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze <ref refid="structthemis_1_1prompt__engineering_1_1_a_b_test" kindref="compound">ABTest</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">test</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::sqrt(), std::abs(), std::erfc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="296" column="10" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="622" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a0c313f04fbe35c7ef8767f67aaa7fc55" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SelfImprovementOrchestrator::deployOptimizedVersion</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;version)</argsstring>
+        <name>deployOptimizedVersion</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::deployOptimizedVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Deploy optimized prompt version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deploy Optimized Version.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_ERROR(), getTemplate(), has_value(), value(), std::chrono::system_clock::to_time_t(), std::chrono::system_clock::now(), createTemplate(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="301" column="10" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="664" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a31dfa0dfb23a134b3b10c0990395e523" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt;</type>
+        <definition>std::vector&lt; TestCase &gt; themis::prompt_engineering::SelfImprovementOrchestrator::buildTestCasesFromFeedback</definition>
+        <argsstring>(const std::string &amp;prompt_id, size_t max_cases=50) const</argsstring>
+        <name>buildTestCasesFromFeedback</name>
+        <qualifiedname>themis::prompt_engineering::SelfImprovementOrchestrator::buildTestCasesFromFeedback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_cases</declname>
+          <defval>50</defval>
+        </param>
+        <briefdescription>
+<para>Build synthetic test cases from positive historical feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses query→response pairs from <computeroutput>USER_POSITIVE</computeroutput> feedback as training examples so that <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a5b2b13020661ca3caf456fdb568bde58" kindref="member">runAutoOptimization()</ref></computeroutput> does not need external test data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of test cases to return (0 = all) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of synthetic <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> objects; empty if no feedback available </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="314" column="17" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="694" bodyend="729"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Self-improvement orchestrator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coordinates autonomous prompt optimization:<itemizedlist>
+<listitem><para>Monitors performance metrics</para>
+</listitem><listitem><para>Triggers optimization automatically</para>
+</listitem><listitem><para>Manages A/B testing</para>
+</listitem><listitem><para>Handles rollback on degradation</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe for concurrent operation. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="129" column="1" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="129" bodyend="318"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a8592e2caae79aca5dfeddad457550756" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>active_ab_tests_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a799a91d17ce4217ee398fabd1e0ccde2" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>analyzeABTest</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a31dfa0dfb23a134b3b10c0990395e523" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>buildTestCasesFromFeedback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a64b65d5a24200c0703b7a72bd0c5bbdf" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>canReoptimize</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a0fa8480e08e1859bb430bc2d826b6ba8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>checkABTestCompletion</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a5c34f8f52d6312af4a79008f339659d4" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a0c313f04fbe35c7ef8767f67aaa7fc55" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>deployOptimizedVersion</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1ae4a1ffe75dd876557c7a6cb4fa09d579" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>evaluator_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a089864a7ffd576fa062d09659cef0bcc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>feedback_collector_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a258390512d1ea4389ecbf253bd87489d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>generateTestId</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a5b8e9e274bcd029c0e291326ecdfb786" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>getABTestResults</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a88f35cc91921d6f8c8c9f8d68d7b2eb2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>getActiveABTests</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1ab22cff089e815fc4cda58e77d187e2e3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1ac24bfe19d9cec776f7d04bf03fc23809" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>getOptimizationHistory</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a49be1e44dc911529af77eb7cc8e3a7ef" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>last_optimization_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a7bd50e4f25536a4cfa87cf5b88d4baa7" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a4de0663bb24062a7dcddc65141ffa3c6" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1ad2d62f7d179b1425892c1a9cf1a0ac15" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>optimization_history_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1adbb0fd26e90a62ae51b6e6a2dfaf0fa4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>optimizePrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a244ebcb21e3dd975bcc7c83d14bc291e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>optimizer_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a8c8e6bafbe6b1a0d256d5d77727bb1d4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>recordABTestObservation</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a7c326864e34e955155b1b6fc89fa4bda" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>rollbackPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a5b2b13020661ca3caf456fdb568bde58" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>runAutoOptimization</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a48d2d7eb838300e90568dd0b01964110" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>SelfImprovementOrchestrator</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a4e9ce2f8a671b5a2c5b9e66a1d4faed9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1aed2086bbd297137b1dce931e8f438965" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>setFeedbackCollector</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a3540c84d65a9a9c5a3cc060943d3e3e8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>shouldOptimize</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1aa90734b76c0c5617949a722e6a51a16e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>startABTest</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator_1a618a3dc6eede9929c892fa0a5a455f4a" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SelfImprovementOrchestrator</scope><name>tracker_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

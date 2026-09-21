@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_js_render_contract_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::JsRenderContractResult</compoundname>
+    <includes refid="scraper__render__contract_8h" local="no">scraper_render_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_contract_result_1a637b690acc052be50cf63222e517e2a3" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref></type>
+        <definition>JsRenderResult themis::scraper::JsRenderContractResult::render_result</definition>
+        <argsstring></argsstring>
+        <name>render_result</name>
+        <qualifiedname>themis::scraper::JsRenderContractResult::render_result</qualifiedname>
+        <briefdescription>
+<para>The underlying render result (html is cleared on any failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_render_contract.h" line="65" column="20" bodyfile="include/scraper/scraper_render_contract.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_contract_result_1afffe6103f7a31a86a31867f41a1dbae2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></type>
+        <definition>ScraperError themis::scraper::JsRenderContractResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::scraper::JsRenderContractResult::error</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>}</initializer>
+        <briefdescription>
+<para>Canonical scraper error code; kSuccess when rendering succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_render_contract.h" line="68" column="20" bodyfile="include/scraper/scraper_render_contract.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_contract_result_1a73b245d9d397309f9d4df2e7b6a462b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::JsRenderContractResult::timed_out</definition>
+        <argsstring></argsstring>
+        <name>timed_out</name>
+        <qualifiedname>themis::scraper::JsRenderContractResult::timed_out</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when the failure was specifically a render timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_render_contract.h" line="71" column="20" bodyfile="include/scraper/scraper_render_contract.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wraps a <computeroutput><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref></computeroutput> together with an explicit <computeroutput><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></computeroutput> code and a convenience <computeroutput><ref refid="structthemis_1_1scraper_1_1_js_render_contract_result_1a73b245d9d397309f9d4df2e7b6a462b8" kindref="member">timed_out</ref></computeroutput> flag. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Constructed exclusively by <computeroutput><ref refid="namespacethemis_1_1scraper_1a457e0766cc84f472f5387fb66eb88481" kindref="member">enforceRenderTimeout</ref></computeroutput>; never built directly by pipeline code.</para>
+<para><table rows="4" cols="4"><row>
+<entry thead="yes"><para>render outcome  </para>
+</entry><entry thead="yes"><para>error  </para>
+</entry><entry thead="yes"><para>timed_out  </para>
+</entry><entry thead="yes"><para>html  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>success  </para>
+</entry><entry thead="no"><para>kSuccess  </para>
+</entry><entry thead="no"><para>false  </para>
+</entry><entry thead="no"><para>original  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>timeout  </para>
+</entry><entry thead="no"><para>kRenderTimeout  </para>
+</entry><entry thead="no"><para>true  </para>
+</entry><entry thead="no"><para>cleared  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>other failure  </para>
+</entry><entry thead="no"><para>kFetchFailed  </para>
+</entry><entry thead="no"><para>false  </para>
+</entry><entry thead="no"><para>cleared  </para>
+</entry></row>
+</table>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::scraper::JsRenderContractResult</label>
+        <link refid="structthemis_1_1scraper_1_1_js_render_contract_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>render_result</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::scraper::JsRenderResult</label>
+        <link refid="structthemis_1_1scraper_1_1_js_render_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_render_contract.h" line="63" column="1" bodyfile="include/scraper/scraper_render_contract.h" bodystart="63" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_js_render_contract_result_1afffe6103f7a31a86a31867f41a1dbae2" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderContractResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_contract_result_1a637b690acc052be50cf63222e517e2a3" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderContractResult</scope><name>render_result</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_contract_result_1a73b245d9d397309f9d4df2e7b6a462b8" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderContractResult</scope><name>timed_out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

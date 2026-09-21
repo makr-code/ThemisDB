@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::CascadeRoutingConfig</compoundname>
+    <includes refid="llm__cascade__router_8h" local="no">llm_cascade_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a05e694611fb97317908ca4044c812761" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18" kindref="member">CascadeModelTier</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CascadeModelTier&gt; themis::plugins::ethics::CascadeRoutingConfig::round_to_tier</definition>
+        <argsstring></argsstring>
+        <name>round_to_tier</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingConfig::round_to_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="32" column="14" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a2d76414bf915d63810869ffac0fdd621" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18" kindref="member">CascadeModelTier</ref>, std::string &gt;</type>
+        <definition>std::map&lt;CascadeModelTier, std::string&gt; themis::plugins::ethics::CascadeRoutingConfig::tier_to_model</definition>
+        <argsstring></argsstring>
+        <name>tier_to_model</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingConfig::tier_to_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="33" column="14" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a5e1fbd3f084fc6567783b069c2e5706a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18" kindref="member">CascadeModelTier</ref>, size_t &gt;</type>
+        <definition>std::map&lt;CascadeModelTier, size_t&gt; themis::plugins::ethics::CascadeRoutingConfig::tier_to_context_k</definition>
+        <argsstring></argsstring>
+        <name>tier_to_context_k</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingConfig::tier_to_context_k</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="34" column="19" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1aa92ad3566cc9e01c783ba4aeaafd6aeb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::CascadeRoutingConfig::fallback_policy</definition>
+        <argsstring></argsstring>
+        <name>fallback_policy</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingConfig::fallback_policy</qualifiedname>
+        <initializer>{&quot;escalate&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="35" column="45" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1ab273aff46c98ab938491e363e04b47bb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::CascadeRoutingConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingConfig::enabled</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="36" column="45" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a2565e4b7a8821f62814a003f55ff5df2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config" kindref="compound">CascadeRoutingConfig</ref></type>
+        <definition>static CascadeRoutingConfig themis::plugins::ethics::CascadeRoutingConfig::defaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>defaultConfig</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingConfig::defaultConfig</qualifiedname>
+        <briefdescription>
+<para>Default Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaultConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="43" column="33" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="43" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/llm_cascade_router.h" line="31" column="1" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="31" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a2565e4b7a8821f62814a003f55ff5df2" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingConfig</scope><name>defaultConfig</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1ab273aff46c98ab938491e363e04b47bb" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1aa92ad3566cc9e01c783ba4aeaafd6aeb" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingConfig</scope><name>fallback_policy</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a05e694611fb97317908ca4044c812761" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingConfig</scope><name>round_to_tier</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a5e1fbd3f084fc6567783b069c2e5706a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingConfig</scope><name>tier_to_context_k</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a2d76414bf915d63810869ffac0fdd621" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingConfig</scope><name>tier_to_model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

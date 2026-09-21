@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_traversal_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GraphTraversalBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_traversal_benchmark_fixture_1aa901d92ec1705c23faf55ccff2f47193" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GraphTraversalBenchmarkFixture::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="106" column="17" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_traversal_benchmark_fixture_1a0778893e493b67e440e3ddbfa5bf8eb3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; GraphTraversalBenchmarkFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="107" column="21" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_traversal_benchmark_fixture_1a55722185d7aacc2be18eb25e58c9324f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; GraphTraversalBenchmarkFixture::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="108" column="21" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_traversal_benchmark_fixture_1a34999d610fb851ded00d3376c481247f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphAnalytics &gt;</type>
+        <definition>std::unique_ptr&lt;GraphAnalytics&gt; GraphTraversalBenchmarkFixture::analytics_</definition>
+        <argsstring></argsstring>
+        <name>analytics_</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::analytics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="109" column="21" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_traversal_benchmark_fixture_1a27c479edb99c310ec40199271622d5ba" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; GraphTraversalBenchmarkFixture::node_ids_</definition>
+        <argsstring></argsstring>
+        <name>node_ids_</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::node_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="110" column="17" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_traversal_benchmark_fixture_1ae48bb7e62e76d138dbb1a482e91b51a5" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int GraphTraversalBenchmarkFixture::graph_size_</definition>
+        <argsstring></argsstring>
+        <name>graph_size_</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::graph_size_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="111" column="9" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_graph_traversal_benchmark_fixture_1ac73911cefecf748ac0f6bcd9baa23ff9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphTraversalBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="24" column="10" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="24" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_traversal_benchmark_fixture_1ac320482da0a813e7e3973eeb7deeba08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphTraversalBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="57" column="10" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_traversal_benchmark_fixture_1a5d26dfd0a037378745be09436a169ffb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphTraversalBenchmarkFixture::buildTestGraph</definition>
+        <argsstring>(int num_nodes, int avg_degree)</argsstring>
+        <name>buildTestGraph</name>
+        <qualifiedname>GraphTraversalBenchmarkFixture::buildTestGraph</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_nodes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>avg_degree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="69" column="10" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="69" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphTraversalBenchmarkFixture</label>
+        <link refid="class_graph_traversal_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphTraversalBenchmarkFixture</label>
+        <link refid="class_graph_traversal_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/graph/bench_graph_traversal.cpp" line="22" column="1" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="22" bodyend="112"/>
+    <listofallmembers>
+      <member refid="class_graph_traversal_benchmark_fixture_1a34999d610fb851ded00d3376c481247f" prot="protected" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>analytics_</name></member>
+      <member refid="class_graph_traversal_benchmark_fixture_1a5d26dfd0a037378745be09436a169ffb" prot="public" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>buildTestGraph</name></member>
+      <member refid="class_graph_traversal_benchmark_fixture_1a0778893e493b67e440e3ddbfa5bf8eb3" prot="protected" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>db_</name></member>
+      <member refid="class_graph_traversal_benchmark_fixture_1a55722185d7aacc2be18eb25e58c9324f" prot="protected" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>graph_mgr_</name></member>
+      <member refid="class_graph_traversal_benchmark_fixture_1ae48bb7e62e76d138dbb1a482e91b51a5" prot="protected" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>graph_size_</name></member>
+      <member refid="class_graph_traversal_benchmark_fixture_1a27c479edb99c310ec40199271622d5ba" prot="protected" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>node_ids_</name></member>
+      <member refid="class_graph_traversal_benchmark_fixture_1ac73911cefecf748ac0f6bcd9baa23ff9" prot="public" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_graph_traversal_benchmark_fixture_1ac320482da0a813e7e3973eeb7deeba08" prot="public" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_graph_traversal_benchmark_fixture_1aa901d92ec1705c23faf55ccff2f47193" prot="protected" virt="non-virtual"><scope>GraphTraversalBenchmarkFixture</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

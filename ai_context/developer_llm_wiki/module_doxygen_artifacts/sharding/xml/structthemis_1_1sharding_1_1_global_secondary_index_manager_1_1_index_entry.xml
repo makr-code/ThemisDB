@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::GlobalSecondaryIndexManager::IndexEntry</compoundname>
+    <includes refid="global__secondary__index_8h" local="no">global_secondary_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1aecc9abac56eb6eeabf20c9a76ff5016a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GlobalSecondaryIndexManager::IndexEntry::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::IndexEntry::index_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="14" column="21" bodyfile="include/sharding/global_secondary_index.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1a9ef293ad3dafeedab671d7ae37b9fe8a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GlobalSecondaryIndexManager::IndexEntry::field_name</definition>
+        <argsstring></argsstring>
+        <name>field_name</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::IndexEntry::field_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="15" column="21" bodyfile="include/sharding/global_secondary_index.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1af987083f052b0b2b9f32c555ed6a3989" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GlobalSecondaryIndexManager::IndexEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::IndexEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="16" column="21" bodyfile="include/sharding/global_secondary_index.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1ae7b01ed5a9a8439b8971a88b84cb51e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GlobalSecondaryIndexManager::IndexEntry::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::IndexEntry::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="17" column="21" bodyfile="include/sharding/global_secondary_index.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1a877fc69163fdeb42e064c29776e842c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GlobalSecondaryIndexManager::IndexEntry::primary_key</definition>
+        <argsstring></argsstring>
+        <name>primary_key</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::IndexEntry::primary_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="18" column="21" bodyfile="include/sharding/global_secondary_index.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1ab80a69a55de3f8c0ba8853134d02f729" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::GlobalSecondaryIndexManager::IndexEntry::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::IndexEntry::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="19" column="47" bodyfile="include/sharding/global_secondary_index.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/global_secondary_index.h" line="13" column="5" bodyfile="include/sharding/global_secondary_index.h" bodystart="13" bodyend="20"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1a9ef293ad3dafeedab671d7ae37b9fe8a" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager::IndexEntry</scope><name>field_name</name></member>
+      <member refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1aecc9abac56eb6eeabf20c9a76ff5016a" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager::IndexEntry</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1a877fc69163fdeb42e064c29776e842c8" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager::IndexEntry</scope><name>primary_key</name></member>
+      <member refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1ae7b01ed5a9a8439b8971a88b84cb51e8" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager::IndexEntry</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1ab80a69a55de3f8c0ba8853134d02f729" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager::IndexEntry</scope><name>updated_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry_1af987083f052b0b2b9f32c555ed6a3989" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager::IndexEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,499 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_per_series_compression_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::PerSeriesCompressionRegistry</compoundname>
+    <includes refid="compression__selector_8h" local="no">compression_selector.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_per_series_compression_registry_1a4a3929c856c50f616d0a9fb1792839ad" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::PerSeriesCompressionRegistry::SeriesKey = std::string</definition>
+        <argsstring></argsstring>
+        <name>SeriesKey</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::SeriesKey</qualifiedname>
+        <briefdescription>
+<para>&quot;metric:entity&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="181" column="5" bodyfile="include/timeseries/compression_selector.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_per_series_compression_registry_1a6129ee1349a922a0435fa47ab4f99155" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_i_compression_selector" kindref="compound">ICompressionSelector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ICompressionSelector&gt; themis::PerSeriesCompressionRegistry::selector_</definition>
+        <argsstring></argsstring>
+        <name>selector_</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::selector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="254" column="21" bodyfile="include/timeseries/compression_selector.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_per_series_compression_registry_1ab4f66f358dc5f939593cbf32ff52667a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1_per_series_compression_registry_1a4a3929c856c50f616d0a9fb1792839ad" kindref="member">SeriesKey</ref>, <ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref> &gt;</type>
+        <definition>std::unordered_map&lt;SeriesKey, CompressionStrategy&gt; themis::PerSeriesCompressionRegistry::pinned_</definition>
+        <argsstring></argsstring>
+        <name>pinned_</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::pinned_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="255" column="24" bodyfile="include/timeseries/compression_selector.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_per_series_compression_registry_1a0aa5cd286bb09d270e7108a495dffe37" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1_per_series_compression_registry_1a4a3929c856c50f616d0a9fb1792839ad" kindref="member">SeriesKey</ref>, <ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref> &gt;</type>
+        <definition>std::unordered_map&lt;SeriesKey, CompressionStrategy&gt; themis::PerSeriesCompressionRegistry::cached_</definition>
+        <argsstring></argsstring>
+        <name>cached_</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::cached_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="256" column="24" bodyfile="include/timeseries/compression_selector.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1ae5dd6ba176b891dfabb41b98b77e5f1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PerSeriesCompressionRegistry::PerSeriesCompressionRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>PerSeriesCompressionRegistry</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::PerSeriesCompressionRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="183" column="5" bodyfile="src/timeseries/compression_selector.cpp" bodystart="139" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1a63ef40653bd0d192df4c6ad4a0040d10" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PerSeriesCompressionRegistry::PerSeriesCompressionRegistry</definition>
+        <argsstring>(std::unique_ptr&lt; ICompressionSelector &gt; selector)</argsstring>
+        <name>PerSeriesCompressionRegistry</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::PerSeriesCompressionRegistry</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_i_compression_selector" kindref="compound">ICompressionSelector</ref> &gt;</type>
+          <declname>selector</declname>
+        </param>
+        <briefdescription>
+<para>Per Series Compression Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">selector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="189" column="14" bodyfile="src/timeseries/compression_selector.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1a25d4d923a702fcc581e6fe2f55ddd363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PerSeriesCompressionRegistry::setSelector</definition>
+        <argsstring>(std::unique_ptr&lt; ICompressionSelector &gt; selector)</argsstring>
+        <name>setSelector</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::setSelector</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_i_compression_selector" kindref="compound">ICompressionSelector</ref> &gt;</type>
+          <declname>selector</declname>
+        </param>
+        <briefdescription>
+<para>Replace the internal selector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Selector.</para>
+<para>Clears the strategy cache so that subsequent <ref refid="classthemis_1_1_per_series_compression_registry_1abcd720a2bb1bc25431a96120cb9e5e7b" kindref="member">strategyFor()</ref> calls use the new selector. Pinned entries are not affected. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">selector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">selector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), <ref refid="classthemis_1_1_per_series_compression_registry_1a6070db1a283aedf10ee8a3a4069fcc87" kindref="member">clear()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="199" column="10" bodyfile="src/timeseries/compression_selector.cpp" bodystart="157" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1abcd720a2bb1bc25431a96120cb9e5e7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref></type>
+        <definition>CompressionStrategy themis::PerSeriesCompressionRegistry::strategyFor</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;entity, const std::vector&lt; TSStore::DataPoint &gt; &amp;sample)</argsstring>
+        <name>strategyFor</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::strategyFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>sample</declname>
+        </param>
+        <briefdescription>
+<para>Return the compression strategy for a series. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Strategy For.</para>
+<para>Priority: pinned &gt; cached &gt; freshly-selected (result is then cached).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metric name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Representative data points used to profile the series when no pinned or cached entry exists. May be empty; in that case the selector receives an empty sample and will typically return None. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeKey(), find(), end(), selectForPoints(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="214" column="25" bodyfile="src/timeseries/compression_selector.cpp" bodystart="171" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1a8c8996bacd92c919ae8bd152fbb0391d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PerSeriesCompressionRegistry::pinStrategy</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;entity, CompressionStrategy strategy)</argsstring>
+        <name>pinStrategy</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::pinStrategy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Force a specific strategy for a series, overriding selection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pin Strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="224" column="10" bodyfile="src/timeseries/compression_selector.cpp" bodystart="210" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1a2087c3db8159fec1548d1dc0515fd91d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PerSeriesCompressionRegistry::clearPin</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;entity)</argsstring>
+        <name>clearPin</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::clearPin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Remove a previously pinned strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Pin.</para>
+<para>After removal the next <ref refid="classthemis_1_1_per_series_compression_registry_1abcd720a2bb1bc25431a96120cb9e5e7b" kindref="member">strategyFor()</ref> call will re-run the selector. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(), makeKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="235" column="10" bodyfile="src/timeseries/compression_selector.cpp" bodystart="224" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1a4637c74ff19ae01ffd4a47432671a473" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PerSeriesCompressionRegistry::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::clearCache</qualifiedname>
+        <briefdescription>
+<para>Discard all cached (non-pinned) selections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Cache.</para>
+<para>Calls: <ref refid="classthemis_1_1_per_series_compression_registry_1a6070db1a283aedf10ee8a3a4069fcc87" kindref="member">clear()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="240" column="10" bodyfile="src/timeseries/compression_selector.cpp" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1a3bda82b59eb6f8a87987a9ba4f734123" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::PerSeriesCompressionRegistry::registrySize</definition>
+        <argsstring>() const</argsstring>
+        <name>registrySize</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::registrySize</qualifiedname>
+        <briefdescription>
+<para>Total number of entries (pinned + cached). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="246" column="12" bodyfile="src/timeseries/compression_selector.cpp" bodystart="239" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1a6070db1a283aedf10ee8a3a4069fcc87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PerSeriesCompressionRegistry::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all pinned and cached entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="251" column="10" bodyfile="src/timeseries/compression_selector.cpp" bodystart="247" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_per_series_compression_registry_1a7b0f3e97f2e037493c3a541c681eac43" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_per_series_compression_registry_1a4a3929c856c50f616d0a9fb1792839ad" kindref="member">SeriesKey</ref></type>
+        <definition>PerSeriesCompressionRegistry::SeriesKey themis::PerSeriesCompressionRegistry::makeKey</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;entity)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::PerSeriesCompressionRegistry::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="264" column="22" bodyfile="src/timeseries/compression_selector.cpp" bodystart="147" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-series compression strategy registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Maintains a two-level lookup:<itemizedlist>
+<listitem><para>Pinned entries: manually-forced strategies that override selection.</para>
+</listitem><listitem><para>Cached entries: strategy returned by the selector on the last call to <ref refid="classthemis_1_1_per_series_compression_registry_1abcd720a2bb1bc25431a96120cb9e5e7b" kindref="member">strategyFor()</ref>; cached values are evicted when <ref refid="classthemis_1_1_per_series_compression_registry_1a4637c74ff19ae01ffd4a47432671a473" kindref="member">clearCache()</ref> is called.</para>
+</listitem></itemizedlist>
+</para>
+<para>The registry owns an <ref refid="classthemis_1_1_i_compression_selector" kindref="compound">ICompressionSelector</ref> that can be replaced at runtime via <ref refid="classthemis_1_1_per_series_compression_registry_1a25d4d923a702fcc581e6fe2f55ddd363" kindref="member">setSelector()</ref>. The default selector is <ref refid="classthemis_1_1_heuristic_compression_selector" kindref="compound">HeuristicCompressionSelector</ref> with default configuration.</para>
+<para>Thread safety: NOT thread-safe. External synchronisation is required when called from multiple threads. </para>
+    </detaileddescription>
+    <location file="include/timeseries/compression_selector.h" line="179" column="1" bodyfile="include/timeseries/compression_selector.h" bodystart="179" bodyend="265"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a0aa5cd286bb09d270e7108a495dffe37" prot="private" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>cached_</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a6070db1a283aedf10ee8a3a4069fcc87" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a4637c74ff19ae01ffd4a47432671a473" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a2087c3db8159fec1548d1dc0515fd91d" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>clearPin</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a7b0f3e97f2e037493c3a541c681eac43" prot="private" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1ae5dd6ba176b891dfabb41b98b77e5f1c" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>PerSeriesCompressionRegistry</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a63ef40653bd0d192df4c6ad4a0040d10" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>PerSeriesCompressionRegistry</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1ab4f66f358dc5f939593cbf32ff52667a" prot="private" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>pinned_</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a8c8996bacd92c919ae8bd152fbb0391d" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>pinStrategy</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a3bda82b59eb6f8a87987a9ba4f734123" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>registrySize</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a6129ee1349a922a0435fa47ab4f99155" prot="private" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>selector_</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a4a3929c856c50f616d0a9fb1792839ad" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>SeriesKey</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1a25d4d923a702fcc581e6fe2f55ddd363" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>setSelector</name></member>
+      <member refid="classthemis_1_1_per_series_compression_registry_1abcd720a2bb1bc25431a96120cb9e5e7b" prot="public" virt="non-virtual"><scope>themis::PerSeriesCompressionRegistry</scope><name>strategyFor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,954 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1user__storage_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::plugins::user_storage::test</compoundname>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" prot="public">themis::plugins::user_storage::test::ErrorCodesTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a4fd69cfec4f29c59ece2c0c2e090a3da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_01_PipeGuardCreation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_01_PipeGuardCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="43" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="43" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1ae8527d5f9e27a553bee15f14b8ccc7cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_02_PipeGuardCloseOperations)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_02_PipeGuardCloseOperations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="62" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="62" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aac1b589130cb7082c47271f397fd898d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_03_PipeGuardMoveSemantics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_03_PipeGuardMoveSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="85" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="85" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a6120920a1dafe5b89b5e9642afdb3007" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_04_TimedFileOperationReadAvailable)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_04_TimedFileOperationReadAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="105" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="105" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a0feffb99957c9a10be59ca7dc07bedcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_05_TimedFileOperationWriteAvailable)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_05_TimedFileOperationWriteAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="132" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="132" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a51b6b8c6f5826c30461547fb7b8dad40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_06_TimedFileOperationReadTimeout)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_06_TimedFileOperationReadTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="158" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="158" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aede1ae361ed71afebc6838636425d62a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_07_PipeGuardDetach)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_07_PipeGuardDetach</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="179" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="179" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a9c66d8a199829177ef4aa75b5c69cb5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_08_MultipleIoCycles)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_08_MultipleIoCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="199" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="199" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aca3841f61c2e6ae89c4eca6c8f555e86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_09_PipeGuardOperatorAccess)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_09_PipeGuardOperatorAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="223" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="223" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a4d6d519d4d2b3a8f9086aabb0aa1bd88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_10_TimedFileOperationDifferentTimeouts)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_10_TimedFileOperationDifferentTimeouts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="242" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="242" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aeaa819ec584e2706b2fbf0e601476d1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_11_ExceptionSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_11_ExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="269" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="269" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a12504ae3fac692ab7b1cba3591d108b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_12_PipeGuardDefaultConstructor)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_12_PipeGuardDefaultConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="294" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="294" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a1a0e96957ab35cb931d190d3c5c6d196" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_13_TimedFileOperationErrorHandling)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_13_TimedFileOperationErrorHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="313" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="313" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a984d409722548e4f897ee7bc493384ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedIoTimeout, UST_IO_14_PipeGuardNonCopyable)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedIoTimeout</type>
+        </param>
+        <param>
+          <type>UST_IO_14_PipeGuardNonCopyable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="327" column="1" bodyfile="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" bodystart="327" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aae5ddc4332f2a3661877547ba761f3fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST_F</definition>
+        <argsstring>(ErrorCodesTest, ErrorCodeEnumValuesAreValid)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kindref="compound">ErrorCodesTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorCodeEnumValuesAreValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="35" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="35" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a53ab2b2c55820e003ee0f3f6dc026869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST_F</definition>
+        <argsstring>(ErrorCodesTest, ErrorCodeToStringMappingIsComplete)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kindref="compound">ErrorCodesTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorCodeToStringMappingIsComplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="60" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="60" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a9496bd9607eac917e374d00ce393a12b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST_F</definition>
+        <argsstring>(ErrorCodesTest, DiagnosticEventEmissionWorks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kindref="compound">ErrorCodesTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticEventEmissionWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="113" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="113" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a751871b65a72d7ce02ddeb4436a918d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST_F</definition>
+        <argsstring>(ErrorCodesTest, MultipleEventsAreCapatured)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kindref="compound">ErrorCodesTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleEventsAreCapatured</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="130" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="130" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1abc607621f509f33d18f2f28428b47366" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST_F</definition>
+        <argsstring>(ErrorCodesTest, ErrorEventWithRemediation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kindref="compound">ErrorCodesTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorEventWithRemediation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="148" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="148" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1adc6caf2fed2690b88a6f4c626139be31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST_F</definition>
+        <argsstring>(ErrorCodesTest, DiagnosticEventJsonSerialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kindref="compound">ErrorCodesTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticEventJsonSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="171" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="171" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1ac46d7473afe9c2adb81c9d68b4f50bd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST_F</definition>
+        <argsstring>(ErrorCodesTest, CustomHandlerCanBeRegistered)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kindref="compound">ErrorCodesTest</ref></type>
+        </param>
+        <param>
+          <type>CustomHandlerCanBeRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="198" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="198" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a5a7bef7f0c7d4674fcd79b8043d6b33a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST_F</definition>
+        <argsstring>(ErrorCodesTest, ErrorCodeCategoriesAreCorrect)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kindref="compound">ErrorCodesTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorCodeCategoriesAreCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" line="217" column="1" bodyfile="tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp" bodystart="217" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a4567ba99a85d4938f036c07557c5af62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_01_PipeGuardRAII)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_01_PipeGuardRAII</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="43" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="43" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a1bea060eba4701ae09fc9d01d5b8b6cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_02_PipeGuardMoveSemantics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_02_PipeGuardMoveSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="57" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aaa1f612641d70810ab41dfdefebe3429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_03_PipeGuardSelectiveClose)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_03_PipeGuardSelectiveClose</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="73" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="73" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a5338e97532960ff28e685c2f6af18745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_04_PipeGuardConcurrentMoves)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_04_PipeGuardConcurrentMoves</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="90" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="90" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aaba987aa962cb1b0ac61a8fc73a9780d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_05_PipeGuardDestructorNoThrow)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_05_PipeGuardDestructorNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="108" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="108" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1af3b49175f6dcdafc74c57444baac6e8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_06_GocryptfsBackendInitialization)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_06_GocryptfsBackendInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="124" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="124" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aa057bfcf8a9edaae13df5c02d266c2a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_07_TimedFileOperationCreation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_07_TimedFileOperationCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="141" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="141" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1af7f85c98047fe67012ca8bb9dd21dc02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_08_UniquePtr_ExceptionSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_08_UniquePtr_ExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="158" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="158" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a8069323281aacc8a82b5c49f787a688c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_09_CommandArgumentValidator_Paths)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_09_CommandArgumentValidator_Paths</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="174" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="174" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1acf0e4f125fa8d848ab886dc7e8ca0dfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_10_SecureZero)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_10_SecureZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="196" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="196" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1add1e4390a4f642cfe81fcf80652e8374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_11_ExceptionSafeKeyMaterial)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_11_ExceptionSafeKeyMaterial</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="217" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="217" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a9a4ffac1bb21ea4cdf230a2dfddec561" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_12_PipeGuardNoLeaks)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_12_PipeGuardNoLeaks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="235" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="235" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a2173b12d0abd05cf74f2edd5fdefbd8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_13_ConstReferenceLoops)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_13_ConstReferenceLoops</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="253" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="253" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aa7c1f4dec9c9c4da45a6e9802747154d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_14_MoveSemanticsVectors)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_14_MoveSemanticsVectors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="269" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="269" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1af251304502abd8f2beaf68d8ffa1ea96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_15_VectorPreallocation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_15_VectorPreallocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="283" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="283" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a8edbd8cc5ac72102407d2ebc2a98a71f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_16_ConstReferenceParams)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_16_ConstReferenceParams</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="302" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="302" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a53e96aa9a28e1e54b47273aac682e607" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_17_FailClosedBehavior)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_17_FailClosedBehavior</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="318" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="318" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a7c3f24a45f14b5f693dc05c1b94a03ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_18_ProcessExecutionTimeout)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_18_ProcessExecutionTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="335" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="335" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1acb3e9fe1bc0c7539fb7526b68a0a3a6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_19_BoundaryInputValidation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_19_BoundaryInputValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="347" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="347" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a5134c4e8cc100565b91f63ee43bf537f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_20_ExceptionSafetyGuarantees)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_20_ExceptionSafetyGuarantees</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="367" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="367" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1ab0ee954e5d854381a2a7d4a1d15af076" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_21_DestructorExceptionSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_21_DestructorExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="387" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="387" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1abbb2a5348949638f814869ff7f59d1bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_22_ZeroInitialization)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_22_ZeroInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="416" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="416" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1afaa97ac3f3713aaf2d942ed9813aa8aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_23_RAIIFileHandles)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_23_RAIIFileHandles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="429" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="429" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a665638338682c3219dd5f11aff97d985" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_24_PlatformCompatibility)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_24_PlatformCompatibility</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="463" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="463" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a566458f08de480d7fd6af253fe482fa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::test::TEST</definition>
+        <argsstring>(UserStoragePhase1Hardening, USE_PHASE1_25_AcceptanceCriteria)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::user_storage::test::TEST</qualifiedname>
+        <param>
+          <type>UserStoragePhase1Hardening</type>
+        </param>
+        <param>
+          <type>USE_PHASE1_25_AcceptanceCriteria</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" line="480" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp" bodystart="480" bodyend="500"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp" line="37" column="1"/>
+  </compounddef>
+</doxygen>

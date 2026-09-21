@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7020b8b7abcceffa3f9f7a2d24718f16" kind="dir">
+    <compoundname>src/plugins</compoundname>
+    <innerfile refid="oci__registry__client_8cpp">oci_registry_client.cpp</innerfile>
+    <innerfile refid="plugin__health__monitor_8cpp">plugin_health_monitor.cpp</innerfile>
+    <innerfile refid="plugin__hot__plug__monitor_8cpp">plugin_hot_plug_monitor.cpp</innerfile>
+    <innerfile refid="plugin__manager_8cpp">plugin_manager.cpp</innerfile>
+    <innerfile refid="plugin__metrics_8cpp">plugin_metrics.cpp</innerfile>
+    <innerfile refid="plugin__registry_8cpp">plugin_registry.cpp</innerfile>
+    <innerfile refid="plugin__system__edition_8cpp">plugin_system_edition.cpp</innerfile>
+    <innerfile refid="rpc__service__registry_8cpp">rpc_service_registry.cpp</innerfile>
+    <innerfile refid="signed__plugin__repository_8cpp">signed_plugin_repository.cpp</innerfile>
+    <innerfile refid="wasm__plugin__loader_8cpp">wasm_plugin_loader.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/plugins/"/>
+  </compounddef>
+</doxygen>

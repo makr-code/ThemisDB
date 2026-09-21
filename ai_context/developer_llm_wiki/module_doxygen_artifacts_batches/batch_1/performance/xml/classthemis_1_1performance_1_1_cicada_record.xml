@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_cicada_record" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::CicadaRecord</compoundname>
+    <includes refid="cicada_8h" local="no">cicada.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cicada_record_1ae49dd3b87ceaa978194da84267460bf5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::CicadaRecord::WRITE_LOCK_BIT</definition>
+        <argsstring></argsstring>
+        <name>WRITE_LOCK_BIT</name>
+        <qualifiedname>themis::performance::CicadaRecord::WRITE_LOCK_BIT</qualifiedname>
+        <initializer>= 1ULL &lt;&lt; 63</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="37" column="31" bodyfile="include/performance/cicada.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cicada_record_1a30633897b9de5ab28c88e217e0761c5d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::CicadaRecord::VERSION_MASK</definition>
+        <argsstring></argsstring>
+        <name>VERSION_MASK</name>
+        <qualifiedname>themis::performance::CicadaRecord::VERSION_MASK</qualifiedname>
+        <initializer>= ~<ref refid="classthemis_1_1performance_1_1_cicada_record_1ae49dd3b87ceaa978194da84267460bf5" kindref="member">WRITE_LOCK_BIT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="38" column="31" bodyfile="include/performance/cicada.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cicada_record_1a2d610fe65e85f15001a0b76f5c0e4b42" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::CicadaRecord::version_and_lock_</definition>
+        <argsstring></argsstring>
+        <name>version_and_lock_</name>
+        <qualifiedname>themis::performance::CicadaRecord::version_and_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="86" column="17" bodyfile="include/performance/cicada.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cicada_record_1a54fc551f4200bd74f656abf01ef9021d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::CicadaRecord::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::performance::CicadaRecord::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="87" column="17" bodyfile="include/performance/cicada.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cicada_record_1a7ff248c54838c31f64e062f7ff5de66e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::CicadaRecord::CicadaRecord</definition>
+        <argsstring>()</argsstring>
+        <name>CicadaRecord</name>
+        <qualifiedname>themis::performance::CicadaRecord::CicadaRecord</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="40" column="5" bodyfile="include/performance/cicada.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cicada_record_1adb63e6bfab76b20ac4731581742c04da" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::CicadaRecord::CicadaRecord</definition>
+        <argsstring>(std::string initial_data)</argsstring>
+        <name>CicadaRecord</name>
+        <qualifiedname>themis::performance::CicadaRecord::CicadaRecord</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>initial_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="41" column="14" bodyfile="include/performance/cicada.h" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cicada_record_1a00fa6a946a3afafee9cd7d484d4b35af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::CicadaRecord::try_lock</definition>
+        <argsstring>()</argsstring>
+        <name>try_lock</name>
+        <qualifiedname>themis::performance::CicadaRecord::try_lock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="45" column="10" bodyfile="include/performance/cicada.h" bodystart="45" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cicada_record_1ab35f1052cec397e3c5a71a7b5f3bc2fd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CicadaRecord::unlock_and_increment_version</definition>
+        <argsstring>()</argsstring>
+        <name>unlock_and_increment_version</name>
+        <qualifiedname>themis::performance::CicadaRecord::unlock_and_increment_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="58" column="10" bodyfile="include/performance/cicada.h" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::CicadaRecord::get_version</definition>
+        <argsstring>() const</argsstring>
+        <name>get_version</name>
+        <qualifiedname>themis::performance::CicadaRecord::get_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="65" column="14" bodyfile="include/performance/cicada.h" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cicada_record_1a634465e3d9ca7d549a149a747e440fec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::CicadaRecord::is_locked</definition>
+        <argsstring>() const</argsstring>
+        <name>is_locked</name>
+        <qualifiedname>themis::performance::CicadaRecord::is_locked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="70" column="10" bodyfile="include/performance/cicada.h" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cicada_record_1ab02f3dfb2f523d5b36c742df17bf2249" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CicadaRecord::set_data</definition>
+        <argsstring>(std::string new_data)</argsstring>
+        <name>set_data</name>
+        <qualifiedname>themis::performance::CicadaRecord::set_data</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>new_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="80" column="10" bodyfile="include/performance/cicada.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cicada_record_1ada7579233185da68dd340ce8a38a469d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::performance::CicadaRecord::get_data</definition>
+        <argsstring>() const</argsstring>
+        <name>get_data</name>
+        <qualifiedname>themis::performance::CicadaRecord::get_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="83" column="23" bodyfile="include/performance/cicada.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Cicada versioned record with optimistic locking Uses a single 64-bit word for version + write lock Bit layout: [63: write lock] [62-0: version number] </para>
+    </detaileddescription>
+    <location file="include/performance/cicada.h" line="35" column="1" bodyfile="include/performance/cicada.h" bodystart="35" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1a7ff248c54838c31f64e062f7ff5de66e" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>CicadaRecord</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1adb63e6bfab76b20ac4731581742c04da" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>CicadaRecord</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1a54fc551f4200bd74f656abf01ef9021d" prot="private" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>data_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1ada7579233185da68dd340ce8a38a469d" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>get_data</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>get_version</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1a634465e3d9ca7d549a149a747e440fec" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>is_locked</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1ab02f3dfb2f523d5b36c742df17bf2249" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>set_data</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1a00fa6a946a3afafee9cd7d484d4b35af" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>try_lock</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1ab35f1052cec397e3c5a71a7b5f3bc2fd" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>unlock_and_increment_version</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1a2d610fe65e85f15001a0b76f5c0e4b42" prot="private" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>version_and_lock_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1a30633897b9de5ab28c88e217e0761c5d" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>VERSION_MASK</name></member>
+      <member refid="classthemis_1_1performance_1_1_cicada_record_1ae49dd3b87ceaa978194da84267460bf5" prot="public" virt="non-virtual"><scope>themis::performance::CicadaRecord</scope><name>WRITE_LOCK_BIT</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

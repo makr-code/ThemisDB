@@ -1,0 +1,868 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::GocryptfsBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface" prot="public" virt="non-virtual">themis::plugins::user_storage::EncryptionBackendInterface</basecompoundref>
+    <includes refid="gocryptfs__backend_8hpp" local="no">gocryptfs_backend.hpp</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl" prot="public">themis::plugins::user_storage::GocryptfsBackend::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a76abdf5f0f7c2086f96ae139f97f56e0" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::plugins::user_storage::GocryptfsBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="131" column="21" bodyfile="include/user_storage_encrypted/gocryptfs_backend.hpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a68daf323e6bf363f8b04c726c6fcb55a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::GocryptfsBackend::GocryptfsBackend</definition>
+        <argsstring>()</argsstring>
+        <name>GocryptfsBackend</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::GocryptfsBackend</qualifiedname>
+        <briefdescription>
+<para>Construct backend without KDF (key_material used directly). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="54" column="5" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="212" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a5351e0d379b2fd9fb1bfa125ae903b16" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::GocryptfsBackend::GocryptfsBackend</definition>
+        <argsstring>(KeyDerivationService *kdf_service)</argsstring>
+        <name>GocryptfsBackend</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::GocryptfsBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" kindref="compound">KeyDerivationService</ref> *</type>
+          <declname>kdf_service</declname>
+        </param>
+        <briefdescription>
+<para>Construct backend with optional Argon2id KDF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kdf_service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to KDF service (not owned; must outlive this object). Pass nullptr to use key_material directly. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="62" column="14" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="216" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a9715e46cc06a9a6c91e5fa130b227e74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::GocryptfsBackend::~GocryptfsBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~GocryptfsBackend</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::~GocryptfsBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="64" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a21337816c8b532759835417425d73617" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::GocryptfsBackend::initialize</definition>
+        <argsstring>(const std::string &amp;config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6e6d63f00c64df2cdc4959b427ecd97b">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="67" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="229" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1aeb6d7c08ff95c6d043b0f377d0be1431" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::GocryptfsBackend::createContainer</definition>
+        <argsstring>(const std::string &amp;encrypted_dir, const std::string &amp;mount_point, const std::vector&lt; uint8_t &gt; &amp;key_material) override</argsstring>
+        <name>createContainer</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::createContainer</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a9b82bb07f11eaab99e57d9ffd4775166">createContainer</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encrypted_dir</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_point</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_material</declname>
+        </param>
+        <briefdescription>
+<para>Create Container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CommandArgumentValidator::validatePath(), isError(), error(), directoryExists(), value(), createDirectory(), resolveKey(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a27d21d4780061c027e3b6f8a74a56c17" kindref="member">executeCommandWithStdin()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="69" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="326" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ad370458d97a6d4e3759b27ac1f5af087" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::GocryptfsBackend::mountContainer</definition>
+        <argsstring>(const std::string &amp;encrypted_dir, const std::string &amp;mount_point, const std::vector&lt; uint8_t &gt; &amp;key_material) override</argsstring>
+        <name>mountContainer</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::mountContainer</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1adb183b46addf68150eaa2299e567fdec">mountContainer</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encrypted_dir</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_point</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_material</declname>
+        </param>
+        <briefdescription>
+<para>Mount Container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CommandArgumentValidator::validatePath(), isError(), error(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a731cc0c29cb03857714073f084e1535d" kindref="member">isMounted()</ref>, value(), resolveKey(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a27d21d4780061c027e3b6f8a74a56c17" kindref="member">executeCommandWithStdin()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="75" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="391" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a5521a44a722449b5cd9460be08453007" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::GocryptfsBackend::unmountContainer</definition>
+        <argsstring>(const std::string &amp;mount_point) override</argsstring>
+        <name>unmountContainer</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::unmountContainer</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae7b0830d46716df3f02194712cc6861c">unmountContainer</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_point</declname>
+        </param>
+        <briefdescription>
+<para>Unmount Container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a731cc0c29cb03857714073f084e1535d" kindref="member">isMounted()</ref>, CommandArgumentValidator::validatePath(), isError(), error(), value(), executeCommandSafe(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="81" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="446" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a731cc0c29cb03857714073f084e1535d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::GocryptfsBackend::isMounted</definition>
+        <argsstring>(const std::string &amp;mount_point) override</argsstring>
+        <name>isMounted</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::isMounted</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1aa2993add4aaccef2a244de4ad5a6a376">isMounted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_point</declname>
+        </param>
+        <briefdescription>
+<para>Is Mounted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: mounts(), std::getline(), find(), executeCommandSafe(), isSuccess(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="85" column="10" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="481" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a572eb23016587e1495539617b40d9e8f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::GocryptfsBackend::getBackendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::getBackendName</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae4d6cd7940216534f2da29b2424fbb25">getBackendName</reimplements>
+        <briefdescription>
+<para>Get backend name (e.g., &quot;gocryptfs&quot;, &quot;fscrypt&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="87" column="17" bodyfile="include/user_storage_encrypted/gocryptfs_backend.hpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1abe032546435bfce241a7bf1a4b004134" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::GocryptfsBackend::getBackendVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackendVersion</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::getBackendVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a24c0538fc98746aad724928516175cd2">getBackendVersion</reimplements>
+        <briefdescription>
+<para>Get backend version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="91" column="17" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="308" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a0c684b0192c158a359027e3000c81718" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::GocryptfsBackend::checkAvailability</definition>
+        <argsstring>() override</argsstring>
+        <name>checkAvailability</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::checkAvailability</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6ede73ebf8f28fcbe657bf335464e2d6">checkAvailability</reimplements>
+        <briefdescription>
+<para>Check Availability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: executeCommandSafe(), isError(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1aeb249a981b2f5fc4741e2d0e22f64d1b" kindref="member">emitDiagnosticEvent()</ref>, error(), stat(), modules(), is_open(), std::getline(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="93" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="241" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a27d21d4780061c027e3b6f8a74a56c17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::plugins::user_storage::GocryptfsBackend::executeCommandWithStdin</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;args, const std::string &amp;stdin_data)</argsstring>
+        <name>executeCommandWithStdin</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::executeCommandWithStdin</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stdin_data</declname>
+        </param>
+        <briefdescription>
+<para>Execute a command with <computeroutput>stdin_data</computeroutput> written to its stdin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Public string-based stdin helpers (test/integration interface) ------------------------------------------------------------------------<mdash/></para>
+<para>Forks the process, executes <computeroutput>args</computeroutput>[0] via execvp, writes <computeroutput>stdin_data</computeroutput> to its standard input, and returns the collected stdout/stderr.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>argv for execvp (args[0] is the executable) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stdin_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to write to the child&apos;s stdin </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Child output on success, or error description</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stdin_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), error(), empty(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" kindref="member">PipeGuard::create()</ref>, isValid(), fork(), closeWrite(), closeRead(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="109" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="768" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a241306a03aff2471c5f99d04356e03fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::plugins::user_storage::GocryptfsBackend::deliverKeyViaStdin</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;args, const std::string &amp;key_hex)</argsstring>
+        <name>deliverKeyViaStdin</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::deliverKeyViaStdin</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_hex</declname>
+        </param>
+        <briefdescription>
+<para>Deliver <computeroutput>key_hex</computeroutput> to a command via stdin, then clear the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deliver Key Via Stdin.</para>
+<para>Equivalent to executeCommandWithStdin(args, key_hex) but explicitly zeroes <computeroutput>key_hex</computeroutput> after the write to limit key material exposure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>argv for execvp </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hex-encoded key to write (cleared on return) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Child output on success, or error description</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a27d21d4780061c027e3b6f8a74a56c17" kindref="member">executeCommandWithStdin()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="124" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="904" bodyend="913"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1abc8c9f9c032c381ad566b5028b246f72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::plugins::user_storage::GocryptfsBackend::createPasswordFile</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;key_material)</argsstring>
+        <name>createPasswordFile</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::createPasswordFile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_material</declname>
+        </param>
+        <briefdescription>
+<para>Create a secure temporary password file; returns the path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="136" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ad36ce7ab6a36cbfc71c808c91c77f3f0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::plugins::user_storage::GocryptfsBackend::executeCommandWithStdin</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;args, const std::vector&lt; uint8_t &gt; &amp;key_material)</argsstring>
+        <name>executeCommandWithStdin</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::executeCommandWithStdin</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_material</declname>
+        </param>
+        <briefdescription>
+<para>Fork, exec gocryptfs and deliver the key via stdin pipe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Command With Stdin.</para>
+<para>The child receives the key as a hex string on STDIN. gocryptfs is invoked with &quot;-passfile /dev/stdin&quot; so that no key material touches the filesystem. The pipe write buffer is cleared with explicit_bzero after the write completes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full argv for execvp (args[0] = executable path) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key bytes to hex-encode and pipe to stdin </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Child stdout/stderr output on success, error otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), error(), empty(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" kindref="member">PipeGuard::create()</ref>, isValid(), fork(), closeWrite(), closeRead(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="154" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="575" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a6ef550d55b6ee4576cb789f70ede2c73" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::GocryptfsBackend::deliverKeyViaStdin</definition>
+        <argsstring>(int write_fd, const std::vector&lt; uint8_t &gt; &amp;key_material)</argsstring>
+        <name>deliverKeyViaStdin</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::deliverKeyViaStdin</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>write_fd</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_material</declname>
+        </param>
+        <briefdescription>
+<para>Write hex-encoded key to write_fd, then clear the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Stdin key delivery (Feature 1) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>write_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Write end of the stdin pipe (closed on return) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key bytes</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">write_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), error(), reserve(), size(), std::setfill(), std::setw(), str(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="165" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="510" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a7c7e1cccb4a63f348c0a079950c94b25" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::plugins::user_storage::GocryptfsBackend::executeCommandSafe</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;args)</argsstring>
+        <name>executeCommandSafe</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::executeCommandSafe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Execute command safely via fork/execvp (no shell). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Command Safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), error(), empty(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" kindref="member">PipeGuard::create()</ref>, isValid(), fork(), closeRead(), dup2(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="173" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="925" bodyend="1011"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ae28071e506eaf33e536ad75f2b974f32" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::plugins::user_storage::GocryptfsBackend::resolveKey</definition>
+        <argsstring>(const std::string &amp;encrypted_dir, const std::vector&lt; uint8_t &gt; &amp;key_material, bool create_salt)</argsstring>
+        <name>resolveKey</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::resolveKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encrypted_dir</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_material</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>create_salt</declname>
+        </param>
+        <briefdescription>
+<para>Derive or return key for a container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolve Key.</para>
+<para>If a KDF service is configured: reads/writes the per-container salt file (&quot;{encrypted_dir}/.themis_kdf_salt&quot;), then derives the key via Argon2id. Otherwise returns key_material unchanged.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>encrypted_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ciphertext directory (salt file lives here) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Master key (or direct key when no KDF) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>create_salt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true, generate and persist a new salt</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">create_salt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateSalt(), error(), std::string(), what(), out(), write(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="190" column="12" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="692" bodyend="757"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a26e289a7bb64916f24316e76b6214161" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::GocryptfsBackend::directoryExists</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>directoryExists</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::directoryExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Directory Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::filesystem::is_directory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="196" column="10" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="1019" bodyend="1022"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a244505f02e36a5d030c5a95eb27f0b0a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::GocryptfsBackend::createDirectory</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>createDirectory</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::createDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Create Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::filesystem::exists(), std::filesystem::create_directories(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="197" column="10" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="1030" bodyend="1037"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>gocryptfs encryption backend implementation </para>
+    </briefdescription>
+    <detaileddescription>
+<para>gocryptfs provides FUSE-based filesystem encryption with:<itemizedlist>
+<listitem><para>AES-256-GCM encryption</para>
+</listitem><listitem><para>Filename encryption</para>
+</listitem><listitem><para>Per-file IV (initialization vector)</para>
+</listitem><listitem><para>Authenticated encryption</para>
+</listitem></itemizedlist>
+</para>
+<para>Key delivery: key material is delivered to gocryptfs via a stdin pipe (&quot;-passfile /dev/stdin&quot;), never via a temporary file on disk.</para>
+<para>Optional KDF: when a <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" kindref="compound">KeyDerivationService</ref> is supplied the raw key_material argument is treated as the master key; the per-container derived key is computed with Argon2id and used as the gocryptfs passphrase.</para>
+<para>Requirements:<itemizedlist>
+<listitem><para>gocryptfs binary in PATH (&gt;= v2.0)</para>
+</listitem><listitem><para>FUSE support (libfuse on Linux, macFUSE on macOS)</para>
+</listitem><listitem><para>Appropriate permissions for mount operations</para>
+</listitem></itemizedlist>
+</para>
+<para>Platform Support:<itemizedlist>
+<listitem><para>Linux: ✅ Full support</para>
+</listitem><listitem><para>macOS: ✅ Via macFUSE</para>
+</listitem><listitem><para>Windows: ⚠️ Via WinFsp/Dokany (experimental)</para>
+</listitem><listitem><para>Raspberry Pi: ✅ ARM64 support </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::user_storage::EncryptionBackendInterface</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::user_storage::GocryptfsBackend</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::user_storage::EncryptionBackendInterface</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::user_storage::GocryptfsBackend</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/user_storage_encrypted/gocryptfs_backend.hpp" line="49" column="1" bodyfile="include/user_storage_encrypted/gocryptfs_backend.hpp" bodystart="49" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a0c684b0192c158a359027e3000c81718" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>checkAvailability</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1aeb6d7c08ff95c6d043b0f377d0be1431" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>createContainer</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a244505f02e36a5d030c5a95eb27f0b0a" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>createDirectory</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1abc8c9f9c032c381ad566b5028b246f72" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>createPasswordFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a241306a03aff2471c5f99d04356e03fe" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>deliverKeyViaStdin</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a6ef550d55b6ee4576cb789f70ede2c73" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>deliverKeyViaStdin</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a26e289a7bb64916f24316e76b6214161" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>directoryExists</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a7c7e1cccb4a63f348c0a079950c94b25" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>executeCommandSafe</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a27d21d4780061c027e3b6f8a74a56c17" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>executeCommandWithStdin</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ad36ce7ab6a36cbfc71c808c91c77f3f0" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>executeCommandWithStdin</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a572eb23016587e1495539617b40d9e8f" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1abe032546435bfce241a7bf1a4b004134" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>getBackendVersion</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a68daf323e6bf363f8b04c726c6fcb55a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>GocryptfsBackend</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a5351e0d379b2fd9fb1bfa125ae903b16" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>GocryptfsBackend</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a76abdf5f0f7c2086f96ae139f97f56e0" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a21337816c8b532759835417425d73617" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a731cc0c29cb03857714073f084e1535d" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>isMounted</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ad370458d97a6d4e3759b27ac1f5af087" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>mountContainer</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ae28071e506eaf33e536ad75f2b974f32" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>resolveKey</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a5521a44a722449b5cd9460be08453007" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>unmountContainer</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a7fcfc7bb7ebbe6aab54c6a6ee71f48db" prot="public" virt="virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>~EncryptionBackendInterface</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a9715e46cc06a9a6c91e5fa130b227e74" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend</scope><name>~GocryptfsBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

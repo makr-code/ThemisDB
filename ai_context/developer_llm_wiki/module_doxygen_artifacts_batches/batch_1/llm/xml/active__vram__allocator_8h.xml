@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="active__vram__allocator_8h" kind="file" language="C++">
+    <compoundname>active_vram_allocator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="llm__plugin__manager_8h" local="yes">include/llm/llm_plugin_manager.h</includedby>
+    <includedby refid="active__vram__allocator_8cpp" local="yes">src/llm/active_vram_allocator.cpp</includedby>
+    <includedby refid="adaptive__vram__allocator_8cpp" local="yes">src/llm/adaptive_vram_allocator.cpp</includedby>
+    <includedby refid="test__active__vram__allocator_8cpp" local="yes">tests/llm/test_active_vram_allocator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/active_vram_allocator.h</label>
+        <link refid="active__vram__allocator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/llm/bench_llm_raid_pipeline.cpp</label>
+        <link refid="bench__llm__raid__pipeline_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/llm/active_vram_allocator.h</label>
+        <link refid="active__vram__allocator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/llm_ingestion_bridge.h</label>
+        <link refid="llm__ingestion__bridge_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/llm_plugin_manager.h</label>
+        <link refid="llm__plugin__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>src/llm/active_vram_allocator.cpp</label>
+        <link refid="active__vram__allocator_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/llm/adaptive_vram_allocator.cpp</label>
+        <link refid="adaptive__vram__allocator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/llm/docs_assistant.cpp</label>
+        <link refid="docs__assistant_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/llm_client_default.cpp</label>
+        <link refid="llm__client__default_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/llm_ingestion_bridge.cpp</label>
+        <link refid="llm__ingestion__bridge_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/llm_plugin_manager.cpp</label>
+        <link refid="llm__plugin__manager_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/llm/test_active_vram_allocator.cpp</label>
+        <link refid="test__active__vram__allocator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/llm/test_llm_aql_explain_stream_api.cpp</label>
+        <link refid="test__llm__aql__explain__stream__api_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/llm/test_llm_aql_handler.cpp</label>
+        <link refid="test__llm__aql__handler_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/llm/test_llm_gossip_adapter_publisher.cpp</label>
+        <link refid="test__llm__gossip__adapter__publisher_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/llm/test_llm_model_path_traversal.cpp</label>
+        <link refid="test__llm__model__path__traversal_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/llm/test_llm_phase5_hardening.cpp</label>
+        <link refid="test__llm__phase5__hardening_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/llm/test_llm_plugin.cpp</label>
+        <link refid="test__llm__plugin_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/llm/test_metrics_server_wiring.cpp</label>
+        <link refid="test__metrics__server__wiring_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/llm/test_openai_compat_adapter.cpp</label>
+        <link refid="test__openai__compat__adapter_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/llm/test_wave5_llm_stubs.cpp</label>
+        <link refid="test__wave5__llm__stubs_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/llm/test_wave_next_llm_threadsafety.cpp</label>
+        <link refid="test__wave__next__llm__threadsafety_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator" prot="public">themis::llm::ActiveVRAMAllocator</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config" prot="public">themis::llm::ActiveVRAMAllocator::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" prot="public">themis::llm::ActiveVRAMAllocator::AllocationHandle</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats" prot="public">themis::llm::ActiveVRAMAllocator::Stats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event" prot="public">themis::llm::ActiveVRAMAllocator::OOMEvent</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1llm" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aa414c587a1423d4b38764b4a3f07a561" kindref="member">ActiveVRAMAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a1a5250b752d872db9247d73adfaea4c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a1a5250b752d872db9247d73adfaea4c2" kindref="member">max_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1af9d9e7d5faaa2c1bf7f6e49323ac5f02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1af9d9e7d5faaa2c1bf7f6e49323ac5f02" kindref="member">max_cpu_spill_bytes</ref><sp/>=<sp/>16ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a0918ccacab5d7c0bebc349cf2e0e1e0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a0918ccacab5d7c0bebc349cf2e0e1e0c" kindref="member">oom_threshold_fraction</ref><sp/>=<sp/>0.90f;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a47249243891d56c0d5dc6ad319823523" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1a47249243891d56c0d5dc6ad319823523" kindref="member">min_free_vram_reserve</ref><sp/>=<sp/>512ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ae1a93d3b66728a8fe3e8da7ae7d4c07f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ae1a93d3b66728a8fe3e8da7ae7d4c07f" kindref="member">enable_defragmentation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ae5e3821443b21696f1f90fd46dbc30f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ae5e3821443b21696f1f90fd46dbc30f2" kindref="member">enable_cpu_spilling</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1acc7869b13d33823a850ef7193c4081ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1acc7869b13d33823a850ef7193c4081ee" kindref="member">gpu_device_id</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ac23440eae6c4e917bd4c101f78122a86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config_1ac23440eae6c4e917bd4c101f78122a86" kindref="member">block_alignment</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocation<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1aab3f0c23066f192f7960fec6fe686e08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1af286d2dae3fa08023355f6b798260a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1af286d2dae3fa08023355f6b798260a58" kindref="member">owner_id</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a4283a8052edc5b47171357b0b3afc38a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a4283a8052edc5b47171357b0b3afc38a" kindref="member">requested_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a9ea52a32b1495fdd59032d667f55e0b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a9ea52a32b1495fdd59032d667f55e0b5" kindref="member">allocated_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a533a728631e4ac256ffe65aeb700e647" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a533a728631e4ac256ffe65aeb700e647" kindref="member">gpu_ptr</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a103a9b177083d0e0d015a73dde1782ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a103a9b177083d0e0d015a73dde1782ce" kindref="member">cpu_ptr</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a46a80e0bc441964168b77e126905db55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a46a80e0bc441964168b77e126905db55" kindref="member">is_spilled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a23e760da9edbb4d19c46a33736f95b47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a23e760da9edbb4d19c46a33736f95b47" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1adb1c83209a5f3de866e5055423971832" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1adb1c83209a5f3de866e5055423971832" kindref="member">is_external</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1af2b9e563352467d4def7a24b66b23c7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1af2b9e563352467d4def7a24b66b23c7d" kindref="member">allocated_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a3b4fd8505e49f6a511d9ec0501b921f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a3b4fd8505e49f6a511d9ec0501b921f0" kindref="member">last_used_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>&amp;<sp/>error<sp/>reporting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a40f8c322fac2a7d8e979b7655ffebe32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a40f8c322fac2a7d8e979b7655ffebe32" kindref="member">total_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a5862b8b7b38a4fda7d2de322c6f3e02e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a5862b8b7b38a4fda7d2de322c6f3e02e" kindref="member">used_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a98f5794b844816fe4f0447ce884012b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a98f5794b844816fe4f0447ce884012b4" kindref="member">free_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a6a58a34702d488f003d264c09b0653df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a6a58a34702d488f003d264c09b0653df" kindref="member">peak_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a8b2644316307da3d6848c5bb51eaec81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a8b2644316307da3d6848c5bb51eaec81" kindref="member">wasted_padding_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a06f401867d6a400d48a9c92cfd62fef1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a06f401867d6a400d48a9c92cfd62fef1" kindref="member">spilled_cpu_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a5b2ceb3f540b37043a140ef058f9ab81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a5b2ceb3f540b37043a140ef058f9ab81" kindref="member">live_allocation_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a5e05d4cbdaae06d48650039c090d8a0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a5e05d4cbdaae06d48650039c090d8a0d" kindref="member">oom_event_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a4ec99a958200124e3d94c843cc6bed94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a4ec99a958200124e3d94c843cc6bed94" kindref="member">oom_recovery_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a9d02090cc004f05185a29e49351af7ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a9d02090cc004f05185a29e49351af7ce" kindref="member">eviction_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a5a551b00402552b217c0d05a66df8bea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a5a551b00402552b217c0d05a66df8bea" kindref="member">defrag_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a088983569c5fd5e3add40e53e4d5e573" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a088983569c5fd5e3add40e53e4d5e573" kindref="member">spill_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a2dc5c16d0f61fa29c6886628583113d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1a2dc5c16d0f61fa29c6886628583113d3" kindref="member">fragmentation_pct</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1ac5e3ee8cc68b81dfa2a2a1d943a0867a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats_1ac5e3ee8cc68b81dfa2a2a1d943a0867a" kindref="member">oom_threshold_exceeded</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OOM<sp/>event<sp/>notification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fe" kindref="member">OOMRecoveryStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6feaac22e8a2998f687314cff51bea2faca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6feaac22e8a2998f687314cff51bea2faca9" kindref="member">Eviction</ref>,</highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6feac253d5654076cc42abc403f025e06fe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6feac253d5654076cc42abc403f025e06fe4" kindref="member">Defragmentation</ref>,</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fea0b060a0faf9d6aa1153f635e8ab321da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fea0b060a0faf9d6aa1153f635e8ab321da" kindref="member">CPUSpilling</ref>,</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fead7c8c85bf79bbe1b7188497c32c3b0ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fead7c8c85bf79bbe1b7188497c32c3b0ca" kindref="member">Failed</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event" kindref="compound">OOMEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1abc189a5d030196a8dc7ce8bc914a813f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1abc189a5d030196a8dc7ce8bc914a813f" kindref="member">requested_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a4b87b4cb42ad690c74e41a72d5f5af82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fe" kindref="member">OOMRecoveryStrategy</ref><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a4b87b4cb42ad690c74e41a72d5f5af82" kindref="member">strategy</ref><sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a076c5cda97642c06d254b3dec5d6c6fead7c8c85bf79bbe1b7188497c32c3b0ca" kindref="member">OOMRecoveryStrategy::Failed</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a82b86317a7ac02e26a9318e813d6f055" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a82b86317a7ac02e26a9318e813d6f055" kindref="member">recovered</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a56d7895a9d749eb33ee72337e45d5e60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event_1a56d7895a9d749eb33ee72337e45d5e60" kindref="member">bytes_recovered</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3353afb64b5f48238a32b1fcf609b9f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3353afb64b5f48238a32b1fcf609b9f9" kindref="member">OOMCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event" kindref="compound">OOMEvent</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a0c69a788c265717226834e7a66770c3d" kindref="member">ActiveVRAMAllocator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a0c69a788c265717226834e7a66770c3d" kindref="member">ActiveVRAMAllocator</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a33bf21377263fedd47ab47120703b0ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a33bf21377263fedd47ab47120703b0ad" kindref="member">~ActiveVRAMAllocator</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a915f41910a5d653247b090e06b3eb7db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a915f41910a5d653247b090e06b3eb7db" kindref="member">ActiveVRAMAllocator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aa414c587a1423d4b38764b4a3f07a561" kindref="member">ActiveVRAMAllocator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a2b47350e3fe3d27db83225ec21ac5712" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aa414c587a1423d4b38764b4a3f07a561" kindref="member">ActiveVRAMAllocator</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a2b47350e3fe3d27db83225ec21ac5712" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aa414c587a1423d4b38764b4a3f07a561" kindref="member">ActiveVRAMAllocator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3219aeb627d224899c9cf4b05ceaa2b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3219aeb627d224899c9cf4b05ceaa2b3" kindref="member">ActiveVRAMAllocator</ref>(<ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aa414c587a1423d4b38764b4a3f07a561" kindref="member">ActiveVRAMAllocator</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1acddcad367325eda0a313b38cf0119d7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aa414c587a1423d4b38764b4a3f07a561" kindref="member">ActiveVRAMAllocator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aa414c587a1423d4b38764b4a3f07a561" kindref="member">ActiveVRAMAllocator</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>allocation<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref>&gt;<sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1af4e85b6da5dc0ad345e2ef2c4d2a2762" kindref="member">allocate</ref>(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>owner_id,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id<sp/>=<sp/>-1);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref>&gt;<sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a43e86b1aefde85000f481b55e52acc33" kindref="member">allocateOrRecover</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>owner_id,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id<sp/>=<sp/>-1);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aef7fb521073fccebd817fcca3e692a6a" kindref="member">free</ref>(<ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref>&amp;<sp/>handle);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1af5cb2b412beb6e14b1ac910747ab54fb" kindref="member">touch</ref>(<ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref>&amp;<sp/>handle);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OOM<sp/>recovery<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a68cc21f73c61d5579d19f49d20315eb1" kindref="member">handleOOM</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>need_bytes<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3519ec473f36332e5d9a474bffc829b8" kindref="member">evictLRU</ref>();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1aa02f69f4676d4f86d4e0410f35efa5e2" kindref="member">evictOwner</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>owner_id);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a6c47e84815c4bd17e650fe1b3a5c22e0" kindref="member">defragment</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a49f9a0fd31b5c63a0f2bb391ee1864d2" kindref="member">spillLRUToCPU</ref>();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1ac5f5a994537ed06cfe2786c726496715" kindref="member">restoreFromCPU</ref>(<ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref>&amp;<sp/>handle);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monitoring<sp/>&amp;<sp/>introspection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1ace5ab83302b167ed2f4a484e47d0c96a" kindref="member">getStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a96ee1033929d105fcb4ab05492efe8df" kindref="member">isOOMThresholdExceeded</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a07c20fedf74ac3f37aafe6fc617f2c9f" kindref="member">setOOMCallback</ref>(<ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3353afb64b5f48238a32b1fcf609b9f9" kindref="member">OOMCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref>&gt;<sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a68e2b9f72040857d051a65521657db99" kindref="member">listAllocations</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a96b9144a38e372e0b56d6f79acdf4dbe" kindref="member">gpuDeviceId</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a1ad40add256a17350502c9d3d6254a7c" kindref="member">isGPUAvailable</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a803a8e77a5a5d18249866d2d8946a558" kindref="member">registerExternal</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>owner_id);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a22f903e3167938cabf59c2f144539a6e" kindref="member">allocateWithFragmentation</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">**<sp/>ptr);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1ab05b23e75a10af5495aa14b59c7a512e" kindref="member">handleOutOfMemory</ref>();</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a6a1d6e1a12975a4e9a0b5b952e79eaad" kindref="member">private</ref>:</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/active_vram_allocator.h"/>
+  </compounddef>
+</doxygen>

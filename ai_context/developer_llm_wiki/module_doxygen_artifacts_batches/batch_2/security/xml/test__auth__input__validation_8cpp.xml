@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__auth__input__validation_8cpp" kind="file" language="C++">
+    <compoundname>test_auth_input_validation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/jwt_validator.h</includes>
+    <includes local="yes">auth/gssapi_authenticator.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_auth_input_validation.cpp</label>
+        <link refid="test__auth__input__validation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>auth/gssapi_authenticator.h</label>
+      </node>
+      <node id="3">
+        <label>auth/jwt_validator.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthInputValidationTest, JWT_TokenSizeLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthInputValidationTest</type>
+        </param>
+        <param>
+          <type>JWT_TokenSizeLimit</type>
+        </param>
+        <briefdescription>
+<para>Test JWT token size validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_input_validation.cpp" line="11" column="1" bodyfile="tests/security/test_auth_input_validation.cpp" bodystart="11" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__input__validation_8cpp_1a67472294b370af4fd17309edf0996fb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthInputValidationTest, JWT_EmptyToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthInputValidationTest</type>
+        </param>
+        <param>
+          <type>JWT_EmptyToken</type>
+        </param>
+        <briefdescription>
+<para>Test JWT empty token validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_input_validation.cpp" line="30" column="1" bodyfile="tests/security/test_auth_input_validation.cpp" bodystart="30" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__input__validation_8cpp_1aa241c20703cae51fe6239eb1666ea039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthInputValidationTest, JWT_PrincipalLengthLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthInputValidationTest</type>
+        </param>
+        <param>
+          <type>JWT_PrincipalLengthLimit</type>
+        </param>
+        <briefdescription>
+<para>Test JWT principal/subject length validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_input_validation.cpp" line="47" column="1" bodyfile="tests/security/test_auth_input_validation.cpp" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__input__validation_8cpp_1a32ea5cef75a5cd74040ce1520da97770" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthInputValidationTest, JWT_CustomTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthInputValidationTest</type>
+        </param>
+        <param>
+          <type>JWT_CustomTimeout</type>
+        </param>
+        <briefdescription>
+<para>Test JWT validator configuration with custom timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_input_validation.cpp" line="57" column="1" bodyfile="tests/security/test_auth_input_validation.cpp" bodystart="57" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__input__validation_8cpp_1a69a15cb4d0fb3bf17048114860f414fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthInputValidationTest, GSSAPI_ConfigurationValidation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthInputValidationTest</type>
+        </param>
+        <param>
+          <type>GSSAPI_ConfigurationValidation</type>
+        </param>
+        <briefdescription>
+<para>Test GSSAPI configuration validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_input_validation.cpp" line="80" column="1" bodyfile="tests/security/test_auth_input_validation.cpp" bodystart="80" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__input__validation_8cpp_1a985d53f4bb5f4d0a4a39d31d003f0d94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthInputValidationTest, GSSAPI_Constants)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthInputValidationTest</type>
+        </param>
+        <param>
+          <type>GSSAPI_Constants</type>
+        </param>
+        <briefdescription>
+<para>Test GSSAPI constants are defined correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_input_validation.cpp" line="96" column="1" bodyfile="tests/security/test_auth_input_validation.cpp" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__input__validation_8cpp_1a439fd5fc6c096f22f233572cd8946ecd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthInputValidationTest, GSSAPI_ContextTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthInputValidationTest</type>
+        </param>
+        <param>
+          <type>GSSAPI_ContextTimeout</type>
+        </param>
+        <briefdescription>
+<para>Test GSSAPI context timeout configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_input_validation.cpp" line="106" column="1" bodyfile="tests/security/test_auth_input_validation.cpp" bodystart="106" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__input__validation_8cpp_1a1e47af6515e2a427e82a3cfbbcb09500" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthInputValidationTest, JWT_RetryConfiguration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthInputValidationTest</type>
+        </param>
+        <param>
+          <type>JWT_RetryConfiguration</type>
+        </param>
+        <briefdescription>
+<para>Test JWT validator retry configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_input_validation.cpp" line="120" column="1" bodyfile="tests/security/test_auth_input_validation.cpp" bodystart="120" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwt_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/gssapi_authenticator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><ref refid="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" kindref="member">TEST</ref>(AuthInputValidationTest,<sp/>JWT_TokenSizeLimit)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>token<sp/>exceeding<sp/>the<sp/>size<sp/>limit<sp/>(16KB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>oversized_token(MAX_JWT_TOKEN_SIZE<sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>oversized_token<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>oversized_token.append(MAX_JWT_TOKEN_SIZE<sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>oversized_token<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>oversized_token.append(MAX_JWT_TOKEN_SIZE<sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;C&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>throw<sp/>due<sp/>to<sp/>size<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator.parseAndValidate(oversized_token);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" kindref="member">TEST</ref>(AuthInputValidationTest,<sp/>JWT_EmptyToken)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;https://example.com/jwks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>token<sp/>should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator.parseAndValidate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bearer<sp/>prefix<sp/>only<sp/>should<sp/>also<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator.parseAndValidate(</highlight><highlight class="stringliteral">&quot;Bearer<sp/>&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" kindref="member">TEST</ref>(AuthInputValidationTest,<sp/>JWT_PrincipalLengthLimit)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>would<sp/>require<sp/>a<sp/>valid<sp/>JWT<sp/>with<sp/>oversized<sp/>subject</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>now,<sp/>we<sp/>document<sp/>the<sp/>requirement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>real<sp/>scenario,<sp/>create<sp/>a<sp/>JWT<sp/>with<sp/>sub<sp/>field<sp/>&gt;<sp/>MAX_PRINCIPAL_NAME_LENGTH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(MAX_PRINCIPAL_NAME_LENGTH<sp/>==<sp/>256);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" kindref="member">TEST</ref>(AuthInputValidationTest,<sp/>JWT_CustomTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>config{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://example.com/jwks&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test-issuer&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test-audience&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds(600),</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds(60),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>revoked<sp/>kids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>custom<sp/>timeout:<sp/>3<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>custom<sp/>max<sp/>retries:<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>should<sp/>be<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>is<sp/>configured<sp/>with<sp/>custom<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" kindref="member">TEST</ref>(AuthInputValidationTest,<sp/>GSSAPI_ConfigurationValidation)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>configuration<sp/>-<sp/>empty<sp/>service<sp/>principal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosConfig<sp/>invalid_config;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>invalid_config.enabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>invalid_config.service_principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>invalid_config.keytab_file<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test.keytab&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>initialization<sp/>with<sp/>invalid<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(invalid_config));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" kindref="member">TEST</ref>(AuthInputValidationTest,<sp/>GSSAPI_Constants)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>constants<sp/>are<sp/>reasonable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MAX_GSSAPI_TOKEN_SIZE,<sp/>64<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MAX_KERBEROS_PRINCIPAL_LENGTH,<sp/>256);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(DEFAULT_GSSAPI_CONTEXT_TIMEOUT,<sp/>30);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" kindref="member">TEST</ref>(AuthInputValidationTest,<sp/>GSSAPI_ContextTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosConfig<sp/>config;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>config.enabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>config.service_principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb/localhost@EXAMPLE.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>config.keytab_file<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test.keytab&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>config.context_timeout_seconds<sp/>=<sp/>15;<sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>should<sp/>be<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.context_timeout_seconds,<sp/>15);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__auth__input__validation_8cpp_1a12c453d9a6c9ee458cba9aacbc9a9396" kindref="member">TEST</ref>(AuthInputValidationTest,<sp/>JWT_RetryConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>config{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://example.com/jwks&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;issuer&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;audience&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds(300),</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds(30),</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>revoked<sp/>kids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>second<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>max<sp/>5<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.jwks_timeout_seconds,<sp/>5);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.jwks_max_retries,<sp/>5);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_auth_input_validation.cpp"/>
+  </compounddef>
+</doxygen>

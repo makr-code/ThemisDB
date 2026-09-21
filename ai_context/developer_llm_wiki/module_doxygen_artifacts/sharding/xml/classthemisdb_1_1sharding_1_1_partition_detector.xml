@@ -1,0 +1,774 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_partition_detector" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PartitionDetector</compoundname>
+    <includes refid="partition__detector_8h" local="no">partition_detector.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics" prot="public">themisdb::sharding::PartitionDetector::Statistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_partition_detector_1a5c7cfaaff2c7917adc32d2a9b63eb3b1" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;node_id)&gt;</type>
+        <definition>using themisdb::sharding::PartitionDetector::HealthCheckCallback = std::function&lt;bool(const std::string&amp; node_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HealthCheckCallback</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::HealthCheckCallback</qualifiedname>
+        <briefdescription>
+<para>Callback signature used for active node health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="84" column="5" bodyfile="include/sharding/partition_detector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_partition_detector_1aa7c926ff189de30fa90fb1e124a5adc7" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_partition_event" kindref="compound">PartitionEvent</ref> &amp;event)&gt;</type>
+        <definition>using themisdb::sharding::PartitionDetector::PartitionCallback = std::function&lt;void(const PartitionEvent&amp; event)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PartitionCallback</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::PartitionCallback</qualifiedname>
+        <briefdescription>
+<para>Callback signature for partition detect/heal events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="86" column="5" bodyfile="include/sharding/partition_detector.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1afba87df2f791c8e37f5f1ac2a2e24612" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config" kindref="compound">PartitionDetectorConfig</ref></type>
+        <definition>PartitionDetectorConfig themisdb::sharding::PartitionDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::config_</qualifiedname>
+        <briefdescription>
+<para>Monitoring configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="184" column="29" bodyfile="include/sharding/partition_detector.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1abe3ff1907b925b88e1eff6c195abb4e3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::PartitionDetector::nodes_mutex_</definition>
+        <argsstring></argsstring>
+        <name>nodes_mutex_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::nodes_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="186" column="24" bodyfile="include/sharding/partition_detector.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1a92b7febcd1a00ef1c258ff38f15da017" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_node_connectivity" kindref="compound">NodeConnectivity</ref> &gt;</type>
+        <definition>std::map&lt;std::string, NodeConnectivity&gt; themisdb::sharding::PartitionDetector::nodes_</definition>
+        <argsstring></argsstring>
+        <name>nodes_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::nodes_</qualifiedname>
+        <briefdescription>
+<para>Connectivity state per monitored node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="187" column="14" bodyfile="include/sharding/partition_detector.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1ad6ee507c02cb8b13e42b5e297f80e7bf" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::PartitionDetector::events_mutex_</definition>
+        <argsstring></argsstring>
+        <name>events_mutex_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::events_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="189" column="24" bodyfile="include/sharding/partition_detector.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1aedddc05608f979b735888241352a3df8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_partition_event" kindref="compound">PartitionEvent</ref> &gt;</type>
+        <definition>std::vector&lt;PartitionEvent&gt; themisdb::sharding::PartitionDetector::partition_history_</definition>
+        <argsstring></argsstring>
+        <name>partition_history_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::partition_history_</qualifiedname>
+        <briefdescription>
+<para>Partition event history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="190" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1ac43bfb2194893201591b8deeb4d4e41a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::PartitionDetector::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Worker thread lifecycle flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="192" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1afd2378a99e5b6f2b129c9b9e34560356" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44" kindref="member">NetworkHealth</ref> &gt;</type>
+        <definition>std::atomic&lt;NetworkHealth&gt; themisdb::sharding::PartitionDetector::current_health_</definition>
+        <argsstring></argsstring>
+        <name>current_health_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::current_health_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44af068ebe4133e3e6563080836268ea979" kindref="member">NetworkHealth::HEALTHY</ref>}</initializer>
+        <briefdescription>
+<para>Aggregated network health. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="193" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1ae333247fe5e6c099f9457dcf5212e855" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::PartitionDetector::split_brain_detected_</definition>
+        <argsstring></argsstring>
+        <name>split_brain_detected_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::split_brain_detected_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Split-brain condition flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="194" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1a077549628eb194713c8104b6974dd00d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themisdb::sharding::PartitionDetector::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::stats_</qualifiedname>
+        <briefdescription>
+<para>Runtime counters and timestamps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="196" column="16" bodyfile="include/sharding/partition_detector.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1aa7a9c5ebc40c3e072e45adf9a557eef7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5c7cfaaff2c7917adc32d2a9b63eb3b1" kindref="member">HealthCheckCallback</ref></type>
+        <definition>HealthCheckCallback themisdb::sharding::PartitionDetector::health_check_callback_</definition>
+        <argsstring></argsstring>
+        <name>health_check_callback_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::health_check_callback_</qualifiedname>
+        <briefdescription>
+<para>Active health-check callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="198" column="25" bodyfile="include/sharding/partition_detector.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1afba6d59276b9c9f7823603d2d1bdc073" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7c926ff189de30fa90fb1e124a5adc7" kindref="member">PartitionCallback</ref></type>
+        <definition>PartitionCallback themisdb::sharding::PartitionDetector::partition_callback_</definition>
+        <argsstring></argsstring>
+        <name>partition_callback_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::partition_callback_</qualifiedname>
+        <briefdescription>
+<para>Partition detect/heal callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="199" column="23" bodyfile="include/sharding/partition_detector.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_partition_detector_1a0f2140a090e0c09fb8ca93b579188b9f" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::PartitionDetector::health_check_thread_</definition>
+        <argsstring></argsstring>
+        <name>health_check_thread_</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::health_check_thread_</qualifiedname>
+        <briefdescription>
+<para>Background monitoring worker. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="205" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a994a7536858adcf6c212767c6d98ba35" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PartitionDetector::PartitionDetector</definition>
+        <argsstring>(const PartitionDetectorConfig &amp;config)</argsstring>
+        <name>PartitionDetector</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::PartitionDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config" kindref="compound">PartitionDetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct partition detector with runtime settings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Monitoring cadence and threshold configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="92" column="14" bodyfile="src/sharding/partition_detector.cpp" bodystart="25" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a5aa246edc6bde94db20de7cc8c502e24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PartitionDetector::~PartitionDetector</definition>
+        <argsstring>()</argsstring>
+        <name>~PartitionDetector</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::~PartitionDetector</qualifiedname>
+        <briefdescription>
+<para>Stop monitoring thread during destruction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="95" column="5" bodyfile="src/sharding/partition_detector.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1aa34293677fb0de068770ce522eb7e205" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::start</qualifiedname>
+        <briefdescription>
+<para>Start monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: exchange(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="100" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="36" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a77d63fe2ce75271d379c1e68713bea49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::stop</qualifiedname>
+        <briefdescription>
+<para>Stop monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: exchange(), themis::utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="105" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a025b746db8e5ac5f489667fb6446daa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::addNode</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::addNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Add node to monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node identifier to begin tracking.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="111" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="64" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1af5afc3670a17e25e68a7b16370024062" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::removeNode</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::removeNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove node from monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node identifier to remove.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="117" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a2196199f65a3b9b49ca7defa746e151b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::recordHeartbeat</definition>
+        <argsstring>(const std::string &amp;node_id, std::chrono::milliseconds rtt)</argsstring>
+        <name>recordHeartbeat</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::recordHeartbeat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>rtt</declname>
+        </param>
+        <briefdescription>
+<para>Record heartbeat from node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record <ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rtt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed round-trip time for successful contact.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rtt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="124" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="94" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a5eba5ff0791e3e75cd57f0a63bab3f31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::recordFailure</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::recordFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Record failed contact with node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Failure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node identifier.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="131" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="118" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1aa7937659391d76fb26cad5a5bbba5366" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44" kindref="member">NetworkHealth</ref></type>
+        <definition>NetworkHealth themisdb::sharding::PartitionDetector::getNetworkHealth</definition>
+        <argsstring>() const</argsstring>
+        <name>getNetworkHealth</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::getNetworkHealth</qualifiedname>
+        <briefdescription>
+<para>Get current network health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current aggregated network health state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="137" column="19" bodyfile="src/sharding/partition_detector.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a257209ed7a3aef7272203cb4646c37b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_node_connectivity" kindref="compound">NodeConnectivity</ref> &gt;</type>
+        <definition>std::vector&lt; NodeConnectivity &gt; themisdb::sharding::PartitionDetector::getNodeConnectivity</definition>
+        <argsstring>() const</argsstring>
+        <name>getNodeConnectivity</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::getNodeConnectivity</qualifiedname>
+        <briefdescription>
+<para>Get node connectivity status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot of per-node connectivity state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nodes_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="143" column="17" bodyfile="src/sharding/partition_detector.cpp" bodystart="144" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a901fc5bc180a5b87f3c1ff7ce187059b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PartitionDetector::isSplitBrainDetected</definition>
+        <argsstring>() const</argsstring>
+        <name>isSplitBrainDetected</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::isSplitBrainDetected</qualifiedname>
+        <briefdescription>
+<para>Check if split-brain detected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when split-brain condition is currently flagged. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="149" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1ae162f2520d9e880b9b47ab31bcf659db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_partition_event" kindref="compound">PartitionEvent</ref> &gt;</type>
+        <definition>std::vector&lt; PartitionEvent &gt; themisdb::sharding::PartitionDetector::getPartitionHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getPartitionHistory</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::getPartitionHistory</qualifiedname>
+        <briefdescription>
+<para>Get partition history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Historical partition detect/heal events. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="155" column="17" bodyfile="src/sharding/partition_detector.cpp" bodystart="164" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a4373119f4cf397126fac105024ca6549" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::setHealthCheckCallback</definition>
+        <argsstring>(HealthCheckCallback callback)</argsstring>
+        <name>setHealthCheckCallback</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::setHealthCheckCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5c7cfaaff2c7917adc32d2a9b63eb3b1" kindref="member">HealthCheckCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set health check callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Health Check Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback performing node liveness checks.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setHealthCheckCallback without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="161" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="179" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a66932b1ea2f9f67144fc7dce4ed46dee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::setPartitionCallback</definition>
+        <argsstring>(PartitionCallback callback)</argsstring>
+        <name>setPartitionCallback</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::setPartitionCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7c926ff189de30fa90fb1e124a5adc7" kindref="member">PartitionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set partition event callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Partition Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked on detect/heal partition events.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPartitionCallback without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="167" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a42a3ea8251bc5a7efbec2aa141d1a624" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+        <definition>const Statistics &amp; themisdb::sharding::PartitionDetector::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return live detector statistics counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="181" column="22" bodyfile="include/sharding/partition_detector.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1ac180c9ca4cfc138143879ee5d7206cf9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::healthCheckLoop</definition>
+        <argsstring>()</argsstring>
+        <name>healthCheckLoop</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::healthCheckLoop</qualifiedname>
+        <briefdescription>
+<para>Health check loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Health Check Loop.</para>
+<para>Calls: lock(), push_back(), std::chrono::steady_clock::now(), health_check_callback_(), <ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a2196199f65a3b9b49ca7defa746e151b" kindref="member">recordHeartbeat()</ref>, <ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5eba5ff0791e3e75cd57f0a63bab3f31" kindref="member">recordFailure()</ref>, updateNetworkHealth(), detectPartition(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="204" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="196" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1abcf117a4e93abd52ae66abfd32613502" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::detectPartition</definition>
+        <argsstring>()</argsstring>
+        <name>detectPartition</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::detectPartition</qualifiedname>
+        <briefdescription>
+<para>Detect partition from node connectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Partition.</para>
+<para>Calls: lock(), push_back(), size(), store(), std::chrono::steady_clock::now(), std::to_string(), events_lock(), partition_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="210" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="240" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1ae70333d608ae1611170db4385c75e200" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::checkPartitionHealing</definition>
+        <argsstring>()</argsstring>
+        <name>checkPartitionHealing</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::checkPartitionHealing</qualifiedname>
+        <briefdescription>
+<para>Check for partition healing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Partition Healing.</para>
+<para>Calls: lock(), load(), store(), events_lock(), empty(), back(), std::chrono::steady_clock::now(), partition_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="215" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="300" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_partition_detector_1a8c3f2e7d250ee93449a1907679cd15e9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PartitionDetector::updateNetworkHealth</definition>
+        <argsstring>()</argsstring>
+        <name>updateNetworkHealth</name>
+        <qualifiedname>themisdb::sharding::PartitionDetector::updateNetworkHealth</qualifiedname>
+        <briefdescription>
+<para>Update network health status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Network Health.</para>
+<para>Calls: lock(), std::chrono::steady_clock::now(), size(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="220" column="10" bodyfile="src/sharding/partition_detector.cpp" bodystart="337" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detects network partitions in distributed cluster. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Monitors node connectivity and detects when the cluster splits into separate partitions that cannot communicate. </para>
+    </detaileddescription>
+    <location file="include/sharding/partition_detector.h" line="81" column="1" bodyfile="include/sharding/partition_detector.h" bodystart="81" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a025b746db8e5ac5f489667fb6446daa1" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>addNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1ae70333d608ae1611170db4385c75e200" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>checkPartitionHealing</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1afba87df2f791c8e37f5f1ac2a2e24612" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1afd2378a99e5b6f2b129c9b9e34560356" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>current_health_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1abcf117a4e93abd52ae66abfd32613502" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>detectPartition</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1ad6ee507c02cb8b13e42b5e297f80e7bf" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>events_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7937659391d76fb26cad5a5bbba5366" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>getNetworkHealth</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a257209ed7a3aef7272203cb4646c37b8" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>getNodeConnectivity</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1ae162f2520d9e880b9b47ab31bcf659db" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>getPartitionHistory</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a42a3ea8251bc5a7efbec2aa141d1a624" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7a9c5ebc40c3e072e45adf9a557eef7" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>health_check_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a0f2140a090e0c09fb8ca93b579188b9f" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>health_check_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5c7cfaaff2c7917adc32d2a9b63eb3b1" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>HealthCheckCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1ac180c9ca4cfc138143879ee5d7206cf9" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>healthCheckLoop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a901fc5bc180a5b87f3c1ff7ce187059b" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>isSplitBrainDetected</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a92b7febcd1a00ef1c258ff38f15da017" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>nodes_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1abe3ff1907b925b88e1eff6c195abb4e3" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>nodes_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1afba6d59276b9c9f7823603d2d1bdc073" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>partition_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1aedddc05608f979b735888241352a3df8" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>partition_history_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7c926ff189de30fa90fb1e124a5adc7" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>PartitionCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a994a7536858adcf6c212767c6d98ba35" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>PartitionDetector</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5eba5ff0791e3e75cd57f0a63bab3f31" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>recordFailure</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a2196199f65a3b9b49ca7defa746e151b" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>recordHeartbeat</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1af5afc3670a17e25e68a7b16370024062" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>removeNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1ac43bfb2194893201591b8deeb4d4e41a" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a4373119f4cf397126fac105024ca6549" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>setHealthCheckCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a66932b1ea2f9f67144fc7dce4ed46dee" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>setPartitionCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1ae333247fe5e6c099f9457dcf5212e855" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>split_brain_detected_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa34293677fb0de068770ce522eb7e205" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a077549628eb194713c8104b6974dd00d" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a77d63fe2ce75271d379c1e68713bea49" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a8c3f2e7d250ee93449a1907679cd15e9" prot="private" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>updateNetworkHealth</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5aa246edc6bde94db20de7cc8c502e24" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionDetector</scope><name>~PartitionDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

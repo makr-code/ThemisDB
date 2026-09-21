@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_circuit_breaker_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc::CircuitBreakerStats</compoundname>
+    <includes refid="circuit__breaker_8h" local="no">circuit_breaker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a642f1d309c79e97e853759d983d6cf5b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::rpc::CircuitBreakerStats::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::rpc::CircuitBreakerStats::state</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" kindref="member">CircuitState::kClosed</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="103" column="18" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a324d26ee07b6e5983b4902e749c6c996" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreakerStats::total_calls</definition>
+        <argsstring></argsstring>
+        <name>total_calls</name>
+        <qualifiedname>themis::rpc::CircuitBreakerStats::total_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="104" column="18" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a568189477a309d0cf02ef5bd365e8c63" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreakerStats::successful_calls</definition>
+        <argsstring></argsstring>
+        <name>successful_calls</name>
+        <qualifiedname>themis::rpc::CircuitBreakerStats::successful_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="105" column="18" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a3f08dc4d9339b39206c115f13e371457" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreakerStats::failed_calls</definition>
+        <argsstring></argsstring>
+        <name>failed_calls</name>
+        <qualifiedname>themis::rpc::CircuitBreakerStats::failed_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="106" column="18" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_stats_1ad286b516b4356c55f4f20799115f1b43" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreakerStats::rejected_calls</definition>
+        <argsstring></argsstring>
+        <name>rejected_calls</name>
+        <qualifiedname>themis::rpc::CircuitBreakerStats::rejected_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Calls rejected because circuit was OPEN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="107" column="18" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a2c3a6899490a992c8538f54c90255095" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreakerStats::state_transitions</definition>
+        <argsstring></argsstring>
+        <name>state_transitions</name>
+        <qualifiedname>themis::rpc::CircuitBreakerStats::state_transitions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="108" column="18" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_circuit_breaker_stats_1aec19aaebb31e51f95bbf218d95ef2a3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::CircuitBreakerStats::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::rpc::CircuitBreakerStats::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="109" column="18" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Point-in-time snapshot of circuit breaker counters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rpc_grpc/circuit_breaker.h" line="102" column="1" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="102" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a3f08dc4d9339b39206c115f13e371457" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerStats</scope><name>failed_calls</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1aec19aaebb31e51f95bbf218d95ef2a3a" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerStats</scope><name>name</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1ad286b516b4356c55f4f20799115f1b43" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerStats</scope><name>rejected_calls</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a642f1d309c79e97e853759d983d6cf5b" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerStats</scope><name>state</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a2c3a6899490a992c8538f54c90255095" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerStats</scope><name>state_transitions</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a568189477a309d0cf02ef5bd365e8c63" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerStats</scope><name>successful_calls</name></member>
+      <member refid="structthemis_1_1rpc_1_1_circuit_breaker_stats_1a324d26ee07b6e5983b4902e749c6c996" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreakerStats</scope><name>total_calls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

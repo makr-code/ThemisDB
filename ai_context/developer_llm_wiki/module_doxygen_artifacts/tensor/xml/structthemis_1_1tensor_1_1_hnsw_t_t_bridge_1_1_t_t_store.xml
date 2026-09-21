@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HnswTTBridge::TTStore</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1afafd637a5fbc1d85205ffbfcbe6346be" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, storage::TTTrain &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, storage::TTTrain&gt; themis::tensor::HnswTTBridge::TTStore::trains</definition>
+        <argsstring></argsstring>
+        <name>trains</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::TTStore::trains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="238" column="24" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1ac17f717a5a946b7cb9c4d3d0286b9065" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::HnswTTBridge::TTStore::insert</definition>
+        <argsstring>(int64_t id, storage::TTTrain t)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::TTStore::insert</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>storage::TTTrain</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: count(), emplace(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="247" column="10" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="247" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1a606a76ee44da6cd27f32b20bd4c90f28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::HnswTTBridge::TTStore::remove</definition>
+        <argsstring>(int64_t id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::TTStore::remove</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="260" column="10" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1adfc88e0a2d402e72698aefbdca13bf4e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const storage::TTTrain *</type>
+        <definition>const storage::TTTrain * themis::tensor::HnswTTBridge::TTStore::get</definition>
+        <argsstring>(int64_t id) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::TTStore::get</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="261" column="28" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="261" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1aa71c1fdfdddfcb1be559cad9937379eb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::HnswTTBridge::TTStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::TTStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="265" column="12" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="265" bodyend="265"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tensor/hnsw_tt_bridge.cpp" line="237" column="1" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="237" bodyend="266"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1adfc88e0a2d402e72698aefbdca13bf4e" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::TTStore</scope><name>get</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1ac17f717a5a946b7cb9c4d3d0286b9065" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::TTStore</scope><name>insert</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1a606a76ee44da6cd27f32b20bd4c90f28" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::TTStore</scope><name>remove</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1aa71c1fdfdddfcb1be559cad9937379eb" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::TTStore</scope><name>size</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_t_t_store_1afafd637a5fbc1d85205ffbfcbe6346be" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::TTStore</scope><name>trains</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

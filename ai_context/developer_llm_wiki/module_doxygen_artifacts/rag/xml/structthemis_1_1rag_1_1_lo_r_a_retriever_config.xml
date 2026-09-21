@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::LoRARetrieverConfig</compoundname>
+    <includes refid="lora__enhanced__retriever_8h" local="no">lora_enhanced_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1aa1650b4b64113c62a75e0897af068a68" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::LoRARetrieverConfig::top_k_rerank</definition>
+        <argsstring></argsstring>
+        <name>top_k_rerank</name>
+        <qualifiedname>themis::rag::LoRARetrieverConfig::top_k_rerank</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of documents to re-rank with the LoRA scorer. Documents beyond this limit retain their original score. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="95" column="17" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a45397730db972c0b70bf0f6ab3a673ed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::LoRARetrieverConfig::lora_weight</definition>
+        <argsstring></argsstring>
+        <name>lora_weight</name>
+        <qualifiedname>themis::rag::LoRARetrieverConfig::lora_weight</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Weight for the LoRA score in the final fused score. final_score = orig * (1 - lora_weight) + lora_score * lora_weight </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="99" column="12" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a9ab7f1057082533e7bb461f9cba1d915" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LoRARetrieverConfig::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::rag::LoRARetrieverConfig::domain</qualifiedname>
+        <briefdescription>
+<para>Domain hint forwarded to <computeroutput><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a6dd7e3e8c22fa8ab4669ef55ad968d26" kindref="member">ILoRAScorer::score()</ref></computeroutput> (e.g. &quot;legal&quot;, &quot;medical&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="102" column="17" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a68eec293d16deb9d5f405ceebdf175f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::LoRARetrieverConfig::min_lora_score</definition>
+        <argsstring></argsstring>
+        <name>min_lora_score</name>
+        <qualifiedname>themis::rag::LoRARetrieverConfig::min_lora_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum LoRA score threshold; documents below this threshold are moved to the end of the result list (but not removed). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="106" column="12" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" kindref="compound">LoRAEnhancedRetriever</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/lora_enhanced_retriever.h" line="92" column="1" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="92" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a9ab7f1057082533e7bb461f9cba1d915" prot="public" virt="non-virtual"><scope>themis::rag::LoRARetrieverConfig</scope><name>domain</name></member>
+      <member refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a45397730db972c0b70bf0f6ab3a673ed" prot="public" virt="non-virtual"><scope>themis::rag::LoRARetrieverConfig</scope><name>lora_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a68eec293d16deb9d5f405ceebdf175f2" prot="public" virt="non-virtual"><scope>themis::rag::LoRARetrieverConfig</scope><name>min_lora_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1aa1650b4b64113c62a75e0897af068a68" prot="public" virt="non-virtual"><scope>themis::rag::LoRARetrieverConfig</scope><name>top_k_rerank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

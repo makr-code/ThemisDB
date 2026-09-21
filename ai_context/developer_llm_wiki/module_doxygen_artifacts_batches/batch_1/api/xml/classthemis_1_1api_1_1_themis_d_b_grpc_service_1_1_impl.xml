@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::api::ThemisDBGrpcService::Impl</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/api/themisdb_grpc_service.cpp" line="240" column="1" bodyfile="src/api/themisdb_grpc_service.cpp" bodystart="240" bodyend="1910"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::vector::ApproximateRadiusSearch::SearchConfig</compoundname>
+    <includes refid="approximate__radius__search_8h" local="no">approximate_radius_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1ad9c50d1139c8b2ec42dbcd1108434beb" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" kindref="member">Metric</ref></type>
+        <definition>Metric themis::vector::ApproximateRadiusSearch::SearchConfig::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::SearchConfig::metric</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31ae66ba018ef96aa5c78c8fba787f43717" kindref="member">Metric::COSINE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="35" column="16" bodyfile="include/index/approximate_radius_search.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a715e1ed50710faaa404e7b5f48d9a9c0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::vector::ApproximateRadiusSearch::SearchConfig::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::SearchConfig::radius</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="36" column="15" bodyfile="include/index/approximate_radius_search.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a7a918e6abe09465d672559339c140870" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::vector::ApproximateRadiusSearch::SearchConfig::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::SearchConfig::max_results</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="37" column="13" bodyfile="include/index/approximate_radius_search.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a22dac145fd0a6a9abcf53276c70bc5d3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::vector::ApproximateRadiusSearch::SearchConfig::min_recall</definition>
+        <argsstring></argsstring>
+        <name>min_recall</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::SearchConfig::min_recall</qualifiedname>
+        <initializer>= 0.95f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="38" column="15" bodyfile="include/index/approximate_radius_search.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a56f3459adb6990b6437025926a5503a0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::vector::ApproximateRadiusSearch::SearchConfig::sort_results</definition>
+        <argsstring></argsstring>
+        <name>sort_results</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::SearchConfig::sort_results</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="39" column="14" bodyfile="include/index/approximate_radius_search.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a09dbcb25bdc98f2b8f9ff431ac4bf4ce" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::vector::ApproximateRadiusSearch::SearchConfig::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::SearchConfig::index_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="40" column="23" bodyfile="include/index/approximate_radius_search.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a7260072913434a534360a717c75a1011" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::vector::ApproximateRadiusSearch::SearchConfig::ef_search</definition>
+        <argsstring></argsstring>
+        <name>ef_search</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::SearchConfig::ef_search</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="41" column="13" bodyfile="include/index/approximate_radius_search.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/approximate_radius_search.h" line="34" column="5" bodyfile="include/index/approximate_radius_search.h" bodystart="34" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a7260072913434a534360a717c75a1011" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::SearchConfig</scope><name>ef_search</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a09dbcb25bdc98f2b8f9ff431ac4bf4ce" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::SearchConfig</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a7a918e6abe09465d672559339c140870" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::SearchConfig</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1ad9c50d1139c8b2ec42dbcd1108434beb" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::SearchConfig</scope><name>metric</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a22dac145fd0a6a9abcf53276c70bc5d3" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::SearchConfig</scope><name>min_recall</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a715e1ed50710faaa404e7b5f48d9a9c0" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::SearchConfig</scope><name>radius</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a56f3459adb6990b6437025926a5503a0" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::SearchConfig</scope><name>sort_results</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

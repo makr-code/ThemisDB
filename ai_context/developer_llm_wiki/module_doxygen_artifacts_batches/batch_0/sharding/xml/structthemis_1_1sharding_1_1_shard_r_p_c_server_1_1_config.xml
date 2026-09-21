@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardRPCServer::Config</compoundname>
+    <includes refid="shard__rpc__server_8h" local="no">shard_rpc_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1a55649e08c04fdd7cd0742ffe550199dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRPCServer::Config::listen_address</definition>
+        <argsstring></argsstring>
+        <name>listen_address</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Config::listen_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="47" column="21" bodyfile="include/sharding/shard_rpc_server.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1a1f0e4f1b96305abbcede7cf362d6b498" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRPCServer::Config::enable_mtls</definition>
+        <argsstring></argsstring>
+        <name>enable_mtls</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Config::enable_mtls</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="50" column="14" bodyfile="include/sharding/shard_rpc_server.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1ae896ee8d78cb44b3c7feb6c4f6718737" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRPCServer::Config::tls_cert_path</definition>
+        <argsstring></argsstring>
+        <name>tls_cert_path</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Config::tls_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="51" column="21" bodyfile="include/sharding/shard_rpc_server.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1ab46b4fc8a1e4ab9a7bc65d5b71f37eaa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRPCServer::Config::tls_key_path</definition>
+        <argsstring></argsstring>
+        <name>tls_key_path</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Config::tls_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="52" column="21" bodyfile="include/sharding/shard_rpc_server.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1a3c63495d23ad08446e25b7fa1c7f58d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRPCServer::Config::tls_ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>tls_ca_cert_path</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Config::tls_ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="53" column="21" bodyfile="include/sharding/shard_rpc_server.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1a2815bf227dafc37721fd8a5458e53a7b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRPCServer::Config::tls_require_client_cert</definition>
+        <argsstring></argsstring>
+        <name>tls_require_client_cert</name>
+        <qualifiedname>themis::sharding::ShardRPCServer::Config::tls_require_client_cert</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_server.h" line="54" column="14" bodyfile="include/sharding/shard_rpc_server.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the RPC server. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Runtime configuration for shard RPC server endpoint and TLS policy. </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_rpc_server.h" line="46" column="5" bodyfile="include/sharding/shard_rpc_server.h" bodystart="46" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1a1f0e4f1b96305abbcede7cf362d6b498" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Config</scope><name>enable_mtls</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1a55649e08c04fdd7cd0742ffe550199dd" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Config</scope><name>listen_address</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1a3c63495d23ad08446e25b7fa1c7f58d0" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Config</scope><name>tls_ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1ae896ee8d78cb44b3c7feb6c4f6718737" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Config</scope><name>tls_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1ab46b4fc8a1e4ab9a7bc65d5b71f37eaa" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Config</scope><name>tls_key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_config_1a2815bf227dafc37721fd8a5458e53a7b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCServer::Config</scope><name>tls_require_client_cert</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

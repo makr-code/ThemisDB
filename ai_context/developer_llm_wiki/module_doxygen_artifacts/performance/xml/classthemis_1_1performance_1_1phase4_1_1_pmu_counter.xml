@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PmuCounter</compoundname>
+    <includes refid="pmu__counters_8h" local="no">pmu_counters.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4164e9cb49266745d4e4779cdf8efcb7" prot="public" static="no">
+        <type>std::function&lt; bool(uint32_t, uint64_t)&gt;</type>
+        <definition>using themis::performance::phase4::PmuCounter::OpenFn = std::function&lt;bool(uint32_t, uint64_t)&gt;</definition>
+        <argsstring></argsstring>
+        <name>OpenFn</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::OpenFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="59" column="5" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a61a411ace50eef94252257a9934dd214" prot="public" static="no">
+        <type>std::function&lt; uint64_t()&gt;</type>
+        <definition>using themis::performance::phase4::PmuCounter::ReadFn = std::function&lt;uint64_t()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReadFn</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::ReadFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="60" column="5" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a06b574dcabbde2c712463d22325453fb" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::phase4::PmuCounter::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::fd_</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="97" column="9" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PmuCounter::PmuCounter</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>PmuCounter</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::PmuCounter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="62" column="5" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="887" bodyend="887"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a107f4fbaed2dd2d7797e5946b1b8ed5a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PmuCounter::~PmuCounter</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~PmuCounter</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::~PmuCounter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="63" column="5" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="888" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a01d46e795dd8806c34d024433e156ad2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PmuCounter::PmuCounter</definition>
+        <argsstring>(const PmuCounter &amp;)=delete</argsstring>
+        <name>PmuCounter</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::PmuCounter</qualifiedname>
+        <param>
+          <type>const PmuCounter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4973741b9b8cd0edde6315598c64ca18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref> &amp;</type>
+        <definition>PmuCounter &amp; themis::performance::phase4::PmuCounter::operator=</definition>
+        <argsstring>(const PmuCounter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="66" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4084cdbfbe05eeb1e3433911056c9bdf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PmuCounter::PmuCounter</definition>
+        <argsstring>(PmuCounter &amp;&amp;other) noexcept</argsstring>
+        <name>PmuCounter</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::PmuCounter</qualifiedname>
+        <param>
+          <type>PmuCounter &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="68" column="5" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="889" bodyend="889"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ab8393d5c102a21e4b1ca890637bd7efa" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref> &amp;</type>
+        <definition>PmuCounter &amp; themis::performance::phase4::PmuCounter::operator=</definition>
+        <argsstring>(PmuCounter &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="69" column="16" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="890" bodyend="893"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a671c412a7e81afe42947e340ff9d8b0d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PmuCounter::open</definition>
+        <argsstring>(uint32_t type, uint64_t config) noexcept</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::open</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Open a perf event counter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>perf_event_attr.type (e.g. PERF_TYPE_HARDWARE) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>perf_event_attr.config (e.g. PERF_COUNT_HW_CACHE_MISSES) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_pmu_stub_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="75" column="10" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="894" bodyend="917"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a5f4b1906bfc705522a7c3f7390b3b6b1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PmuCounter::enable</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::enable</qualifiedname>
+        <briefdescription>
+<para>Reset and enable the counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="78" column="10" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="918" bodyend="918"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ae009e49371981381b9f7a30872d22130" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PmuCounter::disable</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::disable</qualifiedname>
+        <briefdescription>
+<para>Disable the counter (stops counting). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="81" column="10" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="919" bodyend="919"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1aea088bb1b404a5bab30f7b048f66eb20" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PmuCounter::read</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>read</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::read</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Read the current counter value. Returns 0 on error or if not opened. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_pmu_stub_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="85" column="14" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="920" bodyend="939"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a57f3fecfc64750eaa6cbceb60b7295db" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PmuCounter::close</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::close</qualifiedname>
+        <briefdescription>
+<para>Close the file descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="88" column="10" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="940" bodyend="940"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PmuCounter::is_open</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_open</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::is_open</qualifiedname>
+        <briefdescription>
+<para>Returns true if the counter was successfully opened. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="91" column="10" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1affc6d68341663aea49a75f1f4c6e8315" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PmuCounter::setOpenFn</definition>
+        <argsstring>(OpenFn fn)</argsstring>
+        <name>setOpenFn</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::setOpenFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4164e9cb49266745d4e4779cdf8efcb7" kindref="member">OpenFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Open Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="93" column="17" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="852" bodyend="855"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a580b8c03f976d05e07aafb7eeec8e631" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PmuCounter::setReadFn</definition>
+        <argsstring>(ReadFn fn)</argsstring>
+        <name>setReadFn</name>
+        <qualifiedname>themis::performance::phase4::PmuCounter::setReadFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a61a411ace50eef94252257a9934dd214" kindref="member">ReadFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Read Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="94" column="17" bodyfile="src/performance/phase4/pmu_counters.cpp" bodystart="862" bodyend="865"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps a single Linux perf_event counter. Not copyable; movable. </para>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmu_counters.h" line="57" column="1" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="57" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a57f3fecfc64750eaa6cbceb60b7295db" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>close</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ae009e49371981381b9f7a30872d22130" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>disable</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a5f4b1906bfc705522a7c3f7390b3b6b1" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>enable</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a06b574dcabbde2c712463d22325453fb" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>is_open</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a671c412a7e81afe42947e340ff9d8b0d" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>open</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4164e9cb49266745d4e4779cdf8efcb7" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>OpenFn</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4973741b9b8cd0edde6315598c64ca18" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ab8393d5c102a21e4b1ca890637bd7efa" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>PmuCounter</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a01d46e795dd8806c34d024433e156ad2" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>PmuCounter</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4084cdbfbe05eeb1e3433911056c9bdf" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>PmuCounter</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1aea088bb1b404a5bab30f7b048f66eb20" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>read</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a61a411ace50eef94252257a9934dd214" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>ReadFn</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1affc6d68341663aea49a75f1f4c6e8315" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>setOpenFn</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a580b8c03f976d05e07aafb7eeec8e631" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>setReadFn</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a107f4fbaed2dd2d7797e5946b1b8ed5a" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PmuCounter</scope><name>~PmuCounter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

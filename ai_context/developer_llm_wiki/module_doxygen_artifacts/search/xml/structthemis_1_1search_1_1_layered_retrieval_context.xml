@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1search_1_1_layered_retrieval_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::search::LayeredRetrievalContext</compoundname>
+    <includes refid="layered__retrieval__orchestrator_8h" local="no">layered_retrieval_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_context_1aaf9ed009e322eb3c784839456b093b9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayeredRetrievalContext::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::search::LayeredRetrievalContext::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="142" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_context_1aed66489daa7e8ed6333191fc420d00c3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::search::LayeredRetrievalContext::query_vector</definition>
+        <argsstring></argsstring>
+        <name>query_vector</name>
+        <qualifiedname>themis::search::LayeredRetrievalContext::query_vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="143" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_context_1a3b1427eef43ae39e9cce772216254d95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayeredRetrievalContext::tensor_query_key</definition>
+        <argsstring></argsstring>
+        <name>tensor_query_key</name>
+        <qualifiedname>themis::search::LayeredRetrievalContext::tensor_query_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="144" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_context_1addc066773051ab4174ea54a1f08e7a34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayeredRetrievalContext::graph_subject_id</definition>
+        <argsstring></argsstring>
+        <name>graph_subject_id</name>
+        <qualifiedname>themis::search::LayeredRetrievalContext::graph_subject_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="145" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_context_1adcaf345313373f8e7a20c48d4e2e6829" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayeredRetrievalContext::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::search::LayeredRetrievalContext::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="146" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_context_1a83092872ae6a59b202512fe1668e4831" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayeredRetrievalContext::llm_prompt_prefix</definition>
+        <argsstring></argsstring>
+        <name>llm_prompt_prefix</name>
+        <qualifiedname>themis::search::LayeredRetrievalContext::llm_prompt_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="147" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layered_retrieval_context_1ac1533020c07e4c93bfc5532af868024e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayeredRetrievalContext::lora_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>lora_adapter_id</name>
+        <qualifiedname>themis::search::LayeredRetrievalContext::lora_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="148" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query payload consumed by <ref refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator" kindref="compound">LayeredRetrievalOrchestrator</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language query used by the final LLM layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dense embedding used by the ANN layer. Empty disables ANN execution. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tensor_query_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Existing tensor fingerprint key queried against the tensor layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subject/entity whose provenance chain should be inferred. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>correlation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stable request identifier propagated into trace attributes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>llm_prompt_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional system prefix prepended to the generated prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lora_adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional adapter identifier used for graph-layer plausibility scoring. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/search/layered_retrieval_orchestrator.h" line="141" column="1" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="141" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1adcaf345313373f8e7a20c48d4e2e6829" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalContext</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1addc066773051ab4174ea54a1f08e7a34" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalContext</scope><name>graph_subject_id</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1a83092872ae6a59b202512fe1668e4831" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalContext</scope><name>llm_prompt_prefix</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1ac1533020c07e4c93bfc5532af868024e" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalContext</scope><name>lora_adapter_id</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1aaf9ed009e322eb3c784839456b093b9a" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalContext</scope><name>query</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1aed66489daa7e8ed6333191fc420d00c3" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalContext</scope><name>query_vector</name></member>
+      <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1a3b1427eef43ae39e9cce772216254d95" prot="public" virt="non-virtual"><scope>themis::search::LayeredRetrievalContext</scope><name>tensor_query_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

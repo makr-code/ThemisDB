@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_unsupported_gateway_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::UnsupportedGatewayStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_unsupported_gateway_stress_1a55ec48039ddedcc2c547bbb8148569f9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::UnsupportedGatewayStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::UnsupportedGatewayStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with unsupported gateway. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="211" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_unsupported_gateway_stress_1aec225c708cf639d1f4fdd86cbd74cfee" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::UnsupportedGatewayStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::UnsupportedGatewayStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success (explicit error) for this scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="214" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_unsupported_gateway_stress_1afcf9db9760619f5453d58aa5b297b824" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::UnsupportedGatewayStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::UnsupportedGatewayStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="216" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="216" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unsupported gateway detection scenario for BPMN parser. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> BPMN with unsupported gateway types (COMPLEX_AND, COMPLEX_OR, etc.) <linebreak/>
+ <bold>Expected Behavior:</bold> Explicit error before import; no silent accept <linebreak/>
+ <bold>Trigger:</bold> <computeroutput>PROC_UNSUPPORTED_ELEMENT</computeroutput> with element details <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Error code explicitly returned</para>
+</listitem><listitem><para>Unsupported element name is in error message</para>
+</listitem><listitem><para>No import of partially supported model</para>
+</listitem><listitem><para>Latency &lt;50 ms (P95) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="209" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="209" bodyend="219"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_unsupported_gateway_stress_1afcf9db9760619f5453d58aa5b297b824" prot="public" virt="non-virtual"><scope>themis::process::UnsupportedGatewayStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_unsupported_gateway_stress_1a55ec48039ddedcc2c547bbb8148569f9" prot="public" virt="non-virtual"><scope>themis::process::UnsupportedGatewayStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_unsupported_gateway_stress_1aec225c708cf639d1f4fdd86cbd74cfee" prot="public" virt="non-virtual"><scope>themis::process::UnsupportedGatewayStress</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

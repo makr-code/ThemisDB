@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1search_1_1_per_query_retrieval_guardrails" kind="struct" language="C++" prot="public">
+    <compoundname>themis::search::PerQueryRetrievalGuardrails</compoundname>
+    <includes refid="layered__retrieval__orchestrator_8h" local="no">layered_retrieval_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a31e030f7dbc595f6a1dab6541f8c71f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::search::PerQueryRetrievalGuardrails::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::search::PerQueryRetrievalGuardrails::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="106" column="10" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af2e40249f023baa9361340dc07f3e123" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::search::PerQueryRetrievalGuardrails::max_ann_candidates</definition>
+        <argsstring></argsstring>
+        <name>max_ann_candidates</name>
+        <qualifiedname>themis::search::PerQueryRetrievalGuardrails::max_ann_candidates</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="107" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a43df49fc3b3664a93d016349948967c5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::search::PerQueryRetrievalGuardrails::max_tensor_candidates</definition>
+        <argsstring></argsstring>
+        <name>max_tensor_candidates</name>
+        <qualifiedname>themis::search::PerQueryRetrievalGuardrails::max_tensor_candidates</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="108" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a8058dff6e7374627d15f260c391cfd11" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::search::PerQueryRetrievalGuardrails::max_graph_edges</definition>
+        <argsstring></argsstring>
+        <name>max_graph_edges</name>
+        <qualifiedname>themis::search::PerQueryRetrievalGuardrails::max_graph_edges</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="109" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af8810276489c4b9a6ba015e2abc80ba9" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::search::PerQueryRetrievalGuardrails::max_prompt_chars</definition>
+        <argsstring></argsstring>
+        <name>max_prompt_chars</name>
+        <qualifiedname>themis::search::PerQueryRetrievalGuardrails::max_prompt_chars</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="110" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1ac17e523c1391bb4e80bdf444cde34ccf" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::search::PerQueryRetrievalGuardrails::max_layers</definition>
+        <argsstring></argsstring>
+        <name>max_layers</name>
+        <qualifiedname>themis::search::PerQueryRetrievalGuardrails::max_layers</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="111" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-query hard limits used to prune expensive layered retrieval work. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Guardrails are disabled when <ref refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a31e030f7dbc595f6a1dab6541f8c71f9" kindref="member">enabled</ref> is false. When enabled, the orchestrator clamps ANN fan-out, provenance depth, and prompt size before a downstream layer is executed. </para>
+    </detaileddescription>
+    <location file="include/search/layered_retrieval_orchestrator.h" line="105" column="1" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="105" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a31e030f7dbc595f6a1dab6541f8c71f9" prot="public" virt="non-virtual"><scope>themis::search::PerQueryRetrievalGuardrails</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af2e40249f023baa9361340dc07f3e123" prot="public" virt="non-virtual"><scope>themis::search::PerQueryRetrievalGuardrails</scope><name>max_ann_candidates</name></member>
+      <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a8058dff6e7374627d15f260c391cfd11" prot="public" virt="non-virtual"><scope>themis::search::PerQueryRetrievalGuardrails</scope><name>max_graph_edges</name></member>
+      <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1ac17e523c1391bb4e80bdf444cde34ccf" prot="public" virt="non-virtual"><scope>themis::search::PerQueryRetrievalGuardrails</scope><name>max_layers</name></member>
+      <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af8810276489c4b9a6ba015e2abc80ba9" prot="public" virt="non-virtual"><scope>themis::search::PerQueryRetrievalGuardrails</scope><name>max_prompt_chars</name></member>
+      <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a43df49fc3b3664a93d016349948967c5" prot="public" virt="non-virtual"><scope>themis::search::PerQueryRetrievalGuardrails</scope><name>max_tensor_candidates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

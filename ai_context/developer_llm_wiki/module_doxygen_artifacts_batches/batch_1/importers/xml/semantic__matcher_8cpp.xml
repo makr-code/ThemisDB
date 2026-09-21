@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="semantic__matcher_8cpp" kind="file" language="C++">
+    <compoundname>semantic_matcher.cpp</compoundname>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>SemanticMatcher<sp/>and<sp/>HybridEntityMatcher<sp/>implementations<sp/>are<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>deterministic_matcher.cpp<sp/>(same<sp/>translation<sp/>unit)<sp/>to<sp/>keep<sp/>closely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>related<sp/>algorithms<sp/>co-located.<sp/><sp/>This<sp/>file<sp/>is<sp/>intentionally<sp/>minimal<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>the<sp/>build<sp/>system<sp/>can<sp/>list<sp/>it<sp/>as<sp/>a<sp/>separate<sp/>source<sp/>without<sp/>conflict.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(no<sp/>additional<sp/>definitions<sp/>needed<sp/>here)</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/importers/semantic_matcher.cpp"/>
+  </compounddef>
+</doxygen>

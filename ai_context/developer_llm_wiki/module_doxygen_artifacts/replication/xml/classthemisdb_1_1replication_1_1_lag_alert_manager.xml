@@ -1,0 +1,1125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_lag_alert_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::LagAlertManager</compoundname>
+    <includes refid="lag__alert__manager_8h" local="no">lag_alert_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state" prot="private">themisdb::replication::LagAlertManager::ReplicaState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a6293b121cd152254df74d4daf42c7b60" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::LagAlertManager::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="455" column="37" bodyfile="include/replication/lag_alert_manager.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a16130322f2155badb268458346a62c1e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, ReplicaState &gt;</type>
+        <definition>std::map&lt;std::string, ReplicaState&gt; themisdb::replication::LagAlertManager::replicas_</definition>
+        <argsstring></argsstring>
+        <name>replicas_</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::replicas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="456" column="14" bodyfile="include/replication/lag_alert_manager.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a0fa20e40ee76efa13d98a566f6a2e350" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_s_l_o_thresholds" kindref="compound">SLOThresholds</ref></type>
+        <definition>SLOThresholds themisdb::replication::LagAlertManager::thresholds_</definition>
+        <argsstring></argsstring>
+        <name>thresholds_</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::thresholds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="457" column="37" bodyfile="include/replication/lag_alert_manager.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a141058a917555886c043b128979cd11d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1aff4564559c8a49b1c83bafadb7b4ec06" kindref="member">AlertCallback</ref></type>
+        <definition>AlertCallback themisdb::replication::LagAlertManager::alert_callback_</definition>
+        <argsstring></argsstring>
+        <name>alert_callback_</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::alert_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="458" column="37" bodyfile="include/replication/lag_alert_manager.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a5cc504e46b571def4b144f3833df0625" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LagAlertManager::LagAlertManager</definition>
+        <argsstring>()</argsstring>
+        <name>LagAlertManager</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::LagAlertManager</qualifiedname>
+        <briefdescription>
+<para>Construct an alert manager with default SLO thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default thresholds:<itemizedlist>
+<listitem><para>alert_threshold_ms: 10 s</para>
+</listitem><listitem><para>critical_threshold_ms: 30 s</para>
+</listitem><listitem><para>failover_threshold_ms: 60 s</para>
+</listitem><listitem><para>failover_duration_ms: 5 min </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="193" column="5" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a65ae1b779be44c0f8fe774c25bc60ee4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LagAlertManager::~LagAlertManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LagAlertManager</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::~LagAlertManager</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe; any callbacks still pending are NOT invoked.</para>
+<para><simplesect kind="note"><para>Exception safety: Noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="202" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a34d33772b90baf7ae9be4cc23c7ab288" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LagAlertManager::LagAlertManager</definition>
+        <argsstring>(const LagAlertManager &amp;)=delete</argsstring>
+        <name>LagAlertManager</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::LagAlertManager</qualifiedname>
+        <param>
+          <type>const LagAlertManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="205" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a53b033c204e5b9783c1b2625c2e1726c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a5cc504e46b571def4b144f3833df0625" kindref="member">LagAlertManager</ref> &amp;</type>
+        <definition>LagAlertManager &amp; themisdb::replication::LagAlertManager::operator=</definition>
+        <argsstring>(const LagAlertManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a5cc504e46b571def4b144f3833df0625" kindref="member">LagAlertManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="206" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1abe7baa683e7206d256dd3f74998d4bf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LagAlertManager::LagAlertManager</definition>
+        <argsstring>(LagAlertManager &amp;&amp;)=default</argsstring>
+        <name>LagAlertManager</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::LagAlertManager</qualifiedname>
+        <param>
+          <type>LagAlertManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="207" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1ab0ed45fa322adcc40455e169205ab3c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a5cc504e46b571def4b144f3833df0625" kindref="member">LagAlertManager</ref> &amp;</type>
+        <definition>LagAlertManager &amp; themisdb::replication::LagAlertManager::operator=</definition>
+        <argsstring>(LagAlertManager &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a5cc504e46b571def4b144f3833df0625" kindref="member">LagAlertManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="208" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1afe67f9a41855406d510ac9f7678b1f44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagAlertManager::setThresholds</definition>
+        <argsstring>(const SLOThresholds &amp;thresholds)</argsstring>
+        <name>setThresholds</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::setThresholds</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_s_l_o_thresholds" kindref="compound">SLOThresholds</ref> &amp;</type>
+          <declname>thresholds</declname>
+        </param>
+        <briefdescription>
+<para>Set the SLO thresholds for all replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Thresholds.</para>
+<para>Thread-safe. Changes apply immediately to future lag checks. New thresholds do NOT retroactively reset alert state; ongoing alerts continue until lag drops below the alert threshold.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>thresholds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New SLO thresholds (copied internally).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; safe to call concurrently. </para>
+</simplesect>
+<simplesect kind="note"><para>A threshold of 0 disables that alert level.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thresholds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="226" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1aa6dfffbe3db453021701adc2b3dbfb5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_s_l_o_thresholds" kindref="compound">SLOThresholds</ref></type>
+        <definition>SLOThresholds themisdb::replication::LagAlertManager::thresholds</definition>
+        <argsstring>() const</argsstring>
+        <name>thresholds</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::thresholds</qualifiedname>
+        <briefdescription>
+<para>Return the current SLO thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe.</para>
+<para><simplesect kind="return"><para>Current SLO thresholds (snapshot).</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; safe to call concurrently. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="237" column="19" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a63419e01051b54a321ec78b8386a71d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagAlertManager::setAlertCallback</definition>
+        <argsstring>(AlertCallback callback)</argsstring>
+        <name>setAlertCallback</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::setAlertCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1aff4564559c8a49b1c83bafadb7b4ec06" kindref="member">AlertCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback to be invoked on alert events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Alert Callback.</para>
+<para>Thread-safe. The callback receives <ref refid="structthemisdb_1_1replication_1_1_alert_event" kindref="compound">AlertEvent</ref> by const reference. Implementations should avoid blocking operations and exception handling.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to invoke; nullptr to clear. Callback is invoked OUTSIDE the internal lock to prevent deadlock if callback updates replica lag. Callback exceptions are caught and suppressed.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; safe to call concurrently. </para>
+</simplesect>
+<simplesect kind="note"><para>Callback lifetime: Callback is copied; caller retains ownership.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="253" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="63" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1ab0edaa4d5ff813bc683b74c1f9e0d40c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagAlertManager::updateReplicaLag</definition>
+        <argsstring>(const std::string &amp;replica_id, int64_t lag_ms)</argsstring>
+        <name>updateReplicaLag</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::updateReplicaLag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+<para>Update the current lag for a replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Replica Lag.</para>
+<para>Thread-safe. Typically called from replication heartbeat handlers or periodic lag measurement tasks. Updates timestamp automatically. Creates the replica entry if it doesn&apos;t exist (auto-vivification).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique replica identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current lag in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; safe to call concurrently. </para>
+</simplesect>
+<simplesect kind="note"><para>Side effect: Tracks maximum lag since last alert; useful for diagnostics.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="272" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="83" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1ae7e899b044721bfde6b930568ae5d722" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagAlertManager::updateReplicaLags</definition>
+        <argsstring>(const std::map&lt; std::string, int64_t &gt; &amp;lags)</argsstring>
+        <name>updateReplicaLags</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::updateReplicaLags</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, int64_t &gt; &amp;</type>
+          <declname>lags</declname>
+        </param>
+        <briefdescription>
+<para>Update lag for multiple replicas at once (atomic batch). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>More efficient than calling <ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1ab0edaa4d5ff813bc683b74c1f9e0d40c" kindref="member">updateReplicaLag()</ref> multiple times. All replicas are updated under a single lock acquisition. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of replica_id → lag_ms.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_ once for all updates. </para>
+</simplesect>
+<simplesect kind="note"><para>Atomicity: All updates are applied together; no interleaving. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="286" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="103" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a81b72461bfeaad2d8a0ce4cd71f020aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::LagAlertManager::getReplicaLag</definition>
+        <argsstring>(const std::string &amp;replica_id) const</argsstring>
+        <name>getReplicaLag</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::getReplicaLag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the current lag for a specific replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica to query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Current lag in milliseconds, or 0 if replica not tracked.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; safe to call concurrently. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="298" column="13" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="126" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1ae3922e1a1859b41896870197732c03a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagAlertManager::removeReplica</definition>
+        <argsstring>(const std::string &amp;replica_id)</argsstring>
+        <name>removeReplica</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::removeReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a replica from lag tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Replica.</para>
+<para>Called when a replica is removed from the cluster. Thread-safe. Also clears any alert state for the removed replica.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica to remove.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; safe to call concurrently.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="310" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="142" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1abd54f35ba8ad56721a404bacf03f8fa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagAlertManager::clearAllReplicas</definition>
+        <argsstring>()</argsstring>
+        <name>clearAllReplicas</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::clearAllReplicas</qualifiedname>
+        <briefdescription>
+<para>Clear all tracked replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear All Replicas.</para>
+<para>Thread-safe. Removes all replicas and their associated state. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="317" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="156" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1accf8057c384246a5af1813f074be6739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LagAlertManager::checkAndAlertLagViolations</definition>
+        <argsstring>()</argsstring>
+        <name>checkAndAlertLagViolations</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::checkAndAlertLagViolations</qualifiedname>
+        <briefdescription>
+<para>Check all replicas for lag violations and emit alerts if needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check And Alert Lag Violations.</para>
+<para>Should be called periodically (e.g., every 5-10 seconds) to evaluate lag thresholds and trigger alerts. May invoke the registered callback zero or more times depending on how many thresholds are crossed.</para>
+<para>Thread-safe. Blocks briefly to acquire internal locks.</para>
+<para><simplesect kind="return"><para>true if any alerts were fired; false otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; callback invoked OUTSIDE lock. </para>
+</simplesect>
+<simplesect kind="note"><para>Alert firing: Each replica transitions are checked; alert callback may be invoked multiple times if multiple replicas cross thresholds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="338" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="175" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a2cf152fd4499a7466002d8fe672f413f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LagAlertManager::checkReplicaLag</definition>
+        <argsstring>(const std::string &amp;replica_id)</argsstring>
+        <name>checkReplicaLag</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::checkReplicaLag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Check a specific replica for lag violations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Replica Lag.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if any alert was fired for this replica; false otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; callback invoked OUTSIDE lock.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="350" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="199" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a4664abcbf32dda8fe34809d712db1fd7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::replication::LagAlertManager::replicasInAlert</definition>
+        <argsstring>() const</argsstring>
+        <name>replicasInAlert</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::replicasInAlert</qualifiedname>
+        <briefdescription>
+<para>Return list of replicas currently exceeding alert threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe snapshot; the list may change after the call returns. Does NOT include replicas in critical state (use <ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1ad92bdb6774af759419cdbf2294f3630e" kindref="member">replicasInCritical()</ref> for those).</para>
+<para><simplesect kind="return"><para>Vector of replica IDs with lag &gt; alert_threshold_ms.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; returns copy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="363" column="17" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="217" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1ad92bdb6774af759419cdbf2294f3630e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::replication::LagAlertManager::replicasInCritical</definition>
+        <argsstring>() const</argsstring>
+        <name>replicasInCritical</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::replicasInCritical</qualifiedname>
+        <briefdescription>
+<para>Return list of replicas currently at critical lag level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe snapshot.</para>
+<para><simplesect kind="return"><para>Vector of replica IDs with lag &gt; critical_threshold_ms.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; returns copy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="374" column="17" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="236" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1acca25f18bb89a545f0a8c0010ba988db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::replication::LagAlertManager::replicasEligibleForFailover</definition>
+        <argsstring>() const</argsstring>
+        <name>replicasEligibleForFailover</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::replicasEligibleForFailover</qualifiedname>
+        <briefdescription>
+<para>Return list of replicas currently with sustained critical lag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>These are replicas that have been above critical_threshold_ms for longer than failover_duration_ms and are eligible for automatic failover.</para>
+<para>Thread-safe snapshot.</para>
+<para><simplesect kind="return"><para>Vector of replica IDs eligible for failover due to lag.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; returns copy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="388" column="17" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="255" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a86bcc0b018881515a2852f0e08314a4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt; std::string, int64_t &gt; themisdb::replication::LagAlertManager::allReplicaLags</definition>
+        <argsstring>() const</argsstring>
+        <name>allReplicaLags</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::allReplicaLags</qualifiedname>
+        <briefdescription>
+<para>Get current lag for all tracked replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe snapshot.</para>
+<para><simplesect kind="return"><para>Map of replica_id → current lag_ms.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; returns copy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="403" column="14" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="288" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a0914b9c0d55d8a2cfc7ec251fe8a2e94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LagAlertManager::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+<para>Export Prometheus-format metrics text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exposes per-replica metrics:<itemizedlist>
+<listitem><para><computeroutput>replication_lag_ms{replica_id}</computeroutput> — Current lag (gauge)</para>
+</listitem><listitem><para><computeroutput>lag_alert_triggered_total{replica_id}</computeroutput> — Total alert transitions</para>
+</listitem><listitem><para><computeroutput>lag_critical_triggered_total{replica_id}</computeroutput> — Total critical transitions</para>
+</listitem><listitem><para><computeroutput>failover_initiated_total{replica_id}</computeroutput> — Total failover initiations</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe. Returns Prometheus 0.0.4 format text.</para>
+<para><simplesect kind="note"><para>Thread safety: Acquires state_mutex_; returns copy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="418" column="17" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="305" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a0a95da87385ad04ddd3f505025e642b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::tuple&lt; uint64_t, uint64_t, uint64_t &gt;</type>
+        <definition>std::tuple&lt; uint64_t, uint64_t, uint64_t &gt; themisdb::replication::LagAlertManager::getAlertStats</definition>
+        <argsstring>(const std::string &amp;replica_id) const</argsstring>
+        <name>getAlertStats</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::getAlertStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Get alert statistics for a replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica to query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Tuple of (alert_count, critical_count, failover_count), or all zeros if replica not tracked.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires state_mutex_; safe to call concurrently. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="435" column="16" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="361" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a913a4f25ccd5978ce16d1996bae14804" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagAlertManager::evaluateReplicaAlerts</definition>
+        <argsstring>(ReplicaState &amp;state, const std::string &amp;replica_id)</argsstring>
+        <name>evaluateReplicaAlerts</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::evaluateReplicaAlerts</qualifiedname>
+        <param>
+          <type>ReplicaState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if a replica is transitioning into or currently in alert state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Replica Alerts.</para>
+<para>Called under state_mutex_ lock. May invoke alert callback (outside lock). Updates replica state (in_alert, in_critical, alert_count, critical_count).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica state to evaluate and update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica identifier (for alert events).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Lock requirement: Caller must NOT hold state_mutex_ (method acquires).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="475" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="389" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a67804eb45388fa003b53a7b681e3fc58" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagAlertManager::emitAlert</definition>
+        <argsstring>(const AlertEvent &amp;event)</argsstring>
+        <name>emitAlert</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::emitAlert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_alert_event" kindref="compound">AlertEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit an alert event if a callback is registered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit Alert.</para>
+<para>Invokes callback OUTSIDE the state_mutex_ to prevent deadlock if callback tries to update replica lag. Callback exceptions are caught.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemisdb_1_1replication_1_1_alert_event" kindref="compound">AlertEvent</ref> to emit.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Lock requirement: Caller must hold state_mutex_ upon entry. Method releases lock before invoking callback, then re-acquires. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: Callback exceptions are caught and suppressed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Note: Caller must hold state_mutex_. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adopt_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Adopt the caller-held lock so we can safely unlock/lock around callback.</para>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="489" column="10" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="479" bodyend="507"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_alert_manager_1a6bf76dd2b0355bbc5f24b26b0bbf41d8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::LagAlertManager::currentTimeMs</definition>
+        <argsstring>()</argsstring>
+        <name>currentTimeMs</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::currentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get current time in milliseconds since Unix epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Current Time Ms.</para>
+<para><simplesect kind="return"><para>Unix epoch milliseconds (system_clock).</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: No lock required (clock operation).</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="498" column="20" bodyfile="src/replication/lag_alert_manager.cpp" bodystart="513" bodyend="519"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replication lag monitoring and alert management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks lag for each replica and triggers alerts when SLO thresholds are exceeded. Supports automatic failover initiation when critical lag persists for a configured duration.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe and may be called concurrently from multiple threads. Mutual exclusion is maintained via state_mutex_.</para>
+<para><heading level="3">Alert semantics</heading>
+</para>
+<para>Three alert levels are supported:<itemizedlist>
+<listitem><para>ALERT (warning): lag &gt;= alert_threshold_ms</para>
+</listitem><listitem><para>CRITICAL (error): lag &gt;= critical_threshold_ms</para>
+</listitem><listitem><para>FAILOVER: critical lag persists for failover_duration_ms</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Callbacks</heading>
+</para>
+<para>Alert callbacks receive <ref refid="structthemisdb_1_1replication_1_1_alert_event" kindref="compound">AlertEvent</ref> by const reference. Callback implementations should be short-lived and exception-safe. Exceptions from callbacks are caught and suppressed to ensure alert infrastructure stability.</para>
+<para><heading level="3">Lock hierarchy</heading>
+</para>
+<para>LOCK HIERARCHY (to prevent deadlock):<itemizedlist>
+<listitem><para>state_mutex_: Protects all internal state (replicas_, thresholds_, callbacks). This is the only lock used; simple single-lock design avoids complex ordering.</para>
+</listitem><listitem><para>Callbacks are invoked OUTSIDE the lock to prevent deadlock if callback tries to update replica lag.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Usage example</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a5cc504e46b571def4b144f3833df0625" kindref="member">LagAlertManager</ref><sp/>lag_monitor;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">SLOThresholds<sp/><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1aa6dfffbe3db453021701adc2b3dbfb5c" kindref="member">thresholds</ref>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1aa6dfffbe3db453021701adc2b3dbfb5c" kindref="member">thresholds</ref>.alert_threshold_ms<sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1aa6dfffbe3db453021701adc2b3dbfb5c" kindref="member">thresholds</ref>.critical_threshold_ms<sp/>=<sp/>15000;<sp/><sp/></highlight><highlight class="comment">//<sp/>15<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1aa6dfffbe3db453021701adc2b3dbfb5c" kindref="member">thresholds</ref>.failover_threshold_ms<sp/>=<sp/>45000;<sp/><sp/></highlight><highlight class="comment">//<sp/>45<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1aa6dfffbe3db453021701adc2b3dbfb5c" kindref="member">thresholds</ref>.failover_duration_ms<sp/>=<sp/>3<sp/>*<sp/>60000;<sp/></highlight><highlight class="comment">//<sp/>3<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">lag_monitor.setThresholds(<ref refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1aa6dfffbe3db453021701adc2b3dbfb5c" kindref="member">thresholds</ref>);</highlight></codeline>
+<codeline><highlight class="normal">lag_monitor.setAlertCallback([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AlertEvent&amp;<sp/>evt)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LAG<sp/>ALERT<sp/>[&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(int)evt.level<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;]:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>evt.replica_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>lag=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>evt.lag_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ms\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Periodically<sp/>update<sp/>replica<sp/>lag<sp/>(e.g.,<sp/>from<sp/>heartbeat<sp/>responses)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">lag_monitor.updateReplicaLag(</highlight><highlight class="stringliteral">&quot;replica-1&quot;</highlight><highlight class="normal">,<sp/>5500);</highlight></codeline>
+<codeline><highlight class="normal">lag_monitor.updateReplicaLag(</highlight><highlight class="stringliteral">&quot;replica-2&quot;</highlight><highlight class="normal">,<sp/>12000);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Periodically<sp/>check<sp/>and<sp/>emit<sp/>alerts</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">lag_monitor.checkAndAlertLagViolations();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Export<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>lag_monitor.exportPrometheusMetrics();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/replication/lag_alert_manager.h" line="178" column="1" bodyfile="include/replication/lag_alert_manager.h" bodystart="178" bodyend="499"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a141058a917555886c043b128979cd11d" prot="private" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>alert_callback_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a86bcc0b018881515a2852f0e08314a4f" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>allReplicaLags</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1accf8057c384246a5af1813f074be6739" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>checkAndAlertLagViolations</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a2cf152fd4499a7466002d8fe672f413f" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>checkReplicaLag</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1abd54f35ba8ad56721a404bacf03f8fa1" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>clearAllReplicas</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a6bf76dd2b0355bbc5f24b26b0bbf41d8" prot="private" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>currentTimeMs</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a67804eb45388fa003b53a7b681e3fc58" prot="private" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>emitAlert</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a913a4f25ccd5978ce16d1996bae14804" prot="private" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>evaluateReplicaAlerts</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a0914b9c0d55d8a2cfc7ec251fe8a2e94" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a0a95da87385ad04ddd3f505025e642b1" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>getAlertStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a81b72461bfeaad2d8a0ce4cd71f020aa" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>getReplicaLag</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a5cc504e46b571def4b144f3833df0625" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>LagAlertManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a34d33772b90baf7ae9be4cc23c7ab288" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>LagAlertManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1abe7baa683e7206d256dd3f74998d4bf6" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>LagAlertManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a53b033c204e5b9783c1b2625c2e1726c" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1ab0ed45fa322adcc40455e169205ab3c9" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1ae3922e1a1859b41896870197732c03a1" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>removeReplica</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a16130322f2155badb268458346a62c1e" prot="private" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>replicas_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1acca25f18bb89a545f0a8c0010ba988db" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>replicasEligibleForFailover</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a4664abcbf32dda8fe34809d712db1fd7" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>replicasInAlert</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1ad92bdb6774af759419cdbf2294f3630e" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>replicasInCritical</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a63419e01051b54a321ec78b8386a71d2" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>setAlertCallback</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1afe67f9a41855406d510ac9f7678b1f44" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>setThresholds</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a6293b121cd152254df74d4daf42c7b60" prot="private" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>state_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1aa6dfffbe3db453021701adc2b3dbfb5c" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>thresholds</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a0fa20e40ee76efa13d98a566f6a2e350" prot="private" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>thresholds_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1ab0edaa4d5ff813bc683b74c1f9e0d40c" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>updateReplicaLag</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1ae7e899b044721bfde6b930568ae5d722" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>updateReplicaLags</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_alert_manager_1a65ae1b779be44c0f8fe774c25bc60ee4" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager</scope><name>~LagAlertManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

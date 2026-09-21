@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::NotificationManager::Notification</compoundname>
+    <includes refid="policy__review_8h" local="no">policy_review.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1aa65e96268a7a26a1d7b18a3a0cd310ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::NotificationManager::Notification::notification_id</definition>
+        <argsstring></argsstring>
+        <name>notification_id</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::notification_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="312" column="21" bodyfile="include/governance/policy_review.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ad69736621003b255f500d309eee9e430" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::NotificationManager::Notification::notification_type</definition>
+        <argsstring></argsstring>
+        <name>notification_type</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::notification_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="313" column="21" bodyfile="include/governance/policy_review.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a71fbaf439bd41a72855ce8515cbf3538" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::NotificationManager::Notification::recipient</definition>
+        <argsstring></argsstring>
+        <name>recipient</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::recipient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="314" column="21" bodyfile="include/governance/policy_review.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ac7b403a984807809684da14c1d2bcf70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::NotificationManager::Notification::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::subject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="315" column="21" bodyfile="include/governance/policy_review.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a08e25b8663492bffb625250b4faa82df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::NotificationManager::Notification::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="316" column="21" bodyfile="include/governance/policy_review.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1aea79badfc8a5c4d22a18d3cdab621968" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::NotificationManager::Notification::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="317" column="17" bodyfile="include/governance/policy_review.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ad86d29fc96f321cb10d418c7a7e9499b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::NotificationManager::Notification::sent</definition>
+        <argsstring></argsstring>
+        <name>sent</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::sent</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="318" column="14" bodyfile="include/governance/policy_review.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a0072be427e8a6b4eb7162cb5a5d18377" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::NotificationManager::Notification::sent_at</definition>
+        <argsstring></argsstring>
+        <name>sent_at</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::sent_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="319" column="17" bodyfile="include/governance/policy_review.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a3f4be08bf3fe62e8d32b410efbb158b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::NotificationManager::Notification::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::NotificationManager::Notification::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="325" column="24" bodyfile="src/governance/policy_review.cpp" bodystart="955" bodyend="966"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_review.h" line="311" column="5" bodyfile="include/governance/policy_review.h" bodystart="311" bodyend="326"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1aea79badfc8a5c4d22a18d3cdab621968" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a08e25b8663492bffb625250b4faa82df" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>message</name></member>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1aa65e96268a7a26a1d7b18a3a0cd310ae" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>notification_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ad69736621003b255f500d309eee9e430" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>notification_type</name></member>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a71fbaf439bd41a72855ce8515cbf3538" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>recipient</name></member>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ad86d29fc96f321cb10d418c7a7e9499b" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>sent</name></member>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a0072be427e8a6b4eb7162cb5a5d18377" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>sent_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1ac7b403a984807809684da14c1d2bcf70" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>subject</name></member>
+      <member refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_1a3f4be08bf3fe62e8d32b410efbb158b8" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager::Notification</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

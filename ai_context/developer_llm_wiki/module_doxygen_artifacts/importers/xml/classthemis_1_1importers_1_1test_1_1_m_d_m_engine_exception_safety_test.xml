@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::test::MDMEngineExceptionSafetyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test_1a275edfa1f97cb1e2f649b0131095ee2d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_m_d_m_engine" kindref="compound">MDMEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MDMEngine&gt; themis::importers::test::MDMEngineExceptionSafetyTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::importers::test::MDMEngineExceptionSafetyTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="182" column="21" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test_1ae9ccdbae9738e3dc392f091e873afea6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::test::MDMEngineExceptionSafetyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::importers::test::MDMEngineExceptionSafetyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="178" column="10" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="178" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::MDMEngineExceptionSafetyTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::MDMEngineExceptionSafetyTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="176" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="176" bodyend="183"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test_1a275edfa1f97cb1e2f649b0131095ee2d" prot="protected" virt="non-virtual"><scope>themis::importers::test::MDMEngineExceptionSafetyTest</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test_1ae9ccdbae9738e3dc392f091e873afea6" prot="protected" virt="non-virtual"><scope>themis::importers::test::MDMEngineExceptionSafetyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

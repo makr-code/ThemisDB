@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_model_downloader" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ModelDownloader</compoundname>
+    <includes refid="model__downloader_8h" local="no">model_downloader.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1a68106784bf4203d9cef1d99a758180ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ModelDownloader::ModelDownloader</definition>
+        <argsstring>()=default</argsstring>
+        <name>ModelDownloader</name>
+        <qualifiedname>themis::llm::ModelDownloader::ModelDownloader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1a72eff092563747dda6d25613b7017030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ModelDownloader::~ModelDownloader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModelDownloader</name>
+        <qualifiedname>themis::llm::ModelDownloader::~ModelDownloader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1a25fb394e405ee4b0062e0625385c4b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_download_result" kindref="compound">ModelDownloadResult</ref></type>
+        <definition>ModelDownloadResult themis::llm::ModelDownloader::downloadFromOllama</definition>
+        <argsstring>(const ModelDownloadConfig &amp;config)</argsstring>
+        <name>downloadFromOllama</name>
+        <qualifiedname>themis::llm::ModelDownloader::downloadFromOllama</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_model_download_config" kindref="compound">ModelDownloadConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Download From Ollama. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), warnInsecureConfigIfSet(), sanitizeModelName(), THEMIS_WARN(), <ref refid="classthemis_1_1llm_1_1_model_downloader_1a20dd9c2c76f03573b1763e4a7694e72a" kindref="member">isModelAvailable()</ref>, THEMIS_INFO(), fs::file_size(), fs::exists(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="59" column="25" bodyfile="src/llm/model_downloader.cpp" bodystart="198" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1adc67efd17e264a50e83ddae2e561b1d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_download_result" kindref="compound">ModelDownloadResult</ref></type>
+        <definition>ModelDownloadResult themis::llm::ModelDownloader::downloadFromURL</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;output_path, DownloadProgressCallback progress_callback=nullptr)</argsstring>
+        <name>downloadFromURL</name>
+        <qualifiedname>themis::llm::ModelDownloader::downloadFromURL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_path</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1ab0e12da78dbef5c8404da26fa57a00ee" kindref="member">DownloadProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Download From URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), path(), has_parent_path(), fs::create_directories(), parent_path(), curl_easy_init(), output_file(), is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="61" column="25" bodyfile="src/llm/model_downloader.cpp" bodystart="483" bodyend="581"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1a20dd9c2c76f03573b1763e4a7694e72a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelDownloader::isModelAvailable</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>isModelAvailable</name>
+        <qualifiedname>themis::llm::ModelDownloader::isModelAvailable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>Is Model Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::exists(), fs::file_size(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="72" column="17" bodyfile="src/llm/model_downloader.cpp" bodystart="589" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1abdcc96edfaaba505bca763211d4753ab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt; json &gt; themis::llm::ModelDownloader::getOllamaManifest</definition>
+        <argsstring>(const std::string &amp;ollama_url, const std::string &amp;model_name)</argsstring>
+        <name>getOllamaManifest</name>
+        <qualifiedname>themis::llm::ModelDownloader::getOllamaManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ollama_url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Ollama Manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ollama_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ollama_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateOllamaUrl(), curl_easy_init(), dump(), curl_easy_setopt(), c_str(), curl_slist_append(), append(), curl_easy_perform(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="80" column="26" bodyfile="src/llm/model_downloader.cpp" bodystart="611" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1ab865b25e8bba43f0f31e6f61336f7e22" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::ModelDownloader::listOllamaModels</definition>
+        <argsstring>(const std::string &amp;ollama_url)</argsstring>
+        <name>listOllamaModels</name>
+        <qualifiedname>themis::llm::ModelDownloader::listOllamaModels</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ollama_url</declname>
+        </param>
+        <briefdescription>
+<para>List Ollama Models. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ollama_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ollama_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateOllamaUrl(), curl_easy_init(), curl_easy_setopt(), c_str(), append(), curl_easy_perform(), curl_easy_cleanup(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="90" column="24" bodyfile="src/llm/model_downloader.cpp" bodystart="666" bodyend="710"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1a53172e5e3fe0c0e1ef942e8c9dfc51e5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_download_result" kindref="compound">ModelDownloadResult</ref></type>
+        <definition>ModelDownloadResult themis::llm::ModelDownloader::pullFromOllama</definition>
+        <argsstring>(const ModelDownloadConfig &amp;config)</argsstring>
+        <name>pullFromOllama</name>
+        <qualifiedname>themis::llm::ModelDownloader::pullFromOllama</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_model_download_config" kindref="compound">ModelDownloadConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Pull From Ollama. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: warnInsecureConfigIfSet(), validateOllamaUrl(), sanitizeModelName(), THEMIS_WARN(), curl_easy_init(), dump(), curl_easy_setopt(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="98" column="25" bodyfile="src/llm/model_downloader.cpp" bodystart="254" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_downloader_1a0063894fb82c7215cb547bef098ef81a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelDownloader::exportOllamaModel</definition>
+        <argsstring>(const std::string &amp;ollama_url, const std::string &amp;model_name, const std::string &amp;output_path)</argsstring>
+        <name>exportOllamaModel</name>
+        <qualifiedname>themis::llm::ModelDownloader::exportOllamaModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ollama_url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_path</declname>
+        </param>
+        <briefdescription>
+<para>Export Ollama Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ollama_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ollama_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: validateOllamaUrl(), THEMIS_WARN(), curl_easy_init(), dump(), curl_slist_append(), curl_easy_setopt(), c_str(), append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="107" column="10" bodyfile="src/llm/model_downloader.cpp" bodystart="365" bodyend="473"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_downloader.h" line="49" column="1" bodyfile="include/llm/model_downloader.h" bodystart="49" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1a25fb394e405ee4b0062e0625385c4b44" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>downloadFromOllama</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1adc67efd17e264a50e83ddae2e561b1d8" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>downloadFromURL</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1a0063894fb82c7215cb547bef098ef81a" prot="private" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>exportOllamaModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1abdcc96edfaaba505bca763211d4753ab" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>getOllamaManifest</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1a20dd9c2c76f03573b1763e4a7694e72a" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>isModelAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1ab865b25e8bba43f0f31e6f61336f7e22" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>listOllamaModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1a68106784bf4203d9cef1d99a758180ad" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>ModelDownloader</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1a53172e5e3fe0c0e1ef942e8c9dfc51e5" prot="private" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>pullFromOllama</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_downloader_1a72eff092563747dda6d25613b7017030" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloader</scope><name>~ModelDownloader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

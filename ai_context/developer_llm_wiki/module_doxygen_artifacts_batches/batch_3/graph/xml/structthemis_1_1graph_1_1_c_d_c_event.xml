@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_c_d_c_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::CDCEvent</compoundname>
+    <includes refid="knowledge__graph__reasoner_8h" local="no">knowledge_graph_reasoner.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1graph_1_1_c_d_c_event_1aca650f72118f5d848a7396c889ab440d" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>Op</name>
+        <qualifiedname>themis::graph::CDCEvent::Op</qualifiedname>
+        <enumvalue id="structthemis_1_1graph_1_1_c_d_c_event_1aca650f72118f5d848a7396c889ab440da61ee777e7f71dc466c3b2c685d8d313b" prot="public">
+          <name>INSERT</name>
+          <briefdescription>
+<para>A new edge was added. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graph_1_1_c_d_c_event_1aca650f72118f5d848a7396c889ab440da78baf367c4626442174307cdf41c6538" prot="public">
+          <name>REMOVE</name>
+          <briefdescription>
+<para>An existing edge was removed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="82" column="5" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="82" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_c_d_c_event_1ae0184452e6938a03c9ff7a29d5303f73" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_c_d_c_event_1aca650f72118f5d848a7396c889ab440d" kindref="member">Op</ref></type>
+        <definition>Op themis::graph::CDCEvent::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::graph::CDCEvent::op</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1graph_1_1_c_d_c_event_1aca650f72118f5d848a7396c889ab440da61ee777e7f71dc466c3b2c685d8d313b" kindref="member">Op::INSERT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="86" column="8" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_c_d_c_event_1a7fc13444011321d499c829fc6b42ab4e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref></type>
+        <definition>Triple themis::graph::CDCEvent::edge</definition>
+        <argsstring></argsstring>
+        <name>edge</name>
+        <qualifiedname>themis::graph::CDCEvent::edge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="87" column="12" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::graph::CDCEvent</label>
+        <link refid="structthemis_1_1graph_1_1_c_d_c_event"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>edge</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::Triple</label>
+        <link refid="structthemis_1_1graph_1_1_triple"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/knowledge_graph_reasoner.h" line="81" column="1" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="81" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_c_d_c_event_1a7fc13444011321d499c829fc6b42ab4e" prot="public" virt="non-virtual"><scope>themis::graph::CDCEvent</scope><name>edge</name></member>
+      <member refid="structthemis_1_1graph_1_1_c_d_c_event_1aca650f72118f5d848a7396c889ab440d" prot="public" virt="non-virtual"><scope>themis::graph::CDCEvent</scope><name>Op</name></member>
+      <member refid="structthemis_1_1graph_1_1_c_d_c_event_1ae0184452e6938a03c9ff7a29d5303f73" prot="public" virt="non-virtual"><scope>themis::graph::CDCEvent</scope><name>op</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

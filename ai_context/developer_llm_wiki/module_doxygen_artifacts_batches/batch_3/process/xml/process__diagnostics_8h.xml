@@ -1,0 +1,511 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__diagnostics_8h" kind="file" language="C++">
+    <compoundname>process_diagnostics.h</compoundname>
+    <includes refid="process__api__contract_8h" local="yes">process/process_api_contract.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">map</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="process__diagnostics__api_8h" local="yes">include/process/process_diagnostics_api.h</includedby>
+    <includedby refid="process__linker_8h" local="yes">include/process/process_linker.h</includedby>
+    <includedby refid="serializer__hardening_8h" local="yes">include/process/serializer_hardening.h</includedby>
+    <includedby refid="bpmn__serializer_8cpp" local="yes">src/process/bpmn_serializer.cpp</includedby>
+    <includedby refid="cmmn__serializer_8cpp" local="yes">src/process/cmmn_serializer.cpp</includedby>
+    <includedby refid="epk__serializer_8cpp" local="yes">src/process/epk_serializer.cpp</includedby>
+    <includedby refid="process__diagnostics_8cpp" local="yes">src/process/process_diagnostics.cpp</includedby>
+    <includedby refid="process__linker_8cpp" local="yes">src/process/process_linker.cpp</includedby>
+    <includedby refid="test__process__diagnostics__incident__focused_8cpp" local="yes">tests/process/test_process_diagnostics_incident_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>process/process_api_contract.h</label>
+        <link refid="process__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/process/process_diagnostics.h</label>
+        <link refid="process__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>utility</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>include/process/object_centric_tracer.h</label>
+        <link refid="object__centric__tracer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/process/ocel_exporter.h</label>
+        <link refid="ocel__exporter_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/process/process_agentic_rag.h</label>
+        <link refid="process__agentic__rag_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/process/process_diagnostics.h</label>
+        <link refid="process__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/process/process_diagnostics_api.h</label>
+        <link refid="process__diagnostics__api_8h"/>
+      </node>
+      <node id="10">
+        <label>include/process/process_graph_rag.h</label>
+        <link refid="process__graph__rag_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/process/process_light_retriever.h</label>
+        <link refid="process__light__retriever_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/process/process_linker.h</label>
+        <link refid="process__linker_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/process/serializer_hardening.h</label>
+        <link refid="serializer__hardening_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>src/process/bpmn_serializer.cpp</label>
+        <link refid="bpmn__serializer_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/process/cmmn_serializer.cpp</label>
+        <link refid="cmmn__serializer_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/process/epk_serializer.cpp</label>
+        <link refid="epk__serializer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/process/object_centric_tracer.cpp</label>
+        <link refid="object__centric__tracer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/process/ocel_exporter.cpp</label>
+        <link refid="ocel__exporter_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/process/process_agentic_rag.cpp</label>
+        <link refid="process__agentic__rag_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/process/process_diagnostics.cpp</label>
+        <link refid="process__diagnostics_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/process/process_graph_rag.cpp</label>
+        <link refid="process__graph__rag_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/process/process_light_retriever.cpp</label>
+        <link refid="process__light__retriever_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/process/process_linker.cpp</label>
+        <link refid="process__linker_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/process/serializer_hardening.cpp</label>
+        <link refid="serializer__hardening_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/process/test_bottleneck_analytics.cpp</label>
+        <link refid="test__bottleneck__analytics_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/process/test_object_centric_tracer.cpp</label>
+        <link refid="test__object__centric__tracer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/process/test_process_aris_xml.cpp</label>
+        <link refid="test__process__aris__xml_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/process/test_process_concurrency_churn_focused.cpp</label>
+        <link refid="test__process__concurrency__churn__focused_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/process/test_process_determinism_conflict_focused.cpp</label>
+        <link refid="test__process__determinism__conflict__focused_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/process/test_process_diagnostics_incident_focused.cpp</label>
+        <link refid="test__process__diagnostics__incident__focused_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/process/test_process_high_batch_2a.cpp</label>
+        <link refid="test__process__high__batch__2a_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/process/test_process_light_retriever.cpp</label>
+        <link refid="test__process__light__retriever_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/process/test_process_linker_edge_focused.cpp</label>
+        <link refid="test__process__linker__edge__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/process/test_process_module.cpp</label>
+        <link refid="test__process__module_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/process/test_process_retriever_edge_focused.cpp</label>
+        <link refid="test__process__retriever__edge__focused_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/process/test_process_stress_churn_focused.cpp</label>
+        <link refid="test__process__stress__churn__focused_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/process/test_sla_monitoring.cpp</label>
+        <link refid="test__sla__monitoring_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1process_1_1_diagnostic_record" prot="public">themis::process::DiagnosticRecord</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_diagnostics" prot="public">themis::process::ProcessDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_diagnostic_context" prot="public">themis::process::DiagnosticContext</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_diagnostic_metrics_collector" prot="public">themis::process::DiagnosticMetricsCollector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Unified diagnostics framework for process module incidents. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>Provides structured incident classification and diagnostic records for consistent error reporting across process import, validation, retrieval, and linking operations. All error paths in the process module use this framework to ensure actionable operator-facing diagnostics.</para>
+</sect1>
+<sect1 id="process__stress__scenarios_8h_1usage">
+<title>Usage Pattern</title><para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>diag<sp/>=<sp/>ProcessDiagnostics::createImportIncident(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ProcError::kDeserialiserFailed,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model_v1.bpmn&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>gateway<sp/>type:<sp/>COMPLEX_AND<sp/>not<sp/>supported<sp/>in<sp/>v2.0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">log_error(diag.toActionableMessage());</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="process__diagnostics_8h_1design">
+<title>Design Constraints</title><para><itemizedlist>
+<listitem><para>All incidents must include an error code from <ref refid="process__api__contract_8h" kindref="compound">process_api_contract.h</ref></para>
+</listitem><listitem><para>All incidents must include actionable context (operation, input identifier)</para>
+</listitem><listitem><para>Timestamps are UTC and captured at incident creation</para>
+</listitem><listitem><para>No silent failures; all error paths explicitly signal via incident </para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__api__contract_8h" kindref="compound">process/process_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1dacf8b649ab3b2e7f532f9d2e7ecb694cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1dacf8b649ab3b2e7f532f9d2e7ecb694cf" kindref="member">IMPORT_INCIDENT</ref><sp/>=<sp/>3600,</highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da78b080391f2d37aa20fe6fabe7400ceb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da78b080391f2d37aa20fe6fabe7400ceb" kindref="member">VALIDATION_INCIDENT</ref><sp/>=<sp/>3601,</highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da92423e8501f12aa9efe4390d99ff372f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da92423e8501f12aa9efe4390d99ff372f" kindref="member">RETRIEVAL_INCIDENT</ref><sp/>=<sp/>3602,</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1daa952a82eab5f5ea7bf0f5e5a907451fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1daa952a82eab5f5ea7bf0f5e5a907451fd" kindref="member">LINKING_INCIDENT</ref><sp/>=<sp/>3603,</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da236c407f7415dca1a3525fbde64a36ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da236c407f7415dca1a3525fbde64a36ce" kindref="member">RESOURCE_INCIDENT</ref><sp/>=<sp/>3604,</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da9bcebf1672194436587e2d18857a4917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da9bcebf1672194436587e2d18857a4917" kindref="member">CONCURRENCY_INCIDENT</ref><sp/>=<sp/>3605,</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da8284c181b363e3adc4a0bc9ea0802422" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da8284c181b363e3adc4a0bc9ea0802422" kindref="member">CYCLE_INCIDENT</ref><sp/>=<sp/>3606,</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da957d9268f98bcb2629609988916d362d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da957d9268f98bcb2629609988916d362d" kindref="member">MALFORMED_INPUT_INCIDENT</ref><sp/>=<sp/>3607,</highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da9d2a52da2c7b1a2bb48792b45e08924f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da9d2a52da2c7b1a2bb48792b45e08924f" kindref="member">MISSING_TARGET_INCIDENT</ref><sp/>=<sp/>3608,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">std::string_view<sp/><ref refid="namespacethemis_1_1process_1a01a13e3b60f6dc7f775b149a5ccb5e73" kindref="member">toString</ref>(<ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/>t);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1process_1_1_diagnostic_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a70e2f869749760be14b2f60f67292564" kindref="member">DiagnosticRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1process_1_1_diagnostic_record_1afd81675cccba5066708bfc88527bc1a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1afd81675cccba5066708bfc88527bc1a1" kindref="member">timestamp_ms</ref>;</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1process_1_1_diagnostic_record_1ac4d760e5b1c707a0e59a91775db9559a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1ac4d760e5b1c707a0e59a91775db9559a" kindref="member">incident_type</ref>;</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1process_1_1_diagnostic_record_1ac15be67632bd6e8975b5f094b966cc46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1ac15be67632bd6e8975b5f094b966cc46" kindref="member">error_code</ref>;</highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1process_1_1_diagnostic_record_1a78b1c3b4100dd9b683689fce9261c425" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a78b1c3b4100dd9b683689fce9261c425" kindref="member">operation</ref>;</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1process_1_1_diagnostic_record_1a03903d078cba40ea0d41e7e5ceab4e31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a03903d078cba40ea0d41e7e5ceab4e31" kindref="member">input_identifier</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1process_1_1_diagnostic_record_1a5f447e0e5dd16730350c52cd6222fad5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a5f447e0e5dd16730350c52cd6222fad5" kindref="member">actionable_message</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a70e2f869749760be14b2f60f67292564" kindref="member">DiagnosticRecord</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1ac4d760e5b1c707a0e59a91775db9559a" kindref="member">incident_type</ref>,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1ac15be67632bd6e8975b5f094b966cc46" kindref="member">error_code</ref>,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a78b1c3b4100dd9b683689fce9261c425" kindref="member">operation</ref>,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a03903d078cba40ea0d41e7e5ceab4e31" kindref="member">input_identifier</ref>,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a5f447e0e5dd16730350c52cd6222fad5" kindref="member">actionable_message</ref></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1process_1_1_diagnostic_record_1af09e1e250bcfacedcabcb9f85fcfcba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1af09e1e250bcfacedcabcb9f85fcfcba4" kindref="member">~DiagnosticRecord</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1ab4335046f2ab9735b961a3125eb3e14a" kindref="member">toFormattedMessage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1process_1_1_diagnostic_record_1a773ca7cb91c7358d1ff2c4e77a7adde9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a773ca7cb91c7358d1ff2c4e77a7adde9" kindref="member">getActionableMessage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1a5f447e0e5dd16730350c52cd6222fad5" kindref="member">actionable_message</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1process_1_1_diagnostic_record_1aabeb030ec1cae9241e8138d4fb8febf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1aabeb030ec1cae9241e8138d4fb8febf8" kindref="member">getErrorCode</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1ac15be67632bd6e8975b5f094b966cc46" kindref="member">error_code</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1process_1_1_diagnostic_record_1ab4992662ba73d4b1ac8e4a4f14c6458c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1ab4992662ba73d4b1ac8e4a4f14c6458c" kindref="member">getIncidentType</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record_1ac4d760e5b1c707a0e59a91775db9559a" kindref="member">incident_type</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1process_1_1_process_diagnostics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ProcessDiagnostics<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a8c6a7059b59f58295bcfe8826380f4c4" kindref="member">createImportIncident</ref>(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a2812f4a8b0d719d9ea103eca0d3088d7" kindref="member">createValidationIncident</ref>(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a6f110fd4469ab755820935537b9bb05e" kindref="member">createRetrievalIncident</ref>(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a82a40dc585865e8ee234ed9f6e589674" kindref="member">createLinkingIncident</ref>(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a977b7d7fb47ef74f88e166aa6fa88c57" kindref="member">createResourceIncident</ref>(</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a2ecdf60d8c51fb36abb8668eb961a6d2" kindref="member">createConcurrencyIncident</ref>(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a4092561503911228cb0cc308c3adef5a" kindref="member">createCycleIncident</ref>(</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a2641048c9e84c72558ec739009c6b433" kindref="member">createMalformedInputIncident</ref>(</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a0136486f75c9562230339b38e20de6a1" kindref="member">createMissingTargetIncident</ref>(</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>error,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input_id,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessDiagnostics()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="classthemis_1_1process_1_1_diagnostic_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_diagnostic_context" kindref="compound">DiagnosticContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_context_1ab689712cb55390a9093c3b6bbacc0517" kindref="member">recordResourceMetric</ref>(std::string_view<sp/>metric_name,<sp/>int64_t<sp/>value);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_context_1ab6a353efb6d5b321ea1d30f2e5478e88" kindref="member">recordLimitExceeded</ref>(std::string_view<sp/>limit_name,<sp/>int64_t<sp/>limit_value,<sp/>int64_t<sp/>actual_value);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_context_1a819425415788a1da71aa9bd82c1356a7" kindref="member">setRemediationSuggestion</ref>(std::string_view<sp/>suggestion);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_context_1abcb02d384fa3b7bd1564a9bc3cd13b6f" kindref="member">recordConflictingOperation</ref>(uint64_t<sp/>operation_id,<sp/>std::string_view<sp/>conflicting_key);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_context_1a74e25bc0f27608e8e2549349406c429a" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_context_1ab4209da5ada62516d3de7141b0741c2c" kindref="member">getRemediationSummary</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int64_t&gt;<sp/>resource_metrics_;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::pair&lt;int64_t,<sp/>int64_t&gt;&gt;&gt;<sp/>limit_records_;<sp/><sp/></highlight><highlight class="comment">//<sp/>(name,<sp/>(limit,<sp/>actual))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;uint64_t,<sp/>std::string&gt;&gt;<sp/>conflicts_;<sp/><sp/></highlight><highlight class="comment">//<sp/>(op_id,<sp/>key)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>remediation_suggestion_;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364" refid="classthemis_1_1process_1_1_diagnostic_metrics_collector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_diagnostic_metrics_collector" kindref="compound">DiagnosticMetricsCollector</ref><sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1accdef7761e27305a6580fdbe22226021" kindref="member">recordIncident</ref>(<ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/>incident_type);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1a6c598e5cf33dca988db540af9fbd74bc" kindref="member">getIncidentCount</ref>(<ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/>incident_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1abaa36e8305ff49028f53e04784724f88" kindref="member">getTotalIncidentCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1ae33316fa14404380387bc6f8ec6cae7a" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="classthemis_1_1process_1_1_diagnostic_metrics_collector_1a90bb3b6155d277ad1224ccf0d06d4350" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;DiagnosticIncidentType,<sp/>uint64_t&gt;<sp/>incident_counts_;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>metrics_lock_;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_diagnostics.h"/>
+  </compounddef>
+</doxygen>

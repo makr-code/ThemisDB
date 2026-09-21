@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_auto_m_l_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AutoMLConfig</compoundname>
+    <includes refid="automl_8h" local="no">automl.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1af7a58f2a198e4aba08ef5bf6a703dd01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AutoMLConfig::target</definition>
+        <argsstring></argsstring>
+        <name>target</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::target</qualifiedname>
+        <briefdescription>
+<para>Name of the target field in <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="118" column="18" bodyfile="include/analytics/automl.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1aec050694f21aead6bb123bc876b70296" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref></type>
+        <definition>AutoMLTask themisdb::analytics::AutoMLConfig::task</definition>
+        <argsstring></argsstring>
+        <name>task</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::task</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" kindref="member">AutoMLTask::CLASSIFICATION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="119" column="18" bodyfile="include/analytics/automl.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a0234833976583259c9d51692ac419316" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" kindref="member">AutoMLMetric</ref></type>
+        <definition>AutoMLMetric themisdb::analytics::AutoMLConfig::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::metric</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeae1dffc8709f31a4987c8a88334107e89" kindref="member">AutoMLMetric::F1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="120" column="18" bodyfile="include/analytics/automl.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a016050d16e26081245ec8c145f88ff42" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AutoMLConfig::max_time_minutes</definition>
+        <argsstring></argsstring>
+        <name>max_time_minutes</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::max_time_minutes</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Wall-clock budget. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="121" column="18" bodyfile="include/analytics/automl.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1aae6a65df181704939d2f8d0a7864ec13" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AutoMLConfig::max_trials</definition>
+        <argsstring></argsstring>
+        <name>max_trials</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::max_trials</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Maximum hyperparameter trials. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="122" column="18" bodyfile="include/analytics/automl.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a3140d003a78ece551a8b62ee064fc694" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AutoMLConfig::cv_folds</definition>
+        <argsstring></argsstring>
+        <name>cv_folds</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::cv_folds</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Cross-validation folds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="123" column="18" bodyfile="include/analytics/automl.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a6c3de5fd418fcf92dbe2bd8c3bb6872d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::AutoMLConfig::feature_engineering</definition>
+        <argsstring></argsstring>
+        <name>feature_engineering</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::feature_engineering</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable automated feature engineering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="124" column="18" bodyfile="include/analytics/automl.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a2c3e4aa504a8746426e37de4fa3a22a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::AutoMLConfig::ensemble</definition>
+        <argsstring></argsstring>
+        <name>ensemble</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::ensemble</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Generate a voting/averaging ensemble. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="125" column="18" bodyfile="include/analytics/automl.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a186e5cd7d7964e35cf16559cfa0abc84" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AutoMLConfig::ensemble_top_k</definition>
+        <argsstring></argsstring>
+        <name>ensemble_top_k</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::ensemble_top_k</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Top-k models used in ensemble. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="126" column="18" bodyfile="include/analytics/automl.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a0472a4f90b7a321a7abfc0660c83ff85" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AutoMLConfig::random_seed</definition>
+        <argsstring></argsstring>
+        <name>random_seed</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::random_seed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="127" column="18" bodyfile="include/analytics/automl.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_config_1ae43be9be7749ea023f3238ea578a059a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref> &gt;</type>
+        <definition>std::vector&lt;ModelAlgorithm&gt; themisdb::analytics::AutoMLConfig::algorithms</definition>
+        <argsstring></argsstring>
+        <name>algorithms</name>
+        <qualifiedname>themisdb::analytics::AutoMLConfig::algorithms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="128" column="17" bodyfile="include/analytics/automl.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/automl.h" line="117" column="1" bodyfile="include/analytics/automl.h" bodystart="117" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1ae43be9be7749ea023f3238ea578a059a" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>algorithms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a3140d003a78ece551a8b62ee064fc694" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>cv_folds</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a2c3e4aa504a8746426e37de4fa3a22a9" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>ensemble</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a186e5cd7d7964e35cf16559cfa0abc84" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>ensemble_top_k</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a6c3de5fd418fcf92dbe2bd8c3bb6872d" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>feature_engineering</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a016050d16e26081245ec8c145f88ff42" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>max_time_minutes</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1aae6a65df181704939d2f8d0a7864ec13" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>max_trials</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a0234833976583259c9d51692ac419316" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>metric</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a0472a4f90b7a321a7abfc0660c83ff85" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>random_seed</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1af7a58f2a198e4aba08ef5bf6a703dd01" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>target</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1aec050694f21aead6bb123bc876b70296" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLConfig</scope><name>task</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

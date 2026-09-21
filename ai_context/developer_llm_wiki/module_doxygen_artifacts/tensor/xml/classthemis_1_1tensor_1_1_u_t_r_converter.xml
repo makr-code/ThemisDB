@@ -1,0 +1,903 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_u_t_r_converter" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::UTRConverter</compoundname>
+    <includes refid="utr__converter_8h" local="no">utr_converter.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;segment, std::size_t embed_dim)&gt;</type>
+        <definition>using themis::tensor::UTRConverter::EmbedFn = std::function&lt;std::vector&lt;float&gt;(const std::string&amp; segment,
+                                                     std::size_t        embed_dim)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EmbedFn</name>
+        <qualifiedname>themis::tensor::UTRConverter::EmbedFn</qualifiedname>
+        <briefdescription>
+<para>Callable type for text-segment embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>segment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text segment. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>embed_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required output dimensionality. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Float vector of length <computeroutput>embed_dim</computeroutput>.</para>
+</simplesect>
+The returned vector MUST have exactly <computeroutput>embed_dim</computeroutput> elements; if it does not, <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" kindref="member">fromDocument()</ref></computeroutput> throws <computeroutput>std::runtime_error</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="124" column="5" bodyfile="include/tensor/utr_converter.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" prot="public" static="no">
+        <type>std::function&lt; storage::TTTrain( const std::vector&lt; float &gt; &amp;pixels, std::size_t h, std::size_t w, std::size_t c, const <ref refid="structthemis_1_1tensor_1_1_u_t_r_config" kindref="compound">UTRConfig</ref> &amp;cfg)&gt;</type>
+        <definition>using themis::tensor::UTRConverter::ImageEmbedFn = std::function&lt;storage::TTTrain(
+                               const std::vector&lt;float&gt;&amp; pixels,
+                               std::size_t h,
+                               std::size_t w,
+                               std::size_t c,
+                               const UTRConfig&amp; cfg)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ImageEmbedFn</name>
+        <qualifiedname>themis::tensor::UTRConverter::ImageEmbedFn</qualifiedname>
+        <briefdescription>
+<para>Callable type for image-to-TTTrain encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat HWC float buffer (raw, not normalised). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+<parametername>w</parametername>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Image dimensions. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTR configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A valid TTTrain for the given image. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="148" column="5" bodyfile="include/tensor/utr_converter.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a7ddd767846a79223c13b31df8a3fa362" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::UTRConverter::setEmbedFn</definition>
+        <argsstring>(EmbedFn fn)</argsstring>
+        <name>setEmbedFn</name>
+        <qualifiedname>themis::tensor::UTRConverter::setEmbedFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Replace the FNV-1a hash-projection fallback with a real encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Embed Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="128" column="17" bodyfile="src/tensor/utr_converter.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a7326281c4db40249f775626004c68bde" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::UTRConverter::clearEmbedFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearEmbedFn</name>
+        <qualifiedname>themis::tensor::UTRConverter::clearEmbedFn</qualifiedname>
+        <briefdescription>
+<para>Revert <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" kindref="member">fromDocument()</ref></computeroutput> to the built-in FNV-1a fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Embed Fn.</para>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="131" column="17" bodyfile="src/tensor/utr_converter.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a0ed0eecad2a879b5a9e439e91addcca6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref></type>
+        <definition>UTRConverter::EmbedFn themis::tensor::UTRConverter::getEmbedFn</definition>
+        <argsstring>()</argsstring>
+        <name>getEmbedFn</name>
+        <qualifiedname>themis::tensor::UTRConverter::getEmbedFn</qualifiedname>
+        <briefdescription>
+<para>Returns the currently installed <ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref>, or an empty std::function if none. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Embed Fn.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="134" column="20" bodyfile="src/tensor/utr_converter.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1af30d1d56bb3fe5a86c0d3749988532f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::UTRConverter::setImageEmbedFn</definition>
+        <argsstring>(ImageEmbedFn fn)</argsstring>
+        <name>setImageEmbedFn</name>
+        <qualifiedname>themis::tensor::UTRConverter::setImageEmbedFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" kindref="member">ImageEmbedFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Replace the raw-pixel TT encoding with a real patch-embedding backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Image Embed Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="156" column="17" bodyfile="src/tensor/utr_converter.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a7f7e525a927de733f9c7efab667da510" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::UTRConverter::clearImageEmbedFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearImageEmbedFn</name>
+        <qualifiedname>themis::tensor::UTRConverter::clearImageEmbedFn</qualifiedname>
+        <briefdescription>
+<para>Revert <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" kindref="member">fromImage()</ref></computeroutput> to the built-in raw-pixel fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Image Embed Fn.</para>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="159" column="17" bodyfile="src/tensor/utr_converter.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a4568dc36aae97a2f49b3f5513977e85d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" kindref="member">ImageEmbedFn</ref></type>
+        <definition>UTRConverter::ImageEmbedFn themis::tensor::UTRConverter::getImageEmbedFn</definition>
+        <argsstring>()</argsstring>
+        <name>getImageEmbedFn</name>
+        <qualifiedname>themis::tensor::UTRConverter::getImageEmbedFn</qualifiedname>
+        <briefdescription>
+<para>Returns the currently installed <ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" kindref="member">ImageEmbedFn</ref>, or an empty std::function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Image Embed Fn.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="162" column="25" bodyfile="src/tensor/utr_converter.cpp" bodystart="108" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a9ca474a92ccf23d93172bfc4e7a9200b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::UTRConverter::setTextEncoder</definition>
+        <argsstring>(std::shared_ptr&lt; ITextEncoder &gt; encoder)</argsstring>
+        <name>setTextEncoder</name>
+        <qualifiedname>themis::tensor::UTRConverter::setTextEncoder</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref> &gt;</type>
+          <declname>encoder</declname>
+        </param>
+        <briefdescription>
+<para>Register a learned or high-quality text encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Encoder object registration — <ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref> / <ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref> ============================================================================</para>
+<para>The encoder replaces the built-in lexical fallback in <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" kindref="member">fromDocument()</ref></computeroutput>. If <computeroutput>encoder-&gt;isAvailable()</computeroutput> returns false at call time, the system falls back to the <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref></computeroutput> bridge (if set) or the built-in lexical encoder.</para>
+<para>Pass <computeroutput>nullptr</computeroutput> to clear any previously registered encoder.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>encoder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to an <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref></computeroutput> implementation, or nullptr to clear.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encoder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="180" column="17" bodyfile="src/tensor/utr_converter.cpp" bodystart="119" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a7553a439492fbdf63fa76af8e1cf5715" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::UTRConverter::clearTextEncoder</definition>
+        <argsstring>()</argsstring>
+        <name>clearTextEncoder</name>
+        <qualifiedname>themis::tensor::UTRConverter::clearTextEncoder</qualifiedname>
+        <briefdescription>
+<para>Clear Text Encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear the registered text encoder; <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" kindref="member">fromDocument()</ref></computeroutput> reverts to the <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref></computeroutput> bridge tier or the built-in lexical encoder.</para>
+<para>Calls: lk(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="184" column="17" bodyfile="src/tensor/utr_converter.cpp" bodystart="128" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a493df089493f2cd0e61bd8bee183c303" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ITextEncoder &gt; themis::tensor::UTRConverter::getTextEncoder</definition>
+        <argsstring>()</argsstring>
+        <name>getTextEncoder</name>
+        <qualifiedname>themis::tensor::UTRConverter::getTextEncoder</qualifiedname>
+        <briefdescription>
+<para>Returns the currently registered <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref></computeroutput>, or nullptr if none. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Text Encoder.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="187" column="29" bodyfile="src/tensor/utr_converter.cpp" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a7825081cffbfb7a8f05079cf8f900fd1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::UTRConverter::setImageEncoder</definition>
+        <argsstring>(std::shared_ptr&lt; IImageEncoder &gt; encoder)</argsstring>
+        <name>setImageEncoder</name>
+        <qualifiedname>themis::tensor::UTRConverter::setImageEncoder</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref> &gt;</type>
+          <declname>encoder</declname>
+        </param>
+        <briefdescription>
+<para>Register a learned or high-quality image encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Image Encoder.</para>
+<para>The encoder replaces the built-in patch-statistics fallback in <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" kindref="member">fromImage()</ref></computeroutput>. If <computeroutput>encoder-&gt;isAvailable()</computeroutput> returns false at call time, the system falls back to the <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" kindref="member">ImageEmbedFn</ref></computeroutput> bridge (if set) or the built-in patch-statistics encoder.</para>
+<para>Pass <computeroutput>nullptr</computeroutput> to clear any previously registered encoder.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>encoder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to an <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref></computeroutput> implementation, or nullptr to clear.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encoder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="202" column="17" bodyfile="src/tensor/utr_converter.cpp" bodystart="148" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a0a7cc2645f18960f24cdfd9459852598" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::UTRConverter::clearImageEncoder</definition>
+        <argsstring>()</argsstring>
+        <name>clearImageEncoder</name>
+        <qualifiedname>themis::tensor::UTRConverter::clearImageEncoder</qualifiedname>
+        <briefdescription>
+<para>Clear Image Encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear the registered image encoder; <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" kindref="member">fromImage()</ref></computeroutput> reverts to the <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" kindref="member">ImageEmbedFn</ref></computeroutput> bridge tier or the built-in patch-statistics encoder.</para>
+<para>Calls: lk(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="206" column="17" bodyfile="src/tensor/utr_converter.cpp" bodystart="157" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a68bf698135a10d2004dec74d7ea32ca4" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IImageEncoder &gt; themis::tensor::UTRConverter::getImageEncoder</definition>
+        <argsstring>()</argsstring>
+        <name>getImageEncoder</name>
+        <qualifiedname>themis::tensor::UTRConverter::getImageEncoder</qualifiedname>
+        <briefdescription>
+<para>Returns the currently registered <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref></computeroutput>, or nullptr if none. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Image Encoder.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="209" column="29" bodyfile="src/tensor/utr_converter.cpp" bodystart="167" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a5bd151793aa85473a86ea425d7c1f23d" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::UTRConverter::fromGeospatial</definition>
+        <argsstring>(const RasterGrid &amp;grid, const UTRConfig &amp;cfg={})</argsstring>
+        <name>fromGeospatial</name>
+        <qualifiedname>themis::tensor::UTRConverter::fromGeospatial</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_raster_grid" kindref="compound">RasterGrid</ref> &amp;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_u_t_r_config" kindref="compound">UTRConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Encode a geospatial raster grid as a TT-train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a5bd151793aa85473a86ea425d7c1f23d" kindref="member">UTRConverter::fromGeospatial</ref> ============================================================================</para>
+<para>The grid is treated as a 2-D tensor T ∈ ℝ^{rows × cols} and decomposed via TT-SVD after Hilbert-curve reordering on a power-of-two square grid.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input raster grid (rows × cols scalar values). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTR configuration (eps, max_rank). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>TT-train encoding the geospatial field.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if grid is empty or cell_size_deg ≤ 0.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::to_string(), max(), lowest(), std::min(), std::max(), normalised(), clampf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="224" column="5" bodyfile="src/tensor/utr_converter.cpp" bodystart="432" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a3f64e572cba7dc32ab70501d2f5e051c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_hyper_index_tensor" kindref="compound">HyperIndexTensor</ref></type>
+        <definition>HyperIndexTensor themis::tensor::UTRConverter::fromTabular</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::vector&lt; ColumnSchema &gt; &amp;schema, const std::vector&lt; TableRow &gt; &amp;rows, const UTRConfig &amp;cfg={})</argsstring>
+        <name>fromTabular</name>
+        <qualifiedname>themis::tensor::UTRConverter::fromTabular</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_column_schema" kindref="compound">ColumnSchema</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_table_row" kindref="compound">TableRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_u_t_r_config" kindref="compound">UTRConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Encode tabular data as a <ref refid="structthemis_1_1tensor_1_1_hyper_index_tensor" kindref="compound">HyperIndexTensor</ref> (TT-encoded co-occurrence). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a3f64e572cba7dc32ab70501d2f5e051c" kindref="member">UTRConverter::fromTabular</ref> ============================================================================</para>
+<para>Delegates to <computeroutput><ref refid="classthemis_1_1tensor_1_1_hyper_index_builder_1a091802325c6e9e676188c87afa50010c" kindref="member">HyperIndexBuilder::fromSchema()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owning tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column descriptors. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data rows. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTR configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1tensor_1_1_hyper_index_tensor" kindref="compound">HyperIndexTensor</ref> encoding cross-column relationships.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if schema has &lt; 2 columns or rows is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1tensor_1_1_hyper_index_builder_1a091802325c6e9e676188c87afa50010c" kindref="member">HyperIndexBuilder::fromSchema()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="240" column="5" bodyfile="src/tensor/utr_converter.cpp" bodystart="498" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::UTRConverter::fromImage</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pixels, std::size_t h, std::size_t w, std::size_t c, const UTRConfig &amp;cfg={})</argsstring>
+        <name>fromImage</name>
+        <qualifiedname>themis::tensor::UTRConverter::fromImage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pixels</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>w</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_u_t_r_config" kindref="compound">UTRConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Encode pixel data as a TT-train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" kindref="member">UTRConverter::fromImage</ref> ============================================================================</para>
+<para>Input shape is (h × w × c) stored in row-major HWC order. Values are normalised to [0, 1] before patch-statistics extraction and TT decomposition.</para>
+<para>If a learned <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref></computeroutput> is registered and <computeroutput>isAvailable()</computeroutput>, it is used in preference to the built-in patch-statistics encoder.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat HWC float values (length = h × w × c). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Image height in pixels. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Image width in pixels. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of channels (1 = grayscale, 3 = RGB, etc.) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTR configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>TT-train encoding the image tensor.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if h, w, or c is 0 or pixels.size() != h*w*c. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a registered <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref></computeroutput> produces an empty TTTrain (fail-closed on encoder contract violation).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pixels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::to_string(), lk(), isAvailable(), encode(), empty(), std::string(), description(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="267" column="5" bodyfile="src/tensor/utr_converter.cpp" bodystart="523" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">tensor::HTTrain</ref></type>
+        <definition>tensor::HTTrain themis::tensor::UTRConverter::fromDocument</definition>
+        <argsstring>(const std::string &amp;text, DocumentStructureHint hint=DocumentStructureHint::PARAGRAPHS, const UTRConfig &amp;cfg={})</argsstring>
+        <name>fromDocument</name>
+        <qualifiedname>themis::tensor::UTRConverter::fromDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1a6d1137c07511e43abf5b3703ed021e8a" kindref="member">DocumentStructureHint</ref></type>
+          <declname>hint</declname>
+          <defval><ref refid="namespacethemis_1_1tensor_1a6d1137c07511e43abf5b3703ed021e8aad473f89caa2621cbac56ade8371d45fe" kindref="member">DocumentStructureHint::PARAGRAPHS</ref></defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_u_t_r_config" kindref="compound">UTRConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Encode a document as a hierarchical TT (<ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" kindref="member">UTRConverter::fromDocument</ref> ============================================================================</para>
+<para>The document is split into segments (paragraphs or sentences depending on <computeroutput>hint</computeroutput>). Each segment is encoded as a fixed-length embedding vector. The encoding tier is selected by priority:<orderedlist>
+<listitem><para>Registered <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref></computeroutput> (if <computeroutput>isAvailable()</computeroutput>)</para>
+</listitem><listitem><para>Injected <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref></computeroutput> bridge (STUB #257)</para>
+</listitem><listitem><para>Built-in lexical encoder (unigram + bigram + char-trigram features, L2-normalised) — degraded mode, <computeroutput><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4af176338d29d8c14985e566b91bdb7991" kindref="member">EncoderQuality::LEXICAL</ref></computeroutput></para>
+</listitem></orderedlist>
+</para>
+<para>The resulting segment × embed_dim matrix is decomposed via HT-SVD into an <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Segmentation strategy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTR configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> encoding the hierarchical document structure.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if text is empty or produces no segments. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the active <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref></computeroutput> returns a vector of the wrong size (fail-closed on mismatch).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), splitSentences(), splitParagraphs(), size(), resize(), lk(), isAvailable(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="295" column="5" bodyfile="src/tensor/utr_converter.cpp" bodystart="640" bodyend="728"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Converts heterogeneous data sources into tensor-native (TT/HT) formats. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All methods are static and stateless. Thread-safe.</para>
+<para><heading level="3">Bridge Injection APIs (STUB #257 / #258)</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter" kindref="compound">UTRConverter</ref></computeroutput> exposes two injectable bridges so that real encoder backends can replace the built-in fallback implementations without changing callers:</para>
+<para><itemizedlist>
+<listitem><para><bold><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref></bold> (<computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7ddd767846a79223c13b31df8a3fa362" kindref="member">setEmbedFn</ref></computeroutput>) — replaces the built-in lexical embedding used in <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" kindref="member">fromDocument()</ref></computeroutput>. The callable receives <computeroutput>(segment, embed_dim)</computeroutput> and must return a <computeroutput>std::vector&lt;float&gt;</computeroutput> of exactly <computeroutput>embed_dim</computeroutput> elements.</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" kindref="member">ImageEmbedFn</ref></bold> (<computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1af30d1d56bb3fe5a86c0d3749988532f5" kindref="member">setImageEmbedFn</ref></computeroutput>) — replaces the raw-pixel TT encoding in <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" kindref="member">fromImage()</ref></computeroutput>. The callable receives the flat HWC pixel buffer and the three dimensions plus the UTR config, and must return a valid <computeroutput>TTTrain</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<para>Both bridges are stored in static <computeroutput>std::mutex</computeroutput>-guarded slots. Call <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7326281c4db40249f775626004c68bde" kindref="member">clearEmbedFn()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7f7e525a927de733f9c7efab667da510" kindref="member">clearImageEmbedFn()</ref></computeroutput> to revert to the built-in fallback. The fallback is retained when no bridge is set (fail-open for encode quality, not for correctness — structural invariants are always maintained).</para>
+<para><heading level="3">Encoder Object APIs (preferred over raw bridge functions)</heading>
+</para>
+<para>Higher-level plugins should implement <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder" kindref="compound">ITextEncoder</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_image_encoder" kindref="compound">IImageEncoder</ref></computeroutput> and register them via <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a9ca474a92ccf23d93172bfc4e7a9200b" kindref="member">setTextEncoder()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7825081cffbfb7a8f05079cf8f900fd1" kindref="member">setImageEncoder()</ref></computeroutput>. These encoder objects take priority over the raw <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" kindref="member">EmbedFn</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" kindref="member">ImageEmbedFn</ref></computeroutput> bridges. If <computeroutput>isAvailable()</computeroutput> returns false on the registered encoder, the system falls back to the bridge function tier (if any), then to the built-in lexical/patch encoder. </para>
+    </detaileddescription>
+    <location file="include/tensor/utr_converter.h" line="108" column="1" bodyfile="include/tensor/utr_converter.h" bodystart="108" bodyend="298"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7326281c4db40249f775626004c68bde" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>clearEmbedFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7f7e525a927de733f9c7efab667da510" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>clearImageEmbedFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a0a7cc2645f18960f24cdfd9459852598" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>clearImageEncoder</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7553a439492fbdf63fa76af8e1cf5715" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>clearTextEncoder</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1acd73db34dfd122d70987071d2a21a11d" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>EmbedFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>fromDocument</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a5bd151793aa85473a86ea425d7c1f23d" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>fromGeospatial</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a388e051b30cb68134118609883f7c718" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>fromImage</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a3f64e572cba7dc32ab70501d2f5e051c" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>fromTabular</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a0ed0eecad2a879b5a9e439e91addcca6" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>getEmbedFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a4568dc36aae97a2f49b3f5513977e85d" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>getImageEmbedFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a68bf698135a10d2004dec74d7ea32ca4" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>getImageEncoder</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a493df089493f2cd0e61bd8bee183c303" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>getTextEncoder</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a17ee32ec9120a06532edf4bace9363a7" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>ImageEmbedFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7ddd767846a79223c13b31df8a3fa362" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>setEmbedFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1af30d1d56bb3fe5a86c0d3749988532f5" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>setImageEmbedFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a7825081cffbfb7a8f05079cf8f900fd1" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>setImageEncoder</name></member>
+      <member refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a9ca474a92ccf23d93172bfc4e7a9200b" prot="public" virt="non-virtual"><scope>themis::tensor::UTRConverter</scope><name>setTextEncoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

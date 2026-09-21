@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_compressor_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalCompressorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_compressor_test_1a82e3c98dec1ba56f5a4fdee3f14939da" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_compressor" kindref="compound">TemporalCompressor</ref></type>
+        <definition>TemporalCompressor TemporalCompressorTest::compressor</definition>
+        <argsstring></argsstring>
+        <name>compressor</name>
+        <qualifiedname>TemporalCompressorTest::compressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_compressor.cpp" line="16" column="24" bodyfile="tests/temporal/test_temporal_compressor.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalCompressorTest</label>
+        <link refid="class_temporal_compressor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalCompressorTest</label>
+        <link refid="class_temporal_compressor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>compressor</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalCompressor</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_compressor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_compressor.cpp" line="14" column="1" bodyfile="tests/temporal/test_temporal_compressor.cpp" bodystart="14" bodyend="17"/>
+    <listofallmembers>
+      <member refid="class_temporal_compressor_test_1a82e3c98dec1ba56f5a4fdee3f14939da" prot="protected" virt="non-virtual"><scope>TemporalCompressorTest</scope><name>compressor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

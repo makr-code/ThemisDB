@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_i_routing_strategy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::tensor::IRoutingStrategy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_adaptive_routing" prot="public" virt="non-virtual">themis::tensor::AdaptiveRouting</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_fallback_routing_strategy" prot="public" virt="non-virtual">themis::tensor::FallbackRoutingStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_quality_based_routing" prot="public" virt="non-virtual">themis::tensor::QualityBasedRouting</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_shard_aware_routing" prot="public" virt="non-virtual">themis::tensor::ShardAwareRouting</derivedcompoundref>
+    <includes refid="tensor__routing__strategy_8h" local="no">tensor_routing_strategy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_routing_strategy_1a9b1482d4c6307d526debca572c637a5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::tensor::IRoutingStrategy::~IRoutingStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRoutingStrategy</name>
+        <qualifiedname>themis::tensor::IRoutingStrategy::~IRoutingStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="205" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_routing_strategy_1ae07d5ac8344484ea0e4d85d77c4a4480" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::tensor::IRoutingStrategy::name</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::IRoutingStrategy::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_adaptive_routing_1a0636279648afc34262364978c4b5a563">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_fallback_routing_strategy_1a1301d71e79ad82dae8f43657309d1da1">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_quality_based_routing_1ad88033915e13d4e9febe391cbc6e8a7d">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_shard_aware_routing_1af7fc7fce2642f1f884656810741931ac">name</reimplementedby>
+        <briefdescription>
+<para>Get the name of this routing strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="211" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_routing_strategy_1a4acfd3d094925721f69dfb41f0b2669e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>virtual RoutingDecision themis::tensor::IRoutingStrategy::route</definition>
+        <argsstring>(const std::vector&lt; BaseTensorSummary &gt; &amp;summaries, std::size_t candidate_count, float compression_ratio, const index::AnnQueryContext &amp;query_context) const =0</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::tensor::IRoutingStrategy::route</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_adaptive_routing_1a8094396fc205f9b57fec1098e15eecb6">route</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_fallback_routing_strategy_1af66f09d611fb57e4be10a991388a4bdc">route</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_quality_based_routing_1a87ef512e014d41acf280dfda06bb44cb">route</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a094cbceb959ad8e45df7935396ecf385">route</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>candidate_count</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>compression_ratio</declname>
+        </param>
+        <param>
+          <type>const index::AnnQueryContext &amp;</type>
+          <declname>query_context</declname>
+        </param>
+        <briefdescription>
+<para>Make a routing decision for tensor-layer results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor summaries produced by compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total candidates before compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compression_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Achieved compression ratio. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original ANN query context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Routing decision specifying where to forward results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="222" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_routing_strategy_1ab7c3f15ff0659c25544328688ec3c671" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tensor::IRoutingStrategy::shouldRetryOnFailure</definition>
+        <argsstring>(const std::string &amp;reason, int attempt_count, int max_attempts) const noexcept=0</argsstring>
+        <name>shouldRetryOnFailure</name>
+        <qualifiedname>themis::tensor::IRoutingStrategy::shouldRetryOnFailure</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_adaptive_routing_1a48451dce36e5f3edc752b27cb61aba18">shouldRetryOnFailure</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_fallback_routing_strategy_1a29ed058fd6100195efba9f9d92e23911">shouldRetryOnFailure</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_quality_based_routing_1a08a5cd8c9401ca64c4aa52cc8678aa75">shouldRetryOnFailure</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a97d7df03421ac6a2773df406ee052971">shouldRetryOnFailure</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt_count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_attempts</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate whether to retry on routing failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Failure reason from primary path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attempt_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of retry attempts so far. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowed retry attempts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if should retry with fallback strategy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="236" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for routing strategy implementations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Decides where tensor-layer results should be forwarded (graph validation, fallback, cache, etc.) based on summaries and query context. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::AdaptiveRouting</label>
+        <link refid="classthemis_1_1tensor_1_1_adaptive_routing"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::tensor::FallbackRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_fallback_routing_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::tensor::IRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_routing_strategy"/>
+      </node>
+      <node id="4">
+        <label>themis::tensor::QualityBasedRouting</label>
+        <link refid="classthemis_1_1tensor_1_1_quality_based_routing"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::tensor::ShardAwareRouting</label>
+        <link refid="classthemis_1_1tensor_1_1_shard_aware_routing"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/tensor/tensor_routing_strategy.h" line="203" column="1" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="203" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ae07d5ac8344484ea0e4d85d77c4a4480" prot="public" virt="pure-virtual"><scope>themis::tensor::IRoutingStrategy</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a4acfd3d094925721f69dfb41f0b2669e" prot="public" virt="pure-virtual"><scope>themis::tensor::IRoutingStrategy</scope><name>route</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ab7c3f15ff0659c25544328688ec3c671" prot="public" virt="pure-virtual"><scope>themis::tensor::IRoutingStrategy</scope><name>shouldRetryOnFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a9b1482d4c6307d526debca572c637a5c" prot="public" virt="virtual"><scope>themis::tensor::IRoutingStrategy</scope><name>~IRoutingStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_time_window" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::TimeWindow</compoundname>
+    <includes refid="time__series_8h" local="no">time_series.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_time_window_1a441539a8b183e3893b2df1f84a429000" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref></type>
+        <definition>TimePoint themis::analytics::TimeWindow::begin_ts</definition>
+        <argsstring></argsstring>
+        <name>begin_ts</name>
+        <qualifiedname>themis::analytics::TimeWindow::begin_ts</qualifiedname>
+        <briefdescription>
+<para>Window start (inclusive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="55" column="15" bodyfile="include/analytics/time_series.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_time_window_1a258dc55395d1b74aaf06b98889162d8a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref></type>
+        <definition>TimePoint themis::analytics::TimeWindow::end_ts</definition>
+        <argsstring></argsstring>
+        <name>end_ts</name>
+        <qualifiedname>themis::analytics::TimeWindow::end_ts</qualifiedname>
+        <briefdescription>
+<para>Window end (exclusive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="56" column="15" bodyfile="include/analytics/time_series.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_time_window_1adb67dd79b204d91a4dffbc1e2a1062be" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::TimeWindow::contains</definition>
+        <argsstring>(TimePoint ts) const noexcept</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::analytics::TimeWindow::contains</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="58" column="11" bodyfile="include/analytics/time_series.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/time_series.h" line="54" column="1" bodyfile="include/analytics/time_series.h" bodystart="54" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_time_window_1a441539a8b183e3893b2df1f84a429000" prot="public" virt="non-virtual"><scope>themis::analytics::TimeWindow</scope><name>begin_ts</name></member>
+      <member refid="structthemis_1_1analytics_1_1_time_window_1adb67dd79b204d91a4dffbc1e2a1062be" prot="public" virt="non-virtual"><scope>themis::analytics::TimeWindow</scope><name>contains</name></member>
+      <member refid="structthemis_1_1analytics_1_1_time_window_1a258dc55395d1b74aaf06b98889162d8a" prot="public" virt="non-virtual"><scope>themis::analytics::TimeWindow</scope><name>end_ts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

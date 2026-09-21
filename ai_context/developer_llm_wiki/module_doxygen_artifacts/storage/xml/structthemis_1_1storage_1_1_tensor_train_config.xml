@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_train_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorTrainConfig</compoundname>
+    <includes refid="tensor__train__decomposer_8h" local="no">tensor_train_decomposer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorTrainConfig::eps</definition>
+        <argsstring></argsstring>
+        <name>eps</name>
+        <qualifiedname>themis::storage::TensorTrainConfig::eps</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Relative reconstruction error tolerance ε ∈ (0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The algorithm selects SVD truncation thresholds such that ‖T - T_approx‖_F ≤ eps * ‖T‖_F.</para>
+<para>Default: 0.01 (1% error). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="116" column="12" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_train_config_1acd4b308b325da6957687dc5772628003" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorTrainConfig::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::storage::TensorTrainConfig::max_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hard cap on the TT-rank at every bond. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>0 = no cap (rank determined solely by <computeroutput><ref refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" kindref="member">eps</ref></computeroutput>). Non-zero values override the SVD-based truncation when it would produce a higher rank, trading accuracy for memory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="125" column="17" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_train_config_1a7cbe458cc6090ed12a36acf3b434dfbe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorTrainConfig::dtype</definition>
+        <argsstring></argsstring>
+        <name>dtype</name>
+        <qualifiedname>themis::storage::TensorTrainConfig::dtype</qualifiedname>
+        <initializer>= &quot;float32&quot;</initializer>
+        <briefdescription>
+<para>Data type of the input dense tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Currently &quot;float32&quot; and &quot;float64&quot; are supported. float64 inputs are downcast to float32 for core storage. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="133" column="17" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_train_config_1ad92cfe9752267e9165ef38aa2642bac9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::TensorTrainConfig::svd_power_iterations</definition>
+        <argsstring></argsstring>
+        <name>svd_power_iterations</name>
+        <qualifiedname>themis::storage::TensorTrainConfig::svd_power_iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of power-iteration steps for the randomised SVD. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>0 = exact truncated SVD via LAPACK dgesdd. <blockquote><para>0 = randomised SVD (faster for large unfoldings but approximate). </para>
+</blockquote></para>
+<para>Default: 0 (exact SVD). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="143" column="9" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the TT-SVD decomposition algorithm. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tensor_train_decomposer.h" line="107" column="1" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="107" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_train_config_1a7cbe458cc6090ed12a36acf3b434dfbe" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainConfig</scope><name>dtype</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_train_config_1a908fb8d82ec6eba55c0dcba24873ecac" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainConfig</scope><name>eps</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_train_config_1acd4b308b325da6957687dc5772628003" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainConfig</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_train_config_1ad92cfe9752267e9165ef38aa2642bac9" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainConfig</scope><name>svd_power_iterations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

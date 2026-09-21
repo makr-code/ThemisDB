@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</compoundname>
+    <includes refid="multi__gpu__memory__coordinator_8h" local="no">multi_gpu_memory_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a16f470d41f07749efc5778cec1bb7028" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3" kindref="member">DistributionStrategy</ref></type>
+        <definition>DistributionStrategy themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="43" column="30" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a6155829eb826c77133465ff69bd675df" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::gpu_ids</definition>
+        <argsstring></argsstring>
+        <name>gpu_ids</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::gpu_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="44" column="21" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1ad247a7e308f23f33df855ff425f816cc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::tensor_parallel_size</definition>
+        <argsstring></argsstring>
+        <name>tensor_parallel_size</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::tensor_parallel_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="47" column="13" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a5ca8b842e860834f03dc30b15861ce53" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::shard_sizes</definition>
+        <argsstring></argsstring>
+        <name>shard_sizes</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::shard_sizes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="48" column="21" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a19e903670c3bd8f972ed0ee36e2195fe" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::pipeline_parallel_size</definition>
+        <argsstring></argsstring>
+        <name>pipeline_parallel_size</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::pipeline_parallel_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="51" column="13" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1acd331083ed2d7ff66374ce3f3e086b3e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;int&gt; &gt; themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::layer_assignments</definition>
+        <argsstring></argsstring>
+        <name>layer_assignments</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::layer_assignments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="52" column="21" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1af6a64d52433cf60e8a9c99e270f4fada" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::batch_assignments</definition>
+        <argsstring></argsstring>
+        <name>batch_assignments</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::batch_assignments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="55" column="21" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1ac119ae8e708c00cb161c4481979fcc79" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::enable_p2p</definition>
+        <argsstring></argsstring>
+        <name>enable_p2p</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::enable_p2p</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="58" column="14" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1af37221cfe9b24a2b6c64a2c1fb2f1859" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; int, int &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;int, int&gt; &gt; themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::p2p_pairs</definition>
+        <argsstring></argsstring>
+        <name>p2p_pairs</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::p2p_pairs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="59" column="21" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a5e41678ed3925e4bf7b3227f5bb31b64" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="61" column="21" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_gpu_memory_coordinator.h" line="42" column="5" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="42" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1af6a64d52433cf60e8a9c99e270f4fada" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>batch_assignments</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a5e41678ed3925e4bf7b3227f5bb31b64" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1ac119ae8e708c00cb161c4481979fcc79" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>enable_p2p</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a6155829eb826c77133465ff69bd675df" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>gpu_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1acd331083ed2d7ff66374ce3f3e086b3e" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>layer_assignments</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1af37221cfe9b24a2b6c64a2c1fb2f1859" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>p2p_pairs</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a19e903670c3bd8f972ed0ee36e2195fe" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>pipeline_parallel_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a5ca8b842e860834f03dc30b15861ce53" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>shard_sizes</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a16f470d41f07749efc5778cec1bb7028" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1ad247a7e308f23f33df855ff425f816cc" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</scope><name>tensor_parallel_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

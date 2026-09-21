@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="remote__registry__client_8h" kind="file" language="C++">
+    <compoundname>remote_registry_client.h</compoundname>
+    <includes refid="module__loader_8h" local="yes">themis/base/module_loader.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>themis/base/module_loader.h</label>
+        <link refid="module__loader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/base/remote_registry_client.h</label>
+        <link refid="remote__registry__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis/export.h</label>
+        <link refid="export_8h"/>
+      </node>
+      <node id="3">
+        <label>themis/module_hash_verifier.h</label>
+        <link refid="module__hash__verifier_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>acceleration/plugin_security.h</label>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="17">
+        <label>condition_variable</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="21">
+        <label>future</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1modules_1_1_registry_config" prot="public">themis::modules::RegistryConfig</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_registry_plugin_entry" prot="public">themis::modules::RegistryPluginEntry</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_plugin_download_result" prot="public">themis::modules::PluginDownloadResult</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_request_stats" prot="public">themis::modules::RequestStats</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_remote_registry_client" prot="public">themis::modules::RemoteRegistryClient</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1modules">themis::modules</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Remote<sp/>plugin<sp/>registry<sp/>client<sp/>for<sp/>ThemisDB.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Supports<sp/>authenticated<sp/>access<sp/>to<sp/>a<sp/>remote<sp/>plugin<sp/>registry,<sp/>plugin<sp/>listing,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>download<sp/>with<sp/>SHA-256<sp/>integrity<sp/>verification,<sp/>and<sp/>hand-off<sp/>to<sp/>ModuleLoader.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>See<sp/>src/base/ROADMAP.md<sp/>–<sp/>Long-term:<sp/>Remote<sp/>plugin<sp/>loading<sp/>from<sp/>authenticated<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="module__loader_8h" kindref="compound">themis/base/module_loader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1modules" kindref="compound">modules</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RegistryConfig<sp/>–<sp/>connection<sp/>and<sp/>authentication<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1modules_1_1_registry_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1modules_1_1_registry_config" kindref="compound">RegistryConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1modules_1_1_registry_config_1a2b89760eabaa413067b28eaed7a4ecce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1a2b89760eabaa413067b28eaed7a4ecce" kindref="member">registry_url</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1modules_1_1_registry_config_1a26ced8bafacda25faad74262d2b5fbd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1a26ced8bafacda25faad74262d2b5fbd5" kindref="member">auth_token</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1modules_1_1_registry_config_1a9b8e7cbe27246d265efa15886b0a81b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1a9b8e7cbe27246d265efa15886b0a81b2" kindref="member">api_key</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1modules_1_1_registry_config_1aaa36f977c72390b7c7ecd933e3029ca2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1aaa36f977c72390b7c7ecd933e3029ca2" kindref="member">download_dir</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/themis_plugins&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1modules_1_1_registry_config_1af9a7056f54b8e81cda1e5db1cc6546da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1af9a7056f54b8e81cda1e5db1cc6546da" kindref="member">timeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1modules_1_1_registry_config_1a24a083919fc851f259be38d96679946b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1a24a083919fc851f259be38d96679946b" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1modules_1_1_registry_config_1a74e5fb1ceb3d22f93cb2d1cf913d78a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1a74e5fb1ceb3d22f93cb2d1cf913d78a4" kindref="member">max_total_retry_time_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1modules_1_1_registry_config_1ae00c01f2ea3ffd65af22c78852a9979d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1ae00c01f2ea3ffd65af22c78852a9979d" kindref="member">verify_ssl</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1modules_1_1_registry_config_1a2602e72a324da6682ef4e909fd8f3e9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1a2602e72a324da6682ef4e909fd8f3e9c" kindref="member">ca_bundle_path</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1modules_1_1_registry_config_1a8dce0df7205db57b785633a1155fbeac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_config_1a8dce0df7205db57b785633a1155fbeac" kindref="member">pinned_public_key</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RegistryPluginEntry<sp/>–<sp/>metadata<sp/>for<sp/>a<sp/>single<sp/>plugin<sp/>in<sp/>the<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1modules_1_1_registry_plugin_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1modules_1_1_registry_plugin_entry_1a42dda6b125d34c157ff61db41289090a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry_1a42dda6b125d34c157ff61db41289090a" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1modules_1_1_registry_plugin_entry_1ae8e9e908b2ea025032095242e53b6fa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry_1ae8e9e908b2ea025032095242e53b6fa8" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1modules_1_1_registry_plugin_entry_1a6158649f8e1fa779c5641899957b8180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry_1a6158649f8e1fa779c5641899957b8180" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1modules_1_1_registry_plugin_entry_1abb3752896b144132395b4467ea63d7d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry_1abb3752896b144132395b4467ea63d7d5" kindref="member">download_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1modules_1_1_registry_plugin_entry_1a8dd7cb67addbe0214f9d80ecfd38e995" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry_1a8dd7cb67addbe0214f9d80ecfd38e995" kindref="member">sha256</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1modules_1_1_registry_plugin_entry_1a008de003cc79b6a28da2c3ebf4c2fce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry_1a008de003cc79b6a28da2c3ebf4c2fce7" kindref="member">min_themis_version</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PluginDownloadResult<sp/>–<sp/>outcome<sp/>of<sp/>a<sp/>download<sp/>+<sp/>integrity<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1modules_1_1_plugin_download_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1modules_1_1_plugin_download_result" kindref="compound">PluginDownloadResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1modules_1_1_plugin_download_result_1ab19535cf625289d7e01fd346d87e7702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1modules_1_1_plugin_download_result_1ab19535cf625289d7e01fd346d87e7702" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1modules_1_1_plugin_download_result_1afaf353e614467651f9f709531f9e3575" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_plugin_download_result_1afaf353e614467651f9f709531f9e3575" kindref="member">local_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1modules_1_1_plugin_download_result_1a0ec7f66a912d376076efd732d1b167cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_plugin_download_result_1a0ec7f66a912d376076efd732d1b167cd" kindref="member">plugin_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1modules_1_1_plugin_download_result_1a4567f35b1f1ee57a9fcc720a664a8edd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_plugin_download_result_1a4567f35b1f1ee57a9fcc720a664a8edd" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1modules_1_1_plugin_download_result_1a089ee1ab726c41edcd976ec49080c582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_plugin_download_result_1a089ee1ab726c41edcd976ec49080c582" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RequestStats<sp/>–<sp/>observability<sp/>for<sp/>the<sp/>last<sp/>HTTP<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1modules_1_1_request_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1modules_1_1_request_stats" kindref="compound">RequestStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1modules_1_1_request_stats_1a72890d6e6db7adf99ab8f9b9133f369f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_request_stats_1a72890d6e6db7adf99ab8f9b9133f369f" kindref="member">attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1modules_1_1_request_stats_1ad6592d6d321538a983d38eee906e580d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1modules_1_1_request_stats_1ad6592d6d321538a983d38eee906e580d" kindref="member">last_error</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wave<sp/>D<sp/>—<sp/>accumulated<sp/>retry-exhaust<sp/>and<sp/>timeout<sp/>observability<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1modules_1_1_request_stats_1afbd6c697db94b7c201eb0be8a2935cab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1modules_1_1_request_stats_1afbd6c697db94b7c201eb0be8a2935cab" kindref="member">retry_exhausted_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1modules_1_1_request_stats_1ad21bd8d2cecde40401ef2a0a85f1ac7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1modules_1_1_request_stats_1ad21bd8d2cecde40401ef2a0a85f1ac7d" kindref="member">timeout_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RemoteRegistryClient<sp/>–<sp/>authenticated<sp/>access<sp/>to<sp/>a<sp/>plugin<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1modules_1_1_remote_registry_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" kindref="member">RemoteRegistryClient</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::enable_shared_from_this&lt;RemoteRegistryClient&gt;<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wave<sp/>D<sp/>—<sp/>Observability<sp/>hook</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" kindref="member">ObservabilityHook</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_request_stats" kindref="compound">RequestStats</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1modules_1_1_remote_registry_client_1add00f1b649d80442ebaa7fb73e0356c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1add00f1b649d80442ebaa7fb73e0356c6" kindref="member">setObservabilityHook</ref>(<ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" kindref="member">ObservabilityHook</ref><sp/>hook);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" kindref="member">RemoteRegistryClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_config" kindref="compound">RegistryConfig</ref>&amp;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a1c2fd15a6624dacd5c650d7ceea33710" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1modules_1_1_remote_registry_client_1a2300663fac3b236e2a21bfa7e96748c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a2300663fac3b236e2a21bfa7e96748c2" kindref="member">~RemoteRegistryClient</ref>();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1modules_1_1_remote_registry_client_1ab2f918ece1d16f3b9f875f34f6e72a44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1ab2f918ece1d16f3b9f875f34f6e72a44" kindref="member">RemoteRegistryClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" kindref="member">RemoteRegistryClient</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1modules_1_1_remote_registry_client_1aa68cbc2a1fccf4fe20f07541640ae299" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" kindref="member">RemoteRegistryClient</ref>&amp;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1aa68cbc2a1fccf4fe20f07541640ae299" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" kindref="member">RemoteRegistryClient</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1modules_1_1_remote_registry_client_1a8c8cf9958328a7cbc14074c55d5580b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RegistryPluginEntry&gt;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a8c8cf9958328a7cbc14074c55d5580b1" kindref="member">listPlugins</ref>();</highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1modules_1_1_remote_registry_client_1a40789ee914c2fd19b4b45dd1a83c704c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;std::vector&lt;RegistryPluginEntry&gt;&gt;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a40789ee914c2fd19b4b45dd1a83c704c" kindref="member">listPluginsAsync</ref>();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1modules_1_1_remote_registry_client_1a502456a0f017a9525b3aa1b9df646f29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RegistryPluginEntry&gt;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a502456a0f017a9525b3aa1b9df646f29" kindref="member">fetchPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1modules_1_1_remote_registry_client_1a16edf931420b76a9532c3ed9d8bd858d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;std::optional&lt;RegistryPluginEntry&gt;&gt;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a16edf931420b76a9532c3ed9d8bd858d" kindref="member">fetchPluginAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="classthemis_1_1modules_1_1_remote_registry_client_1a03c901d3b9a6a4742c1a8acf1e65c53a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1modules_1_1_plugin_download_result" kindref="compound">PluginDownloadResult</ref><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a03c901d3b9a6a4742c1a8acf1e65c53a" kindref="member">downloadPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1modules_1_1_remote_registry_client_1a8f688dbe88d26843503a8b9057af4689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;PluginDownloadResult&gt;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a8f688dbe88d26843503a8b9057af4689" kindref="member">downloadPluginAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1modules_1_1_remote_registry_client_1adbbbc538a81f476453c0d3ee59dc9fab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1modules_1_1_module_verification_result" kindref="compound">ModuleVerificationResult</ref><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1adbbbc538a81f476453c0d3ee59dc9fab" kindref="member">downloadAndLoad</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref>&amp;<sp/>loader);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="classthemis_1_1modules_1_1_remote_registry_client_1a1c2fd15a6624dacd5c650d7ceea33710" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1modules_1_1_registry_config" kindref="compound">RegistryConfig</ref>&amp;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a1c2fd15a6624dacd5c650d7ceea33710" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="classthemis_1_1modules_1_1_remote_registry_client_1aa62fc70486a350556729d9f72942cd49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;std::string&gt;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1aa62fc70486a350556729d9f72942cd49" kindref="member">httpGetAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url);</highlight></codeline>
+<codeline lineno="271" refid="classthemis_1_1modules_1_1_remote_registry_client_1a2e562cb03c72eafe58bfacff965a80bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;bool&gt;<sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a2e562cb03c72eafe58bfacff965a80bf" kindref="member">httpGetBinaryAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>out_path);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274" refid="classthemis_1_1modules_1_1_remote_registry_client_1aea0a13a287b4c7baf00daf855596e2a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1aea0a13a287b4c7baf00daf855596e2a6" kindref="member">setBackoffDispatcher</ref>(</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::future&lt;void&gt;(std::chrono::milliseconds)&gt;<sp/>dispatcher);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277" refid="classthemis_1_1modules_1_1_remote_registry_client_1a5aa33181e84254983cb0f1a505a85c9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1modules_1_1_request_stats" kindref="compound">RequestStats</ref><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a5aa33181e84254983cb0f1a505a85c9b" kindref="member">lastRequestStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1modules_1_1_registry_config" kindref="compound">RegistryConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1modules_1_1_request_stats" kindref="compound">RequestStats</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_stats_;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" kindref="member">ObservabilityHook</ref><sp/><sp/>observability_hook_;<sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>httpGet(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>httpGetBinary(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>out_path);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyIntegrity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file_path,</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>expected_sha256);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildAuthorizationHeader()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>asyncBackoffSleep(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ms);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseEntry(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>obj,<sp/><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref>&amp;<sp/>out);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>modules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/base/remote_registry_client.h"/>
+  </compounddef>
+</doxygen>

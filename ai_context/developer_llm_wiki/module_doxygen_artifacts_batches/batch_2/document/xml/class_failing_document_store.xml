@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_failing_document_store" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>FailingDocumentStore</compoundname>
+    <basecompoundref refid="classthemis_1_1document_1_1_i_document_store" prot="public" virt="non-virtual">themis::document::IDocumentStore</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_failing_document_store_1a0ff3040c14d3fe425c8283c84673a1c0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &gt;</type>
+        <definition>Result&lt; DocumentId &gt; FailingDocumentStore::put</definition>
+        <argsstring>(const DocumentRecord &amp;) override</argsstring>
+        <name>put</name>
+        <qualifiedname>FailingDocumentStore::put</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1a142a6a946ee1d6105ce28012dfdc4e88">put</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="73" column="13" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_document_store_1a16f2a52167b499a51d52babc3eaea0a1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::optional&lt; <ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::optional&lt; DocumentRecord &gt; &gt; FailingDocumentStore::get</definition>
+        <argsstring>(const CollectionId &amp;, const DocumentId &amp;) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>FailingDocumentStore::get</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1a5ec9719451012ae85e1439f4b02a7e15">get</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="77" column="13" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_document_store_1a71bf3900e496378f18dc5aeb69d26543" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; FailingDocumentStore::update</definition>
+        <argsstring>(const CollectionId &amp;, const DocumentId &amp;, const nlohmann::json &amp;) override</argsstring>
+        <name>update</name>
+        <qualifiedname>FailingDocumentStore::update</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1acba2770c0a5bb980218f59e216a9bf0f">update</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="84" column="13" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_document_store_1a2b531de2a29267580d2185bc4fea5373" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; FailingDocumentStore::remove</definition>
+        <argsstring>(const CollectionId &amp;, const DocumentId &amp;) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>FailingDocumentStore::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1ab5b20361bdb06d902e637e43cf0434f3">remove</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="91" column="13" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_document_store_1ae342a86dbccf89e8020d2f0694f4d10f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; DocumentId &gt; &gt; FailingDocumentStore::list</definition>
+        <argsstring>(const CollectionId &amp;) const override</argsstring>
+        <name>list</name>
+        <qualifiedname>FailingDocumentStore::list</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1a446952d7f303a554ff6993a70eab8612">list</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="97" column="13" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_document_store_1aac2d8900ca1a44fbf532b35daf654c6e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::size_t &gt;</type>
+        <definition>Result&lt; std::size_t &gt; FailingDocumentStore::count</definition>
+        <argsstring>(const CollectionId &amp;) const override</argsstring>
+        <name>count</name>
+        <qualifiedname>FailingDocumentStore::count</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_store_1a86d3bb0031e19bfd52fe1fc17c3d758f">count</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="103" column="13" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="103" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test-only <ref refid="classthemis_1_1document_1_1_i_document_store" kindref="compound">IDocumentStore</ref> implementation that returns ERR_DOC_NOT_FOUND for every operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used in RTD tests to verify that <ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref> correctly propagates storage-layer errors through its public API.</para>
+<para><simplesect kind="note"><para>This class is a test fixture only. It must never appear in production build paths. See NON-PRODUCTION PATH comment above. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FailingDocumentStore</label>
+        <link refid="class_failing_document_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FailingDocumentStore</label>
+        <link refid="class_failing_document_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="71" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="71" bodyend="108"/>
+    <listofallmembers>
+      <member refid="class_failing_document_store_1aac2d8900ca1a44fbf532b35daf654c6e" prot="public" virt="virtual"><scope>FailingDocumentStore</scope><name>count</name></member>
+      <member refid="class_failing_document_store_1a16f2a52167b499a51d52babc3eaea0a1" prot="public" virt="virtual"><scope>FailingDocumentStore</scope><name>get</name></member>
+      <member refid="class_failing_document_store_1ae342a86dbccf89e8020d2f0694f4d10f" prot="public" virt="virtual"><scope>FailingDocumentStore</scope><name>list</name></member>
+      <member refid="class_failing_document_store_1a0ff3040c14d3fe425c8283c84673a1c0" prot="public" virt="virtual"><scope>FailingDocumentStore</scope><name>put</name></member>
+      <member refid="class_failing_document_store_1a2b531de2a29267580d2185bc4fea5373" prot="public" virt="virtual"><scope>FailingDocumentStore</scope><name>remove</name></member>
+      <member refid="class_failing_document_store_1a71bf3900e496378f18dc5aeb69d26543" prot="public" virt="virtual"><scope>FailingDocumentStore</scope><name>update</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_store_1a50b63cfe26b577de827c9cc48f765a06" prot="public" virt="virtual"><scope>FailingDocumentStore</scope><name>~IDocumentStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

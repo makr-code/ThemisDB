@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1resource_1_1_buffer_pool_1_1_slab" kind="struct" language="C++" prot="private">
+    <compoundname>themis::resource::BufferPool::Slab</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1a51093d937836538560aee819d967653e" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::resource::BufferPool::Slab::lock</definition>
+        <argsstring></argsstring>
+        <name>lock</name>
+        <qualifiedname>themis::resource::BufferPool::Slab::lock</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="171" column="31" bodyfile="include/base/buffer_pool.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1a65005a5c4ac28ec6e584a9f627112ef2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; void * &gt;</type>
+        <definition>std::vector&lt;void*&gt; themis::resource::BufferPool::Slab::free_list</definition>
+        <argsstring></argsstring>
+        <name>free_list</name>
+        <qualifiedname>themis::resource::BufferPool::Slab::free_list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="172" column="24" bodyfile="include/base/buffer_pool.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1a8513b3e7564500147fec24b6304af5e7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Slab::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::resource::BufferPool::Slab::block_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="173" column="31" bodyfile="include/base/buffer_pool.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1a76268a8f297536626d5854b55db7238e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Slab::alloc_count</definition>
+        <argsstring></argsstring>
+        <name>alloc_count</name>
+        <qualifiedname>themis::resource::BufferPool::Slab::alloc_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total served from this slab. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="174" column="31" bodyfile="include/base/buffer_pool.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1af9582357798afdff29dc63f4cd055723" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Slab::miss_count</definition>
+        <argsstring></argsstring>
+        <name>miss_count</name>
+        <qualifiedname>themis::resource::BufferPool::Slab::miss_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times a new block was allocated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="175" column="31" bodyfile="include/base/buffer_pool.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/base/buffer_pool.h" line="170" column="5" bodyfile="include/base/buffer_pool.h" bodystart="170" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1a76268a8f297536626d5854b55db7238e" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Slab</scope><name>alloc_count</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1a8513b3e7564500147fec24b6304af5e7" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Slab</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1a65005a5c4ac28ec6e584a9f627112ef2" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Slab</scope><name>free_list</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1a51093d937836538560aee819d967653e" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Slab</scope><name>lock</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_slab_1af9582357798afdff29dc63f4cd055723" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Slab</scope><name>miss_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

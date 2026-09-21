@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_preset_reader" kind="class" language="C++" prot="public">
+    <compoundname>PresetReader</compoundname>
+    <basecompoundref refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" prot="public" virt="non-virtual">themis::whisper::IAudioChunkReader</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_preset_reader_1ab8fbd5ace671a8fb26643544e7e4e979" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; PresetReader::samples_</definition>
+        <argsstring></argsstring>
+        <name>samples_</name>
+        <qualifiedname>PresetReader::samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/whisper/tests/test_whisper_plugin.cpp" line="114" column="17" bodyfile="src/whisper/tests/test_whisper_plugin.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_preset_reader_1a13a3f913d6a345a2e6e798c93b1e5456" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float PresetReader::sr_</definition>
+        <argsstring></argsstring>
+        <name>sr_</name>
+        <qualifiedname>PresetReader::sr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/whisper/tests/test_whisper_plugin.cpp" line="115" column="11" bodyfile="src/whisper/tests/test_whisper_plugin.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_preset_reader_1a1ef6b689f8faadde074c002ac13eac42" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool PresetReader::throws_</definition>
+        <argsstring></argsstring>
+        <name>throws_</name>
+        <qualifiedname>PresetReader::throws_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/whisper/tests/test_whisper_plugin.cpp" line="116" column="11" bodyfile="src/whisper/tests/test_whisper_plugin.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_preset_reader_1a68561c318ba40f69e519ecfbea3d2ecc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>PresetReader::PresetReader</definition>
+        <argsstring>(std::vector&lt; float &gt; s={0.1f}, float sr=16000.f, bool throws=false)</argsstring>
+        <name>PresetReader</name>
+        <qualifiedname>PresetReader::PresetReader</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt;</type>
+          <declname>s</declname>
+          <defval>{0.1f}</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sr</declname>
+          <defval>16000.f</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>throws</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/whisper/tests/test_whisper_plugin.cpp" line="97" column="14" bodyfile="src/whisper/tests/test_whisper_plugin.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_preset_reader_1a0a5adaed2cd4e7a226278205e93e849a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; PresetReader::readFile</definition>
+        <argsstring>(const std::string &amp;, float &amp;out_sr) override</argsstring>
+        <name>readFile</name>
+        <qualifiedname>PresetReader::readFile</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1abc2bf64cd0e996a2da833653ca8cce99">readFile</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>float &amp;</type>
+          <declname>out_sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Liest die Chunks der Audiodatei und füllt den Float32-Vektor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Diese Funktion ist der zentrale Mechanismus zur Extraktion von Rohdaten (PCM float32) aus dem angegebene Dateipfad. Sie muss sicherstellen, dass alle zu lesenden Daten erfolgreich in den bereitgestellten Vektor kopiert werden und die Quelle korrekt weiterverarbeitet wird. Die Implementierung sollte fehlerhafte Lesevorgänge abfangen und diese über <parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>deklarieren.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Beachten Sie, dass unter Umständen der Dateistream durch einen Fehler mitten im Vorgang geschlossen werden kann.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Der absolute Pfad zur Audiodatei, die gelesen werden soll. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pcmBuffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ein Pointer auf den Vektor von Float32-Samples, in dem die gelesenen Samples gespeichert werden. Die Größe des Puffers muss ausreichend sein. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True, wenn die Datei erfolgreich gelesen und der Puffer korrekt gefüllt wurde; andernfalls False. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wenn ein kritisches Fehlerereignis beim Lesen (z. B. Dateiphil fehlen oder Codec-Fehler) eintritt. @ownership Die gelesenen Daten im pcmBuffer sind temporär und werden vom Aufrufer des Readers verwaltet. @threading Kann potenziell in multithreaded Umgebungen aufgerufen werden; die Implementierung muss Thread-Safety garantieren. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/whisper/tests/test_whisper_plugin.cpp" line="100" column="17" bodyfile="src/whisper/tests/test_whisper_plugin.cpp" bodystart="100" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_preset_reader_1aea4638a8a44fdf580c71d8e6abd1a37b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool PresetReader::canRead</definition>
+        <argsstring>(const std::string &amp;p) const override</argsstring>
+        <name>canRead</name>
+        <qualifiedname>PresetReader::canRead</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a51f166398ee42f4888aa9b1c4b16af98">canRead</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Prüft, ob der Reader mit den Inhalten des angegebenen Dateipfades lesen kann. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Diese Funktion analysiert die Metadaten oder versucht einen kleinen Test-Read, um zu entscheiden, ob das Format (z.B. WAV, MP3 etc.) mit dem hinterlegten Reader-Typ kompatibel ist. Sie dient als vorgelagerte Prüfung vor einem teuren <computeroutput><ref refid="class_preset_reader_1a0a5adaed2cd4e7a226278205e93e849a" kindref="member">readFile</ref></computeroutput>-Aufruf.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Der Pfad zur Audiodatei, die überprüft werden soll. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True, wenn der Reader voraussichtlich geeignete Metadaten findet oder das Format unterstützt wird; andernfalls False. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>Keine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>spezifischen Ausnahmen erwartet, da es sich um eine reine Überprüfung handelt. Fehlerhafte Dateipfade sollten in einer Exception (z.B. FileSystemError) abgefangen werden können. @ownership Die Funktion hat nur Lesezugriff und erzeugt keinen dauerhaften Ownership-Zustand. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/whisper/tests/test_whisper_plugin.cpp" line="107" column="10" bodyfile="src/whisper/tests/test_whisper_plugin.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_preset_reader_1ad59bfd13c36c0bd2b8f1ccd9209c262e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; PresetReader::getMetadata</definition>
+        <argsstring>(const std::string &amp;) const override</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>PresetReader::getMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a1d4d89be3f4601bda04e42e5f0b26f05">getMetadata</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Ruft Metadaten des derzeit verarbeiteten Audio-Chunks ab oder gibt einen Standardwert zurück, falls keine spezifischen Metadaten verfügbar sind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Diese Funktion ist entscheidend für die Validierung der Audioquelle und liefert Informationen wie das Dateiformat, die Bitrate oder die Sample Rate in einem einheitlichen Container. Die Implementierung muss die zugrundeliegenden Spezifika (z.B. WAV-Header-Parsing vs. FFMPEG-Streams) korrekt abstrahieren.</para>
+<para><simplesect kind="return"><para>std::map&lt;std::string, std::string&gt; Ein Kartencontainer, der Schlüssel-Wert-Paare mit den extrahierten Metadaten enthält. Der Schlüssel sollte eine standardisierte Bezeichnung (z. B. &quot;SampleRate&quot;, &quot;Format&quot;) verwenden. Bei Fehlschlagen des Abrufs wird ein leeres oder notwendiger Standardeintrag zurückgegeben.</para>
+</simplesect>
+Die Rückgabestruktur dient als universelle Schnittstelle, um unterschiedliche Quelleigenschaften konsolidiert darzustellen. @ownership Die übergebenen Daten im Map-Objekt müssen vom Aufrufer sorgfältig auf Gültigkeit geprüft werden. @threading Der Aufruf ist thread-sicher zu gewährleisten; ggf. muss ein externer Mutex zum Schutz der internen Zustandsvariablen verwendet werden, falls das Laden von Metadaten nicht atomar ist. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/whisper/tests/test_whisper_plugin.cpp" line="110" column="14" bodyfile="src/whisper/tests/test_whisper_plugin.cpp" bodystart="110" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>── test double reader ────────────────────────────────────────────────────────. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PresetReader</label>
+        <link refid="class_preset_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::whisper::IAudioChunkReader</label>
+        <link refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PresetReader</label>
+        <link refid="class_preset_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::whisper::IAudioChunkReader</label>
+        <link refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/whisper/tests/test_whisper_plugin.cpp" line="95" column="1" bodyfile="src/whisper/tests/test_whisper_plugin.cpp" bodystart="95" bodyend="117"/>
+    <listofallmembers>
+      <member refid="class_preset_reader_1aea4638a8a44fdf580c71d8e6abd1a37b" prot="public" virt="virtual"><scope>PresetReader</scope><name>canRead</name></member>
+      <member refid="class_preset_reader_1ad59bfd13c36c0bd2b8f1ccd9209c262e" prot="public" virt="virtual"><scope>PresetReader</scope><name>getMetadata</name></member>
+      <member refid="class_preset_reader_1a68561c318ba40f69e519ecfbea3d2ecc" prot="public" virt="non-virtual"><scope>PresetReader</scope><name>PresetReader</name></member>
+      <member refid="class_preset_reader_1a0a5adaed2cd4e7a226278205e93e849a" prot="public" virt="virtual"><scope>PresetReader</scope><name>readFile</name></member>
+      <member refid="class_preset_reader_1ab8fbd5ace671a8fb26643544e7e4e979" prot="private" virt="non-virtual"><scope>PresetReader</scope><name>samples_</name></member>
+      <member refid="class_preset_reader_1a13a3f913d6a345a2e6e798c93b1e5456" prot="private" virt="non-virtual"><scope>PresetReader</scope><name>sr_</name></member>
+      <member refid="class_preset_reader_1a1ef6b689f8faadde074c002ac13eac42" prot="private" virt="non-virtual"><scope>PresetReader</scope><name>throws_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a9e356312eb0cb2547505524aaddf5c98" prot="public" virt="virtual"><scope>PresetReader</scope><name>~IAudioChunkReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::LockAcquisitionTracker</compoundname>
+    <innerclass refid="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record" prot="public">themis::analytics::test::LockAcquisitionTracker::AcquisitionRecord</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1a9df111aa380b200c006d0108f1c03aad" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record" kindref="compound">AcquisitionRecord</ref> &gt;</type>
+        <definition>std::vector&lt;AcquisitionRecord&gt; themis::analytics::test::LockAcquisitionTracker::acquisitions_</definition>
+        <argsstring></argsstring>
+        <name>acquisitions_</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::acquisitions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="114" column="17" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1ac08e233340c02fb9b52b6854828841ba" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::analytics::test::LockAcquisitionTracker::records_mtx_</definition>
+        <argsstring></argsstring>
+        <name>records_mtx_</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::records_mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="115" column="24" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1a4b14dfcb2506aa040a1231607d69ca7c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::test::LockAcquisitionTracker::recordAcquisition</definition>
+        <argsstring>(int lock_id)</argsstring>
+        <name>recordAcquisition</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::recordAcquisition</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>lock_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="84" column="10" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="84" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1a3f840038b66eed6f54b74c5d51eb34de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::test::LockAcquisitionTracker::verifyOrdering</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;expected_order)</argsstring>
+        <name>verifyOrdering</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::verifyOrdering</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>expected_order</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="90" column="10" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="90" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1a5f247c8709f4957e6873a90540635948" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::test::LockAcquisitionTracker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="103" column="10" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="103" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1ad7bb8297d5c1143760a0c9ff3f386018" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1_1_acquisition_record" kindref="compound">AcquisitionRecord</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; AcquisitionRecord &gt; &amp; themis::analytics::test::LockAcquisitionTracker::getRecords</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecords</name>
+        <qualifiedname>themis::analytics::test::LockAcquisitionTracker::getRecords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="109" column="23" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Records lock acquisition in order. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="76" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="76" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1a9df111aa380b200c006d0108f1c03aad" prot="private" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker</scope><name>acquisitions_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1ad7bb8297d5c1143760a0c9ff3f386018" prot="public" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker</scope><name>getRecords</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1a4b14dfcb2506aa040a1231607d69ca7c" prot="public" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker</scope><name>recordAcquisition</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1ac08e233340c02fb9b52b6854828841ba" prot="private" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker</scope><name>records_mtx_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1a5f247c8709f4957e6873a90540635948" prot="public" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker_1a3f840038b66eed6f54b74c5d51eb34de" prot="public" virt="non-virtual"><scope>themis::analytics::test::LockAcquisitionTracker</scope><name>verifyOrdering</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

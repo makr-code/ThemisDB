@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::JSONLLLMConfig</compoundname>
+    <includes refid="jsonl__llm__exporter_8h" local="no">jsonl_llm_exporter.h</includes>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping" prot="public">themis::exporters::JSONLLLMConfig::FieldMapping</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_weight_config" prot="public">themis::exporters::JSONLLLMConfig::WeightConfig</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_quality_filter" prot="public">themis::exporters::JSONLLLMConfig::QualityFilter</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_structured_generation" prot="public">themis::exporters::JSONLLLMConfig::StructuredGeneration</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata" prot="public">themis::exporters::JSONLLLMConfig::AdapterMetadata</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_quality_metrics" prot="public">themis::exporters::JSONLLLMConfig::QualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_p_i_i_config" prot="public">themis::exporters::JSONLLLMConfig::PIIConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a91cfdcecb4a5182688b2773309fdae69" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2" kindref="member">JSONLFormat::Style</ref></type>
+        <definition>JSONLFormat::Style themis::exporters::JSONLLLMConfig::style</definition>
+        <argsstring></argsstring>
+        <name>style</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::style</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2a52e7f967cf4d218b5c0dbf4b01593dba" kindref="member">JSONLFormat::Style::INSTRUCTION_TUNING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="34" column="24" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a35358ab0cab8d7bd688aa69d07e74c47" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping" kindref="compound">themis::exporters::JSONLLLMConfig::FieldMapping</ref></type>
+        <definition>struct themis::exporters::JSONLLLMConfig::FieldMapping themis::exporters::JSONLLLMConfig::field_mapping</definition>
+        <argsstring></argsstring>
+        <name>field_mapping</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::field_mapping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="45" column="19"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a3f2828fd8053a481006fe5e0293c2886" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_weight_config" kindref="compound">themis::exporters::JSONLLLMConfig::WeightConfig</ref></type>
+        <definition>struct themis::exporters::JSONLLLMConfig::WeightConfig themis::exporters::JSONLLLMConfig::weighting</definition>
+        <argsstring></argsstring>
+        <name>weighting</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::weighting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="57" column="15"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1afe9b1493f225392cab8660151e6fc307" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_quality_filter" kindref="compound">themis::exporters::JSONLLLMConfig::QualityFilter</ref></type>
+        <definition>struct themis::exporters::JSONLLLMConfig::QualityFilter themis::exporters::JSONLLLMConfig::quality</definition>
+        <argsstring></argsstring>
+        <name>quality</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::quality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="70" column="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a17177f43216c21b3088b5ec1bdb699b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JSONLLLMConfig::include_metadata</definition>
+        <argsstring></argsstring>
+        <name>include_metadata</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::include_metadata</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="73" column="10" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a9964c157393f4530bf5bae09a775ef3d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::JSONLLLMConfig::metadata_fields</definition>
+        <argsstring></argsstring>
+        <name>metadata_fields</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::metadata_fields</qualifiedname>
+        <initializer>= {&quot;source&quot;, &quot;category&quot;, &quot;tags&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="74" column="17" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a0335c53a2bbdf22a4ad80784f2a3bb60" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_structured_generation" kindref="compound">themis::exporters::JSONLLLMConfig::StructuredGeneration</ref></type>
+        <definition>struct themis::exporters::JSONLLLMConfig::StructuredGeneration themis::exporters::JSONLLLMConfig::structured_gen</definition>
+        <argsstring></argsstring>
+        <name>structured_gen</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::structured_gen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="83" column="20"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a8179729386c4dda596439ea84aaad4cc" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata" kindref="compound">themis::exporters::JSONLLLMConfig::AdapterMetadata</ref></type>
+        <definition>struct themis::exporters::JSONLLLMConfig::AdapterMetadata themis::exporters::JSONLLLMConfig::adapter_metadata</definition>
+        <argsstring></argsstring>
+        <name>adapter_metadata</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::adapter_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="123" column="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a0e0f4973bb9ce8792440100dd815cb3e" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_quality_metrics" kindref="compound">themis::exporters::JSONLLLMConfig::QualityMetrics</ref></type>
+        <definition>struct themis::exporters::JSONLLLMConfig::QualityMetrics themis::exporters::JSONLLLMConfig::quality_metrics</definition>
+        <argsstring></argsstring>
+        <name>quality_metrics</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::quality_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="135" column="21"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1ad8f231190f9b851539362b1193739e4c" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_p_i_i_config" kindref="compound">themis::exporters::JSONLLLMConfig::PIIConfig</ref></type>
+        <definition>struct themis::exporters::JSONLLLMConfig::PIIConfig themis::exporters::JSONLLLMConfig::pii_config</definition>
+        <argsstring></argsstring>
+        <name>pii_config</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::pii_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="154" column="16"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a3450b4739ed7430d52142602fed74c3d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855" kindref="member">FormatTemplateType</ref></type>
+        <definition>FormatTemplateType themis::exporters::JSONLLLMConfig::format_template_type</definition>
+        <argsstring></argsstring>
+        <name>format_template_type</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::format_template_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855ab50339a10e1de285ac99d4c3990b8693" kindref="member">FormatTemplateType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="159" column="24" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1acee9cb3b29960044793d9c252e216e5d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_format_template_field_mapping" kindref="compound">FormatTemplateFieldMapping</ref></type>
+        <definition>FormatTemplateFieldMapping themis::exporters::JSONLLLMConfig::template_field_mapping</definition>
+        <argsstring></argsstring>
+        <name>template_field_mapping</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::template_field_mapping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="163" column="32" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="11">
+        <label>themis::exporters::FormatTemplateFieldMapping</label>
+        <link refid="structthemis_1_1exporters_1_1_format_template_field_mapping"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::JSONLLLMConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>field_mapping</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>weighting</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>quality</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>structured_gen</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>adapter_metadata</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>quality_metrics</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>pii_config</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>template_field_mapping</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::exporters::JSONLLLMConfig::AdapterMetadata</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata"/>
+        <childnode refid="7" relation="usage">
+          <edgelabel>vllm_config</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>training_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config"/>
+      </node>
+      <node id="7">
+        <label>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config"/>
+      </node>
+      <node id="2">
+        <label>themis::exporters::JSONLLLMConfig::FieldMapping</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping"/>
+      </node>
+      <node id="10">
+        <label>themis::exporters::JSONLLLMConfig::PIIConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_p_i_i_config"/>
+      </node>
+      <node id="4">
+        <label>themis::exporters::JSONLLLMConfig::QualityFilter</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_quality_filter"/>
+      </node>
+      <node id="9">
+        <label>themis::exporters::JSONLLLMConfig::QualityMetrics</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_quality_metrics"/>
+      </node>
+      <node id="5">
+        <label>themis::exporters::JSONLLLMConfig::StructuredGeneration</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_structured_generation"/>
+      </node>
+      <node id="3">
+        <label>themis::exporters::JSONLLLMConfig::WeightConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_weight_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/jsonl_llm_exporter.h" line="33" column="1" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="33" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a8179729386c4dda596439ea84aaad4cc" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>adapter_metadata</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a35358ab0cab8d7bd688aa69d07e74c47" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>field_mapping</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a3450b4739ed7430d52142602fed74c3d" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>format_template_type</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a17177f43216c21b3088b5ec1bdb699b9" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>include_metadata</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a9964c157393f4530bf5bae09a775ef3d" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>metadata_fields</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1ad8f231190f9b851539362b1193739e4c" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>pii_config</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1afe9b1493f225392cab8660151e6fc307" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>quality</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a0e0f4973bb9ce8792440100dd815cb3e" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>quality_metrics</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a0335c53a2bbdf22a4ad80784f2a3bb60" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>structured_gen</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a91cfdcecb4a5182688b2773309fdae69" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>style</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1acee9cb3b29960044793d9c252e216e5d" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>template_field_mapping</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1a3f2828fd8053a481006fe5e0293c2886" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig</scope><name>weighting</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

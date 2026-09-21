@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginRegistry</compoundname>
+    <includes refid="plugin__registry_8h" local="no">plugin_registry.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_registry_1_1_factory_entry" prot="private">themis::plugins::PluginRegistry::FactoryEntry</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1_plugin_registry_1a085bfd5052fac7c398fae41f935641b4" prot="private" static="no">
+        <type>std::map&lt; std::string, FactoryEntry &gt;</type>
+        <definition>using themis::plugins::PluginRegistry::Registry = std::map&lt;std::string, FactoryEntry&gt;</definition>
+        <argsstring></argsstring>
+        <name>Registry</name>
+        <qualifiedname>themis::plugins::PluginRegistry::Registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="255" column="5" bodyfile="include/plugins/plugin_registry.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1_plugin_registry_1a310b40f12a0628365fb427c8a295e3fe" prot="private" static="no">
+        <type>std::map&lt; size_t, Registry &gt;</type>
+        <definition>using themis::plugins::PluginRegistry::TypeRegistries = std::map&lt;size_t, Registry&gt;</definition>
+        <argsstring></argsstring>
+        <name>TypeRegistries</name>
+        <qualifiedname>themis::plugins::PluginRegistry::TypeRegistries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="256" column="5" bodyfile="include/plugins/plugin_registry.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1aa5e5218179f2ca6e95dd8788eda87810" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::plugins::PluginRegistry::registerFactory</definition>
+        <argsstring>(const std::string &amp;plugin_name, std::function&lt; std::unique_ptr&lt; PluginInterface &gt;()&gt; factory)</argsstring>
+        <name>registerFactory</name>
+        <qualifiedname>themis::plugins::PluginRegistry::registerFactory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type>std::function&lt; std::unique_ptr&lt; PluginInterface &gt;()&gt;</type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Register a plugin factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The interface type (e.g., IBlobStorageBackend) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique plugin identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Factory function creating instances</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Example: <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_plugin_registry_1aa5e5218179f2ca6e95dd8788eda87810" kindref="member">PluginRegistry::registerFactory&lt;IBlobStorageBackend&gt;</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;s3_plugin&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[]()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;S3BlobPlugin&gt;();<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="62" column="17" bodyfile="include/plugins/plugin_registry.h" bodystart="62" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1a23c9b97a889d893fe8f802dca9eb1195" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>std::unique_ptr&lt; PluginInterface &gt;</type>
+        <definition>static std::unique_ptr&lt; PluginInterface &gt; themis::plugins::PluginRegistry::create</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::plugins::PluginRegistry::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Create plugin instance from factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected interface type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to plugin instance (type-safe)</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if plugin not found or type mismatch</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Example: <programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s3_plugin<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_registry_1a23c9b97a889d893fe8f802dca9eb1195" kindref="member">PluginRegistry::create&lt;IBlobStorageBackend&gt;</ref>(</highlight><highlight class="stringliteral">&quot;s3_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s3_plugin)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>s3_plugin-&gt;write(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>data);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="103" column="28" bodyfile="include/plugins/plugin_registry.h" bodystart="103" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1af6224e50b98dc7844108a19a11c2632a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::plugins::PluginRegistry::listPlugins</definition>
+        <argsstring>()</argsstring>
+        <name>listPlugins</name>
+        <qualifiedname>themis::plugins::PluginRegistry::listPlugins</qualifiedname>
+        <briefdescription>
+<para>Get all registered plugins for a type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interface type to filter by </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of plugin names implementing that interface </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="180" column="24" bodyfile="include/plugins/plugin_registry.h" bodystart="180" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1a4021800af29230659d967cb5baba9905" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool themis::plugins::PluginRegistry::hasPlugin</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>hasPlugin</name>
+        <qualifiedname>themis::plugins::PluginRegistry::hasPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if plugin is registered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interface type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if plugin implements this interface </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="206" column="17" bodyfile="include/plugins/plugin_registry.h" bodystart="206" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1af52cf515ca804b8a2e8a36ea528ff414" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool themis::plugins::PluginRegistry::unregisterFactory</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>unregisterFactory</name>
+        <qualifiedname>themis::plugins::PluginRegistry::unregisterFactory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a previously registered plugin factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interface type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin identifier to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the factory was found and removed, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="225" column="17" bodyfile="include/plugins/plugin_registry.h" bodystart="225" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1a6a46e953d0bb0f1e912f97cbf1fe3dfe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginRegistry::clearRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>clearRegistry</name>
+        <qualifiedname>themis::plugins::PluginRegistry::clearRegistry</qualifiedname>
+        <briefdescription>
+<para>Clear all registered plugins (testing only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Registry.</para>
+<para>Calls: lock(), getMutex(), getTypeRegistries(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="245" column="17" bodyfile="src/plugins/plugin_registry.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1a00e3e2fbf22b1b4fdd6ac1e24e51f8ee" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeRegistries &amp;</type>
+        <definition>PluginRegistry::TypeRegistries &amp; themis::plugins::PluginRegistry::getTypeRegistries</definition>
+        <argsstring>()</argsstring>
+        <name>getTypeRegistries</name>
+        <qualifiedname>themis::plugins::PluginRegistry::getTypeRegistries</qualifiedname>
+        <briefdescription>
+<para>Static storage for type-specific registries only. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getTypeRegistries without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="258" column="27" bodyfile="src/plugins/plugin_registry.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1a2638b1a0ee74873b0077ba87a1a2978d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Registry &amp;</type>
+        <definition>PluginRegistry::Registry &amp; themis::plugins::PluginRegistry::getTypeRegistry</definition>
+        <argsstring>(const std::type_info &amp;type)</argsstring>
+        <name>getTypeRegistry</name>
+        <qualifiedname>themis::plugins::PluginRegistry::getTypeRegistry</qualifiedname>
+        <param>
+          <type>const std::type_info &amp;</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get Type Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getTypeRegistries(), hash_code(), find(), end(), Registry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="259" column="21" bodyfile="src/plugins/plugin_registry.cpp" bodystart="36" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_registry_1a0a167ac5769de469660cc6be69fe72c7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_mutex &amp;</type>
+        <definition>std::shared_mutex &amp; themis::plugins::PluginRegistry::getMutex</definition>
+        <argsstring>()</argsstring>
+        <name>getMutex</name>
+        <qualifiedname>themis::plugins::PluginRegistry::getMutex</qualifiedname>
+        <briefdescription>
+<para>Get Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="260" column="30" bodyfile="src/plugins/plugin_registry.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Generic Plugin Registry with Type-Safe Binding. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Replaces the tightly-coupled <ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref> type-specific code. Uses type erasure and generic factories.</para>
+<para>Design: Each plugin type has its own registry entry. <ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref> only handles <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref>. Specific interfaces (IBlobStorage, etc.) are registered in a separate type-safe registry.</para>
+<para><simplesect kind="note"><para><bold>Plugin Name Collision</bold>: If a plugin with the same name is registered twice, the last registration wins. This is by design to allow runtime plugin replacement, but can lead to unexpected behavior if multiple modules register plugins with the same name. To avoid collisions, use namespaced plugin names (e.g., &quot;mylib.s3_plugin&quot;). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_registry.h" line="44" column="1" bodyfile="include/plugins/plugin_registry.h" bodystart="44" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1a6a46e953d0bb0f1e912f97cbf1fe3dfe" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>clearRegistry</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1a23c9b97a889d893fe8f802dca9eb1195" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>create</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1a0a167ac5769de469660cc6be69fe72c7" prot="private" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>getMutex</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1a00e3e2fbf22b1b4fdd6ac1e24e51f8ee" prot="private" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>getTypeRegistries</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1a2638b1a0ee74873b0077ba87a1a2978d" prot="private" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>getTypeRegistry</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1a4021800af29230659d967cb5baba9905" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>hasPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1af6224e50b98dc7844108a19a11c2632a" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>listPlugins</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1aa5e5218179f2ca6e95dd8788eda87810" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>registerFactory</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1a085bfd5052fac7c398fae41f935641b4" prot="private" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>Registry</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1a310b40f12a0628365fb427c8a295e3fe" prot="private" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>TypeRegistries</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_registry_1af52cf515ca804b8a2e8a36ea528ff414" prot="public" virt="non-virtual"><scope>themis::plugins::PluginRegistry</scope><name>unregisterFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

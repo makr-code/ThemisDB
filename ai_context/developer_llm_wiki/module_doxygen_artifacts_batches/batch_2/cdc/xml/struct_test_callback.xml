@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_test_callback" kind="struct" language="C++" prot="public">
+    <compoundname>TestCallback</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback" prot="public" virt="non-virtual">themis::cdc::ISchemaEvolutionCallback</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_test_callback_1a7df8131cb8da4acfaffa8ac693bb3a7a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; TestCallback::compatible_count</definition>
+        <argsstring></argsstring>
+        <name>compatible_count</name>
+        <qualifiedname>TestCallback::compatible_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_event_schema.cpp" line="38" column="24" bodyfile="tests/cdc/test_cdc_event_schema.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_callback_1a1e91578193e1df87c2490b5e2586265a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; TestCallback::incompatible_count</definition>
+        <argsstring></argsstring>
+        <name>incompatible_count</name>
+        <qualifiedname>TestCallback::incompatible_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_event_schema.cpp" line="39" column="24" bodyfile="tests/cdc/test_cdc_event_schema.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_callback_1a6e059a2671834e0309f52a79911501c8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor" kindref="compound">SchemaEvolutionDescriptor</ref></type>
+        <definition>SchemaEvolutionDescriptor TestCallback::last_descriptor</definition>
+        <argsstring></argsstring>
+        <name>last_descriptor</name>
+        <qualifiedname>TestCallback::last_descriptor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_event_schema.cpp" line="40" column="31" bodyfile="tests/cdc/test_cdc_event_schema.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_callback_1a1836b9ebf99c49acbcfb65fd91b3d2b7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_schema_conflict" kindref="compound">SchemaConflict</ref></type>
+        <definition>SchemaConflict TestCallback::last_conflict</definition>
+        <argsstring></argsstring>
+        <name>last_conflict</name>
+        <qualifiedname>TestCallback::last_conflict</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_event_schema.cpp" line="41" column="31" bodyfile="tests/cdc/test_cdc_event_schema.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_callback_1af25f6a6236dee4095534f992ddc3909a" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex TestCallback::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>TestCallback::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_event_schema.cpp" line="42" column="31" bodyfile="tests/cdc/test_cdc_event_schema.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_test_callback_1a37f77ea688d47f5e5ad65ed0d3acda62" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestCallback::onCompatible</definition>
+        <argsstring>(const SchemaEvolutionDescriptor &amp;d) override</argsstring>
+        <name>onCompatible</name>
+        <qualifiedname>TestCallback::onCompatible</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1a3f2ce56f5e17cca9bc22e0d37c8de8ce">onCompatible</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor" kindref="compound">SchemaEvolutionDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+<para>On Compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_event_schema.cpp" line="44" column="10" bodyfile="tests/cdc/test_cdc_event_schema.cpp" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_test_callback_1a096a749c3b023690b4c41abdf9e0945f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestCallback::onIncompatible</definition>
+        <argsstring>(const SchemaEvolutionDescriptor &amp;d, const SchemaConflict &amp;c) override</argsstring>
+        <name>onIncompatible</name>
+        <qualifiedname>TestCallback::onIncompatible</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1a9e7b0ef15dde3a1111af9a20196c7c81">onIncompatible</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor" kindref="compound">SchemaEvolutionDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_schema_conflict" kindref="compound">SchemaConflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+<para>On Incompatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_event_schema.cpp" line="50" column="10" bodyfile="tests/cdc/test_cdc_event_schema.cpp" bodystart="50" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TestCallback</label>
+        <link refid="struct_test_callback"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::ISchemaEvolutionCallback</label>
+        <link refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TestCallback</label>
+        <link refid="struct_test_callback"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>last_descriptor</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>last_conflict</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::ISchemaEvolutionCallback</label>
+        <link refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback"/>
+      </node>
+      <node id="4">
+        <label>themis::cdc::SchemaConflict</label>
+        <link refid="structthemis_1_1cdc_1_1_schema_conflict"/>
+      </node>
+      <node id="3">
+        <label>themis::cdc::SchemaEvolutionDescriptor</label>
+        <link refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_event_schema.cpp" line="37" column="1" bodyfile="tests/cdc/test_cdc_event_schema.cpp" bodystart="37" bodyend="57"/>
+    <listofallmembers>
+      <member refid="struct_test_callback_1a7df8131cb8da4acfaffa8ac693bb3a7a" prot="public" virt="non-virtual"><scope>TestCallback</scope><name>compatible_count</name></member>
+      <member refid="struct_test_callback_1a1e91578193e1df87c2490b5e2586265a" prot="public" virt="non-virtual"><scope>TestCallback</scope><name>incompatible_count</name></member>
+      <member refid="struct_test_callback_1a1836b9ebf99c49acbcfb65fd91b3d2b7" prot="public" virt="non-virtual"><scope>TestCallback</scope><name>last_conflict</name></member>
+      <member refid="struct_test_callback_1a6e059a2671834e0309f52a79911501c8" prot="public" virt="non-virtual"><scope>TestCallback</scope><name>last_descriptor</name></member>
+      <member refid="struct_test_callback_1af25f6a6236dee4095534f992ddc3909a" prot="public" virt="non-virtual"><scope>TestCallback</scope><name>mutex</name></member>
+      <member refid="struct_test_callback_1a37f77ea688d47f5e5ad65ed0d3acda62" prot="public" virt="virtual"><scope>TestCallback</scope><name>onCompatible</name></member>
+      <member refid="struct_test_callback_1a096a749c3b023690b4c41abdf9e0945f" prot="public" virt="virtual"><scope>TestCallback</scope><name>onIncompatible</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1aab9f62fe8aaab951216c1515b2fe05a1" prot="public" virt="virtual"><scope>TestCallback</scope><name>~ISchemaEvolutionCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

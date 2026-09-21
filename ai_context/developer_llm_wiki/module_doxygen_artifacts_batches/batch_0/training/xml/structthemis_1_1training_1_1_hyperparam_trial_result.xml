@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_hyperparam_trial_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::HyperparamTrialResult</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_trial_result_1a1770282eb670055963be8c7fb7ce0f9b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::training::HyperparamTrialResult::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::training::HyperparamTrialResult::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="231" column="12" bodyfile="include/training/training_pipeline.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_trial_result_1a3a4273bb12b77a8100e5148a9adf6835" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::HyperparamTrialResult::lr</definition>
+        <argsstring></argsstring>
+        <name>lr</name>
+        <qualifiedname>themis::training::HyperparamTrialResult::lr</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="232" column="12" bodyfile="include/training/training_pipeline.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_trial_result_1a23afacd9593553905546743bf4634d1c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::HyperparamTrialResult::val_loss</definition>
+        <argsstring></argsstring>
+        <name>val_loss</name>
+        <qualifiedname>themis::training::HyperparamTrialResult::val_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="233" column="12" bodyfile="include/training/training_pipeline.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_trial_result_1a2c91ad99a2f8110507c775b342b26c60" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::HyperparamTrialResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::HyperparamTrialResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="234" column="12" bodyfile="include/training/training_pipeline.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_hyperparam_trial_result_1afa8b19ac9c6d65ebe5f9aa78b7cf3042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::HyperparamTrialResult::HyperparamTrialResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>HyperparamTrialResult</name>
+        <qualifiedname>themis::training::HyperparamTrialResult::HyperparamTrialResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="236" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result for a single hyperparameter search trial. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="230" column="1" bodyfile="include/training/training_pipeline.h" bodystart="230" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_hyperparam_trial_result_1afa8b19ac9c6d65ebe5f9aa78b7cf3042" prot="public" virt="non-virtual"><scope>themis::training::HyperparamTrialResult</scope><name>HyperparamTrialResult</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_trial_result_1a3a4273bb12b77a8100e5148a9adf6835" prot="public" virt="non-virtual"><scope>themis::training::HyperparamTrialResult</scope><name>lr</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_trial_result_1a1770282eb670055963be8c7fb7ce0f9b" prot="public" virt="non-virtual"><scope>themis::training::HyperparamTrialResult</scope><name>rank</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_trial_result_1a2c91ad99a2f8110507c775b342b26c60" prot="public" virt="non-virtual"><scope>themis::training::HyperparamTrialResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_trial_result_1a23afacd9593553905546743bf4634d1c" prot="public" virt="non-virtual"><scope>themis::training::HyperparamTrialResult</scope><name>val_loss</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,552 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::GSSAPIAuthenticator</compoundname>
+    <includes refid="gssapi__authenticator_8h" local="no">gssapi_authenticator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a769c6a7b23bb875112b09d3d7eea4a8a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::GSSAPIAuthenticator::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="147" column="10" bodyfile="include/auth/gssapi_authenticator.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a60e0c4ec74491b6a56f51d4df06dd95c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_kerberos_config" kindref="compound">KerberosConfig</ref></type>
+        <definition>KerberosConfig themis::auth::GSSAPIAuthenticator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="148" column="20" bodyfile="include/auth/gssapi_authenticator.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a760e7ea8b8b2c0e1c31fdcea19cd31fd" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::GSSAPIAuthenticator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning, optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="149" column="24" bodyfile="include/auth/gssapi_authenticator.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::GSSAPIAuthenticator::GSSAPIAuthenticator</definition>
+        <argsstring>()</argsstring>
+        <name>GSSAPIAuthenticator</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::GSSAPIAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="102" column="5" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="32" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ae7d1a9aa6d9147f91e510b836667520a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::GSSAPIAuthenticator::~GSSAPIAuthenticator</definition>
+        <argsstring>()</argsstring>
+        <name>~GSSAPIAuthenticator</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::~GSSAPIAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="104" column="5" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a796da6fff5904b178a2859d851971d36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::GSSAPIAuthenticator::GSSAPIAuthenticator</definition>
+        <argsstring>(const GSSAPIAuthenticator &amp;)=delete</argsstring>
+        <name>GSSAPIAuthenticator</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::GSSAPIAuthenticator</qualifiedname>
+        <param>
+          <type>const GSSAPIAuthenticator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1afb991495e57047c575ced0cf3b69e21d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref> &amp;</type>
+        <definition>GSSAPIAuthenticator &amp; themis::auth::GSSAPIAuthenticator::operator=</definition>
+        <argsstring>(const GSSAPIAuthenticator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="108" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ac6eae24ea12c395685c484ab3d74dfb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::GSSAPIAuthenticator::GSSAPIAuthenticator</definition>
+        <argsstring>(GSSAPIAuthenticator &amp;&amp;)=delete</argsstring>
+        <name>GSSAPIAuthenticator</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::GSSAPIAuthenticator</qualifiedname>
+        <param>
+          <type>GSSAPIAuthenticator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a754e8581e710589b3d7bee72326bed8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref> &amp;</type>
+        <definition>GSSAPIAuthenticator &amp; themis::auth::GSSAPIAuthenticator::operator=</definition>
+        <argsstring>(GSSAPIAuthenticator &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="110" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ae07cd9c2a17c932cb7597c0a622a99ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::GSSAPIAuthenticator::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="117" column="10" bodyfile="include/auth/gssapi_authenticator.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a7231c6565c6a551692b1278e5757a627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::GSSAPIAuthenticator::initialize</definition>
+        <argsstring>(const KerberosConfig &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_kerberos_config" kindref="compound">KerberosConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_WARN(), empty(), THEMIS_ERROR(), _putenv_s(), c_str(), setenv(), THEMIS_INFO(), initializeServerCredentials(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="124" column="10" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="52" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ad03ee1dec66aeaad2461378dbbd288d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::GSSAPIAuthenticator::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="126" column="10" bodyfile="include/auth/gssapi_authenticator.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a5f28ac4b29f7aeb33692317599887b72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result" kindref="compound">GSSAPIAuthResult</ref></type>
+        <definition>GSSAPIAuthResult themis::auth::GSSAPIAuthenticator::authenticateToken</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>authenticateToken</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::authenticateToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: logSecurityEvent(), <ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1ac4a516b0c29b5987dbd581d725843aee" kindref="member">GSSAPIAuthResult::Failed()</ref>, empty(), token_bytes(), begin(), end(), acceptSecurityContext(), <ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1afbe77ef23a2f675df949fc6d2d32d2d0" kindref="member">mapPrincipalToRoles()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="133" column="22" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="185" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a2c18d90e01a04dc4fa45fa12eb1bced1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::GSSAPIAuthenticator::getServicePrincipal</definition>
+        <argsstring>() const</argsstring>
+        <name>getServicePrincipal</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::getServicePrincipal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="135" column="17" bodyfile="include/auth/gssapi_authenticator.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1afbe77ef23a2f675df949fc6d2d32d2d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::GSSAPIAuthenticator::mapPrincipalToRoles</definition>
+        <argsstring>(const std::string &amp;principal) const</argsstring>
+        <name>mapPrincipalToRoles</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::mapPrincipalToRoles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <briefdescription>
+<para>Map Principal To Roles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="142" column="17" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="372" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a821e0319eeb2a74dccfcf566886101f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_kerberos_config" kindref="compound">KerberosConfig</ref> &amp;</type>
+        <definition>const KerberosConfig &amp; themis::auth::GSSAPIAuthenticator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="144" column="26" bodyfile="include/auth/gssapi_authenticator.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a299d5c984bec1d5bb556fac6263307bd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::GSSAPIAuthenticator::initializeServerCredentials</definition>
+        <argsstring>()</argsstring>
+        <name>initializeServerCredentials</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::initializeServerCredentials</qualifiedname>
+        <briefdescription>
+<para>Initialize Server Credentials. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: AcquireCredentialsHandle(), c_str(), THEMIS_ERROR(), length(), gss_import_name(), GSS_ERROR(), getGSSAPIError(), gss_acquire_cred(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="168" column="10" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="103" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a741b4751d45194d65a6df524bfb4f782" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::GSSAPIAuthenticator::acceptSecurityContext</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;input_token, std::string &amp;principal_name)</argsstring>
+        <name>acceptSecurityContext</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::acceptSecurityContext</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>input_token</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>principal_name</declname>
+        </param>
+        <briefdescription>
+<para>Accept Security Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">principal_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the principal. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">principal_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the principal. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), data(), output_buffer(), AcceptSecurityContext(), THEMIS_ERROR(), QueryContextAttributes(), FreeContextBuffer(), DeleteSecurityContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="176" column="10" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="243" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1adc2a2d9d4e8e6f5b20964bcb91cca6e6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::GSSAPIAuthenticator::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: FreeCredentialsHandle(), gss_delete_sec_context(), gss_release_cred(), gss_release_name(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="182" column="10" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="426" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1acd8b214d5a0e8c7792a9fb9b236ac231" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::GSSAPIAuthenticator::principalMatchesPattern</definition>
+        <argsstring>(const std::string &amp;principal, const std::string &amp;pattern) const</argsstring>
+        <name>principalMatchesPattern</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::principalMatchesPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Principal Matches Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="190" column="10" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="395" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ad0826eff04c5c3231af8a2adc13ff460" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::GSSAPIAuthenticator::getGSSAPIError</definition>
+        <argsstring>(uint32_t major_status, uint32_t minor_status) const</argsstring>
+        <name>getGSSAPIError</name>
+        <qualifiedname>themis::auth::GSSAPIAuthenticator::getGSSAPIError</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>major_status</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>minor_status</declname>
+        </param>
+        <briefdescription>
+<para>Get GSSAPIError. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">major_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">minor_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="199" column="17" bodyfile="src/auth/gssapi_authenticator.cpp" bodystart="515" bodyend="523"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/gssapi_authenticator.h" line="100" column="1" bodyfile="include/auth/gssapi_authenticator.h" bodystart="100" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a741b4751d45194d65a6df524bfb4f782" prot="private" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>acceptSecurityContext</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a760e7ea8b8b2c0e1c31fdcea19cd31fd" prot="private" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a5f28ac4b29f7aeb33692317599887b72" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>authenticateToken</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1adc2a2d9d4e8e6f5b20964bcb91cca6e6" prot="private" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a60e0c4ec74491b6a56f51d4df06dd95c" prot="private" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a821e0319eeb2a74dccfcf566886101f2" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ad0826eff04c5c3231af8a2adc13ff460" prot="private" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>getGSSAPIError</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a2c18d90e01a04dc4fa45fa12eb1bced1" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>getServicePrincipal</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>GSSAPIAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a796da6fff5904b178a2859d851971d36" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>GSSAPIAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ac6eae24ea12c395685c484ab3d74dfb6" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>GSSAPIAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a7231c6565c6a551692b1278e5757a627" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a769c6a7b23bb875112b09d3d7eea4a8a" prot="private" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a299d5c984bec1d5bb556fac6263307bd" prot="private" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>initializeServerCredentials</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ad03ee1dec66aeaad2461378dbbd288d7" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1afbe77ef23a2f675df949fc6d2d32d2d0" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>mapPrincipalToRoles</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1afb991495e57047c575ced0cf3b69e21d" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a754e8581e710589b3d7bee72326bed8f" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1acd8b214d5a0e8c7792a9fb9b236ac231" prot="private" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>principalMatchesPattern</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ae07cd9c2a17c932cb7597c0a622a99ed" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ae7d1a9aa6d9147f91e510b836667520a" prot="public" virt="non-virtual"><scope>themis::auth::GSSAPIAuthenticator</scope><name>~GSSAPIAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

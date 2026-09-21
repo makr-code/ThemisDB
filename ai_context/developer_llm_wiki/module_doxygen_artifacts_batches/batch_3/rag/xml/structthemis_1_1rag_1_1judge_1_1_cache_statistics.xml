@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_cache_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CacheStatistics</compoundname>
+    <includes refid="evaluation__cache_8h" local="no">evaluation_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a316a7187c6f1856097a76c1bb01e1135" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheStatistics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="47" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1afe190f7b83305771f2608305e289d2ea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheStatistics::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::cache_hits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="48" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a2bcd9c85ed9735464e750472349bc0a4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheStatistics::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::cache_misses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="49" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1ad0c075bbbc232065d274a7594229f401" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CacheStatistics::hit_rate</definition>
+        <argsstring></argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::hit_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="50" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1af8ca59d99adc6e37621f836c35e28f02" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheStatistics::current_size</definition>
+        <argsstring></argsstring>
+        <name>current_size</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::current_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="51" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a98e36dd92c92bbcd6489962dc52c2b06" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheStatistics::max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::max_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="52" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a8a5f060c2985923d17ba6269a8f127ea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheStatistics::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::evictions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="53" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1ab750cd9cb1ebb0ae40c2b3c52674b7aa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheStatistics::invalidations</definition>
+        <argsstring></argsstring>
+        <name>invalidations</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::invalidations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="54" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a7cc401f420cafa3ce198dae771ba1e2c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::CacheStatistics::average_lookup_time</definition>
+        <argsstring></argsstring>
+        <name>average_lookup_time</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::average_lookup_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="56" column="31" bodyfile="include/rag/evaluation_cache.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1ac31bcd78ca0ff0da1704f37a047bcf76" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::judge::CacheStatistics::last_reset</definition>
+        <argsstring></argsstring>
+        <name>last_reset</name>
+        <qualifiedname>themis::rag::judge::CacheStatistics::last_reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="57" column="43" bodyfile="include/rag/evaluation_cache.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cache statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/evaluation_cache.h" line="46" column="1" bodyfile="include/rag/evaluation_cache.h" bodystart="46" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a7cc401f420cafa3ce198dae771ba1e2c" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>average_lookup_time</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1afe190f7b83305771f2608305e289d2ea" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a2bcd9c85ed9735464e750472349bc0a4" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1af8ca59d99adc6e37621f836c35e28f02" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>current_size</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a8a5f060c2985923d17ba6269a8f127ea" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1ad0c075bbbc232065d274a7594229f401" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1ab750cd9cb1ebb0ae40c2b3c52674b7aa" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>invalidations</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1ac31bcd78ca0ff0da1704f37a047bcf76" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>last_reset</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a98e36dd92c92bbcd6489962dc52c2b06" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>max_size</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics_1a316a7187c6f1856097a76c1bb01e1135" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheStatistics</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_key_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IKeyProvider</compoundname>
+    <includes refid="security__interface_8h" local="no">security_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_key_provider_1af00062a8d8c24409ccd55e4b31aa75eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IKeyProvider::~IKeyProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IKeyProvider</name>
+        <qualifiedname>themis::IKeyProvider::~IKeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="73" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_key_provider_1a61d3d37b1704ae9fe2f3d1d58479964d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::IKeyProvider::get_key</definition>
+        <argsstring>(const std::string &amp;key_id)=0</argsstring>
+        <name>get_key</name>
+        <qualifiedname>themis::IKeyProvider::get_key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get an encryption key by identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key identifier (e.g., &quot;user_pii&quot;, &quot;payment_info&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The encryption key as byte vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="81" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_key_provider_1a8070a54e94b9dcde5e7174873762ca4e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::IKeyProvider::rotate_key</definition>
+        <argsstring>(const std::string &amp;key_id)=0</argsstring>
+        <name>rotate_key</name>
+        <qualifiedname>themis::IKeyProvider::rotate_key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Rotate a key to a new version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new encryption key as byte vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="89" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for cryptographic key management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides abstract interface for retrieving and rotating encryption keys without depending on concrete key storage implementations (Vault, HSM, etc.). </para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/security_interface.h" line="71" column="1" bodyfile="include/themis/base/interfaces/security_interface.h" bodystart="71" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_key_provider_1a61d3d37b1704ae9fe2f3d1d58479964d" prot="public" virt="pure-virtual"><scope>themis::IKeyProvider</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1_i_key_provider_1a8070a54e94b9dcde5e7174873762ca4e" prot="public" virt="pure-virtual"><scope>themis::IKeyProvider</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1_i_key_provider_1af00062a8d8c24409ccd55e4b31aa75eb" prot="public" virt="virtual"><scope>themis::IKeyProvider</scope><name>~IKeyProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

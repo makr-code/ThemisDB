@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1retrieval_1_1_adapter_usage_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::retrieval::AdapterUsagePolicy</compoundname>
+    <includes refid="lora__package_8h" local="no">lora_package.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a88bbb78a667de939d83eb151f17a74fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::AdapterUsagePolicy::license</definition>
+        <argsstring></argsstring>
+        <name>license</name>
+        <qualifiedname>themis::retrieval::AdapterUsagePolicy::license</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="101" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_adapter_usage_policy_1afb843bc09446fe30f89d1cd2304ea4f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::AdapterUsagePolicy::restrictions</definition>
+        <argsstring></argsstring>
+        <name>restrictions</name>
+        <qualifiedname>themis::retrieval::AdapterUsagePolicy::restrictions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="103" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a2d1129014e284ec9be04e298d9085005" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::retrieval::AdapterUsagePolicy::allowed_base_models</definition>
+        <argsstring></argsstring>
+        <name>allowed_base_models</name>
+        <qualifiedname>themis::retrieval::AdapterUsagePolicy::allowed_base_models</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="105" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_adapter_usage_policy_1aaef41dd320abd0effa450c801fc85330" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::retrieval::AdapterUsagePolicy::max_concurrent_deployments</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_deployments</name>
+        <qualifiedname>themis::retrieval::AdapterUsagePolicy::max_concurrent_deployments</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="107" column="9" bodyfile="src/retrieval/include/lora_package.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_adapter_usage_policy_1ada696ca3b5167d8f4e719f1930c5bb53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::AdapterUsagePolicy::expiry_date</definition>
+        <argsstring></argsstring>
+        <name>expiry_date</name>
+        <qualifiedname>themis::retrieval::AdapterUsagePolicy::expiry_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="109" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1retrieval_1_1_adapter_usage_policy_1af291f07ec5444c61aca1cb955f5feb8d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kindref="member">json</ref></type>
+        <definition>json themis::retrieval::AdapterUsagePolicy::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>themis::retrieval::AdapterUsagePolicy::to_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="111" column="11" bodyfile="src/retrieval/src/lora_package.cc" bodystart="206" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a34eb6a9348603ca7ee8c1052638684db" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1retrieval_1_1_adapter_usage_policy" kindref="compound">AdapterUsagePolicy</ref></type>
+        <definition>AdapterUsagePolicy themis::retrieval::AdapterUsagePolicy::from_json</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>themis::retrieval::AdapterUsagePolicy::from_json</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="113" column="32" bodyfile="src/retrieval/src/lora_package.cc" bodystart="222" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/retrieval/include/lora_package.h" line="100" column="1" bodyfile="src/retrieval/include/lora_package.h" bodystart="100" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a2d1129014e284ec9be04e298d9085005" prot="public" virt="non-virtual"><scope>themis::retrieval::AdapterUsagePolicy</scope><name>allowed_base_models</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1ada696ca3b5167d8f4e719f1930c5bb53" prot="public" virt="non-virtual"><scope>themis::retrieval::AdapterUsagePolicy</scope><name>expiry_date</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a34eb6a9348603ca7ee8c1052638684db" prot="public" virt="non-virtual"><scope>themis::retrieval::AdapterUsagePolicy</scope><name>from_json</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a88bbb78a667de939d83eb151f17a74fc" prot="public" virt="non-virtual"><scope>themis::retrieval::AdapterUsagePolicy</scope><name>license</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1aaef41dd320abd0effa450c801fc85330" prot="public" virt="non-virtual"><scope>themis::retrieval::AdapterUsagePolicy</scope><name>max_concurrent_deployments</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1afb843bc09446fe30f89d1cd2304ea4f7" prot="public" virt="non-virtual"><scope>themis::retrieval::AdapterUsagePolicy</scope><name>restrictions</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1af291f07ec5444c61aca1cb955f5feb8d" prot="public" virt="non-virtual"><scope>themis::retrieval::AdapterUsagePolicy</scope><name>to_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

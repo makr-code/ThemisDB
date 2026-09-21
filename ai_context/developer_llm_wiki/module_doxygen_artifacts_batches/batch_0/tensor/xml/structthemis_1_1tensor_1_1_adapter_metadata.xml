@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_adapter_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::AdapterMetadata</compoundname>
+    <includes refid="adapter__repository_8h" local="no">adapter_repository.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_metadata_1a6adab10fe761b25b1fd28b555aa6811a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdapterMetadata::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::tensor::AdapterMetadata::author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="75" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_metadata_1a9fb3fbd7333d45e58de91e56359366cf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdapterMetadata::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::tensor::AdapterMetadata::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="76" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_metadata_1a19b530dfc27d48be92f18da2956a090d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdapterMetadata::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::tensor::AdapterMetadata::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="77" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_metadata_1a8e8e085f2678a0526879734c4bf92fd6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::AdapterMetadata::achieved_eps</definition>
+        <argsstring></argsstring>
+        <name>achieved_eps</name>
+        <qualifiedname>themis::tensor::AdapterMetadata::achieved_eps</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>TT reconstruction error at store time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="78" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_metadata_1a884eb51a2d91827e3978450623fab937" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::AdapterMetadata::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::tensor::AdapterMetadata::max_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="79" column="17" bodyfile="include/tensor/adapter_repository.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/adapter_repository.h" line="74" column="1" bodyfile="include/tensor/adapter_repository.h" bodystart="74" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_adapter_metadata_1a8e8e085f2678a0526879734c4bf92fd6" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterMetadata</scope><name>achieved_eps</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_metadata_1a6adab10fe761b25b1fd28b555aa6811a" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterMetadata</scope><name>author</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_metadata_1a9fb3fbd7333d45e58de91e56359366cf" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterMetadata</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_metadata_1a19b530dfc27d48be92f18da2956a090d" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterMetadata</scope><name>description</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_metadata_1a884eb51a2d91827e3978450623fab937" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterMetadata</scope><name>max_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

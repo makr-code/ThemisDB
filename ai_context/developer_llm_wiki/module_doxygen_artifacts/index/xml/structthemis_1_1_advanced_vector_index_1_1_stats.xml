@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_advanced_vector_index_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdvancedVectorIndex::Stats</compoundname>
+    <includes refid="advanced__vector__index_8h" local="no">advanced_vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stats_1af572f2d3577a216693c3e8235958d4a6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdvancedVectorIndex::Stats::total_vectors</definition>
+        <argsstring></argsstring>
+        <name>total_vectors</name>
+        <qualifiedname>themis::AdvancedVectorIndex::Stats::total_vectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="130" column="16" bodyfile="include/index/advanced_vector_index.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stats_1a0de88bb891f2e0b6f7c1a225a8528fae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdvancedVectorIndex::Stats::index_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>index_size_bytes</name>
+        <qualifiedname>themis::AdvancedVectorIndex::Stats::index_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="131" column="16" bodyfile="include/index/advanced_vector_index.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stats_1affc17ac9a93b496cd84bea4b7b343f67" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdvancedVectorIndex::Stats::memory_usage_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_bytes</name>
+        <qualifiedname>themis::AdvancedVectorIndex::Stats::memory_usage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="132" column="16" bodyfile="include/index/advanced_vector_index.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stats_1a003210c51e42488f9a6974be9225d7b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdvancedVectorIndex::Stats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::AdvancedVectorIndex::Stats::compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="133" column="16" bodyfile="include/index/advanced_vector_index.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stats_1a366197cdb4e0a05b6a5e8df5564dcc89" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::Stats::is_trained</definition>
+        <argsstring></argsstring>
+        <name>is_trained</name>
+        <qualifiedname>themis::AdvancedVectorIndex::Stats::is_trained</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="134" column="14" bodyfile="include/index/advanced_vector_index.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stats_1a7f214e1287e752cc630f888069bcabd1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AdvancedVectorIndex::Stats::is_gpu</definition>
+        <argsstring></argsstring>
+        <name>is_gpu</name>
+        <qualifiedname>themis::AdvancedVectorIndex::Stats::is_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="135" column="14" bodyfile="include/index/advanced_vector_index.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/advanced_vector_index.h" line="129" column="5" bodyfile="include/index/advanced_vector_index.h" bodystart="129" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stats_1a003210c51e42488f9a6974be9225d7b4" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::Stats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stats_1a0de88bb891f2e0b6f7c1a225a8528fae" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::Stats</scope><name>index_size_bytes</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stats_1a7f214e1287e752cc630f888069bcabd1" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::Stats</scope><name>is_gpu</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stats_1a366197cdb4e0a05b6a5e8df5564dcc89" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::Stats</scope><name>is_trained</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stats_1affc17ac9a93b496cd84bea4b7b343f67" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::Stats</scope><name>memory_usage_bytes</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stats_1af572f2d3577a216693c3e8235958d4a6" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::Stats</scope><name>total_vectors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

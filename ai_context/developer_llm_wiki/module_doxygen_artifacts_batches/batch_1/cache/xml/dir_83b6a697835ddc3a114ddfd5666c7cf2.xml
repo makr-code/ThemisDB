@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_83b6a697835ddc3a114ddfd5666c7cf2" kind="dir">
+    <compoundname>include/cache</compoundname>
+    <innerfile refid="adaptive__query__cache_8h">adaptive_query_cache.h</innerfile>
+    <innerfile refid="adaptive__ttl__policy_8h">adaptive_ttl_policy.h</innerfile>
+    <innerfile refid="aligned__vector__allocator_8h">aligned_vector_allocator.h</innerfile>
+    <innerfile refid="arc__cache_8h">arc_cache.h</innerfile>
+    <innerfile refid="bounded__lru__cache_8h">bounded_lru_cache.h</innerfile>
+    <innerfile refid="cache__contract_8h">cache_contract.h</innerfile>
+    <innerfile refid="cache__eviction__policy_8h">cache_eviction_policy.h</innerfile>
+    <innerfile refid="cache__hit__rate__slo__monitor_8h">cache_hit_rate_slo_monitor.h</innerfile>
+    <innerfile refid="cache__interfaces_8h">cache_interfaces.h</innerfile>
+    <innerfile refid="cache__manager_8h">cache_manager.h</innerfile>
+    <innerfile refid="cache__metrics_8h">cache_metrics.h</innerfile>
+    <innerfile refid="cache__partition_8h">cache_partition.h</innerfile>
+    <innerfile refid="cache__provider_8h">cache_provider.h</innerfile>
+    <innerfile refid="cache__replication_8h">cache_replication.h</innerfile>
+    <innerfile refid="cache__replication__coordinator_8h">cache_replication_coordinator.h</innerfile>
+    <innerfile refid="distributed__cache__coordinator_8h">distributed_cache_coordinator.h</innerfile>
+    <innerfile refid="distributed__eviction_8h">distributed_eviction.h</innerfile>
+    <innerfile refid="embedding__cache_8h">embedding_cache.h</innerfile>
+    <innerfile refid="enhanced__query__cache_8h">enhanced_query_cache.h</innerfile>
+    <innerfile refid="eviction_8h">eviction.h</innerfile>
+    <innerfile refid="eviction__listener_8h">eviction_listener.h</innerfile>
+    <innerfile refid="eviction__policy_8h">eviction_policy.h</innerfile>
+    <innerfile refid="grpc__remote__cache__peer_8h">grpc_remote_cache_peer.h</innerfile>
+    <innerfile refid="l1__tinylfu__cache_8h">l1_tinylfu_cache.h</innerfile>
+    <innerfile refid="l3__encryption__config_8h">l3_encryption_config.h</innerfile>
+    <innerfile refid="lru__cache_8h">lru_cache.h</innerfile>
+    <innerfile refid="lru__cache_8hpp">lru_cache.hpp</innerfile>
+    <innerfile refid="predictive__prefetcher_8h">predictive_prefetcher.h</innerfile>
+    <innerfile refid="redis__cache__coordinator_8h">redis_cache_coordinator.h</innerfile>
+    <innerfile refid="redis__tls__config_8h">redis_tls_config.h</innerfile>
+    <innerfile refid="request__coalescer_8h">request_coalescer.h</innerfile>
+    <innerfile refid="result__cache_8h">result_cache.h</innerfile>
+    <innerfile refid="semantic__cache_8h">semantic_cache.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/"/>
+  </compounddef>
+</doxygen>

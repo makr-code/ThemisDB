@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__delta__log_8h" kind="file" language="C++">
+    <compoundname>tensor_delta_log.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="crash__recovery__checkpoint_8h" local="yes">src/distributed_tensor/include/crash_recovery_checkpoint.h</includedby>
+    <includedby refid="snapshot__update__worker_8h" local="yes">src/distributed_tensor/include/snapshot_update_worker.h</includedby>
+    <includedby refid="stale__artifact__detector_8h" local="yes">src/distributed_tensor/include/stale_artifact_detector.h</includedby>
+    <includedby refid="tensor__delta__log_8cc" local="yes">src/distributed_tensor/src/tensor_delta_log.cc</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/tensor_delta_log.h</label>
+        <link refid="tensor__delta__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/distributed_tensor/include/crash_recovery_checkpoint.h</label>
+        <link refid="crash__recovery__checkpoint_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/distributed_tensor/include/snapshot_update_worker.h</label>
+        <link refid="snapshot__update__worker_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/distributed_tensor/include/stale_artifact_detector.h</label>
+        <link refid="stale__artifact__detector_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/include/tensor_delta_log.h</label>
+        <link refid="tensor__delta__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/distributed_tensor/src/crash_recovery_checkpoint.cc</label>
+        <link refid="crash__recovery__checkpoint_8cc"/>
+      </node>
+      <node id="4">
+        <label>src/distributed_tensor/src/snapshot_update_worker.cc</label>
+        <link refid="snapshot__update__worker_8cc"/>
+      </node>
+      <node id="7">
+        <label>src/distributed_tensor/src/stale_artifact_detector.cc</label>
+        <link refid="stale__artifact__detector_8cc"/>
+      </node>
+      <node id="8">
+        <label>src/distributed_tensor/src/tensor_delta_log.cc</label>
+        <link refid="tensor__delta__log_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry" prot="public">themis::distributed_tensor::DeltaLogEntry</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_delta_window" prot="public">themis::distributed_tensor::DeltaWindow</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log" prot="public">themis::distributed_tensor::TensorDeltaLog</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats" prot="public">themis::distributed_tensor::TensorDeltaLog::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Tensor delta log for recording mutations in exact graph state. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>ThemisDB EPIC 3 Implementation Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-03</para>
+</simplesect>
+This header defines the tensor delta log system for recording mutations that occur in the exact graph state. These deltas are used by the snapshot-based update worker to decide whether to patch, partially refit, or fully rebuild tensor artifacts.</para>
+<sect1 id="tensor__delta__log_8h_1autotoc_md18_1s1"><sect2 id="tensor__delta__log_8h_1autotoc_md18">
+<title>Design Philosophy</title><para>The delta log is:<itemizedlist>
+<listitem><para><bold>Non-blocking</bold>: Recording deltas does not impede graph commit path</para>
+</listitem><listitem><para><bold>Immutable</bold>: Deltas are write-once; history is immutable</para>
+</listitem><listitem><para><bold>Versioned</bold>: Each delta references the commit transaction that created it</para>
+</listitem><listitem><para><bold>Windowed</bold>: Deltas are consumed in fixed windows by the update worker</para>
+</listitem><listitem><para><bold>Deterministic</bold>: Delta ordering and content are reproducible</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="tensor__delta__log_8h_1autotoc_md19_1s1"><sect2 id="tensor__delta__log_8h_1autotoc_md19">
+<title>Thread Safety</title><para>TensorDeltaLog supports concurrent reads and serialized writes:<itemizedlist>
+<listitem><para>Writers must externally synchronize (e.g., single writer per artifact)</para>
+</listitem><listitem><para>Readers can safely iterate through deltas concurrently</para>
+</listitem><listitem><para>Extracting delta windows is atomic relative to append</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="tensor__delta__log_8h_1autotoc_md20_1s1"><sect2 id="tensor__delta__log_8h_1autotoc_md20">
+<title>Lifecycle</title><para><orderedlist>
+<listitem><para>DeltaLogger appends mutations (INSERT/UPDATE/DELETE/SHARD_CHANGE)</para>
+</listitem><listitem><para>Deltas are buffered in-memory with optional persistence to RocksDB</para>
+</listitem><listitem><para>SnapshotUpdateWorker extracts delta windows and processes them</para>
+</listitem><listitem><para>Processed deltas can be garbage-collected per retention policy </para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6" kindref="member">DeltaMutationType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a61ee777e7f71dc466c3b2c685d8d313b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">INSERT</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a15a8022d0ed9cd9c2a2e756822703eb4" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">UPDATE</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6aa3c77b27a99fe4f442f19057f70adb76" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6aa3c77b27a99fe4f442f19057f70adb76" kindref="member">SHARD_CHANGE</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a62479f7cc8892714d48719f67cc696ae" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a62479f7cc8892714d48719f67cc696ae" kindref="member">METADATA_UPDATE</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry" kindref="compound">DeltaLogEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a982083429f76a92f74b946cb12d51439" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a982083429f76a92f74b946cb12d51439" kindref="member">sequence_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1aba760e7e42bd74045bd310f08d8d6e2d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6" kindref="member">DeltaMutationType</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1aba760e7e42bd74045bd310f08d8d6e2d" kindref="member">mutation_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">DeltaMutationType::INSERT</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1ad5fb1ca580853956c74adb00a926afe7" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1ad5fb1ca580853956c74adb00a926afe7" kindref="member">affected_entity_id</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a22991a9d2e761355ef7b7199082fd308" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a22991a9d2e761355ef7b7199082fd308" kindref="member">recorded_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a060ca8f40c138502346a256ec62f66a3" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a060ca8f40c138502346a256ec62f66a3" kindref="member">source_transaction_id</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a855c579245405cf1c9b17760720d3df4" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a855c579245405cf1c9b17760720d3df4" kindref="member">shard_hint</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1abf84153cd231338728a81a688776e892" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1abf84153cd231338728a81a688776e892" kindref="member">payload_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a923a3d91eaba1fc0d670031cd5b845a7" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a923a3d91eaba1fc0d670031cd5b845a7" kindref="member">payload_checksum</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1ac94c6b972327839d4913fc8cd14e741c" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1a9b156af986afe3e568b39d2e2b5aa976" kindref="member">serialize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;DeltaLogEntry&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry_1aad1389fa7111e7b5785ac57360153e12" kindref="member">deserialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>serialized);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1distributed__tensor_1_1_delta_window" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref><sp/>{</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a9555dc3c8e1224363de9c8c73da28931" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a9555dc3c8e1224363de9c8c73da28931" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a61edddd5864e39fbc0a429f8405db673" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a61edddd5864e39fbc0a429f8405db673" kindref="member">sequence_start</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a5e019631206d5832bf9662656dfcb021" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a5e019631206d5832bf9662656dfcb021" kindref="member">sequence_end</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a333e23d68dfc55ed5a24cf140f7b75dd" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;DeltaLogEntry&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a333e23d68dfc55ed5a24cf140f7b75dd" kindref="member">entries</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a2fd79cc325caa2ad95b66f51f00d6ca8" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a2fd79cc325caa2ad95b66f51f00d6ca8" kindref="member">total_payload_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1distributed__tensor_1_1_delta_window_1aa00e4463cbdc14ae6047aeb82ea3e370" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1aa00e4463cbdc14ae6047aeb82ea3e370" kindref="member">extracted_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a4e0433e023538996b3b2a1165d2173b4" kindref="member">countInserts</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a201faf6c2aee17c2645e667c7931d829" kindref="member">countUpdates</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1aadcbc6af2cf85b02e149b0da5e1e5fe3" kindref="member">countDeletes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a9600847ef17af85877400eb44a4ef5b9" kindref="member">countShardChanges</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1abbe31d10d595a272aaa9ef015cc6967b" kindref="member">estimateChangeFraction</ref>(uint64_t<sp/>artifact_size_bytes)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1ae531758639e2e55891a718dd85797bde" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a98ae04436df0b2fd2a9ac7ffb10da20e" kindref="member">serialize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;DeltaWindow&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a658dea674a604bd5ac4e7f7006e938e6" kindref="member">deserialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1aa59b673ca8ec3f796367e07a95011fd3" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;DeltaWindow&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a9a3039de56c7d3acbf9f40f2e68975fa" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_str);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a909419958377a0118cc29f59e704c04b" kindref="member">TensorDeltaLog</ref><sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a909419958377a0118cc29f59e704c04b" kindref="member">TensorDeltaLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a3d6607bb3649213a832bcbadfca2fe7f" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a3d6607bb3649213a832bcbadfca2fe7f" kindref="member">~TensorDeltaLog</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copy/move<sp/>operations<sp/>to<sp/>maintain<sp/>invariants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1ab8dadfe7cb65180197622f1592231b7e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1ab8dadfe7cb65180197622f1592231b7e" kindref="member">TensorDeltaLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a909419958377a0118cc29f59e704c04b" kindref="member">TensorDeltaLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a13f9ea0f8be5c51f364d99da74c56a70" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a909419958377a0118cc29f59e704c04b" kindref="member">TensorDeltaLog</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a13f9ea0f8be5c51f364d99da74c56a70" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a909419958377a0118cc29f59e704c04b" kindref="member">TensorDeltaLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a635da9bd2a5fd02ba7c137aab730be34" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a635da9bd2a5fd02ba7c137aab730be34" kindref="member">TensorDeltaLog</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a909419958377a0118cc29f59e704c04b" kindref="member">TensorDeltaLog</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a444a72b68d1364320550ca432b369dd7" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a909419958377a0118cc29f59e704c04b" kindref="member">TensorDeltaLog</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a444a72b68d1364320550ca432b369dd7" kindref="member">operator=</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a909419958377a0118cc29f59e704c04b" kindref="member">TensorDeltaLog</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a09dc81eddec002923cebaac84be37110" kindref="member">appendDelta</ref>(<ref refid="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6" kindref="member">DeltaMutationType</ref><sp/>mutation_type,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>affected_entity_id,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_transaction_id,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_hint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>payload_size_bytes<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/>std::optional&lt;DeltaWindow&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a058e582afb592a344966bef0600fcf7b" kindref="member">extractWindow</ref>(uint64_t<sp/>sequence_start,<sp/>uint64_t<sp/>sequence_end);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a38ba72852df6ab5fb01ddc6a3664bf3e" kindref="member">getCurrentSequence</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a0cecc7afb5480940038e67369d476137" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a0cecc7afb5480940038e67369d476137" kindref="member">getArtifactId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1aa53cce49a0ad69dc69faa83ead529990" kindref="member">artifact_id_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a39fbd770c4888c39d4334dd6ec592f11" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a63fd6c08ea32e1705d80e559dc053264" kindref="member">empty</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a2355abadd488d1675f5e7c59e83a677a" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a0fa156e43e10f5cfdc51d4fc55a4ebed" kindref="member">getMemoryUsage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a8c31a972f86ddfa1e38259ff6b1189a9" kindref="member">persistToStorage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a72c99a4e8029a5fd51ee0cdc7289b13b" kindref="member">loadFromStorage</ref>();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1aa53c667a87945f64359d9acb970c2428" kindref="member">garbage_collect</ref>(uint64_t<sp/>cutoff_sequence);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1ad330ccacd5ac709d7bbe0de48ddf516c" kindref="member">setRetentionPolicy</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_entries,<sp/>int64_t<sp/>max_age_ms);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="269" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a72c8cb31a150c1efca9194f2507a7455" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a72c8cb31a150c1efca9194f2507a7455" kindref="member">total_deltas</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a9c1de9ebb064d08f2bc1563e10492e80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a9c1de9ebb064d08f2bc1563e10492e80" kindref="member">total_insert_mutations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="271" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1adc1bf894e2ec63b5648b3beaa4d7c2ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1adc1bf894e2ec63b5648b3beaa4d7c2ca" kindref="member">total_update_mutations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a04283da679280f2116602b7a287ac70d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a04283da679280f2116602b7a287ac70d" kindref="member">total_delete_mutations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="273" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a705cb2c8b12fe1d1da759fb07f5264f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a705cb2c8b12fe1d1da759fb07f5264f8" kindref="member">total_shard_change_mutations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="274" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a7cea69f194997654244402fdae766480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a7cea69f194997654244402fdae766480" kindref="member">total_payload_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a0fa192acafe84ee87cf22e13d7ca6ab3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a0fa192acafe84ee87cf22e13d7ca6ab3" kindref="member">oldest_delta_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1aa084778aaaa7713b0793539bf4074603" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1aa084778aaaa7713b0793539bf4074603" kindref="member">newest_delta_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a8c69b05933b86813a6e33dc32cdbc5d0" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1aa53cce49a0ad69dc69faa83ead529990" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1aa53cce49a0ad69dc69faa83ead529990" kindref="member">artifact_id_</ref>;</highlight></codeline>
+<codeline lineno="287" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a7c50c84486827241136b753b68d266a1" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a7c50c84486827241136b753b68d266a1" kindref="member">entries_mutex_</ref>;</highlight></codeline>
+<codeline lineno="288" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1ad845663d7a7038c423975d60f880d394" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;DeltaLogEntry&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1ad845663d7a7038c423975d60f880d394" kindref="member">entries_</ref>;</highlight></codeline>
+<codeline lineno="289" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a073a4c835ae1ed068ec6d37f485319f4" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a073a4c835ae1ed068ec6d37f485319f4" kindref="member">current_sequence_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1ab37d287054943c7b540213683b663df3" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1ab37d287054943c7b540213683b663df3" kindref="member">last_recorded_ms_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="291" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1aca433c89cbf35e8f5ab00ee219a71a43" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1aca433c89cbf35e8f5ab00ee219a71a43" kindref="member">max_entries_retention_</ref><sp/>=<sp/>100000;</highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a209139af28c7be39a3c5db1c407b821d" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log_1a209139af28c7be39a3c5db1c407b821d" kindref="member">max_age_ms_retention_</ref><sp/>=<sp/>86400000;<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>hours<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/tensor_delta_log.h"/>
+  </compounddef>
+</doxygen>

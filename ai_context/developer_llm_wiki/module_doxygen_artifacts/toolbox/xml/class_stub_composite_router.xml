@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_composite_router" kind="class" language="C++" prot="public">
+    <compoundname>StubCompositeRouter</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_composite_router_1aecd8ddd2e0e2629368789f58eb5ee63e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubCompositeRouter::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>StubCompositeRouter::ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_highcardinality_stress.cpp" line="54" column="17" bodyfile="tests/toolbox/test_toolbox_highcardinality_stress.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_composite_router_1a0c74e119b8313b931b78779d07241c46" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_dispatch_record" kindref="compound">DispatchRecord</ref></type>
+        <definition>DispatchRecord StubCompositeRouter::dispatch</definition>
+        <argsstring>(const std::string &amp;tool_name, const std::string &amp;) noexcept</argsstring>
+        <name>dispatch</name>
+        <qualifiedname>StubCompositeRouter::dispatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_highcardinality_stress.cpp" line="48" column="20" bodyfile="tests/toolbox/test_toolbox_highcardinality_stress.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_composite_router_1a4f717ba8449575a3e8192aac67d7850b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubCompositeRouter::totalOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalOps</name>
+        <qualifiedname>StubCompositeRouter::totalOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_highcardinality_stress.cpp" line="52" column="14" bodyfile="tests/toolbox/test_toolbox_highcardinality_stress.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/toolbox/test_toolbox_highcardinality_stress.cpp" line="46" column="1" bodyfile="tests/toolbox/test_toolbox_highcardinality_stress.cpp" bodystart="46" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_stub_composite_router_1a0c74e119b8313b931b78779d07241c46" prot="public" virt="non-virtual"><scope>StubCompositeRouter</scope><name>dispatch</name></member>
+      <member refid="class_stub_composite_router_1aecd8ddd2e0e2629368789f58eb5ee63e" prot="private" virt="non-virtual"><scope>StubCompositeRouter</scope><name>ops_</name></member>
+      <member refid="class_stub_composite_router_1a4f717ba8449575a3e8192aac67d7850b" prot="public" virt="non-virtual"><scope>StubCompositeRouter</scope><name>totalOps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_s_a_g_a_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::SAGAOrchestrator</compoundname>
+    <includes refid="saga__orchestrator_8h" local="no">saga_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics" prot="public">themis::SAGAOrchestrator::Metrics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" prot="public" static="no">
+        <type><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config" kindref="compound">SAGAOrchestratorConfig</ref></type>
+        <definition>using themis::SAGAOrchestrator::Config = SAGAOrchestratorConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::SAGAOrchestrator::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="144" column="5" bodyfile="include/transaction/saga_orchestrator.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1_s_a_g_a_orchestrator_1a3d86ba3b4f2b60da1d8aa4d4c5902d19" prot="private" static="no">
+        <type>std::unordered_map&lt; std::string, const <ref refid="structthemis_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> * &gt;</type>
+        <definition>using themis::SAGAOrchestrator::StepMap = std::unordered_map&lt;std::string, const SAGAStep*&gt;</definition>
+        <argsstring></argsstring>
+        <name>StepMap</name>
+        <qualifiedname>themis::SAGAOrchestrator::StepMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="274" column="5" bodyfile="include/transaction/saga_orchestrator.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a178a98b48281ee78813181474b25778a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">Config</ref></type>
+        <definition>Config themis::SAGAOrchestrator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::SAGAOrchestrator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="217" column="12" bodyfile="include/transaction/saga_orchestrator.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1af770c2c73f594b743b71f09c1aaa73de" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SAGAOrchestrator::status_mutex_</definition>
+        <argsstring></argsstring>
+        <name>status_mutex_</name>
+        <qualifiedname>themis::SAGAOrchestrator::status_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="219" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a30bdaf5908d2952c0577dd28fbd6348a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_s_a_g_a_execution_status" kindref="compound">SAGAExecutionStatus</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SAGAExecutionStatus&gt; themis::SAGAOrchestrator::statuses_</definition>
+        <argsstring></argsstring>
+        <name>statuses_</name>
+        <qualifiedname>themis::SAGAOrchestrator::statuses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="220" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a79d27344cd0da5337759a6feae6eebf4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SAGAOrchestrator::templates_mutex_</definition>
+        <argsstring></argsstring>
+        <name>templates_mutex_</name>
+        <qualifiedname>themis::SAGAOrchestrator::templates_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="222" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a6de23bc07448bf58f1593081a408dbdf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SAGADefinition&gt; themis::SAGAOrchestrator::templates_</definition>
+        <argsstring></argsstring>
+        <name>templates_</name>
+        <qualifiedname>themis::SAGAOrchestrator::templates_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="223" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a03711562a7e573eb7c9d95246c8995b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SAGAOrchestrator::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::SAGAOrchestrator::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="226" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a5bae0221208c2ca7d5d93db4a4f3f90d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::SAGAOrchestrator::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::SAGAOrchestrator::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="227" column="13" bodyfile="include/transaction/saga_orchestrator.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a7192831c759b8b5468a8008ea43930bb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SAGAOrchestrator::journal_mutex_</definition>
+        <argsstring></argsstring>
+        <name>journal_mutex_</name>
+        <qualifiedname>themis::SAGAOrchestrator::journal_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="230" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a0dfab4bc5173d3ff186cd40339ee2661" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SAGAOrchestrator::circuit_breaker_mutex_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_mutex_</name>
+        <qualifiedname>themis::SAGAOrchestrator::circuit_breaker_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="234" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1aae2f95c76622d078f549762d18a893f1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint32_t&gt; themis::SAGAOrchestrator::consecutive_failures_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures_</name>
+        <qualifiedname>themis::SAGAOrchestrator::consecutive_failures_</qualifiedname>
+        <briefdescription>
+<para>step_name → failure count </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="235" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a213a516991f6eab4b3d35df39debdf41" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::chrono::system_clock::time_point&gt; themis::SAGAOrchestrator::last_failure_time_</definition>
+        <argsstring></argsstring>
+        <name>last_failure_time_</name>
+        <qualifiedname>themis::SAGAOrchestrator::last_failure_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="236" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_s_a_g_a_orchestrator_1a4a9a35a10ed8e5a1a2cc93beec87bccb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::SAGAOrchestrator::half_open_probe_in_flight_</definition>
+        <argsstring></argsstring>
+        <name>half_open_probe_in_flight_</name>
+        <qualifiedname>themis::SAGAOrchestrator::half_open_probe_in_flight_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="237" column="24" bodyfile="include/transaction/saga_orchestrator.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SAGAOrchestrator::SAGAOrchestrator</definition>
+        <argsstring>(Config config={})</argsstring>
+        <name>SAGAOrchestrator</name>
+        <qualifiedname>themis::SAGAOrchestrator::SAGAOrchestrator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">Config</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="146" column="14" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="75" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a914abc7bf554f0c8ead41826f9fb6278" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SAGAOrchestrator::~SAGAOrchestrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SAGAOrchestrator</name>
+        <qualifiedname>themis::SAGAOrchestrator::~SAGAOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a6887389305d68c6ffeb181852a24aa4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SAGAOrchestrator::SAGAOrchestrator</definition>
+        <argsstring>(const SAGAOrchestrator &amp;)=delete</argsstring>
+        <name>SAGAOrchestrator</name>
+        <qualifiedname>themis::SAGAOrchestrator::SAGAOrchestrator</qualifiedname>
+        <param>
+          <type>const SAGAOrchestrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="149" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a63b81a6e05585c8f7f39881721ae87b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref> &amp;</type>
+        <definition>SAGAOrchestrator &amp; themis::SAGAOrchestrator::operator=</definition>
+        <argsstring>(const SAGAOrchestrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SAGAOrchestrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="150" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a784e88d7e3671a06518b467613ef65e6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::SAGAOrchestrator::SAGAOrchestrator</definition>
+        <argsstring>(SAGAOrchestrator &amp;&amp;) noexcept=default</argsstring>
+        <name>SAGAOrchestrator</name>
+        <qualifiedname>themis::SAGAOrchestrator::SAGAOrchestrator</qualifiedname>
+        <param>
+          <type>SAGAOrchestrator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="151" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a9035fa5677aa70e662940b2887c2d4f6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref> &amp;</type>
+        <definition>SAGAOrchestrator &amp; themis::SAGAOrchestrator::operator=</definition>
+        <argsstring>(SAGAOrchestrator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SAGAOrchestrator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="152" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a7c62771921f172a107a0254a90c8081d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_saga_orchestrator_status" kindref="compound">SagaOrchestratorStatus</ref></type>
+        <definition>SagaOrchestratorStatus themis::SAGAOrchestrator::execute</definition>
+        <argsstring>(const SAGADefinition &amp;saga)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::SAGAOrchestrator::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), time_since_epoch(), count(), fetch_add(), std::to_string(), <ref refid="classthemis_1_1_s_a_g_a_orchestrator_1acd91d8e15a2747f29f5d44683390f4bc" kindref="member">validate()</ref>, lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="160" column="28" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="447" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1acd91d8e15a2747f29f5d44683390f4bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_saga_orchestrator_status" kindref="compound">SagaOrchestratorStatus</ref></type>
+        <definition>SagaOrchestratorStatus themis::SAGAOrchestrator::validate</definition>
+        <argsstring>(const SAGADefinition &amp;saga) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::SAGAOrchestrator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="167" column="28" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="78" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a9ebd98f8a786c1508c734722682a90e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_s_a_g_a_execution_status" kindref="compound">SAGAExecutionStatus</ref> &gt;</type>
+        <definition>std::optional&lt; SAGAExecutionStatus &gt; themis::SAGAOrchestrator::getStatus</definition>
+        <argsstring>(const std::string &amp;saga_id) const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::SAGAOrchestrator::getStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="175" column="19" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="686" bodyend="698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1aa974d80254b514bcae86da3cb3360bcf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>SAGAOrchestrator::Metrics themis::SAGAOrchestrator::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::SAGAOrchestrator::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics" kindref="compound">Metrics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="192" column="13" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="700" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1aed90909bb6dc338af4926179162442cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SAGAOrchestrator::registerTemplate</definition>
+        <argsstring>(const std::string &amp;template_name, SAGADefinition tmpl)</argsstring>
+        <name>registerTemplate</name>
+        <qualifiedname>themis::SAGAOrchestrator::registerTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>template_name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref></type>
+          <declname>tmpl</declname>
+        </param>
+        <briefdescription>
+<para>Register Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">template_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the template. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tmpl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">template_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the template. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tmpl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="200" column="10" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1aa91957d2ab58e8d28ced919109995fac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref></type>
+        <definition>SAGADefinition themis::SAGAOrchestrator::instantiateTemplate</definition>
+        <argsstring>(const std::string &amp;template_name, const std::string &amp;instance_id, std::map&lt; std::string, std::string &gt; context_overrides={}) const</argsstring>
+        <name>instantiateTemplate</name>
+        <qualifiedname>themis::SAGAOrchestrator::instantiateTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>template_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt;</type>
+          <declname>context_overrides</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">templates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="202" column="20" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="137" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a388fc66cb56b341b00337c5d20dca1b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SAGAOrchestrator::renderWorkflow</definition>
+        <argsstring>(const SAGADefinition &amp;saga) const</argsstring>
+        <name>renderWorkflow</name>
+        <qualifiedname>themis::SAGAOrchestrator::renderWorkflow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Render Workflow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="214" column="17" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="161" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a155a43f6fbae3a15017a9abcff3238ee" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SAGAOrchestrator::isCircuitBreakerOpen</definition>
+        <argsstring>(const std::string &amp;step_name) const</argsstring>
+        <name>isCircuitBreakerOpen</name>
+        <qualifiedname>themis::SAGAOrchestrator::isCircuitBreakerOpen</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Circuit Breaker Open. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">circuit_breaker_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="244" column="10" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="710" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a1138e9f56d902ad08e863cacc6d64ebf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SAGAOrchestrator::recordCircuitBreakerFailure</definition>
+        <argsstring>(const std::string &amp;step_name)</argsstring>
+        <name>recordCircuitBreakerFailure</name>
+        <qualifiedname>themis::SAGAOrchestrator::recordCircuitBreakerFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <briefdescription>
+<para>Record Circuit Breaker Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="250" column="10" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="742" bodyend="749"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a1d5ade2b2204b4b326008ce838347748" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SAGAOrchestrator::recordCircuitBreakerSuccess</definition>
+        <argsstring>(const std::string &amp;step_name)</argsstring>
+        <name>recordCircuitBreakerSuccess</name>
+        <qualifiedname>themis::SAGAOrchestrator::recordCircuitBreakerSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <briefdescription>
+<para>Record Circuit Breaker Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="256" column="10" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="756" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1af95db8a8370e8bc7735cc30c6f1bc9d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SAGAOrchestrator::tryAcquireCircuitBreakerExecution</definition>
+        <argsstring>(const std::string &amp;step_name)</argsstring>
+        <name>tryAcquireCircuitBreakerExecution</name>
+        <qualifiedname>themis::SAGAOrchestrator::tryAcquireCircuitBreakerExecution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <briefdescription>
+<para>Try Acquire Circuit Breaker Execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="263" column="10" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="770" bodyend="796"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a5d9cc870e6f8e71ebbabb0c66e4d1d42" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::SAGAOrchestrator::topologicalSort</definition>
+        <argsstring>(const SAGADefinition &amp;saga) const</argsstring>
+        <name>topologicalSort</name>
+        <qualifiedname>themis::SAGAOrchestrator::topologicalSort</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Topological Sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="271" column="17" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="200" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1acfbc8a858bb8821448a09c85b6257725" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425" kindref="member">StepState</ref></type>
+        <definition>StepState themis::SAGAOrchestrator::executeStep</definition>
+        <argsstring>(const SAGAStep &amp;step, const std::string &amp;saga_id, const Config &amp;cfg)</argsstring>
+        <name>executeStep</name>
+        <qualifiedname>themis::SAGAOrchestrator::executeStep</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Execute Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: condition(), lk(), tryAcquireCircuitBreakerExecution(), journalWrite(), effectiveTimeout(), effectiveDelay(), count(), std::async(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="290" column="15" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="274" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a81dc803b93c4e1ef2defdff3b3395042" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SAGAOrchestrator::compensateAll</definition>
+        <argsstring>(const SAGADefinition &amp;saga, const StepMap &amp;step_map, const std::vector&lt; std::string &gt; &amp;executed_order, SAGAExecutionStatus &amp;status_rec)</argsstring>
+        <name>compensateAll</name>
+        <qualifiedname>themis::SAGAOrchestrator::compensateAll</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <param>
+          <type>const StepMap &amp;</type>
+          <declname>step_map</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>executed_order</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_s_a_g_a_execution_status" kindref="compound">SAGAExecutionStatus</ref> &amp;</type>
+          <declname>status_rec</declname>
+        </param>
+        <briefdescription>
+<para>Compensate All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">executed_order</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">status_rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">executed_order</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">status_rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: rbegin(), rend(), find(), end(), compensateStep(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="301" column="10" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="359" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a2cbd63045be65a42bb28fb4f5fb0c225" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SAGAOrchestrator::compensateStep</definition>
+        <argsstring>(const SAGAStep &amp;step, SAGAExecutionStatus &amp;status_rec)</argsstring>
+        <name>compensateStep</name>
+        <qualifiedname>themis::SAGAOrchestrator::compensateStep</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_s_a_g_a_execution_status" kindref="compound">SAGAExecutionStatus</ref> &amp;</type>
+          <declname>status_rec</declname>
+        </param>
+        <briefdescription>
+<para>Compensate Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">status_rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">status_rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), compensate(), what(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="311" column="10" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="378" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a487b204f70509c09e13d4c5ff21885cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SAGAOrchestrator::journalWrite</definition>
+        <argsstring>(const std::string &amp;saga_id, const std::string &amp;event, const std::string &amp;detail={})</argsstring>
+        <name>journalWrite</name>
+        <qualifiedname>themis::SAGAOrchestrator::journalWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Journal Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lk(), out(), is_open(), std::chrono::system_clock::now(), time_since_epoch(), count(), jsonEscape(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="314" column="10" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="417" bodyend="439"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_s_a_g_a_orchestrator_1a43a2975c6b7b020ee8a069ea9eeb0a19" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>StepMap</type>
+        <definition>SAGAOrchestrator::StepMap themis::SAGAOrchestrator::buildStepMap</definition>
+        <argsstring>(const SAGADefinition &amp;saga)</argsstring>
+        <name>buildStepMap</name>
+        <qualifiedname>themis::SAGAOrchestrator::buildStepMap</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Build Step Map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="281" column="20" bodyfile="src/transaction/saga_orchestrator.cpp" bodystart="256" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga_orchestrator.h" line="142" column="1" bodyfile="include/transaction/saga_orchestrator.h" bodystart="142" bodyend="317"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a43a2975c6b7b020ee8a069ea9eeb0a19" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>buildStepMap</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a0dfab4bc5173d3ff186cd40339ee2661" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>circuit_breaker_mutex_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a81dc803b93c4e1ef2defdff3b3395042" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>compensateAll</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a2cbd63045be65a42bb28fb4f5fb0c225" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>compensateStep</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>Config</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a178a98b48281ee78813181474b25778a" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1aae2f95c76622d078f549762d18a893f1" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>consecutive_failures_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a7c62771921f172a107a0254a90c8081d" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>execute</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1acfbc8a858bb8821448a09c85b6257725" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>executeStep</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1aa974d80254b514bcae86da3cb3360bcf" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a9ebd98f8a786c1508c734722682a90e2" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a4a9a35a10ed8e5a1a2cc93beec87bccb" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>half_open_probe_in_flight_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1aa91957d2ab58e8d28ced919109995fac" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>instantiateTemplate</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a155a43f6fbae3a15017a9abcff3238ee" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>isCircuitBreakerOpen</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a7192831c759b8b5468a8008ea43930bb" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>journal_mutex_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a487b204f70509c09e13d4c5ff21885cf" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>journalWrite</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a213a516991f6eab4b3d35df39debdf41" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>last_failure_time_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a5bae0221208c2ca7d5d93db4a4f3f90d" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a03711562a7e573eb7c9d95246c8995b9" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a63b81a6e05585c8f7f39881721ae87b1" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a9035fa5677aa70e662940b2887c2d4f6" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a1138e9f56d902ad08e863cacc6d64ebf" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>recordCircuitBreakerFailure</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a1d5ade2b2204b4b326008ce838347748" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>recordCircuitBreakerSuccess</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1aed90909bb6dc338af4926179162442cf" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>registerTemplate</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a388fc66cb56b341b00337c5d20dca1b4" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>renderWorkflow</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>SAGAOrchestrator</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a6887389305d68c6ffeb181852a24aa4c" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>SAGAOrchestrator</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a784e88d7e3671a06518b467613ef65e6" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>SAGAOrchestrator</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1af770c2c73f594b743b71f09c1aaa73de" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>status_mutex_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a30bdaf5908d2952c0577dd28fbd6348a" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>statuses_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a3d86ba3b4f2b60da1d8aa4d4c5902d19" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>StepMap</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a6de23bc07448bf58f1593081a408dbdf" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>templates_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a79d27344cd0da5337759a6feae6eebf4" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>templates_mutex_</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a5d9cc870e6f8e71ebbabb0c66e4d1d42" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>topologicalSort</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1af95db8a8370e8bc7735cc30c6f1bc9d1" prot="private" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>tryAcquireCircuitBreakerExecution</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1acd91d8e15a2747f29f5d44683390f4bc" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1_s_a_g_a_orchestrator_1a914abc7bf554f0c8ead41826f9fb6278" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator</scope><name>~SAGAOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

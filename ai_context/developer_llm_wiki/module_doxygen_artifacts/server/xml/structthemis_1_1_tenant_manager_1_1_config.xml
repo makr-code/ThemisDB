@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_tenant_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TenantManager::Config</compoundname>
+    <includes refid="tenant__manager_8h" local="no">tenant_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_config_1acdcab3f39e069f7938489802fcf769bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::Config::tenant_header</definition>
+        <argsstring></argsstring>
+        <name>tenant_header</name>
+        <qualifiedname>themis::TenantManager::Config::tenant_header</qualifiedname>
+        <initializer>= &quot;X-Tenant-ID&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="135" column="21" bodyfile="include/server/tenant_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_config_1a639ec6ec500c399a033a81117eeb1282" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::Config::tenant_path_prefix</definition>
+        <argsstring></argsstring>
+        <name>tenant_path_prefix</name>
+        <qualifiedname>themis::TenantManager::Config::tenant_path_prefix</qualifiedname>
+        <initializer>= &quot;/tenants/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="136" column="21" bodyfile="include/server/tenant_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_config_1a86dfd12e935f5e8e1943001991b9dc86" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::Config::custom_domain_host_header</definition>
+        <argsstring></argsstring>
+        <name>custom_domain_host_header</name>
+        <qualifiedname>themis::TenantManager::Config::custom_domain_host_header</qualifiedname>
+        <initializer>= &quot;Host&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="142" column="21" bodyfile="include/server/tenant_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_config_1a9c8533fa5e2eed4ed2b55b702b0aadc2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::Config::default_tenant_id</definition>
+        <argsstring></argsstring>
+        <name>default_tenant_id</name>
+        <qualifiedname>themis::TenantManager::Config::default_tenant_id</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="145" column="21" bodyfile="include/server/tenant_manager.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_config_1aadab0273eeab9eef8d76f9e25d657435" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::Config::allow_default_tenant</definition>
+        <argsstring></argsstring>
+        <name>allow_default_tenant</name>
+        <qualifiedname>themis::TenantManager::Config::allow_default_tenant</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="146" column="14" bodyfile="include/server/tenant_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_config_1ab2b968279105452f5c03b3d18b592825" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TenantManager::Config::global_max_tenants</definition>
+        <argsstring></argsstring>
+        <name>global_max_tenants</name>
+        <qualifiedname>themis::TenantManager::Config::global_max_tenants</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="149" column="18" bodyfile="include/server/tenant_manager.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_config_1a6839c99648b75a45cbfefb4b7c589be6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::Config::enforce_quotas</definition>
+        <argsstring></argsstring>
+        <name>enforce_quotas</name>
+        <qualifiedname>themis::TenantManager::Config::enforce_quotas</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="150" column="14" bodyfile="include/server/tenant_manager.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/tenant_manager.h" line="133" column="5" bodyfile="include/server/tenant_manager.h" bodystart="133" bodyend="151"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_tenant_manager_1_1_config_1aadab0273eeab9eef8d76f9e25d657435" prot="public" virt="non-virtual"><scope>themis::TenantManager::Config</scope><name>allow_default_tenant</name></member>
+      <member refid="structthemis_1_1_tenant_manager_1_1_config_1a86dfd12e935f5e8e1943001991b9dc86" prot="public" virt="non-virtual"><scope>themis::TenantManager::Config</scope><name>custom_domain_host_header</name></member>
+      <member refid="structthemis_1_1_tenant_manager_1_1_config_1a9c8533fa5e2eed4ed2b55b702b0aadc2" prot="public" virt="non-virtual"><scope>themis::TenantManager::Config</scope><name>default_tenant_id</name></member>
+      <member refid="structthemis_1_1_tenant_manager_1_1_config_1a6839c99648b75a45cbfefb4b7c589be6" prot="public" virt="non-virtual"><scope>themis::TenantManager::Config</scope><name>enforce_quotas</name></member>
+      <member refid="structthemis_1_1_tenant_manager_1_1_config_1ab2b968279105452f5c03b3d18b592825" prot="public" virt="non-virtual"><scope>themis::TenantManager::Config</scope><name>global_max_tenants</name></member>
+      <member refid="structthemis_1_1_tenant_manager_1_1_config_1acdcab3f39e069f7938489802fcf769bb" prot="public" virt="non-virtual"><scope>themis::TenantManager::Config</scope><name>tenant_header</name></member>
+      <member refid="structthemis_1_1_tenant_manager_1_1_config_1a639ec6ec500c399a033a81117eeb1282" prot="public" virt="non-virtual"><scope>themis::TenantManager::Config</scope><name>tenant_path_prefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

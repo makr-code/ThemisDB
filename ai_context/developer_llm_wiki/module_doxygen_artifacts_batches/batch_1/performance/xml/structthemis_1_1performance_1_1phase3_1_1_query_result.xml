@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::QueryResult</compoundname>
+    <includes refid="bao_8h" local="no">bao.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_result_1a062cc3143432de2bfe5ee7321ee29d44" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::QueryResult::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::performance::phase3::QueryResult::execution_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="40" column="12" bodyfile="include/performance/phase3/bao.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_result_1adf087c2904db7b9798ef507789fff9a3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::QueryResult::rows_returned</definition>
+        <argsstring></argsstring>
+        <name>rows_returned</name>
+        <qualifiedname>themis::performance::phase3::QueryResult::rows_returned</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="41" column="12" bodyfile="include/performance/phase3/bao.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_result_1ab75f9fc2062b863565772d00d51f246a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::QueryResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::performance::phase3::QueryResult::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="42" column="10" bodyfile="include/performance/phase3/bao.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query execution result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/bao.h" line="39" column="1" bodyfile="include/performance/phase3/bao.h" bodystart="39" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1a062cc3143432de2bfe5ee7321ee29d44" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryResult</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1adf087c2904db7b9798ef507789fff9a3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryResult</scope><name>rows_returned</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1ab75f9fc2062b863565772d00d51f246a" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

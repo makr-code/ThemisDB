@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1network_1_1_0d140040342224271143373177324075145142316212364124" kind="namespace" language="C++">
+    <compoundname>themis::network::@140040342224271143373177324075145142316212364124</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/network/wire_protocol_server.cpp" line="85" column="1"/>
+  </compounddef>
+</doxygen>

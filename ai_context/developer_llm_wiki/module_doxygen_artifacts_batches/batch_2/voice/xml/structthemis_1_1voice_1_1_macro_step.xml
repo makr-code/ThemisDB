@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_macro_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::MacroStep</compoundname>
+    <includes refid="voice__macro_8h" local="no">voice_macro.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_step_1afdce982509b3e97b404af7555386ee1e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107b" kindref="member">StepType</ref></type>
+        <definition>StepType themis::voice::MacroStep::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::voice::MacroStep::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba5662080872eece1e1ceeec5750198283" kindref="member">StepType::QUERY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="52" column="14" bodyfile="include/voice/voice_macro.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_step_1a3ad280a46683c7e66d47799ffe336375" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MacroStep::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::voice::MacroStep::action</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Action payload. For QUERY this is an AQL template string. For WAIT it is the delay in milliseconds (as a string). For NOTIFY it is the message text. For COMMAND it is the command identifier. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="58" column="17" bodyfile="include/voice/voice_macro.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_step_1adfe745b05c377479e648a7fa464b54bc" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::voice::MacroStep::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::voice::MacroStep::parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Named parameters bound into <computeroutput>action</computeroutput> (e.g. AQL bind variables). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="60" column="14" bodyfile="include/voice/voice_macro.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_step_1a896f983e101a867aa61872b6a145103c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_macro_step" kindref="compound">MacroStep</ref> &gt;</type>
+        <definition>std::vector&lt;MacroStep&gt; themis::voice::MacroStep::sub_steps</definition>
+        <argsstring></argsstring>
+        <name>sub_steps</name>
+        <qualifiedname>themis::voice::MacroStep::sub_steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Nested steps used by CONDITION and LOOP types. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="62" column="17" bodyfile="include/voice/voice_macro.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One step in a macro execution sequence. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_macro.h" line="51" column="1" bodyfile="include/voice/voice_macro.h" bodystart="51" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_macro_step_1a3ad280a46683c7e66d47799ffe336375" prot="public" virt="non-virtual"><scope>themis::voice::MacroStep</scope><name>action</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_step_1adfe745b05c377479e648a7fa464b54bc" prot="public" virt="non-virtual"><scope>themis::voice::MacroStep</scope><name>parameters</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_step_1a896f983e101a867aa61872b6a145103c" prot="public" virt="non-virtual"><scope>themis::voice::MacroStep</scope><name>sub_steps</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_step_1afdce982509b3e97b404af7555386ee1e" prot="public" virt="non-virtual"><scope>themis::voice::MacroStep</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

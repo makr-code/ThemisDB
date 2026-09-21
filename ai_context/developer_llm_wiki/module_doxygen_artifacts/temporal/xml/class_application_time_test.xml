@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_application_time_test" kind="class" language="C++" prot="public">
+    <compoundname>ApplicationTimeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_application_time_test_1a3e1fae21c0ee3deb27c6b686171c6fcf" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref></type>
+        <definition>BiTemporalTable ApplicationTimeTest::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>ApplicationTimeTest::table</qualifiedname>
+        <initializer>{&quot;contracts&quot;, &quot;node_a&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_query_engine.cpp" line="380" column="21" bodyfile="tests/temporal/test_temporal_query_engine.cpp" bodystart="380" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_application_time_test_1a9a61de951ae954f279406407f67471a1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ApplicationTimeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ApplicationTimeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_query_engine.cpp" line="371" column="10" bodyfile="tests/temporal/test_temporal_query_engine.cpp" bodystart="371" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ApplicationTimeTest</label>
+        <link refid="class_application_time_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ApplicationTimeTest</label>
+        <link refid="class_application_time_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>table</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::BiTemporalTable</label>
+        <link refid="classthemisdb_1_1temporal_1_1_bi_temporal_table"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_query_engine.cpp" line="369" column="1" bodyfile="tests/temporal/test_temporal_query_engine.cpp" bodystart="369" bodyend="381"/>
+    <listofallmembers>
+      <member refid="class_application_time_test_1a9a61de951ae954f279406407f67471a1" prot="protected" virt="non-virtual"><scope>ApplicationTimeTest</scope><name>SetUp</name></member>
+      <member refid="class_application_time_test_1a3e1fae21c0ee3deb27c6b686171c6fcf" prot="protected" virt="non-virtual"><scope>ApplicationTimeTest</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

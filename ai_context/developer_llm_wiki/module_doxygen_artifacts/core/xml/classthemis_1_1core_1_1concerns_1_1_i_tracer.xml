@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_i_tracer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::concerns::ITracer</compoundname>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter" prot="public" virt="non-virtual">themis::core::concerns::JaegerTracerAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer" prot="public" virt="non-virtual">themis::core::concerns::NoOpTracer</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter" prot="public" virt="non-virtual">themis::core::concerns::OpenTelemetryTracerAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter" prot="public" virt="non-virtual">themis::core::concerns::ZipkinTracerAdapter</derivedcompoundref>
+    <includes refid="i__tracer_8h" local="no">i_tracer.h</includes>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" prot="public">themis::core::concerns::ITracer::ISpan</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1ab3c6a864f40c851a25c4d0118fa5ccd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::concerns::ITracer::~ITracer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITracer</name>
+        <qualifiedname>themis::core::concerns::ITracer::~ITracer</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer" kindref="compound">ITracer</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="90" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1ade5274037780d28fdaa149bb091f317d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::core::concerns::ITracer::startSpan</definition>
+        <argsstring>(const std::string &amp;name)=0</argsstring>
+        <name>startSpan</name>
+        <qualifiedname>themis::core::concerns::ITracer::startSpan</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a0180c1986979d78e9f142b48764753b0">startSpan</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a18cf9eea862853035ed9f7b02ccd5f3c">startSpan</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1ae04ff5ad5c56cb32a361fc304b45669b">startSpan</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1aeaa8b3a2e6d3cc4152a8555fe0e774f3">startSpan</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="96" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a5ea098dc9baf798a4272cc0cd09c4448" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::core::concerns::ITracer::startChildSpan</definition>
+        <argsstring>(const std::string &amp;name, const ISpan &amp;parent)=0</argsstring>
+        <name>startChildSpan</name>
+        <qualifiedname>themis::core::concerns::ITracer::startChildSpan</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ac8507bcfffcff9073e05d5ccc8903baa">startChildSpan</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1afc5480536dd49901399db8fcb32d63a5">startChildSpan</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1a2fcb6e2e2ebdee88b97c64d4a4ea7e36">startChildSpan</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1a2bb64dc51c43b0b49c3adec754c10898">startChildSpan</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="98" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a9f1315fac9d96be4e9b13920f9d59721" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::core::concerns::ITracer::startSpanFromHeaders</definition>
+        <argsstring>(const std::string &amp;name, const std::map&lt; std::string, std::string &gt; &amp;headers)</argsstring>
+        <name>startSpanFromHeaders</name>
+        <qualifiedname>themis::core::concerns::ITracer::startSpanFromHeaders</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ae3e04b754be92e8d0d121a711ddaa132">startSpanFromHeaders</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1a6e7907400ff94df520c39f5d03f60b5a">startSpanFromHeaders</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1aed6b5ba50692ff44fbee5863cd26a90b">startSpanFromHeaders</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="100" column="29" bodyfile="include/core/concerns/i_tracer.h" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a72a1f3e019ae0887da0a5b183ad30d8c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ITracer::injectContext</definition>
+        <argsstring>(std::map&lt; std::string, std::string &gt; &amp;headers)</argsstring>
+        <name>injectContext</name>
+        <qualifiedname>themis::core::concerns::ITracer::injectContext</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ae0a9ddb37fcab9f66a166bafecfd1e30">injectContext</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1a973be4b2b524b70cf38ce783ebc38089">injectContext</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1a77f02d177303aa1c65c984c278ab9ddc">injectContext</reimplementedby>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="107" column="18" bodyfile="include/core/concerns/i_tracer.h" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a480e61380517bbc332934eb9e128c1a4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::concerns::ITracer::initialize</definition>
+        <argsstring>(const std::string &amp;serviceName, const std::string &amp;endpoint)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::core::concerns::ITracer::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a4abae67f9ff117442bed6f88c9b1c66b">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a118f4ef5712e15cd0d21633b11e8e6d6">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1a379f0f8bad87b3e6353a8887b5b0fbea">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1ac7c922b3299e3ef9a1bc8505406de583">initialize</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serviceName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="115" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a67ca225528cabbbbe0053038eebd6210" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ITracer::shutdown</definition>
+        <argsstring>()=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::ITracer::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1adba938a70d2f6e2bb8d290fa17e0a6d2">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1acba86aceb2241ab606650adc9d2756cc">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1a828d44f017c9bc7386680a7cca9b5f08">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1aa11c2591fcac7f67a2a74fe0b4a461da">shutdown</reimplementedby>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="120" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a6a32f83bcc54bc627427ff4ce8a4d34c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::concerns::ITracer::isInitialized</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::core::concerns::ITracer::isInitialized</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1aefe030dfb0b812f86536e288973b5069">isInitialized</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a8190ba822b73240c57155f24d13b1a31">isInitialized</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1a44c37110cfe593742b989874c7789ffb">isInitialized</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1adde9da8089124a344038daa6f7ea7320">isInitialized</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="122" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a0002c4a9f062583e107b625f37ac832e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ITracer::flush</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::ITracer::flush</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ab7cef993eec073be2f7b4d3ac8be434c">flush</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1af9136302480731abcbc2a16db353b33f">flush</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1af66723264159157c1ac8d2c3de465b45">flush</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1acfecd2a67d9e0c6417bded6de5a105a2">flush</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="128" column="18" bodyfile="include/core/concerns/i_tracer.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a70e24d90a3bfab09b431c70e22e799b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>virtual ProbeResult themis::core::concerns::ITracer::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::ITracer::isHealthy</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a702c7dad67b7aaee77872623f53b4b8f">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1a2e5abe598a34e9822882906554d6d90e">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter_1aff2a1ba47c51d9b3e79dc20251350da2">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1ae7478f06b61eb22ea1df8e907945cb1f">isHealthy</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="130" column="25" bodyfile="include/core/concerns/i_tracer.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::core::concerns::ITracer</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer"/>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::JaegerTracerAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::core::concerns::NoOpTracer</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::core::concerns::OpenTelemetryTracerAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::core::concerns::ZipkinTracerAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/core/concerns/i_tracer.h" line="22" column="1" bodyfile="include/core/concerns/i_tracer.h" bodystart="22" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a0002c4a9f062583e107b625f37ac832e" prot="public" virt="virtual"><scope>themis::core::concerns::ITracer</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a480e61380517bbc332934eb9e128c1a4" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ITracer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a72a1f3e019ae0887da0a5b183ad30d8c" prot="public" virt="virtual"><scope>themis::core::concerns::ITracer</scope><name>injectContext</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a70e24d90a3bfab09b431c70e22e799b3" prot="public" virt="virtual"><scope>themis::core::concerns::ITracer</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a6a32f83bcc54bc627427ff4ce8a4d34c" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ITracer</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a67ca225528cabbbbe0053038eebd6210" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ITracer</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a5ea098dc9baf798a4272cc0cd09c4448" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ITracer</scope><name>startChildSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1ade5274037780d28fdaa149bb091f317d" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ITracer</scope><name>startSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a9f1315fac9d96be4e9b13920f9d59721" prot="public" virt="virtual"><scope>themis::core::concerns::ITracer</scope><name>startSpanFromHeaders</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1ab3c6a864f40c851a25c4d0118fa5ccd1" prot="public" virt="virtual"><scope>themis::core::concerns::ITracer</scope><name>~ITracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

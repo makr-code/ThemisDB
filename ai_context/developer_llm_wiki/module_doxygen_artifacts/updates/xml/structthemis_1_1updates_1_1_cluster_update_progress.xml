@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_cluster_update_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ClusterUpdateProgress</compoundname>
+    <includes refid="cluster__update__manager_8h" local="no">cluster_update_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_progress_1a11a81214576761e0a9e59394507a98b9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ClusterUpdateProgress::total_nodes</definition>
+        <argsstring></argsstring>
+        <name>total_nodes</name>
+        <qualifiedname>themis::updates::ClusterUpdateProgress::total_nodes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of nodes participating in this update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="95" column="12" bodyfile="include/updates/cluster_update_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_progress_1a92a13dc23db8ceb7af290c511932dd81" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ClusterUpdateProgress::nodes_updated</definition>
+        <argsstring></argsstring>
+        <name>nodes_updated</name>
+        <qualifiedname>themis::updates::ClusterUpdateProgress::nodes_updated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Nodes that have reached COMPLETED state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="98" column="12" bodyfile="include/updates/cluster_update_manager.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_progress_1aa0302266bb62eed4734a03524ae5c8b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ClusterUpdateProgress::nodes_failed</definition>
+        <argsstring></argsstring>
+        <name>nodes_failed</name>
+        <qualifiedname>themis::updates::ClusterUpdateProgress::nodes_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Nodes that have reached FAILED or ROLLED_BACK state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="101" column="12" bodyfile="include/updates/cluster_update_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_progress_1aa3093e47442e0fbf644c3c5ddd49dc45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterUpdateProgress::current_node</definition>
+        <argsstring></argsstring>
+        <name>current_node</name>
+        <qualifiedname>themis::updates::ClusterUpdateProgress::current_node</qualifiedname>
+        <briefdescription>
+<para>Node ID currently being processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="104" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_progress_1a525f772ec7cb76ad22e3c2d6fb3debb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterUpdateProgress::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::updates::ClusterUpdateProgress::status</qualifiedname>
+        <briefdescription>
+<para>Human-readable status line. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="107" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_progress_1af1c544724c9b8b8f0da46ac90de83f3d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_cluster_node_status" kindref="compound">ClusterNodeStatus</ref> &gt;</type>
+        <definition>std::vector&lt;ClusterNodeStatus&gt; themis::updates::ClusterUpdateProgress::node_statuses</definition>
+        <argsstring></argsstring>
+        <name>node_statuses</name>
+        <qualifiedname>themis::updates::ClusterUpdateProgress::node_statuses</qualifiedname>
+        <briefdescription>
+<para>Per-node detail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="110" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot delivered to the progress callback after each node transitions to a new state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/cluster_update_manager.h" line="93" column="1" bodyfile="include/updates/cluster_update_manager.h" bodystart="93" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_progress_1aa3093e47442e0fbf644c3c5ddd49dc45" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateProgress</scope><name>current_node</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_progress_1af1c544724c9b8b8f0da46ac90de83f3d" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateProgress</scope><name>node_statuses</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_progress_1aa0302266bb62eed4734a03524ae5c8b5" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateProgress</scope><name>nodes_failed</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_progress_1a92a13dc23db8ceb7af290c511932dd81" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateProgress</scope><name>nodes_updated</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_progress_1a525f772ec7cb76ad22e3c2d6fb3debb3" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateProgress</scope><name>status</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_progress_1a11a81214576761e0a9e59394507a98b9" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateProgress</scope><name>total_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

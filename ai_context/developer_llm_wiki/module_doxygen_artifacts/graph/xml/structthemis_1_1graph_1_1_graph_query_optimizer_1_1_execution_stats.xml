@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::ExecutionStats</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a942c0bcfd872d1e7adc75b18ffa49757" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::ExecutionStats::nodes_explored</definition>
+        <argsstring></argsstring>
+        <name>nodes_explored</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::nodes_explored</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="262" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1ac0b1ee81ea45e0194574332a76c33cff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::ExecutionStats::edges_traversed</definition>
+        <argsstring></argsstring>
+        <name>edges_traversed</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::edges_traversed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="263" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a8fc2213e5bf63fc444826fe31b7d180a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::ExecutionStats::paths_found</definition>
+        <argsstring></argsstring>
+        <name>paths_found</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::paths_found</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="264" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a403ba61bc4b50f7fc6bab004a51a6646" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::ExecutionStats::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="265" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a325a79f3da196fb8e810ad2d0b54e970" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::ExecutionStats::max_depth_reached</definition>
+        <argsstring></argsstring>
+        <name>max_depth_reached</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::max_depth_reached</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="266" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1adb185723030f871e7939a2a7bd820c3e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::ExecutionStats::avg_branching_observed</definition>
+        <argsstring></argsstring>
+        <name>avg_branching_observed</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::avg_branching_observed</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="267" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a24cf76435b6ee1cae2fa367f175ed28b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::ExecutionStats::early_terminated</definition>
+        <argsstring></argsstring>
+        <name>early_terminated</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::early_terminated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="268" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a6efff5ec8aa51e0e7a73576d0086ec7f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::ExecutionStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="269" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1afcc099203226cf608ac9923975eb98e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::ExecutionStats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="270" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a1b8c3fad034d5685a19a06257ade580e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref></type>
+        <definition>TraversalAlgorithm themis::graph::GraphQueryOptimizer::ExecutionStats::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::algorithm</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56a838fea3c1a3e8dd6c22fe9605a701668" kindref="member">TraversalAlgorithm::BFS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="271" column="28" bodyfile="include/graph/graph_query_optimizer.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a68e8da6b0213e04513e2c3cad83ab6a6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::ExecutionStats::estimated_cost_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost_ms</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::ExecutionStats::estimated_cost_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="272" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="261" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="261" bodyend="273"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a1b8c3fad034d5685a19a06257ade580e" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1adb185723030f871e7939a2a7bd820c3e" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>avg_branching_observed</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a6efff5ec8aa51e0e7a73576d0086ec7f" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1afcc099203226cf608ac9923975eb98e8" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a24cf76435b6ee1cae2fa367f175ed28b" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>early_terminated</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1ac0b1ee81ea45e0194574332a76c33cff" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>edges_traversed</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a68e8da6b0213e04513e2c3cad83ab6a6" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>estimated_cost_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a403ba61bc4b50f7fc6bab004a51a6646" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a325a79f3da196fb8e810ad2d0b54e970" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>max_depth_reached</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a942c0bcfd872d1e7adc75b18ffa49757" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>nodes_explored</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats_1a8fc2213e5bf63fc444826fe31b7d180a" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::ExecutionStats</scope><name>paths_found</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1test_1_1_parent_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::test::ParentInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1_parent_info_1af9a6bfe9673c9b20593bbaf35650b530" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::test::ParentInfo::parent</definition>
+        <argsstring></argsstring>
+        <name>parent</name>
+        <qualifiedname>themis::server::test::ParentInfo::parent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_query_iterator_safety.cpp" line="28" column="17" bodyfile="tests/server/test_query_iterator_safety.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1_parent_info_1a3e6d87510e7860bcc21817edd758ffe9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::test::ParentInfo::edgeId</definition>
+        <argsstring></argsstring>
+        <name>edgeId</name>
+        <qualifiedname>themis::server::test::ParentInfo::edgeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_query_iterator_safety.cpp" line="29" column="17" bodyfile="tests/server/test_query_iterator_safety.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_query_iterator_safety.cpp" line="27" column="1" bodyfile="tests/server/test_query_iterator_safety.cpp" bodystart="27" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1test_1_1_parent_info_1a3e6d87510e7860bcc21817edd758ffe9" prot="public" virt="non-virtual"><scope>themis::server::test::ParentInfo</scope><name>edgeId</name></member>
+      <member refid="structthemis_1_1server_1_1test_1_1_parent_info_1af9a6bfe9673c9b20593bbaf35650b530" prot="public" virt="non-virtual"><scope>themis::server::test::ParentInfo</scope><name>parent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_k_g_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KGNode</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a04efd6f4987607f89085b15fd104f5fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::kg::KGNode::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::rag::kg::KGNode::id</qualifiedname>
+        <briefdescription>
+<para>Unique stable identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="77" column="30" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_node_1ab73192a2c677a3934d02f43cd208364c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::kg::KGNode::canonical_name</definition>
+        <argsstring></argsstring>
+        <name>canonical_name</name>
+        <qualifiedname>themis::rag::kg::KGNode::canonical_name</qualifiedname>
+        <briefdescription>
+<para>Preferred display name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="78" column="30" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a6b81a461892ea5a28fd0063d1c342b69" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::kg::KGNode::aliases</definition>
+        <argsstring></argsstring>
+        <name>aliases</name>
+        <qualifiedname>themis::rag::kg::KGNode::aliases</qualifiedname>
+        <briefdescription>
+<para>Alternative surface forms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="79" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_node_1aff208c6a54cbe175acda7e4ebc0acb44" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142d" kindref="member">EntityType</ref></type>
+        <definition>EntityType themis::rag::kg::KGNode::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::rag::kg::KGNode::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="structthemis_1_1rag_1_1kg_1_1_entity" kindref="compound">Entity</ref> type </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="80" column="30" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a22559f1dcfd116dfaf89b3e9f082ad77" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::kg::KGNode::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::rag::kg::KGNode::properties</qualifiedname>
+        <briefdescription>
+<para>Arbitrary key-value metadata (e.g. description, source, external URI). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="82" column="24" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A node in the knowledge graph representing a canonical entity. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="76" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="76" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a6b81a461892ea5a28fd0063d1c342b69" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGNode</scope><name>aliases</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1ab73192a2c677a3934d02f43cd208364c" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGNode</scope><name>canonical_name</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a04efd6f4987607f89085b15fd104f5fb" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGNode</scope><name>id</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a22559f1dcfd116dfaf89b3e9f082ad77" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGNode</scope><name>properties</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1aff208c6a54cbe175acda7e4ebc0acb44" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGNode</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

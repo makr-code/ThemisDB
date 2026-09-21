@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_query_cost_estimate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::QueryCostEstimate</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_query_cost_estimate_1a7797934af24088134a31eef009970650" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::QueryCostEstimate::shard_count</definition>
+        <argsstring></argsstring>
+        <name>shard_count</name>
+        <qualifiedname>themis::sharding::QueryCostEstimate::shard_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="345" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="345" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_query_cost_estimate_1a0bf6d8aba77254d6eb5d9ee863756ee5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::QueryCostEstimate::estimated_rows</definition>
+        <argsstring></argsstring>
+        <name>estimated_rows</name>
+        <qualifiedname>themis::sharding::QueryCostEstimate::estimated_rows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="346" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="346" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_query_cost_estimate_1ae447dcda624c191d300bff07076492a9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::QueryCostEstimate::network_hops</definition>
+        <argsstring></argsstring>
+        <name>network_hops</name>
+        <qualifiedname>themis::sharding::QueryCostEstimate::network_hops</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="347" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="347" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Routing cost estimate for a query plan. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="344" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="344" bodyend="348"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_query_cost_estimate_1a0bf6d8aba77254d6eb5d9ee863756ee5" prot="public" virt="non-virtual"><scope>themis::sharding::QueryCostEstimate</scope><name>estimated_rows</name></member>
+      <member refid="structthemis_1_1sharding_1_1_query_cost_estimate_1ae447dcda624c191d300bff07076492a9" prot="public" virt="non-virtual"><scope>themis::sharding::QueryCostEstimate</scope><name>network_hops</name></member>
+      <member refid="structthemis_1_1sharding_1_1_query_cost_estimate_1a7797934af24088134a31eef009970650" prot="public" virt="non-virtual"><scope>themis::sharding::QueryCostEstimate</scope><name>shard_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

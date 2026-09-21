@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_complexity_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::ComplexityMetrics</compoundname>
+    <includes refid="nlp__text__analyzer_8h" local="no">nlp_text_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_complexity_metrics_1ad522c1621c66f1027a3e9e36de2ef7a2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ComplexityMetrics::word_count</definition>
+        <argsstring></argsstring>
+        <name>word_count</name>
+        <qualifiedname>themis::analytics::ComplexityMetrics::word_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total words. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="78" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_complexity_metrics_1ac72ff4bc8f593ab2b1982bfcfbb6cef1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ComplexityMetrics::sentence_count</definition>
+        <argsstring></argsstring>
+        <name>sentence_count</name>
+        <qualifiedname>themis::analytics::ComplexityMetrics::sentence_count</qualifiedname>
+        <briefdescription>
+<para>Total sentences. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="79" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_complexity_metrics_1aad75e1e6cf70bd9b9585dbb46a532415" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ComplexityMetrics::unique_words</definition>
+        <argsstring></argsstring>
+        <name>unique_words</name>
+        <qualifiedname>themis::analytics::ComplexityMetrics::unique_words</qualifiedname>
+        <briefdescription>
+<para>Unique word count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="80" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_complexity_metrics_1a5c61865c86711d7dbc601a337c371fcb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::ComplexityMetrics::avg_word_length</definition>
+        <argsstring></argsstring>
+        <name>avg_word_length</name>
+        <qualifiedname>themis::analytics::ComplexityMetrics::avg_word_length</qualifiedname>
+        <briefdescription>
+<para>Average word length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="81" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_complexity_metrics_1a65d730a9eaa3fe049b7144e1328a83e7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::ComplexityMetrics::avg_sentence_length</definition>
+        <argsstring></argsstring>
+        <name>avg_sentence_length</name>
+        <qualifiedname>themis::analytics::ComplexityMetrics::avg_sentence_length</qualifiedname>
+        <briefdescription>
+<para>Average sentence length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="82" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_complexity_metrics_1abe109b8de8c8e668354ebd7306515876" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::ComplexityMetrics::lexical_diversity</definition>
+        <argsstring></argsstring>
+        <name>lexical_diversity</name>
+        <qualifiedname>themis::analytics::ComplexityMetrics::lexical_diversity</qualifiedname>
+        <briefdescription>
+<para>Unique words / total words. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="83" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_complexity_metrics_1a93bc17d3657e99e2d0b8850c08f7f72b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ComplexityMetrics::complex_words</definition>
+        <argsstring></argsstring>
+        <name>complex_words</name>
+        <qualifiedname>themis::analytics::ComplexityMetrics::complex_words</qualifiedname>
+        <briefdescription>
+<para>Words with 3+ syllables. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="84" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_complexity_metrics_1a0ae511d8e170cfd9d7fb5e7d860843d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::ComplexityMetrics::ComplexityMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>ComplexityMetrics</name>
+        <qualifiedname>themis::analytics::ComplexityMetrics::ComplexityMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="86" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/nlp_text_analyzer.h" line="77" column="1" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="77" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_complexity_metrics_1a65d730a9eaa3fe049b7144e1328a83e7" prot="public" virt="non-virtual"><scope>themis::analytics::ComplexityMetrics</scope><name>avg_sentence_length</name></member>
+      <member refid="structthemis_1_1analytics_1_1_complexity_metrics_1a5c61865c86711d7dbc601a337c371fcb" prot="public" virt="non-virtual"><scope>themis::analytics::ComplexityMetrics</scope><name>avg_word_length</name></member>
+      <member refid="structthemis_1_1analytics_1_1_complexity_metrics_1a93bc17d3657e99e2d0b8850c08f7f72b" prot="public" virt="non-virtual"><scope>themis::analytics::ComplexityMetrics</scope><name>complex_words</name></member>
+      <member refid="structthemis_1_1analytics_1_1_complexity_metrics_1a0ae511d8e170cfd9d7fb5e7d860843d2" prot="public" virt="non-virtual"><scope>themis::analytics::ComplexityMetrics</scope><name>ComplexityMetrics</name></member>
+      <member refid="structthemis_1_1analytics_1_1_complexity_metrics_1abe109b8de8c8e668354ebd7306515876" prot="public" virt="non-virtual"><scope>themis::analytics::ComplexityMetrics</scope><name>lexical_diversity</name></member>
+      <member refid="structthemis_1_1analytics_1_1_complexity_metrics_1ac72ff4bc8f593ab2b1982bfcfbb6cef1" prot="public" virt="non-virtual"><scope>themis::analytics::ComplexityMetrics</scope><name>sentence_count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_complexity_metrics_1aad75e1e6cf70bd9b9585dbb46a532415" prot="public" virt="non-virtual"><scope>themis::analytics::ComplexityMetrics</scope><name>unique_words</name></member>
+      <member refid="structthemis_1_1analytics_1_1_complexity_metrics_1ad522c1621c66f1027a3e9e36de2ef7a2" prot="public" virt="non-virtual"><scope>themis::analytics::ComplexityMetrics</scope><name>word_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

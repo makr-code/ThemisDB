@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::RAGJudge::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1aa0d49ec586e09bbc579007cfbfba9e06" prot="public" static="no" mutable="no">
+        <type>RAGJudgeConfig</type>
+        <definition>RAGJudgeConfig themis::rag::judge::RAGJudge::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="40" column="20" bodyfile="src/rag/rag_judge.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a8acf26c5e170095252cb987645db3dd8" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const EvaluationResult&amp;)&gt; themis::rag::judge::RAGJudge::Impl::eval_callback</definition>
+        <argsstring></argsstring>
+        <name>eval_callback</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::eval_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="41" column="19" bodyfile="src/rag/rag_judge.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1ac818e029bd9d7af3c8eb9a47fd17e646" prot="public" static="no" mutable="no">
+        <type>PromptTemplateManager</type>
+        <definition>PromptTemplateManager themis::rag::judge::RAGJudge::Impl::template_manager</definition>
+        <argsstring></argsstring>
+        <name>template_manager</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::template_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="44" column="27" bodyfile="src/rag/rag_judge.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1ad5c2ec71340065a7ab6ee7d01a8cbf0a" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; LLMJudgeIntegration &gt;</type>
+        <definition>std::unique_ptr&lt;LLMJudgeIntegration&gt; themis::rag::judge::RAGJudge::Impl::llm_integration</definition>
+        <argsstring></argsstring>
+        <name>llm_integration</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::llm_integration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="45" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a0782e80bef3df2fbbda4f2da5de7cb29" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; LLMJudgeClient &gt;</type>
+        <definition>std::shared_ptr&lt;LLMJudgeClient&gt; themis::rag::judge::RAGJudge::Impl::llm_judge_client</definition>
+        <argsstring></argsstring>
+        <name>llm_judge_client</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::llm_judge_client</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="48" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1acf60180e6e928377bca81faaf7b48381" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::judge::RAGJudge::Impl::llm_judge_client_initialized</definition>
+        <argsstring></argsstring>
+        <name>llm_judge_client_initialized</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::llm_judge_client_initialized</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="49" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a1dc4a3fbe02de63b46a7ba259e7e0382" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; NLIFaithfulnessVerifier &gt;</type>
+        <definition>std::shared_ptr&lt;NLIFaithfulnessVerifier&gt; themis::rag::judge::RAGJudge::Impl::nli_verifier</definition>
+        <argsstring></argsstring>
+        <name>nli_verifier</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::nli_verifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="52" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1af73c997f409d20b0f49609abef925f61" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::judge::RAGJudge::Impl::nli_verifier_initialized</definition>
+        <argsstring></argsstring>
+        <name>nli_verifier_initialized</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::nli_verifier_initialized</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="53" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a68366225d342783ff60b95a36d363022" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; FaithfulnessEvaluator &gt;</type>
+        <definition>std::unique_ptr&lt;FaithfulnessEvaluator&gt; themis::rag::judge::RAGJudge::Impl::faithfulness_eval</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_eval</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::faithfulness_eval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="56" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a81a2bf836ffa7f54aba35c6ae03253c0" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RelevanceEvaluator &gt;</type>
+        <definition>std::unique_ptr&lt;RelevanceEvaluator&gt; themis::rag::judge::RAGJudge::Impl::relevance_eval</definition>
+        <argsstring></argsstring>
+        <name>relevance_eval</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::relevance_eval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="57" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a2c571a51e6bb474fec1de9d8c6bbec13" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; CompletenessEvaluator &gt;</type>
+        <definition>std::unique_ptr&lt;CompletenessEvaluator&gt; themis::rag::judge::RAGJudge::Impl::completeness_eval</definition>
+        <argsstring></argsstring>
+        <name>completeness_eval</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::completeness_eval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="58" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a076a89ba9f24add2f2900f618297c6af" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; CoherenceEvaluator &gt;</type>
+        <definition>std::unique_ptr&lt;CoherenceEvaluator&gt; themis::rag::judge::RAGJudge::Impl::coherence_eval</definition>
+        <argsstring></argsstring>
+        <name>coherence_eval</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::coherence_eval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="59" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a112daf53d708ddd3761d4b26fb113978" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector" kindref="compound">security::PromptInjectionDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;security::PromptInjectionDetector&gt; themis::rag::judge::RAGJudge::Impl::injection_detector</definition>
+        <argsstring></argsstring>
+        <name>injection_detector</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::injection_detector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="62" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a0d68198559dabc063b55ea0bde7d508a" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer" kindref="compound">security::PromptInjectionSanitizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;security::PromptInjectionSanitizer&gt; themis::rag::judge::RAGJudge::Impl::injection_sanitizer</definition>
+        <argsstring></argsstring>
+        <name>injection_sanitizer</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::injection_sanitizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="63" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a4761b43f202337bf6a4bbf73b1b814f7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::judge::RAGJudge::Impl::injection_detector_initialized</definition>
+        <argsstring></argsstring>
+        <name>injection_detector_initialized</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::injection_detector_initialized</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="64" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a8aae4c9439e0099a1ad411426043ed0c" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; BiasDetector &gt;</type>
+        <definition>std::unique_ptr&lt;BiasDetector&gt; themis::rag::judge::RAGJudge::Impl::bias_detector</definition>
+        <argsstring></argsstring>
+        <name>bias_detector</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::bias_detector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="67" column="21" bodyfile="src/rag/rag_judge.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1aeed866f28fad77b22694eab61c508d12" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt;</type>
+        <definition>std::vector&lt;EvaluationResult&gt; themis::rag::judge::RAGJudge::Impl::eval_history</definition>
+        <argsstring></argsstring>
+        <name>eval_history</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::eval_history</qualifiedname>
+        <briefdescription>
+<para>for bias analysis </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="68" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a8aa23689d52aadc19b55f0e725f98420" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; double, size_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;double, size_t&gt; &gt; themis::rag::judge::RAGJudge::Impl::score_length_pairs</definition>
+        <argsstring></argsstring>
+        <name>score_length_pairs</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::score_length_pairs</qualifiedname>
+        <briefdescription>
+<para>for length bias </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="69" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a5bd759d25c21019c20aac007acbf810c" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, EvaluationResult&gt; themis::rag::judge::RAGJudge::Impl::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="72" column="24" bodyfile="src/rag/rag_judge.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1ad423ee025fbdea3104f753cdbe6c9608" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1rag_1_1security_1_1_injection_finding" kindref="compound">security::InjectionFinding</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;security::InjectionFinding&gt; &gt; themis::rag::judge::RAGJudge::Impl::injection_cache</definition>
+        <argsstring></argsstring>
+        <name>injection_cache</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::injection_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="73" column="24" bodyfile="src/rag/rag_judge.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a48d3d956f0a09b15b0fe254397d63614" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::RAGJudge::Impl::cache_mutex</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::cache_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="74" column="24" bodyfile="src/rag/rag_judge.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a91ace0eebb686ff80769945bd718d647" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::RAGJudge::Impl::injection_cache_mutex</definition>
+        <argsstring></argsstring>
+        <name>injection_cache_mutex</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::injection_cache_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="75" column="24" bodyfile="src/rag/rag_judge.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a7f5a24ee23507a0d1f9d1b73c7bd8bf8" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::RAGJudge::Impl::bias_history_mutex</definition>
+        <argsstring></argsstring>
+        <name>bias_history_mutex</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::bias_history_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="76" column="24" bodyfile="src/rag/rag_judge.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a861aaf21fbf91d5b05700a870fbe35fe" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::RAGJudge::Impl::callback_mutex</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::callback_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="77" column="24" bodyfile="src/rag/rag_judge.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1afc16b25e2ab5e1f57fe6941616c453b5" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::RAGJudge::Impl::config_mutex</definition>
+        <argsstring></argsstring>
+        <name>config_mutex</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::config_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="78" column="24" bodyfile="src/rag/rag_judge.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a62208175b9669bd29362709801beb664" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGJudge::Impl::computeCacheKey</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>computeCacheKey</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::computeCacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="80" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1acddb27f54e95e831ea45ce642bc4e8bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGJudge::Impl::computeInjectionCacheKey</definition>
+        <argsstring>(const std::vector&lt; RetrievedDocument &gt; &amp;documents) const</argsstring>
+        <name>computeInjectionCacheKey</name>
+        <qualifiedname>themis::rag::adversarial::RAGJudge::Impl::computeInjectionCacheKey</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="90" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="90" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::adversarial::RAGJudge::Impl</label>
+        <link refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>template_manager</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::PromptTemplateManager</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_prompt_template_manager"/>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::RAGJudgeConfig</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/rag_judge.cpp" line="39" column="1" bodyfile="src/rag/rag_judge.cpp" bodystart="39" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a8aae4c9439e0099a1ad411426043ed0c" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>bias_detector</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a7f5a24ee23507a0d1f9d1b73c7bd8bf8" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>bias_history_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a5bd759d25c21019c20aac007acbf810c" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>cache</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a48d3d956f0a09b15b0fe254397d63614" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>cache_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a861aaf21fbf91d5b05700a870fbe35fe" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>callback_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a076a89ba9f24add2f2900f618297c6af" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>coherence_eval</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a2c571a51e6bb474fec1de9d8c6bbec13" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>completeness_eval</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a62208175b9669bd29362709801beb664" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>computeCacheKey</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1acddb27f54e95e831ea45ce642bc4e8bb" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>computeInjectionCacheKey</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1aa0d49ec586e09bbc579007cfbfba9e06" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1afc16b25e2ab5e1f57fe6941616c453b5" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>config_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a8acf26c5e170095252cb987645db3dd8" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>eval_callback</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1aeed866f28fad77b22694eab61c508d12" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>eval_history</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a68366225d342783ff60b95a36d363022" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>faithfulness_eval</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1ad423ee025fbdea3104f753cdbe6c9608" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>injection_cache</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a91ace0eebb686ff80769945bd718d647" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>injection_cache_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a112daf53d708ddd3761d4b26fb113978" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>injection_detector</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a4761b43f202337bf6a4bbf73b1b814f7" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>injection_detector_initialized</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a0d68198559dabc063b55ea0bde7d508a" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>injection_sanitizer</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1ad5c2ec71340065a7ab6ee7d01a8cbf0a" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>llm_integration</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a0782e80bef3df2fbbda4f2da5de7cb29" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>llm_judge_client</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1acf60180e6e928377bca81faaf7b48381" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>llm_judge_client_initialized</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a1dc4a3fbe02de63b46a7ba259e7e0382" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>nli_verifier</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1af73c997f409d20b0f49609abef925f61" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>nli_verifier_initialized</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a81a2bf836ffa7f54aba35c6ae03253c0" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>relevance_eval</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1a8aa23689d52aadc19b55f0e725f98420" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>score_length_pairs</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge_1_1_impl_1ac818e029bd9d7af3c8eb9a47fd17e646" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RAGJudge::Impl</scope><name>template_manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

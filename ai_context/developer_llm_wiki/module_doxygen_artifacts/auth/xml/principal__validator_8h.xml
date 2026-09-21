@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="principal__validator_8h" kind="file" language="C++">
+    <compoundname>principal_validator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">regex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="principal__validator_8cpp" local="yes">src/auth/principal_validator.cpp</includedby>
+    <includedby refid="test__auth__audit__logger_8cpp" local="yes">tests/auth/test_auth_audit_logger.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/principal_validator.h</label>
+        <link refid="principal__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>regex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/principal_validator.h</label>
+        <link refid="principal__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/principal_validator.cpp</label>
+        <link refid="principal__validator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/auth/test_auth_audit_logger.cpp</label>
+        <link refid="test__auth__audit__logger_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1_principal_validator" prot="public">themis::auth::PrincipalValidator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" prot="public">themis::auth::PrincipalValidator::Rule</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule" prot="public">themis::auth::PrincipalValidator::MappingRule</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context" prot="public">themis::auth::PrincipalValidator::ValidationContext</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result" prot="public">themis::auth::PrincipalValidator::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" prot="public">themis::auth::PrincipalValidator::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" prot="public">themis::auth::PrincipalValidator::Statistics</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_principal_validator_presets" prot="public">themis::auth::PrincipalValidatorPresets</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;<sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PolicyEngine;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1auth_1_1_principal_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_principal_validator_1a7b3708403145dacb9bb3f1ae709d259c" kindref="member">PrincipalValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88" kindref="member">RuleType</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88adae9872c1b9c27810241dd18aedfc173" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88adae9872c1b9c27810241dd18aedfc173" kindref="member">WHITELIST</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicitly<sp/>allow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88a7c70757b78984c0990d99dc3524395ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88a7c70757b78984c0990d99dc3524395ef" kindref="member">BLACKLIST</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicitly<sp/>deny</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88ad6755acdb0e43aa4f108e33ad4432c0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88ad6755acdb0e43aa4f108e33ad4432c0f" kindref="member">REGEX_MATCH</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>match<sp/>regex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88a07ae4d97c96f2c88d54384af928b66ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88a07ae4d97c96f2c88d54384af928b66ce" kindref="member">REGEX_DENY</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>match<sp/>regex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" kindref="compound">Rule</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1ae0c3203560a4b535e477bd66bad8f871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88" kindref="member">RuleType</ref><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1ae0c3203560a4b535e477bd66bad8f871" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a5ed57f69a4b57ed6683ecd85bb2cd327" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a5ed57f69a4b57ed6683ecd85bb2cd327" kindref="member">pattern</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exact<sp/>match<sp/>or<sp/>regex<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a8bda27928d382238fd05cbcf2e0de65c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a8bda27928d382238fd05cbcf2e0de65c" kindref="member">is_regex</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>pattern<sp/>is<sp/>regex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1aaad067b37324241650e824684275ed0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1aaad067b37324241650e824684275ed0c" kindref="member">priority</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>priority<sp/>rules<sp/>evaluated<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1aa4c1f81deb1f23c54c04660dc71c2785" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1aa4c1f81deb1f23c54c04660dc71c2785" kindref="member">description</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Human-readable<sp/>rule<sp/>description</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compiled<sp/>regex<sp/>(if<sp/>is_regex<sp/>=<sp/>true)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a6cda2fea2efa999b55212eba5ab19e6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::optional&lt;std::regex&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a6cda2fea2efa999b55212eba5ab19e6f" kindref="member">compiled_regex</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule" kindref="compound">MappingRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1af1bf4ecea56c0e2ae60832cb7dcd3091" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1af1bf4ecea56c0e2ae60832cb7dcd3091" kindref="member">principal_pattern</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Exact<sp/>match<sp/>or<sp/>regex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1a18bfed01897c58ee0708e6a6cc5990a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1a18bfed01897c58ee0708e6a6cc5990a2" kindref="member">is_regex</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1a2248523f24c2000c0cd08423cf7351f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1a2248523f24c2000c0cd08423cf7351f0" kindref="member">roles</ref>;<sp/></highlight><highlight class="comment">//<sp/>Roles<sp/>to<sp/>assign</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1ad0480f0f0ff80c2b49452cdc3ba268ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1ad0480f0f0ff80c2b49452cdc3ba268ca" kindref="member">priority</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>priority<sp/>evaluated<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1a3b91abff227dc02b7a7d2ae89b210972" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::optional&lt;std::regex&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule_1a3b91abff227dc02b7a7d2ae89b210972" kindref="member">compiled_regex</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context" kindref="compound">ValidationContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1acd75c2b02a3c0de72d3ef29b5e1f9a83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1acd75c2b02a3c0de72d3ef29b5e1f9a83" kindref="member">ip_address</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a251c233465487991acc230e08740f30a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a251c233465487991acc230e08740f30a" kindref="member">user_agent</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a6330787dfe7e3e41151ddd6de63c5e6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a6330787dfe7e3e41151ddd6de63c5e6b" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a2165b5672a15aab7617b0fce64ae7ac7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a2165b5672a15aab7617b0fce64ae7ac7" kindref="member">resource</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1abe40c793b923e318f582b356f1f0390e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1abe40c793b923e318f582b356f1f0390e" kindref="member">attributes</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1a3de42a9947c10b37aaf39fe7026591ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1a3de42a9947c10b37aaf39fe7026591ca" kindref="member">allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1aa6f04b903d4179787baf5af3163de8a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1aa6f04b903d4179787baf5af3163de8a5" kindref="member">principal</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1a3fae0d7b1d46f931fb7a7e2ca34e1e28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1a3fae0d7b1d46f931fb7a7e2ca34e1e28" kindref="member">roles</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1acebedee550616cf18a4619e0314f6d4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1acebedee550616cf18a4619e0314f6d4e" kindref="member">denial_reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>not<sp/>allowed,<sp/>why?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1ab4480c740945b502220dbb931842fc65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1ab4480c740945b502220dbb931842fc65" kindref="member">matched_rule</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Which<sp/>rule<sp/>matched</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1ad4504c8e41b1da2507e1d61f0090f2f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1ad4504c8e41b1da2507e1d61f0090f2f0" kindref="member">abac_policy_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Matched<sp/>ABAC<sp/>policy<sp/>id<sp/>(if<sp/>ABAC<sp/>evaluated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>action<sp/>if<sp/>no<sp/>rules<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1aa6c92dc657c6b69b6166bc2ff360fd7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1aa6c92dc657c6b69b6166bc2ff360fd7b" kindref="member">default_allow</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>audit<sp/>logging<sp/>for<sp/>all<sp/>validation<sp/>decisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1af9ca99bf4bd521e96d6ec54b3bb17f3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1af9ca99bf4bd521e96d6ec54b3bb17f3f" kindref="member">enable_audit_logging</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Case-sensitive<sp/>matching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1ab2c82b4d27a1263a93fc8c48952e9e7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1ab2c82b4d27a1263a93fc8c48952e9e7c" kindref="member">case_sensitive</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>rules<sp/>(evaluated<sp/>in<sp/>priority<sp/>order)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1a2aea5e5aaccf100cc9f1c3fd4ea8868b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Rule&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1a2aea5e5aaccf100cc9f1c3fd4ea8868b" kindref="member">rules</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Principal-to-role<sp/>mapping<sp/>rules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1a820b25b0332ec89ee872e8c2268f686f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;MappingRule&gt;<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1a820b25b0332ec89ee872e8c2268f686f" kindref="member">mapping_rules</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1a476fccb35bd0c630c7acff7fd7055871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1a476fccb35bd0c630c7acff7fd7055871" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a7b3708403145dacb9bb3f1ae709d259c" kindref="member">PrincipalValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1a476fccb35bd0c630c7acff7fd7055871" kindref="member">Config::defaults</ref>());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1auth_1_1_principal_validator_1ab0b65aeca48daa18345e869c41f59f35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1ab0b65aeca48daa18345e869c41f59f35" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger)<sp/>{<sp/>audit_logger_<sp/>=<sp/>logger;<sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1auth_1_1_principal_validator_1ad42c33f8318f9ad07af3de53b038e28e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1ad42c33f8318f9ad07af3de53b038e28e" kindref="member">setAbacEngine</ref>(PolicyEngine*<sp/>engine)<sp/>{<sp/>abac_engine_<sp/>=<sp/>engine;<sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1auth_1_1_principal_validator_1afd8c1f3f49a10572b8a7f485f71c8fb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PolicyEngine*<sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1afd8c1f3f49a10572b8a7f485f71c8fb5" kindref="member">getAbacEngine</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>abac_engine_;<sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ValidationResult<sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1adc85daae8528c8c44a0a56b9c77c2b83" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ValidationContext&amp;<sp/>ctx<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1ad4d1d57d3db04f381843f81941c1a623" kindref="member">addRule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Rule&amp;<sp/>rule);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a0dab521700d6434be51e595cbd8dd311" kindref="member">addMappingRule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MappingRule&amp;<sp/>rule);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a34e487a28aff2dcbf3882537b79165f3" kindref="member">clearRules</ref>(<ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88" kindref="member">RuleType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1auth_1_1_principal_validator_1ae352d103f0a33302628fd1869d879381" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1ae352d103f0a33302628fd1869d879381" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a23331694da36be1b9453997e9375c676" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a23331694da36be1b9453997e9375c676" kindref="member">total_validations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a91e9873dcb900e7a1eb33906a46cf724" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a91e9873dcb900e7a1eb33906a46cf724" kindref="member">allowed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a0ae367be0e76579ce307f7e662bcf558" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a0ae367be0e76579ce307f7e662bcf558" kindref="member">denied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1ac57d99f2afdb8d6669654a96d23b44a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1ac57d99f2afdb8d6669654a96d23b44a7" kindref="member">blacklisted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a213d354637742e7e6d7b8573ee27618e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a213d354637742e7e6d7b8573ee27618e" kindref="member">whitelisted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a6df7af0df08428efee94673757f861f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a6df7af0df08428efee94673757f861f6" kindref="member">default_allow</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1abe37a94ef54e898e50be5d1a3ab6020e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1abe37a94ef54e898e50be5d1a3ab6020e" kindref="member">default_deny</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_1a7969c6ab02cb167bddc594734fec1c4f" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" kindref="compound">Statistics</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>PolicyEngine*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>abac_engine_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>matchesRule(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Rule&amp;<sp/>rule)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>matchesMappingRule(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MappingRule&amp;<sp/>rule)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>applyMappingRules(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>audit<sp/>trail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logAudit(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ValidationResult&amp;<sp/>result)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>compileRegex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Rule&amp;<sp/>rule)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>compileRegex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MappingRule&amp;<sp/>rule)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1auth_1_1_principal_validator_presets" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_principal_validator_presets" kindref="compound">PrincipalValidatorPresets</ref><sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator" kindref="compound">PrincipalValidator</ref><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_presets_1aff46d9bfb2bbe74058cd5978a082f2bc" kindref="member">realmRestricted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>realm);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator" kindref="compound">PrincipalValidator</ref><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_presets_1a729229daec70b30e79b6f8a174faec43" kindref="member">withBlacklist</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>blocked_principals);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator" kindref="compound">PrincipalValidator</ref><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_presets_1a2f25e43ebf725619cf85bd7566ad274d" kindref="member">withWhitelist</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>allowed_principals);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator" kindref="compound">PrincipalValidator</ref><sp/><ref refid="classthemis_1_1auth_1_1_principal_validator_presets_1aa4d3f462f153c9c1384a6a8738690111" kindref="member">enterpriseStandard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>realm);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/principal_validator.h"/>
+  </compounddef>
+</doxygen>

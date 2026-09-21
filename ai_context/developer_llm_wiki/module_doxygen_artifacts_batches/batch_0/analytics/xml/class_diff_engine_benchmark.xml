@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_diff_engine_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>DiffEngineBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_diff_engine_benchmark_1a7334a4631788e164665a3e556507efde" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DiffEngineBenchmark::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>DiffEngineBenchmark::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_diff_engine.cpp" line="64" column="17" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_diff_engine_benchmark_1a1482a47b73dfef6990e3db30a05047ce" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; DiffEngineBenchmark::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>DiffEngineBenchmark::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_diff_engine.cpp" line="65" column="21" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_diff_engine_benchmark_1a4d9cb7e52b28fa6bf6bc8502eee848fb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Changefeed &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; DiffEngineBenchmark::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>DiffEngineBenchmark::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_diff_engine.cpp" line="66" column="21" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_diff_engine_benchmark_1ab9c1f11045f941851aeab8e301c361fa" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1_diff_engine" kindref="compound">DiffEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DiffEngine&gt; DiffEngineBenchmark::diff_engine_</definition>
+        <argsstring></argsstring>
+        <name>diff_engine_</name>
+        <qualifiedname>DiffEngineBenchmark::diff_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_diff_engine.cpp" line="67" column="21" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_diff_engine_benchmark_1a82807394fa41953eec053457c0819692" prot="protected" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t DiffEngineBenchmark::latest_sequence_</definition>
+        <argsstring></argsstring>
+        <name>latest_sequence_</name>
+        <qualifiedname>DiffEngineBenchmark::latest_sequence_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_diff_engine.cpp" line="68" column="14" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_diff_engine_benchmark_1afd13f9cdf7b77fba98e51181a15e378f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DiffEngineBenchmark::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DiffEngineBenchmark::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_diff_engine.cpp" line="14" column="10" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="14" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_diff_engine_benchmark_1ac013cfd14ba1a335c2b7d993c4e200e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DiffEngineBenchmark::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DiffEngineBenchmark::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_diff_engine.cpp" line="34" column="10" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="34" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_diff_engine_benchmark_1a025e00908c533307e12c747877ee711d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DiffEngineBenchmark::populateData</definition>
+        <argsstring>(int64_t num_changes)</argsstring>
+        <name>populateData</name>
+        <qualifiedname>DiffEngineBenchmark::populateData</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>num_changes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_diff_engine.cpp" line="44" column="10" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="44" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DiffEngineBenchmark</label>
+        <link refid="class_diff_engine_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DiffEngineBenchmark</label>
+        <link refid="class_diff_engine_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/analytics/bench_diff_engine.cpp" line="12" column="1" bodyfile="benchmarks/analytics/bench_diff_engine.cpp" bodystart="12" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_diff_engine_benchmark_1a4d9cb7e52b28fa6bf6bc8502eee848fb" prot="protected" virt="non-virtual"><scope>DiffEngineBenchmark</scope><name>changefeed_</name></member>
+      <member refid="class_diff_engine_benchmark_1a1482a47b73dfef6990e3db30a05047ce" prot="protected" virt="non-virtual"><scope>DiffEngineBenchmark</scope><name>db_</name></member>
+      <member refid="class_diff_engine_benchmark_1ab9c1f11045f941851aeab8e301c361fa" prot="protected" virt="non-virtual"><scope>DiffEngineBenchmark</scope><name>diff_engine_</name></member>
+      <member refid="class_diff_engine_benchmark_1a82807394fa41953eec053457c0819692" prot="protected" virt="non-virtual"><scope>DiffEngineBenchmark</scope><name>latest_sequence_</name></member>
+      <member refid="class_diff_engine_benchmark_1a025e00908c533307e12c747877ee711d" prot="public" virt="non-virtual"><scope>DiffEngineBenchmark</scope><name>populateData</name></member>
+      <member refid="class_diff_engine_benchmark_1afd13f9cdf7b77fba98e51181a15e378f" prot="public" virt="non-virtual"><scope>DiffEngineBenchmark</scope><name>SetUp</name></member>
+      <member refid="class_diff_engine_benchmark_1ac013cfd14ba1a335c2b7d993c4e200e5" prot="public" virt="non-virtual"><scope>DiffEngineBenchmark</scope><name>TearDown</name></member>
+      <member refid="class_diff_engine_benchmark_1a7334a4631788e164665a3e556507efde" prot="protected" virt="non-virtual"><scope>DiffEngineBenchmark</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_a_b_test_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ABTestConfig</compoundname>
+    <includes refid="canary__rollout_8h" local="no">canary_rollout.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_a_b_test_config_1a2fc08ffb7a856756d80ed23669b6cfa6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::ABTestConfig::canary_fraction</definition>
+        <argsstring></argsstring>
+        <name>canary_fraction</name>
+        <qualifiedname>themis::updates::ABTestConfig::canary_fraction</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+<para>Fraction of traffic routed to the canary (0.0–1.0). Default 10 %. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="354" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_a_b_test_config_1af58804f95f6d796dee7dd05ef2a79c5c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ABTestConfig::experiment_id</definition>
+        <argsstring></argsstring>
+        <name>experiment_id</name>
+        <qualifiedname>themis::updates::ABTestConfig::experiment_id</qualifiedname>
+        <briefdescription>
+<para>Stable experiment identifier written into metrics/logs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="357" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for A/B testing within a canary deployment. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When A/B testing is enabled every incoming request (identified by a string key) is deterministically assigned to either the <emphasis>canary</emphasis> (new-version) bucket or the <emphasis>control</emphasis> (current-version) bucket.</para>
+<para>The split is stateless: hashing request_id + experiment_id gives a consistent, per-request bucket without shared counters. </para>
+    </detaileddescription>
+    <location file="include/updates/canary_rollout.h" line="352" column="1" bodyfile="include/updates/canary_rollout.h" bodystart="352" bodyend="358"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_a_b_test_config_1a2fc08ffb7a856756d80ed23669b6cfa6" prot="public" virt="non-virtual"><scope>themis::updates::ABTestConfig</scope><name>canary_fraction</name></member>
+      <member refid="structthemis_1_1updates_1_1_a_b_test_config_1af58804f95f6d796dee7dd05ef2a79c5c" prot="public" virt="non-virtual"><scope>themis::updates::ABTestConfig</scope><name>experiment_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

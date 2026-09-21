@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_maintenance_health_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::MaintenanceHealthSnapshot</compoundname>
+    <includes refid="maintenance__api__contract_8h" local="no">maintenance_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae8c066c6ad4617475f485b60f33be23e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::maintenance::MaintenanceHealthSnapshot::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::maintenance::MaintenanceHealthSnapshot::is_healthy</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Overall orchestrator health. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="155" column="19" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae2b48a52dc6400b93b18fba1d9073c69" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::MaintenanceHealthSnapshot::active_schedule_count</definition>
+        <argsstring></argsstring>
+        <name>active_schedule_count</name>
+        <qualifiedname>themis::maintenance::MaintenanceHealthSnapshot::active_schedule_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Currently active schedule count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="156" column="19" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a2d0fba71eb26cdbd66178eb81adb1cf5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::MaintenanceHealthSnapshot::failed_execution_count</definition>
+        <argsstring></argsstring>
+        <name>failed_execution_count</name>
+        <qualifiedname>themis::maintenance::MaintenanceHealthSnapshot::failed_execution_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total failed executions since restart. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="157" column="19" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a409c609bee026003ccea62ba8bbc5c01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceHealthSnapshot::last_error_message</definition>
+        <argsstring></argsstring>
+        <name>last_error_message</name>
+        <qualifiedname>themis::maintenance::MaintenanceHealthSnapshot::last_error_message</qualifiedname>
+        <briefdescription>
+<para>Most recent error description (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="158" column="19" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight health snapshot returned by the orchestrator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A degraded report (is_healthy == false) MUST prevent further task dispatch. </para>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_api_contract.h" line="154" column="1" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="154" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae2b48a52dc6400b93b18fba1d9073c69" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceHealthSnapshot</scope><name>active_schedule_count</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a2d0fba71eb26cdbd66178eb81adb1cf5" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceHealthSnapshot</scope><name>failed_execution_count</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae8c066c6ad4617475f485b60f33be23e" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceHealthSnapshot</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a409c609bee026003ccea62ba8bbc5c01" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceHealthSnapshot</scope><name>last_error_message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

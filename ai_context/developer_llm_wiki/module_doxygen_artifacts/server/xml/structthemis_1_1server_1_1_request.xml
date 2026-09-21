@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::Request</compoundname>
+    <includes refid="error__api__handler_8h" local="no">error_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_1ac33e374265ee9a8327d1e7f26135a418" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::Request::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::server::Request::method</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="24" column="17" bodyfile="include/server/error_api_handler.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_1a4dc1fdd4207955f9f57458ae69ccf9f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::Request::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::server::Request::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="25" column="17" bodyfile="include/server/error_api_handler.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_1a1b4d651b4750e3b1f41717c4a3d498cb" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::Request::params</definition>
+        <argsstring></argsstring>
+        <name>params</name>
+        <qualifiedname>themis::server::Request::params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="26" column="20" bodyfile="include/server/error_api_handler.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_1a236d4e7cdf5c510a4f243a70c1e1b42c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::Request::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::server::Request::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="27" column="20" bodyfile="include/server/error_api_handler.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_1a3a16a0ca4c39a4931b59e03cabbde7a4" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::Request::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::server::Request::body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="28" column="20" bodyfile="include/server/error_api_handler.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/error_api_handler.h" line="23" column="1" bodyfile="include/server/error_api_handler.h" bodystart="23" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_request_1a3a16a0ca4c39a4931b59e03cabbde7a4" prot="public" virt="non-virtual"><scope>themis::server::Request</scope><name>body</name></member>
+      <member refid="structthemis_1_1server_1_1_request_1ac33e374265ee9a8327d1e7f26135a418" prot="public" virt="non-virtual"><scope>themis::server::Request</scope><name>method</name></member>
+      <member refid="structthemis_1_1server_1_1_request_1a1b4d651b4750e3b1f41717c4a3d498cb" prot="public" virt="non-virtual"><scope>themis::server::Request</scope><name>params</name></member>
+      <member refid="structthemis_1_1server_1_1_request_1a4dc1fdd4207955f9f57458ae69ccf9f9" prot="public" virt="non-virtual"><scope>themis::server::Request</scope><name>path</name></member>
+      <member refid="structthemis_1_1server_1_1_request_1a236d4e7cdf5c510a4f243a70c1e1b42c" prot="public" virt="non-virtual"><scope>themis::server::Request</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

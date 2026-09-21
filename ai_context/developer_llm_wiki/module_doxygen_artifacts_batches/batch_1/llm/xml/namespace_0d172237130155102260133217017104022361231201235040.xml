@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d172237130155102260133217017104022361231201235040" kind="namespace" language="C++">
+    <compoundname>@172237130155102260133217017104022361231201235040</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/llama_lora_adapter.cpp" line="48" column="1"/>
+  </compounddef>
+</doxygen>

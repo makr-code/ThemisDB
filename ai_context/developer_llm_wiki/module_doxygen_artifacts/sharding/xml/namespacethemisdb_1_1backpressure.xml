@@ -1,0 +1,580 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1backpressure" kind="namespace" language="C++">
+    <compoundname>themisdb::backpressure</compoundname>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" prot="public">themisdb::backpressure::SystemLoadMetrics</innerclass>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_deferred_operation" prot="public">themisdb::backpressure::DeferredOperation</innerclass>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_deferred_operation_comparator" prot="public">themisdb::backpressure::DeferredOperationComparator</innerclass>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header" prot="public">themisdb::backpressure::WALEntryHeader</innerclass>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_handshake_message" prot="public">themisdb::backpressure::HandshakeMessage</innerclass>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_backpressure_config" prot="public">themisdb::backpressure::BackpressureConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1backpressure_1_1_system_load_monitor" prot="public">themisdb::backpressure::SystemLoadMonitor</innerclass>
+    <innerclass refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue" prot="public">themisdb::backpressure::DeferredSyncQueue</innerclass>
+    <innerclass refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session" prot="public">themisdb::backpressure::AdaptiveHandshakeSession</innerclass>
+    <innerclass refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator" prot="public">themisdb::backpressure::BackpressureCoordinator</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771da" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>HandshakeOpcode</name>
+        <qualifiedname>themisdb::backpressure::HandshakeOpcode</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daaeb61eead90e3b899c6bcbe27ac581660" prot="public">
+          <name>HELLO</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daaf6fcfa3e2e614444cdab772a804541dc" prot="public">
+          <name>HELLO_ACK</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa70042a6087eb02f9fe6633df2b018029" prot="public">
+          <name>LOAD_REPORT</name>
+          <initializer>= 0x05</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa106d7817b45dbe1d35a44bd5465b38f2" prot="public">
+          <name>LOAD_REPORT_ACK</name>
+          <initializer>= 0x06</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa6a01b26840f250bc60df5edeace07458" prot="public">
+          <name>SYNC_REQUEST</name>
+          <initializer>= 0x10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa6959cde47e1dc60824e02e251cc16776" prot="public">
+          <name>SYNC_ACCEPT</name>
+          <initializer>= 0x11</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa1213a9dcc0a20c698eca885fcd2c3e45" prot="public">
+          <name>SYNC_DEFER</name>
+          <initializer>= 0x12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daac79d43da6f0c5c8d53f32e4c316d5f3e" prot="public">
+          <name>SYNC_THROTTLE</name>
+          <initializer>= 0x13</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa40988ff22779a501fe2b4e5651b5e17b" prot="public">
+          <name>SYNC_REJECT</name>
+          <initializer>= 0x14</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daaee9fb797756e8e2702abf60fc7b2782c" prot="public">
+          <name>WAL_APPEND</name>
+          <initializer>= 0x20</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa9440eb4c72bdd4f7b082666b18a7b358" prot="public">
+          <name>WAL_APPEND_ACK</name>
+          <initializer>= 0x21</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa3d140779a96aae7d92c3e1d5001561c3" prot="public">
+          <name>WAL_REPLAY_START</name>
+          <initializer>= 0x22</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daaa22449d1fab4b101a4a3fa352740207a" prot="public">
+          <name>WAL_REPLAY_CHUNK</name>
+          <initializer>= 0x23</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa7b09365d3567a81ec83eeb6b1cd3e653" prot="public">
+          <name>WAL_REPLAY_COMPLETE</name>
+          <initializer>= 0x24</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa291554596c183e837f0a6bec3767c891" prot="public">
+          <name>PAUSE</name>
+          <initializer>= 0x30</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daabac2aec3ee8d7d495123dbe5ca2fdac9" prot="public">
+          <name>RESUME</name>
+          <initializer>= 0x31</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daabae32bd4898a10a21ba7def384837dab" prot="public">
+          <name>BACKPRESSURE_ALERT</name>
+          <initializer>= 0x32</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daa30fc44f5e5f7ea3d3042441cb51ebc86" prot="public">
+          <name>SYNC_COMPLETE</name>
+          <initializer>= 0x40</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daac4ad46feec0d2120dc390bf194544f44" prot="public">
+          <name>SYNC_COMPLETE_ACK</name>
+          <initializer>= 0x41</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 0xFF</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Handshake protocol opcodes Extends StreamMessageType for backpressure-specific messages </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="66" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="66" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SyncStrategy</name>
+        <qualifiedname>themisdb::backpressure::SyncStrategy</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9ae35884a2445bc4ae2df52f188763273c" prot="public">
+          <name>IMMEDIATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9ad56f03cea4fb854fa3000896bfd66fe3" prot="public">
+          <name>THROTTLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9ae3d9a2ed4146353ae729818f8bcc329d" prot="public">
+          <name>DEFERRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sync strategy based on system load </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="105" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="105" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1backpressure_1a69215d639835a8812b880a362f6bf09d" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>OperationPriority</name>
+        <qualifiedname>themisdb::backpressure::OperationPriority</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a69215d639835a8812b880a362f6bf09da99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a69215d639835a8812b880a362f6bf09dab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a69215d639835a8812b880a362f6bf09da1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a69215d639835a8812b880a362f6bf09da41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a69215d639835a8812b880a362f6bf09da87ed58ce5596142e11cb65deb049bb4b" prot="public">
+          <name>BACKGROUND</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Operation priority for deferral queue </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="115" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="115" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DeferredOperationType</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperationType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601a2f7732c4faad999224047cce764995cf" prot="public">
+          <name>SYNC_DATA</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601a3fb8290ad29d27642f170e402b064763" prot="public">
+          <name>MIGRATE_RANGE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601ace70d07e3ba9842e96c4e4b961445f60" prot="public">
+          <name>REPAIR</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601a4de776532ea0cedb1321093084572a80" prot="public">
+          <name>REBALANCE</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601ab5f9ded8317e58718b792696fc1df42f" prot="public">
+          <name>INDEX_SYNC</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601ab38dcde2669631f1a66444d9dc71ebbf" prot="public">
+          <name>BLOB_TRANSFER</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Deferred operation type </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="126" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="126" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HandshakeState</name>
+        <qualifiedname>themisdb::backpressure::HandshakeState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5a99c8ce56e7ab246445d3b134724428f3" prot="public">
+          <name>DISCONNECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5a9a14f95e151eec641316e7c784ce832d" prot="public">
+          <name>CONNECTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5af0822a83d29c044e4edfd5015bdf1a96" prot="public">
+          <name>HELLO_SENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5a137b0cba1eba480b64fef891c3e1c252" prot="public">
+          <name>NEGOTIATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5a2baa69eafc7204f3bd8648eba580c489" prot="public">
+          <name>READY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5ab8f87bd0ae829f0fa0fcaa1a0a2bf91e" prot="public">
+          <name>STREAMING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5ad56f03cea4fb854fa3000896bfd66fe3" prot="public">
+          <name>THROTTLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5ae3d9a2ed4146353ae729818f8bcc329d" prot="public">
+          <name>DEFERRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5a99b2439e63f73ad515f7ab2447a80673" prot="public">
+          <name>PAUSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5a32a66ccf5328dda18c9d0c3d7b43f3ce" prot="public">
+          <name>COMPLETING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5a3de44296982e58199afc513a715b12ba" prot="public">
+          <name>COMPLETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Handshake session state </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="138" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="138" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1backpressure_1a44911a4625fae5b1a31a2a7ab21de9c7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::DEFAULT_LOAD_CHECK_INTERVAL_MS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_LOAD_CHECK_INTERVAL_MS</name>
+        <qualifiedname>themisdb::backpressure::DEFAULT_LOAD_CHECK_INTERVAL_MS</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="154" column="20" bodyfile="include/sharding/backpressure_protocol.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1backpressure_1a395c57eef8f8ed300179c5db15ebbc56" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::backpressure::CPU_THRESHOLD_THROTTLE</definition>
+        <argsstring></argsstring>
+        <name>CPU_THRESHOLD_THROTTLE</name>
+        <qualifiedname>themisdb::backpressure::CPU_THRESHOLD_THROTTLE</qualifiedname>
+        <initializer>= 50.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="155" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1backpressure_1a679e703795820a0210b38f100fbc9bdc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::backpressure::CPU_THRESHOLD_DEFER</definition>
+        <argsstring></argsstring>
+        <name>CPU_THRESHOLD_DEFER</name>
+        <qualifiedname>themisdb::backpressure::CPU_THRESHOLD_DEFER</qualifiedname>
+        <initializer>= 80.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="156" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1backpressure_1a38b1e2061a96bce10652e8b0988ba4a0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::DEFAULT_MAX_DEFER_TIME_SEC</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_DEFER_TIME_SEC</name>
+        <qualifiedname>themisdb::backpressure::DEFAULT_MAX_DEFER_TIME_SEC</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="157" column="20" bodyfile="include/sharding/backpressure_protocol.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1backpressure_1a50566a2cdc03718f2e463091af8fb3db" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::DEFAULT_WAL_MAX_SIZE_MB</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_WAL_MAX_SIZE_MB</name>
+        <qualifiedname>themisdb::backpressure::DEFAULT_WAL_MAX_SIZE_MB</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="158" column="20" bodyfile="include/sharding/backpressure_protocol.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1backpressure_1a3425d0f10cd434a27a395d678a0b5c5e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::DEFAULT_REPLAY_BATCH_SIZE</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_REPLAY_BATCH_SIZE</name>
+        <qualifiedname>themisdb::backpressure::DEFAULT_REPLAY_BATCH_SIZE</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="159" column="20" bodyfile="include/sharding/backpressure_protocol.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1backpressure_1ae0a0d95911aa936cdf9be7682abe588b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::backpressure::syncStrategyToString</definition>
+        <argsstring>(SyncStrategy strategy)</argsstring>
+        <name>syncStrategyToString</name>
+        <qualifiedname>themisdb::backpressure::syncStrategyToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" kindref="member">SyncStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert <ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" kindref="member">SyncStrategy</ref> to string </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="814" column="19" bodyfile="include/sharding/backpressure_protocol.h" bodystart="814" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1backpressure_1af7dd9db6fe966fabae97ef878658eaac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themisdb::backpressure::handshakeStateToString</definition>
+        <argsstring>(HandshakeState state)</argsstring>
+        <name>handshakeStateToString</name>
+        <qualifiedname>themisdb::backpressure::handshakeStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5" kindref="member">HandshakeState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert <ref refid="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5" kindref="member">HandshakeState</ref> to string </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="827" column="19" bodyfile="include/sharding/backpressure_protocol.h" bodystart="827" bodyend="843"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="47" column="1"/>
+  </compounddef>
+</doxygen>

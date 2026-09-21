@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_maintenance_job_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MaintenanceJobStatus</compoundname>
+    <includes refid="index__maintenance_8h" local="no">index_maintenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1ad85a4d7576552778834748e5085f318b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MaintenanceJobStatus::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::MaintenanceJobStatus::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="85" column="17" bodyfile="include/storage/index_maintenance.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a4216a93b099ca2a45329d50b8b41ac78" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MaintenanceJobStatus::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::MaintenanceJobStatus::index_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="86" column="17" bodyfile="include/storage/index_maintenance.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a541ff55476d18e72c61bb6a48807f3e0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bd" kindref="member">MaintenanceOperation</ref></type>
+        <definition>MaintenanceOperation themis::MaintenanceJobStatus::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::MaintenanceJobStatus::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="87" column="26" bodyfile="include/storage/index_maintenance.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1afd44cd58e801f1e81251b5ce7545c688" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::MaintenanceJobStatus::is_running</definition>
+        <argsstring></argsstring>
+        <name>is_running</name>
+        <qualifiedname>themis::MaintenanceJobStatus::is_running</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="88" column="10" bodyfile="include/storage/index_maintenance.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1affa9577ae85f752bb4cba3c2870b8026" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::MaintenanceJobStatus::is_completed</definition>
+        <argsstring></argsstring>
+        <name>is_completed</name>
+        <qualifiedname>themis::MaintenanceJobStatus::is_completed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="89" column="10" bodyfile="include/storage/index_maintenance.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1aa1521f7adc6ada01201002e885979f7c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::MaintenanceJobStatus::is_failed</definition>
+        <argsstring></argsstring>
+        <name>is_failed</name>
+        <qualifiedname>themis::MaintenanceJobStatus::is_failed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="90" column="10" bodyfile="include/storage/index_maintenance.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a4f8f50c0a2d8a20e74bc1df4e0404414" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MaintenanceJobStatus::progress_percentage</definition>
+        <argsstring></argsstring>
+        <name>progress_percentage</name>
+        <qualifiedname>themis::MaintenanceJobStatus::progress_percentage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="91" column="12" bodyfile="include/storage/index_maintenance.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a733e4636ab63bee78f32acbc5339e0f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MaintenanceJobStatus::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::MaintenanceJobStatus::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="92" column="17" bodyfile="include/storage/index_maintenance.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a10483034c098d305279dc3c4eac9df13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MaintenanceJobStatus::result_summary</definition>
+        <argsstring></argsstring>
+        <name>result_summary</name>
+        <qualifiedname>themis::MaintenanceJobStatus::result_summary</qualifiedname>
+        <briefdescription>
+<para>Human-readable summary of the completed operation (non-error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="93" column="17" bodyfile="include/storage/index_maintenance.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a6a396667de9427bd94270ccd192dd8f4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MaintenanceJobStatus::start_time_ms</definition>
+        <argsstring></argsstring>
+        <name>start_time_ms</name>
+        <qualifiedname>themis::MaintenanceJobStatus::start_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="94" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a5daecdefc9aa0388c3e35537c93671bc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MaintenanceJobStatus::end_time_ms</definition>
+        <argsstring></argsstring>
+        <name>end_time_ms</name>
+        <qualifiedname>themis::MaintenanceJobStatus::end_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="95" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1afb6df5dd0b949db637b5fade146749ec" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MaintenanceJobStatus::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::MaintenanceJobStatus::duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="96" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a77c28003f7076320882d3f3adc6fa248" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_fragmentation_metrics" kindref="compound">FragmentationMetrics</ref></type>
+        <definition>FragmentationMetrics themis::MaintenanceJobStatus::before_metrics</definition>
+        <argsstring></argsstring>
+        <name>before_metrics</name>
+        <qualifiedname>themis::MaintenanceJobStatus::before_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="99" column="26" bodyfile="include/storage/index_maintenance.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_maintenance_job_status_1a97a16c0b3fb4b188e54edea18c54fbff" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_fragmentation_metrics" kindref="compound">FragmentationMetrics</ref></type>
+        <definition>FragmentationMetrics themis::MaintenanceJobStatus::after_metrics</definition>
+        <argsstring></argsstring>
+        <name>after_metrics</name>
+        <qualifiedname>themis::MaintenanceJobStatus::after_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="100" column="26" bodyfile="include/storage/index_maintenance.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Maintenance job status. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::FragmentationMetrics</label>
+        <link refid="structthemis_1_1_fragmentation_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::MaintenanceJobStatus</label>
+        <link refid="structthemis_1_1_maintenance_job_status"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>after_metrics</edgelabel>
+          <edgelabel>before_metrics</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/index_maintenance.h" line="84" column="1" bodyfile="include/storage/index_maintenance.h" bodystart="84" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_maintenance_job_status_1a97a16c0b3fb4b188e54edea18c54fbff" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>after_metrics</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1a77c28003f7076320882d3f3adc6fa248" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>before_metrics</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1afb6df5dd0b949db637b5fade146749ec" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1a5daecdefc9aa0388c3e35537c93671bc" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>end_time_ms</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1a733e4636ab63bee78f32acbc5339e0f3" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1a4216a93b099ca2a45329d50b8b41ac78" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1affa9577ae85f752bb4cba3c2870b8026" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>is_completed</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1aa1521f7adc6ada01201002e885979f7c" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>is_failed</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1afd44cd58e801f1e81251b5ce7545c688" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>is_running</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1ad85a4d7576552778834748e5085f318b" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1a541ff55476d18e72c61bb6a48807f3e0" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>operation</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1a4f8f50c0a2d8a20e74bc1df4e0404414" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>progress_percentage</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1a10483034c098d305279dc3c4eac9df13" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>result_summary</name></member>
+      <member refid="structthemis_1_1_maintenance_job_status_1a6a396667de9427bd94270ccd192dd8f4" prot="public" virt="non-virtual"><scope>themis::MaintenanceJobStatus</scope><name>start_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

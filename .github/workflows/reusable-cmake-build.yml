@@ -5,6 +5,10 @@ name: Reusable CMake Build Pipeline
 on:
   workflow_call:
     inputs:
+      enable_sccache_gha:
+        required: false
+        default: false
+        type: boolean
       runs_on:
         required: false
         default: ubuntu-latest
@@ -100,7 +104,7 @@ jobs:
     runs-on: ${{ inputs.runs_on }}
     timeout-minutes: 120
     env:
-      SCCACHE_GHA_ENABLED: "false"
+      SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
     outputs:
       configure-outcome: ${{ steps.configure.outcome }}
       build-outcome: ${{ steps.build.outcome }}

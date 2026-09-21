@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::TokenPolicyEngine::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::TokenPolicyEngine::Config::max_budget_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_budget_tokens</name>
+        <qualifiedname>themis::aql::testing::TokenPolicyEngine::Config::max_budget_tokens</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Total token budget for conversation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="43" column="18" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1aa6cf94fe3159b219b56efee265a28e08" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::TokenPolicyEngine::Config::max_turns</definition>
+        <argsstring></argsstring>
+        <name>max_turns</name>
+        <qualifiedname>themis::aql::testing::TokenPolicyEngine::Config::max_turns</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of turns to retain </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="44" column="18" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a559dd4e2eb70b71c1f773605c1ccb44d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::TokenPolicyEngine::Config::tokensFor</definition>
+        <argsstring>(const std::string &amp;s) const</argsstring>
+        <name>tokensFor</name>
+        <qualifiedname>themis::aql::testing::TokenPolicyEngine::Config::tokensFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Simple estimation: 1 token ≈ 4 characters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="46" column="18" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_token_policy.cpp" line="42" column="5" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="42" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" prot="public" virt="non-virtual"><scope>themis::aql::testing::TokenPolicyEngine::Config</scope><name>max_budget_tokens</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1aa6cf94fe3159b219b56efee265a28e08" prot="public" virt="non-virtual"><scope>themis::aql::testing::TokenPolicyEngine::Config</scope><name>max_turns</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a559dd4e2eb70b71c1f773605c1ccb44d" prot="public" virt="non-virtual"><scope>themis::aql::testing::TokenPolicyEngine::Config</scope><name>tokensFor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

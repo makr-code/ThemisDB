@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_consumer_group_manager_1_1_in_flight_record" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cdc::ConsumerGroupManager::InFlightRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_group_manager_1_1_in_flight_record_1a2327fdbe1d6ea383733b8e35750cc78b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ConsumerGroupManager::InFlightRecord::sequence</definition>
+        <argsstring></argsstring>
+        <name>sequence</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::InFlightRecord::sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="330" column="18" bodyfile="include/cdc/consumer_group.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_group_manager_1_1_in_flight_record_1a4bd2684776083b51a33f31cc7024d1be" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cdc::ConsumerGroupManager::InFlightRecord::delivered_at</definition>
+        <argsstring></argsstring>
+        <name>delivered_at</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::InFlightRecord::delivered_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="331" column="47" bodyfile="include/cdc/consumer_group.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_group_manager_1_1_in_flight_record_1a19fc6d12fefad6850493f2bb7f967313" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::ConsumerGroupManager::InFlightRecord::delivery_count</definition>
+        <argsstring></argsstring>
+        <name>delivery_count</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::InFlightRecord::delivery_count</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Times this event has been delivered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="332" column="18" bodyfile="include/cdc/consumer_group.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/consumer_group.h" line="329" column="5" bodyfile="include/cdc/consumer_group.h" bodystart="329" bodyend="333"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_manager_1_1_in_flight_record_1a4bd2684776083b51a33f31cc7024d1be" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager::InFlightRecord</scope><name>delivered_at</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_manager_1_1_in_flight_record_1a19fc6d12fefad6850493f2bb7f967313" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager::InFlightRecord</scope><name>delivery_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_manager_1_1_in_flight_record_1a2327fdbe1d6ea383733b8e35750cc78b" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager::InFlightRecord</scope><name>sequence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

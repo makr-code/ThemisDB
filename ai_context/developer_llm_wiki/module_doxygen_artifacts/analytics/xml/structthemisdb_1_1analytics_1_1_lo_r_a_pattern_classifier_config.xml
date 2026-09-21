@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::LoRAPatternClassifierConfig</compoundname>
+    <includes refid="lora__pattern__classifier_8h" local="no">lora_pattern_classifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config_1afcd6eb8a6c40e505adb9006bff361e57" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::LoRAPatternClassifierConfig::max_parallel_workers</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_workers</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifierConfig::max_parallel_workers</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>batchClassify std::async concurrency </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="65" column="17" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config_1ae796717d8eb837755f8704223990ce2d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::LoRAPatternClassifierConfig::fallback_confidence</definition>
+        <argsstring></argsstring>
+        <name>fallback_confidence</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifierConfig::fallback_confidence</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Prior confidence for statistical fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="66" column="17" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/lora_pattern_classifier.h" line="64" column="1" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="64" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config_1ae796717d8eb837755f8704223990ce2d" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifierConfig</scope><name>fallback_confidence</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config_1afcd6eb8a6c40e505adb9006bff361e57" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifierConfig</scope><name>max_parallel_workers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

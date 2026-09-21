@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_shard_training_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ShardTrainingState</compoundname>
+    <includes refid="distributed__training__coordinator_8h" local="no">distributed_training_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a951241c16039558d388e7b5b66afbfc7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ShardTrainingState::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::llm::ShardTrainingState::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="236" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a4ae38b1ff27dad494179b77e13726148" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ShardTrainingState::current_epoch</definition>
+        <argsstring></argsstring>
+        <name>current_epoch</name>
+        <qualifiedname>themis::llm::ShardTrainingState::current_epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="239" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a2fc0afd76595d6a2eb83a22640ca879b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ShardTrainingState::current_step</definition>
+        <argsstring></argsstring>
+        <name>current_step</name>
+        <qualifiedname>themis::llm::ShardTrainingState::current_step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="240" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a24b2310240755e73539343b7ce699239" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ShardTrainingState::total_steps</definition>
+        <argsstring></argsstring>
+        <name>total_steps</name>
+        <qualifiedname>themis::llm::ShardTrainingState::total_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="241" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a79bb534477983a21e119196bb143855f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ShardTrainingState::current_loss</definition>
+        <argsstring></argsstring>
+        <name>current_loss</name>
+        <qualifiedname>themis::llm::ShardTrainingState::current_loss</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="244" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a06e66f2710f3761f755aa746ba5bfad3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ShardTrainingState::avg_grad_norm</definition>
+        <argsstring></argsstring>
+        <name>avg_grad_norm</name>
+        <qualifiedname>themis::llm::ShardTrainingState::avg_grad_norm</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="245" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a636c25481bf6666f9f96c38e971a05d5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ShardTrainingState::samples_processed</definition>
+        <argsstring></argsstring>
+        <name>samples_processed</name>
+        <qualifiedname>themis::llm::ShardTrainingState::samples_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="246" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a90ab59f2015000777f1caf31ed3b42f3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ShardTrainingState::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themis::llm::ShardTrainingState::is_active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="249" column="10" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1aee486f5c465c56b496978181ed1d93cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ShardTrainingState::is_synchronized</definition>
+        <argsstring></argsstring>
+        <name>is_synchronized</name>
+        <qualifiedname>themis::llm::ShardTrainingState::is_synchronized</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="250" column="10" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1ae057eba79e4144916572b2a05986ca22" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::ShardTrainingState::last_heartbeat_ms</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_ms</name>
+        <qualifiedname>themis::llm::ShardTrainingState::last_heartbeat_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="251" column="13" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a869685108420c14e94ac5986a37e0bb1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ShardTrainingState::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::llm::ShardTrainingState::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="252" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a25a6f648ba708c4b90633d4a116508af" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ShardTrainingState::gpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>gpu_utilization</name>
+        <qualifiedname>themis::llm::ShardTrainingState::gpu_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="255" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shard_training_state_1a681639d5560189da2e789b9a4e16942d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ShardTrainingState::memory_usage_gb</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_gb</name>
+        <qualifiedname>themis::llm::ShardTrainingState::memory_usage_gb</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="256" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_shard_training_state_1a94fc4efedf24ff911a8231a742b8a530" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ShardTrainingState::~ShardTrainingState</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ShardTrainingState</name>
+        <qualifiedname>themis::llm::ShardTrainingState::~ShardTrainingState</qualifiedname>
+        <briefdescription>
+<para>Shard Training State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="235" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_shard_training_state_1a13032e3c18b8e1fc6407c8e5d74ccc2a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ShardTrainingState::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::ShardTrainingState::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="262" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="513" bodyend="529"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_shard_training_state_1ab80fc26dff2a3b9a4179cceb30c162fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_shard_training_state" kindref="compound">ShardTrainingState</ref></type>
+        <definition>ShardTrainingState themis::llm::ShardTrainingState::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::ShardTrainingState::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="268" column="31" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="537" bodyend="579"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/distributed_training_coordinator.h" line="230" column="1" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="230" bodyend="269"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a06e66f2710f3761f755aa746ba5bfad3" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>avg_grad_norm</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a869685108420c14e94ac5986a37e0bb1" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a4ae38b1ff27dad494179b77e13726148" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>current_epoch</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a79bb534477983a21e119196bb143855f" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>current_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a2fc0afd76595d6a2eb83a22640ca879b" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>current_step</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1ab80fc26dff2a3b9a4179cceb30c162fc" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a25a6f648ba708c4b90633d4a116508af" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>gpu_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a90ab59f2015000777f1caf31ed3b42f3" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>is_active</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1aee486f5c465c56b496978181ed1d93cf" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>is_synchronized</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1ae057eba79e4144916572b2a05986ca22" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>last_heartbeat_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a681639d5560189da2e789b9a4e16942d" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>memory_usage_gb</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a636c25481bf6666f9f96c38e971a05d5" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>samples_processed</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a951241c16039558d388e7b5b66afbfc7" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a13032e3c18b8e1fc6407c8e5d74ccc2a" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a24b2310240755e73539343b7ce699239" prot="public" virt="non-virtual"><scope>themis::llm::ShardTrainingState</scope><name>total_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1_shard_training_state_1a94fc4efedf24ff911a8231a742b8a530" prot="public" virt="virtual"><scope>themis::llm::ShardTrainingState</scope><name>~ShardTrainingState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

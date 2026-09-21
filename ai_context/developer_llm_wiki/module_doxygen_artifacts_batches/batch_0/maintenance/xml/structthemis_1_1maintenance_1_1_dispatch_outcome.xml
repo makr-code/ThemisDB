@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_dispatch_outcome" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::DispatchOutcome</compoundname>
+    <includes refid="maintenance__health__report_8h" local="no">maintenance_health_report.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_dispatch_outcome_1a399fc8de449c463f7e40656175dd3218" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::DispatchOutcome::schedule_id</definition>
+        <argsstring></argsstring>
+        <name>schedule_id</name>
+        <qualifiedname>themis::maintenance::DispatchOutcome::schedule_id</qualifiedname>
+        <briefdescription>
+<para>Schedule identifier that triggered this dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="93" column="17" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_dispatch_outcome_1a8d79bb50ddc8d9da76f4aa1bd4ea26a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::DispatchOutcome::task_type</definition>
+        <argsstring></argsstring>
+        <name>task_type</name>
+        <qualifiedname>themis::maintenance::DispatchOutcome::task_type</qualifiedname>
+        <briefdescription>
+<para>String representation of the task type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="95" column="17" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_dispatch_outcome_1a91a33588d93144c29826c8e16f7f6f76" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" kindref="member">DispatchOutcomeType</ref></type>
+        <definition>DispatchOutcomeType themis::maintenance::DispatchOutcome::outcome</definition>
+        <argsstring></argsstring>
+        <name>outcome</name>
+        <qualifiedname>themis::maintenance::DispatchOutcome::outcome</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref></initializer>
+        <briefdescription>
+<para>Outcome classification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="97" column="25" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_dispatch_outcome_1adf54d7b4fe6625dc5971df4799e57b2c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::DispatchOutcome::latency_us</definition>
+        <argsstring></argsstring>
+        <name>latency_us</name>
+        <qualifiedname>themis::maintenance::DispatchOutcome::latency_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock latency in microseconds (≥ 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="99" column="13" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_dispatch_outcome_1a3c527e2b3e16be36b3f86f1f405b72e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::DispatchOutcome::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::maintenance::DispatchOutcome::error_message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Human-readable error or diagnostic message (may be empty on SUCCESS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="101" column="17" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1_dispatch_outcome_1ac3f4b3552a124d0157f538d8698c1fa2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::maintenance::DispatchOutcome::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::maintenance::DispatchOutcome::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="103" column="20" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="103" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight record emitted for every dispatch attempt. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stored in a ring buffer inside <ref refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator" kindref="compound">DatabaseMaintenanceOrchestrator</ref> and surfaced via <ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a27229d7185db1fc12c9ae23a3307d891" kindref="member">MaintenanceHealthReport::recent_dispatch_outcomes</ref>. </para>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_health_report.h" line="91" column="1" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="91" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a3c527e2b3e16be36b3f86f1f405b72e1" prot="public" virt="non-virtual"><scope>themis::maintenance::DispatchOutcome</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1adf54d7b4fe6625dc5971df4799e57b2c" prot="public" virt="non-virtual"><scope>themis::maintenance::DispatchOutcome</scope><name>latency_us</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a91a33588d93144c29826c8e16f7f6f76" prot="public" virt="non-virtual"><scope>themis::maintenance::DispatchOutcome</scope><name>outcome</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a399fc8de449c463f7e40656175dd3218" prot="public" virt="non-virtual"><scope>themis::maintenance::DispatchOutcome</scope><name>schedule_id</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a8d79bb50ddc8d9da76f4aa1bd4ea26a4" prot="public" virt="non-virtual"><scope>themis::maintenance::DispatchOutcome</scope><name>task_type</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1ac3f4b3552a124d0157f538d8698c1fa2" prot="public" virt="non-virtual"><scope>themis::maintenance::DispatchOutcome</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IL3CacheEncryptionManager</compoundname>
+    <includes refid="l3__encryption__config_8h" local="no">l3_encryption_config.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a8e5459a6ca2068f491088cf61e6bc332" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IL3CacheEncryptionManager::~IL3CacheEncryptionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IL3CacheEncryptionManager</name>
+        <qualifiedname>themis::cache::IL3CacheEncryptionManager::~IL3CacheEncryptionManager</qualifiedname>
+        <briefdescription>
+<para>IL3 Cache Encryption Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/l3_encryption_config.h" line="57" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a384d5bbc43eac13a02d11c487af03cf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::IL3CacheEncryptionManager::configure</definition>
+        <argsstring>(const L3EncryptionConfig &amp;config)=0</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::cache::IL3CacheEncryptionManager::configure</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_l3_encryption_config" kindref="compound">L3EncryptionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/l3_encryption_config.h" line="64" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1ac43384dde87b47ad38b15a85ccdef355" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::cache::IL3CacheEncryptionManager::encrypt</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;value)=0</argsstring>
+        <name>encrypt</name>
+        <qualifiedname>themis::cache::IL3CacheEncryptionManager::encrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/l3_encryption_config.h" line="72" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a746acb29b1498495d5223a0386cd62f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::cache::IL3CacheEncryptionManager::decrypt</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;ciphertext)=0</argsstring>
+        <name>decrypt</name>
+        <qualifiedname>themis::cache::IL3CacheEncryptionManager::decrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ciphertext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/l3_encryption_config.h" line="83" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a565873ee78b9eda4e775a2bef44a9f43" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::IL3CacheEncryptionManager::rotateKeys</definition>
+        <argsstring>()=0</argsstring>
+        <name>rotateKeys</name>
+        <qualifiedname>themis::cache::IL3CacheEncryptionManager::rotateKeys</qualifiedname>
+        <briefdescription>
+<para>Rotate Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/l3_encryption_config.h" line="92" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a8fa5c788e7be892688b753b12be2d87c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cache_1a1b4690da76ee7a9f02a1271e2cd60e33" kindref="member">L3EncryptionMode</ref></type>
+        <definition>virtual L3EncryptionMode themis::cache::IL3CacheEncryptionManager::activeMode</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeMode</name>
+        <qualifiedname>themis::cache::IL3CacheEncryptionManager::activeMode</qualifiedname>
+        <briefdescription>
+<para>Active Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/l3_encryption_config.h" line="98" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/l3_encryption_config.h" line="51" column="1" bodyfile="include/cache/l3_encryption_config.h" bodystart="51" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a8fa5c788e7be892688b753b12be2d87c" prot="public" virt="pure-virtual"><scope>themis::cache::IL3CacheEncryptionManager</scope><name>activeMode</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a384d5bbc43eac13a02d11c487af03cf2" prot="public" virt="pure-virtual"><scope>themis::cache::IL3CacheEncryptionManager</scope><name>configure</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a746acb29b1498495d5223a0386cd62f8" prot="public" virt="pure-virtual"><scope>themis::cache::IL3CacheEncryptionManager</scope><name>decrypt</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1ac43384dde87b47ad38b15a85ccdef355" prot="public" virt="pure-virtual"><scope>themis::cache::IL3CacheEncryptionManager</scope><name>encrypt</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a565873ee78b9eda4e775a2bef44a9f43" prot="public" virt="pure-virtual"><scope>themis::cache::IL3CacheEncryptionManager</scope><name>rotateKeys</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager_1a8e5459a6ca2068f491088cf61e6bc332" prot="public" virt="virtual"><scope>themis::cache::IL3CacheEncryptionManager</scope><name>~IL3CacheEncryptionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

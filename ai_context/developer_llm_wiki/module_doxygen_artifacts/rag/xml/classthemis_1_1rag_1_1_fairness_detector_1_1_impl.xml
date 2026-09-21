@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::FairnessDetector::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1aea278d21a4ce8d929c33790605c2f7be" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_fairness_detector_config" kindref="compound">FairnessDetectorConfig</ref></type>
+        <definition>FairnessDetectorConfig themis::rag::FairnessDetector::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="29" column="28" bodyfile="src/rag/fairness_detector.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1ad7508fe4b961ef8666c278fa71da4a38" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FairnessDetector::Impl::embeddings_loaded</definition>
+        <argsstring></argsstring>
+        <name>embeddings_loaded</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::embeddings_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="30" column="10" bodyfile="src/rag/fairness_detector.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a1ef40aba935b9c785f0d82d16f05fc26" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::FairnessDetector::Impl::metrics_mutex</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::metrics_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="31" column="24" bodyfile="src/rag/fairness_detector.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a81a4a453767f14b5268a4b7622abf0f5" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;float&gt; &gt; themis::rag::FairnessDetector::Impl::embeddings</definition>
+        <argsstring></argsstring>
+        <name>embeddings</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::embeddings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="34" column="24" bodyfile="src/rag/fairness_detector.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1ab326c94cca504bf225a22261b937ae16" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::rag::FairnessDetector::Impl::gender_bias_vector</definition>
+        <argsstring></argsstring>
+        <name>gender_bias_vector</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::gender_bias_vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="37" column="17" bodyfile="src/rag/fairness_detector.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a68171d1dbfd9a4184775052b18d7fa40" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::rag::FairnessDetector::Impl::occupational_bias_vector</definition>
+        <argsstring></argsstring>
+        <name>occupational_bias_vector</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::occupational_bias_vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="38" column="17" bodyfile="src/rag/fairness_detector.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a1e176d0770502d0186d84de6674882be" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::rag::FairnessDetector::Impl::ethnicity_bias_vector</definition>
+        <argsstring></argsstring>
+        <name>ethnicity_bias_vector</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::ethnicity_bias_vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="39" column="17" bodyfile="src/rag/fairness_detector.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a33956f66111a5430b5b0a286a8bbed6d" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::rag::FairnessDetector::Impl::gender_biased_terms</definition>
+        <argsstring></argsstring>
+        <name>gender_biased_terms</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::gender_biased_terms</qualifiedname>
+        <initializer>                                       = {
+    &quot;man&quot;, &quot;woman&quot;, &quot;male&quot;, &quot;female&quot;, &quot;he&quot;, &quot;she&quot;, &quot;his&quot;, &quot;her&quot;,
+    &quot;prince&quot;, &quot;princess&quot;, &quot;king&quot;, &quot;queen&quot;, &quot;actor&quot;, &quot;actress&quot;,
+    &quot;waiter&quot;, &quot;waitress&quot;, &quot;steward&quot;, &quot;stewardess&quot;, &quot;boy&quot;, &quot;girl&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="42" column="24" bodyfile="src/rag/fairness_detector.cpp" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1afc2c7401193c23896174c6585a5a94ea" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::rag::FairnessDetector::Impl::occupational_biased_terms</definition>
+        <argsstring></argsstring>
+        <name>occupational_biased_terms</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::occupational_biased_terms</qualifiedname>
+        <initializer>                                             = {
+    &quot;nurse&quot;, &quot;doctor&quot;, &quot;programmer&quot;, &quot;engineer&quot;, &quot;teacher&quot;,
+    &quot;secretary&quot;, &quot;boss&quot;, &quot;manager&quot;, &quot;cook&quot;, &quot;chef&quot;, &quot;pilot&quot;,
+    &quot;scientist&quot;, &quot;mathematician&quot;, &quot;lawyer&quot;, &quot;judge&quot;, &quot;police&quot;,
+    &quot;soldier&quot;, &quot;firefighter&quot;, &quot;construction&quot;, &quot;mechanic&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="48" column="24" bodyfile="src/rag/fairness_detector.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1acb1e65970ef576ab4305ad23d8bc174a" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::rag::FairnessDetector::Impl::ethnicity_biased_terms</definition>
+        <argsstring></argsstring>
+        <name>ethnicity_biased_terms</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::ethnicity_biased_terms</qualifiedname>
+        <initializer>                                          = {
+    &quot;foreign&quot;, &quot;immigrant&quot;, &quot;native&quot;, &quot;ethnic&quot;, &quot;community&quot;,
+    &quot;minority&quot;, &quot;majority&quot;, &quot;indigenous&quot;, &quot;aboriginal&quot;, &quot;tribal&quot;,
+    &quot;oriental&quot;, &quot;occidental&quot;, &quot;western&quot;, &quot;eastern&quot;, &quot;asian&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="55" column="24" bodyfile="src/rag/fairness_detector.cpp" bodystart="55" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a8929efeb5eb4d5be1dc4e87607fdb675" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::FairnessDetector::Impl::Impl</definition>
+        <argsstring>(const FairnessDetectorConfig &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_fairness_detector_config" kindref="compound">FairnessDetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="27" column="5" bodyfile="src/rag/fairness_detector.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a44b667998c09aa80e1c4958d17ad390e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::FairnessDetector::Impl::loadEmbeddings</definition>
+        <argsstring>(const std::string &amp;embedding_path)</argsstring>
+        <name>loadEmbeddings</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::loadEmbeddings</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>embedding_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Embeddings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the embedding. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), THEMIS_WARN(), std::getline(), empty(), iss(), push_back(), close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="67" column="10" bodyfile="src/rag/fairness_detector.cpp" bodystart="67" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1af4422be592523252bbd7a9273d6af617" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::FairnessDetector::Impl::computeGenderBiasVector</definition>
+        <argsstring>()</argsstring>
+        <name>computeGenderBiasVector</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::computeGenderBiasVector</qualifiedname>
+        <briefdescription>
+<para>Compute Gender Bias Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: find(), end(), size(), diff(), push_back(), empty(), resize(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="112" column="10" bodyfile="src/rag/fairness_detector.cpp" bodystart="112" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a048b79a25918ec61fb104da038fe3aaa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::FairnessDetector::Impl::computeOccupationalBiasVector</definition>
+        <argsstring>()</argsstring>
+        <name>computeOccupationalBiasVector</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::computeOccupationalBiasVector</qualifiedname>
+        <briefdescription>
+<para>Compute Occupational Bias Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: find(), end(), size(), diff(), push_back(), empty(), resize(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="166" column="10" bodyfile="src/rag/fairness_detector.cpp" bodystart="166" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a06f196ad09034fa94e281a2610666983" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::FairnessDetector::Impl::computeEthnicityBiasVector</definition>
+        <argsstring>()</argsstring>
+        <name>computeEthnicityBiasVector</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::computeEthnicityBiasVector</qualifiedname>
+        <briefdescription>
+<para>Compute Ethnicity Bias Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: find(), end(), size(), diff(), push_back(), std::move(), empty(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="216" column="10" bodyfile="src/rag/fairness_detector.cpp" bodystart="216" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1aa3a88c0f3b98f9ed8ec7f34e11089217" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::FairnessDetector::Impl::computeWordBiasScore</definition>
+        <argsstring>(const std::string &amp;word, const std::vector&lt; float &gt; &amp;bias_vector)</argsstring>
+        <name>computeWordBiasScore</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::computeWordBiasScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>word</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>bias_vector</declname>
+        </param>
+        <briefdescription>
+<para>Compute Word Bias Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bias_vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), empty(), size(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="266" column="12" bodyfile="src/rag/fairness_detector.cpp" bodystart="266" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a33fdccbaeaea0b7c5597c97b5eb11e57" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::rag::FairnessDetector::Impl::toLower</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>toLower</name>
+        <qualifiedname>themis::rag::FairnessDetector::Impl::toLower</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>To Lower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/fairness_detector.cpp" line="295" column="24" bodyfile="src/rag/fairness_detector.cpp" bodystart="295" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::FairnessDetector::Impl</label>
+        <link refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::FairnessDetectorConfig</label>
+        <link refid="structthemis_1_1rag_1_1_fairness_detector_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/fairness_detector.cpp" line="25" column="1" bodyfile="src/rag/fairness_detector.cpp" bodystart="25" bodyend="301"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a06f196ad09034fa94e281a2610666983" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>computeEthnicityBiasVector</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1af4422be592523252bbd7a9273d6af617" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>computeGenderBiasVector</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a048b79a25918ec61fb104da038fe3aaa" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>computeOccupationalBiasVector</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1aa3a88c0f3b98f9ed8ec7f34e11089217" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>computeWordBiasScore</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1aea278d21a4ce8d929c33790605c2f7be" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a81a4a453767f14b5268a4b7622abf0f5" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>embeddings</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1ad7508fe4b961ef8666c278fa71da4a38" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>embeddings_loaded</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a1e176d0770502d0186d84de6674882be" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>ethnicity_bias_vector</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1acb1e65970ef576ab4305ad23d8bc174a" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>ethnicity_biased_terms</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1ab326c94cca504bf225a22261b937ae16" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>gender_bias_vector</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a33956f66111a5430b5b0a286a8bbed6d" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>gender_biased_terms</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a8929efeb5eb4d5be1dc4e87607fdb675" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a44b667998c09aa80e1c4958d17ad390e" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>loadEmbeddings</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a1ef40aba935b9c785f0d82d16f05fc26" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>metrics_mutex</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a68171d1dbfd9a4184775052b18d7fa40" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>occupational_bias_vector</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1afc2c7401193c23896174c6585a5a94ea" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>occupational_biased_terms</name></member>
+      <member refid="classthemis_1_1rag_1_1_fairness_detector_1_1_impl_1a33fdccbaeaea0b7c5597c97b5eb11e57" prot="public" virt="non-virtual"><scope>themis::rag::FairnessDetector::Impl</scope><name>toLower</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

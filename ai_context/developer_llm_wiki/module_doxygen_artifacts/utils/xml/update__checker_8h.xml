@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="update__checker_8h" kind="file" language="C++">
+    <compoundname>update_checker.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="update__checker_8cpp" local="yes">src/utils/update_checker.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/update_checker.h</label>
+        <link refid="update__checker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>variant</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/update_checker.h</label>
+        <link refid="update__checker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/update_checker.cpp</label>
+        <link refid="update__checker_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_version" prot="public">themis::utils::Version</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_release_info" prot="public">themis::utils::ReleaseInfo</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_update_check_result" prot="public">themis::utils::UpdateCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_update_checker_config" prot="public">themis::utils::UpdateCheckerConfig</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_update_checker" prot="public">themis::utils::UpdateChecker</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1utils_1_1_version" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1utils_1_1_version_1aa6df60b023836278ee16e026cabce23d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1aa6df60b023836278ee16e026cabce23d" kindref="member">major</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1utils_1_1_version_1a8a6799a1175a605ce5e57151f349687c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1a8a6799a1175a605ce5e57151f349687c" kindref="member">minor</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1utils_1_1_version_1ac4a6b0ee72d1a6b5ceeef0a83f72f15b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1ac4a6b0ee72d1a6b5ceeef0a83f72f15b" kindref="member">patch</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1utils_1_1_version_1a30c4d0e3ca535198f5a64f9044d06c70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_version_1a30c4d0e3ca535198f5a64f9044d06c70" kindref="member">prerelease</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;alpha&quot;,<sp/>&quot;beta.1&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1utils_1_1_version_1a211bd169b917f3136cf287e1c8528c73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_version_1a211bd169b917f3136cf287e1c8528c73" kindref="member">build</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>build<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;Version&gt;<sp/><ref refid="structthemis_1_1utils_1_1_version_1a4dc9bd21a2fcf1c3c7b6b330018abcde" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version_str);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_version_1ac41a77a5985784a9f33d5424b4804468" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1a2fb2568ce834711b85482786dc235ee6" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1a148ec9fe33adee880512cc595885760e" kindref="member">operator&gt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1a1a20ed53824b55003313834e44b46fbc" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1utils_1_1_version_1a6eed64f591870afdba9b447467c1b914" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1a6eed64f591870afdba9b447467c1b914" kindref="member">operator&lt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>&lt;<sp/>other<sp/>||<sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>other;<sp/>}</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1utils_1_1_version_1a74ce0b9fece36a38d38f5ad2bbf9abd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1a74ce0b9fece36a38d38f5ad2bbf9abd7" kindref="member">operator&gt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>&gt;<sp/>other<sp/>||<sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>other;<sp/>}</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1utils_1_1_version_1acf9e5cc932c89b55241c763457225456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version_1acf9e5cc932c89b55241c763457225456" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>other);<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1utils_1_1_release_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_release_info" kindref="compound">ReleaseInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1utils_1_1_release_info_1a82c3aa97229803a5496363c2307fd306" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_release_info_1a82c3aa97229803a5496363c2307fd306" kindref="member">tag_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;v1.2.3&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1utils_1_1_release_info_1a0381e8f88fe9748ef7c0db9866bd128a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_release_info_1a0381e8f88fe9748ef7c0db9866bd128a" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Release<sp/>title</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1utils_1_1_release_info_1a0ca2aa0af01097045c1e407a56687917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_release_info_1a0ca2aa0af01097045c1e407a56687917" kindref="member">body</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Release<sp/>notes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1utils_1_1_release_info_1a3edabc9b3de743ea01e1b06b84742efa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_version" kindref="compound">Version</ref><sp/><ref refid="structthemis_1_1utils_1_1_release_info_1a3edabc9b3de743ea01e1b06b84742efa" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parsed<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1utils_1_1_release_info_1ad916ed9125d9bb646be769545e4ac526" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_release_info_1ad916ed9125d9bb646be769545e4ac526" kindref="member">published_at</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO<sp/>8601<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1utils_1_1_release_info_1a6e1031bd182c4a899bf34aa665c01a89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_release_info_1a6e1031bd182c4a899bf34aa665c01a89" kindref="member">html_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>URL<sp/>to<sp/>release<sp/>page</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1utils_1_1_release_info_1a83c6d1f18ccd0ec14b6da113695d03e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_release_info_1a83c6d1f18ccd0ec14b6da113695d03e2" kindref="member">prerelease</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Is<sp/>this<sp/>a<sp/>prerelease?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1utils_1_1_release_info_1a01d31f9d3f9a8cbcb074750505b21ee7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_release_info_1a01d31f9d3f9a8cbcb074750505b21ee7" kindref="member">draft</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Is<sp/>this<sp/>a<sp/>draft?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1utils_1_1_release_info_1a3077221ab00780dfb7f5eabb456d3658" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_release_info_1a3077221ab00780dfb7f5eabb456d3658" kindref="member">critical_patch</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Determined<sp/>by<sp/>keywords<sp/>in<sp/>body/name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_release_info_1af13aa3dfc4ce1427061d89505ef4e3f5" kindref="member">isCritical</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ReleaseInfo&gt;<sp/><ref refid="structthemis_1_1utils_1_1_release_info_1aac91f3a289b241ee72063c810ee400c2" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08f" kindref="member">UpdateStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fab11f790a40aa80b8eb33d970d6c15388" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fab11f790a40aa80b8eb33d970d6c15388" kindref="member">UP_TO_DATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Running<sp/>latest<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa53a5a4472541e09364f686f6db2595c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa53a5a4472541e09364f686f6db2595c1" kindref="member">UPDATE_AVAILABLE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>New<sp/>version<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa11e114595b2e3823b0e8b859efee52cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa11e114595b2e3823b0e8b859efee52cb" kindref="member">CRITICAL_UPDATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Critical<sp/>security<sp/>update<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa21c1fb493906693a1d560add2d425648" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa21c1fb493906693a1d560add2d425648" kindref="member">CHECK_FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>to<sp/>check<sp/>for<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa4d4ebf5e062531ee357494e1a822b5c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa4d4ebf5e062531ee357494e1a822b5c8" kindref="member">CHECKING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Currently<sp/>checking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>yet<sp/>checked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1utils_1_1_update_check_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1utils_1_1_update_check_result_1a4691b567364860991ac8c2dac11142db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08f" kindref="member">UpdateStatus</ref><sp/><ref refid="structthemis_1_1utils_1_1_update_check_result_1a4691b567364860991ac8c2dac11142db" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a7b0d0a28125e99bbe0894b510348c08fa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UpdateStatus::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1utils_1_1_update_check_result_1aa1bc5c96c5db89f242fe394f6eff9f04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_update_check_result_1aa1bc5c96c5db89f242fe394f6eff9f04" kindref="member">current_version</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1utils_1_1_update_check_result_1a85345a1ad00d23ee0f764943a2996abc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ReleaseInfo&gt;<sp/><ref refid="structthemis_1_1utils_1_1_update_check_result_1a85345a1ad00d23ee0f764943a2996abc" kindref="member">latest_release</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1utils_1_1_update_check_result_1a3393a8f3e844c006443b76300fa503b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ReleaseInfo&gt;<sp/><ref refid="structthemis_1_1utils_1_1_update_check_result_1a3393a8f3e844c006443b76300fa503b6" kindref="member">latest_critical_release</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1utils_1_1_update_check_result_1a1fb8147cc959034f7e67647bebe3334f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_update_check_result_1a1fb8147cc959034f7e67647bebe3334f" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1utils_1_1_update_check_result_1a74d53342025cfa5338bf0dc790771ef0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1utils_1_1_update_check_result_1a74d53342025cfa5338bf0dc790771ef0" kindref="member">last_check_time</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref><sp/><ref refid="structthemis_1_1utils_1_1_update_check_result_1a4091ed5b2c57252903ec89684f9dd94c" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1utils_1_1_update_checker_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1utils_1_1_update_checker_config_1a2e69bf23063cf7ff081932367c7d1c85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a2e69bf23063cf7ff081932367c7d1c85" kindref="member">github_owner</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;makr-code&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1utils_1_1_update_checker_config_1a60d8e0b1e7bd370384fa396e8d5f1d1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a60d8e0b1e7bd370384fa396e8d5f1d1b" kindref="member">github_repo</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1utils_1_1_update_checker_config_1a61a14e24fb0b97c4bba6527a5137be5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a61a14e24fb0b97c4bba6527a5137be5a" kindref="member">current_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Will<sp/>be<sp/>set<sp/>from<sp/>build<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1utils_1_1_update_checker_config_1a2fc2fe76b4f3bf0a6dd51d935c28eb07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a2fc2fe76b4f3bf0a6dd51d935c28eb07" kindref="member">check_interval</ref>{3600};<sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-update<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1utils_1_1_update_checker_config_1a17281e2e6acf9fcfe1abc9eddf9c76a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a17281e2e6acf9fcfe1abc9eddf9c76a1" kindref="member">auto_update_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1utils_1_1_update_checker_config_1afe6dd20d589924daa5944714e8854526" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1afe6dd20d589924daa5944714e8854526" kindref="member">auto_update_critical_only</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>auto-update<sp/>critical<sp/>patches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GitHub<sp/>API<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1utils_1_1_update_checker_config_1a596c2caae689941237f18f3a43766b4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a596c2caae689941237f18f3a43766b4f" kindref="member">github_api_token</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional,<sp/>for<sp/>higher<sp/>rate<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1utils_1_1_update_checker_config_1a72f6f829f47dccac1247df1cec28a43f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a72f6f829f47dccac1247df1cec28a43f" kindref="member">github_api_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://api.github.com&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Proxy<sp/>settings<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1utils_1_1_update_checker_config_1a1a3f4fa9d3bfb4b386365331e2a29136" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a1a3f4fa9d3bfb4b386365331e2a29136" kindref="member">proxy_url</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a8798a1b39578154ba34e8f80af53e629" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config_1a7b61993ef052f9ed9641aa422d28ae95" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1utils_1_1_update_checker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" kindref="member">UpdateChecker</ref><sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" kindref="member">UpdateChecker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1adef43c1300ffe5500c1a186253e2a5f4" kindref="member">~UpdateChecker</ref>();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1utils_1_1_update_checker_1a616972fde38fea9d873e84df1f543399" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1a616972fde38fea9d873e84df1f543399" kindref="member">UpdateChecker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" kindref="member">UpdateChecker</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1utils_1_1_update_checker_1a7fc8ff9c215aff146a2d8925857afdf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" kindref="member">UpdateChecker</ref>&amp;<sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1a7fc8ff9c215aff146a2d8925857afdf9" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" kindref="member">UpdateChecker</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1a499b3f376e26e7fc7d05c7b98d7319d5" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1a0cae009f1f516aca9e6b27bebf1492ad" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1a1dc23b4debb19d5a41a6908612b26a5f" kindref="member">checkNow</ref>();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1afac6de2e7adc6c9a58e642ae52ffd769" kindref="member">getLastResult</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1a6ddc4788fc73bd045dae179b66a10e8f" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1ae1ba3afc89284e0fc7518a5ef3b2ba6b" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1acc62b500a4afaf665fb9362156b59838" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::variant&lt;std::vector&lt;ReleaseInfo&gt;,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1aa22cefec24de6156c03ce2a7bebb2048" kindref="member">fetchReleases</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_update_checker_1a76fe062479e7c56925c8223fdf7637e2" kindref="member">onUpdateAvailable</ref>(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref>&amp;)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;std::thread&gt;<sp/>check_thread_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref><sp/>last_result_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref>&amp;)&gt;<sp/>update_callback_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkLoop();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::variant&lt;json,<sp/>std::string&gt;<sp/>httpGet(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref><sp/>analyzeReleases(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ReleaseInfo&gt;&amp;<sp/>releases);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/update_checker.h"/>
+  </compounddef>
+</doxygen>

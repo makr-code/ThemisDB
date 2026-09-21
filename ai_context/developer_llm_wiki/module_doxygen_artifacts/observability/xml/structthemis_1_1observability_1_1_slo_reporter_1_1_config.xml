@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_slo_reporter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SloReporter::Config</compoundname>
+    <includes refid="slo__reporter_8h" local="no">slo_reporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_reporter_1_1_config_1ae81cccd41657ee263fc5b06599c647ca" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::SloReporter::Config::max_samples_per_slo</definition>
+        <argsstring></argsstring>
+        <name>max_samples_per_slo</name>
+        <qualifiedname>themis::observability::SloReporter::Config::max_samples_per_slo</qualifiedname>
+        <initializer>{100&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of request samples retained per SLO per window. Older samples are evicted to bound memory usage. Default: 100,000. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="207" column="16" bodyfile="include/observability/slo_reporter.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the <ref refid="classthemis_1_1observability_1_1_slo_reporter" kindref="compound">SloReporter</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/slo_reporter.h" line="201" column="5" bodyfile="include/observability/slo_reporter.h" bodystart="201" bodyend="208"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_slo_reporter_1_1_config_1ae81cccd41657ee263fc5b06599c647ca" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter::Config</scope><name>max_samples_per_slo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

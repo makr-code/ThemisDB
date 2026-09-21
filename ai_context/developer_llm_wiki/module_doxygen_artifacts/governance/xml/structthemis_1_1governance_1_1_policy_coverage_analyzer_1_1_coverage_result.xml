@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyCoverageAnalyzer::CoverageResult</compoundname>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a9caccf083eae78c6533fa9522a2faa10" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyCoverageAnalyzer::CoverageResult::total_resources_checked</definition>
+        <argsstring></argsstring>
+        <name>total_resources_checked</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::CoverageResult::total_resources_checked</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="61" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a07d2743cd221d5b639fcdd643b54c807" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyCoverageAnalyzer::CoverageResult::covered_resources</definition>
+        <argsstring></argsstring>
+        <name>covered_resources</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::CoverageResult::covered_resources</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="62" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1afde3e7818b54c6099b7b6f29379bb030" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyCoverageAnalyzer::CoverageResult::uncovered_resources</definition>
+        <argsstring></argsstring>
+        <name>uncovered_resources</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::CoverageResult::uncovered_resources</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="63" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1acc010ab235616c63cb05adb68ac9facc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::PolicyCoverageAnalyzer::CoverageResult::coverage_percentage</definition>
+        <argsstring></argsstring>
+        <name>coverage_percentage</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::CoverageResult::coverage_percentage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="64" column="16" bodyfile="include/governance/compliance_reporting.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a8d8da95a5640ea3fafe7e0d7046839e3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PolicyCoverageAnalyzer::CoverageResult::uncovered_resource_list</definition>
+        <argsstring></argsstring>
+        <name>uncovered_resource_list</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::CoverageResult::uncovered_resource_list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="65" column="21" bodyfile="include/governance/compliance_reporting.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1aa401bd7865de5e4f915bfc45d3cd9f61" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::PolicyCoverageAnalyzer::CoverageResult::coverage_by_action</definition>
+        <argsstring></argsstring>
+        <name>coverage_by_action</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::CoverageResult::coverage_by_action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="66" column="28" bodyfile="include/governance/compliance_reporting.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1aadbd9e7a6988808a409c49128cced458" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyCoverageAnalyzer::CoverageResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::CoverageResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="72" column="24" bodyfile="src/governance/compliance_reporting.cpp" bodystart="269" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporting.h" line="60" column="5" bodyfile="include/governance/compliance_reporting.h" bodystart="60" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1aa401bd7865de5e4f915bfc45d3cd9f61" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::CoverageResult</scope><name>coverage_by_action</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1acc010ab235616c63cb05adb68ac9facc" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::CoverageResult</scope><name>coverage_percentage</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a07d2743cd221d5b639fcdd643b54c807" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::CoverageResult</scope><name>covered_resources</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1aadbd9e7a6988808a409c49128cced458" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::CoverageResult</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a9caccf083eae78c6533fa9522a2faa10" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::CoverageResult</scope><name>total_resources_checked</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a8d8da95a5640ea3fafe7e0d7046839e3" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::CoverageResult</scope><name>uncovered_resource_list</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1afde3e7818b54c6099b7b6f29379bb030" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::CoverageResult</scope><name>uncovered_resources</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_store_1_1_data_point" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSStore::DataPoint</compoundname>
+    <includes refid="tsstore_8h" local="no">tsstore.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_data_point_1a17ebdf45e06928672aeddce56ccea4f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TSStore::DataPoint::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::TSStore::DataPoint::metric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="151" column="21" bodyfile="include/timeseries/tsstore.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_data_point_1acd7657f47f52b3317be54b48eacffff2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TSStore::DataPoint::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::TSStore::DataPoint::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="152" column="21" bodyfile="include/timeseries/tsstore.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_data_point_1a19066f68a255371e92baba2d46d24469" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSStore::DataPoint::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::TSStore::DataPoint::timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="153" column="17" bodyfile="include/timeseries/tsstore.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_data_point_1ac805b7ff5388e1a0f0909a64f9df1842" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSStore::DataPoint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::TSStore::DataPoint::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="154" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_data_point_1a88ca84d39108d1dbd78247e7b46c16d7" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::TSStore::DataPoint::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::TSStore::DataPoint::tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="155" column="24" bodyfile="include/timeseries/tsstore.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_data_point_1a80a97eaaa13bbeadf52bdab64c03a9d6" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::TSStore::DataPoint::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::TSStore::DataPoint::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="156" column="24" bodyfile="include/timeseries/tsstore.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_t_s_store_1_1_data_point_1a6af9730e09ec90272b48c477c81e4ecf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::TSStore::DataPoint::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::TSStore::DataPoint::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="162" column="24" bodyfile="src/timeseries/tsstore.cpp" bodystart="77" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_t_s_store_1_1_data_point_1a67780cae62e4f4767d03010ea7e760db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref></type>
+        <definition>TSStore::DataPoint themis::TSStore::DataPoint::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::TSStore::DataPoint::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1_t_s_store_1_1_data_point_1ac805b7ff5388e1a0f0909a64f9df1842" kindref="member">value()</ref>, int64_t(), nlohmann::json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="168" column="26" bodyfile="src/timeseries/tsstore.cpp" bodystart="94" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/tsstore.h" line="150" column="5" bodyfile="include/timeseries/tsstore.h" bodystart="150" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_store_1_1_data_point_1acd7657f47f52b3317be54b48eacffff2" prot="public" virt="non-virtual"><scope>themis::TSStore::DataPoint</scope><name>entity</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_data_point_1a67780cae62e4f4767d03010ea7e760db" prot="public" virt="non-virtual"><scope>themis::TSStore::DataPoint</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_data_point_1a80a97eaaa13bbeadf52bdab64c03a9d6" prot="public" virt="non-virtual"><scope>themis::TSStore::DataPoint</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_data_point_1a17ebdf45e06928672aeddce56ccea4f9" prot="public" virt="non-virtual"><scope>themis::TSStore::DataPoint</scope><name>metric</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_data_point_1a88ca84d39108d1dbd78247e7b46c16d7" prot="public" virt="non-virtual"><scope>themis::TSStore::DataPoint</scope><name>tags</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_data_point_1a19066f68a255371e92baba2d46d24469" prot="public" virt="non-virtual"><scope>themis::TSStore::DataPoint</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_data_point_1a6af9730e09ec90272b48c477c81e4ecf" prot="public" virt="non-virtual"><scope>themis::TSStore::DataPoint</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_data_point_1ac805b7ff5388e1a0f0909a64f9df1842" prot="public" virt="non-virtual"><scope>themis::TSStore::DataPoint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

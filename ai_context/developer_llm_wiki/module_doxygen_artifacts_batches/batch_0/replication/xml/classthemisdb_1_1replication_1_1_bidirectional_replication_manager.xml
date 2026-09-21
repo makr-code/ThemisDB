@@ -1,0 +1,1020 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::BidirectionalReplicationManager</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config" prot="public">themisdb::replication::BidirectionalReplicationManager::BidiConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" prot="public">themisdb::replication::BidirectionalReplicationManager::BidiWriteEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record" prot="public">themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status" prot="public">themisdb::replication::BidirectionalReplicationManager::SyncStatus</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_origin_info" prot="private">themisdb::replication::BidirectionalReplicationManager::OriginInfo</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a80358fd8a2b2fd56b2e4a0d4e28641b1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config" kindref="compound">BidiConfig</ref></type>
+        <definition>BidiConfig themisdb::replication::BidirectionalReplicationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2463" column="16" bodyfile="include/replication/replication_manager.h" bodystart="2463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1af39a6e33b4cd6b1dac9f095774e2b9f6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::BidirectionalReplicationManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2465" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2465" bodyend="2465"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ae84b70c2013a51b2c3b4eeca9ff1c2b6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::BidirectionalReplicationManager::local_sequence_</definition>
+        <argsstring></argsstring>
+        <name>local_sequence_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::local_sequence_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2466" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2466" bodyend="2466"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a28b7d63891302b6c85bc2279a510bafe" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::BidirectionalReplicationManager::remote_sequence_</definition>
+        <argsstring></argsstring>
+        <name>remote_sequence_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::remote_sequence_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2467" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2467" bodyend="2467"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1aa8cb3bc4f972e7858fdf7b8ca80f630b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themisdb::replication::BidirectionalReplicationManager::replication_lag_ms_</definition>
+        <argsstring></argsstring>
+        <name>replication_lag_ms_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::replication_lag_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2468" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2468" bodyend="2468"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a1de532a28cdf5696bcd42d55e96027c9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::BidirectionalReplicationManager::conflicts_detected_</definition>
+        <argsstring></argsstring>
+        <name>conflicts_detected_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::conflicts_detected_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2469" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2469" bodyend="2469"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1acb0a4a75dd2a7822c27108b907f8b101" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::BidirectionalReplicationManager::conflicts_resolved_</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::conflicts_resolved_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2470" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2470" bodyend="2470"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a372d80c32133e0079f4005de35dd139c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::BidirectionalReplicationManager::pending_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pending_mutex_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::pending_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2473" column="38" bodyfile="include/replication/replication_manager.h" bodystart="2473" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a9032be9b2f7fb1928aeaec10ab8e8730" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref> &gt;</type>
+        <definition>std::map&lt;std::string, BidiWriteEntry&gt; themisdb::replication::BidirectionalReplicationManager::pending_writes_</definition>
+        <argsstring></argsstring>
+        <name>pending_writes_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::pending_writes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2474" column="14" bodyfile="include/replication/replication_manager.h" bodystart="2474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1aa309f65eaa9dd0c6735187df5294f414" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::BidirectionalReplicationManager::conflicts_mutex_</definition>
+        <argsstring></argsstring>
+        <name>conflicts_mutex_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::conflicts_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2477" column="41" bodyfile="include/replication/replication_manager.h" bodystart="2477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ab8688e62ef497c90630371b8881fa9b8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record" kindref="compound">BidiConflictRecord</ref> &gt;</type>
+        <definition>std::vector&lt;BidiConflictRecord&gt; themisdb::replication::BidirectionalReplicationManager::conflict_history_</definition>
+        <argsstring></argsstring>
+        <name>conflict_history_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::conflict_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2478" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a31995dbf5a8dd04ede3c2a2473eac13c" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::deque&lt;std::chrono::system_clock::time_point&gt; themisdb::replication::BidirectionalReplicationManager::conflict_timestamps_</definition>
+        <argsstring></argsstring>
+        <name>conflict_timestamps_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::conflict_timestamps_</qualifiedname>
+        <briefdescription>
+<para>For conflicts_last_hour. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2479" column="16" bodyfile="include/replication/replication_manager.h" bodystart="2479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1af5fecebd49c308e094865b1c2f9e5389" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::BidirectionalReplicationManager::origin_mutex_</definition>
+        <argsstring></argsstring>
+        <name>origin_mutex_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::origin_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2482" column="41" bodyfile="include/replication/replication_manager.h" bodystart="2482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1acce0ceebc4031e0ef308946a38503245" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, OriginInfo &gt;</type>
+        <definition>std::map&lt;std::string, OriginInfo&gt; themisdb::replication::BidirectionalReplicationManager::origin_map_</definition>
+        <argsstring></argsstring>
+        <name>origin_map_</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::origin_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2483" column="16" bodyfile="include/replication/replication_manager.h" bodystart="2483" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a8174d6fa64b478a493f4a183cb281c1e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::BidirectionalReplicationManager::BidirectionalReplicationManager</definition>
+        <argsstring>(const BidiConfig &amp;config)</argsstring>
+        <name>BidirectionalReplicationManager</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidirectionalReplicationManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config" kindref="compound">BidiConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2313" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="7699" bodyend="7702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a10b31374dcde88bb4282ddc8c44bc218" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::BidirectionalReplicationManager::~BidirectionalReplicationManager</definition>
+        <argsstring>()</argsstring>
+        <name>~BidirectionalReplicationManager</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::~BidirectionalReplicationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2314" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="7704" bodyend="7706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1afe8c0d5ec34c42c4915b4513586913c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::BidirectionalReplicationManager::BidirectionalReplicationManager</definition>
+        <argsstring>(const BidirectionalReplicationManager &amp;)=delete</argsstring>
+        <name>BidirectionalReplicationManager</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidirectionalReplicationManager</qualifiedname>
+        <param>
+          <type>const BidirectionalReplicationManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2317" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1abee1fe540acdfc6743aeaab52ae785cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a8174d6fa64b478a493f4a183cb281c1e" kindref="member">BidirectionalReplicationManager</ref> &amp;</type>
+        <definition>BidirectionalReplicationManager &amp; themisdb::replication::BidirectionalReplicationManager::operator=</definition>
+        <argsstring>(const BidirectionalReplicationManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a8174d6fa64b478a493f4a183cb281c1e" kindref="member">BidirectionalReplicationManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2318" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a2dd2fa9e3f10c1e59d11f06943d95d0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::start</qualifiedname>
+        <briefdescription>
+<para>── Lifecycle ──────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Activate bidirectional replication. Returns true on success, false when the manager is already running or the configuration is invalid (e.g. local_node_id == remote_node_id).</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), compare_exchange_strong(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2325" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="7714" bodyend="7723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a9d0cfc30ee44192dc2578173d9323a5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::BidirectionalReplicationManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gracefully stop replication and release all resources. Safe to call even if <ref refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a2dd2fa9e3f10c1e59d11f06943d95d0a" kindref="member">start()</ref> was never called.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2331" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="7729" bodyend="7731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a9e55698efce61c33be38b0d65b89a169" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::BidirectionalReplicationManager::submitWrite</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;collection, const std::string &amp;operation, const std::string &amp;data, bool is_ddl=false)</argsstring>
+        <name>submitWrite</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::submitWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_ddl</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>── Write path ─────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Submit a local write for bidirectional replication.</para>
+<para>If track_origin is enabled, the entry is tagged with local_node_id. The write is enqueued for forwarding to the peer on the next sync cycle (or immediately if sync_interval_ms == 0).</para>
+<para>Returns the assigned local sequence number. Returns 0 when <ref refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a9d0cfc30ee44192dc2578173d9323a5b" kindref="member">stop()</ref> has been called.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_ddl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">origin_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2345" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="7743" bodyend="7796"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ad1e00666c47800b524db22ce070a2ccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::applyRemoteWrite</definition>
+        <argsstring>(const BidiWriteEntry &amp;entry)</argsstring>
+        <name>applyRemoteWrite</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::applyRemoteWrite</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Apply a remote write in bidirectional (multi-master) scenario Key consistency guarantees: 1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply an incoming write that was received from the peer.</para>
+<para>Origin tracking: if the entry&apos;s origin_node equals remote_node_id and replicate_foreign_changes is false (default), the change is applied locally but NOT re-forwarded back to the peer, breaking the loop.</para>
+<para>Conflict detection: if a pending local write targets the same (collection, document_id), handleConflict() is called to resolve it.</para>
+<para>Fail-closed invariants:<itemizedlist>
+<listitem><para>When origin tracking is enabled, incoming writes must carry non-empty origin_node and origin_seq &gt; 0.</para>
+</listitem><listitem><para>Stale/duplicate writes from the same origin (origin_seq &lt;= last seen sequence for the same document) are rejected.</para>
+<para>Returns true when the entry was accepted and applied.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Loop prevention: Track origin node and sequence to avoid re-applying local writes 2. Causal ordering: Use origin_sequence to detect causal relationships 3. Conflict detection: Identify concurrent writes via timestamps/clocks 4. Conflict resolution: Apply configured strategy (LWW, CRDT, etc.) to merge state This ensures strong eventual consistency: all replicas converge to same state when all writes have been exchanged and conflicts resolved. Calls: empty(), makeDocKey(), lk(), find(), end(), detectConflict(), handleConflict(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2369" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="7804" bodyend="7879"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a95d61cf59c440da03384d9e53cf644f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_sync_status" kindref="compound">SyncStatus</ref></type>
+        <definition>BidirectionalReplicationManager::SyncStatus themisdb::replication::BidirectionalReplicationManager::getSyncStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getSyncStatus</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::getSyncStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Current synchronisation status snapshot. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2374" column="16" bodyfile="src/replication/replication_manager.cpp" bodystart="7884" bodyend="7923"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1af3a17e08cf2aa645014ff1b8ca9d4163" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record" kindref="compound">BidiConflictRecord</ref> &gt;</type>
+        <definition>std::vector&lt; BidirectionalReplicationManager::BidiConflictRecord &gt; themisdb::replication::BidirectionalReplicationManager::getConflictHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getConflictHistory</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::getConflictHistory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all conflict records (both auto-resolved and pending manual resolution). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2380" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="7926" bodyend="7934"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ac8bab95e72c9d618ff4eb494ba642888" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record" kindref="compound">BidiConflictRecord</ref> &gt;</type>
+        <definition>std::vector&lt; BidirectionalReplicationManager::BidiConflictRecord &gt; themisdb::replication::BidirectionalReplicationManager::getPendingConflicts</definition>
+        <argsstring>() const</argsstring>
+        <name>getPendingConflicts</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::getPendingConflicts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return only the conflict records that are awaiting manual resolution (i.e. strategy == CUSTOM and no manual resolution has been applied yet). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2386" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="7937" bodyend="7953"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a6950749b3a12d05e54310bfa5200d270" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::resolveConflict</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;winner_node)</argsstring>
+        <name>resolveConflict</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::resolveConflict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>winner_node</declname>
+        </param>
+        <briefdescription>
+<para>── Conflict resolution ─────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Manually resolve a conflict by nominating which node&apos;s write wins.</para>
+<para>Locates the conflict record by document_id (most recent conflict for that document), marks it resolved, and updates resolved_write to the nominated node&apos;s write. winner_node must be either local_node_id or remote_node_id.</para>
+<para>Returns true when a matching unresolved conflict was found and resolved.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">winner_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2399" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="7962" bodyend="7988"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a0df3afe22e8294af102f8cb782b3c09e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::BidirectionalReplicationManager::setCollectionStrategy</definition>
+        <argsstring>(const std::string &amp;collection, ConflictResolution strategy)</argsstring>
+        <name>setCollectionStrategy</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::setCollectionStrategy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" kindref="member">ConflictResolution</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>── Configuration helpers ───────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the conflict resolution strategy for a specific collection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2405" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="7996" bodyend="8001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ad1bf96dc17191940715f8e498b1fa2ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themisdb::replication::BidirectionalReplicationManager::getEffectiveStrategy</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>getEffectiveStrategy</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::getEffectiveStrategy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Read back the effective strategy for a collection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2409" column="24" bodyfile="src/replication/replication_manager.cpp" bodystart="8003" bodyend="8010"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a34e78295805fbfbf976be5f4802b0594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::BidirectionalReplicationManager::updateRemoteSequence</definition>
+        <argsstring>(uint64_t remote_seq, int64_t lag_ms=0)</argsstring>
+        <name>updateRemoteSequence</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::updateRemoteSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>remote_seq</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>lag_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Update Remote Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject a remote sequence number directly (used by tests and integration harnesses that do not run a real network layer).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2417" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="8019" bodyend="8029"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ab7eccbe037010c0621f502ab395b55fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::applyRemoteDDL</definition>
+        <argsstring>(const std::string &amp;ddl_statement, const std::string &amp;schema_version, uint64_t origin_seq)</argsstring>
+        <name>applyRemoteDDL</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::applyRemoteDDL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ddl_statement</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_version</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>origin_seq</declname>
+        </param>
+        <briefdescription>
+<para>Apply Remote DDL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulate an incoming DDL event from the peer. Delegates to <ref refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ad1e00666c47800b524db22ce070a2ccb" kindref="member">applyRemoteWrite()</ref> with is_ddl=true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ddl_statement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">origin_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2423" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="8038" bodyend="8060"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ab1f33cb3a4724232caaaacbcfee64dc2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>OriginInfo</type>
+        <definition>BidirectionalReplicationManager::OriginInfo themisdb::replication::BidirectionalReplicationManager::getOrigin</definition>
+        <argsstring>(const std::string &amp;document_id) const</argsstring>
+        <name>getOrigin</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::getOrigin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>document_id here is expected to be the raw doc id (not the compound key). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">origin_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Callers that need to look up by collection+doc should use the origin_map_ directly with makeDocKey.</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2435" column="16" bodyfile="src/replication/replication_manager.cpp" bodystart="8072" bodyend="8089"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a588b6275a9853809ca58003de230072d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::isLocalOrigin</definition>
+        <argsstring>(const OriginInfo &amp;origin) const</argsstring>
+        <name>isLocalOrigin</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::isLocalOrigin</qualifiedname>
+        <param>
+          <type>const OriginInfo &amp;</type>
+          <declname>origin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2436" column="16" bodyfile="src/replication/replication_manager.cpp" bodystart="8091" bodyend="8093"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a34317012feb9a83a05cbb95c9fb2a45f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref></type>
+        <definition>BidirectionalReplicationManager::BidiWriteEntry themisdb::replication::BidirectionalReplicationManager::resolveWrite</definition>
+        <argsstring>(const BidiWriteEntry &amp;local, const BidiWriteEntry &amp;remote, ConflictResolution strategy) const</argsstring>
+        <name>resolveWrite</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::resolveWrite</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" kindref="member">ConflictResolution</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply the configured resolution strategy and return the winning entry. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2442" column="20" bodyfile="src/replication/replication_manager.cpp" bodystart="8096" bodyend="8123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1af3158aea686ad0df64514a88b16748f7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::detectConflict</definition>
+        <argsstring>(const BidiWriteEntry &amp;incoming, const BidiWriteEntry &amp;existing) const</argsstring>
+        <name>detectConflict</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::detectConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref> &amp;</type>
+          <declname>incoming</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref> &amp;</type>
+          <declname>existing</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect whether two entries targeting the same (collection, document_id) constitute a conflict. Two writes conflict when both have been submitted since the last known-good sync point (i.e. their sequence numbers are both ahead of the last acknowledged remote sequence). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2452" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="8125" bodyend="8136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ab5a1aabdc6c9039754843610316a7de3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::BidirectionalReplicationManager::handleConflict</definition>
+        <argsstring>(const BidiWriteEntry &amp;local_write, const BidiWriteEntry &amp;remote_write, bool is_ddl)</argsstring>
+        <name>handleConflict</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::handleConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref> &amp;</type>
+          <declname>local_write</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref> &amp;</type>
+          <declname>remote_write</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_ddl</declname>
+        </param>
+        <briefdescription>
+<para>Handle Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record a conflict and apply the configured strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_ddl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2458" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="8144" bodyend="8189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a584e215d74d8075869c5ae018595bf35" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::BidirectionalReplicationManager::makeDocKey</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;document_id) const</argsstring>
+        <name>makeDocKey</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::makeDocKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2485" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="8064" bodyend="8069"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager" kindref="compound">BidirectionalReplicationManager</ref></para>
+<para>Enables true bidirectional (active-active) replication between exactly two peer nodes. Both nodes accept writes and push changes to each other.</para>
+<para>Key capabilities:<itemizedlist>
+<listitem><para>Symmetric replication: every committed write is forwarded to the peer.</para>
+</listitem><listitem><para>Conflict detection using HLC timestamps and monotonic sequence numbers.</para>
+</listitem><listitem><para>Configurable conflict resolution per collection (LWW, FIRST_WRITE_WINS, VECTOR_CLOCK, or CUSTOM).</para>
+</listitem><listitem><para>Origin tracking: each change is tagged with the node that originally created it, preventing replication loops (a change that originated from the peer is not forwarded back to the peer).</para>
+</listitem><listitem><para>DDL replication with conflict detection (schema changes are sequenced and the later-arriving DDL wins by default, or a CUSTOM resolver is invoked).</para>
+</listitem></itemizedlist>
+</para>
+<para>Lifecycle: <ref refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager" kindref="compound">BidirectionalReplicationManager</ref> mgr(config); mgr.start(); // … application runs … mgr.stop();</para>
+<para>Thread safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="2240" column="1" bodyfile="include/replication/replication_manager.h" bodystart="2240" bodyend="2487"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ab7eccbe037010c0621f502ab395b55fb" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>applyRemoteDDL</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ad1e00666c47800b524db22ce070a2ccb" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>applyRemoteWrite</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a8174d6fa64b478a493f4a183cb281c1e" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>BidirectionalReplicationManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1afe8c0d5ec34c42c4915b4513586913c0" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>BidirectionalReplicationManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a80358fd8a2b2fd56b2e4a0d4e28641b1" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ab8688e62ef497c90630371b8881fa9b8" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>conflict_history_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a31995dbf5a8dd04ede3c2a2473eac13c" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>conflict_timestamps_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a1de532a28cdf5696bcd42d55e96027c9" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>conflicts_detected_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1aa309f65eaa9dd0c6735187df5294f414" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>conflicts_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1acb0a4a75dd2a7822c27108b907f8b101" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>conflicts_resolved_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1af3158aea686ad0df64514a88b16748f7" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>detectConflict</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1af3a17e08cf2aa645014ff1b8ca9d4163" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>getConflictHistory</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ad1bf96dc17191940715f8e498b1fa2ed" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>getEffectiveStrategy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ab1f33cb3a4724232caaaacbcfee64dc2" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>getOrigin</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ac8bab95e72c9d618ff4eb494ba642888" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>getPendingConflicts</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a95d61cf59c440da03384d9e53cf644f8" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>getSyncStatus</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ab5a1aabdc6c9039754843610316a7de3" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>handleConflict</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a588b6275a9853809ca58003de230072d" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>isLocalOrigin</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1ae84b70c2013a51b2c3b4eeca9ff1c2b6" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>local_sequence_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a584e215d74d8075869c5ae018595bf35" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>makeDocKey</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1abee1fe540acdfc6743aeaab52ae785cd" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1acce0ceebc4031e0ef308946a38503245" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>origin_map_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1af5fecebd49c308e094865b1c2f9e5389" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>origin_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a372d80c32133e0079f4005de35dd139c" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>pending_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a9032be9b2f7fb1928aeaec10ab8e8730" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>pending_writes_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a28b7d63891302b6c85bc2279a510bafe" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>remote_sequence_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1aa8cb3bc4f972e7858fdf7b8ca80f630b" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>replication_lag_ms_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a6950749b3a12d05e54310bfa5200d270" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>resolveConflict</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a34317012feb9a83a05cbb95c9fb2a45f" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>resolveWrite</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1af39a6e33b4cd6b1dac9f095774e2b9f6" prot="private" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a0df3afe22e8294af102f8cb782b3c09e" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>setCollectionStrategy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a2dd2fa9e3f10c1e59d11f06943d95d0a" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a9d0cfc30ee44192dc2578173d9323a5b" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a9e55698efce61c33be38b0d65b89a169" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>submitWrite</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a34e78295805fbfbf976be5f4802b0594" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>updateRemoteSequence</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager_1a10b31374dcde88bb4282ddc8c44bc218" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager</scope><name>~BidirectionalReplicationManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,572 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cross__coordinator__wal__recovery_8cpp" kind="file" language="C++">
+    <compoundname>test_cross_coordinator_wal_recovery.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">sharding/wal_logging_helper.h</includes>
+    <includes local="yes">sharding/wal_manager.h</includes>
+    <includes refid="distributed__transaction__manager_8h" local="yes">transaction/distributed_transaction_manager.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">system_error</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>transaction/distributed_transaction_manager.h</label>
+        <link refid="distributed__transaction__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>transaction/in_doubt_recovery_coordinator.h</label>
+        <link refid="in__doubt__recovery__coordinator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+        <link refid="recoverable__two__phase__coordinator_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/transaction/test_cross_coordinator_wal_recovery.cpp</label>
+        <link refid="test__cross__coordinator__wal__recovery_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>condition_variable</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="25">
+        <label>filesystem</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="17">
+        <label>map</label>
+      </node>
+      <node id="18">
+        <label>memory</label>
+      </node>
+      <node id="19">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>optional</label>
+      </node>
+      <node id="21">
+        <label>queue</label>
+      </node>
+      <node id="22">
+        <label>set</label>
+      </node>
+      <node id="3">
+        <label>sharding/wal_logging_helper.h</label>
+      </node>
+      <node id="4">
+        <label>sharding/wal_manager.h</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="26">
+        <label>system_error</label>
+      </node>
+      <node id="23">
+        <label>thread</label>
+      </node>
+      <node id="24">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>utils/retry_contract.h</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_temp_dir_cleanup" prot="public">TempDirCleanup</innerclass>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1a5705e67c7361b1058a52f9bb729bf9b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::filesystem::path</type>
+        <definition>static std::filesystem::path makeTempDir</definition>
+        <argsstring>(const std::string &amp;suffix)</argsstring>
+        <name>makeTempDir</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>suffix</declname>
+        </param>
+        <briefdescription>
+<para>Create a temporary directory unique to this process invocation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="37" column="30" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CrossCoordinatorWALRecovery, NullWAL_AppendWithResult_ReturnsNullopt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CrossCoordinatorWALRecovery</type>
+        </param>
+        <param>
+          <type>NullWAL_AppendWithResult_ReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="59" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="59" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1a8313d173d4596ab22c4dbe96c9a2cc88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CrossCoordinatorWALRecovery, RealWAL_AppendWithResult_ReturnsValidLSN)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CrossCoordinatorWALRecovery</type>
+        </param>
+        <param>
+          <type>RealWAL_AppendWithResult_ReturnsValidLSN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="75" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="75" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1a5a4fa2ef46ab273e317769ac50152a7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CrossCoordinatorWALRecovery, AppendEntry_VoidOverload_DoesNotThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CrossCoordinatorWALRecovery</type>
+        </param>
+        <param>
+          <type>AppendEntry_VoidOverload_DoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="102" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="102" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1a318144b28e08411bacff3a2d0d2c4aa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CrossCoordinatorWALRecovery, BuildEntry_JsonPayloadRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CrossCoordinatorWALRecovery</type>
+        </param>
+        <param>
+          <type>BuildEntry_JsonPayloadRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="139" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="139" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1a9da8dcea1e1b4231303e34ecf5d2996d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CrossCoordinatorWALRecovery, BuildEntry_BeginTx_HasCorrectType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CrossCoordinatorWALRecovery</type>
+        </param>
+        <param>
+          <type>BuildEntry_BeginTx_HasCorrectType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="161" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="161" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1a66bc459d657d436437891795aeab4a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CrossCoordinatorWALRecovery, EntryTypes_CommitAndAbort_AreDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CrossCoordinatorWALRecovery</type>
+        </param>
+        <param>
+          <type>EntryTypes_CommitAndAbort_AreDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="171" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="171" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1ab459c123cf90058e2573539a18875dab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CrossCoordinatorWALRecovery, DTM_RecoverWithoutWAL_ReturnsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CrossCoordinatorWALRecovery</type>
+        </param>
+        <param>
+          <type>DTM_RecoverWithoutWAL_ReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="196" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="196" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cross__coordinator__wal__recovery_8cpp_1a279880d4ca343a66933e934dddd2ac7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CrossCoordinatorWALRecovery, DTM_RecoverFromEmptyWAL_ReturnsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CrossCoordinatorWALRecovery</type>
+        </param>
+        <param>
+          <type>DTM_RecoverFromEmptyWAL_ReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="212" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="212" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Tests<sp/>for<sp/>cross-coordinator<sp/>WAL<sp/>recovery<sp/>contracts<sp/>—<sp/>Issue<sp/>#5372<sp/>(CC-5).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>document<sp/>and<sp/>enforce<sp/>the<sp/>WAL<sp/>isolation<sp/>contract:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>each<sp/>coordinator<sp/>writes<sp/>its<sp/>own<sp/>WAL<sp/>format<sp/>and<sp/>can<sp/>only<sp/>recover<sp/>its<sp/>own</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>transactions.<sp/><sp/>They<sp/>also<sp/>validate<sp/>the<sp/>shared<sp/>WALLoggingHelper<sp/>utility<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>verify<sp/>that<sp/>WAL<sp/>entries<sp/>produced<sp/>by<sp/>WALLoggingHelper<sp/>are<sp/>well-formed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-1<sp/><sp/>WALLoggingHelper:<sp/>nullptr<sp/>WAL<sp/>is<sp/>a<sp/>no-op<sp/>(returns<sp/>nullopt)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-2<sp/><sp/>WALLoggingHelper:<sp/>appendEntryWithResult<sp/>returns<sp/>a<sp/>valid<sp/>LSN<sp/>on<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-3<sp/><sp/>WALLoggingHelper:<sp/>appendEntry<sp/>(void<sp/>overload)<sp/>does<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-4<sp/><sp/>WALLoggingHelper:<sp/>JSON<sp/>payload<sp/>is<sp/>embedded<sp/>verbatim<sp/>in<sp/>WALEntry::data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-5<sp/><sp/>WALLoggingHelper:<sp/>BEGIN_TX<sp/>entry<sp/>has<sp/>expected<sp/>WALEntryType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-6<sp/><sp/>WALLoggingHelper:<sp/>COMMIT_TX<sp/>/<sp/>ABORT_TX<sp/>entries<sp/>are<sp/>distinct<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-7<sp/><sp/>DistributedTransactionManager:<sp/>recoverInDoubtTransactions()<sp/>returns<sp/>0<sp/>without<sp/>WAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-8<sp/><sp/>DistributedTransactionManager:<sp/>recoverInDoubtTransactions()<sp/>returns<sp/>0<sp/>with<sp/>empty<sp/>WAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/wal_logging_helper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/wal_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__transaction__manager_8h" kindref="compound">transaction/distributed_transaction_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;system_error&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::sharding;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">themis::transaction</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::filesystem::path<sp/>makeTempDir(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>suffix)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/><sp/>=<sp/>std::filesystem::temp_directory_path()</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;themis_cwr_&quot;</highlight><highlight class="normal"><sp/>+<sp/>suffix<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(ts));</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(p);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="struct_temp_dir_cleanup" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_temp_dir_cleanup" kindref="compound">TempDirCleanup</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/><ref refid="struct_temp_dir_cleanup_1a955eee9b22ecc2bb892ccc68bdcc8508" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_dir_cleanup_1a74236fa221d66b0771070e327dd4baef" kindref="member">~TempDirCleanup</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="struct_temp_dir_cleanup_1a955eee9b22ecc2bb892ccc68bdcc8508" kindref="member">path</ref>,<sp/>ec);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WALLoggingHelper<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-1:<sp/>nullptr<sp/>WAL<sp/>is<sp/>a<sp/>safe<sp/>no-op.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" kindref="member">TEST</ref>(CrossCoordinatorWALRecovery,<sp/>NullWAL_AppendWithResult_ReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>WALManager*<sp/>null_wal<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>WALLoggingHelper::appendEntryWithResult(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>null_wal,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALEntryType::BEGIN_TX,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;coordinator_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coord-a&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*sync=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coordinator&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coord-a&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;appendEntryWithResult<sp/>should<sp/>return<sp/>nullopt<sp/>when<sp/>WAL<sp/>is<sp/>nullptr&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-2:<sp/>appendEntryWithResult<sp/>returns<sp/>a<sp/>valid<sp/>LSN<sp/>when<sp/>a<sp/>real<sp/>WAL<sp/>is<sp/>provided.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" kindref="member">TEST</ref>(CrossCoordinatorWALRecovery,<sp/>RealWAL_AppendWithResult_ReturnsValidLSN)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dir<sp/>=<sp/>makeTempDir(</highlight><highlight class="stringliteral">&quot;cwr2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_dir_cleanup" kindref="compound">TempDirCleanup</ref><sp/>cleanup{dir};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALManagerConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.wal_directory<sp/>=<sp/>dir.string();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.segment_size<sp/><sp/>=<sp/>1<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALManager<sp/>wal(cfg);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(wal.initialize());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>WALLoggingHelper::appendEntryWithResult(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;wal,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALEntryType::BEGIN_TX,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-2&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;coordinator_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coord-a&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;participants&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array()}},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*sync=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coordinator&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coord-a&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value())</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;appendEntryWithResult<sp/>should<sp/>return<sp/>a<sp/>valid<sp/>LSN<sp/>for<sp/>a<sp/>live<sp/>WAL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-3:<sp/>void<sp/>overload<sp/>(appendEntry)<sp/>does<sp/>not<sp/>throw<sp/>for<sp/>nullptr<sp/>or<sp/>live<sp/>WAL.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" kindref="member">TEST</ref>(CrossCoordinatorWALRecovery,<sp/>AppendEntry_VoidOverload_DoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALLoggingHelper::appendEntry(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALEntryType::COMMIT_TX,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-3&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;decision&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;commit&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*sync=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coordinator&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coord-a&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dir<sp/>=<sp/>makeTempDir(</highlight><highlight class="stringliteral">&quot;cwr3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_dir_cleanup" kindref="compound">TempDirCleanup</ref><sp/>cleanup{dir};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALManagerConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.wal_directory<sp/>=<sp/>dir.string();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALManager<sp/>wal(cfg);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(wal.initialize());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALLoggingHelper::appendEntry(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;wal,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALEntryType::COMMIT_TX,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-3b&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;decision&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;commit&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*sync=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coordinator&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coord-a&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-4:<sp/>JSON<sp/>payload<sp/>embedded<sp/>in<sp/>WALEntry::data<sp/>is<sp/>preserved<sp/>verbatim.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" kindref="member">TEST</ref>(CrossCoordinatorWALRecovery,<sp/>BuildEntry_JsonPayloadRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;coordinator_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coord-a&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;participants&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shard-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard-2&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;isolation&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/>42}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>WALEntry<sp/>entry<sp/>=<sp/>WALLoggingHelper::buildEntry(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALEntryType::BEGIN_TX,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-4&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>payload</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.type,<sp/>WALEntryType::BEGIN_TX);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.transaction_id,<sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.data,<sp/>payload)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;WALEntry::data<sp/>must<sp/>equal<sp/>the<sp/>supplied<sp/>JSON<sp/>payload<sp/>verbatim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(entry.timestamp,<sp/>uint64_t{0})</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;buildEntry<sp/>should<sp/>populate<sp/>timestamp<sp/>with<sp/>a<sp/>positive<sp/>epoch-ms<sp/>value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-5:<sp/>BEGIN_TX<sp/>entry<sp/>has<sp/>the<sp/>correct<sp/>WALEntryType.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" kindref="member">TEST</ref>(CrossCoordinatorWALRecovery,<sp/>BuildEntry_BeginTx_HasCorrectType)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>WALLoggingHelper::buildEntry(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALEntryType::BEGIN_TX,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-5&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.type,<sp/>WALEntryType::BEGIN_TX);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-6:<sp/>COMMIT_TX<sp/>and<sp/>ABORT_TX<sp/>entries<sp/>are<sp/>distinct<sp/>entry<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" kindref="member">TEST</ref>(CrossCoordinatorWALRecovery,<sp/>EntryTypes_CommitAndAbort_AreDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>commit_entry<sp/>=<sp/>WALLoggingHelper::buildEntry(</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALEntryType::COMMIT_TX,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-6-c&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;decision&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;commit&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>abort_entry<sp/>=<sp/>WALLoggingHelper::buildEntry(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WALEntryType::ABORT_TX,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;txn-cwr-6-a&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;decision&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;abort&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(commit_entry.type,<sp/>WALEntryType::COMMIT_TX);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(abort_entry.type,<sp/><sp/>WALEntryType::ABORT_TX);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(commit_entry.type,<sp/>abort_entry.type)</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;COMMIT_TX<sp/>and<sp/>ABORT_TX<sp/>must<sp/>be<sp/>distinct<sp/>WALEntryType<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedTransactionManager<sp/>WAL<sp/>recovery<sp/>contract<sp/>tests<sp/>(CC-5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-7:<sp/>recoverInDoubtTransactions()<sp/>returns<sp/>0<sp/>when<sp/>WAL<sp/>is<sp/>disabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Documents<sp/>that<sp/>without<sp/>a<sp/>configured<sp/>WAL<sp/>the<sp/>coordinator<sp/>has<sp/>nothing<sp/>to<sp/>recover;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>is<sp/>the<sp/>safe<sp/>default<sp/>state<sp/>(no<sp/>stale<sp/>in-doubt<sp/>transactions<sp/>persisted).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" kindref="member">TEST</ref>(CrossCoordinatorWALRecovery,<sp/>DTM_RecoverWithoutWAL_ReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config" kindref="compound">DistributedTxnManagerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ad1940bd99c6e5cbf387c35786919a5e2" kindref="member">prepare_timeout</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a56bfcf6499a7ac185b49107c2f34294c" kindref="member">commit_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a8bcf99ca08a2ea6f883810f40135a493" kindref="member">default_txn_timeout</ref><sp/>=<sp/>std::chrono::seconds(30);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>WAL<sp/>directory<sp/>—<sp/>recovery<sp/>log<sp/>disabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;cwr-7-coord&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>mgr.recoverInDoubtTransactions();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resolved,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">{0})</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Without<sp/>a<sp/>WAL,<sp/>recoverInDoubtTransactions()<sp/>must<sp/>report<sp/>0<sp/>resolved<sp/>transactions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CWR-8:<sp/>recoverInDoubtTransactions()<sp/>returns<sp/>0<sp/>for<sp/>a<sp/>freshly<sp/>created,<sp/>empty<sp/>WAL.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Documents<sp/>the<sp/>WAL<sp/>isolation<sp/>boundary:<sp/>an<sp/>empty<sp/>WAL<sp/>has<sp/>no<sp/>in-doubt<sp/>transactions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>for<sp/>any<sp/>coordinator<sp/>to<sp/>recover.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__cross__coordinator__wal__recovery_8cpp_1a10eb022f4accc820abb04cab807496ac" kindref="member">TEST</ref>(CrossCoordinatorWALRecovery,<sp/>DTM_RecoverFromEmptyWAL_ReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dir<sp/>=<sp/>makeTempDir(</highlight><highlight class="stringliteral">&quot;cwr8&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_dir_cleanup" kindref="compound">TempDirCleanup</ref><sp/>cleanup{dir};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config" kindref="compound">DistributedTxnManagerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ad1940bd99c6e5cbf387c35786919a5e2" kindref="member">prepare_timeout</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a56bfcf6499a7ac185b49107c2f34294c" kindref="member">commit_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a8bcf99ca08a2ea6f883810f40135a493" kindref="member">default_txn_timeout</ref><sp/>=<sp/>std::chrono::seconds(30);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a9eff37fbf38a7ef8a23e51d81da7e2ea" kindref="member">wal_directory</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>dir.string();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a89c60acb109e41914642f8b56ca21318" kindref="member">enable_recovery_log</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;cwr-8-coord&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>mgr.recoverInDoubtTransactions();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(resolved,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">{0})</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>freshly<sp/>initialised<sp/>WAL<sp/>has<sp/>no<sp/>in-doubt<sp/>transactions<sp/>to<sp/>recover&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f3e86320732c53583bd0bbb9a6050416" kind="dir">
+    <compoundname>src/llm_wiki</compoundname>
+    <innerdir refid="dir_f242a1be4055320fd0524350baa53ad4">src/llm_wiki/wikipedia</innerdir>
+    <innerfile refid="edition__gate_8cpp">edition_gate.cpp</innerfile>
+    <innerfile refid="edition__gate_8h">edition_gate.h</innerfile>
+    <innerfile refid="guardrail__patterns_8h">guardrail_patterns.h</innerfile>
+    <innerfile refid="process__policy__manager_8cpp">process_policy_manager.cpp</innerfile>
+    <innerfile refid="rocksdb__wiki__store_8cpp">rocksdb_wiki_store.cpp</innerfile>
+    <innerfile refid="workspace__state__manager_8cpp">workspace_state_manager.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm_wiki/"/>
+  </compounddef>
+</doxygen>

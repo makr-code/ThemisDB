@@ -1,0 +1,1678 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUTensor</compoundname>
+    <includes refid="gpu__tensor_8h" local="no">gpu_tensor.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::vector&lt; float &gt; &amp;, <ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>, <ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>)&gt;</type>
+        <definition>using themis::llm::lora::GPUTensor::DtypeCastFn = std::function&lt;std::vector&lt;float&gt;(const std::vector&lt;float&gt;&amp;, DType, DType)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DtypeCastFn</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::DtypeCastFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="223" column="5" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a770493dc20102892b91f4fa74295334f" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUTensor&gt; themis::llm::lora::GPUTensor::grad</definition>
+        <argsstring></argsstring>
+        <name>grad</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::grad</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="190" column="21" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae588c08ac0273e7c9573a537ba87b239" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUTensor::requires_grad</definition>
+        <argsstring></argsstring>
+        <name>requires_grad</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::requires_grad</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="191" column="10" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae9d1d6e96332746cd9bfe92e216c8b7f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::GPUTensor::shape_</definition>
+        <argsstring></argsstring>
+        <name>shape_</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::shape_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="236" column="17" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a6f051f36873528bb131c7ac53052471b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPUTensor::device_</definition>
+        <argsstring></argsstring>
+        <name>device_</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::device_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="237" column="12" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5973dd3a57aea332910098fe689123dc" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+        <definition>DType themis::llm::lora::GPUTensor::dtype_</definition>
+        <argsstring></argsstring>
+        <name>dtype_</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::dtype_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="238" column="11" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad206f117e91b234945624e2ee790361e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::lora::GPUTensor::cpu_data_</definition>
+        <argsstring></argsstring>
+        <name>cpu_data_</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::cpu_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="241" column="17" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a96897c056c7710146feff20bc92b82d6" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::lora::GPUTensor::gpu_data_</definition>
+        <argsstring></argsstring>
+        <name>gpu_data_</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::gpu_data_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="244" column="10" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aea7752e7b4dc5ba3fdad71778ccac7a2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> *</type>
+        <definition>VRAMAllocator* themis::llm::lora::GPUTensor::allocator_</definition>
+        <argsstring></argsstring>
+        <name>allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::allocator_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="245" column="19" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTensor::GPUTensor</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUTensor</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::GPUTensor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="31" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a340a7d3fdb50d33330fd73c3c3b52363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTensor::GPUTensor</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, const Device &amp;device=Device::cpu(), DType dtype=DType::FLOAT32)</argsstring>
+        <name>GPUTensor</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::GPUTensor</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="33" column="5" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="94" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3a134707d7f42005c61ed11ad210ce0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTensor::GPUTensor</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, float value, const Device &amp;device=Device::cpu(), DType dtype=DType::FLOAT32)</argsstring>
+        <name>GPUTensor</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::GPUTensor</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="37" column="5" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="108" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a11b607de2437ff3c9d1d443e0ab68de6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTensor::~GPUTensor</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUTensor</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::~GPUTensor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="42" column="5" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="113" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a0a6638e6026303a46c860d1e51015eff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTensor::GPUTensor</definition>
+        <argsstring>(const GPUTensor &amp;)=delete</argsstring>
+        <name>GPUTensor</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::GPUTensor</qualifiedname>
+        <param>
+          <type>const GPUTensor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad2ae1c3cb346015a8ae17789100bb599" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+        <definition>GPUTensor &amp; themis::llm::lora::GPUTensor::operator=</definition>
+        <argsstring>(const GPUTensor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="46" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad313f9a911f681f4c3e305773575403d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUTensor::GPUTensor</definition>
+        <argsstring>(GPUTensor &amp;&amp;other) noexcept</argsstring>
+        <name>GPUTensor</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::GPUTensor</qualifiedname>
+        <param>
+          <type>GPUTensor &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="47" column="5" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="119" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac343110bad6c0f7c27811b268d9b794a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+        <definition>GPUTensor &amp; themis::llm::lora::GPUTensor::operator=</definition>
+        <argsstring>(GPUTensor &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="48" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="133" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac46f8a11acc7fec4dc2f0b06605cf18a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPUTensor::device</definition>
+        <argsstring>() const</argsstring>
+        <name>device</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::device</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="52" column="12" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a71ce02522162f75818cac2f58bd4f913" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::to</definition>
+        <argsstring>(const Device &amp;target_device) const</argsstring>
+        <name>to</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::to</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>target_device</declname>
+        </param>
+        <briefdescription>
+<para>To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Create new tensor on target device <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="59" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="158" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a6f0bfc03d75cb127a06a9506a989995c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::to_inplace</definition>
+        <argsstring>(const Device &amp;target_device)</argsstring>
+        <name>to_inplace</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::to_inplace</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>target_device</declname>
+        </param>
+        <briefdescription>
+<para>To inplace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a71ce02522162f75818cac2f58bd4f913" kindref="member">to()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="65" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="192" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1afdaa8464cb1b162b65039aa2d3c2d232" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUTensor::is_cpu</definition>
+        <argsstring>() const</argsstring>
+        <name>is_cpu</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::is_cpu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="67" column="10" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1abd308affcf4f7297bde0a7df014a213d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUTensor::is_gpu</definition>
+        <argsstring>() const</argsstring>
+        <name>is_gpu</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::is_gpu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="69" column="10" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a48e734fae73f9bbd862a344be6fb74d6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+        <definition>DType themis::llm::lora::GPUTensor::dtype</definition>
+        <argsstring>() const</argsstring>
+        <name>dtype</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::dtype</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="71" column="11" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a293b1f3edfdbaf2b4d0333fd087e0831" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUTensor::is_mixed_precision</definition>
+        <argsstring>() const</argsstring>
+        <name>is_mixed_precision</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::is_mixed_precision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="73" column="10" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a88f84a84e8bd7a352aa7eadcd10006fd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; size_t &gt; &amp;</type>
+        <definition>const std::vector&lt; size_t &gt; &amp; themis::llm::lora::GPUTensor::shape</definition>
+        <argsstring>() const</argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="77" column="23" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3fa10ce741745cf19b8797d5964b1f6c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUTensor::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="82" column="12" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="206" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a29259662e0b8eafb1250116786f1299d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUTensor::ndim</definition>
+        <argsstring>() const</argsstring>
+        <name>ndim</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::ndim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="83" column="12" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aefd364bb9f7779deb31bb6ae2ca5315c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::GPUTensor::cpu_data</definition>
+        <argsstring>() const</argsstring>
+        <name>cpu_data</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::cpu_data</qualifiedname>
+        <briefdescription>
+<para>Cpu data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="89" column="17" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="211" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3798abdb129ca79550c5110faefe5931" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::lora::GPUTensor::gpu_ptr</definition>
+        <argsstring>() const</argsstring>
+        <name>gpu_ptr</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::gpu_ptr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="91" column="10" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a50ef9f1be15a69f0c189e33c67934053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::upload</definition>
+        <argsstring>(const float *data, size_t count)</argsstring>
+        <name>upload</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::upload</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3fa10ce741745cf19b8797d5964b1f6c" kindref="member">size()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1afdaa8464cb1b162b65039aa2d3c2d232" kindref="member">is_cpu()</ref>, std::memcpy(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="98" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="227" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1af70b05653f8ce3fd72e3cd55bcc9d1e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::upload</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data)</argsstring>
+        <name>upload</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::upload</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: data(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3fa10ce741745cf19b8797d5964b1f6c" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="103" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="246" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a262092c12bde42526897b019b5501eaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::download</definition>
+        <argsstring>(float *data, size_t count) const</argsstring>
+        <name>download</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::download</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Download. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="110" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="250" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a7210f119d66fc96ee9cb400f960f5f5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::GPUTensor::download</definition>
+        <argsstring>() const</argsstring>
+        <name>download</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::download</qualifiedname>
+        <briefdescription>
+<para>Download. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="115" column="17" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="264" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a52ae1af9893d8c5fd2843bb1be012376" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::operator+</definition>
+        <argsstring>(const GPUTensor &amp;other) const</argsstring>
+        <name>operator+</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::operator+</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="119" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="274" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a20adf27148dfa9a75d76fdeed9410429" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::operator-</definition>
+        <argsstring>(const GPUTensor &amp;other) const</argsstring>
+        <name>operator-</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::operator-</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="121" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="286" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1adc68d7b797ecd883fd6527cffd1d8a6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::operator*</definition>
+        <argsstring>(float scalar) const</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::operator*</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="123" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="298" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1adad1f3f24c79e7313625b160447ddd63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::mul</definition>
+        <argsstring>(const GPUTensor &amp;other) const</argsstring>
+        <name>mul</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::mul</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Mul. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="130" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="302" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a05a8605f0f0a4911a2dfbadfb51442a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::matmul</definition>
+        <argsstring>(const GPUTensor &amp;other) const</argsstring>
+        <name>matmul</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::matmul</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Matmul. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="137" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="314" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae10871234ebfcb9e629bd992fa73ae45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::transpose</definition>
+        <argsstring>() const</argsstring>
+        <name>transpose</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::transpose</qualifiedname>
+        <briefdescription>
+<para>Transpose. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="143" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="330" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a21fe20880ab902c3da753d5c80525dcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::fill</definition>
+        <argsstring>(float value)</argsstring>
+        <name>fill</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::fill</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Fill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1afdaa8464cb1b162b65039aa2d3c2d232" kindref="member">is_cpu()</ref>, begin(), end(), temp(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3fa10ce741745cf19b8797d5964b1f6c" kindref="member">size()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a50ef9f1be15a69f0c189e33c67934053" kindref="member">upload()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="149" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="343" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a81c5daf01fd19c7cbe856eb51858280f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::zero</definition>
+        <argsstring>()</argsstring>
+        <name>zero</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::zero</qualifiedname>
+        <briefdescription>
+<para>Zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a21fe20880ab902c3da753d5c80525dcd" kindref="member">fill()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="154" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="357" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac9747c19c5503e37460219565851280c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::clone</definition>
+        <argsstring>() const</argsstring>
+        <name>clone</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::clone</qualifiedname>
+        <briefdescription>
+<para>Clone. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="160" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="361" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a34fab84ee8ec7b00e35412d66532e6c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::to_fp32</definition>
+        <argsstring>() const</argsstring>
+        <name>to_fp32</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::to_fp32</qualifiedname>
+        <briefdescription>
+<para>========== Data Type Conversion ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="167" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="385" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a91732c5622f58d8a30a81a4bd9f59609" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::to_fp16</definition>
+        <argsstring>() const</argsstring>
+        <name>to_fp16</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::to_fp16</qualifiedname>
+        <briefdescription>
+<para>To fp16. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="173" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="389" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aab020ed86e09de688dbe8b8a0af35e11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::to_bf16</definition>
+        <argsstring>() const</argsstring>
+        <name>to_bf16</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::to_bf16</qualifiedname>
+        <briefdescription>
+<para>To bf16. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="179" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="393" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a59f0f37260c3fe9c5c0efd74c428f8a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::to_dtype</definition>
+        <argsstring>(DType target_dtype) const</argsstring>
+        <name>to_dtype</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::to_dtype</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>target_dtype</declname>
+        </param>
+        <briefdescription>
+<para>To dtype. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+For GPU tensors, use GPU conversion kernels <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="186" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="397" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a80ee99fc3459cf28b5833901f18b2813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::zero_grad</definition>
+        <argsstring>()</argsstring>
+        <name>zero_grad</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::zero_grad</qualifiedname>
+        <briefdescription>
+<para>Zero grad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a81c5daf01fd19c7cbe856eb51858280f" kindref="member">zero()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="196" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="533" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ab158b74b0a753f98d14b8a2fdfe402aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::ensure_grad</definition>
+        <argsstring>()</argsstring>
+        <name>ensure_grad</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::ensure_grad</qualifiedname>
+        <briefdescription>
+<para>Ensure grad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a81c5daf01fd19c7cbe856eb51858280f" kindref="member">zero()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="201" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="543" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad6cf5cc890c4dc150bc121c03fb2e33d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::multiply_inplace</definition>
+        <argsstring>(float scalar)</argsstring>
+        <name>multiply_inplace</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::multiply_inplace</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>========== Mixed Precision Support ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiply inplace.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1afdaa8464cb1b162b65039aa2d3c2d232" kindref="member">is_cpu()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3fa10ce741745cf19b8797d5964b1f6c" kindref="member">size()</ref>, cuda::launch_scalar_multiply_inplace_kernel(), hip::launch_scalar_multiply_inplace_kernel(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a7210f119d66fc96ee9cb400f960f5f5d" kindref="member">download()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a50ef9f1be15a69f0c189e33c67934053" kindref="member">upload()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="208" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="977" bodyend="1014"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aeddb0fae66b2942fa67a57863fb15d55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUTensor::has_inf_or_nan</definition>
+        <argsstring>() const</argsstring>
+        <name>has_inf_or_nan</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::has_inf_or_nan</qualifiedname>
+        <briefdescription>
+<para>Has inf or nan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="214" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="1016" bodyend="1060"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::setCudaDtypeCastFn</definition>
+        <argsstring>(DtypeCastFn fn)</argsstring>
+        <name>setCudaDtypeCastFn</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::setCudaDtypeCastFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" kindref="member">DtypeCastFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Cuda Dtype Cast Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), cudaDtypeCastMutex(), cudaDtypeCastFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="228" column="17" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::setHipDtypeCastFn</definition>
+        <argsstring>(DtypeCastFn fn)</argsstring>
+        <name>setHipDtypeCastFn</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::setHipDtypeCastFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" kindref="member">DtypeCastFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Hip Dtype Cast Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), hipDtypeCastMutex(), hipDtypeCastFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="233" column="17" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a059297633300f0975e394c72fc63fb73" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> &amp;</type>
+        <definition>GPUMemoryManager &amp; themis::llm::lora::GPUTensor::get_memory_manager</definition>
+        <argsstring>()</argsstring>
+        <name>get_memory_manager</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::get_memory_manager</qualifiedname>
+        <briefdescription>
+<para>GPU memory manager (shared across all tensors). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Static memory manager instance.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get_memory_manager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="251" column="29" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a57bb307947d70a5de1a001bd13933f4e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::dispatch_add</definition>
+        <argsstring>(const GPUTensor &amp;other) const</argsstring>
+        <name>dispatch_add</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::dispatch_add</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="259" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="589" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a92d8958e74b5eb514babbd11163b2068" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::dispatch_sub</definition>
+        <argsstring>(const GPUTensor &amp;other) const</argsstring>
+        <name>dispatch_sub</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::dispatch_sub</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch sub. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="265" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="645" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac9dafc016aad5e3bc2aa21daa455ba00" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::dispatch_mul_scalar</definition>
+        <argsstring>(float scalar) const</argsstring>
+        <name>dispatch_mul_scalar</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::dispatch_mul_scalar</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch mul scalar. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="271" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="693" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aa05e6df08de5c13ce890ef181423b14b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::dispatch_mul_elementwise</definition>
+        <argsstring>(const GPUTensor &amp;other) const</argsstring>
+        <name>dispatch_mul_elementwise</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::dispatch_mul_elementwise</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch mul elementwise. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="277" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="748" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a03a52b27bb5dc29683c2de3f52588d8d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::dispatch_matmul</definition>
+        <argsstring>(const GPUTensor &amp;other) const</argsstring>
+        <name>dispatch_matmul</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::dispatch_matmul</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch matmul. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="283" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="804" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ace86e334d3ad082b17fa30b197ac570d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUTensor::dispatch_transpose</definition>
+        <argsstring>() const</argsstring>
+        <name>dispatch_transpose</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::dispatch_transpose</qualifiedname>
+        <briefdescription>
+<para>Dispatch transpose. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>C data. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="288" column="15" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="908" bodyend="966"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a494c826a4451700d5b53a4555673e411" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::allocate_gpu_memory</definition>
+        <argsstring>()</argsstring>
+        <name>allocate_gpu_memory</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::allocate_gpu_memory</qualifiedname>
+        <briefdescription>
+<para>Helper to allocate GPU memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate gpu memory.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get_memory_manager(), get_allocator(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3fa10ce741745cf19b8797d5964b1f6c" kindref="member">size()</ref>, <ref refid="namespacethemis_1_1llm_1_1lora_1ac96080ce0ae3f7d70b561f6daba2236a" kindref="member">dtype_size()</ref>, allocate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="293" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="560" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a7cc85e637896d8c2c82de00de09ac152" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUTensor::free_gpu_memory</definition>
+        <argsstring>()</argsstring>
+        <name>free_gpu_memory</name>
+        <qualifiedname>themis::llm::lora::GPUTensor::free_gpu_memory</qualifiedname>
+        <briefdescription>
+<para>Free gpu memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: deallocate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_tensor.h" line="297" column="10" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="578" bodyend="583"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_tensor.h" line="29" column="1" bodyfile="include/llm/lora_framework/gpu_tensor.h" bodystart="29" bodyend="298"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a494c826a4451700d5b53a4555673e411" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>allocate_gpu_memory</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aea7752e7b4dc5ba3fdad71778ccac7a2" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac9747c19c5503e37460219565851280c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>clone</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aefd364bb9f7779deb31bb6ae2ca5315c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>cpu_data</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad206f117e91b234945624e2ee790361e" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>cpu_data_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac46f8a11acc7fec4dc2f0b06605cf18a" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>device</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a6f051f36873528bb131c7ac53052471b" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>device_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a57bb307947d70a5de1a001bd13933f4e" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>dispatch_add</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a03a52b27bb5dc29683c2de3f52588d8d" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>dispatch_matmul</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aa05e6df08de5c13ce890ef181423b14b" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>dispatch_mul_elementwise</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac9dafc016aad5e3bc2aa21daa455ba00" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>dispatch_mul_scalar</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a92d8958e74b5eb514babbd11163b2068" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>dispatch_sub</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ace86e334d3ad082b17fa30b197ac570d" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>dispatch_transpose</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a262092c12bde42526897b019b5501eaa" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>download</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a7210f119d66fc96ee9cb400f960f5f5d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>download</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a48e734fae73f9bbd862a344be6fb74d6" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>dtype</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5973dd3a57aea332910098fe689123dc" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>dtype_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>DtypeCastFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ab158b74b0a753f98d14b8a2fdfe402aa" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>ensure_grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a21fe20880ab902c3da753d5c80525dcd" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>fill</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a7cc85e637896d8c2c82de00de09ac152" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>free_gpu_memory</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a059297633300f0975e394c72fc63fb73" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>get_memory_manager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a96897c056c7710146feff20bc92b82d6" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>gpu_data_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3798abdb129ca79550c5110faefe5931" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>gpu_ptr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>GPUTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a340a7d3fdb50d33330fd73c3c3b52363" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>GPUTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3a134707d7f42005c61ed11ad210ce0f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>GPUTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a0a6638e6026303a46c860d1e51015eff" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>GPUTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad313f9a911f681f4c3e305773575403d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>GPUTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a770493dc20102892b91f4fa74295334f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aeddb0fae66b2942fa67a57863fb15d55" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>has_inf_or_nan</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1afdaa8464cb1b162b65039aa2d3c2d232" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>is_cpu</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1abd308affcf4f7297bde0a7df014a213d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>is_gpu</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a293b1f3edfdbaf2b4d0333fd087e0831" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>is_mixed_precision</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a05a8605f0f0a4911a2dfbadfb51442a0" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>matmul</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1adad1f3f24c79e7313625b160447ddd63" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>mul</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad6cf5cc890c4dc150bc121c03fb2e33d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>multiply_inplace</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a29259662e0b8eafb1250116786f1299d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>ndim</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1adc68d7b797ecd883fd6527cffd1d8a6b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a52ae1af9893d8c5fd2843bb1be012376" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>operator+</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a20adf27148dfa9a75d76fdeed9410429" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>operator-</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad2ae1c3cb346015a8ae17789100bb599" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac343110bad6c0f7c27811b268d9b794a" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae588c08ac0273e7c9573a537ba87b239" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>requires_grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>setCudaDtypeCastFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>setHipDtypeCastFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a88f84a84e8bd7a352aa7eadcd10006fd" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>shape</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae9d1d6e96332746cd9bfe92e216c8b7f" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>shape_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3fa10ce741745cf19b8797d5964b1f6c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a71ce02522162f75818cac2f58bd4f913" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>to</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aab020ed86e09de688dbe8b8a0af35e11" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>to_bf16</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a59f0f37260c3fe9c5c0efd74c428f8a2" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>to_dtype</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a91732c5622f58d8a30a81a4bd9f59609" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>to_fp16</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a34fab84ee8ec7b00e35412d66532e6c9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>to_fp32</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a6f0bfc03d75cb127a06a9506a989995c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>to_inplace</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae10871234ebfcb9e629bd992fa73ae45" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>transpose</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a50ef9f1be15a69f0c189e33c67934053" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>upload</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1af70b05653f8ce3fd72e3cd55bcc9d1e8" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>upload</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a81c5daf01fd19c7cbe856eb51858280f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>zero</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a80ee99fc3459cf28b5833901f18b2813" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>zero_grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a11b607de2437ff3c9d1d443e0ab68de6" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTensor</scope><name>~GPUTensor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_a_b_test_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ABTestConfig</compoundname>
+    <includes refid="lora__router_8h" local="no">lora_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_b_test_config_1af3a6aaf31e4516546664b2c0a3b5ae2d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ABTestConfig::adapter_ids</definition>
+        <argsstring></argsstring>
+        <name>adapter_ids</name>
+        <qualifiedname>themis::llm::ABTestConfig::adapter_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="42" column="17" bodyfile="include/llm/lora_router.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_b_test_config_1abf70d447f8bfd01b33a55f980ce38cf9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::ABTestConfig::traffic_splits</definition>
+        <argsstring></argsstring>
+        <name>traffic_splits</name>
+        <qualifiedname>themis::llm::ABTestConfig::traffic_splits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="43" column="17" bodyfile="include/llm/lora_router.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_b_test_config_1a9fb8c95746d5da83e128cb50c6180fb7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ABTestConfig::experiment_id</definition>
+        <argsstring></argsstring>
+        <name>experiment_id</name>
+        <qualifiedname>themis::llm::ABTestConfig::experiment_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="44" column="17" bodyfile="include/llm/lora_router.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_b_test_config_1a4c7e0f43f11905c349238392ee372deb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ABTestConfig::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::llm::ABTestConfig::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="45" column="43" bodyfile="include/llm/lora_router.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_b_test_config_1aa74b93f61875ddfb51c9409916ef296c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ABTestConfig::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::llm::ABTestConfig::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="46" column="43" bodyfile="include/llm/lora_router.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_b_test_config_1ada55b5b0e80b177d828dec02761c2bdf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ABTestConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::ABTestConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="47" column="10" bodyfile="include/llm/lora_router.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_router.h" line="41" column="1" bodyfile="include/llm/lora_router.h" bodystart="41" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_a_b_test_config_1af3a6aaf31e4516546664b2c0a3b5ae2d" prot="public" virt="non-virtual"><scope>themis::llm::ABTestConfig</scope><name>adapter_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_b_test_config_1ada55b5b0e80b177d828dec02761c2bdf" prot="public" virt="non-virtual"><scope>themis::llm::ABTestConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_b_test_config_1aa74b93f61875ddfb51c9409916ef296c" prot="public" virt="non-virtual"><scope>themis::llm::ABTestConfig</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_b_test_config_1a9fb8c95746d5da83e128cb50c6180fb7" prot="public" virt="non-virtual"><scope>themis::llm::ABTestConfig</scope><name>experiment_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_b_test_config_1a4c7e0f43f11905c349238392ee372deb" prot="public" virt="non-virtual"><scope>themis::llm::ABTestConfig</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_b_test_config_1abf70d447f8bfd01b33a55f980ce38cf9" prot="public" virt="non-virtual"><scope>themis::llm::ABTestConfig</scope><name>traffic_splits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ethics__ai__ldm7__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_ethics_ai_ldm7_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp</label>
+        <link refid="test__ethics__ai__ldm7__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ethics__ai__ldm7__focused_8cpp_1ab234da7bdf532d7ebda42c4106eae726" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDM7Schools, ConstantsAreNonEmptyAndDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools" kindref="compound">LDM7Schools</ref></type>
+        </param>
+        <param>
+          <type>ConstantsAreNonEmptyAndDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>LDM7-01: <ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools" kindref="compound">LDM7Schools</ref> constants are non-empty and distinct. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp" line="34" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__ldm7__focused_8cpp_1ab32f8ff1332b813e7ca9fadb94360a18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CulturalEthicsSchoolDescriptor, DefaultConstructed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstructed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>LDM7-02: <ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref> default-constructs correctly. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp" line="48" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp" bodystart="48" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__ldm7__focused_8cpp_1a34972344048265e7ec1d97dd2f0d7c17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CulturalEthicsSchoolDescriptor, MaoriEthicsDescriptor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref></type>
+        </param>
+        <param>
+          <type>MaoriEthicsDescriptor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>LDM7-03: A Māori ethics descriptor can be constructed with required fields. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp" line="63" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp" bodystart="63" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__ldm7__focused_8cpp_1a1536b38fb3d9c545030cb666494ab0ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CulturalEthicsSchoolDescriptor, LatinLiberationTheologyDescriptor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref></type>
+        </param>
+        <param>
+          <type>LatinLiberationTheologyDescriptor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>LDM7-04: A Latin Liberation Theology descriptor can be constructed. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp" line="85" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp" bodystart="85" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LDM-7: Māori Ethics and Latin-American Liberation Theology school descriptors. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="test__ethics__ai__ldm7__focused_8cpp_1autotoc_md5_1s1"><sect2 id="test__ethics__ai__ldm7__focused_8cpp_1autotoc_md5">
+<title>Test families (LDM7-01..LDM7-04)</title><para>LDM7-01 <ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools" kindref="compound">LDM7Schools</ref> constants are non-empty and distinct LDM7-02 <ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref> default-constructs correctly LDM7-03 Descriptor for MAORI_ETHICS has expected cultural context fields LDM7-04 Descriptor for LATIN_LIBERATION_THEOLOGY has expected norm sources</para>
+<para><simplesect kind="see"><para><ref refid="ethics__ai__types_8h" kindref="compound">include/ethics_ai/ethics_ai_types.h</ref> — LDM-7 types </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">themis::plugins::ethics</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDM7-01<sp/>—<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__ethics__ai__ldm7__focused_8cpp_1ab234da7bdf532d7ebda42c4106eae726" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools" kindref="compound">LDM7Schools</ref>,<sp/>ConstantsAreNonEmptyAndDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::string(<ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a909fe9e8f69365d1b92a10f205e29afc" kindref="member">LDM7Schools::MAORI_ETHICS</ref>).empty());</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::string(<ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a90874016b254da3425524695689f4734" kindref="member">LDM7Schools::LATIN_LIBERATION_THEOLOGY</ref>).empty());</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string(<ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a909fe9e8f69365d1b92a10f205e29afc" kindref="member">LDM7Schools::MAORI_ETHICS</ref>),</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(<ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a90874016b254da3425524695689f4734" kindref="member">LDM7Schools::LATIN_LIBERATION_THEOLOGY</ref>));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDM7-02<sp/>—<sp/>Default<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__ethics__ai__ldm7__focused_8cpp_1ab234da7bdf532d7ebda42c4106eae726" kindref="member">TEST</ref>(<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref>,<sp/>DefaultConstructed)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref><sp/>desc;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a62d013b656a47d4a744d5d840d88b609" kindref="member">school_id</ref>.empty());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a02ee8f22e8609f6b20b3ad9ebb330cbb" kindref="member">display_name</ref>.empty());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a79133c48a42278e3d43c013cead52c5c" kindref="member">primary_norm_sources</ref>.empty());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(desc.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a6725e28ad8cb8c058ad7bf42666335c4" kindref="member">bias_correction_factor</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDM7-03<sp/>—<sp/>Māori<sp/>Ethics<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__ethics__ai__ldm7__focused_8cpp_1ab234da7bdf532d7ebda42c4106eae726" kindref="member">TEST</ref>(<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref>,<sp/>MaoriEthicsDescriptor)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref><sp/>maori;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a62d013b656a47d4a744d5d840d88b609" kindref="member">school_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a909fe9e8f69365d1b92a10f205e29afc" kindref="member">LDM7Schools::MAORI_ETHICS</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a02ee8f22e8609f6b20b3ad9ebb330cbb" kindref="member">display_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Māori<sp/>Ethics&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a2d47284f69a7a1943eb6c0532f13fb91" kindref="member">cultural_context</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Relational<sp/>ethics<sp/>grounded<sp/>in<sp/>whakapapa<sp/>(genealogy),<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;kaitiakitanga<sp/>(guardianship),<sp/>and<sp/>mana<sp/>(authority/dignity).&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a79133c48a42278e3d43c013cead52c5c" kindref="member">primary_norm_sources</ref><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;Te<sp/>Tiriti<sp/>o<sp/>Waitangi&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;UN<sp/>Declaration<sp/>on<sp/>Rights<sp/>of<sp/>Indigenous<sp/>Peoples&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a6725e28ad8cb8c058ad7bf42666335c4" kindref="member">bias_correction_factor</ref><sp/>=<sp/>1.2;<sp/><sp/></highlight><highlight class="comment">//<sp/>initial<sp/>boost<sp/>to<sp/>counter<sp/>historical<sp/>under-representation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a62d013b656a47d4a744d5d840d88b609" kindref="member">school_id</ref>,<sp/>std::string(<ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a909fe9e8f69365d1b92a10f205e29afc" kindref="member">LDM7Schools::MAORI_ETHICS</ref>));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a79133c48a42278e3d43c013cead52c5c" kindref="member">primary_norm_sources</ref>.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a6725e28ad8cb8c058ad7bf42666335c4" kindref="member">bias_correction_factor</ref>,<sp/>1.2);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(maori.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a2d47284f69a7a1943eb6c0532f13fb91" kindref="member">cultural_context</ref>.empty());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDM7-04<sp/>—<sp/>Latin<sp/>Liberation<sp/>Theology<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__ethics__ai__ldm7__focused_8cpp_1ab234da7bdf532d7ebda42c4106eae726" kindref="member">TEST</ref>(<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref>,<sp/>LatinLiberationTheologyDescriptor)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kindref="compound">CulturalEthicsSchoolDescriptor</ref><sp/>llth;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>llth.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a62d013b656a47d4a744d5d840d88b609" kindref="member">school_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a90874016b254da3425524695689f4734" kindref="member">LDM7Schools::LATIN_LIBERATION_THEOLOGY</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>llth.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a02ee8f22e8609f6b20b3ad9ebb330cbb" kindref="member">display_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Latin-American<sp/>Liberation<sp/>Theology&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>llth.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a2d47284f69a7a1943eb6c0532f13fb91" kindref="member">cultural_context</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Preferential<sp/>option<sp/>for<sp/>the<sp/>poor<sp/>(Gutierrez);<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ethics<sp/>of<sp/>liberation<sp/>from<sp/>structural<sp/>oppression<sp/>(Dussel).&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>llth.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a79133c48a42278e3d43c013cead52c5c" kindref="member">primary_norm_sources</ref><sp/><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Gutierrez,<sp/>G.<sp/>(1971).<sp/>A<sp/>Theology<sp/>of<sp/>Liberation&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Dussel,<sp/>E.<sp/>(1973).<sp/>Ethics<sp/>of<sp/>Liberation&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Boff,<sp/>L.<sp/>(1986).<sp/>Church:<sp/>Charism<sp/>and<sp/>Power&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>llth.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a6725e28ad8cb8c058ad7bf42666335c4" kindref="member">bias_correction_factor</ref><sp/>=<sp/>1.15;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(llth.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a62d013b656a47d4a744d5d840d88b609" kindref="member">school_id</ref>,<sp/>std::string(<ref refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a90874016b254da3425524695689f4734" kindref="member">LDM7Schools::LATIN_LIBERATION_THEOLOGY</ref>));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(llth.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a79133c48a42278e3d43c013cead52c5c" kindref="member">primary_norm_sources</ref>.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(llth.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a6725e28ad8cb8c058ad7bf42666335c4" kindref="member">bias_correction_factor</ref>,<sp/>1.15);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ethics_ai/test_ethics_ai_ldm7_focused.cpp"/>
+  </compounddef>
+</doxygen>

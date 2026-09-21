@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ShardSummaryRefreshResult</compoundname>
+    <includes refid="shard__summary__coordinator_8h" local="no">shard_summary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1aae643672e04409c736a76d82383406ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardSummaryRefreshResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryRefreshResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="99" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a7f7fb3de236c79f23e7c864ee0b7a4f2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ShardSummaryRefreshResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryRefreshResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="101" column="10" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1af8b82b168eb2bcf773c53a91f3094fb7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardSummaryRefreshResult::error_reason</definition>
+        <argsstring></argsstring>
+        <name>error_reason</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryRefreshResult::error_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="103" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1af8b3b6a00bf679b069e0a1aac80df538" prot="public" static="no" mutable="no">
+        <type>tensor::SummaryFreshnessState</type>
+        <definition>tensor::SummaryFreshnessState themis::distributed_tensor::ShardSummaryRefreshResult::freshness_state</definition>
+        <argsstring></argsstring>
+        <name>freshness_state</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryRefreshResult::freshness_state</qualifiedname>
+        <initializer>= tensor::SummaryFreshnessState::STALE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="105" column="35" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a33603bef1d402c0e6bf2d3048a3a74b1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::ShardSummaryRefreshResult::refreshed_at_ms</definition>
+        <argsstring></argsstring>
+        <name>refreshed_at_ms</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryRefreshResult::refreshed_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="107" column="13" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a6536a28e98b8815297d7b3de6c858c08" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardSummaryRefreshResult::generation</definition>
+        <argsstring></argsstring>
+        <name>generation</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryRefreshResult::generation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="109" column="14" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="98" column="1" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="98" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1af8b82b168eb2bcf773c53a91f3094fb7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryRefreshResult</scope><name>error_reason</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1af8b3b6a00bf679b069e0a1aac80df538" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryRefreshResult</scope><name>freshness_state</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a6536a28e98b8815297d7b3de6c858c08" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryRefreshResult</scope><name>generation</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a33603bef1d402c0e6bf2d3048a3a74b1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryRefreshResult</scope><name>refreshed_at_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1aae643672e04409c736a76d82383406ec" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryRefreshResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result_1a7f7fb3de236c79f23e7c864ee0b7a4f2" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryRefreshResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

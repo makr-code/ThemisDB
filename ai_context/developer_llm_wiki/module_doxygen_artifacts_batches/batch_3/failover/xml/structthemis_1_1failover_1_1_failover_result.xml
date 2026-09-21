@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_failover_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::FailoverResult</compoundname>
+    <includes refid="auto__failover__manager_8h" local="no">auto_failover_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_failover_result_1a676282ea1089c3112654bf7d07c324ff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::FailoverResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::failover::FailoverResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="119" column="10" bodyfile="include/failover/auto_failover_manager.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_failover_result_1a728c4b25d8c8f7aa18874bc4f08ef2de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::FailoverResult::failed_node_id</definition>
+        <argsstring></argsstring>
+        <name>failed_node_id</name>
+        <qualifiedname>themis::failover::FailoverResult::failed_node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="120" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_failover_result_1a168b3b9ae05850bc54d6e640ab27d804" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::FailoverResult::promoted_node_id</definition>
+        <argsstring></argsstring>
+        <name>promoted_node_id</name>
+        <qualifiedname>themis::failover::FailoverResult::promoted_node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="121" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_failover_result_1a69e5fd5345b13ec8c2800da85205c2bd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::FailoverResult::spare_node_id</definition>
+        <argsstring></argsstring>
+        <name>spare_node_id</name>
+        <qualifiedname>themis::failover::FailoverResult::spare_node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="122" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_failover_result_1a281a64bd8459013b531c816018eb849d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::FailoverResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::failover::FailoverResult::duration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="123" column="31" bodyfile="include/failover/auto_failover_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_failover_result_1a3904fae41cbf979b866c62c6f71d6afd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::FailoverResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::failover::FailoverResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="124" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/auto_failover_manager.h" line="118" column="1" bodyfile="include/failover/auto_failover_manager.h" bodystart="118" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_failover_result_1a281a64bd8459013b531c816018eb849d" prot="public" virt="non-virtual"><scope>themis::failover::FailoverResult</scope><name>duration</name></member>
+      <member refid="structthemis_1_1failover_1_1_failover_result_1a3904fae41cbf979b866c62c6f71d6afd" prot="public" virt="non-virtual"><scope>themis::failover::FailoverResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1failover_1_1_failover_result_1a728c4b25d8c8f7aa18874bc4f08ef2de" prot="public" virt="non-virtual"><scope>themis::failover::FailoverResult</scope><name>failed_node_id</name></member>
+      <member refid="structthemis_1_1failover_1_1_failover_result_1a168b3b9ae05850bc54d6e640ab27d804" prot="public" virt="non-virtual"><scope>themis::failover::FailoverResult</scope><name>promoted_node_id</name></member>
+      <member refid="structthemis_1_1failover_1_1_failover_result_1a69e5fd5345b13ec8c2800da85205c2bd" prot="public" virt="non-virtual"><scope>themis::failover::FailoverResult</scope><name>spare_node_id</name></member>
+      <member refid="structthemis_1_1failover_1_1_failover_result_1a676282ea1089c3112654bf7d07c324ff" prot="public" virt="non-virtual"><scope>themis::failover::FailoverResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

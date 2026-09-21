@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdatesConfig::TelemetryConfig</compoundname>
+    <includes refid="updates__config_8h" local="no">updates_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1ae71c4f7324576d9b1941c8aea525167a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::TelemetryConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="124" column="14" bodyfile="include/updates/updates_config.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a2e8ee1a7ce24476c544eccf6c25efaad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::TelemetryConfig::endpoint_url</definition>
+        <argsstring></argsstring>
+        <name>endpoint_url</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::endpoint_url</qualifiedname>
+        <initializer>= &quot;https://api.themisdb.org/telemetry.php&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="128" column="21" bodyfile="include/updates/updates_config.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a5c73584e5df63d638d280075d786f9c5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::UpdatesConfig::TelemetryConfig::send_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>send_interval_seconds</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::send_interval_seconds</qualifiedname>
+        <initializer>= 86400</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="131" column="13" bodyfile="include/updates/updates_config.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a0f6771d5a503d5a4066d47ca01ab15e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::TelemetryConfig::include_cpu_model</definition>
+        <argsstring></argsstring>
+        <name>include_cpu_model</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::include_cpu_model</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="135" column="14" bodyfile="include/updates/updates_config.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1ad6ef37e046b83d2a0d42604226fccff9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::TelemetryConfig::include_cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>include_cpu_cores</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::include_cpu_cores</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="136" column="14" bodyfile="include/updates/updates_config.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1ae784d3ecf870c77642d3cfdc400a9927" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::TelemetryConfig::include_ram_mb</definition>
+        <argsstring></argsstring>
+        <name>include_ram_mb</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::include_ram_mb</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="137" column="14" bodyfile="include/updates/updates_config.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a7f8d09c6e926bf04328da7f3830bc4bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::TelemetryConfig::include_os</definition>
+        <argsstring></argsstring>
+        <name>include_os</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::include_os</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="138" column="14" bodyfile="include/updates/updates_config.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a0e51e5ad7fe30dd0da5760a596be3c67" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::TelemetryConfig::include_arch</definition>
+        <argsstring></argsstring>
+        <name>include_arch</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::include_arch</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="139" column="14" bodyfile="include/updates/updates_config.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a27b817fee43a3172740244b1182d4b3b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::UpdatesConfig::TelemetryConfig::http_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>http_timeout_seconds</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::http_timeout_seconds</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="142" column="13" bodyfile="include/updates/updates_config.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a8a78dc9592aa9e89b8083d1cd21ebd01" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::UpdatesConfig::TelemetryConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::updates::UpdatesConfig::TelemetryConfig::max_retries</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="145" column="13" bodyfile="include/updates/updates_config.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/updates_config.h" line="123" column="5" bodyfile="include/updates/updates_config.h" bodystart="123" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1ae71c4f7324576d9b1941c8aea525167a" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a2e8ee1a7ce24476c544eccf6c25efaad" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>endpoint_url</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a27b817fee43a3172740244b1182d4b3b" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>http_timeout_seconds</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a0e51e5ad7fe30dd0da5760a596be3c67" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>include_arch</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1ad6ef37e046b83d2a0d42604226fccff9" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>include_cpu_cores</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a0f6771d5a503d5a4066d47ca01ab15e5" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>include_cpu_model</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a7f8d09c6e926bf04328da7f3830bc4bf" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>include_os</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1ae784d3ecf870c77642d3cfdc400a9927" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>include_ram_mb</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a8a78dc9592aa9e89b8083d1cd21ebd01" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_telemetry_config_1a5c73584e5df63d638d280075d786f9c5" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::TelemetryConfig</scope><name>send_interval_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

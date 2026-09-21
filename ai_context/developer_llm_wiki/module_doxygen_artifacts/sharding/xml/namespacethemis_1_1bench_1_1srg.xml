@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1srg" kind="namespace" language="C++">
+    <compoundname>themis::bench::srg</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring" prot="public">themis::bench::srg::StubHashRing</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant" prot="public">themis::bench::srg::StubTxnParticipant</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal" prot="public">themis::bench::srg::StubInMemoryWal</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health" prot="public">themis::bench::srg::StubShardHealth</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srg_1aeeea4ee8001a5003f2aeaf81fca8bb78" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::srg::kShardCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kShardCanonicalSeed</name>
+        <qualifiedname>themis::bench::srg::kShardCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all SRG benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="79" column="27" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srg_1afe60c0da94e9073094b54bb19cabc8ed" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srg::kShardWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kShardWarmupIterations</name>
+        <qualifiedname>themis::bench::srg::kShardWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="82" column="22" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srg_1aeca7b0fd8383aa693742adfee71014d4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srg::kShardRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kShardRepetitions</name>
+        <qualifiedname>themis::bench::srg::kShardRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="85" column="22" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a966c66c6e1518068237c3f0c121e81ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG01_ConsistentHashRouting1K</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG01_ConsistentHashRouting1K</name>
+        <qualifiedname>themis::bench::srg::BM_SRG01_ConsistentHashRouting1K</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-01: Consistent-hash ring lookup with 1 024 shards (warm). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SRG-01: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="163" column="13" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="163" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1abbb05e39d1acf6645f14878fdf8ed6f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srg::Arg</definition>
+        <argsstring>(1024) -&gt; Repetitions(kShardRepetitions) -&gt;ReportAggregatesOnly(true) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::bench::srg::Arg</qualifiedname>
+        <param>
+          <type>1024</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="180" column="5" declfile="benchmarks/sharding/bench_sharding_release_gates.cpp" declline="180" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1abd2a491650e88bb2ba2dbdccbc6b5d0e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG02_TwoPhaseCommitPrepare</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG02_TwoPhaseCommitPrepare</name>
+        <qualifiedname>themis::bench::srg::BM_SRG02_TwoPhaseCommitPrepare</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-02: 2PC prepare() on a single in-memory participant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SRG-02: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="194" column="13" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="194" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a00c79c0115f36e55c42b7a782432968d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srg::Repetitions</definition>
+        <argsstring>(kShardRepetitions) -&gt; ReportAggregatesOnly(true) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::srg::Repetitions</qualifiedname>
+        <param>
+          <type>kShardRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="209" column="5" declfile="benchmarks/sharding/bench_sharding_release_gates.cpp" declline="209" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1abc13e0020a2d63bbed3c2e5f6524ecf0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG03_TwoPhaseCommitCommit</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG03_TwoPhaseCommitCommit</name>
+        <qualifiedname>themis::bench::srg::BM_SRG03_TwoPhaseCommitCommit</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-03: 2PC commit() on a pre-prepared in-memory participant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SRG-03: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="222" column="13" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="222" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a1d8886d00e9f14f1416ea792cf36622e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG04_WalAppend</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG04_WalAppend</name>
+        <qualifiedname>themis::bench::srg::BM_SRG04_WalAppend</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-04: WAL append() to an in-memory log (no fsync). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SRG-04: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="250" column="13" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="250" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1ae96df62c65be0dea401e13b02836f808" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG05_ShardHealthCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG05_ShardHealthCheck</name>
+        <qualifiedname>themis::bench::srg::BM_SRG05_ShardHealthCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-05: Shard health check from local in-memory state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SRG-05: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="276" column="13" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="276" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a417dd08c69cee0a889a48ab0498efd82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srg::Arg</definition>
+        <argsstring>(64) -&gt; Repetitions(kShardRepetitions) -&gt;ReportAggregatesOnly(true) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::bench::srg::Arg</qualifiedname>
+        <param>
+          <type>64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="290" column="5" declfile="benchmarks/sharding/bench_sharding_release_gates.cpp" declline="290" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1acb16ec124c5a5e9ef12a90b2694ac778" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG06_RouteLookup64ShardWarm</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG06_RouteLookup64ShardWarm</name>
+        <qualifiedname>themis::bench::srg::BM_SRG06_RouteLookup64ShardWarm</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-06: Hash ring lookup with 64 shards (warm). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SRG-06: p99 ≤ 20 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="304" column="13" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="304" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="72" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::plugins::ethics::IdentityAdaLoRABiasCorrector</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector" prot="public" virt="non-virtual">themis::plugins::ethics::IAdaLoRABiasCorrector</basecompoundref>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a9887b25e0097e6a4a89351d0258e1ef7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::IdentityAdaLoRABiasCorrector::applyBiasCorrection</definition>
+        <argsstring>(const std::string &amp;, double raw_score) const noexcept override</argsstring>
+        <name>applyBiasCorrection</name>
+        <qualifiedname>themis::plugins::ethics::IdentityAdaLoRABiasCorrector::applyBiasCorrection</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1ac37f1cda9acedd1b76473094f66b8ee1">applyBiasCorrection</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>raw_score</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="599" column="13" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="599" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a1828b6137cd1fa48ac1086fe1d133d1a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::IdentityAdaLoRABiasCorrector::hasAdapter</definition>
+        <argsstring>(const std::string &amp;) const noexcept override</argsstring>
+        <name>hasAdapter</name>
+        <qualifiedname>themis::plugins::ethics::IdentityAdaLoRABiasCorrector::hasAdapter</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1adb532b20982e2e78ac875044358cc8d9">hasAdapter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="605" column="11" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="605" bodyend="608"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::ethics::IAdaLoRABiasCorrector</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::IdentityAdaLoRABiasCorrector</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::ethics::IAdaLoRABiasCorrector</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::IdentityAdaLoRABiasCorrector</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="597" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="597" bodyend="609"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a9887b25e0097e6a4a89351d0258e1ef7" prot="public" virt="virtual"><scope>themis::plugins::ethics::IdentityAdaLoRABiasCorrector</scope><name>applyBiasCorrection</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a1828b6137cd1fa48ac1086fe1d133d1a" prot="public" virt="virtual"><scope>themis::plugins::ethics::IdentityAdaLoRABiasCorrector</scope><name>hasAdapter</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1a36a60bb9b945eae4fc2f5d58642d07b9" prot="public" virt="virtual"><scope>themis::plugins::ethics::IdentityAdaLoRABiasCorrector</scope><name>~IAdaLoRABiasCorrector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

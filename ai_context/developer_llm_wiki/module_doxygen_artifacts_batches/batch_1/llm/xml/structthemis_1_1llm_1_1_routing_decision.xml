@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_routing_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RoutingDecision</compoundname>
+    <includes refid="lora__router_8h" local="no">lora_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1ae8e12a45a926141f9969ddfa2c483f1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RoutingDecision::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::RoutingDecision::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="68" column="17" bodyfile="include/llm/lora_router.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1ab6575e0e4cd0e258080fae412ec00834" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RoutingDecision::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::llm::RoutingDecision::base_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="69" column="17" bodyfile="include/llm/lora_router.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1adf7fc7cb3750b0f57d4aa2ab74969e43" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RoutingDecision::gpu_device_id</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_id</name>
+        <qualifiedname>themis::llm::RoutingDecision::gpu_device_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="70" column="9" bodyfile="include/llm/lora_router.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1af2a194da7b461b4c571be7057d14b0b7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::RoutingDecision::similarity_score</definition>
+        <argsstring></argsstring>
+        <name>similarity_score</name>
+        <qualifiedname>themis::llm::RoutingDecision::similarity_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="71" column="11" bodyfile="include/llm/lora_router.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1a0cd2097229c21f21ddf4fb17b9f091a3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::RoutingDecision::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::llm::RoutingDecision::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="72" column="11" bodyfile="include/llm/lora_router.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1a721c8e0c21dba99d26a59ea9a671777b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a5934ba2f806de7dfa3643af4a1c49d69" kindref="member">RoutingPolicy</ref></type>
+        <definition>RoutingPolicy themis::llm::RoutingDecision::policy_used</definition>
+        <argsstring></argsstring>
+        <name>policy_used</name>
+        <qualifiedname>themis::llm::RoutingDecision::policy_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="73" column="19" bodyfile="include/llm/lora_router.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1a4d30f9bb89c0fb78a7dbafc3236c55ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::RoutingDecision::is_fallback</definition>
+        <argsstring></argsstring>
+        <name>is_fallback</name>
+        <qualifiedname>themis::llm::RoutingDecision::is_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="74" column="10" bodyfile="include/llm/lora_router.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1a09ac279f897b2ae67cefa95d431982ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RoutingDecision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::RoutingDecision::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="75" column="17" bodyfile="include/llm/lora_router.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_decision_1aa4f7e26d5ab6f0d3118f529408e69686" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::RoutingDecision::routing_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>routing_latency_ms</name>
+        <qualifiedname>themis::llm::RoutingDecision::routing_latency_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="76" column="31" bodyfile="include/llm/lora_router.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_router.h" line="67" column="1" bodyfile="include/llm/lora_router.h" bodystart="67" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1ae8e12a45a926141f9969ddfa2c483f1e" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1ab6575e0e4cd0e258080fae412ec00834" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1a0cd2097229c21f21ddf4fb17b9f091a3" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1adf7fc7cb3750b0f57d4aa2ab74969e43" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>gpu_device_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1a4d30f9bb89c0fb78a7dbafc3236c55ba" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>is_fallback</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1a721c8e0c21dba99d26a59ea9a671777b" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>policy_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1a09ac279f897b2ae67cefa95d431982ba" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1aa4f7e26d5ab6f0d3118f529408e69686" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>routing_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_decision_1af2a194da7b461b4c571be7057d14b0b7" prot="public" virt="non-virtual"><scope>themis::llm::RoutingDecision</scope><name>similarity_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

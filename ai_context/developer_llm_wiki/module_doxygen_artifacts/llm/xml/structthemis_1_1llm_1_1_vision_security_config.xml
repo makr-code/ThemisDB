@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_security_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionSecurityConfig</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_security_config_1_1_validation_config" prot="public">themis::llm::VisionSecurityConfig::ValidationConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_security_config_1_1_sandbox_config" prot="public">themis::llm::VisionSecurityConfig::SandboxConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config" prot="public">themis::llm::VisionSecurityConfig::ModelVerificationConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config" prot="public">themis::llm::VisionSecurityConfig::AccessControlConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1a5dfa77d6ec2f5c3729e425ed851fb88c" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_security_config_1_1_validation_config" kindref="compound">themis::llm::VisionSecurityConfig::ValidationConfig</ref></type>
+        <definition>struct themis::llm::VisionSecurityConfig::ValidationConfig themis::llm::VisionSecurityConfig::validation</definition>
+        <argsstring></argsstring>
+        <name>validation</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::validation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="176" column="16"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1a6181019d97096e26a7bb751359fa8b03" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_security_config_1_1_sandbox_config" kindref="compound">themis::llm::VisionSecurityConfig::SandboxConfig</ref></type>
+        <definition>struct themis::llm::VisionSecurityConfig::SandboxConfig themis::llm::VisionSecurityConfig::sandboxing</definition>
+        <argsstring></argsstring>
+        <name>sandboxing</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::sandboxing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="191" column="16"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1a61bf559862beb59ab2761804ef981deb" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config" kindref="compound">themis::llm::VisionSecurityConfig::ModelVerificationConfig</ref></type>
+        <definition>struct themis::llm::VisionSecurityConfig::ModelVerificationConfig themis::llm::VisionSecurityConfig::model_verification</definition>
+        <argsstring></argsstring>
+        <name>model_verification</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::model_verification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="201" column="24"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1abcb8fa4cf6117396f46ff7668fe6b501" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config" kindref="compound">themis::llm::VisionSecurityConfig::AccessControlConfig</ref></type>
+        <definition>struct themis::llm::VisionSecurityConfig::AccessControlConfig themis::llm::VisionSecurityConfig::access_control</definition>
+        <argsstring></argsstring>
+        <name>access_control</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::access_control</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="211" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_security_config_1a879000d6b5de2cdecf86cb8ac4d51df1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::VisionSecurityConfig::~VisionSecurityConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VisionSecurityConfig</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::~VisionSecurityConfig</qualifiedname>
+        <briefdescription>
+<para>Vision Security Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="164" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::VisionSecurityConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_security_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>validation</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>sandboxing</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>model_verification</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>access_control</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::llm::VisionSecurityConfig::AccessControlConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::VisionSecurityConfig::ModelVerificationConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_security_config_1_1_model_verification_config"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::VisionSecurityConfig::SandboxConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_security_config_1_1_sandbox_config"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::VisionSecurityConfig::ValidationConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_security_config_1_1_validation_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/vision_config.h" line="159" column="1" bodyfile="include/llm/vision_config.h" bodystart="159" bodyend="212"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1abcb8fa4cf6117396f46ff7668fe6b501" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig</scope><name>access_control</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1a61bf559862beb59ab2761804ef981deb" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig</scope><name>model_verification</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1a6181019d97096e26a7bb751359fa8b03" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig</scope><name>sandboxing</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1a5dfa77d6ec2f5c3729e425ed851fb88c" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig</scope><name>validation</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1a879000d6b5de2cdecf86cb8ac4d51df1" prot="public" virt="virtual"><scope>themis::llm::VisionSecurityConfig</scope><name>~VisionSecurityConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

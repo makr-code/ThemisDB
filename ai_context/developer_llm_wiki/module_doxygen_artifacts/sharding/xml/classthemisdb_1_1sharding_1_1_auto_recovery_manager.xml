@@ -1,0 +1,657 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_auto_recovery_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::AutoRecoveryManager</compoundname>
+    <includes refid="auto__recovery__manager_8h" local="no">auto_recovery_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_auto_recovery_manager_1_1_stats" prot="public">themisdb::sharding::AutoRecoveryManager::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a86dc4ade8130fd72b4977225c0d83a00" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_auto_recovery_config" kindref="compound">AutoRecoveryConfig</ref></type>
+        <definition>AutoRecoveryConfig themisdb::sharding::AutoRecoveryManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="165" column="24" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a12d874a4b971aeaed2946a2a99d6357e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+        <definition>RedundancyStrategy&amp; themisdb::sharding::AutoRecoveryManager::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="166" column="24" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ab297d099695bbb483a8bd2b995c90806" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+        <definition>ConsistentHashRing&amp; themisdb::sharding::AutoRecoveryManager::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="167" column="24" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a1e9d2fb175f53d4e643d0f3eec197079" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+        <definition>ShardTopology&amp; themisdb::sharding::AutoRecoveryManager::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="168" column="19" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a974f5f1231a15d38e35f30e2235052d3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">themis::sharding::ShardRepairEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::ShardRepairEngine&gt; themisdb::sharding::AutoRecoveryManager::repair_engine_</definition>
+        <argsstring></argsstring>
+        <name>repair_engine_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::repair_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="169" column="21" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a480c42b70702770319ce5028b4f2c061" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::AutoRecoveryManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="172" column="17" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a0b45935a1d4e784d70dbc5524eb5aa1e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::AutoRecoveryManager::repair_paused_</definition>
+        <argsstring></argsstring>
+        <name>repair_paused_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::repair_paused_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="173" column="17" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a8acb8895400d6218fe6cf443d4589a8d" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::AutoRecoveryManager::health_check_thread_</definition>
+        <argsstring></argsstring>
+        <name>health_check_thread_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::health_check_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="174" column="17" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a84d1f6a962c12b249e57c07f3bf25bbe" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::AutoRecoveryManager::repair_thread_</definition>
+        <argsstring></argsstring>
+        <name>repair_thread_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::repair_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="175" column="17" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a24074f55df145ef6c390b5c92cdb5a10" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::sharding::AutoRecoveryManager::health_mutex_</definition>
+        <argsstring></argsstring>
+        <name>health_mutex_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::health_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="178" column="31" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a9ad5c0d193b32909b4a7aeda370239b1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+        <definition>HealthStatus themisdb::sharding::AutoRecoveryManager::current_health_</definition>
+        <argsstring></argsstring>
+        <name>current_health_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::current_health_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="179" column="18" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ac26349c7e2ace6955d4ed20218e32f47" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::sharding::AutoRecoveryManager::degraded_docs_</definition>
+        <argsstring></argsstring>
+        <name>degraded_docs_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::degraded_docs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="180" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a07876a4b8422355e301cc3ae270caf3f" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::sharding::AutoRecoveryManager::critical_docs_</definition>
+        <argsstring></argsstring>
+        <name>critical_docs_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::critical_docs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="181" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a1f12cced572f2e3ad8adc2c70c43970b" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::AutoRecoveryManager::repair_mutex_</definition>
+        <argsstring></argsstring>
+        <name>repair_mutex_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::repair_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="184" column="16" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1aa09157a6f49458812c347027e4e5eacd" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::sharding::AutoRecoveryManager::repair_cv_</definition>
+        <argsstring></argsstring>
+        <name>repair_cv_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::repair_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="185" column="29" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a82ca8b797e28e9736411150bf4abce78" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::string &gt;</type>
+        <definition>std::queue&lt;std::string&gt; themisdb::sharding::AutoRecoveryManager::repair_queue_</definition>
+        <argsstring></argsstring>
+        <name>repair_queue_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::repair_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="186" column="16" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a9c0d66987673f6ec341638eca55be6ac" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::AutoRecoveryManager::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="189" column="24" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1add8d8d18f0dd148417217a411a5c5719" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_auto_recovery_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themisdb::sharding::AutoRecoveryManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="190" column="11" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1aa32fcf858582b9a38438451b727d36d4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::AutoRecoveryManager::AutoRecoveryManager</definition>
+        <argsstring>(const AutoRecoveryConfig &amp;config, RedundancyStrategy &amp;strategy, ConsistentHashRing &amp;ring, ShardTopology &amp;topology)</argsstring>
+        <name>AutoRecoveryManager</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::AutoRecoveryManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_auto_recovery_config" kindref="compound">AutoRecoveryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="103" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="197" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ab6bd82c401cc7be39b3b06ec95bf5929" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::AutoRecoveryManager::~AutoRecoveryManager</definition>
+        <argsstring>()</argsstring>
+        <name>~AutoRecoveryManager</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::~AutoRecoveryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="110" column="5" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="208" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1aefa78ddb26a49f4eb149ffe1b641e920" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="113" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="212" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a8222d26fc0a6ea816ac458f14b6071ff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::stop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="114" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="230" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a71b729706299d4112a16139f078bfc03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::AutoRecoveryManager::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="115" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="247" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a0f50fe387ded5737df2d6540525b182a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::triggerHealthCheck</definition>
+        <argsstring>()</argsstring>
+        <name>triggerHealthCheck</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::triggerHealthCheck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="118" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ac1422178a5b5b1e89d92de977d0c4e5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::triggerRepair</definition>
+        <argsstring>()</argsstring>
+        <name>triggerRepair</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::triggerRepair</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="119" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a19c5ed192f34c4df7ba96226dab99263" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::pauseAutoRepair</definition>
+        <argsstring>()</argsstring>
+        <name>pauseAutoRepair</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::pauseAutoRepair</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="120" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="395" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1af63a1f9f879e8762026853a020e44355" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::resumeAutoRepair</definition>
+        <argsstring>()</argsstring>
+        <name>resumeAutoRepair</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::resumeAutoRepair</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="121" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="399" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ac6bca1af75ab03d72f2e7e6ef40825df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::setRepairEngine</definition>
+        <argsstring>(std::shared_ptr&lt; themis::sharding::ShardRepairEngine &gt; engine)</argsstring>
+        <name>setRepairEngine</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::setRepairEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">themis::sharding::ShardRepairEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a <ref refid="classthemisdb_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref> to be used for actual document recovery. When set, repairDocument() delegates to <ref refid="classthemisdb_1_1sharding_1_1_shard_repair_engine_1a832591162410ec6c89b5bd570b0fc608" kindref="member">ShardRepairEngine::triggerDocumentRepair()</ref> instead of returning false (the old stub behaviour). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="128" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="371" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ad6ff74857c88ee89b0bf096b24105d99" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+        <definition>HealthStatus themisdb::sharding::AutoRecoveryManager::getHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::getHealthStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="131" column="18" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="385" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a7edbe4af04afa931330adca784886f0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::sharding::AutoRecoveryManager::getDegradedDocuments</definition>
+        <argsstring>() const</argsstring>
+        <name>getDegradedDocuments</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::getDegradedDocuments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="132" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1acf31bf019640f71ec2b34b8dbfcb3f03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::sharding::AutoRecoveryManager::getCriticalDocuments</definition>
+        <argsstring>() const</argsstring>
+        <name>getCriticalDocuments</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::getCriticalDocuments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="133" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1af83118edc737fc5430efc168f54a7d40" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_auto_recovery_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>AutoRecoveryManager::Stats themisdb::sharding::AutoRecoveryManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="145" column="11" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="390" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1abdd230bf0d90878e5d912f5a4b851825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::resetStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="146" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a9ac65a4c2815651ce7e6aa072fb80949" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::healthCheckLoop</definition>
+        <argsstring>()</argsstring>
+        <name>healthCheckLoop</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::healthCheckLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="150" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="251" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a48cc5e1b015dc85ba9728ebd9082505e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::repairLoop</definition>
+        <argsstring>()</argsstring>
+        <name>repairLoop</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::repairLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="151" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="283" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ac55bee70546ef7806dc05766a467749a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+        <definition>HealthStatus themisdb::sharding::AutoRecoveryManager::performHealthCheck</definition>
+        <argsstring>()</argsstring>
+        <name>performHealthCheck</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::performHealthCheck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="154" column="18" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="305" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a20a01c60fec5f7daa99ebf046b7849b5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::checkDocumentHealth</definition>
+        <argsstring>(const std::string &amp;doc_id)</argsstring>
+        <name>checkDocumentHealth</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::checkDocumentHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="155" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ae73e9c48f8428d113027a01b224de91c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::AutoRecoveryManager::repairDocument</definition>
+        <argsstring>(const std::string &amp;doc_id)</argsstring>
+        <name>repairDocument</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::repairDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="158" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="357" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ae5386cbd7602a0c6b1e4f4b59fe48311" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::processRepairQueue</definition>
+        <argsstring>()</argsstring>
+        <name>processRepairQueue</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::processRepairQueue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="159" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="315" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a229eb64a51bb0720c627171b63a3c387" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::AutoRecoveryManager::sendAlert</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>sendAlert</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryManager::sendAlert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="162" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="376" bodyend="383"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Auto-Recovery Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/auto_recovery_manager.h" line="101" column="1" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="101" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1aa32fcf858582b9a38438451b727d36d4" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>AutoRecoveryManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a20a01c60fec5f7daa99ebf046b7849b5" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>checkDocumentHealth</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a86dc4ade8130fd72b4977225c0d83a00" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a07876a4b8422355e301cc3ae270caf3f" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>critical_docs_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a9ad5c0d193b32909b4a7aeda370239b1" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>current_health_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ac26349c7e2ace6955d4ed20218e32f47" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>degraded_docs_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1acf31bf019640f71ec2b34b8dbfcb3f03" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>getCriticalDocuments</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a7edbe4af04afa931330adca784886f0e" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>getDegradedDocuments</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ad6ff74857c88ee89b0bf096b24105d99" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>getHealthStatus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1af83118edc737fc5430efc168f54a7d40" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a8acb8895400d6218fe6cf443d4589a8d" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>health_check_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a24074f55df145ef6c390b5c92cdb5a10" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>health_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a9ac65a4c2815651ce7e6aa072fb80949" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>healthCheckLoop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a71b729706299d4112a16139f078bfc03" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>isRunning</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a19c5ed192f34c4df7ba96226dab99263" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>pauseAutoRepair</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ac55bee70546ef7806dc05766a467749a" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>performHealthCheck</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ae5386cbd7602a0c6b1e4f4b59fe48311" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>processRepairQueue</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1aa09157a6f49458812c347027e4e5eacd" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>repair_cv_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a974f5f1231a15d38e35f30e2235052d3" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>repair_engine_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a1f12cced572f2e3ad8adc2c70c43970b" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>repair_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a0b45935a1d4e784d70dbc5524eb5aa1e" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>repair_paused_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a82ca8b797e28e9736411150bf4abce78" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>repair_queue_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a84d1f6a962c12b249e57c07f3bf25bbe" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>repair_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ae73e9c48f8428d113027a01b224de91c" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>repairDocument</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a48cc5e1b015dc85ba9728ebd9082505e" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>repairLoop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1abdd230bf0d90878e5d912f5a4b851825" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1af63a1f9f879e8762026853a020e44355" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>resumeAutoRepair</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ab297d099695bbb483a8bd2b995c90806" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>ring_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a480c42b70702770319ce5028b4f2c061" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a229eb64a51bb0720c627171b63a3c387" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>sendAlert</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ac6bca1af75ab03d72f2e7e6ef40825df" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>setRepairEngine</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1aefa78ddb26a49f4eb149ffe1b641e920" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1add8d8d18f0dd148417217a411a5c5719" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a9c0d66987673f6ec341638eca55be6ac" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a8222d26fc0a6ea816ac458f14b6071ff" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a12d874a4b971aeaed2946a2a99d6357e" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>strategy_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a1e9d2fb175f53d4e643d0f3eec197079" prot="private" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>topology_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1a0f50fe387ded5737df2d6540525b182a" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>triggerHealthCheck</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ac1422178a5b5b1e89d92de977d0c4e5c" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>triggerRepair</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager_1ab6bd82c401cc7be39b3b06ec95bf5929" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryManager</scope><name>~AutoRecoveryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

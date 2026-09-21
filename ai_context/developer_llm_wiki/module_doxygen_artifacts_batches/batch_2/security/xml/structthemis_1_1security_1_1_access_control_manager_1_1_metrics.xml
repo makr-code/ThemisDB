@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_manager_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControlManager::Metrics</compoundname>
+    <includes refid="access__control__manager_8h" local="no">access_control_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a15788239c6ba9f0dd214e3c5ffad05f1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControlManager::Metrics::authentication_success</definition>
+        <argsstring></argsstring>
+        <name>authentication_success</name>
+        <qualifiedname>themis::security::AccessControlManager::Metrics::authentication_success</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="265" column="21" bodyfile="include/security/access_control_manager.h" bodystart="265" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1ac7d3b463b63f71d727ec288c2c489fb7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControlManager::Metrics::authentication_failure</definition>
+        <argsstring></argsstring>
+        <name>authentication_failure</name>
+        <qualifiedname>themis::security::AccessControlManager::Metrics::authentication_failure</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="266" column="21" bodyfile="include/security/access_control_manager.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a63c91b61451ed8ffd196855bece67ffb" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControlManager::Metrics::authorization_success</definition>
+        <argsstring></argsstring>
+        <name>authorization_success</name>
+        <qualifiedname>themis::security::AccessControlManager::Metrics::authorization_success</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="267" column="21" bodyfile="include/security/access_control_manager.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a2adb1291e344634e1aeaf26aaaeaab09" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControlManager::Metrics::authorization_failure</definition>
+        <argsstring></argsstring>
+        <name>authorization_failure</name>
+        <qualifiedname>themis::security::AccessControlManager::Metrics::authorization_failure</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="268" column="21" bodyfile="include/security/access_control_manager.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a84e90905e544af477c37f32e21b8c448" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControlManager::Metrics::access_denied</definition>
+        <argsstring></argsstring>
+        <name>access_denied</name>
+        <qualifiedname>themis::security::AccessControlManager::Metrics::access_denied</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="269" column="21" bodyfile="include/security/access_control_manager.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control_manager.h" line="264" column="5" bodyfile="include/security/access_control_manager.h" bodystart="264" bodyend="270"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a84e90905e544af477c37f32e21b8c448" prot="public" virt="non-virtual"><scope>themis::security::AccessControlManager::Metrics</scope><name>access_denied</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1ac7d3b463b63f71d727ec288c2c489fb7" prot="public" virt="non-virtual"><scope>themis::security::AccessControlManager::Metrics</scope><name>authentication_failure</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a15788239c6ba9f0dd214e3c5ffad05f1" prot="public" virt="non-virtual"><scope>themis::security::AccessControlManager::Metrics</scope><name>authentication_success</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a2adb1291e344634e1aeaf26aaaeaab09" prot="public" virt="non-virtual"><scope>themis::security::AccessControlManager::Metrics</scope><name>authorization_failure</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a63c91b61451ed8ffd196855bece67ffb" prot="public" virt="non-virtual"><scope>themis::security::AccessControlManager::Metrics</scope><name>authorization_success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

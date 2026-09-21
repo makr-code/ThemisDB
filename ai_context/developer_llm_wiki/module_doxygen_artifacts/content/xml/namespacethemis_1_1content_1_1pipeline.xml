@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1content_1_1pipeline" kind="namespace" language="C++">
+    <compoundname>themis::content::pipeline</compoundname>
+    <innerclass refid="classthemis_1_1content_1_1pipeline_1_1_async_bulk_uploader" prot="public">themis::content::pipeline::AsyncBulkUploader</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface" prot="public">themis::content::pipeline::BulkUploadInterface</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" prot="public">themis::content::pipeline::ContentChunker</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker" prot="public">themis::content::pipeline::MultiModalChunker</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1pipeline_1_1_zstd_compression" prot="public">themis::content::pipeline::ZstdCompression</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ContentType</name>
+        <qualifiedname>themis::content::pipeline::ContentType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a98ad0e8750ae10ad556ed7a62affb452" prot="public">
+          <name>BINARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a61a96ffcb251bb9bf0abf8fec19d0ea8" prot="public">
+          <name>TEXT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a23a12f67f614b5518c7f1c2465bf95e3" prot="public">
+          <name>IMAGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888ae423b8bde9bfbfd7e9409b23b23aed91" prot="public">
+          <name>AUDIO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888ae60ae31f67ab883c746bb71c7a145c18" prot="public">
+          <name>VIDEO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="24" column="1" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="24" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pipeline/async_bulk_uploader.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

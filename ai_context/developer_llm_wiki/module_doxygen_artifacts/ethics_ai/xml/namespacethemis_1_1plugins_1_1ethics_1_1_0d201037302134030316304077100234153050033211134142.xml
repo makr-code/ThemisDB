@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1ethics_1_1_0d201037302134030316304077100234153050033211134142" kind="namespace" language="C++">
+    <compoundname>themis::plugins::ethics::@201037302134030316304077100234153050033211134142</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/discourse_orchestrator.cpp" line="41" column="1"/>
+  </compounddef>
+</doxygen>

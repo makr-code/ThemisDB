@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::QuorumReadManager::QuorumReadConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config_1ae3322500da34a9ca06ff81249bb24235" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::QuorumReadManager::QuorumReadConfig::read_quorum</definition>
+        <argsstring></argsstring>
+        <name>read_quorum</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::QuorumReadConfig::read_quorum</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1158" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config_1ada40e91d752f20165d0edca553f1bb2b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::QuorumReadManager::QuorumReadConfig::read_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>read_timeout_ms</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::QuorumReadConfig::read_timeout_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1159" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config_1a188a631d7321d7002d32c8a5406988d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::QuorumReadManager::QuorumReadConfig::repair_on_read</definition>
+        <argsstring></argsstring>
+        <name>repair_on_read</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::QuorumReadConfig::repair_on_read</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1160" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config_1ade7d0f8a57a13c9ac785ffc967ac928a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::QuorumReadManager::QuorumReadConfig::session_token_ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>session_token_ttl_ms</name>
+        <qualifiedname>themisdb::replication::QuorumReadManager::QuorumReadConfig::session_token_ttl_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>TTL for session tokens (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1161" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1157" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1157" bodyend="1162"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config_1ae3322500da34a9ca06ff81249bb24235" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager::QuorumReadConfig</scope><name>read_quorum</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config_1ada40e91d752f20165d0edca553f1bb2b" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager::QuorumReadConfig</scope><name>read_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config_1a188a631d7321d7002d32c8a5406988d6" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager::QuorumReadConfig</scope><name>repair_on_read</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_quorum_read_manager_1_1_quorum_read_config_1ade7d0f8a57a13c9ac785ffc967ac928a" prot="public" virt="non-virtual"><scope>themisdb::replication::QuorumReadManager::QuorumReadConfig</scope><name>session_token_ttl_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

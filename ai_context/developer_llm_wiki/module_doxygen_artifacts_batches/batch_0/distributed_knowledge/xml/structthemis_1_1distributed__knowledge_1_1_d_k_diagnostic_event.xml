@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::DKDiagnosticEvent</compoundname>
+    <includes refid="distributed__knowledge__api__contract_8h" local="no">distributed_knowledge_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87" kindref="member">DKDiagnosticEventType</ref></type>
+        <definition>DKDiagnosticEventType themis::distributed_knowledge::DKDiagnosticEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticEvent::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" kindref="member">DKDiagnosticEventType::MERGE_TIMEOUT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="308" column="27" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="308" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331f" kindref="member">DKDiagnosticSeverity</ref></type>
+        <definition>DKDiagnosticSeverity themis::distributed_knowledge::DKDiagnosticEvent::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticEvent::severity</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa059e9861e0400dfbe05c98a841f3f96b" kindref="member">DKDiagnosticSeverity::WARNING</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="309" column="27" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="309" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ad77d5656f17016bb0df580bbf8260a16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::DKDiagnosticEvent::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticEvent::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="311" column="17" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ac8daf3920481b35b8dc10c29bf4ed06a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::DKDiagnosticEvent::operation_id</definition>
+        <argsstring></argsstring>
+        <name>operation_id</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticEvent::operation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="312" column="17" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a0f50a689e663fa2188e119721911233f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::DKDiagnosticEvent::timestamp_utc</definition>
+        <argsstring></argsstring>
+        <name>timestamp_utc</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticEvent::timestamp_utc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="313" column="17" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::DKDiagnosticEvent::cause</definition>
+        <argsstring></argsstring>
+        <name>cause</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticEvent::cause</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="314" column="17" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::distributed_knowledge::DKDiagnosticEvent::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::distributed_knowledge::DKDiagnosticEvent::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="315" column="14" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="307" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="307" bodyend="316"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DKDiagnosticEvent</scope><name>cause</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DKDiagnosticEvent</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ac8daf3920481b35b8dc10c29bf4ed06a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DKDiagnosticEvent</scope><name>operation_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DKDiagnosticEvent</scope><name>severity</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ad77d5656f17016bb0df580bbf8260a16" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DKDiagnosticEvent</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a0f50a689e663fa2188e119721911233f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DKDiagnosticEvent</scope><name>timestamp_utc</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DKDiagnosticEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

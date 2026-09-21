@@ -1,0 +1,1077 @@
+{
+  "module": "retrieval",
+  "generated_from": "check_module_direct_doxygen.py",
+  "source_mode": "direct_doxygen_markers",
+  "findings": [
+    {
+      "rule": "missing_symbol",
+      "symbol": "AdapterTrustRegistry",
+      "count": 1,
+      "source_examples": [
+        {
+          "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
+          "line": 47,
+          "kind": "class",
+          "name": "AdapterTrustRegistry",
+          "scope": "tests"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "isTrusted",
+      "count": 1,
+      "source_examples": [
+        {
+          "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
+          "line": 64,
+          "kind": "function",
+          "name": "isTrusted",
+          "scope": "tests"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "lk",
+      "count": 13,
+      "source_examples": [
+        {
+          "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
+          "line": 693,
+          "kind": "function",
+          "name": "lk",
+          "scope": "src"
+        },
+        {
+          "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
+          "line": 718,
+          "kind": "function",
+          "name": "lk",
+          "scope": "src"
+        },
+        {
+          "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
+          "line": 735,
+          "kind": "function",
+          "name": "lk",
+          "scope": "src"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "makePayload",
+      "count": 1,
+      "source_examples": [
+        {
+          "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
+          "line": 89,
+          "kind": "function",
+          "name": "makePayload",
+          "scope": "tests"
+        }
+      ]
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "routeKey",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 35,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "routeKey",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 35,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "routeKey",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 35,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "stubGpuQuery",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 78,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "stubGpuQuery",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 78,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "stubGpuQuery",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 78,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "stubCpuQuery",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 85,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "stubCpuQuery",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 85,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "stubCpuQuery",
+      "kind": "function",
+      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+      "line": 85,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StubRoutingTable",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 40,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "StubRoutingTable",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 40,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "route",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 42,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "route",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 42,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "route",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 42,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "corrupt",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 46,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "corrupt",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 46,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "heal",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 51,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "routeWithOverride",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 56,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "routeWithOverride",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 56,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "routeWithOverride",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 56,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "numShards",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 63,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "numShards",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 63,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "insert",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 74,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "insert",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 74,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "contains",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 79,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "contains",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 79,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "contains",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 79,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "size",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 84,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "size",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+      "line": 84,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LoRAManifestStore",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 302,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "~LoRAManifestStore",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 303,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LoRAManifestStore",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 306,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "LoRAManifestStore",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 306,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 307,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 307,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 307,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LoRAManifestStore",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 308,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "LoRAManifestStore",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 308,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 309,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 309,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 309,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "loadPackage",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 326,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "listPackageIds",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 336,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "listPackagesByStatus",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 338,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "loadProduct",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 349,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "listProductIds",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 359,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "listProductsByPackage",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 361,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "listProductsByStatus",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 364,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "verifyPackageIntegrity",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 369,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "verifyProductIntegrity",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 371,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "exportPackages",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 375,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "exportProducts",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 384,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "packageCount",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 395,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "productCount",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 397,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LoRAManifestStore",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "HybridRetrieverEngine",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 190,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "retrieve",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 198,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "retrieve",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 198,
+      "scope": "tests",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "retrieve",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 198,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "setMode",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 230,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "setMode",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 230,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getMode",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 231,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getMode",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 231,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "addDocument",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 233,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "addDocument",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 233,
+      "scope": "tests",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "clearData",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 240,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getDocumentCount",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 245,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getDocumentCount",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 245,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "HybridRetrieverParityContractTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "HybridRetrieverParityTest",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 263,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "computeSpearmanCorrelation",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 272,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "computeSpearmanCorrelation",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 272,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "computeSpearmanCorrelation",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 272,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockANNRetriever",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 109,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "retrieveANN",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 115,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "retrieveANN",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 115,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "retrieveANN",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 115,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "addVector",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 147,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "addVector",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 147,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "clearVectors",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 151,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "vectorCount",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 155,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "vectorCount",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 155,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "computeDistance",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 163,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "computeDistance",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 163,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "computeDistance",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 163,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockExactRetriever",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 54,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "retrieveExact",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 59,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "retrieveExact",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 59,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "retrieveExact",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 59,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "addDocument",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 85,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "addDocument",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 85,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "clearDocuments",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 89,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "documentCount",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 93,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "documentCount",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 93,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 111,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 111,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AdapterUsagePolicy",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 145,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 145,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ArtifactIntegrity",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 189,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 189,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "supportsArchitecture",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 199,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "supportsArchitecture",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 199,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "supportsArchitecture",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 199,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "statusToString",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 201,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "statusToString",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 201,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LoRAPackage",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 129,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 129,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LoRAPackageProvenance",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 253,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "to_json",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 253,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "statusToString",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 263,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "statusToString",
+      "kind": "function",
+      "file": "src/retrieval/include/lora_package.h",
+      "line": 263,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "PortableAdapterProduct",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator==",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 43,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator==",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 43,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator==",
+      "kind": "function",
+      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "line": 43,
+      "scope": "tests"
+    }
+  ]
+}

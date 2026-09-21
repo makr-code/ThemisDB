@@ -1,0 +1,479 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_model_switch_workflow" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ModelSwitchWorkflow</compoundname>
+    <includes refid="model__switch__workflow_8h" local="no">model_switch_workflow.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_switch_workflow_1a1e67a6a50659e75ba64ab6f79cfc3499" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdapterRegistry&gt; themis::llm::ModelSwitchWorkflow::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="297" column="21" bodyfile="include/llm/model_switch_workflow.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_switch_workflow_1a6f04b6edfd4d6c4e904b469cdf503563" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator" kindref="compound">FinalLayerOrchestrator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;FinalLayerOrchestrator&gt; themis::llm::ModelSwitchWorkflow::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="298" column="21" bodyfile="include/llm/model_switch_workflow.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_switch_workflow_1ab4a752ff8cfebfa418c8b66ffcdbdf9c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref></type>
+        <definition>RatchetCompatibilityMatrix themis::llm::ModelSwitchWorkflow::matrix_</definition>
+        <argsstring></argsstring>
+        <name>matrix_</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::matrix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="299" column="32" bodyfile="include/llm/model_switch_workflow.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_switch_workflow_1a31017bbd5477743f1797b7f652f2efa2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref></type>
+        <definition>RebuildPolicy themis::llm::ModelSwitchWorkflow::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="300" column="19" bodyfile="include/llm/model_switch_workflow.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1afa35ebd4175c14bd4a7f5f17ece462cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ModelSwitchWorkflow::ModelSwitchWorkflow</definition>
+        <argsstring>(std::shared_ptr&lt; AdapterRegistry &gt; registry, std::shared_ptr&lt; FinalLayerOrchestrator &gt; orchestrator, RatchetCompatibilityMatrix matrix=RatchetCompatibilityMatrix{}, RebuildPolicy policy=RebuildPolicy{})</argsstring>
+        <name>ModelSwitchWorkflow</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::ModelSwitchWorkflow</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> &gt;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator" kindref="compound">FinalLayerOrchestrator</ref> &gt;</type>
+          <declname>orchestrator</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref></type>
+          <declname>matrix</declname>
+          <defval><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref></type>
+          <declname>policy</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="216" column="5" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="384" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a9c60ef982a85f1b019fbe42784d69f88" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_switch_result" kindref="compound">ModelSwitchResult</ref></type>
+        <definition>ModelSwitchResult themis::llm::ModelSwitchWorkflow::executeSwitch</definition>
+        <argsstring>(const ModelSwitchRequest &amp;request) const</argsstring>
+        <name>executeSwitch</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::executeSwitch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_model_switch_request" kindref="compound">ModelSwitchRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="225" column="24" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="737" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1af491711e46b31045cb72a5f5e9db82d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ModelSwitchWorkflow::setCompatibilityMatrix</definition>
+        <argsstring>(RatchetCompatibilityMatrix matrix)</argsstring>
+        <name>setCompatibilityMatrix</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::setCompatibilityMatrix</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref></type>
+          <declname>matrix</declname>
+        </param>
+        <briefdescription>
+<para>Set Compatibility Matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="235" column="10" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="409" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a062211ccee81d91cbcf8871e55d63760" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref> &amp;</type>
+        <definition>const RatchetCompatibilityMatrix &amp; themis::llm::ModelSwitchWorkflow::compatibilityMatrix</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>compatibilityMatrix</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::compatibilityMatrix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="237" column="39" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="413" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a7f0163f277961b0a21076b7e9470e6a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ModelSwitchWorkflow::setRebuildPolicy</definition>
+        <argsstring>(RebuildPolicy policy)</argsstring>
+        <name>setRebuildPolicy</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::setRebuildPolicy</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Rebuild Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="243" column="10" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="422" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a8aa6b7a687ae841d844a7528689a5946" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref> &amp;</type>
+        <definition>const RebuildPolicy &amp; themis::llm::ModelSwitchWorkflow::rebuildPolicy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rebuildPolicy</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::rebuildPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="245" column="26" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="426" bodyend="428"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1ad4557fd8df2bdc1ced7917525223a391" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelSwitchWorkflow::isSwitchRequired</definition>
+        <argsstring>(const ModelSwitchRequest &amp;request) noexcept</argsstring>
+        <name>isSwitchRequired</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::isSwitchRequired</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_model_switch_request" kindref="compound">ModelSwitchRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="251" column="18" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="434" bodyend="440"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a7fbc2db5137debeab86dd5f0fd3dcb50" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref></type>
+        <definition>ModelSwitchCheckResult themis::llm::ModelSwitchWorkflow::checkRatchetMatrix</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;target_model_family, const std::string &amp;target_model_version) const</argsstring>
+        <name>checkRatchetMatrix</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::checkRatchetMatrix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_family</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="258" column="29" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="446" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a3925c58fab7263b83e559468e2958524" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref></type>
+        <definition>ModelSwitchCheckResult themis::llm::ModelSwitchWorkflow::checkArchitectureCompatibility</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;target_model_name, const std::string &amp;target_model_family, const std::string &amp;target_model_version) const</argsstring>
+        <name>checkArchitectureCompatibility</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::checkArchitectureCompatibility</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_family</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="263" column="29" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="467" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1ac81cfb812a2bbc72c8df8b70eb2d6b00" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref></type>
+        <definition>ModelSwitchCheckResult themis::llm::ModelSwitchWorkflow::checkTokenizerCompatibility</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;target_model_name, const std::string &amp;target_model_family) const</argsstring>
+        <name>checkTokenizerCompatibility</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::checkTokenizerCompatibility</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_family</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="269" column="29" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="508" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a503fb32294afd0a220aabf193d91d3e1" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref></type>
+        <definition>ModelSwitchCheckResult themis::llm::ModelSwitchWorkflow::checkLayerDimensions</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;target_model_name) const</argsstring>
+        <name>checkLayerDimensions</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::checkLayerDimensions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="274" column="29" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="540" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a66184a36b50add8a55fd2bd4cb79f10e" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref></type>
+        <definition>ModelSwitchCheckResult themis::llm::ModelSwitchWorkflow::checkQuantizationCompatibility</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;target_model_name, const std::string &amp;target_model_family, const std::string &amp;target_model_version) const</argsstring>
+        <name>checkQuantizationCompatibility</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::checkQuantizationCompatibility</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_family</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="278" column="29" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="574" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a375918a59868cc005d79d2e3fe4c47f7" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref></type>
+        <definition>ModelSwitchCheckResult themis::llm::ModelSwitchWorkflow::checkPromptFormat</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;target_model_name) const</argsstring>
+        <name>checkPromptFormat</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::checkPromptFormat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_model_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="284" column="29" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="616" bodyend="651"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_switch_workflow_1a1723748508af15314a7cb547b08b4253" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011" kindref="member">ModelSwitchOutcome</ref></type>
+        <definition>ModelSwitchOutcome themis::llm::ModelSwitchWorkflow::evaluateRebuildPolicy</definition>
+        <argsstring>(const std::vector&lt; ModelSwitchCheckResult &gt; &amp;checks, const RebuildPolicy &amp;policy, std::vector&lt; RebuildTrigger &gt; &amp;active_triggers)</argsstring>
+        <name>evaluateRebuildPolicy</name>
+        <qualifiedname>themis::llm::ModelSwitchWorkflow::evaluateRebuildPolicy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref> &gt; &amp;</type>
+          <declname>checks</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092df" kindref="member">RebuildTrigger</ref> &gt; &amp;</type>
+          <declname>active_triggers</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Rebuild Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">active_triggers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), isTriggerActive(), push_back(), std::find(), begin(), end(), std::move(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="292" column="32" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="665" bodyend="731"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_switch_workflow.h" line="214" column="1" bodyfile="include/llm/model_switch_workflow.h" bodystart="214" bodyend="301"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a3925c58fab7263b83e559468e2958524" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>checkArchitectureCompatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a503fb32294afd0a220aabf193d91d3e1" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>checkLayerDimensions</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a375918a59868cc005d79d2e3fe4c47f7" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>checkPromptFormat</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a66184a36b50add8a55fd2bd4cb79f10e" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>checkQuantizationCompatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a7fbc2db5137debeab86dd5f0fd3dcb50" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>checkRatchetMatrix</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1ac81cfb812a2bbc72c8df8b70eb2d6b00" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>checkTokenizerCompatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a062211ccee81d91cbcf8871e55d63760" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>compatibilityMatrix</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a1723748508af15314a7cb547b08b4253" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>evaluateRebuildPolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a9c60ef982a85f1b019fbe42784d69f88" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>executeSwitch</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1ad4557fd8df2bdc1ced7917525223a391" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>isSwitchRequired</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1ab4a752ff8cfebfa418c8b66ffcdbdf9c" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>matrix_</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1afa35ebd4175c14bd4a7f5f17ece462cf" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>ModelSwitchWorkflow</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a6f04b6edfd4d6c4e904b469cdf503563" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a31017bbd5477743f1797b7f652f2efa2" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a8aa6b7a687ae841d844a7528689a5946" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>rebuildPolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a1e67a6a50659e75ba64ab6f79cfc3499" prot="private" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1af491711e46b31045cb72a5f5e9db82d8" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>setCompatibilityMatrix</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_switch_workflow_1a7f0163f277961b0a21076b7e9470e6a3" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchWorkflow</scope><name>setRebuildPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

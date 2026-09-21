@@ -1,0 +1,803 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__mcp__search__tools_8cpp" kind="file" language="C++">
+    <compoundname>test_mcp_search_tools.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/server/test_mcp_search_tools.cpp</label>
+        <link refid="test__mcp__search__tools_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a58f8a030053a517ecb6e4cb7c09905d5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>json</type>
+        <definition>static json missing_param_error</definition>
+        <argsstring>(const std::string &amp;param)</argsstring>
+        <name>missing_param_error</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="17" column="13" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="17" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticSearchTest, MissingQueryReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticSearchTest</type>
+        </param>
+        <param>
+          <type>MissingQueryReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="25" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1aaef51571851390e57f2051f3c73c83a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticSearchTest, TopKDefaultIsTen)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticSearchTest</type>
+        </param>
+        <param>
+          <type>TopKDefaultIsTen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="32" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ad5d569b91fd0d5f9d2089614161f9a1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticSearchTest, TopKClampedToMax200)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticSearchTest</type>
+        </param>
+        <param>
+          <type>TopKClampedToMax200</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="38" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="38" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a2833c2fc76a665123234eceda1552147" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticSearchTest, TopKClampedToMin1)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticSearchTest</type>
+        </param>
+        <param>
+          <type>TopKClampedToMin1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="44" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1afc70cf875be692a187c15504bb13844e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticSearchTest, OutputShapeHasRequiredFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticSearchTest</type>
+        </param>
+        <param>
+          <type>OutputShapeHasRequiredFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="50" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="50" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ad1f52b8cc5e766ec21695da32ed4a28e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticSearchTest, ThresholdRangeValidation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticSearchTest</type>
+        </param>
+        <param>
+          <type>ThresholdRangeValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="61" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="61" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1aed129ad9359659cd8d3600b457e930d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HybridSearchTest, MissingQueryReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HybridSearchTest</type>
+        </param>
+        <param>
+          <type>MissingQueryReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="76" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="76" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ac12b9adfbdf89f3e2d48b1b71c4f4bf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HybridSearchTest, VectorWeightClamped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HybridSearchTest</type>
+        </param>
+        <param>
+          <type>VectorWeightClamped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="83" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ae730bd805f8c25fe94c299450f43b1ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HybridSearchTest, Bm25WeightClamped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HybridSearchTest</type>
+        </param>
+        <param>
+          <type>Bm25WeightClamped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="89" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ae8a6e5d8a29c515fe30badf5e80c4747" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HybridSearchTest, OutputShapeHasRequiredFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HybridSearchTest</type>
+        </param>
+        <param>
+          <type>OutputShapeHasRequiredFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="95" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="95" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a3f37d1605cfcaa6fe771ff6655373312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HybridSearchTest, RrfScorePositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HybridSearchTest</type>
+        </param>
+        <param>
+          <type>RrfScorePositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="104" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a4b760c743c6aa2299d6de622f8a26a56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagRetrieveTest, MissingQueryReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagRetrieveTest</type>
+        </param>
+        <param>
+          <type>MissingQueryReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="114" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="114" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ab053222e4180a42884e7cc3fc1e91c83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagRetrieveTest, DefaultTopKIsFive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagRetrieveTest</type>
+        </param>
+        <param>
+          <type>DefaultTopKIsFive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="121" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a5054a8ec400417d14e051acf304267bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagRetrieveTest, TopKClampedToMax20)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagRetrieveTest</type>
+        </param>
+        <param>
+          <type>TopKClampedToMax20</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="127" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="127" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ab997f74dec25148ec3a54fde1c4d5ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagRetrieveTest, OutputShapeHasRequiredFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagRetrieveTest</type>
+        </param>
+        <param>
+          <type>OutputShapeHasRequiredFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="133" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="133" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a80018680d7ceba066932ec545447c4b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagRetrieveTest, RerankFalseStillReturnsChunks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagRetrieveTest</type>
+        </param>
+        <param>
+          <type>RerankFalseStillReturnsChunks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="144" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="144" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a5b659688fccf0b3d2c65688022aef6e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagRetrieveTest, ChunkRankIsSequential)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagRetrieveTest</type>
+        </param>
+        <param>
+          <type>ChunkRankIsSequential</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="153" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="153" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a3d0388729d3ae65b86457804a6d06e56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VectorIndexListTest, OutputShapeHasIndexesArray)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VectorIndexListTest</type>
+        </param>
+        <param>
+          <type>OutputShapeHasIndexesArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="167" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1aa53b92fc20eea16ed51113f1609f578c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VectorIndexListTest, CollectionFilterApplied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VectorIndexListTest</type>
+        </param>
+        <param>
+          <type>CollectionFilterApplied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="173" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="173" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ac8cf3264f1ab1f10d69d016fbdf016e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaValidateTest, MissingCollectionReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaValidateTest</type>
+        </param>
+        <param>
+          <type>MissingCollectionReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="194" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="194" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a5f8d9dac9e7c1a47aba6183490406053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaValidateTest, MissingDocumentReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaValidateTest</type>
+        </param>
+        <param>
+          <type>MissingDocumentReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="201" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="201" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a19ec8f92ca609f56af0237f1cdb6d966" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaValidateTest, ValidDocumentReturnsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaValidateTest</type>
+        </param>
+        <param>
+          <type>ValidDocumentReturnsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="208" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="208" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a2ee4b3773a09f7577c05c92e8703cedb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SchemaValidateTest, InvalidDocumentReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SchemaValidateTest</type>
+        </param>
+        <param>
+          <type>InvalidDocumentReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="214" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="214" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a288ff8ea59fcbed0fbe55d8bbe6a931a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExplainQueryTest, MissingQueryReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExplainQueryTest</type>
+        </param>
+        <param>
+          <type>MissingQueryReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="226" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="226" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1a4e457912e3e7ed2336af7c920e0d1deb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExplainQueryTest, OutputShapeHasPlan)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExplainQueryTest</type>
+        </param>
+        <param>
+          <type>OutputShapeHasPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="233" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="233" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mcp__search__tools_8cpp_1ab6cd865614b7be174ec80e224e6539ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExplainQueryTest, DefaultLanguageIsAql)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExplainQueryTest</type>
+        </param>
+        <param>
+          <type>DefaultLanguageIsAql</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_mcp_search_tools.cpp" line="248" column="1" bodyfile="tests/server/test_mcp_search_tools.cpp" bodystart="248" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for MCP Group 2 (Vector/Hybrid/RAG) and Group 7 (Schema) tools: semantic_search, hybrid_search, rag_retrieve, vector_index_list, schema_validate, explain_query. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Labels: wave_b release_critical </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>missing_param_error(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>param)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;missing<sp/>parameter:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>param}};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>semantic_search<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SemanticSearchTest,<sp/>MissingQueryReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(args.find(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">)<sp/>==<sp/>args.end());</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>expected<sp/>=<sp/>missing_param_error(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(expected[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;missing<sp/>parameter:<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SemanticSearchTest,<sp/>TopKDefaultIsTen)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>std::min(std::max(args.value(</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/>10),<sp/>1),<sp/>200);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(top_k,<sp/>10);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SemanticSearchTest,<sp/>TopKClampedToMax200)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/>999}};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>std::min(std::max(args.value(</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/>10),<sp/>1),<sp/>200);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(top_k,<sp/>200);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SemanticSearchTest,<sp/>TopKClampedToMin1)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/>-5}};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>std::min(std::max(args.value(</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/>10),<sp/>1),<sp/>200);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(top_k,<sp/>1);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SemanticSearchTest,<sp/>OutputShapeHasRequiredFields)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>result<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">,<sp/>json::array()},</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_candidates_scanned&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query_embedding_model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;total_candidates_scanned&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;query_embedding_model&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SemanticSearchTest,<sp/>ThresholdRangeValidation)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>threshold<sp/>must<sp/>be<sp/>in<sp/>[0.0,<sp/>1.0]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>raw<sp/>=<sp/>1.5;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>std::min(std::max(raw,<sp/>0.0),<sp/>1.0);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(threshold,<sp/>1.0);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>raw<sp/>=<sp/>-0.5;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>threshold<sp/>=<sp/>std::min(std::max(raw,<sp/>0.0),<sp/>1.0);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(threshold,<sp/>0.0);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>hybrid_search<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(HybridSearchTest,<sp/>MissingQueryReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(args.find(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">)<sp/>==<sp/>args.end());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>missing_param_error(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;missing<sp/>parameter:<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(HybridSearchTest,<sp/>VectorWeightClamped)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>raw<sp/>=<sp/>1.8;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>w<sp/>=<sp/>std::min(std::max(raw,<sp/>0.0),<sp/>1.0);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(w,<sp/>1.0);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(HybridSearchTest,<sp/>Bm25WeightClamped)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>raw<sp/>=<sp/>-0.3;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>w<sp/>=<sp/>std::min(std::max(raw,<sp/>0.0),<sp/>1.0);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(w,<sp/>0.0);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(HybridSearchTest,<sp/>OutputShapeHasRequiredFields)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>result<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array()},</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;top_k_returned&quot;</highlight><highlight class="normal">,<sp/>0}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;top_k_returned&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(HybridSearchTest,<sp/>RrfScorePositive)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RRF<sp/>formula:<sp/>weight<sp/>/<sp/>(rank<sp/>+<sp/>60)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rrf<sp/>=<sp/>0.5<sp/>/<sp/>(1<sp/>+<sp/>60.0);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(rrf,<sp/>0.0);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>rag_retrieve<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(RagRetrieveTest,<sp/>MissingQueryReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(args.find(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">)<sp/>==<sp/>args.end());</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>missing_param_error(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;missing<sp/>parameter:<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(RagRetrieveTest,<sp/>DefaultTopKIsFive)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>std::min(std::max(args.value(</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/>5),<sp/>1),<sp/>20);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(top_k,<sp/>5);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(RagRetrieveTest,<sp/>TopKClampedToMax20)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/>100}};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>std::min(std::max(args.value(</highlight><highlight class="stringliteral">&quot;top_k&quot;</highlight><highlight class="normal">,<sp/>5),<sp/>1),<sp/>20);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(top_k,<sp/>20);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(RagRetrieveTest,<sp/>OutputShapeHasRequiredFields)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>result<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;context_chunks&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array()},</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_tokens_estimate&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;retrieval_latency_ms&quot;</highlight><highlight class="normal">,<sp/><sp/>5}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;context_chunks&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;total_tokens_estimate&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;retrieval_latency_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(RagRetrieveTest,<sp/>RerankFalseStillReturnsChunks)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;rerank&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rerank<sp/>=<sp/>args.value(</highlight><highlight class="stringliteral">&quot;rerank&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rerank);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>error<sp/>should<sp/>be<sp/>produced<sp/>from<sp/>rerank=false;<sp/>chunks<sp/>array<sp/>still<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>result<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;context_chunks&quot;</highlight><highlight class="normal">,<sp/>json::array()},<sp/>{</highlight><highlight class="stringliteral">&quot;total_tokens_estimate&quot;</highlight><highlight class="normal">,<sp/>0},<sp/>{</highlight><highlight class="stringliteral">&quot;retrieval_latency_ms&quot;</highlight><highlight class="normal">,<sp/>0}};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;context_chunks&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(RagRetrieveTest,<sp/>ChunkRankIsSequential)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>chunks<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks.push_back({{</highlight><highlight class="stringliteral">&quot;rank&quot;</highlight><highlight class="normal">,<sp/>i},<sp/>{</highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;chunk&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>0.9<sp/>-<sp/>i<sp/>*<sp/>0.1}});</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunks[0][</highlight><highlight class="stringliteral">&quot;rank&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunks[1][</highlight><highlight class="stringliteral">&quot;rank&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>2);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunks[2][</highlight><highlight class="stringliteral">&quot;rank&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>3);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>vector_index_list<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(VectorIndexListTest,<sp/>OutputShapeHasIndexesArray)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>result<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;indexes&quot;</highlight><highlight class="normal">,<sp/>json::array()}};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;indexes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;indexes&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(VectorIndexListTest,<sp/>CollectionFilterApplied)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>vector<sp/>indexes<sp/>for<sp/>the<sp/>requested<sp/>collection<sp/>should<sp/>be<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>all_indexes<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vec1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hnsw&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vec2&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hnsw&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>filter<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>filtered<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>idx<sp/>:<sp/>all_indexes)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(idx[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;()<sp/>==<sp/>filter)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>filtered.push_back(idx);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filtered.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filtered[0][</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>schema_validate<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SchemaValidateTest,<sp/>MissingCollectionReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;document&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>1}}}};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(args.find(</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">)<sp/>==<sp/>args.end());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>missing_param_error(</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;missing<sp/>parameter:<sp/>collection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SchemaValidateTest,<sp/>MissingDocumentReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;persons&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(args.find(</highlight><highlight class="stringliteral">&quot;document&quot;</highlight><highlight class="normal">)<sp/>==<sp/>args.end());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>missing_param_error(</highlight><highlight class="stringliteral">&quot;document&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;missing<sp/>parameter:<sp/>document&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SchemaValidateTest,<sp/>ValidDocumentReturnsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>result<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">,<sp/>json::array()}};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">].empty());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(SchemaValidateTest,<sp/>InvalidDocumentReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>errors<sp/>=<sp/>json::array({{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Required<sp/>field<sp/>&apos;name&apos;<sp/>is<sp/>missing&quot;</highlight><highlight class="normal">}}});</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>result<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">,<sp/>errors}};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result[</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">].size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">][0][</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>explain_query<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(ExplainQueryTest,<sp/>MissingQueryReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(args.find(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">)<sp/>==<sp/>args.end());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>missing_param_error(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;missing<sp/>parameter:<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(ExplainQueryTest,<sp/>OutputShapeHasPlan)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>result<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;plan&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;nodes&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array()},</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;estimated_total_cost&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;optimizations_applied&quot;</highlight><highlight class="normal">,<sp/>json::array()}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;note&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;explain<sp/>not<sp/>yet<sp/>available<sp/>for<sp/>this<sp/>query<sp/>type<sp/>(language=aql)&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;plan&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;plan&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;nodes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;plan&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;estimated_total_cost&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;plan&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;optimizations_applied&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__mcp__search__tools_8cpp_1a2a026dfbaf033c26a6bf48892d5b7c2c" kindref="member">TEST</ref>(ExplainQueryTest,<sp/>DefaultLanguageIsAql)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>args<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>col<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>lang<sp/>=<sp/>args.value(</highlight><highlight class="stringliteral">&quot;language&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;aql&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lang,<sp/></highlight><highlight class="stringliteral">&quot;aql&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/server/test_mcp_search_tools.cpp"/>
+  </compounddef>
+</doxygen>

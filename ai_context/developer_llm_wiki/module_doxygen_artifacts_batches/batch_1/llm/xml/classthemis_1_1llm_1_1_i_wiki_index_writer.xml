@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_wiki_index_writer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IWikiIndexWriter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_wiki_index_store" prot="public" virt="non-virtual">themis::llm::WikiIndexStore</derivedcompoundref>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_wiki_index_writer_1ab3cc7128bcfe97d290d264953f4a057b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::IWikiIndexWriter::~IWikiIndexWriter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IWikiIndexWriter</name>
+        <qualifiedname>themis::llm::IWikiIndexWriter::~IWikiIndexWriter</qualifiedname>
+        <briefdescription>
+<para>IWiki Index Writer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="168" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_wiki_index_writer_1a7dde73bee305a5c9f6e963b80fd17eeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::IWikiIndexWriter::writeChunk</definition>
+        <argsstring>(WikiChunk chunk)=0</argsstring>
+        <name>writeChunk</name>
+        <qualifiedname>themis::llm::IWikiIndexWriter::writeChunk</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_wiki_index_store_1a5461b2b5059a518137ca371c10c8c468">writeChunk</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref></type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Write Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="174" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_wiki_index_writer_1a6ed5f027326fe92a5fc201bd619387ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::IWikiIndexWriter::writeBatch</definition>
+        <argsstring>(std::vector&lt; WikiChunk &gt; chunks)=0</argsstring>
+        <name>writeBatch</name>
+        <qualifiedname>themis::llm::IWikiIndexWriter::writeBatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_wiki_index_store_1a470261a35300562ac728f8216c54280c">writeBatch</reimplementedby>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Write Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="180" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_wiki_index_writer_1abe140d3508a64ad2f8032217efb78000" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::IWikiIndexWriter::flush</definition>
+        <argsstring>()=0</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::llm::IWikiIndexWriter::flush</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_wiki_index_store_1a999ae0226db017586564a21539349cb9">flush</reimplementedby>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="185" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::IWikiIndexWriter</label>
+        <link refid="classthemis_1_1llm_1_1_i_wiki_index_writer"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::WikiIndexStore</label>
+        <link refid="classthemis_1_1llm_1_1_wiki_index_store"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/wiki_index_store.h" line="162" column="1" bodyfile="include/llm/wiki_index_store.h" bodystart="162" bodyend="186"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_writer_1abe140d3508a64ad2f8032217efb78000" prot="public" virt="pure-virtual"><scope>themis::llm::IWikiIndexWriter</scope><name>flush</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_writer_1a6ed5f027326fe92a5fc201bd619387ac" prot="public" virt="pure-virtual"><scope>themis::llm::IWikiIndexWriter</scope><name>writeBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_writer_1a7dde73bee305a5c9f6e963b80fd17eeb" prot="public" virt="pure-virtual"><scope>themis::llm::IWikiIndexWriter</scope><name>writeChunk</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_writer_1ab3cc7128bcfe97d290d264953f4a057b" prot="public" virt="virtual"><scope>themis::llm::IWikiIndexWriter</scope><name>~IWikiIndexWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

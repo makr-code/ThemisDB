@@ -1,0 +1,878 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__resource__limits_8cpp" kind="file" language="C++">
+    <compoundname>test_query_resource_limits.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">string</includes>
+    <includes refid="query__resource__limits_8h" local="yes">query/query_resource_limits.h</includes>
+    <includes refid="aql__runner_8h" local="yes">query/aql_runner.h</includes>
+    <includes refid="query__engine_8h" local="yes">query/query_engine.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">utils/error_registry.h</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>query/aql_parser.h</label>
+        <link refid="aql__parser_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>query/aql_runner.h</label>
+        <link refid="aql__runner_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>query/aql_translator.h</label>
+        <link refid="aql__translator_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>query/mutation_execution_plan.h</label>
+        <link refid="mutation__execution__plan_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>query/mutation_executor.h</label>
+        <link refid="mutation__executor_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>query/query_canceller.h</label>
+        <link refid="query__canceller_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>query/query_resource_limits.h</label>
+        <link refid="query__resource__limits_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>query/result_type_annotation.h</label>
+        <link refid="result__type__annotation_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>query/sql_parser.h</label>
+        <link refid="sql__parser_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_query_resource_limits.cpp</label>
+        <link refid="test__query__resource__limits_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="34">
+        <label>condition_variable</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>filesystem</label>
+      </node>
+      <node id="24">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="39">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="27">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="22">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>set</label>
+      </node>
+      <node id="38">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="37">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="25">
+        <label>string_view</label>
+      </node>
+      <node id="30">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="31">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="29">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="5">
+        <label>thread</label>
+      </node>
+      <node id="26">
+        <label>unordered_map</label>
+      </node>
+      <node id="18">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>utility</label>
+      </node>
+      <node id="40">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="19">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="16">
+        <label>variant</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_aql_resource_limits_test" prot="public">AqlResourceLimitsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1a06f03d90849f8e37fce6e863b9ad8ff5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string tmpResourceTestPath</definition>
+        <argsstring>(const std::string &amp;suffix)</argsstring>
+        <name>tmpResourceTestPath</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>suffix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="23" column="20" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1a17cdef5baad5e8d63d38b1dcabe78045" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResourceGuardTest, NoLimits_AllCheckersPass)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResourceGuardTest</type>
+        </param>
+        <param>
+          <type>NoLimits_AllCheckersPass</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="34" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="34" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1ab19b95322e5b3029f3f4c946584018a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResourceGuardTest, RowLimitTriggered)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResourceGuardTest</type>
+        </param>
+        <param>
+          <type>RowLimitTriggered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="44" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="44" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1a053e12098efac456421cecc34d79a3a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResourceGuardTest, MemoryLimitTriggered)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResourceGuardTest</type>
+        </param>
+        <param>
+          <type>MemoryLimitTriggered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="55" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="55" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1ab62278315013a349b26b11139a824547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResourceGuardTest, TimeoutTriggered)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResourceGuardTest</type>
+        </param>
+        <param>
+          <type>TimeoutTriggered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="64" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="64" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1a91203aab068f4e525f35df2d7d0fe150" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResourceGuardTest, RowCountAndMemoryAccumulate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResourceGuardTest</type>
+        </param>
+        <param>
+          <type>RowCountAndMemoryAccumulate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="77" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="77" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1a3e6fe7fedacbb893e3ce4df42eba1367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResourceGuardTest, ElapsedMsIsNonNegative)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResourceGuardTest</type>
+        </param>
+        <param>
+          <type>ElapsedMsIsNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="89" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1a5776293273ca4cd54e10978ea8702b4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AqlResourceLimitsTest, NoLimits_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref></type>
+        </param>
+        <param>
+          <type>NoLimits_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="140" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="140" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1ace983b2372a539abc7380b0b7abc2238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AqlResourceLimitsTest, RowLimitExceeded_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref></type>
+        </param>
+        <param>
+          <type>RowLimitExceeded_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="150" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="150" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1af3fdb4d37f401026c3757c20e19eaecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AqlResourceLimitsTest, RowLimitSufficient_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref></type>
+        </param>
+        <param>
+          <type>RowLimitSufficient_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="164" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="164" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1ab2555ec068199afdb7c3bf216a77784c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AqlResourceLimitsTest, MemoryLimitExceeded_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryLimitExceeded_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="175" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="175" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1aa8daaeff5db2c846dc14cfc17ff4077a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AqlResourceLimitsTest, MemoryLimitSufficient_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryLimitSufficient_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="189" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="189" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1aaae72dd00dc141e5ba69bd272ebe01c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AqlResourceLimitsTest, TimeoutAfterExecution_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref></type>
+        </param>
+        <param>
+          <type>TimeoutAfterExecution_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="200" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="200" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1a1cf533b99947f3e8fe6a74cb01637a53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AqlResourceLimitsTest, LargeTimeout_DoesNotExpire)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref></type>
+        </param>
+        <param>
+          <type>LargeTimeout_DoesNotExpire</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="238" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="238" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__resource__limits_8cpp_1acd6b0e95b624e2c609e4236083afc9a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AqlResourceLimitsTest, ExecutionError_PropagatedUnchanged)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref></type>
+        </param>
+        <param>
+          <type>ExecutionError_PropagatedUnchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_resource_limits.cpp" line="249" column="1" bodyfile="tests/query/test_query_resource_limits.cpp" bodystart="249" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Per-query<sp/>resource<sp/>limits<sp/>unit<sp/>and<sp/>integration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>QueryResourceGuard<sp/>logic<sp/>and<sp/>executeAqlWithLimits<sp/>enforcement.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__resource__limits_8h" kindref="compound">query/query_resource_limits.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__runner_8h" kindref="compound">query/aql_runner.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__engine_8h" kindref="compound">query/query_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/error_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>helpers<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>tmpResourceTestPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>suffix)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_rl_&quot;</highlight><highlight class="normal"><sp/>+<sp/>suffix<sp/>+<sp/>std::to_string(now))).string();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryResourceGuard<sp/>–<sp/>unit<sp/>tests<sp/>(no<sp/>DB<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__query__resource__limits_8cpp_1a17cdef5baad5e8d63d38b1dcabe78045" kindref="member">TEST</ref>(QueryResourceGuardTest,<sp/>NoLimits_AllCheckersPass)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;<sp/></highlight><highlight class="comment">//<sp/>all<sp/>zeros<sp/>→<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard" kindref="compound">QueryResourceGuard</ref><sp/>guard(limits);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.checkRow(1024),<sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">QueryResourceGuard::Violation::None</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.rowCount(),<sp/>1000u);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__query__resource__limits_8cpp_1a17cdef5baad5e8d63d38b1dcabe78045" kindref="member">TEST</ref>(QueryResourceGuardTest,<sp/>RowLimitTriggered)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a3f48f730050e9cc74461ed182f4a976c" kindref="member">max_rows</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard" kindref="compound">QueryResourceGuard</ref><sp/>guard(limits);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.checkRow(10),<sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">QueryResourceGuard::Violation::None</ref>);<sp/></highlight><highlight class="comment">//<sp/>row<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.checkRow(10),<sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">QueryResourceGuard::Violation::None</ref>);<sp/></highlight><highlight class="comment">//<sp/>row<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.checkRow(10),<sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">QueryResourceGuard::Violation::None</ref>);<sp/></highlight><highlight class="comment">//<sp/>row<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.checkRow(10),<sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a31d35d0204e351c69aa85aba9b410712" kindref="member">QueryResourceGuard::Violation::RowLimit</ref>);<sp/></highlight><highlight class="comment">//<sp/>row<sp/>4<sp/>→<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__query__resource__limits_8cpp_1a17cdef5baad5e8d63d38b1dcabe78045" kindref="member">TEST</ref>(QueryResourceGuardTest,<sp/>MemoryLimitTriggered)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a1d6127efd10ec69778bcd76cb2ba7559" kindref="member">max_memory_bytes</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard" kindref="compound">QueryResourceGuard</ref><sp/>guard(limits);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.checkRow(50),<sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">QueryResourceGuard::Violation::None</ref>);<sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>bytes<sp/>–<sp/>ok</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.checkRow(51),<sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1a2dd6f1d41cc4c4d5d2010adb8be27f96" kindref="member">QueryResourceGuard::Violation::MemoryLimit</ref>);<sp/></highlight><highlight class="comment">//<sp/>101<sp/>bytes<sp/>–<sp/>over</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__query__resource__limits_8cpp_1a17cdef5baad5e8d63d38b1dcabe78045" kindref="member">TEST</ref>(QueryResourceGuardTest,<sp/>TimeoutTriggered)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a19b6ee1b58b566324bcd1536120005bd" kindref="member">timeout_ms</ref><sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>ms<sp/>timeout<sp/>–<sp/>will<sp/>be<sp/>exceeded<sp/>after<sp/>a<sp/>short<sp/>sleep</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard" kindref="compound">QueryResourceGuard</ref><sp/>guard(limits);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>sleep<sp/>the<sp/>timeout<sp/>may<sp/>not<sp/>yet<sp/>have<sp/>fired.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard.isTimedOut());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>checkRow<sp/>also<sp/>reflects<sp/>timeout.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.checkRow(0),<sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard_1aafb0f076523f0af58a928d4acdf69db1ac85a251cc457840f1e032f1b733e9398" kindref="member">QueryResourceGuard::Violation::Timeout</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__query__resource__limits_8cpp_1a17cdef5baad5e8d63d38b1dcabe78045" kindref="member">TEST</ref>(QueryResourceGuardTest,<sp/>RowCountAndMemoryAccumulate)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;<sp/></highlight><highlight class="comment">//<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard" kindref="compound">QueryResourceGuard</ref><sp/>guard(limits);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.checkRow(100);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.checkRow(200);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.checkRow(300);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.rowCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.memoryBytes(),<sp/>600u);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__query__resource__limits_8cpp_1a17cdef5baad5e8d63d38b1dcabe78045" kindref="member">TEST</ref>(QueryResourceGuardTest,<sp/>ElapsedMsIsNonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_resource_guard" kindref="compound">QueryResourceGuard</ref><sp/>guard(limits);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(guard.elapsedMs(),<sp/>0u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>executeAqlWithLimits<sp/>–<sp/>integration<sp/>tests<sp/>(with<sp/>RocksDB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="class_aql_resource_limits_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_aql_resource_limits_test_1a9cac0d3e0ed6c2f96d3041de7c5c480d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aql_resource_limits_test_1a6df335327518fd13c1b07418ffcd6f6f" kindref="member">dbPath_</ref><sp/>=<sp/>tmpResourceTestPath(</highlight><highlight class="stringliteral">&quot;aql_rl_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/><ref refid="class_aql_resource_limits_test_1a6df335327518fd13c1b07418ffcd6f6f" kindref="member">dbPath_</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_blobdb<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aql_resource_limits_test_1a76ced0787c3ef42977024f791372aab2" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_aql_resource_limits_test_1a76ced0787c3ef42977024f791372aab2" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aql_resource_limits_test_1a6466714efa3dc4094c61925cc7a0adff" kindref="member">idx_</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_aql_resource_limits_test_1a76ced0787c3ef42977024f791372aab2" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_aql_resource_limits_test_1a6466714efa3dc4094c61925cc7a0adff" kindref="member">idx_</ref>-&gt;createIndex(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>5<sp/>entities<sp/>all<sp/>with<sp/>category=&quot;tool&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>f{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;item&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)},</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;tool&quot;</highlight><highlight class="normal">)}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;item&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>f);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_aql_resource_limits_test_1a6466714efa3dc4094c61925cc7a0adff" kindref="member">idx_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aql_resource_limits_test_1ab1cd6b5bbd5c1cb4517ce3cc131712d9" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_aql_resource_limits_test_1a76ced0787c3ef42977024f791372aab2" kindref="member">db_</ref>,<sp/>*<ref refid="class_aql_resource_limits_test_1a6466714efa3dc4094c61925cc7a0adff" kindref="member">idx_</ref>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_aql_resource_limits_test_1afc438c083ddbc0cb83b490655ca3aec2" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aql_resource_limits_test_1ab1cd6b5bbd5c1cb4517ce3cc131712d9" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aql_resource_limits_test_1a6466714efa3dc4094c61925cc7a0adff" kindref="member">idx_</ref>.reset();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_aql_resource_limits_test_1a76ced0787c3ef42977024f791372aab2" kindref="member">db_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aql_resource_limits_test_1a76ced0787c3ef42977024f791372aab2" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aql_resource_limits_test_1a76ced0787c3ef42977024f791372aab2" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_aql_resource_limits_test_1a6df335327518fd13c1b07418ffcd6f6f" kindref="member">dbPath_</ref>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_aql_resource_limits_test_1a6df335327518fd13c1b07418ffcd6f6f" kindref="member">dbPath_</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_aql_resource_limits_test_1a76ced0787c3ef42977024f791372aab2" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_aql_resource_limits_test_1a6466714efa3dc4094c61925cc7a0adff" kindref="member">idx_</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_aql_resource_limits_test_1ab1cd6b5bbd5c1cb4517ce3cc131712d9" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref>,<sp/>NoLimits_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>aql<sp/>=</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>d<sp/>IN<sp/>items<sp/>FILTER<sp/>d.category<sp/>==<sp/>&apos;tool&apos;<sp/>RETURN<sp/>d)&quot;;</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;<sp/></highlight><highlight class="comment">//<sp/>all<sp/>zero<sp/>→<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(aql,<sp/>*engine_,<sp/>limits);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result-&gt;is_object());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref>,<sp/>RowLimitExceeded_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>aql<sp/>=</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>d<sp/>IN<sp/>items<sp/>FILTER<sp/>d.category<sp/>==<sp/>&apos;tool&apos;<sp/>RETURN<sp/>d)&quot;;</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a3f48f730050e9cc74461ed182f4a976c" kindref="member">max_rows</ref><sp/>=<sp/>2;<sp/></highlight><highlight class="comment">//<sp/>We<sp/>inserted<sp/>5,<sp/>so<sp/>this<sp/>should<sp/>be<sp/>exceeded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(aql,<sp/>*engine_,<sp/>limits);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error().message().find(</highlight><highlight class="stringliteral">&quot;max_rows&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref>,<sp/>RowLimitSufficient_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>aql<sp/>=</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>d<sp/>IN<sp/>items<sp/>FILTER<sp/>d.category<sp/>==<sp/>&apos;tool&apos;<sp/>RETURN<sp/>d)&quot;;</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a3f48f730050e9cc74461ed182f4a976c" kindref="member">max_rows</ref><sp/>=<sp/>100;<sp/></highlight><highlight class="comment">//<sp/>well<sp/>above<sp/>5<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(aql,<sp/>*engine_,<sp/>limits);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref>,<sp/>MemoryLimitExceeded_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>aql<sp/>=</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>d<sp/>IN<sp/>items<sp/>FILTER<sp/>d.category<sp/>==<sp/>&apos;tool&apos;<sp/>RETURN<sp/>d)&quot;;</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a1d6127efd10ec69778bcd76cb2ba7559" kindref="member">max_memory_bytes</ref><sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>byte<sp/>–<sp/>any<sp/>non-empty<sp/>result<sp/>exceeds<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(aql,<sp/>*engine_,<sp/>limits);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error().message().find(</highlight><highlight class="stringliteral">&quot;max_memory_bytes&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref>,<sp/>MemoryLimitSufficient_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>aql<sp/>=</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>d<sp/>IN<sp/>items<sp/>FILTER<sp/>d.category<sp/>==<sp/>&apos;tool&apos;<sp/>RETURN<sp/>d)&quot;;</highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a1d6127efd10ec69778bcd76cb2ba7559" kindref="member">max_memory_bytes</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>MB<sp/>–<sp/>more<sp/>than<sp/>enough</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(aql,<sp/>*engine_,<sp/>limits);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref>,<sp/>TimeoutAfterExecution_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>use<sp/>a<sp/>1-ms<sp/>timeout<sp/>and<sp/>a<sp/>sleep<sp/>to<sp/>guarantee<sp/>the<sp/>guard<sp/>fires.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>executeAqlWithLimits<sp/>measures<sp/>wall-clock<sp/>time<sp/>including<sp/>setup.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>To<sp/>make<sp/>this<sp/>deterministic<sp/>we<sp/>deliberately<sp/>inject<sp/>a<sp/>delay<sp/>via</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>guard<sp/>check<sp/>between<sp/>execution<sp/>and<sp/>the<sp/>timeout<sp/>check:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>function<sp/>re-measures<sp/>time<sp/>after<sp/>executeAql<sp/>returns,<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>timeout_ms=1<sp/>fires<sp/>if<sp/>execution+overhead<sp/>&gt;=<sp/>1<sp/>ms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>the<sp/>very<sp/>rare<sp/>case<sp/>where<sp/>the<sp/>whole<sp/>call<sp/>is<sp/>sub-millisecond,<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>test<sp/>would<sp/>miss<sp/>–<sp/>but<sp/>in<sp/>practice<sp/>DB<sp/>open<sp/>+<sp/>AQL<sp/>parse<sp/>is<sp/>always<sp/>&gt;<sp/>1<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>on<sp/>any<sp/>CI<sp/>machine.<sp/><sp/>We<sp/>set<sp/>a<sp/>generous<sp/>1<sp/>ms<sp/>here<sp/>and<sp/>accept<sp/>this<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>best-effort<sp/>timeout<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>aql<sp/>=</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>d<sp/>IN<sp/>items<sp/>FILTER<sp/>d.category<sp/>==<sp/>&apos;tool&apos;<sp/>RETURN<sp/>d)&quot;;</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a19b6ee1b58b566324bcd1536120005bd" kindref="member">timeout_ms</ref><sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>extremely<sp/>tight<sp/>–<sp/>expect<sp/>to<sp/>be<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>until<sp/>we<sp/>get<sp/>a<sp/>timeout<sp/>or<sp/>succeed<sp/>(allow<sp/>a<sp/>few<sp/>tries<sp/>on<sp/>fast<sp/>machines)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;<sp/>attempt<sp/>&lt;<sp/>10;<sp/>++attempt)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(aql,<sp/>*engine_,<sp/>limits);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.has_value()<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error().code()<sp/>==<sp/>errors::ErrorCode::ERR_QUERY_TIMEOUT)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++timeout_count;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>machines<sp/>where<sp/>all<sp/>10<sp/>attempts<sp/>succeeded<sp/>in<sp/>&lt;<sp/>1<sp/>ms,<sp/>skip<sp/>the<sp/>assertion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>to<sp/>avoid<sp/>a<sp/>spurious<sp/>failure<sp/>in<sp/>a<sp/>highly<sp/>optimised<sp/>CI<sp/>environment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Realistically<sp/>this<sp/>will<sp/>not<sp/>happen.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(timeout_count<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>attempts<sp/>completed<sp/>in<sp/>&lt;<sp/>1<sp/>ms;<sp/>timeout<sp/>test<sp/>skipped<sp/>on<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;this<sp/>machine.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(timeout_count,<sp/>0);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref>,<sp/>LargeTimeout_DoesNotExpire)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>aql<sp/>=</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>d<sp/>IN<sp/>items<sp/>FILTER<sp/>d.category<sp/>==<sp/>&apos;tool&apos;<sp/>RETURN<sp/>d)&quot;;</highlight></codeline>
+<codeline lineno="241"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="242"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="243"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a19b6ee1b58b566324bcd1536120005bd" kindref="member">timeout_ms</ref><sp/>=<sp/>60000;<sp/></highlight><highlight class="comment">//<sp/>60<sp/>s<sp/>–<sp/>will<sp/>never<sp/>expire<sp/>during<sp/>this<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(aql,<sp/>*engine_,<sp/>limits);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_aql_resource_limits_test" kindref="compound">AqlResourceLimitsTest</ref>,<sp/>ExecutionError_PropagatedUnchanged)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Intentionally<sp/>malformed<sp/>AQL<sp/>–<sp/>the<sp/>error<sp/>from<sp/>executeAql<sp/>should<sp/>propagate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>without<sp/>being<sp/>wrapped<sp/>in<sp/>a<sp/>resource-limit<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>bad_aql<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;THIS<sp/>IS<sp/>NOT<sp/>VALID<sp/>AQL<sp/>!!!&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">QueryResourceLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1query_1_1_query_resource_limits_1a3f48f730050e9cc74461ed182f4a976c" kindref="member">max_rows</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(bad_aql,<sp/>*engine_,<sp/>limits);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>a<sp/>parse<sp/>error,<sp/>not<sp/>a<sp/>resource-limit<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error().code(),</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error().code(),</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors::ErrorCode::ERR_QUERY_TIMEOUT);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_resource_limits.cpp"/>
+  </compounddef>
+</doxygen>

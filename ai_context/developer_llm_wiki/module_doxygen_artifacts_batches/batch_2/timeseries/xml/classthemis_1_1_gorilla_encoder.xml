@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_gorilla_encoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::GorillaEncoder</compoundname>
+    <includes refid="gorilla_8h" local="no">gorilla.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_encoder_1af2bc1289fcc1e5e65eaa1c63e390d8e3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GorillaEncoder::first_</definition>
+        <argsstring></argsstring>
+        <name>first_</name>
+        <qualifiedname>themis::GorillaEncoder::first_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="246" column="10" bodyfile="include/timeseries/gorilla.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_encoder_1a62df68720065b10b38534c7b44a52809" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::GorillaEncoder::prev_ts_</definition>
+        <argsstring></argsstring>
+        <name>prev_ts_</name>
+        <qualifiedname>themis::GorillaEncoder::prev_ts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="247" column="13" bodyfile="include/timeseries/gorilla.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_encoder_1afcabc1044684afb6d39cb9e9490a7632" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::GorillaEncoder::prev_dt_</definition>
+        <argsstring></argsstring>
+        <name>prev_dt_</name>
+        <qualifiedname>themis::GorillaEncoder::prev_dt_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="248" column="13" bodyfile="include/timeseries/gorilla.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_encoder_1ada737564292214e7c67547f5af3b33c6" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::GorillaEncoder::prev_vbits_</definition>
+        <argsstring></argsstring>
+        <name>prev_vbits_</name>
+        <qualifiedname>themis::GorillaEncoder::prev_vbits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="249" column="14" bodyfile="include/timeseries/gorilla.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_encoder_1a1d5ca6b4432860fedb6deea8e003425e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::GorillaEncoder::prev_leading_</definition>
+        <argsstring></argsstring>
+        <name>prev_leading_</name>
+        <qualifiedname>themis::GorillaEncoder::prev_leading_</qualifiedname>
+        <initializer>{64}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="250" column="9" bodyfile="include/timeseries/gorilla.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_encoder_1abd76e8ff55eb9ebafa50cfd5946cf02b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::GorillaEncoder::prev_trailing_</definition>
+        <argsstring></argsstring>
+        <name>prev_trailing_</name>
+        <qualifiedname>themis::GorillaEncoder::prev_trailing_</qualifiedname>
+        <initializer>{64}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="251" column="9" bodyfile="include/timeseries/gorilla.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_encoder_1aa576be9ee8b18f9b60ff89bca7dd01f1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_bit_writer" kindref="compound">BitWriter</ref></type>
+        <definition>BitWriter themis::GorillaEncoder::bw_</definition>
+        <argsstring></argsstring>
+        <name>bw_</name>
+        <qualifiedname>themis::GorillaEncoder::bw_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="252" column="15" bodyfile="include/timeseries/gorilla.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_gorilla_encoder_1a28bcf7738e3f5ac9bbb9360e2592fd69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GorillaEncoder::add</definition>
+        <argsstring>(int64_t timestamp_ms, double value)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::GorillaEncoder::add</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>----<mdash/> <ref refid="classthemis_1_1_gorilla_encoder" kindref="compound">GorillaEncoder</ref> ----<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeZigZag64(), writeBits(), dbl_to_bits(), alignToByte(), writeBit(), clz64(), ctz64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="238" column="10" bodyfile="src/timeseries/gorilla.cpp" bodystart="166" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_gorilla_encoder_1ac6bbb38625c34a84d82f474faa22be58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::GorillaEncoder::finish</definition>
+        <argsstring>()</argsstring>
+        <name>finish</name>
+        <qualifiedname>themis::GorillaEncoder::finish</qualifiedname>
+        <briefdescription>
+<para>Finish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="243" column="17" bodyfile="src/timeseries/gorilla.cpp" bodystart="224" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Gorilla encoder component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/gorilla.h" line="231" column="1" bodyfile="include/timeseries/gorilla.h" bodystart="231" bodyend="253"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_gorilla_encoder_1a28bcf7738e3f5ac9bbb9360e2592fd69" prot="public" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>add</name></member>
+      <member refid="classthemis_1_1_gorilla_encoder_1aa576be9ee8b18f9b60ff89bca7dd01f1" prot="private" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>bw_</name></member>
+      <member refid="classthemis_1_1_gorilla_encoder_1ac6bbb38625c34a84d82f474faa22be58" prot="public" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>finish</name></member>
+      <member refid="classthemis_1_1_gorilla_encoder_1af2bc1289fcc1e5e65eaa1c63e390d8e3" prot="private" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>first_</name></member>
+      <member refid="classthemis_1_1_gorilla_encoder_1afcabc1044684afb6d39cb9e9490a7632" prot="private" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>prev_dt_</name></member>
+      <member refid="classthemis_1_1_gorilla_encoder_1a1d5ca6b4432860fedb6deea8e003425e" prot="private" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>prev_leading_</name></member>
+      <member refid="classthemis_1_1_gorilla_encoder_1abd76e8ff55eb9ebafa50cfd5946cf02b" prot="private" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>prev_trailing_</name></member>
+      <member refid="classthemis_1_1_gorilla_encoder_1a62df68720065b10b38534c7b44a52809" prot="private" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>prev_ts_</name></member>
+      <member refid="classthemis_1_1_gorilla_encoder_1ada737564292214e7c67547f5af3b33c6" prot="private" virt="non-virtual"><scope>themis::GorillaEncoder</scope><name>prev_vbits_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

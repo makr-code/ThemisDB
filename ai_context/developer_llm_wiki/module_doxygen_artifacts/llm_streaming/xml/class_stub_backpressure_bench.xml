@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_backpressure_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubBackpressureBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_backpressure_bench_1a27ca91fe8c2ad906170da4eb95187a16" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubBackpressureBench::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubBackpressureBench::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="62" column="16" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_backpressure_bench_1a4029d5e2b54c9df613cd22eb4b5650ea" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; StubBackpressureBench::buf_</definition>
+        <argsstring></argsstring>
+        <name>buf_</name>
+        <qualifiedname>StubBackpressureBench::buf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="63" column="16" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_backpressure_bench_1af30b11dcd2ef9d3e3249f1e77419fdc9" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StubBackpressureBench::cap_</definition>
+        <argsstring></argsstring>
+        <name>cap_</name>
+        <qualifiedname>StubBackpressureBench::cap_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="64" column="17" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_backpressure_bench_1a64f363328dedaa25a54b9cc6fa2c8f56" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubBackpressureBench::StubBackpressureBench</definition>
+        <argsstring>(std::size_t cap)</argsstring>
+        <name>StubBackpressureBench</name>
+        <qualifiedname>StubBackpressureBench::StubBackpressureBench</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="49" column="14" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_backpressure_bench_1ac929c022b01ee787f67e9d108cd75533" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubBackpressureBench::push</definition>
+        <argsstring>(const std::string &amp;chunk)</argsstring>
+        <name>push</name>
+        <qualifiedname>StubBackpressureBench::push</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="50" column="10" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_backpressure_bench_1aac596ab4a759ceb0f3174868f20b288b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubBackpressureBench::pop</definition>
+        <argsstring>(std::string &amp;out)</argsstring>
+        <name>pop</name>
+        <qualifiedname>StubBackpressureBench::pop</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="56" column="10" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="47" column="1" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="47" bodyend="65"/>
+    <listofallmembers>
+      <member refid="class_stub_backpressure_bench_1a4029d5e2b54c9df613cd22eb4b5650ea" prot="private" virt="non-virtual"><scope>StubBackpressureBench</scope><name>buf_</name></member>
+      <member refid="class_stub_backpressure_bench_1af30b11dcd2ef9d3e3249f1e77419fdc9" prot="private" virt="non-virtual"><scope>StubBackpressureBench</scope><name>cap_</name></member>
+      <member refid="class_stub_backpressure_bench_1a27ca91fe8c2ad906170da4eb95187a16" prot="private" virt="non-virtual"><scope>StubBackpressureBench</scope><name>mu_</name></member>
+      <member refid="class_stub_backpressure_bench_1aac596ab4a759ceb0f3174868f20b288b" prot="public" virt="non-virtual"><scope>StubBackpressureBench</scope><name>pop</name></member>
+      <member refid="class_stub_backpressure_bench_1ac929c022b01ee787f67e9d108cd75533" prot="public" virt="non-virtual"><scope>StubBackpressureBench</scope><name>push</name></member>
+      <member refid="class_stub_backpressure_bench_1a64f363328dedaa25a54b9cc6fa2c8f56" prot="public" virt="non-virtual"><scope>StubBackpressureBench</scope><name>StubBackpressureBench</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

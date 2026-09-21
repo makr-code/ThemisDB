@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryCanceller::ScopedRegistration</compoundname>
+    <includes refid="query__canceller_8h" local="no">query_canceller.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a219f0f534d0fa62d0a50ed9b1013c29b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryCanceller::ScopedRegistration::request_id_</definition>
+        <argsstring></argsstring>
+        <name>request_id_</name>
+        <qualifiedname>themis::query::QueryCanceller::ScopedRegistration::request_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="100" column="24" bodyfile="include/query/query_canceller.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a4ca32894031ead02c73a83ef41887cbd" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_query_canceller_1a8d14c6e102c2b256721e0a99407af996" kindref="member">QueryCanceller</ref> &amp;</type>
+        <definition>QueryCanceller&amp; themis::query::QueryCanceller::ScopedRegistration::canceller_</definition>
+        <argsstring></argsstring>
+        <name>canceller_</name>
+        <qualifiedname>themis::query::QueryCanceller::ScopedRegistration::canceller_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="101" column="24" bodyfile="include/query/query_canceller.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a94259cc5760288434b86d2f522eecedc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCanceller::ScopedRegistration::ScopedRegistration</definition>
+        <argsstring>(std::string request_id, QueryCanceller &amp;canceller=QueryCanceller::instance())</argsstring>
+        <name>ScopedRegistration</name>
+        <qualifiedname>themis::query::QueryCanceller::ScopedRegistration::ScopedRegistration</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_1a8d14c6e102c2b256721e0a99407af996" kindref="member">QueryCanceller</ref> &amp;</type>
+          <declname>canceller</declname>
+          <defval><ref refid="classthemis_1_1query_1_1_query_canceller_1ac325e371562c57842b2d477788fa552b" kindref="member">QueryCanceller::instance</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="89" column="9" bodyfile="include/query/query_canceller.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a46f085ee42130df995fd66849f42c5b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCanceller::ScopedRegistration::~ScopedRegistration</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedRegistration</name>
+        <qualifiedname>themis::query::QueryCanceller::ScopedRegistration::~ScopedRegistration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="93" column="9" bodyfile="include/query/query_canceller.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1aa85c5b2780c462ae4d65abf99302fb03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCanceller::ScopedRegistration::ScopedRegistration</definition>
+        <argsstring>(const ScopedRegistration &amp;)=delete</argsstring>
+        <name>ScopedRegistration</name>
+        <qualifiedname>themis::query::QueryCanceller::ScopedRegistration::ScopedRegistration</qualifiedname>
+        <param>
+          <type>const ScopedRegistration &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="96" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a13720e7434759ee4cf69b3ac765c5123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a94259cc5760288434b86d2f522eecedc" kindref="member">ScopedRegistration</ref> &amp;</type>
+        <definition>ScopedRegistration &amp; themis::query::QueryCanceller::ScopedRegistration::operator=</definition>
+        <argsstring>(const ScopedRegistration &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::QueryCanceller::ScopedRegistration::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a94259cc5760288434b86d2f522eecedc" kindref="member">ScopedRegistration</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="97" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_canceller.h" line="87" column="5" bodyfile="include/query/query_canceller.h" bodystart="87" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a4ca32894031ead02c73a83ef41887cbd" prot="private" virt="non-virtual"><scope>themis::query::QueryCanceller::ScopedRegistration</scope><name>canceller_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a13720e7434759ee4cf69b3ac765c5123" prot="public" virt="non-virtual"><scope>themis::query::QueryCanceller::ScopedRegistration</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a219f0f534d0fa62d0a50ed9b1013c29b" prot="private" virt="non-virtual"><scope>themis::query::QueryCanceller::ScopedRegistration</scope><name>request_id_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a94259cc5760288434b86d2f522eecedc" prot="public" virt="non-virtual"><scope>themis::query::QueryCanceller::ScopedRegistration</scope><name>ScopedRegistration</name></member>
+      <member refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1aa85c5b2780c462ae4d65abf99302fb03" prot="public" virt="non-virtual"><scope>themis::query::QueryCanceller::ScopedRegistration</scope><name>ScopedRegistration</name></member>
+      <member refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration_1a46f085ee42130df995fd66849f42c5b0" prot="public" virt="non-virtual"><scope>themis::query::QueryCanceller::ScopedRegistration</scope><name>~ScopedRegistration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

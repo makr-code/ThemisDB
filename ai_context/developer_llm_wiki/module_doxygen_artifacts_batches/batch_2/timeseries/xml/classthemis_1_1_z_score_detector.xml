@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_z_score_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::ZScoreDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1_i_anomaly_detector" prot="public" virt="non-virtual">themis::IAnomalyDetector</basecompoundref>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_z_score_detector_1a3f9543ed1f037cc5ea26286bc2574779" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_anomaly_point" kindref="compound">AnomalyPoint</ref> &gt;</type>
+        <definition>std::vector&lt; AnomalyPoint &gt; themis::ZScoreDetector::detect</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points, const AnomalyConfig &amp;cfg) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::ZScoreDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1_i_anomaly_detector_1a2c826bc2b6c5184e9bcd5d2c9399f33a">detect</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_anomaly_config" kindref="compound">AnomalyConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Detect anomalous data points in <computeroutput>points</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input series (order is preserved; sorting not required). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detection configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Subset of <computeroutput>points</computeroutput> that are considered anomalous, annotated with the detection score and method name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="103" column="17" bodyfile="src/timeseries/anomaly_detection.cpp" bodystart="54" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_z_score_detector_1ad96fc1774f880a18abd1999ec3c44787" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; int64_t, double &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; int64_t, double &gt; &gt; themis::ZScoreDetector::scoreAll</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points) const</argsstring>
+        <name>scoreAll</name>
+        <qualifiedname>themis::ZScoreDetector::scoreAll</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <briefdescription>
+<para>Return the z-score for every input point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of (timestamp_ms, z_score) pairs in input order. Returns an empty vector when <computeroutput>points</computeroutput> has fewer than 2 elements or when the standard deviation is effectively zero. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="114" column="17" bodyfile="src/timeseries/anomaly_detection.cpp" bodystart="26" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Anomaly detector based on population Z-score. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>z(x) = (x − μ) / σ, where μ = sample mean, σ = sample standard deviation. A point is flagged as anomalous when |z(x)| &gt; <ref refid="structthemis_1_1_anomaly_config_1abfd101435d6af34e1f4b3608511f742b" kindref="member">AnomalyConfig::zscore_threshold</ref>.</para>
+<para>When σ ≈ 0 (constant series) no anomalies are reported. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::IAnomalyDetector</label>
+        <link refid="classthemis_1_1_i_anomaly_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::ZScoreDetector</label>
+        <link refid="classthemis_1_1_z_score_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::IAnomalyDetector</label>
+        <link refid="classthemis_1_1_i_anomaly_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::ZScoreDetector</label>
+        <link refid="classthemis_1_1_z_score_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/anomaly_detection.h" line="101" column="1" bodyfile="include/timeseries/anomaly_detection.h" bodystart="101" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_z_score_detector_1a3f9543ed1f037cc5ea26286bc2574779" prot="public" virt="virtual"><scope>themis::ZScoreDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1_z_score_detector_1ad96fc1774f880a18abd1999ec3c44787" prot="public" virt="non-virtual"><scope>themis::ZScoreDetector</scope><name>scoreAll</name></member>
+      <member refid="classthemis_1_1_i_anomaly_detector_1ad81c6af8e83d4c6bbd46f9afa8cf7203" prot="public" virt="virtual"><scope>themis::ZScoreDetector</scope><name>~IAnomalyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

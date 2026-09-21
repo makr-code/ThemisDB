@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_v1_importer_adapter_1_1_alloc_header" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::V1ImporterAdapter::AllocHeader</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_v1_importer_adapter_1_1_alloc_header_1ade4a0f86cc84b955513af437fbfe49ff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::V1ImporterAdapter::AllocHeader::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::AllocHeader::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>sizeof(AllocHeader) + user-requested bytes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="254" column="16" bodyfile="include/importers/importer_plugin_api.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_plugin_api.h" line="253" column="5" bodyfile="include/importers/importer_plugin_api.h" bodystart="253" bodyend="255"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_v1_importer_adapter_1_1_alloc_header_1ade4a0f86cc84b955513af437fbfe49ff" prot="public" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter::AllocHeader</scope><name>total_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

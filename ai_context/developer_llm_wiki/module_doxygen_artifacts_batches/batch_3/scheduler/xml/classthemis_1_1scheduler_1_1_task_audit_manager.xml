@@ -1,0 +1,1068 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scheduler_1_1_task_audit_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::scheduler::TaskAuditManager</compoundname>
+    <includes refid="task__audit__manager_8h" local="no">task_audit_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_audit_manager_1afd7a901546bbb65606c2071879989bc4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+        <definition>std::shared_ptr&lt;utils::AuditLogger&gt; themis::scheduler::TaskAuditManager::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="264" column="21" bodyfile="include/scheduler/task_audit_manager.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_audit_manager_1aa13a004c95c9a6f92bcd8165901b73d3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref></type>
+        <definition>TaskAuditConfig themis::scheduler::TaskAuditManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="265" column="21" bodyfile="include/scheduler/task_audit_manager.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a217eaa0d10355c0ccd09fb5382f27c7c" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector" kindref="compound">TaskAnomalyDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TaskAnomalyDetector&gt; themis::scheduler::TaskAuditManager::anomaly_detector_</definition>
+        <argsstring></argsstring>
+        <name>anomaly_detector_</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::anomaly_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="266" column="21" bodyfile="include/scheduler/task_audit_manager.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_audit_manager_1acd92c3c9230f4755474d10825354df5e" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::scheduler::TaskAuditManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="268" column="31" bodyfile="include/scheduler/task_audit_manager.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a8847f7a9c661481408f5a7f0982fddce" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &gt;</type>
+        <definition>std::deque&lt;TaskAuditEvent&gt; themis::scheduler::TaskAuditManager::recent_audit_events_</definition>
+        <argsstring></argsstring>
+        <name>recent_audit_events_</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::recent_audit_events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="271" column="16" bodyfile="include/scheduler/task_audit_manager.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_audit_manager_1abcf726845748e679adf05ca1960e435c" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref> &gt;</type>
+        <definition>std::deque&lt;TaskSecurityEvent&gt; themis::scheduler::TaskAuditManager::recent_security_events_</definition>
+        <argsstring></argsstring>
+        <name>recent_security_events_</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::recent_security_events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="272" column="16" bodyfile="include/scheduler/task_audit_manager.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_audit_manager_1aadf9ba1dd895d98506b4f6ea6ff4fe3a" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::TaskAuditManager::MAX_CACHE_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_CACHE_SIZE</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::MAX_CACHE_SIZE</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="273" column="29" bodyfile="include/scheduler/task_audit_manager.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a5357163bb22f86de71dd886f0704debd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::TaskAuditManager::TaskAuditManager</definition>
+        <argsstring>(std::shared_ptr&lt; utils::AuditLogger &gt; audit_logger, const TaskAuditConfig &amp;config=TaskAuditConfig())</argsstring>
+        <name>TaskAuditManager</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::TaskAuditManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+          <declname>audit_logger</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Construct audit manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared audit logger instance (for tamper-evident logging) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit manager configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="126" column="14" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="27" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a76c56777af6dbb0eeca75c76f365dc7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref></type>
+        <definition>AnomalyMetrics themis::scheduler::TaskAuditManager::logAuditEvent</definition>
+        <argsstring>(const TaskAuditEvent &amp;event)</argsstring>
+        <name>logAuditEvent</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::logAuditEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Log a task audit event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Audit Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit event to log </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Anomaly metrics (if anomaly detection enabled)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: recordExecution(), on_anomaly_detected(), writeToAuditLog(), cacheAuditEvent(), on_audit_event(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="136" column="20" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="48" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a1e3acbc259f92cf01fec5790cb9f21af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::logSecurityEvent</definition>
+        <argsstring>(const TaskSecurityEvent &amp;event)</argsstring>
+        <name>logSecurityEvent</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::logSecurityEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Log a security violation event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log a security event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Security event to log</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeToSecurityLog(), cacheSecurityEvent(), on_security_event(), THEMIS_WARN(), <ref refid="namespacethemis_1_1scheduler_1a7b2a45f5fb3ec4e00630756d25236fac" kindref="member">taskSecurityEventTypeToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="142" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="96" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a7712e1e9ba49773ff945e4b58a8745ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt; TaskAuditEvent &gt; themis::scheduler::TaskAuditManager::queryAuditEvents</definition>
+        <argsstring>(const AuditQueryParams &amp;params) const</argsstring>
+        <name>queryAuditEvents</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::queryAuditEvents</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Query audit events with filters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching audit events </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="149" column="17" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="249" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1ad1ae69430a437be4ef851a214d5fb263" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref> &gt;</type>
+        <definition>std::vector&lt; TaskSecurityEvent &gt; themis::scheduler::TaskAuditManager::querySecurityEvents</definition>
+        <argsstring>(const AuditQueryParams &amp;params) const</argsstring>
+        <name>querySecurityEvents</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::querySecurityEvents</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Query security events with filters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query parameters (similar structure) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching security events </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="156" column="17" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="441" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a47c05d43c527222e3b5f162fe2156047" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::TaskAuditManager::exportAuditEvents</definition>
+        <argsstring>(const AuditQueryParams &amp;params, const std::string &amp;output_path, ExportFormat format) const</argsstring>
+        <name>exportAuditEvents</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::exportAuditEvents</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_path</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3" kindref="member">ExportFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Export audit events to file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query parameters for filtering </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output file path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Export format </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of events exported </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ofs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="165" column="12" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="596" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a77fba12c09b55c8d560d5097d1991e3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1scheduler_1_1_task_statistics" kindref="compound">TaskStatistics</ref> &gt;</type>
+        <definition>std::optional&lt; TaskStatistics &gt; themis::scheduler::TaskAuditManager::getTaskStatistics</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>getTaskStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::getTaskStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Get task execution statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Task statistics (if available) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="174" column="19" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="685" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1aeeadc0e52b3eba25e7b7deae18d70dfd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1scheduler_1_1_task_statistics" kindref="compound">TaskStatistics</ref> &gt;</type>
+        <definition>std::map&lt; std::string, TaskStatistics &gt; themis::scheduler::TaskAuditManager::getAllStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::getAllStatistics</qualifiedname>
+        <briefdescription>
+<para>Get all task statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of task_id -&gt; statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="180" column="14" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="693" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1acb95af389ac75fe438aa21426b230343" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scheduler::TaskAuditManager::hasAnomalies</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>hasAnomalies</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::hasAnomalies</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if a task has anomalous behavior. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if recent executions show anomalies </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Check recent events for anomalies <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="187" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="701" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1aea018d5b7053126dec0b8d4163830372" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::resetTaskStatistics</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>resetTaskStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::resetTaskStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Reset statistics for a task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Task Statistics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements resetTaskStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="193" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="727" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a7c7e7febf7042d45c10f5013a205b783" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref></type>
+        <definition>TaskAuditConfig themis::scheduler::TaskAuditManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="198" column="21" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="733" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1aa78e7f5da8f5448be8f4ab5c075693f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::updateConfig</definition>
+        <argsstring>(const TaskAuditConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="203" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="748" bodyend="757"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1ac00744ad48bbfb56de130d8a757bf98e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::flush</qualifiedname>
+        <briefdescription>
+<para>Flush all logs to disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Implements flush without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="208" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="763" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a7de450924c08b40300f19e27e29076b8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditManager::getAuditLogPath</definition>
+        <argsstring>() const</argsstring>
+        <name>getAuditLogPath</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::getAuditLogPath</qualifiedname>
+        <briefdescription>
+<para>Get audit log file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="213" column="17" bodyfile="include/scheduler/task_audit_manager.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a9af9c86687e665e036f536201ea1490d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditManager::getSecurityLogPath</definition>
+        <argsstring>() const</argsstring>
+        <name>getSecurityLogPath</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::getSecurityLogPath</qualifiedname>
+        <briefdescription>
+<para>Get security log file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="218" column="17" bodyfile="include/scheduler/task_audit_manager.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a46b6b40a8b5e437914a4476f6c96f8a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskAuditManager::exportAnomalyStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportAnomalyStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::exportAnomalyStatistics</qualifiedname>
+        <briefdescription>
+<para>Export anomaly detector statistics to JSON for persistence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with all task statistics and configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="224" column="20" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="769" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a6a0a98371bae43c927ffa3af6be2e221" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::importAnomalyStatistics</definition>
+        <argsstring>(const nlohmann::json &amp;data)</argsstring>
+        <name>importAnomalyStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::importAnomalyStatistics</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Import anomaly detector statistics from JSON (restored after restart). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Anomaly Statistics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previously exported statistics JSON</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), importStatistics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="230" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="787" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a9d28febd35829dfac6e72b778d750334" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditManager::generateAuditEntryHMAC</definition>
+        <argsstring>(const TaskAuditEvent &amp;event) const</argsstring>
+        <name>generateAuditEntryHMAC</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::generateAuditEntryHMAC</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Generate HMAC for an audit entry (tamper detection). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GAP 1 FIX: Immutable audit log enforcement with HMAC <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit event </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>HMAC-256 hex string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="238" column="17" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="795" bodyend="828"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a3729144ead0c9b6facf40be8725559f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scheduler::TaskAuditManager::verifyAuditEntryIntegrity</definition>
+        <argsstring>(const TaskAuditEvent &amp;event, const std::string &amp;stored_hmac) const</argsstring>
+        <name>verifyAuditEntryIntegrity</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::verifyAuditEntryIntegrity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stored_hmac</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>GAP 1 FIX: Verify integrity of audit entry <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit event </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stored_hmac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previously stored HMAC </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if entry has not been tampered with </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="246" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="830" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a514e4f591d2068e37ecbd16025d6b270" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::TaskAuditManager::enforceRetentionPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>enforceRetentionPolicy</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::enforceRetentionPolicy</qualifiedname>
+        <briefdescription>
+<para>Enforce audit log retention policies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GAP 2 FIX: Retention policy enforcement.</para>
+<para>GAP 2 FIX: Retention policy enforcement <simplesect kind="note"><para>Deletes entries older than configured retention period </para>
+</simplesect>
+<simplesect kind="return"><para>Number of entries archived/deleted</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), count(), std::chrono::system_clock::now(), ifs(), is_open(), std::getline(), empty(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="254" column="12" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="854" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a04db4ce17ded3a03a74830dcdded2601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::TaskAuditManager::detectAndRecoverCorruption</definition>
+        <argsstring>()</argsstring>
+        <name>detectAndRecoverCorruption</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::detectAndRecoverCorruption</qualifiedname>
+        <briefdescription>
+<para>Scan audit log for corruption and attempt recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GAP 3 FIX: Corruption detection and recovery.</para>
+<para>GAP 3 FIX: Corruption detection and recovery <simplesect kind="return"><para>Number of corrupted entries detected</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), ifs(), is_open(), std::getline(), empty(), nlohmann::json::parse(), contains(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="261" column="12" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="939" bodyend="1021"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1aa0f2458fda18fe8b1729e3cfd7934cd5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::cacheAuditEvent</definition>
+        <argsstring>(const TaskAuditEvent &amp;event)</argsstring>
+        <name>cacheAuditEvent</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::cacheAuditEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Cache Audit Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="276" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="180" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1af5f7ada123570546eed0fbd3fdc98962" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::cacheSecurityEvent</definition>
+        <argsstring>(const TaskSecurityEvent &amp;event)</argsstring>
+        <name>cacheSecurityEvent</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::cacheSecurityEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Cache Security Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="277" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="196" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1ac1565df517a53ebb7cd63e7ddf604b8a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::writeToAuditLog</definition>
+        <argsstring>(const TaskAuditEvent &amp;event)</argsstring>
+        <name>writeToAuditLog</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::writeToAuditLog</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Write To Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), ofs(), is_open(), toJson(), dump(), THEMIS_ERROR(), what(), logEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="278" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="119" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a0703719301d95fd5aa0842b497646203" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAuditManager::writeToSecurityLog</definition>
+        <argsstring>(const TaskSecurityEvent &amp;event)</argsstring>
+        <name>writeToSecurityLog</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::writeToSecurityLog</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Write To Security Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), ofs(), is_open(), toJson(), dump(), THEMIS_ERROR(), what(), <ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a1e3acbc259f92cf01fec5790cb9f21af" kindref="member">logSecurityEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="279" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="147" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a6cc7745897b59e8b0663eddc189014b4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scheduler::TaskAuditManager::matchesQuery</definition>
+        <argsstring>(const TaskAuditEvent &amp;event, const AuditQueryParams &amp;params) const</argsstring>
+        <name>matchesQuery</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::matchesQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="280" column="10" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="206" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1a7588bc3440a29ceb5885c329f3e42d42" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt; TaskAuditEvent &gt; themis::scheduler::TaskAuditManager::loadEventsFromFile</definition>
+        <argsstring>(const std::string &amp;file_path, const AuditQueryParams &amp;params) const</argsstring>
+        <name>loadEventsFromFile</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::loadEventsFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="281" column="17" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="317" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_audit_manager_1ad9f42bd6d9c093e0bc5f683f6d67e313" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref> &gt;</type>
+        <definition>std::vector&lt; TaskSecurityEvent &gt; themis::scheduler::TaskAuditManager::loadSecurityEventsFromFile</definition>
+        <argsstring>(const std::string &amp;file_path, const AuditQueryParams &amp;params) const</argsstring>
+        <name>loadSecurityEventsFromFile</name>
+        <qualifiedname>themis::scheduler::TaskAuditManager::loadSecurityEventsFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="283" column="17" bodyfile="src/scheduler/task_audit_manager.cpp" bodystart="492" bodyend="594"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Central manager for task scheduler auditing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Responsibilities:<itemizedlist>
+<listitem><para>Log all task execution events with structured data</para>
+</listitem><listitem><para>Detect and report anomalies in task behavior</para>
+</listitem><listitem><para>Report security violations separately</para>
+</listitem><listitem><para>Provide query interface for audit events</para>
+</listitem><listitem><para>Support multiple export formats (JSON, CEF, CSV, etc.)</para>
+</listitem><listitem><para>Handle GDPR-compliant data masking</para>
+</listitem><listitem><para>Integrate with existing AuditLogger infrastructure </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/scheduler/task_audit_manager.h" line="119" column="1" bodyfile="include/scheduler/task_audit_manager.h" bodystart="119" bodyend="285"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a217eaa0d10355c0ccd09fb5382f27c7c" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>anomaly_detector_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1afd7a901546bbb65606c2071879989bc4" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aa0f2458fda18fe8b1729e3cfd7934cd5" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>cacheAuditEvent</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1af5f7ada123570546eed0fbd3fdc98962" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>cacheSecurityEvent</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aa13a004c95c9a6f92bcd8165901b73d3" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a04db4ce17ded3a03a74830dcdded2601" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>detectAndRecoverCorruption</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a514e4f591d2068e37ecbd16025d6b270" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>enforceRetentionPolicy</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a46b6b40a8b5e437914a4476f6c96f8a1" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>exportAnomalyStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a47c05d43c527222e3b5f162fe2156047" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>exportAuditEvents</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1ac00744ad48bbfb56de130d8a757bf98e" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>flush</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a9d28febd35829dfac6e72b778d750334" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>generateAuditEntryHMAC</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aeeadc0e52b3eba25e7b7deae18d70dfd" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>getAllStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a7de450924c08b40300f19e27e29076b8" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>getAuditLogPath</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a7c7e7febf7042d45c10f5013a205b783" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a9af9c86687e665e036f536201ea1490d" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>getSecurityLogPath</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a77fba12c09b55c8d560d5097d1991e3e" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>getTaskStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1acb95af389ac75fe438aa21426b230343" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>hasAnomalies</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a6a0a98371bae43c927ffa3af6be2e221" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>importAnomalyStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a7588bc3440a29ceb5885c329f3e42d42" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>loadEventsFromFile</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1ad9f42bd6d9c093e0bc5f683f6d67e313" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>loadSecurityEventsFromFile</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a76c56777af6dbb0eeca75c76f365dc7f" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>logAuditEvent</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a1e3acbc259f92cf01fec5790cb9f21af" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>logSecurityEvent</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a6cc7745897b59e8b0663eddc189014b4" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>matchesQuery</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aadf9ba1dd895d98506b4f6ea6ff4fe3a" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>MAX_CACHE_SIZE</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1acd92c3c9230f4755474d10825354df5e" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a7712e1e9ba49773ff945e4b58a8745ce" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>queryAuditEvents</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1ad1ae69430a437be4ef851a214d5fb263" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>querySecurityEvents</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a8847f7a9c661481408f5a7f0982fddce" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>recent_audit_events_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1abcf726845748e679adf05ca1960e435c" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>recent_security_events_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aea018d5b7053126dec0b8d4163830372" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>resetTaskStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a5357163bb22f86de71dd886f0704debd" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>TaskAuditManager</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aa78e7f5da8f5448be8f4ab5c075693f9" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a3729144ead0c9b6facf40be8725559f5" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>verifyAuditEntryIntegrity</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1ac1565df517a53ebb7cd63e7ddf604b8a" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>writeToAuditLog</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a0703719301d95fd5aa0842b497646203" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAuditManager</scope><name>writeToSecurityLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

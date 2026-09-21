@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hypertable_1_1_chunk_health" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Hypertable::ChunkHealth</compoundname>
+    <includes refid="hypertable_8h" local="no">hypertable.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_chunk_health_1ab98f9aca15ef3b5f67fc24e4748d4f35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Hypertable::ChunkHealth::chunk_name</definition>
+        <argsstring></argsstring>
+        <name>chunk_name</name>
+        <qualifiedname>themis::Hypertable::ChunkHealth::chunk_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="123" column="21" bodyfile="include/timeseries/hypertable.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_chunk_health_1af9f0ad5f170a89ff7defa2cc11e89a59" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387" kindref="member">ChunkStatus</ref></type>
+        <definition>ChunkStatus themis::Hypertable::ChunkHealth::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::Hypertable::ChunkHealth::status</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387a4d3d769b812b6faa6b76e1a8abaece2d" kindref="member">ChunkStatus::Active</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="124" column="21" bodyfile="include/timeseries/hypertable.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_chunk_health_1a766f059d1745b52b074ca0d2d40ef688" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Hypertable::ChunkHealth::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::Hypertable::ChunkHealth::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="125" column="14" bodyfile="include/timeseries/hypertable.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_chunk_health_1a30b0aec2830d326dfad491ef7a8f4009" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Hypertable::ChunkHealth::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::Hypertable::ChunkHealth::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="126" column="16" bodyfile="include/timeseries/hypertable.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_chunk_health_1ab49b6ad75a4c645ce26d5195cbdcb2e4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Hypertable::ChunkHealth::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::Hypertable::ChunkHealth::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="127" column="16" bodyfile="include/timeseries/hypertable.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_chunk_health_1a019a76d5d964858b8841b92018d2151c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Hypertable::ChunkHealth::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::Hypertable::ChunkHealth::start_time</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="128" column="17" bodyfile="include/timeseries/hypertable.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_chunk_health_1a2c6e13566c222c1b9f98ebec3c9507d8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Hypertable::ChunkHealth::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::Hypertable::ChunkHealth::end_time</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="129" column="17" bodyfile="include/timeseries/hypertable.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_chunk_health_1ab2658b322adc04f792fcae62658d4706" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Hypertable::ChunkHealth::status_message</definition>
+        <argsstring></argsstring>
+        <name>status_message</name>
+        <qualifiedname>themis::Hypertable::ChunkHealth::status_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="130" column="21" bodyfile="include/timeseries/hypertable.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/hypertable.h" line="122" column="5" bodyfile="include/timeseries/hypertable.h" bodystart="122" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hypertable_1_1_chunk_health_1ab98f9aca15ef3b5f67fc24e4748d4f35" prot="public" virt="non-virtual"><scope>themis::Hypertable::ChunkHealth</scope><name>chunk_name</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_chunk_health_1a2c6e13566c222c1b9f98ebec3c9507d8" prot="public" virt="non-virtual"><scope>themis::Hypertable::ChunkHealth</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_chunk_health_1a766f059d1745b52b074ca0d2d40ef688" prot="public" virt="non-virtual"><scope>themis::Hypertable::ChunkHealth</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_chunk_health_1a30b0aec2830d326dfad491ef7a8f4009" prot="public" virt="non-virtual"><scope>themis::Hypertable::ChunkHealth</scope><name>row_count</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_chunk_health_1ab49b6ad75a4c645ce26d5195cbdcb2e4" prot="public" virt="non-virtual"><scope>themis::Hypertable::ChunkHealth</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_chunk_health_1a019a76d5d964858b8841b92018d2151c" prot="public" virt="non-virtual"><scope>themis::Hypertable::ChunkHealth</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_chunk_health_1af9f0ad5f170a89ff7defa2cc11e89a59" prot="public" virt="non-virtual"><scope>themis::Hypertable::ChunkHealth</scope><name>status</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_chunk_health_1ab2658b322adc04f792fcae62658d4706" prot="public" virt="non-virtual"><scope>themis::Hypertable::ChunkHealth</scope><name>status_message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

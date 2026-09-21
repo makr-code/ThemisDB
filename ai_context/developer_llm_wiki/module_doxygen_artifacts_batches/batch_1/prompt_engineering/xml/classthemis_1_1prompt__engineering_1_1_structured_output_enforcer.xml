@@ -1,0 +1,551 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::prompt_engineering::StructuredOutputEnforcer</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" prot="public" virt="non-virtual">themis::prompt_engineering::IStructuredOutputEnforcer</basecompoundref>
+    <includes refid="structured__output_8h" local="no">structured_output.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a2f68e362b40ed5b9b6772d379a7f8960" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" kindref="compound">StructuredOutputResult</ref></type>
+        <definition>StructuredOutputResult themis::prompt_engineering::StructuredOutputEnforcer::enforce</definition>
+        <argsstring>(const std::string &amp;raw_output, const StructuredOutputConfig &amp;config) override</argsstring>
+        <name>enforce</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::enforce</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a439543599b791e9f91775ba25a10fc68">enforce</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw_output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" kindref="compound">IStructuredOutputEnforcer</ref>: <ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a2f68e362b40ed5b9b6772d379a7f8960" kindref="member">enforce()</ref> ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), std::max(), stripMarkdownFences(), clear(), repairJson(), <ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1af8163c26f05c333577ce3884afab0bc6" kindref="member">validate()</ref>, count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="121" column="28" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="469" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1af8163c26f05c333577ce3884afab0bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::StructuredOutputEnforcer::validate</definition>
+        <argsstring>(const std::string &amp;output, const StructuredOutputConfig &amp;config, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a5369c76fcb7a70978a1f017b1a5812cc">validate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" kindref="compound">IStructuredOutputEnforcer</ref>: <ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1af8163c26f05c333577ce3884afab0bc6" kindref="member">validate()</ref> ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: validateJsonSchema(), validateRegex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="125" column="10" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="447" bodyend="459"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1ad697527f2d86018e290fd890f7fcb1a8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::StructuredOutputEnforcer::stripMarkdownFences</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>stripMarkdownFences</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::stripMarkdownFences</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Strip <computeroutput> </computeroutput>json … <computeroutput> </computeroutput> fences from <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Strip Markdown Fences.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stripMarkdownFences without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="133" column="24" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1ac45a285e183cf94965d7386fe6a11946" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::StructuredOutputEnforcer::removeTrailingCommas</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>removeTrailingCommas</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::removeTrailingCommas</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Remove trailing commas before <computeroutput>}</computeroutput> or <computeroutput>]</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Trailing Commas.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: trailing_comma(), std::regex_replace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="136" column="24" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="43" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a3aa4cffd3f907c188508330883fb3ad1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::StructuredOutputEnforcer::stripLineComments</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>stripLineComments</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::stripLineComments</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Strip <computeroutput>// …</computeroutput> line comments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Strip Line Comments.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: line_comment(), std::regex_replace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="139" column="24" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a988b67593483a0d17ff900a4cdb262cc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::StructuredOutputEnforcer::repairJson</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>repairJson</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::repairJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Run the full repair pipeline in sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Repair Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stripMarkdownFences(), stripLineComments(), removeTrailingCommas(), find_first_not_of(), find_last_not_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="142" column="24" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="66" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1aee64b8eb07ae8c1f3a295688bb61c98d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::StructuredOutputEnforcer::checkJsonStructure</definition>
+        <argsstring>(const std::string &amp;text, std::vector&lt; std::string &gt; &amp;errors)</argsstring>
+        <name>checkJsonStructure</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::checkJsonStructure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Check Json Structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check that <computeroutput>text</computeroutput> is structurally valid JSON (balanced braces/brackets, basic string quoting). Populates <computeroutput>errors</computeroutput> on failure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), push_back(), front(), size(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="148" column="17" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="91" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a6b944b5c59e78d12343090d8d4027944" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::StructuredOutputEnforcer::extractStringArray</definition>
+        <argsstring>(const std::string &amp;json, const std::string &amp;key)</argsstring>
+        <name>extractStringArray</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::extractStringArray</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Extract String Array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract the string values of a JSON array at top-level key <computeroutput>key</computeroutput>. Returns empty vector if the key is absent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), size(), substr(), str_re(), std::sregex_iterator(), begin(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="153" column="24" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="167" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1ad29bd6165b9a59868ab64ce79e473637" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::StructuredOutputEnforcer::extractPropertyNames</definition>
+        <argsstring>(const std::string &amp;schema)</argsstring>
+        <name>extractPropertyNames</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::extractPropertyNames</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Extract the property names from a <computeroutput>"properties": { … }</computeroutput> block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Property Names.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), size(), substr(), std::replace(), begin(), end(), push_back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="157" column="24" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="210" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a6fd35f0c63778522cede1a2ceca239f6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::StructuredOutputEnforcer::extractTopLevelKeys</definition>
+        <argsstring>(const std::string &amp;json)</argsstring>
+        <name>extractTopLevelKeys</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::extractTopLevelKeys</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>Extract all top-level key names from a flat JSON object string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Top Level Keys.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), front(), size(), push_back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="160" column="24" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="299" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1adc077c30ea8088d1b6872ca75092c0e0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::StructuredOutputEnforcer::validateJsonSchema</definition>
+        <argsstring>(const std::string &amp;output, const JsonSchemaConstraint &amp;schema, std::vector&lt; std::string &gt; &amp;errors)</argsstring>
+        <name>validateJsonSchema</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::validateJsonSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" kindref="compound">JsonSchemaConstraint</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate JSON output against the schema constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Json Schema.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: checkJsonStructure(), extractStringArray(), extractTopLevelKeys(), std::find(), begin(), end(), push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="163" column="17" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="362" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1ab38b4baff293d8a27e8671a5620f3ed3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::StructuredOutputEnforcer::validateRegex</definition>
+        <argsstring>(const std::string &amp;output, const RegexGrammarConstraint &amp;grammar, std::vector&lt; std::string &gt; &amp;errors)</argsstring>
+        <name>validateRegex</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputEnforcer::validateRegex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" kindref="compound">RegexGrammarConstraint</ref> &amp;</type>
+          <declname>grammar</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate output against the regex grammar constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Regex.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grammar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), re(), std::regex_match(), std::regex_search(), push_back(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="170" column="17" bodyfile="src/prompt_engineering/structured_output.cpp" bodystart="414" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Production implementation of <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" kindref="compound">IStructuredOutputEnforcer</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All parsing is done with the C++ standard library only (no external JSON library dependency); the JSON validator handles single-level objects and arrays sufficient for the prompt-engineering pipeline.</para>
+<para>Thread safety: stateless — all methods are <computeroutput>const</computeroutput>-compatible; the concrete class holds no mutable state and is safe to share across threads. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IStructuredOutputEnforcer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::StructuredOutputEnforcer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IStructuredOutputEnforcer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::StructuredOutputEnforcer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/structured_output.h" line="119" column="1" bodyfile="include/prompt_engineering/structured_output.h" bodystart="119" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1aee64b8eb07ae8c1f3a295688bb61c98d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>checkJsonStructure</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a2f68e362b40ed5b9b6772d379a7f8960" prot="public" virt="virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>enforce</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1ad29bd6165b9a59868ab64ce79e473637" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>extractPropertyNames</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a6b944b5c59e78d12343090d8d4027944" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>extractStringArray</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a6fd35f0c63778522cede1a2ceca239f6" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>extractTopLevelKeys</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1ac45a285e183cf94965d7386fe6a11946" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>removeTrailingCommas</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a988b67593483a0d17ff900a4cdb262cc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>repairJson</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a3aa4cffd3f907c188508330883fb3ad1" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>stripLineComments</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1ad697527f2d86018e290fd890f7fcb1a8" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>stripMarkdownFences</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1af8163c26f05c333577ce3884afab0bc6" prot="public" virt="virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>validate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1adc077c30ea8088d1b6872ca75092c0e0" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>validateJsonSchema</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1ab38b4baff293d8a27e8671a5620f3ed3" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>validateRegex</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a79df19b85542724d98c6bc1e80c3469a" prot="public" virt="virtual"><scope>themis::prompt_engineering::StructuredOutputEnforcer</scope><name>~IStructuredOutputEnforcer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

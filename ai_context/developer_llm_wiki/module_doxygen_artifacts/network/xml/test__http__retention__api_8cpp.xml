@@ -1,0 +1,766 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__http__retention__api_8cpp" kind="file" language="C++">
+    <compoundname>test_http_retention_api.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">server/retention_api_handler.h</includes>
+    <includes local="yes">utils/retention_manager.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_http_retention_api.cpp</label>
+        <link refid="test__http__retention__api_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>server/retention_api_handler.h</label>
+      </node>
+      <node id="4">
+        <label>utils/retention_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_retention_api_fixture" prot="public">RetentionApiFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a78533fa74731ff1ce35a456356d792d6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>static json makePolicy</definition>
+        <argsstring>(const std::string &amp;name, int retention_days=30, const std::string &amp;classification=&quot;offen&quot;, bool auto_purge=false)</argsstring>
+        <name>makePolicy</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>retention_days</declname>
+          <defval>30</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>classification</declname>
+          <defval>&quot;offen&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_purge</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="22" column="13" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="22" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, ListPolicies_EmptyByDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>ListPolicies_EmptyByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="50" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1ad1cc5ae8d6f78306f7f56a9f247f9e47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, ListPolicies_AfterCreate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>ListPolicies_AfterCreate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="60" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1ab4c9351d389a6d4b2d7116015816c332" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, ListPolicies_NameFilter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>ListPolicies_NameFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="70" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="70" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a3a280144a16664ad73ce8fe2b16dccd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, ListPolicies_InvalidNameFilterReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>ListPolicies_InvalidNameFilterReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="81" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a3d31b490f2b1df46992d27183d00cdb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, ListPolicies_ClassificationFilter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>ListPolicies_ClassificationFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="88" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="88" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a3598b538382800e168968c8c8e2bc44a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, ListPolicies_Pagination)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>ListPolicies_Pagination</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="99" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="99" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a07011f55d9a288e4ea4a6059829558e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, ListPolicies_Page2)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>ListPolicies_Page2</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="113" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="113" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1adabf99e4b3066f3ec8a7f3a87171069c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, CreatePolicy_Success)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>CreatePolicy_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="126" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="126" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1abcabb2bcba72215fb93cc2a4c22693fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, UpdatePolicy_ExistingReturnsUpdated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>UpdatePolicy_ExistingReturnsUpdated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="133" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="133" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a30c65fe3ceefad10241355512990993a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, CreatePolicy_MissingNameReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>CreatePolicy_MissingNameReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="139" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="139" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a48d4f40aa2028dad0a2f060ccb472683" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, CreatePolicy_InvalidJsonReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>CreatePolicy_InvalidJsonReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="147" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="147" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1ad4478e7347e430c74da831883ddb827a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, CreatePolicy_InvalidNameReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>CreatePolicy_InvalidNameReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="155" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="155" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a8462ff6ca19b65c5e9831e6d2cf7ef06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, CreatePolicy_NegativeRetentionReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>CreatePolicy_NegativeRetentionReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="160" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="160" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a44c75a4006e20655772a3221bfd39c04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, CreatePolicy_RetentionPeriodInJson)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>CreatePolicy_RetentionPeriodInJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="165" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="165" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a43d9a7869222f003932effd19d0370f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, DeletePolicy_Success)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>DeletePolicy_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="183" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="183" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1aac4f7c19d41e64b8ca57af32ac3d7253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, DeletePolicy_NonExistentReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>DeletePolicy_NonExistentReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="193" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="193" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1acb448185c7da8f773f40abd5d41fd85a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, DeletePolicy_InvalidNameReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>DeletePolicy_InvalidNameReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="199" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="199" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1ab6643c993c3517146a462a35c6b4c82d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, GetHistory_EmptyByDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>GetHistory_EmptyByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="206" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="206" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1ac8d67cfe3508d9f20a04a8233282d0bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, GetHistory_LimitFieldPresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>GetHistory_LimitFieldPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="213" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="213" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1ab47e2eba57d9d5f31fef55d576237992" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, GetPolicyStats_HasExpectedFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>GetPolicyStats_HasExpectedFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="220" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="220" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1afb6e7320d636158374573e2ae9fba524" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RetentionApiFixture, GetPolicyStats_InvalidNameReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref></type>
+        </param>
+        <param>
+          <type>GetPolicyStats_InvalidNameReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="233" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a12cf942e93ec3a713fbcdf6c2f40d054" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RetentionApiHandlerTest, ConstructsWithDefaultManager)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RetentionApiHandlerTest</type>
+        </param>
+        <param>
+          <type>ConstructsWithDefaultManager</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="240" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__retention__api_8cpp_1a6ca709c6d20ced18b5d9927264a6ffa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RetentionApiHandlerTest, DefaultManagerListsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RetentionApiHandlerTest</type>
+        </param>
+        <param>
+          <type>DefaultManagerListsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_retention_api.cpp" line="245" column="1" bodyfile="tests/network/test_http_retention_api.cpp" bodystart="245" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for RetentionApiHandler (themis::server::RetentionApiHandler + vcc::RetentionManager). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests exercise listPolicies, createOrUpdatePolicy, deletePolicy, getHistory, and getPolicyStats directly through the handler&apos;s JSON API, without starting an HTTP server. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/retention_api_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/retention_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::server;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">nlohmann::json;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Helpers<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>makePolicy(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retention_days<sp/>=<sp/>30,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>classification<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>auto_purge<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name},</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;retention_period_days&quot;</highlight><highlight class="normal">,<sp/>retention_days},</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;archive_after_days&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>retention_days<sp/>/<sp/>2},</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;auto_purge_enabled&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>auto_purge},</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;require_audit_trail&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;classification_level&quot;</highlight><highlight class="normal">,<sp/><sp/>classification}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Fixture<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="struct_retention_api_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref><sp/>:<sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;vcc::RetentionManager&gt;<sp/><ref refid="struct_retention_api_fixture_1ac3256bcf833aadf3a6eb43fc49e22e2e" kindref="member">mgr</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RetentionApiHandler&gt;<sp/><ref refid="struct_retention_api_fixture_1ac7e691c198a1c7c1dbc57ad225bfad78" kindref="member">handler</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_retention_api_fixture_1ae1c17f1798665da254f912656158e77d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_retention_api_fixture_1ac3256bcf833aadf3a6eb43fc49e22e2e" kindref="member">mgr</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;vcc::RetentionManager&gt;();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_retention_api_fixture_1ac7e691c198a1c7c1dbc57ad225bfad78" kindref="member">handler</ref><sp/>=<sp/>std::make_unique&lt;RetentionApiHandler&gt;(<ref refid="struct_retention_api_fixture_1ac3256bcf833aadf3a6eb43fc49e22e2e" kindref="member">mgr</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>listPolicies<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>ListPolicies_EmptyByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;listPolicies(f);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].empty());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>ListPolicies_AfterCreate)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;gdpr&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;eidas&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;listPolicies(f);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>2);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>ListPolicies_NameFilter)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;gdpr_personal&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;eidas_signing&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>f.name_filter<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gdpr&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;listPolicies(f);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">][0][</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;gdpr_personal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>ListPolicies_InvalidNameFilterReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>f.name_filter<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gdpr\r\nX-Injected:<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;listPolicies(f);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>ListPolicies_ClassificationFilter)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>30,<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">,<sp/>30,<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>f.classification_filter<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;listPolicies(f);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">][0][</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>ListPolicies_Pagination)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;policy_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>f.page<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>f.page_size<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;listPolicies(f);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>5);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;page&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;page_size&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>2);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>ListPolicies_Page2)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;policy_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>f.page<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>f.page_size<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;listPolicies(f);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>createOrUpdatePolicy<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>CreatePolicy_Success)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;new_policy&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;created&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;new_policy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>UpdatePolicy_ExistingReturnsUpdated)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;my_policy&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;my_policy&quot;</highlight><highlight class="normal">,<sp/>60));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;updated&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>CreatePolicy_MissingNameReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>bad_policy<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;retention_period_days&quot;</highlight><highlight class="normal">,<sp/>30}};<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>&quot;name&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;createOrUpdatePolicy(bad_policy);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>CreatePolicy_InvalidJsonReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>retention_period_days<sp/>is<sp/>missing<sp/>–<sp/>parsing<sp/>will<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>policy<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;classification_level&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>required<sp/>&quot;retention_period_days&quot;<sp/>→<sp/>jsonToPolicy<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;createOrUpdatePolicy(policy);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>CreatePolicy_InvalidNameReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;../bad_policy&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>CreatePolicy_NegativeRetentionReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;bad_days&quot;</highlight><highlight class="normal">,<sp/>-3));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>CreatePolicy_RetentionPeriodInJson)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;check_policy&quot;</highlight><highlight class="normal">,<sp/>90));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>list<sp/>=<sp/>handler-&gt;listPolicies(f);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(list[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].empty());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>:<sp/>list[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(item[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;check_policy&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(item[</highlight><highlight class="stringliteral">&quot;retention_period_days&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>90);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>deletePolicy<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>DeletePolicy_Success)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;to_delete&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;deletePolicy(</highlight><highlight class="stringliteral">&quot;to_delete&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;deleted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;to_delete&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler-&gt;listPolicies(f)[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>DeletePolicy_NonExistentReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;deletePolicy(</highlight><highlight class="stringliteral">&quot;does_not_exist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>DeletePolicy_InvalidNameReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;deletePolicy(</highlight><highlight class="stringliteral">&quot;../bad_policy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>getHistory<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>GetHistory_EmptyByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;getHistory(100);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;size_t&gt;(),<sp/>0u);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>GetHistory_LimitFieldPresent)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;getHistory(50);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;limit&quot;</highlight><highlight class="normal">].get&lt;size_t&gt;(),<sp/>50u);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>getPolicyStats<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>GetPolicyStats_HasExpectedFields)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>handler-&gt;createOrUpdatePolicy(makePolicy(</highlight><highlight class="stringliteral">&quot;stats_policy&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;getPolicyStats(</highlight><highlight class="stringliteral">&quot;stats_policy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;policy_name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;total_scanned&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;archived&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;purged&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;retained&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;duration_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;policy_name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;stats_policy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1ac6e4670cb59987d2b743594072b94e7d" kindref="member">TEST_F</ref>(<ref refid="struct_retention_api_fixture" kindref="compound">RetentionApiFixture</ref>,<sp/>GetPolicyStats_InvalidNameReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler-&gt;getPolicyStats(</highlight><highlight class="stringliteral">&quot;../bad_policy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Default<sp/>constructor<sp/>(no<sp/>manager<sp/>provided)<sp/>────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1a12cf942e93ec3a713fbcdf6c2f40d054" kindref="member">TEST</ref>(RetentionApiHandlerTest,<sp/>ConstructsWithDefaultManager)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw;<sp/>creates<sp/>a<sp/>default<sp/>RetentionManager<sp/>internally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>RetentionApiHandler<sp/>handler;<sp/>});</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__http__retention__api_8cpp_1a12cf942e93ec3a713fbcdf6c2f40d054" kindref="member">TEST</ref>(RetentionApiHandlerTest,<sp/>DefaultManagerListsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionApiHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionQueryFilter<sp/>f;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.listPolicies(f);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_http_retention_api.cpp"/>
+  </compounddef>
+</doxygen>

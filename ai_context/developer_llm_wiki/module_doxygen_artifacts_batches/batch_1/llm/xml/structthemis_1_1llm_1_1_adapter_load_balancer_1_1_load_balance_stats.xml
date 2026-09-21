@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterLoadBalancer::LoadBalanceStats</compoundname>
+    <includes refid="adapter__load__balancer_8h" local="no">adapter_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a33338f0e7f87845af0a73f32d2679ede" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::LoadBalanceStats::num_adapters</definition>
+        <argsstring></argsstring>
+        <name>num_adapters</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::LoadBalanceStats::num_adapters</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="41" column="13" bodyfile="include/llm/adapter_load_balancer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1acc244a61bb0e03bc65377b83bd2c5f1b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::LoadBalanceStats::num_gpus</definition>
+        <argsstring></argsstring>
+        <name>num_gpus</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::LoadBalanceStats::num_gpus</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="42" column="13" bodyfile="include/llm/adapter_load_balancer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a8e1ffb7c928a894f7c317f63bd0e120f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AdapterLoadBalancer::LoadBalanceStats::average_gpu_load</definition>
+        <argsstring></argsstring>
+        <name>average_gpu_load</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::LoadBalanceStats::average_gpu_load</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="43" column="15" bodyfile="include/llm/adapter_load_balancer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1abbdc6ab96c887d568d4a646934fed50f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AdapterLoadBalancer::LoadBalanceStats::max_gpu_load</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_load</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::LoadBalanceStats::max_gpu_load</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="44" column="15" bodyfile="include/llm/adapter_load_balancer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a68247b3f2aee16694e7316b1e8146392" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AdapterLoadBalancer::LoadBalanceStats::min_gpu_load</definition>
+        <argsstring></argsstring>
+        <name>min_gpu_load</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::LoadBalanceStats::min_gpu_load</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="45" column="15" bodyfile="include/llm/adapter_load_balancer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a0f1e963c4069282ea9d1e9f7b3844303" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::LoadBalanceStats::num_migrations</definition>
+        <argsstring></argsstring>
+        <name>num_migrations</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::LoadBalanceStats::num_migrations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="46" column="13" bodyfile="include/llm/adapter_load_balancer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1aa70df7ebe3779acdbc80b6a185c06947" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::LoadBalanceStats::num_evictions</definition>
+        <argsstring></argsstring>
+        <name>num_evictions</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::LoadBalanceStats::num_evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="47" column="13" bodyfile="include/llm/adapter_load_balancer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a35eaec7f5ad4a167f2ab2ac9dd5ffe4b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::AdapterLoadBalancer::LoadBalanceStats::last_balance_time_ms</definition>
+        <argsstring></argsstring>
+        <name>last_balance_time_ms</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::LoadBalanceStats::last_balance_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="48" column="17" bodyfile="include/llm/adapter_load_balancer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_load_balancer.h" line="40" column="5" bodyfile="include/llm/adapter_load_balancer.h" bodystart="40" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a8e1ffb7c928a894f7c317f63bd0e120f" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer::LoadBalanceStats</scope><name>average_gpu_load</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a35eaec7f5ad4a167f2ab2ac9dd5ffe4b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer::LoadBalanceStats</scope><name>last_balance_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1abbdc6ab96c887d568d4a646934fed50f" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer::LoadBalanceStats</scope><name>max_gpu_load</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a68247b3f2aee16694e7316b1e8146392" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer::LoadBalanceStats</scope><name>min_gpu_load</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a33338f0e7f87845af0a73f32d2679ede" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer::LoadBalanceStats</scope><name>num_adapters</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1aa70df7ebe3779acdbc80b6a185c06947" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer::LoadBalanceStats</scope><name>num_evictions</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1acc244a61bb0e03bc65377b83bd2c5f1b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer::LoadBalanceStats</scope><name>num_gpus</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a0f1e963c4069282ea9d1e9f7b3844303" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer::LoadBalanceStats</scope><name>num_migrations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

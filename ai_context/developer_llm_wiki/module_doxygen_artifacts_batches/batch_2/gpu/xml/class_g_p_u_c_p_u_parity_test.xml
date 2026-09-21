@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_c_p_u_parity_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUCPUParityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_p_u_c_p_u_parity_test_1a1f851df009cb74b0c336fc210f743df4" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; GPUCPUParityTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>GPUCPUParityTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="526" column="19" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="526" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_c_p_u_parity_test_1a91c59c40e785ac6b744eddcd9d8b942d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUCPUParityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUCPUParityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="528" column="8" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="528" bodyend="530"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_g_p_u_c_p_u_parity_test_1aa8af6c33c64cbdc85b8f2527bb89d567" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float GPUCPUParityTest::cpu_sum</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data)</argsstring>
+        <name>cpu_sum</name>
+        <qualifiedname>GPUCPUParityTest::cpu_sum</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="533" column="16" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="533" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_c_p_u_parity_test_1a1ce3e24a6a1fc975314dc806d5901914" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool GPUCPUParityTest::results_match</definition>
+        <argsstring>(float a, float b, float tolerance=1e-5)</argsstring>
+        <name>results_match</name>
+        <qualifiedname>GPUCPUParityTest::results_match</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>tolerance</declname>
+          <defval>1e-5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="542" column="15" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="542" bodyend="552"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUCPUParityTest</label>
+        <link refid="class_g_p_u_c_p_u_parity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUCPUParityTest</label>
+        <link refid="class_g_p_u_c_p_u_parity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="524" column="1" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="524" bodyend="553"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_c_p_u_parity_test_1aa8af6c33c64cbdc85b8f2527bb89d567" prot="protected" virt="non-virtual"><scope>GPUCPUParityTest</scope><name>cpu_sum</name></member>
+      <member refid="class_g_p_u_c_p_u_parity_test_1a1f851df009cb74b0c336fc210f743df4" prot="protected" virt="non-virtual"><scope>GPUCPUParityTest</scope><name>handler</name></member>
+      <member refid="class_g_p_u_c_p_u_parity_test_1a1ce3e24a6a1fc975314dc806d5901914" prot="protected" virt="non-virtual"><scope>GPUCPUParityTest</scope><name>results_match</name></member>
+      <member refid="class_g_p_u_c_p_u_parity_test_1a91c59c40e785ac6b744eddcd9d8b942d" prot="protected" virt="non-virtual"><scope>GPUCPUParityTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_queue_item_size" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QueueItemSize</compoundname>
+    <includes refid="bounded__queue_8h" local="no">bounded_queue.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_queue_item_size_1a94520d6d48bf7e3930e1605f498407d4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::ingestion::QueueItemSize&lt; T &gt;::getSize</definition>
+        <argsstring>(const T &amp;item)</argsstring>
+        <name>getSize</name>
+        <qualifiedname>themis::ingestion::QueueItemSize::getSize</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Return the approximate memory footprint of an item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation returns sizeof(T). Specializations can override to account for heap allocations within the item. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="145" column="24" bodyfile="include/ingestion/bounded_queue.h" bodystart="145" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Trait to calculate the memory footprint of a queue item. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Specializations should return the approximate memory used by an item, including the item itself and any internal allocations (strings, vectors, etc.). </para>
+    </detaileddescription>
+    <location file="include/ingestion/bounded_queue.h" line="138" column="1" bodyfile="include/ingestion/bounded_queue.h" bodystart="138" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_queue_item_size_1a94520d6d48bf7e3930e1605f498407d4" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueItemSize</scope><name>getSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

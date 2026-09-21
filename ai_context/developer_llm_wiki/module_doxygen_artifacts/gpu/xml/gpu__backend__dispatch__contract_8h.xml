@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__backend__dispatch__contract_8h" kind="file" language="C++">
+    <compoundname>gpu_backend_dispatch_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__gpu__a8__baselines_8cpp" local="yes">benchmarks/gpu/bench_gpu_a8_baselines.cpp</includedby>
+    <includedby refid="gpu__backend__dispatch__diagnostics_8h" local="yes">include/gpu/gpu_backend_dispatch_diagnostics.h</includedby>
+    <includedby refid="gpu__cuda__error__hardening_8h" local="yes">include/gpu/gpu_cuda_error_hardening.h</includedby>
+    <includedby refid="gpu__memory__allocator_8cpp" local="yes">src/gpu/gpu_memory_allocator.cpp</includedby>
+    <includedby refid="load__balancer_8cpp" local="yes">src/gpu/load_balancer.cpp</includedby>
+    <includedby refid="test__cuda__error__hardening_8cpp" local="yes">tests/gpu/test_cuda_error_hardening.cpp</includedby>
+    <includedby refid="test__gpu__batch__a9__safety__focused_8cpp" local="yes">tests/gpu/test_gpu_batch_a9_safety_focused.cpp</includedby>
+    <includedby refid="test__gpu__chaos__fault__injection_8cpp" local="yes">tests/gpu/test_gpu_chaos_fault_injection.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/gpu/gpu_backend_dispatch_contract.h</label>
+        <link refid="gpu__backend__dispatch__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/gpu/bench_gpu_a8_baselines.cpp</label>
+        <link refid="bench__gpu__a8__baselines_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/gpu/gpu_backend_dispatch_contract.h</label>
+        <link refid="gpu__backend__dispatch__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/gpu/gpu_backend_dispatch_diagnostics.h</label>
+        <link refid="gpu__backend__dispatch__diagnostics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/gpu/gpu_cuda_error_hardening.h</label>
+        <link refid="gpu__cuda__error__hardening_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/gpu/gpu_cuda_error_hardening.cpp</label>
+        <link refid="gpu__cuda__error__hardening_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/gpu/gpu_memory_allocator.cpp</label>
+        <link refid="gpu__memory__allocator_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/gpu/load_balancer.cpp</label>
+        <link refid="load__balancer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/gpu/memory_pool.cpp</label>
+        <link refid="memory__pool_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/gpu/p2p_transfer.cpp</label>
+        <link refid="p2p__transfer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/gpu/query_accelerator.cpp</label>
+        <link refid="query__accelerator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/gpu/rocm_backend.cpp</label>
+        <link refid="rocm__backend_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/gpu/unified_memory.cpp</label>
+        <link refid="unified__memory_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/gpu/test_cuda_error_hardening.cpp</label>
+        <link refid="test__cuda__error__hardening_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/gpu/test_gpu_batch_a9_safety_focused.cpp</label>
+        <link refid="test__gpu__batch__a9__safety__focused_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/gpu/test_gpu_chaos_fault_injection.cpp</label>
+        <link refid="test__gpu__chaos__fault__injection_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract" prot="public">themis::gpu::GPUBackendDispatchContract</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical bounded runtime contract for GPU backend allocation and dispatch. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-05</para>
+</simplesect>
+Phase 2/3 hardening: defines bounded runtime guarantees, fail-closed behavior, and diagnostic expectations for GPU memory allocation, backend selection, and query/kernel dispatch paths.</para>
+<para><simplesect kind="see"><para>src/gpu/ROADMAP.md Phase 2-3 delivery </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Allocation<sp/>Errors<sp/>(ALLOC_*)<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba80d1f9cc00c6eeb89474106aea2449b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba80d1f9cc00c6eeb89474106aea2449b7" kindref="member">ALLOC_SIZE_EXCEEDS_LIMIT</ref><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba48498870e48f083697ca3920393ad49a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba48498870e48f083697ca3920393ad49a" kindref="member">ALLOC_INSUFFICIENT_VRAM</ref><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba53eb0bc26574c827367b1193485748c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba53eb0bc26574c827367b1193485748c0" kindref="member">ALLOC_DEVICE_FAILURE</ref><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad021e18f4316730b57fa7b3e4cf044a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad021e18f4316730b57fa7b3e4cf044a5" kindref="member">ALLOC_INVALID_PARAMS</ref><sp/>=<sp/>13,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bac56e165fd1787e29b8e616c828608fc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bac56e165fd1787e29b8e616c828608fc8" kindref="member">ALLOC_QUOTA_EXCEEDED</ref><sp/>=<sp/>14,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Backend<sp/>Selection<sp/>Errors<sp/>(BACKEND_*)<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bacd980e982c179a5e9a2806dfdce166bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bacd980e982c179a5e9a2806dfdce166bf" kindref="member">BACKEND_NO_DEVICE_AVAILABLE</ref><sp/>=<sp/>20,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0bc88d0d45ddfc2297631f7040aa3ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0bc88d0d45ddfc2297631f7040aa3ba" kindref="member">BACKEND_CAPABILITY_MISMATCH</ref><sp/>=<sp/>21,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba00f0dc541d197a574009f5bc556f0688" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba00f0dc541d197a574009f5bc556f0688" kindref="member">BACKEND_TOPOLOGY_UNAVAILABLE</ref><sp/>=<sp/>22,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba56270da0c47185dbdc9f15293a265e18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba56270da0c47185dbdc9f15293a265e18" kindref="member">BACKEND_NOT_ENABLED</ref><sp/>=<sp/>23,</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba56a02e21206f5a21c8f532c0a8ead220" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba56a02e21206f5a21c8f532c0a8ead220" kindref="member">BACKEND_DEGRADED</ref><sp/>=<sp/>24,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Dispatch<sp/>Errors<sp/>(DISPATCH_*)<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba8dbc26d1ca7f11f36b8040a07d357410" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba8dbc26d1ca7f11f36b8040a07d357410" kindref="member">DISPATCH_TIMEOUT</ref><sp/>=<sp/>30,</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6badf0ff6a12b365586ab3169d108250825" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6badf0ff6a12b365586ab3169d108250825" kindref="member">DISPATCH_KERNEL_LAUNCH_FAILED</ref><sp/>=<sp/>31,</highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6baba7a08e120c1c7cebc3e5f7744659fd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6baba7a08e120c1c7cebc3e5f7744659fd8" kindref="member">DISPATCH_STREAM_FULL</ref><sp/>=<sp/>32,</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba7d1318afd85ed6e652c96659d8d3346e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba7d1318afd85ed6e652c96659d8d3346e" kindref="member">DISPATCH_CONCURRENT_EXECUTION_REJECTED</ref><sp/>=<sp/>33,</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba9f4348744f901865da6dad2888742e84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba9f4348744f901865da6dad2888742e84" kindref="member">DISPATCH_QUERY_TYPE_UNSUPPORTED</ref><sp/>=<sp/>34,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Fallback/Degradation<sp/>Errors<sp/>(FALLBACK_*)<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba33507cc36a50f1d8d32cf7ef8523b27c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba33507cc36a50f1d8d32cf7ef8523b27c" kindref="member">FALLBACK_CPU_DEGRADED</ref><sp/>=<sp/>40,</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6baba21a2b5d25a4b25056ad5ca3d14dc43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6baba21a2b5d25a4b25056ad5ca3d14dc43" kindref="member">FALLBACK_UNAVAILABLE</ref><sp/>=<sp/>41,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Internal/Unknown<sp/>Errors<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>99,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>defined<sp/>error<sp/>codes<sp/>except<sp/>SUCCESS<sp/>are<sp/>fail-closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>!=<sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GPUDispatchErrorCode::SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract" kindref="compound">GPUBackendDispatchContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Allocation<sp/>Latency<sp/>Bounds<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ac61c73b23f11a590c2e4c0736e9a4fd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ac61c73b23f11a590c2e4c0736e9a4fd9" kindref="member">MAX_ALLOCATE_LATENCY_US</ref><sp/>=<sp/>1000;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a0a1abe7f132ff2ef3341b55ae28922fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a0a1abe7f132ff2ef3341b55ae28922fe" kindref="member">MAX_SELECT_DEVICE_LATENCY_US</ref><sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ae2a7222cee3aa31f93588c6ea55579fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ae2a7222cee3aa31f93588c6ea55579fe" kindref="member">MAX_QUOTA_CHECK_LATENCY_US</ref><sp/>=<sp/>10;<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Dispatch<sp/>Operation<sp/>Bounds<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a81d066bb9c66bdc4410c580bca0e9567" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a81d066bb9c66bdc4410c580bca0e9567" kindref="member">DEFAULT_KERNEL_SLA_US</ref><sp/>=<sp/>5&apos;000&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a78cd4eaff5a4a02dc2de27d2a3b58cab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a78cd4eaff5a4a02dc2de27d2a3b58cab" kindref="member">MIN_HEALTH_CHECK_INTERVAL_US</ref><sp/>=<sp/>100&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9692e41c21eae852b9d09e2a5063f480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9692e41c21eae852b9d09e2a5063f480" kindref="member">MAX_EMIT_DIAGNOSTIC_LATENCY_US</ref><sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Concurrency<sp/>Contracts<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a33373dd3cbbdd5957b4b0607fd42ac09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a33373dd3cbbdd5957b4b0607fd42ac09" kindref="member">CANONICAL_LOCK_ORDER</ref><sp/>=<sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;allocation_mutex<sp/>→<sp/>device_state_mutex<sp/>→<sp/>dispatch_mutex&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a70f32e10d192f91a58678d6565e712a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a70f32e10d192f91a58678d6565e712a6" kindref="member">MAX_STOP_LATENCY_US</ref><sp/>=<sp/>1&apos;000&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Fail-Closed<sp/>Behavior<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a30525c6f8ac08dac8be6be8b7b293147" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a30525c6f8ac08dac8be6be8b7b293147" kindref="member">ALLOCATION_FAIL_CLOSED</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a1dfe8cf20a02cd8443550ecbb0b67956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a1dfe8cf20a02cd8443550ecbb0b67956" kindref="member">BACKEND_SELECTION_FAIL_CLOSED</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a52aa1bb9af151c595fd2371e2ce30d4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a52aa1bb9af151c595fd2371e2ce30d4a" kindref="member">DISPATCH_CONCURRENT_FAIL_CLOSED</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Diagnostic<sp/>Behavior<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9d0a98a9d5ec2f6a91afc94856c05181" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9d0a98a9d5ec2f6a91afc94856c05181" kindref="member">DIAGNOSTIC_EMISSION_MANDATORY</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a43362b7c3617b75099a5c1827f47773d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a43362b7c3617b75099a5c1827f47773d" kindref="member">DIAGNOSTIC_EMISSION_SYNCHRONOUS</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>GPU_BACKEND_DISPATCH_SEED<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/gpu/gpu_backend_dispatch_contract.h"/>
+  </compounddef>
+</doxygen>

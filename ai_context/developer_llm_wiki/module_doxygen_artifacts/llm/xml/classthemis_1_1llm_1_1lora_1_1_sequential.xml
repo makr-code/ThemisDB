@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_sequential" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::Sequential</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer" prot="public" virt="non-virtual">themis::llm::lora::ITrainableLayer</basecompoundref>
+    <includes refid="lora__layers_8h" local="no">lora_layers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_sequential_1ad7835f7fd2fb8e727b6195f416121d2e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer" kindref="compound">ITrainableLayer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;ITrainableLayer&gt; &gt; themis::llm::lora::Sequential::layers_</definition>
+        <argsstring></argsstring>
+        <name>layers_</name>
+        <qualifiedname>themis::llm::lora::Sequential::layers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="143" column="17" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1a81690c158a1a3f4866d4e376a6036d6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::Sequential::Sequential</definition>
+        <argsstring>()=default</argsstring>
+        <name>Sequential</name>
+        <qualifiedname>themis::llm::lora::Sequential::Sequential</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="124" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1a79529ce74b7ff3b186883eb5997c70df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::Sequential::~Sequential</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~Sequential</name>
+        <qualifiedname>themis::llm::lora::Sequential::~Sequential</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1a7f65f7a0676ca386ebb4972b28f88000" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::Sequential::add</definition>
+        <argsstring>(std::unique_ptr&lt; ITrainableLayer &gt; layer)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::llm::lora::Sequential::add</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer" kindref="compound">ITrainableLayer</ref> &gt;</type>
+          <declname>layer</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== <ref refid="classthemis_1_1llm_1_1lora_1_1_sequential" kindref="compound">Sequential</ref> =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), <ref refid="classthemis_1_1llm_1_1lora_1_1_sequential_1a177191d842135b940c4d3847ed4fd6ce" kindref="member">name()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="131" column="10" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="572" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1a8da70aa83934bc92122334fb2ef7cc18" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::Sequential::forward</definition>
+        <argsstring>(const Tensor &amp;input) override</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::lora::Sequential::forward</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a067d7137466574460364f35b5d305e4a">forward</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), size(), clone(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="133" column="12" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="583" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1abc7c0e621ce70159a686db8d064126db" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::Sequential::backward</definition>
+        <argsstring>(const Tensor &amp;grad_output) override</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::lora::Sequential::backward</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a57a5225cbf7698cf6c0b566265fb887f">backward</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>grad_output</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), size(), clone(), rbegin(), rend(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="134" column="12" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="600" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1a7a4e6ab531b6b4e51f9cd0641d34bf87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt;</type>
+        <definition>std::vector&lt; Tensor * &gt; themis::llm::lora::Sequential::parameters</definition>
+        <argsstring>() override</argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::llm::lora::Sequential::parameters</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a81e0dc53a421d747cc4b9bd1e6ccca50">parameters</reimplements>
+        <briefdescription>
+<para>Parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="136" column="17" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="616" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1a177191d842135b940c4d3847ed4fd6ce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::Sequential::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::lora::Sequential::name</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a23e09154b435de5c4db3954492f50bf1">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="138" column="17" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1a94aacf4e2ca96b16f856f77e0fd9c351" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::Sequential::parameter_count</definition>
+        <argsstring>() const override</argsstring>
+        <name>parameter_count</name>
+        <qualifiedname>themis::llm::lora::Sequential::parameter_count</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1abcd644a77d1bd33245d85cd8929b2231">parameter_count</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="139" column="12" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="630" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_sequential_1ae028df2a6211895f71b894d9c7305b8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::Sequential::memory_bytes</definition>
+        <argsstring>() const override</argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::llm::lora::Sequential::memory_bytes</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a8848c531c76dc46133aa60a6326fde5c">memory_bytes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="140" column="12" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="638" bodyend="644"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::ITrainableLayer</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::Sequential</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_sequential"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::ITrainableLayer</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::Sequential</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_sequential"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_layers.h" line="122" column="1" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="122" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1a7f65f7a0676ca386ebb4972b28f88000" prot="public" virt="non-virtual"><scope>themis::llm::lora::Sequential</scope><name>add</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1abc7c0e621ce70159a686db8d064126db" prot="public" virt="virtual"><scope>themis::llm::lora::Sequential</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1a8da70aa83934bc92122334fb2ef7cc18" prot="public" virt="virtual"><scope>themis::llm::lora::Sequential</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1ad7835f7fd2fb8e727b6195f416121d2e" prot="private" virt="non-virtual"><scope>themis::llm::lora::Sequential</scope><name>layers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1ae028df2a6211895f71b894d9c7305b8d" prot="public" virt="virtual"><scope>themis::llm::lora::Sequential</scope><name>memory_bytes</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1a177191d842135b940c4d3847ed4fd6ce" prot="public" virt="virtual"><scope>themis::llm::lora::Sequential</scope><name>name</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1a94aacf4e2ca96b16f856f77e0fd9c351" prot="public" virt="virtual"><scope>themis::llm::lora::Sequential</scope><name>parameter_count</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1a7a4e6ab531b6b4e51f9cd0641d34bf87" prot="public" virt="virtual"><scope>themis::llm::lora::Sequential</scope><name>parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1a81690c158a1a3f4866d4e376a6036d6f" prot="public" virt="non-virtual"><scope>themis::llm::lora::Sequential</scope><name>Sequential</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1ad1779604a4815ddb99b250270bbc499c" prot="public" virt="virtual"><scope>themis::llm::lora::Sequential</scope><name>~ITrainableLayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_sequential_1a79529ce74b7ff3b186883eb5997c70df" prot="public" virt="non-virtual"><scope>themis::llm::lora::Sequential</scope><name>~Sequential</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

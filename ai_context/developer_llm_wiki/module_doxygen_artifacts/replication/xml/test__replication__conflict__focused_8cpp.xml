@@ -1,0 +1,691 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__replication__conflict__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_replication_conflict_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="conflict__resolution_8h" local="yes">replication/conflict_resolution.h</includes>
+    <includes refid="multi__master__replication_8h" local="yes">replication/multi_master_replication.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>replication/conflict_resolution.h</label>
+        <link refid="conflict__resolution_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>replication/multi_master_replication.h</label>
+        <link refid="multi__master__replication_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/replication/test_replication_conflict_focused.cpp</label>
+        <link refid="test__replication__conflict__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>condition_variable</label>
+      </node>
+      <node id="17">
+        <label>deque</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="18">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>queue</label>
+      </node>
+      <node id="19">
+        <label>set</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="23">
+        <label>sstream</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="21">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" prot="public">themisdb::replication::test::ThreeWayMergeResolverTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" prot="public">themisdb::replication::test::FieldLevelMergeResolverTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" prot="public">themisdb::replication::test::ConflictContextTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test" prot="public">themisdb::replication::test::DeterministicConflictResolutionTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test" prot="public">themisdb::replication::test::EdgeCaseConflictResolutionTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test" prot="public">themisdb::replication::test::DiagnosticsConsistencyTest</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication_1_1test">themisdb::replication::test</innernamespace>
+    <briefdescription>
+<para>Focused replication conflict resolution test suite. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.2 </para>
+</simplesect>
+<simplesect kind="note"><para>Tier: unit </para>
+</simplesect>
+<simplesect kind="note"><para>Scope: conflict-resolution, diagnostics, deterministic behavior </para>
+</simplesect>
+<simplesect kind="copyright"><para>(c) 2026 ThemisDB Project, Apache-2.0 License </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="conflict__resolution_8h" kindref="compound">replication/conflict_resolution.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="multi__master__replication_8h" kindref="compound">replication/multi_master_replication.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemisdb_1_1replication_1_1test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThreeWayMergeResolver<sp/>Focused<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" kindref="compound">ThreeWayMergeResolverTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThreeWayMergeResolver&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a8d469684545eca31ed9905db7934c582" kindref="member">resolver_</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a5164e5a49d98641025f7ecd96b6b6636" kindref="member">default_context_</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1aeb0d6ce7456925e2af95535b9513d0a6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a8d469684545eca31ed9905db7934c582" kindref="member">resolver_</ref><sp/>=<sp/>std::make_unique&lt;ThreeWayMergeResolver&gt;();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a5164e5a49d98641025f7ecd96b6b6636" kindref="member">default_context_</ref>.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a5164e5a49d98641025f7ecd96b6b6636" kindref="member">default_context_</ref>.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a5164e5a49d98641025f7ecd96b6b6636" kindref="member">default_context_</ref>.user_roles<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a5164e5a49d98641025f7ecd96b6b6636" kindref="member">default_context_</ref>.client_ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a5164e5a49d98641025f7ecd96b6b6636" kindref="member">default_context_</ref>.request_time<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test_1a685bed9d51e311f89dac26cee14884c5" kindref="member">createTestWrite</ref>(</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>write_id,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>entry{};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>=<sp/>write_id;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref><sp/>=<sp/>doc_id;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1acb6e510dc04112f6601b74f7d0245420" kindref="member">origin_node</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a44fa88b3ec7d034c7654424c19aae9bf" kindref="member">operation</ref><sp/>=<sp/>operation;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;test&quot;:&quot;data&quot;})&quot;;</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a9cf33d7f26f2cc959d1d05f931228f79" kindref="member">checksum</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_checksum&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" kindref="compound">ThreeWayMergeResolverTest</ref>,<sp/>SingleWriteReturnedUnchanged)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single<sp/>write<sp/>should<sp/>return<sp/>itself<sp/>(no<sp/>conflict<sp/>logic<sp/>needed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>winner<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(ThreeWayMergeResolverTest,<sp/>MultipleWritesResolved)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Merge<sp/>should<sp/>select<sp/>one<sp/>winner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>winner<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Winner<sp/>must<sp/>be<sp/>one<sp/>of<sp/>the<sp/>input<sp/>entries<sp/>(no<sp/>fabrication)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal"><sp/>||<sp/>winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal"><sp/>||<sp/>winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(ThreeWayMergeResolverTest,<sp/>EmptyConflictSetFailsClosed)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>set<sp/>should<sp/>not<sp/>be<sp/>processed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_),</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(ThreeWayMergeResolverTest,<sp/>StrategyNameConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>strategy<sp/>=<sp/>resolver_-&gt;strategyName();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(strategy,<sp/></highlight><highlight class="stringliteral">&quot;THREE_WAY_MERGE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Repeated<sp/>calls<sp/>should<sp/>return<sp/>the<sp/>same<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resolver_-&gt;strategyName(),<sp/>strategy);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FieldLevelMergeResolver<sp/>Focused<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kindref="compound">FieldLevelMergeResolverTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1aa615e6c837e05edfadfb21c451ef2341" kindref="member">default_context_</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1a254afd02438e76882604fbd1229f261d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1aa615e6c837e05edfadfb21c451ef2341" kindref="member">default_context_</ref>.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1aa615e6c837e05edfadfb21c451ef2341" kindref="member">default_context_</ref>.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1aa615e6c837e05edfadfb21c451ef2341" kindref="member">default_context_</ref>.user_roles<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1aa615e6c837e05edfadfb21c451ef2341" kindref="member">default_context_</ref>.client_ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1aa615e6c837e05edfadfb21c451ef2341" kindref="member">default_context_</ref>.request_time<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1a603fcb5a41adbb2d2f42b02b84c76919" kindref="member">createTestWrite</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>write_id,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>entry{};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>=<sp/>write_id;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref><sp/>=<sp/>doc_id;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1acb6e510dc04112f6601b74f7d0245420" kindref="member">origin_node</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a44fa88b3ec7d034c7654424c19aae9bf" kindref="member">operation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;test&quot;:&quot;data&quot;})&quot;;</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a9cf33d7f26f2cc959d1d05f931228f79" kindref="member">checksum</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_checksum&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kindref="compound">FieldLevelMergeResolverTest</ref>,<sp/>UnionStrategyIncludesAllFields)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver_1adb3bed0779cb476e70664a20e6d86bbeaea931da33de8ba05c3635a51c2b25d75" kindref="member">FieldLevelMergeResolver::MergeStrategy::UNION</ref></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>winner<sp/>=<sp/>resolver-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(FieldLevelMergeResolverTest,<sp/>IntersectStrategyOnlyCommonFields)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver_1adb3bed0779cb476e70664a20e6d86bbea24bdbe2bcaf533b7b3f0bd58bfa7f291" kindref="member">FieldLevelMergeResolver::MergeStrategy::INTERSECT</ref></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>winner<sp/>=<sp/>resolver-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(FieldLevelMergeResolverTest,<sp/>LeftBiasPreferFirstEntry)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver_1adb3bed0779cb476e70664a20e6d86bbea8c578694e87bbb2cb8883eeaf19faaf7" kindref="member">FieldLevelMergeResolver::MergeStrategy::LEFT_BIAS</ref></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>MMWriteEntry<sp/>winner<sp/>=<sp/>resolver-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>winner<sp/>is<sp/>HLC-latest;<sp/>bias<sp/>applies<sp/>at<sp/>field<sp/>level<sp/>not<sp/>winner<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(winner.write_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal"><sp/>||<sp/>winner.write_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(FieldLevelMergeResolverTest,<sp/>RightBiasPreferLastEntry)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;(</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver_1adb3bed0779cb476e70664a20e6d86bbeaacb4aa1a582d0baf3204e238377da55c" kindref="member">FieldLevelMergeResolver::MergeStrategy::RIGHT_BIAS</ref></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>MMWriteEntry<sp/>winner<sp/>=<sp/>resolver-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>winner<sp/>is<sp/>HLC-latest;<sp/>bias<sp/>applies<sp/>at<sp/>field<sp/>level<sp/>not<sp/>winner<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(winner.write_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal"><sp/>||<sp/>winner.write_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kindref="compound">FieldLevelMergeResolverTest</ref>,<sp/>StrategyNamesCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>union_resolver<sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;(</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver_1adb3bed0779cb476e70664a20e6d86bbeaea931da33de8ba05c3635a51c2b25d75" kindref="member">FieldLevelMergeResolver::MergeStrategy::UNION</ref></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>intersect_resolver<sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;(</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver_1adb3bed0779cb476e70664a20e6d86bbea24bdbe2bcaf533b7b3f0bd58bfa7f291" kindref="member">FieldLevelMergeResolver::MergeStrategy::INTERSECT</ref></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>left_resolver<sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;(</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver_1adb3bed0779cb476e70664a20e6d86bbea8c578694e87bbb2cb8883eeaf19faaf7" kindref="member">FieldLevelMergeResolver::MergeStrategy::LEFT_BIAS</ref></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>right_resolver<sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;(</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver_1adb3bed0779cb476e70664a20e6d86bbeaacb4aa1a582d0baf3204e238377da55c" kindref="member">FieldLevelMergeResolver::MergeStrategy::RIGHT_BIAS</ref></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(union_resolver-&gt;strategyName(),<sp/></highlight><highlight class="stringliteral">&quot;FIELD_MERGE_UNION&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(intersect_resolver-&gt;strategyName(),<sp/></highlight><highlight class="stringliteral">&quot;FIELD_MERGE_INTERSECT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(left_resolver-&gt;strategyName(),<sp/></highlight><highlight class="stringliteral">&quot;FIELD_MERGE_LEFT_BIAS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(right_resolver-&gt;strategyName(),<sp/></highlight><highlight class="stringliteral">&quot;FIELD_MERGE_RIGHT_BIAS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Conflict<sp/>Context<sp/>Semantics<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" kindref="compound">ConflictContextTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThreeWayMergeResolver&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1a94b202215969b86343f9bf13aed4687f" kindref="member">resolver_</ref>;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1a7abcc409bf96c69aa01edae40e3158e0" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1a94b202215969b86343f9bf13aed4687f" kindref="member">resolver_</ref><sp/>=<sp/>std::make_unique&lt;ThreeWayMergeResolver&gt;();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1ab7e72e142ece0abadb671db2cf8f9eae" kindref="member">createTestWrite</ref>(</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>write_id,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>entry{};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>=<sp/>write_id;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref><sp/>=<sp/>doc_id;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1acb6e510dc04112f6601b74f7d0245420" kindref="member">origin_node</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a44fa88b3ec7d034c7654424c19aae9bf" kindref="member">operation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;test&quot;:&quot;data&quot;})&quot;;</highlight></codeline>
+<codeline lineno="296"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" kindref="compound">ConflictContextTest</ref>,<sp/>ResolutionContextRespected)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1ac0979d5585458515c16e40557a44ce7c" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_col&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a5c19419d46fa39cdde9f6a0e980da261" kindref="member">document_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a5c7a16b64fffea019d944dc5ca9ef19d" kindref="member">metadata</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;client_a&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1af6918ef0fa091b5be504ff0f5c80828d" kindref="member">user_roles</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a261f78b390ceba9c4cee65dec5453526" kindref="member">client_ip</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1acdaa8cc0f6b02b3b2d43a2bb3bbaae8d" kindref="member">request_time</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_col&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_col&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw<sp/>and<sp/>should<sp/>return<sp/>a<sp/>valid<sp/>winner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MMWriteEntry<sp/>winner<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>ctx);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" kindref="compound">ConflictContextTest</ref>,<sp/>EmptyUserRolesHandled)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>AdvancedConflictResolver::ResolutionContext<sp/>ctx;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1af6918ef0fa091b5be504ff0f5c80828d" kindref="member">user_roles</ref>.clear();<sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>roles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_col&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_col&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MMWriteEntry<sp/>winner<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>ctx);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deterministic<sp/>Behavior<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351" refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test" kindref="compound">DeterministicConflictResolutionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThreeWayMergeResolver&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test_1a9d1fed0803c88b98c59b96b9e9e0afd3" kindref="member">resolver_</ref>;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test_1a9111549df714eb293e2134aca7681915" kindref="member">default_context_</ref>;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test_1adfd6c296a461bcf75c10b7b636baa1ca" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test_1a9d1fed0803c88b98c59b96b9e9e0afd3" kindref="member">resolver_</ref><sp/>=<sp/>std::make_unique&lt;ThreeWayMergeResolver&gt;();</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test_1a9111549df714eb293e2134aca7681915" kindref="member">default_context_</ref>.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test_1a9111549df714eb293e2134aca7681915" kindref="member">default_context_</ref>.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test_1a1d033051950847870f3d4763b1d32e08" kindref="member">createTestWrite</ref>(</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>write_id,</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id,</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>entry{};</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>=<sp/>write_id;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref><sp/>=<sp/>doc_id;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1acb6e510dc04112f6601b74f7d0245420" kindref="member">origin_node</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a44fa88b3ec7d034c7654424c19aae9bf" kindref="member">operation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;test&quot;:&quot;data&quot;})&quot;;</highlight></codeline>
+<codeline lineno="374"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test" kindref="compound">DeterministicConflictResolutionTest</ref>,<sp/>IdempotentResolution)<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>winner1<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>winner2<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner1.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref>,<sp/>winner2.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref>);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(DeterministicConflictResolutionTest,<sp/>SequentialResolutionStateIntegrity)<sp/>{</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>sequential<sp/>calls<sp/>should<sp/>not<sp/>corrupt<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>winners<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MMWriteEntry<sp/>winner<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>winners.push_back(winner.write_id);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>winners<sp/>should<sp/>be<sp/>identical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>winners.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(winners[i],<sp/>winners[0]);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="412"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>Case<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424" refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test" kindref="compound">EdgeCaseConflictResolutionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThreeWayMergeResolver&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a8350888756916ec68f6932b7bced17ea" kindref="member">resolver_</ref>;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a96b3ed878d651e54bf5a8d437f474151" kindref="member">default_context_</ref>;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a24be468459a69fe1364a8e324118b121" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a8350888756916ec68f6932b7bced17ea" kindref="member">resolver_</ref><sp/>=<sp/>std::make_unique&lt;ThreeWayMergeResolver&gt;();</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a96b3ed878d651e54bf5a8d437f474151" kindref="member">default_context_</ref>.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a96b3ed878d651e54bf5a8d437f474151" kindref="member">default_context_</ref>.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test_1a059628a4870fc6e02f965a4d8b3452ef" kindref="member">createTestWrite</ref>(</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>write_id,</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id,</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>entry{};</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>=<sp/>write_id;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref><sp/>=<sp/>doc_id;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1acb6e510dc04112f6601b74f7d0245420" kindref="member">origin_node</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a44fa88b3ec7d034c7654424c19aae9bf" kindref="member">operation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;test&quot;:&quot;data&quot;})&quot;;</highlight></codeline>
+<codeline lineno="447"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="449"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test" kindref="compound">EdgeCaseConflictResolutionTest</ref>,<sp/>MinimalConflictSetResolved)<sp/>{</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>two<sp/>writes<sp/>with<sp/>identical<sp/>data<sp/>(degenerate<sp/>case)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>write1<sp/>=<sp/>createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>write2<sp/>=<sp/>createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>write1.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;value&quot;:<sp/>42})&quot;;</highlight></codeline>
+<codeline lineno="461"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>write2.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;value&quot;:<sp/>42})&quot;;<sp/><sp/></highlight><highlight class="comment">//<sp/>Same<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(write1);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(write2);</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolver<sp/>should<sp/>pick<sp/>one<sp/>consistently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>winner<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Winner<sp/>must<sp/>be<sp/>one<sp/>of<sp/>the<sp/>two<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal"><sp/>||<sp/>winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref>,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="472"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(EdgeCaseConflictResolutionTest,<sp/>LargeConflictSetDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>100<sp/>writes<sp/>to<sp/>conflict<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conflict_set.push_back(</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createTestWrite(</highlight><highlight class="stringliteral">&quot;w&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolve<sp/>same<sp/>conflict<sp/>multiple<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/>MMWriteEntry<sp/>winner1<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>MMWriteEntry<sp/>winner2<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>MMWriteEntry<sp/>winner3<sp/>=<sp/>resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>resolutions<sp/>should<sp/>produce<sp/>the<sp/>same<sp/>winner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner1.write_id,<sp/>winner2.write_id);</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner2.write_id,<sp/>winner3.write_id);</highlight></codeline>
+<codeline lineno="495"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Diagnostics<sp/>and<sp/>Observability<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507" refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test" kindref="compound">DiagnosticsConsistencyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThreeWayMergeResolver&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1ad64efd483610ddccd106ca625bcfc4a2" kindref="member">three_way_resolver_</ref>;</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;FieldLevelMergeResolver&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1aba9fa6eab6f3adbe9942bf8763dadfe6" kindref="member">field_level_resolver_</ref>;</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1a7bb33786473bebe2ee34b9e26ee89948" kindref="member">default_context_</ref>;</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1ad960f8621f12b4cb4f613f5574e1fa77" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1ad64efd483610ddccd106ca625bcfc4a2" kindref="member">three_way_resolver_</ref><sp/>=<sp/>std::make_unique&lt;ThreeWayMergeResolver&gt;();</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1aba9fa6eab6f3adbe9942bf8763dadfe6" kindref="member">field_level_resolver_</ref><sp/>=<sp/>std::make_unique&lt;FieldLevelMergeResolver&gt;();</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1a7bb33786473bebe2ee34b9e26ee89948" kindref="member">default_context_</ref>.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1a7bb33786473bebe2ee34b9e26ee89948" kindref="member">default_context_</ref>.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1a334052a59c8d8e56fc57914da45ace0e" kindref="member">createTestWrite</ref>(</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>write_id,</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id,</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>entry{};</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>=<sp/>write_id;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref><sp/>=<sp/>doc_id;</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1acb6e510dc04112f6601b74f7d0245420" kindref="member">origin_node</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a44fa88b3ec7d034c7654424c19aae9bf" kindref="member">operation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WRITE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;test&quot;:&quot;data&quot;})&quot;;</highlight></codeline>
+<codeline lineno="532"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry;</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="534"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test" kindref="compound">DiagnosticsConsistencyTest</ref>,<sp/>StrategyNamesConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>strategy<sp/>names<sp/>match<sp/>resolver<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(three_way_resolver_-&gt;strategyName(),<sp/></highlight><highlight class="stringliteral">&quot;THREE_WAY_MERGE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Field-level<sp/>resolver<sp/>with<sp/>default<sp/>UNION<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(field_level_resolver_-&gt;strategyName(),<sp/></highlight><highlight class="stringliteral">&quot;FIELD_MERGE_UNION&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Names<sp/>should<sp/>not<sp/>change<sp/>across<sp/>invocations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name1<sp/>=<sp/>three_way_resolver_-&gt;strategyName();</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name2<sp/>=<sp/>three_way_resolver_-&gt;strategyName();</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(name1,<sp/>name2);</highlight></codeline>
+<codeline lineno="550"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><ref refid="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" kindref="member">TEST_F</ref>(DiagnosticsConsistencyTest,<sp/>DiagnosticMetadataAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>conflict_set;</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_set.push_back(createTestWrite(</highlight><highlight class="stringliteral">&quot;w2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"></highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolve<sp/>conflict</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>winner<sp/>=<sp/>three_way_resolver_-&gt;resolve(</highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">,<sp/>conflict_set,<sp/>default_context_);</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Winner<sp/>should<sp/>have<sp/>valid<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref>.empty());</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;doc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(winner.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref>,<sp/></highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Strategy<sp/>name<sp/>should<sp/>be<sp/>accessible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>strategy<sp/>=<sp/>three_way_resolver_-&gt;strategyName();</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(strategy.empty());</highlight></codeline>
+<codeline lineno="571"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="573"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="575"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/replication/test_replication_conflict_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_cluster_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::ClusterNode</compoundname>
+    <includes refid="cluster__topology_8h" local="no">cluster_topology.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_node_1a9cd36a1fc17920b9b7343f1a163bf505" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ClusterNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::gpu::ClusterNode::node_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier (hostname or ordinal). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="68" column="30" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_node_1a36d0d296ab0107bd185cb59e583bb54d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::ClusterNode::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::gpu::ClusterNode::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>MPI/NCCL-style global rank. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="69" column="30" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_node_1ab5ff57a52d1643bb051e5e0bd394dbea" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::gpu::ClusterNode::device_indices</definition>
+        <argsstring></argsstring>
+        <name>device_indices</name>
+        <qualifiedname>themis::gpu::ClusterNode::device_indices</qualifiedname>
+        <briefdescription>
+<para>Local GPU device ordinals on this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="70" column="25" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_node_1ace31c763e10ec8173763d5c85df80a0f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ClusterNode::ib_device</definition>
+        <argsstring></argsstring>
+        <name>ib_device</name>
+        <qualifiedname>themis::gpu::ClusterNode::ib_device</qualifiedname>
+        <briefdescription>
+<para>InfiniBand device name (e.g. &quot;mlx5_0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="71" column="30" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_node_1ae1b8b45c0eb1d92af8c700f73ffddc17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ClusterNode::ib_port</definition>
+        <argsstring></argsstring>
+        <name>ib_port</name>
+        <qualifiedname>themis::gpu::ClusterNode::ib_port</qualifiedname>
+        <briefdescription>
+<para>InfiniBand port (e.g. &quot;1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="72" column="30" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-cluster-node descriptor (one entry per participating machine). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/cluster_topology.h" line="67" column="1" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="67" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_cluster_node_1ab5ff57a52d1643bb051e5e0bd394dbea" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterNode</scope><name>device_indices</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_node_1ace31c763e10ec8173763d5c85df80a0f" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterNode</scope><name>ib_device</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_node_1ae1b8b45c0eb1d92af8c700f73ffddc17" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterNode</scope><name>ib_port</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_node_1a9cd36a1fc17920b9b7343f1a163bf505" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterNode</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_node_1a36d0d296ab0107bd185cb59e583bb54d" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterNode</scope><name>rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

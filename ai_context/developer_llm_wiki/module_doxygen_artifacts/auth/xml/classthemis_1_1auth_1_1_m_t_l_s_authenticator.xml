@@ -1,0 +1,786 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_m_t_l_s_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::MTLSAuthenticator</compoundname>
+    <includes refid="mtls__authenticator_8h" local="no">mtls_authenticator.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config" prot="public">themis::auth::MTLSAuthenticator::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_impl" prot="public">themis::auth::MTLSAuthenticator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1afb57550a256f6e30b0ae17a41738ea69" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::MTLSAuthenticator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="142" column="12" bodyfile="include/auth/mtls_authenticator.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1afee04341c42ebdfbf9b8b7bc0f3f0bff" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::MTLSAuthenticator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="143" column="24" bodyfile="include/auth/mtls_authenticator.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a59d0f7d661887dd5b0002dd2d2ca92b8" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::auth::MTLSAuthenticator::revoked_serials_</definition>
+        <argsstring></argsstring>
+        <name>revoked_serials_</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::revoked_serials_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="144" column="24" bodyfile="include/auth/mtls_authenticator.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1aa318d1a2725119429b553724b89c60e3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> *</type>
+        <definition>AuthAuditLogger* themis::auth::MTLSAuthenticator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="145" column="21" bodyfile="include/auth/mtls_authenticator.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1aa98af9185dfee27a1806042261845e0d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::auth::MTLSAuthenticator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="149" column="21" bodyfile="include/auth/mtls_authenticator.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a5e005f417d426661ca639a9f8b5174f0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::MTLSAuthenticator::MTLSAuthenticator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>MTLSAuthenticator</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::MTLSAuthenticator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator" kindref="compound">MTLSAuthenticator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="65" column="14" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="107" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a10cd645888b96fe278ee483a96b548ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::MTLSAuthenticator::~MTLSAuthenticator</definition>
+        <argsstring>()</argsstring>
+        <name>~MTLSAuthenticator</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::~MTLSAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="67" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a14ca7f86cc9560754a8943e3dff15e7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_m_t_l_s_claims" kindref="compound">MTLSClaims</ref></type>
+        <definition>MTLSClaims themis::auth::MTLSAuthenticator::authenticate</definition>
+        <argsstring>(const std::string &amp;cert_pem)</argsstring>
+        <name>authenticate</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::authenticate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Authentication result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Authentication result. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), parsePEM(), AuthError(), opensslError(), ctx(), X509_STORE_CTX_new(), X509_STORE_CTX_init(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="78" column="16" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="200" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a40e19e7957bfc501c3e9785656f4f26d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_m_t_l_s_claims" kindref="compound">MTLSClaims</ref></type>
+        <definition>MTLSClaims themis::auth::MTLSAuthenticator::authenticateDER</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;cert_der)</argsstring>
+        <name>authenticateDER</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::authenticateDER</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>cert_der</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate DER. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_der</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_der</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: der_bio(), BIO_new_mem_buf(), data(), size(), AuthError(), cert(), d2i_X509_bio(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="85" column="16" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="349" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1aa3741652610bb2b036e9296808a9c06c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::MTLSAuthenticator::revokeCertificate</definition>
+        <argsstring>(const std::string &amp;serial_hex)</argsstring>
+        <name>revokeCertificate</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::revokeCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serial_hex</declname>
+        </param>
+        <briefdescription>
+<para>Revoke Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">serial_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">serial_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), AuthError(), lock(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="95" column="10" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="390" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a4ddc4751337323413f7f1f87b6cb044b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::MTLSAuthenticator::unrevokeCertificate</definition>
+        <argsstring>(const std::string &amp;serial_hex)</argsstring>
+        <name>unrevokeCertificate</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::unrevokeCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serial_hex</declname>
+        </param>
+        <briefdescription>
+<para>Unrevoke Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">serial_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">serial_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="101" column="10" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="404" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a22d944ec6211a37b92b859ea247f3e2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::MTLSAuthenticator::isRevoked</definition>
+        <argsstring>(const std::string &amp;serial_hex) const</argsstring>
+        <name>isRevoked</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::isRevoked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serial_hex</declname>
+        </param>
+        <briefdescription>
+<para>Is Revoked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">serial_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="108" column="10" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="409" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1aa55a504f381f5e81a8fa24d23a694109" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::MTLSAuthenticator::revokedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>revokedCount</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::revokedCount</qualifiedname>
+        <briefdescription>
+<para>Revoked Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="114" column="12" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="419" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a61b763af99b22e9c27ab9c39239a3ef4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::MTLSAuthenticator::setAuditLogger</definition>
+        <argsstring>(AuthAuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::setAuditLogger</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="139" column="10" bodyfile="include/auth/mtls_authenticator.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a67ed5fdd167fb0103863dc2b9bf54dc3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSAuthenticator::certFingerprint</definition>
+        <argsstring>(const std::string &amp;cert_pem)</argsstring>
+        <name>certFingerprint</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::certFingerprint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+<para>Cert Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: parsePEM(), AuthError(), opensslError(), computeFingerprint(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="125" column="24" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="440" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a17de6626ffba5b78c355bdfc3ffe4128" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSAuthenticator::extractSubjectCN</definition>
+        <argsstring>(const std::string &amp;cert_pem)</argsstring>
+        <name>extractSubjectCN</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::extractSubjectCN</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+<para>Extract Subject CN. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: parsePEM(), AuthError(), opensslError(), X509_get_subject_name(), get(), X509_NAME_get_index_by_NID(), X509_NAME_get_entry(), X509_NAME_ENTRY_get_data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="132" column="24" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="456" bodyend="480"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1ad5f7d3e0021d5223df3e7fd28dfff7b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::MTLSAuthenticator::initCAStore</definition>
+        <argsstring>()</argsstring>
+        <name>initCAStore</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::initCAStore</qualifiedname>
+        <briefdescription>
+<para>Init CAStore. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: reset(), X509_STORE_new(), spdlog::error(), bio(), BIO_new_mem_buf(), data(), size(), ca(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="155" column="10" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="135" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1adcd44bfd6d82cf6f4dd7e3b65e10cae8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::MTLSAuthenticator::initCRL</definition>
+        <argsstring>()</argsstring>
+        <name>initCRL</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::initCRL</qualifiedname>
+        <briefdescription>
+<para>Init CRL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: bio(), BIO_new_mem_buf(), data(), size(), reset(), PEM_read_bio_X509_CRL(), get(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="160" column="10" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="175" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a21ec6f632d2ea8c730637ce325d36155" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSAuthenticator::x509NameToString</definition>
+        <argsstring>(void *name)</argsstring>
+        <name>x509NameToString</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::x509NameToString</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>name</declname>
+          <defname>name_ptr</defname>
+        </param>
+        <briefdescription>
+<para>X509 Name To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">name_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: bio(), BIO_new(), BIO_s_mem(), X509_NAME_print_ex(), get(), BIO_get_mem_ptr(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="167" column="24" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="492" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1ab3e8928ae2603f2baf07f7a7521b2427" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSAuthenticator::serialToHex</definition>
+        <argsstring>(void *serial)</argsstring>
+        <name>serialToHex</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::serialToHex</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>serial</declname>
+          <defname>serial_ptr</defname>
+        </param>
+        <briefdescription>
+<para>Serial To Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">serial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">serial_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: bn(), ASN1_INTEGER_to_BN(), BN_bn2hex(), get(), result(), OPENSSL_free(), tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="173" column="24" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="518" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a6867e1564ce86ad669db892bd77e4b53" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSAuthenticator::computeFingerprint</definition>
+        <argsstring>(void *x509)</argsstring>
+        <name>computeFingerprint</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::computeFingerprint</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>x509</declname>
+          <defname>x509_ptr</defname>
+        </param>
+        <briefdescription>
+<para>Compute Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">x509</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">x509_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: X509_digest(), EVP_sha256(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="179" column="24" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="550" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a2153f90f92b66c787e00f6516f7510a7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::MTLSAuthenticator::extractSANs</definition>
+        <argsstring>(void *x509, int san_type)</argsstring>
+        <name>extractSANs</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::extractSANs</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>x509</declname>
+          <defname>x509_ptr</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>san_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract SANs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">x509</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">san_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">x509_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">san_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: X509_get_ext_d2i(), sk_GENERAL_NAME_num(), sk_GENERAL_NAME_value(), ASN1_STRING_get0_data(), ASN1_STRING_length(), emplace_back(), push_back(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="186" column="24" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="577" bodyend="628"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/mtls_authenticator.h" line="46" column="1" bodyfile="include/auth/mtls_authenticator.h" bodystart="46" bodyend="187"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1aa318d1a2725119429b553724b89c60e3" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a14ca7f86cc9560754a8943e3dff15e7b" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>authenticate</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a40e19e7957bfc501c3e9785656f4f26d" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>authenticateDER</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a67ed5fdd167fb0103863dc2b9bf54dc3" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>certFingerprint</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a6867e1564ce86ad669db892bd77e4b53" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>computeFingerprint</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1afb57550a256f6e30b0ae17a41738ea69" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a2153f90f92b66c787e00f6516f7510a7" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>extractSANs</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a17de6626ffba5b78c355bdfc3ffe4128" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>extractSubjectCN</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1aa98af9185dfee27a1806042261845e0d" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1ad5f7d3e0021d5223df3e7fd28dfff7b9" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>initCAStore</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1adcd44bfd6d82cf6f4dd7e3b65e10cae8" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>initCRL</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a22d944ec6211a37b92b859ea247f3e2b" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>isRevoked</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a5e005f417d426661ca639a9f8b5174f0" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>MTLSAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1afee04341c42ebdfbf9b8b7bc0f3f0bff" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1aa3741652610bb2b036e9296808a9c06c" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>revokeCertificate</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a59d0f7d661887dd5b0002dd2d2ca92b8" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>revoked_serials_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1aa55a504f381f5e81a8fa24d23a694109" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>revokedCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1ab3e8928ae2603f2baf07f7a7521b2427" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>serialToHex</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a61b763af99b22e9c27ab9c39239a3ef4" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a4ddc4751337323413f7f1f87b6cb044b" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>unrevokeCertificate</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a21ec6f632d2ea8c730637ce325d36155" prot="private" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>x509NameToString</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator_1a10cd645888b96fe278ee483a96b548ad" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator</scope><name>~MTLSAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

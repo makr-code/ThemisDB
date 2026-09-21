@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_aql_mutation_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::AqlMutationValidator</compoundname>
+    <includes refid="aql__mutation__validator_8h" local="no">aql_mutation_validator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1aa6e0dd4abe87a3b4ed6be8bc5f70f00b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AqlMutationValidator::AqlMutationValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>AqlMutationValidator</name>
+        <qualifiedname>themis::query::AqlMutationValidator::AqlMutationValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1a50d3e6b302169e8a596ef64b005da377" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AqlMutationValidator::~AqlMutationValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AqlMutationValidator</name>
+        <qualifiedname>themis::query::AqlMutationValidator::~AqlMutationValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1a5605b2d7a84574b80767cd221e24c7b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AqlMutationValidator::AqlMutationValidator</definition>
+        <argsstring>(const AqlMutationValidator &amp;)=default</argsstring>
+        <name>AqlMutationValidator</name>
+        <qualifiedname>themis::query::AqlMutationValidator::AqlMutationValidator</qualifiedname>
+        <param>
+          <type>const AqlMutationValidator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1ae9c7005e8bc143b61d37b1d4159a734f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_aql_mutation_validator_1aa6e0dd4abe87a3b4ed6be8bc5f70f00b" kindref="member">AqlMutationValidator</ref> &amp;</type>
+        <definition>AqlMutationValidator &amp; themis::query::AqlMutationValidator::operator=</definition>
+        <argsstring>(const AqlMutationValidator &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::AqlMutationValidator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_aql_mutation_validator_1aa6e0dd4abe87a3b4ed6be8bc5f70f00b" kindref="member">AqlMutationValidator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="51" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1a7e9e717d5010c1be667d05dd0606d6ea" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_validation_result" kindref="compound">MutationValidationResult</ref></type>
+        <definition>MutationValidationResult themis::query::AqlMutationValidator::validate</definition>
+        <argsstring>(const MutationNode &amp;node) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::query::AqlMutationValidator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="53" column="31" bodyfile="src/query/aql_mutation_validator.cpp" bodystart="69" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1a12f6ac98ece116f8cd5b3e6dfe409551" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::AqlMutationValidator::isValidCollectionName</definition>
+        <argsstring>(std::string_view name) const</argsstring>
+        <name>isValidCollectionName</name>
+        <qualifiedname>themis::query::AqlMutationValidator::isValidCollectionName</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="55" column="11" bodyfile="src/query/aql_mutation_validator.cpp" bodystart="20" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1aad16264af0d5ceaba5fe39b24c6c6466" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::AqlMutationValidator::isValidFieldName</definition>
+        <argsstring>(std::string_view name) const</argsstring>
+        <name>isValidFieldName</name>
+        <qualifiedname>themis::query::AqlMutationValidator::isValidFieldName</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="57" column="11" bodyfile="src/query/aql_mutation_validator.cpp" bodystart="45" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1a1c74d6852e1ab3cb66cd8986250e3c59" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_validation_result" kindref="compound">MutationValidationResult</ref></type>
+        <definition>MutationValidationResult themis::query::AqlMutationValidator::validateInsert</definition>
+        <argsstring>(const InsertNode &amp;node) const</argsstring>
+        <name>validateInsert</name>
+        <qualifiedname>themis::query::AqlMutationValidator::validateInsert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_insert_node" kindref="compound">InsertNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="60" column="31" bodyfile="src/query/aql_mutation_validator.cpp" bodystart="93" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1aebe52850d76934d4b04467053815b022" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_validation_result" kindref="compound">MutationValidationResult</ref></type>
+        <definition>MutationValidationResult themis::query::AqlMutationValidator::validateUpdate</definition>
+        <argsstring>(const UpdateNode &amp;node) const</argsstring>
+        <name>validateUpdate</name>
+        <qualifiedname>themis::query::AqlMutationValidator::validateUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_update_node" kindref="compound">UpdateNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="62" column="31" bodyfile="src/query/aql_mutation_validator.cpp" bodystart="116" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1a39ea5c8a88ad89e37d9f425436080af0" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_validation_result" kindref="compound">MutationValidationResult</ref></type>
+        <definition>MutationValidationResult themis::query::AqlMutationValidator::validateRemove</definition>
+        <argsstring>(const RemoveNode &amp;node) const</argsstring>
+        <name>validateRemove</name>
+        <qualifiedname>themis::query::AqlMutationValidator::validateRemove</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_remove_node" kindref="compound">RemoveNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="64" column="31" bodyfile="src/query/aql_mutation_validator.cpp" bodystart="155" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1a3955e613601781b0517ed3c51c0caab1" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_validation_result" kindref="compound">MutationValidationResult</ref></type>
+        <definition>MutationValidationResult themis::query::AqlMutationValidator::validateReplace</definition>
+        <argsstring>(const ReplaceNode &amp;node) const</argsstring>
+        <name>validateReplace</name>
+        <qualifiedname>themis::query::AqlMutationValidator::validateReplace</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_replace_node" kindref="compound">ReplaceNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="66" column="31" bodyfile="src/query/aql_mutation_validator.cpp" bodystart="180" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_mutation_validator_1a854cb52b860e69d164de587db89f6d9b" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_validation_result" kindref="compound">MutationValidationResult</ref></type>
+        <definition>MutationValidationResult themis::query::AqlMutationValidator::validateUpsert</definition>
+        <argsstring>(const UpsertNode &amp;node) const</argsstring>
+        <name>validateUpsert</name>
+        <qualifiedname>themis::query::AqlMutationValidator::validateUpsert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_upsert_node" kindref="compound">UpsertNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_mutation_validator.h" line="68" column="31" bodyfile="src/query/aql_mutation_validator.cpp" bodystart="209" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_mutation_validator.h" line="44" column="1" bodyfile="include/query/aql_mutation_validator.h" bodystart="44" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1aa6e0dd4abe87a3b4ed6be8bc5f70f00b" prot="public" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>AqlMutationValidator</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1a5605b2d7a84574b80767cd221e24c7b6" prot="public" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>AqlMutationValidator</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1a12f6ac98ece116f8cd5b3e6dfe409551" prot="public" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>isValidCollectionName</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1aad16264af0d5ceaba5fe39b24c6c6466" prot="public" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>isValidFieldName</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1ae9c7005e8bc143b61d37b1d4159a734f" prot="public" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1a7e9e717d5010c1be667d05dd0606d6ea" prot="public" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1a1c74d6852e1ab3cb66cd8986250e3c59" prot="private" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>validateInsert</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1a39ea5c8a88ad89e37d9f425436080af0" prot="private" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>validateRemove</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1a3955e613601781b0517ed3c51c0caab1" prot="private" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>validateReplace</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1aebe52850d76934d4b04467053815b022" prot="private" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>validateUpdate</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1a854cb52b860e69d164de587db89f6d9b" prot="private" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>validateUpsert</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_mutation_validator_1a50d3e6b302169e8a596ef64b005da377" prot="public" virt="non-virtual"><scope>themis::query::AqlMutationValidator</scope><name>~AqlMutationValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

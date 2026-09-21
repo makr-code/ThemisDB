@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="knowledge__graph__retriever_8h" kind="file" language="C++">
+    <compoundname>knowledge_graph_retriever.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="yes">graph/knowledge_graph_reasoner.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="graph__truth__validator_8h" local="yes">include/rag/graph_truth_validator.h</includedby>
+    <includedby refid="ontology__aware__retriever_8h" local="yes">include/rag/ontology_aware_retriever.h</includedby>
+    <includedby refid="knowledge__graph__adapter_8cpp" local="yes">src/rag/kg/knowledge_graph_adapter.cpp</includedby>
+    <includedby refid="knowledge__graph__retriever_8cpp" local="yes">src/rag/knowledge_graph_retriever.cpp</includedby>
+    <includedby refid="test__knowledge__graph__retriever__reasoning_8cpp" local="yes">tests/rag/test_knowledge_graph_retriever_reasoning.cpp</includedby>
+    <includedby refid="test__ontology__aware__retriever_8cpp" local="yes">tests/rag/test_ontology_aware_retriever.cpp</includedby>
+    <includedby refid="test__rag__knowledge__graph__retriever_8cpp" local="yes">tests/rag/test_rag_knowledge_graph_retriever.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/knowledge_graph_retriever.h</label>
+        <link refid="knowledge__graph__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>graph/knowledge_graph_reasoner.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>unordered_set</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/rag/graph_truth_validator.h</label>
+        <link refid="graph__truth__validator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/knowledge_graph_retriever.h</label>
+        <link refid="knowledge__graph__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/rag/ontology_aware_retriever.h</label>
+        <link refid="ontology__aware__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/rag/tensor_rag_pipeline.h</label>
+        <link refid="tensor__rag__pipeline_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/rag/graph_truth_validator.cpp</label>
+        <link refid="graph__truth__validator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/rag/kg/knowledge_graph_adapter.cpp</label>
+        <link refid="knowledge__graph__adapter_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/rag/knowledge_graph_retriever.cpp</label>
+        <link refid="knowledge__graph__retriever_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/rag/ontology_aware_retriever.cpp</label>
+        <link refid="ontology__aware__retriever_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/rag/tensor_rag_pipeline.cpp</label>
+        <link refid="tensor__rag__pipeline_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/rag/test_knowledge_graph_retriever_reasoning.cpp</label>
+        <link refid="test__knowledge__graph__retriever__reasoning_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/rag/test_ontology_aware_retriever.cpp</label>
+        <link refid="test__ontology__aware__retriever_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/rag/test_rag_knowledge_graph_retriever.cpp</label>
+        <link refid="test__rag__knowledge__graph__retriever_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/rag/test_tensor_rag_provenance.cpp</label>
+        <link refid="test__tensor__rag__provenance_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_entity" prot="public">themis::rag::kg::Entity</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" prot="public">themis::rag::kg::KGNode</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge" prot="public">themis::rag::kg::KGEdge</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match" prot="public">themis::rag::kg::EntityLinkingMatch</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document" prot="public">themis::rag::kg::KGAugmentedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result" prot="public">themis::rag::kg::KGRetrievalResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" prot="public">themis::rag::kg::EntityLinkerConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" prot="public">themis::rag::kg::KGRetrieverConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" prot="public">themis::rag::kg::KnowledgeGraph</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_entity_linker" prot="public">themis::rag::kg::EntityLinker</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" prot="public">themis::rag::kg::KnowledgeGraphRetriever</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory" prot="public">themis::rag::kg::KnowledgeGraphRetrieverFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1kg">themis::rag::kg</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/knowledge_graph_reasoner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-declare<sp/>IKnowledgeGraph<sp/>to<sp/>avoid<sp/>a<sp/>circular<sp/>include.<sp/>The<sp/>full</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>definition<sp/>lives<sp/>in<sp/>themis/rag/kg/knowledge_graph_interface.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="namespacethemis_1_1rag_1_1kg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1kg" kindref="compound">themis::rag::kg</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">IKnowledgeGraph;<sp/>}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1kg" kindref="compound">themis::rag::kg</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Supporting<sp/>enumerations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142d" kindref="member">EntityType</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da9a8538fe173720857a031b8314073752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da9a8538fe173720857a031b8314073752" kindref="member">PERSON</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142daf3522949598e347ab47b71014bfc87c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142daf3522949598e347ab47b71014bfc87c9" kindref="member">ORGANIZATION</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da71233d73cc90bba8f4d5bbea0792e551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da71233d73cc90bba8f4d5bbea0792e551" kindref="member">LOCATION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da7b01b9814e77b3f808c6ddb9ffa1b666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da7b01b9814e77b3f808c6ddb9ffa1b666" kindref="member">CONCEPT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da2544e5b1e7659a7ba6f06444cc03d066" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da2544e5b1e7659a7ba6f06444cc03d066" kindref="member">PRODUCT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da030d962d0faa148f02848881a3b4fdb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da030d962d0faa148f02848881a3b4fdb6" kindref="member">EVENT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da03570470bad94692ce93e32700d2e1cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da03570470bad94692ce93e32700d2e1cb" kindref="member">OTHER</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7" kindref="member">RelationType</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a0f8e760479875090ac675edbc8f05295" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a0f8e760479875090ac675edbc8f05295" kindref="member">IS_A</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a02fca659d4589a863a75a3853ab3a2e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a02fca659d4589a863a75a3853ab3a2e2" kindref="member">HAS_PART</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7af37175f0a7b09454894406e66c907588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7af37175f0a7b09454894406e66c907588" kindref="member">RELATED_TO</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a4709fb27483f43335cd636001a23c6da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a4709fb27483f43335cd636001a23c6da" kindref="member">CAUSES</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7aee1eea697a0b2ab5356b0eaeaafe7555" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7aee1eea697a0b2ab5356b0eaeaafe7555" kindref="member">MENTIONS</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a39e654400468f5e4de25adbfd79bd303" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a39e654400468f5e4de25adbfd79bd303" kindref="member">SYNONYM_OF</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a488085395e3c08ef08c00151ce6187b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a488085395e3c08ef08c00151ce6187b1" kindref="member">DEFINED_BY</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1rag_1_1kg_1_1_entity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_entity" kindref="compound">Entity</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1rag_1_1kg_1_1_entity_1a8cb1d3b2b1b4c14422d9453cb10002de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_1a8cb1d3b2b1b4c14422d9453cb10002de" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1rag_1_1kg_1_1_entity_1a8cc4dda98f7d106d32cfdd3065af492a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142d" kindref="member">EntityType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_1a8cc4dda98f7d106d32cfdd3065af492a" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1rag_1_1kg_1_1_entity_1af1d2148a28d20e401a982dc21b8e47e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_1af1d2148a28d20e401a982dc21b8e47e0" kindref="member">confidence</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rag_1_1kg_1_1_entity_1a0400972bb328dcc44db3f4963aad1a09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_1a0400972bb328dcc44db3f4963aad1a09" kindref="member">start_offset</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1kg_1_1_entity_1a68c0a980b9fadfcc3ff9d304ff3c5c9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_1a68c0a980b9fadfcc3ff9d304ff3c5c9d" kindref="member">end_offset</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" kindref="compound">KGNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a04efd6f4987607f89085b15fd104f5fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a04efd6f4987607f89085b15fd104f5fb" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1ab73192a2c677a3934d02f43cd208364c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1ab73192a2c677a3934d02f43cd208364c" kindref="member">canonical_name</ref>;<sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a6b81a461892ea5a28fd0063d1c342b69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a6b81a461892ea5a28fd0063d1c342b69" kindref="member">aliases</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1aff208c6a54cbe175acda7e4ebc0acb44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142d" kindref="member">EntityType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1aff208c6a54cbe175acda7e4ebc0acb44" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a22559f1dcfd116dfaf89b3e9f082ad77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node_1a22559f1dcfd116dfaf89b3e9f082ad77" kindref="member">properties</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge" kindref="compound">KGEdge</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a79e40fb9425ddb3f500ab7af3b532cf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a79e40fb9425ddb3f500ab7af3b532cf2" kindref="member">from_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a18918e854a81e13a0883845816aa4bf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a18918e854a81e13a0883845816aa4bf0" kindref="member">to_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a519f3a18aab143d3e1a11a2c9f49190b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7" kindref="member">RelationType</ref><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a519f3a18aab143d3e1a11a2c9f49190b" kindref="member">relation</ref>;<sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1afe6d4f2d7ca9251bb3531207a1ea8f23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1afe6d4f2d7ca9251bb3531207a1ea8f23" kindref="member">weight</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match" kindref="compound">EntityLinkingMatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1a070e4dc985c1020ca15c61aac529f4a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity" kindref="compound">Entity</ref><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1a070e4dc985c1020ca15c61aac529f4a5" kindref="member">entity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1acf560bc9b1c7b80b48e12e651a5b0868" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1acf560bc9b1c7b80b48e12e651a5b0868" kindref="member">node_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1a7f53542b6c4bc747c2b64ee4e6208212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1a7f53542b6c4bc747c2b64ee4e6208212" kindref="member">linking_score</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1af6aaa1562d437aea3cb9170cdb52990f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1af6aaa1562d437aea3cb9170cdb52990f" kindref="member">is_linked</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document" kindref="compound">KGAugmentedDocument</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a3f8eaffbdff5b895173895494199a75b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a3f8eaffbdff5b895173895494199a75b" kindref="member">document</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a1fd75e0554b3a9a53276dd94f8c417a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EntityLinkingMatch&gt;<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a1fd75e0554b3a9a53276dd94f8c417a8" kindref="member">entity_links</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a3b1b71cdf6df4190c0ff15813debb7ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a3b1b71cdf6df4190c0ff15813debb7ce" kindref="member">kg_boost</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1aac88f06979ba97ed3508a1e919b53036" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1aac88f06979ba97ed3508a1e919b53036" kindref="member">final_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result" kindref="compound">KGRetrievalResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1a25c3f3f8f1cb4a906a7587f8a25a876e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;KGAugmentedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1a25c3f3f8f1cb4a906a7587f8a25a876e" kindref="member">documents</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1acad87f0f87b77e030bebfc2e47bd0fdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EntityLinkingMatch&gt;<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1acad87f0f87b77e030bebfc2e47bd0fdc" kindref="member">query_entity_links</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1ad1dd01b0f6700a7494cf95952233913e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1ad1dd01b0f6700a7494cf95952233913e" kindref="member">visited_nodes</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1ae6bd95d0ef4e29fbc416d86717303bb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1ae6bd95d0ef4e29fbc416d86717303bb9" kindref="member">entity_linking_coverage</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1afedb7a57fb405cc7b752e50aa67f9e16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1afedb7a57fb405cc7b752e50aa67f9e16" kindref="member">elapsed_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Reasoning-chain<sp/>fields<sp/>(populated<sp/>when<sp/>a<sp/>KnowledgeGraphReasoner<sp/>is<sp/>set)<sp/>──</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1adb28f561ab955699ec3479a062fd07a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;graph::InferenceChain&gt;<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1adb28f561ab955699ec3479a062fd07a3" kindref="member">inference_chains</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1af09b9dcfea575a02e27ee5a0c75d3a85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1af09b9dcfea575a02e27ee5a0c75d3a85" kindref="member">has_reasoning</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1a70e77eaf135ed5825d07f2126bce9e6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1a70e77eaf135ed5825d07f2126bce9e6a" kindref="member">reasoning_elapsed_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kindref="compound">EntityLinkerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1ab361683666c7bb3235116dd4be0e3a1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1ab361683666c7bb3235116dd4be0e3a1a" kindref="member">min_entity_length</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a1c63daa1f2e3097bedd756dc2895c734" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a1c63daa1f2e3097bedd756dc2895c734" kindref="member">min_linking_score</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a2f06d3535382d131bfe7f040318dd81c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a2f06d3535382d131bfe7f040318dd81c" kindref="member">max_entities_per_text</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a40a82f5d259be9ba7c9b400288e1c738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config_1a40a82f5d259be9ba7c9b400288e1c738" kindref="member">extract_single_word_entities</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a7850ae148ec39ecdd77dbd2d832a4c94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a7850ae148ec39ecdd77dbd2d832a4c94" kindref="member">max_traversal_depth</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a302b9a2baae927fc03d2212968987f8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a302b9a2baae927fc03d2212968987f8d" kindref="member">min_edge_weight</ref><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a8e637a796e936604bbf2149008d5b6d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a8e637a796e936604bbf2149008d5b6d9" kindref="member">kg_score_weight</ref><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a3f358a34445af70b8705b9a5e7ec144f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a3f358a34445af70b8705b9a5e7ec144f" kindref="member">max_nodes_visited</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a6839ca07482b8ded4285ec9079c7a0ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kindref="compound">EntityLinkerConfig</ref><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a6839ca07482b8ded4285ec9079c7a0ce" kindref="member">linker_config</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>KnowledgeGraphReasoner<sp/>integration<sp/>───────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ac0452fbfe24b5ec2efb87a308415a818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ac0452fbfe24b5ec2efb87a308415a818" kindref="member">max_inference_hops</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1afdd95bd54cb2bca9d17cda5ef6ad233b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1afdd95bd54cb2bca9d17cda5ef6ad233b" kindref="member">attach_reasoning_chain_to_metadata</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ad317dbb87f57c2efe84109b7f3a90a2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ad317dbb87f57c2efe84109b7f3a90a2b" kindref="member">reasoning_timeout_ms</ref><sp/>=<sp/>200.0;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KnowledgeGraph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref>();</highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1abf33847b9980cbfea9779d11da55ae4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1abf33847b9980cbfea9779d11da55ae4c" kindref="member">~KnowledgeGraph</ref>();</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a6c32a268b2f7467b9f929dbfdd69187a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a6c32a268b2f7467b9f929dbfdd69187a" kindref="member">KnowledgeGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1aad39013c49a902ace91ed8ada7452430" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1aad39013c49a902ace91ed8ada7452430" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a5b987b57402b539872bd3e069969750b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a5b987b57402b539872bd3e069969750b" kindref="member">KnowledgeGraph</ref>(<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref>&amp;&amp;);</highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a7bbc2ea79266409d9618227b96314646" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a7bbc2ea79266409d9618227b96314646" kindref="member">operator=</ref>(<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref>&amp;&amp;);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Node<sp/>management<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a2fe797bb9972932d735af1176d3067dc" kindref="member">addNode</ref>(<ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" kindref="compound">KGNode</ref><sp/>node);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a86c29b848ac368c091150e41ede7353c" kindref="member">removeNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" kindref="compound">KGNode</ref>*<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1aaf8bd06622e3fb542cbc27afa6678aa6" kindref="member">findNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" kindref="compound">KGNode</ref>*<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a368ab6c003171a33775b634912e5a604" kindref="member">findNodeByName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a753f6e3c8312fadcca6441190fd9f9ef" kindref="member">nodeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Edge<sp/>management<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1ae218468cc394c68eda007e3f2ae1402d" kindref="member">addEdge</ref>(<ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge" kindref="compound">KGEdge</ref><sp/>edge);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a3a035a31289f4b6e5918ec90032cce91" kindref="member">removeEdge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to_id,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7" kindref="member">RelationType</ref><sp/>relation);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a32daac2ee248a5c33f71ce06de727e5e" kindref="member">edgeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Traversal<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1af2fee84812d8e7f02f9d90fdb8a40042" kindref="member">neighbours</ref>(</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>start_id,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_depth<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>min_edge_weight<sp/>=<sp/>0.0,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_nodes<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4096)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;KGEdge&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a58e2c5532aa03fbcc34e1156826505a4" kindref="member">outEdges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EntityLinker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="classthemis_1_1rag_1_1kg_1_1_entity_linker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1kg_1_1_entity_linker_1a55c9871f7e78173f8f28abe9fe7d7eae" kindref="member">EntityLinker</ref><sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_entity_linker_1a55c9871f7e78173f8f28abe9fe7d7eae" kindref="member">EntityLinker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref>&amp;<sp/><sp/><sp/>graph,</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kindref="compound">EntityLinkerConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_entity_linker_1a55c9871f7e78173f8f28abe9fe7d7eae" kindref="member">EntityLinker</ref>(std::shared_ptr&lt;IKnowledgeGraph&gt;<sp/>graph,</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kindref="compound">EntityLinkerConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EntityLinkingMatch&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_entity_linker_1a646407a07aee74802078baf6890736c1" kindref="member">link</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>constructed<sp/>from<sp/>a<sp/>concrete<sp/>KnowledgeGraph,<sp/>`raw_graph_`<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>to<sp/>it.<sp/>When<sp/>constructed<sp/>from<sp/>an<sp/>interface,<sp/>`graph_iface_`<sp/>is<sp/>used.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>raw_graph_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IKnowledgeGraph&gt;<sp/><sp/><sp/><sp/><sp/><sp/>graph_iface_;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kindref="compound">EntityLinkerConfig</ref><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Entity&gt;<sp/>extract(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>similarity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>normalise(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KnowledgeGraphRetriever</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref><sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref>&amp;<sp/><sp/><sp/>graph,</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref>(std::shared_ptr&lt;IKnowledgeGraph&gt;<sp/>graph,</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1ab6171cd75b14ded6b0931bfd3adfd872" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1ab6171cd75b14ded6b0931bfd3adfd872" kindref="member">~KnowledgeGraphRetriever</ref>();</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a2592c93cfbb64edc2bfc458156b72562" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a2592c93cfbb64edc2bfc458156b72562" kindref="member">KnowledgeGraphRetriever</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="412" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a671c53152bacc116646c869322b03f4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a671c53152bacc116646c869322b03f4e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="413" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1abfa847b804b7ac563c2c298d2b14952f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1abfa847b804b7ac563c2c298d2b14952f" kindref="member">KnowledgeGraphRetriever</ref>(<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="414" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a9b4ec719f7ac33b019a791e80e295e41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result" kindref="compound">KGRetrievalResult</ref><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1aad2b15e4c14f83624bfcc2c192327117" kindref="member">retrieve</ref>(</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>candidates)<sp/>const;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a19166fc8d7190a6a976b981e01f76183" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a2a5de06709ee405f4c38610a8fe08fe7" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>KnowledgeGraphReasoner<sp/>integration<sp/>────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a7512f0a58ec90fb74ae9bffcc90cf0f1" kindref="member">setReasoner</ref>(graph::KnowledgeGraphReasoner*<sp/>reasoner);</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="459"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="468" refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory" kindref="compound">KnowledgeGraphRetrieverFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;KnowledgeGraphRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1aca01744dc06d9158c80b6385a05e638f" kindref="member">createShallow</ref>(</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref>&amp;<sp/>graph);</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;KnowledgeGraphRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1a88c71f1049c9860cf6e073516a66a1fc" kindref="member">createBalanced</ref>(</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref>&amp;<sp/>graph);</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;KnowledgeGraphRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1aca01744dc06d9158c80b6385a05e638f" kindref="member">createShallow</ref>(</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IKnowledgeGraph&gt;<sp/>graph);</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;KnowledgeGraphRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1a88c71f1049c9860cf6e073516a66a1fc" kindref="member">createBalanced</ref>(</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IKnowledgeGraph&gt;<sp/>graph);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;KnowledgeGraphRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1ab38722ec2807bf4941b345596d6f4e9d" kindref="member">createDeep</ref>(</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IKnowledgeGraph&gt;<sp/>graph);</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;KnowledgeGraphRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1ab38722ec2807bf4941b345596d6f4e9d" kindref="member">createDeep</ref>(</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref>&amp;<sp/>graph);</highlight></codeline>
+<codeline lineno="499"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::kg</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/knowledge_graph_retriever.h"/>
+  </compounddef>
+</doxygen>

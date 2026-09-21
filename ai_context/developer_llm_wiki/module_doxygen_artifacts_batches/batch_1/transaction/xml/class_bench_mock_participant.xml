@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bench_mock_participant" kind="class" language="C++" prot="public">
+    <compoundname>BenchMockParticipant</compoundname>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback" prot="public" virt="non-virtual">themis::transaction::IDistributedParticipantCallback</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_bench_mock_participant_1aada577a7b174de3ec91063b877dd12c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BenchMockParticipant::onPrepare</definition>
+        <argsstring>(const std::string &amp;, const std::set&lt; std::string &gt; &amp;) override</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>BenchMockParticipant::onPrepare</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a89abea487b7f9ed7022470ed41faba06">onPrepare</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="88" column="10" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bench_mock_participant_1a8aa7c35ee794d1e832c331687cb780d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void BenchMockParticipant::onCommit</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>BenchMockParticipant::onCommit</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1af647d0102bad4e770015b086d7cf399a">onCommit</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="89" column="10" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bench_mock_participant_1a8812cbda325aecca34f7f1fd840c6019" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void BenchMockParticipant::onAbort</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onAbort</name>
+        <qualifiedname>BenchMockParticipant::onAbort</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a683d107218ed5398400b54b9dd8765c8">onAbort</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="90" column="10" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BenchMockParticipant</label>
+        <link refid="class_bench_mock_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BenchMockParticipant</label>
+        <link refid="class_bench_mock_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="86" column="1" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="86" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_bench_mock_participant_1a8812cbda325aecca34f7f1fd840c6019" prot="public" virt="virtual"><scope>BenchMockParticipant</scope><name>onAbort</name></member>
+      <member refid="class_bench_mock_participant_1a8aa7c35ee794d1e832c331687cb780d6" prot="public" virt="virtual"><scope>BenchMockParticipant</scope><name>onCommit</name></member>
+      <member refid="class_bench_mock_participant_1aada577a7b174de3ec91063b877dd12c7" prot="public" virt="virtual"><scope>BenchMockParticipant</scope><name>onPrepare</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a8c6c340c8cd2ab3b390cf90c13cac610" prot="public" virt="virtual"><scope>BenchMockParticipant</scope><name>~IDistributedParticipantCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

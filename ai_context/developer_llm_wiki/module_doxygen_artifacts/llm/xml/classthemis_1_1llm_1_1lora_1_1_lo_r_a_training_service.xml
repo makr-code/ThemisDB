@@ -1,0 +1,910 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRATrainingService</compoundname>
+    <includes refid="lora__training__service_8h" local="no">lora_training_service.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" prot="public">themis::llm::lora::LoRATrainingService::Config</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_impl" prot="public">themis::llm::lora::LoRATrainingService::Impl</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a02de63a3dd73f3d7ab89afdbc3ce5329" prot="private" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;model_name)&gt;</type>
+        <definition>using themis::llm::lora::LoRATrainingService::ModelPathProviderFn = std::function&lt;std::string(const std::string&amp; model_name)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModelPathProviderFn</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::ModelPathProviderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="328" column="5" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a747739834a7243337925d995c2fc389e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::lora::LoRATrainingService::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="302" column="21" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a12fa2b6e86a2920857ab4705a9129f4b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRATrainingService::LoRATrainingService</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LoRATrainingService</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::LoRATrainingService</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Lo RATraining Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="217" column="14" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1338" bodyend="1339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a4938147f977f302335902eaccb967dab" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRATrainingService::LoRATrainingService</definition>
+        <argsstring>()</argsstring>
+        <name>LoRATrainingService</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::LoRATrainingService</qualifiedname>
+        <briefdescription>
+<para>Lo RATraining Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="222" column="14" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1341" bodyend="1342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1ae203e65a8b37193e7951847755e1a39d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRATrainingService::~LoRATrainingService</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~LoRATrainingService</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::~LoRATrainingService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="223" column="5" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1344" bodyend="1354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a8325046429d24e4660cf7b0b6bfaf817" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRATrainingService::LoRATrainingService</definition>
+        <argsstring>(const LoRATrainingService &amp;)=delete</argsstring>
+        <name>LoRATrainingService</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::LoRATrainingService</qualifiedname>
+        <param>
+          <type>const LoRATrainingService &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="226" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a17b39eacf96a70230ea5840e02c205f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a12fa2b6e86a2920857ab4705a9129f4b" kindref="member">LoRATrainingService</ref> &amp;</type>
+        <definition>LoRATrainingService &amp; themis::llm::lora::LoRATrainingService::operator=</definition>
+        <argsstring>(const LoRATrainingService &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a12fa2b6e86a2920857ab4705a9129f4b" kindref="member">LoRATrainingService</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="227" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a65b5a2247a7e2f55d6b12582926bab1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::llm::lora::LoRATrainingService::trainOnTheFly</definition>
+        <argsstring>(const std::string &amp;adapter_id, const TrainingData &amp;data, const std::optional&lt; LoRAHyperparameters &gt; &amp;hyperparameters=std::nullopt)</argsstring>
+        <name>trainOnTheFly</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::trainOnTheFly</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref> &gt; &amp;</type>
+          <declname>hyperparameters</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Train On The Fly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="229" column="20" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1365" bodyend="1375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a6247bacaf3f6e197545392ec9688e308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::llm::lora::LoRATrainingService::trainBatch</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::vector&lt; TrainingData &gt; &amp;dataset, const std::optional&lt; LoRAHyperparameters &gt; &amp;hyperparameters=std::nullopt)</argsstring>
+        <name>trainBatch</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::trainBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref> &gt; &amp;</type>
+          <declname>dataset</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref> &gt; &amp;</type>
+          <declname>hyperparameters</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Train Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="235" column="20" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1386" bodyend="1396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a342c2b928ef38e47356303f0b3c6c1fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRATrainingService::setTrainingConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setTrainingConfig</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::setTrainingConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Training <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="245" column="10" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1404" bodyend="1410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a5bbbfc4c7db83f3c20940adf6704853e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kindref="compound">Config</ref></type>
+        <definition>LoRATrainingService::Config themis::llm::lora::LoRATrainingService::getTrainingConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getTrainingConfig</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::getTrainingConfig</qualifiedname>
+        <briefdescription>
+<para>Get Training <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="251" column="12" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1412" bodyend="1418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a5b9b9d848d984586b4186d529695f129" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRATrainingService::setHyperparameters</definition>
+        <argsstring>(const LoRAHyperparameters &amp;hyperparameters)</argsstring>
+        <name>setHyperparameters</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::setHyperparameters</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref> &amp;</type>
+          <declname>hyperparameters</declname>
+        </param>
+        <briefdescription>
+<para>Set Hyperparameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="257" column="10" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1426" bodyend="1432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a2fdd5dd82f593b45632a69b78b64f8cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref></type>
+        <definition>LoRAHyperparameters themis::llm::lora::LoRATrainingService::getHyperparameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getHyperparameters</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::getHyperparameters</qualifiedname>
+        <briefdescription>
+<para>Get Hyperparameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="263" column="25" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1434" bodyend="1440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1ab51629b68441d81b6acbb5bc1a3593f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_metrics" kindref="compound">TrainingMetrics</ref></type>
+        <definition>TrainingMetrics themis::llm::lora::LoRATrainingService::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="269" column="21" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1442" bodyend="1448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a61d3a4f0a28021dcdcb0cb3f51c8b6a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRATrainingService::registerCallback</definition>
+        <argsstring>(TrainingCallback callback)</argsstring>
+        <name>registerCallback</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::registerCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a53ecfe00b985be4fc8cc9066c9a81d0b" kindref="member">TrainingCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="275" column="10" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1450" bodyend="1456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1aec724c829805467444d9f526ed531ec6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingService::isTraining</definition>
+        <argsstring>() const</argsstring>
+        <name>isTraining</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::isTraining</qualifiedname>
+        <briefdescription>
+<para>Is Training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="281" column="10" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1458" bodyend="1464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a5b03aaff2113a75880c31692d320b0ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRATrainingService::stopTraining</definition>
+        <argsstring>()</argsstring>
+        <name>stopTraining</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::stopTraining</qualifiedname>
+        <briefdescription>
+<para>Stop Training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="286" column="10" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1471" bodyend="1477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1ab8b71f3b0d90cd7f64ecee5a1afbb24c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::llm::lora::LoRATrainingService::trainWithQuantization</definition>
+        <argsstring>(const std::string &amp;adapter_id, const TrainingData &amp;data, const std::optional&lt; LoRAHyperparameters &gt; &amp;hyperparameters=std::nullopt)</argsstring>
+        <name>trainWithQuantization</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::trainWithQuantization</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref> &gt; &amp;</type>
+          <declname>hyperparameters</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ QLoRA Training Methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(), <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a5bbbfc4c7db83f3c20940adf6704853e" kindref="member">getTrainingConfig()</ref>, std::chrono::system_clock::now(), value_or(), spdlog::warn(), <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a65b5a2247a7e2f55d6b12582926bab1c" kindref="member">trainOnTheFly()</ref>, spdlog::info(), <ref refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1af92930a661a560c959338f4932362031" kindref="member">ModelCompatibilityChecker::check_compatibility()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="288" column="20" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1489" bodyend="1838"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a390d1c646d2fe8b0a88ef6cd9bd1fcaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::llm::lora::LoRATrainingService::trainDistributed</definition>
+        <argsstring>(const std::string &amp;adapter_id, const TrainingData &amp;data, const std::optional&lt; LoRAHyperparameters &gt; &amp;hyperparameters=std::nullopt)</argsstring>
+        <name>trainDistributed</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::trainDistributed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref> &gt; &amp;</type>
+          <declname>hyperparameters</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Train Distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>LoRATrainingException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::error(), get(), <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a5bbbfc4c7db83f3c20940adf6704853e" kindref="member">getTrainingConfig()</ref>, empty(), std::chrono::system_clock::now(), spdlog::info(), size(), <ref refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac8e349e90687270ba46a9a57cbfdeb0c" kindref="member">TrainingServiceRegistry::getInstance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="294" column="20" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="2365" bodyend="2683"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1adf8ed302f4e3bdaf1f02cfadc72ee070" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; class <ref refid="classthemis_1_1llm_1_1lora_1_1_q_lo_r_a_layer" kindref="compound">QLoRALayer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; QLoRALayer &gt; &gt; themis::llm::lora::LoRATrainingService::createQLoRALayers</definition>
+        <argsstring>(const class QuantizedModel &amp;model, size_t rank)</argsstring>
+        <name>createQLoRALayers</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::createQLoRALayers</qualifiedname>
+        <param>
+          <type>const class <ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_model" kindref="compound">QuantizedModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <briefdescription>
+<para>Helper methods for QLoRA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create QLo RALayers.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: layer_names(), get_layer(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="310" column="17" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1847" bodyend="1877"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1ab96bead23aec2969b7c086b0df56cebf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; class <ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_model" kindref="compound">QuantizedModel</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QuantizedModel &gt; themis::llm::lora::LoRATrainingService::loadQuantizedBaseModel</definition>
+        <argsstring>(const std::string &amp;model_path, const QLoRAConfig &amp;config)</argsstring>
+        <name>loadQuantizedBaseModel</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::loadQuantizedBaseModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config" kindref="compound">QLoRAConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load Quantized Base Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>LoRATrainingException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(), empty(), spdlog::error(), std::filesystem::exists(), gguf_file(), is_open(), read(), good(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="321" column="21" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="1887" bodyend="2224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a6b015ff378efef6192174290e8c5395c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::LoRATrainingService::estimateMemoryUsage</definition>
+        <argsstring>(const std::string &amp;model_path, const QLoRAConfig &amp;config)</argsstring>
+        <name>estimateMemoryUsage</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::estimateMemoryUsage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config" kindref="compound">QLoRAConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::filesystem::exists(), model_file(), is_open(), read(), std::string(), key(), spdlog::info(), seekg(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="347" column="12" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="2233" bodyend="2353"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1aa24d876be76dcf0c074b7b3c6b28fe1f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRATrainingService::setModelPathProviderFn</definition>
+        <argsstring>(ModelPathProviderFn fn)</argsstring>
+        <name>setModelPathProviderFn</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::setModelPathProviderFn</qualifiedname>
+        <param>
+          <type>ModelPathProviderFn</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Model Path Provider Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="334" column="17" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1abcffdde4324088e3124f9c082435703b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRATrainingService::clearModelPathProviderFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearModelPathProviderFn</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::clearModelPathProviderFn</qualifiedname>
+        <briefdescription>
+<para>Clear Model Path Provider Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="339" column="17" bodyfile="src/llm/lora_framework/lora_training_service.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_training_service.h" line="175" column="1" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="175" bodyend="351"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1abcffdde4324088e3124f9c082435703b" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>clearModelPathProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1adf8ed302f4e3bdaf1f02cfadc72ee070" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>createQLoRALayers</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a6b015ff378efef6192174290e8c5395c" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>estimateMemoryUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a2fdd5dd82f593b45632a69b78b64f8cd" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>getHyperparameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1ab51629b68441d81b6acbb5bc1a3593f0" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a5bbbfc4c7db83f3c20940adf6704853e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>getTrainingConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a747739834a7243337925d995c2fc389e" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1aec724c829805467444d9f526ed531ec6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>isTraining</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1ab96bead23aec2969b7c086b0df56cebf" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>loadQuantizedBaseModel</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a12fa2b6e86a2920857ab4705a9129f4b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>LoRATrainingService</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a4938147f977f302335902eaccb967dab" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>LoRATrainingService</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a8325046429d24e4660cf7b0b6bfaf817" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>LoRATrainingService</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a02de63a3dd73f3d7ab89afdbc3ce5329" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>ModelPathProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a17b39eacf96a70230ea5840e02c205f7" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a61d3a4f0a28021dcdcb0cb3f51c8b6a8" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>registerCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a5b9b9d848d984586b4186d529695f129" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>setHyperparameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1aa24d876be76dcf0c074b7b3c6b28fe1f" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>setModelPathProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a342c2b928ef38e47356303f0b3c6c1fe" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>setTrainingConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a5b03aaff2113a75880c31692d320b0ad" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>stopTraining</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a6247bacaf3f6e197545392ec9688e308" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>trainBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a390d1c646d2fe8b0a88ef6cd9bd1fcaa" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>trainDistributed</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1a65b5a2247a7e2f55d6b12582926bab1c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>trainOnTheFly</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1ab8b71f3b0d90cd7f64ecee5a1afbb24c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>trainWithQuantization</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1ae203e65a8b37193e7951847755e1a39d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService</scope><name>~LoRATrainingService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_emotion_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::EmotionStatistics</compoundname>
+    <includes refid="emotion__analyzer_8h" local="no">emotion_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_statistics_1a2695874449017535e10bbaf785efa01a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref></type>
+        <definition>Emotion themis::voice::EmotionStatistics::dominant_emotion</definition>
+        <argsstring></argsstring>
+        <name>dominant_emotion</name>
+        <qualifiedname>themis::voice::EmotionStatistics::dominant_emotion</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Emotion::NEUTRAL</ref></initializer>
+        <briefdescription>
+<para>Most frequent emotion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="109" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_statistics_1a61ca7871680622005da2f453e02c4e40" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionStatistics::emotion_stability</definition>
+        <argsstring></argsstring>
+        <name>emotion_stability</name>
+        <qualifiedname>themis::voice::EmotionStatistics::emotion_stability</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>0–1; higher = more stable </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="110" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_statistics_1af39013cbefc393c150187cdcdcbf9fec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::EmotionStatistics::emotion_switches</definition>
+        <argsstring></argsstring>
+        <name>emotion_switches</name>
+        <qualifiedname>themis::voice::EmotionStatistics::emotion_switches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of emotion transitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="111" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_statistics_1a0457c2df726f1126230c0e0807d19cb5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionStatistics::average_sentiment</definition>
+        <argsstring></argsstring>
+        <name>average_sentiment</name>
+        <qualifiedname>themis::voice::EmotionStatistics::average_sentiment</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Mean sentiment score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="113" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_statistics_1a438d6a12e8e6b034744b1ebb45c686c0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionStatistics::sentiment_trend</definition>
+        <argsstring></argsstring>
+        <name>sentiment_trend</name>
+        <qualifiedname>themis::voice::EmotionStatistics::sentiment_trend</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Positive = improving, negative = declining. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="114" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_statistics_1a5860410431e4d1b72b5f4ed307a8c792" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionStatistics::average_stress</definition>
+        <argsstring></argsstring>
+        <name>average_stress</name>
+        <qualifiedname>themis::voice::EmotionStatistics::average_stress</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Mean stress level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="116" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_statistics_1a8d11c018e6947548f324358593f734cb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionStatistics::average_engagement</definition>
+        <argsstring></argsstring>
+        <name>average_engagement</name>
+        <qualifiedname>themis::voice::EmotionStatistics::average_engagement</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Mean engagement score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="117" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated statistics across an emotion timeline. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/emotion_analyzer.h" line="108" column="1" bodyfile="include/voice/emotion_analyzer.h" bodystart="108" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_emotion_statistics_1a8d11c018e6947548f324358593f734cb" prot="public" virt="non-virtual"><scope>themis::voice::EmotionStatistics</scope><name>average_engagement</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_statistics_1a0457c2df726f1126230c0e0807d19cb5" prot="public" virt="non-virtual"><scope>themis::voice::EmotionStatistics</scope><name>average_sentiment</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_statistics_1a5860410431e4d1b72b5f4ed307a8c792" prot="public" virt="non-virtual"><scope>themis::voice::EmotionStatistics</scope><name>average_stress</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_statistics_1a2695874449017535e10bbaf785efa01a" prot="public" virt="non-virtual"><scope>themis::voice::EmotionStatistics</scope><name>dominant_emotion</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_statistics_1a61ca7871680622005da2f453e02c4e40" prot="public" virt="non-virtual"><scope>themis::voice::EmotionStatistics</scope><name>emotion_stability</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_statistics_1af39013cbefc393c150187cdcdcbf9fec" prot="public" virt="non-virtual"><scope>themis::voice::EmotionStatistics</scope><name>emotion_switches</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_statistics_1a438d6a12e8e6b034744b1ebb45c686c0" prot="public" virt="non-virtual"><scope>themis::voice::EmotionStatistics</scope><name>sentiment_trend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

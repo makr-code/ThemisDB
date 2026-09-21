@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_bias_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::BiasDetector</compoundname>
+    <includes refid="bias__detector_8h" local="no">bias_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1ac19782f2df56bae7786d7847cf5d1006" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" kindref="compound">BiasDetectorConfig</ref></type>
+        <definition>BiasDetectorConfig themis::rag::judge::BiasDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="135" column="24" bodyfile="include/rag/bias_detector.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a88035a233f33601f2b94e1936c916579" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::BiasDetector::BiasDetector</definition>
+        <argsstring>()</argsstring>
+        <name>BiasDetector</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::BiasDetector</qualifiedname>
+        <briefdescription>
+<para>Construct bias detector with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="67" column="5" bodyfile="src/rag/bias_detector.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a0e36a1e8f76a22aff3d76bb4ed114b4e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::BiasDetector::BiasDetector</definition>
+        <argsstring>(const BiasDetectorConfig &amp;config)</argsstring>
+        <name>BiasDetector</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::BiasDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" kindref="compound">BiasDetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct bias detector with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detector configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="72" column="14" bodyfile="src/rag/bias_detector.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a508ab7a5e493d1463d99d97830f7f695" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result" kindref="compound">BiasDetectionResult</ref></type>
+        <definition>BiasDetectionResult themis::rag::judge::BiasDetector::detectPositionBias</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; ComparisonResult, bool &gt; &gt; &amp;comparisons)</argsstring>
+        <name>detectPositionBias</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::detectPositionBias</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref>, bool &gt; &gt; &amp;</type>
+          <declname>comparisons</declname>
+        </param>
+        <briefdescription>
+<para>Detect position bias in pairwise comparisons. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tests whether judge shows preference for first or second position by comparing A&gt;B vs B&gt;A results.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>comparisons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of comparison results with positions </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Bias detection result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="83" column="25" bodyfile="src/rag/bias_detector.cpp" bodystart="28" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a5c750a1acfe4e5ab6f9ed0ec0656c5eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result" kindref="compound">BiasDetectionResult</ref></type>
+        <definition>BiasDetectionResult themis::rag::judge::BiasDetector::detectLengthBias</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; double, size_t &gt; &gt; &amp;evaluations)</argsstring>
+        <name>detectLengthBias</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::detectLengthBias</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; double, size_t &gt; &gt; &amp;</type>
+          <declname>evaluations</declname>
+        </param>
+        <briefdescription>
+<para>Detect length bias in evaluations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tests correlation between answer length and evaluation scores.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>evaluations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of (score, answer_length) pairs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Bias detection result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="95" column="25" bodyfile="src/rag/bias_detector.cpp" bodystart="106" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1ae197c4e8e8b1685897d30bf46b9cb992" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result" kindref="compound">BiasDetectionResult</ref> &gt;</type>
+        <definition>std::vector&lt; BiasDetectionResult &gt; themis::rag::judge::BiasDetector::analyzeAllBiases</definition>
+        <argsstring>(const std::vector&lt; EvaluationResult &gt; &amp;evaluation_history)</argsstring>
+        <name>analyzeAllBiases</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::analyzeAllBiases</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt; &amp;</type>
+          <declname>evaluation_history</declname>
+        </param>
+        <briefdescription>
+<para>Run comprehensive bias analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze All Biases.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>evaluation_history</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Historical evaluation data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of detected biases</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluation_history</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), size(), length(), emplace_back(), empty(), <ref refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a5c750a1acfe4e5ab6f9ed0ec0656c5eb" kindref="member">detectLengthBias()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="104" column="17" bodyfile="src/rag/bias_detector.cpp" bodystart="163" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1ab988082968043b23c3c9a438a639ebc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref></type>
+        <definition>ComparisonResult themis::rag::judge::BiasDetector::applyBiasMitigation</definition>
+        <argsstring>(const ComparisonResult &amp;result, const BiasDetectionResult &amp;detected_bias)</argsstring>
+        <name>applyBiasMitigation</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::applyBiasMitigation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result" kindref="compound">BiasDetectionResult</ref> &amp;</type>
+          <declname>detected_bias</declname>
+        </param>
+        <briefdescription>
+<para>Apply bias mitigation to comparison result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Bias Mitigation.</para>
+<para>Adjusts comparison result based on detected biases.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original comparison result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detected_bias</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detected bias information </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Bias-adjusted result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detected_bias</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="117" column="22" bodyfile="src/rag/bias_detector.cpp" bodystart="200" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a103fe8c99f10356c15c83b90f6cd06a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::BiasDetector::setConfig</definition>
+        <argsstring>(const BiasDetectorConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" kindref="compound">BiasDetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="126" column="10" bodyfile="src/rag/bias_detector.cpp" bodystart="226" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a33493e4c2a77988dd81f7a8290ff5e77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" kindref="compound">BiasDetectorConfig</ref></type>
+        <definition>BiasDetectorConfig themis::rag::judge::BiasDetector::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="132" column="24" bodyfile="src/rag/bias_detector.cpp" bodystart="231" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a689759c732816a47e691aea0b346f4c9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasDetector::calculateCorrelation</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;x, const std::vector&lt; double &gt; &amp;y)</argsstring>
+        <name>calculateCorrelation</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::calculateCorrelation</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Correlation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), empty(), std::accumulate(), begin(), end(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="138" column="12" bodyfile="src/rag/bias_detector.cpp" bodystart="244" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a993c065b464e0dd02317285c18d6568d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasDetector::calculatePValue</definition>
+        <argsstring>(double correlation, size_t sample_size)</argsstring>
+        <name>calculatePValue</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::calculatePValue</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>correlation</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sample_size</declname>
+        </param>
+        <briefdescription>
+<para>Calculate PValue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(), std::erf(), std::abs(), std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="143" column="12" bodyfile="src/rag/bias_detector.cpp" bodystart="286" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a4b3feaee5059c04b0baa4315c39f323a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasDetector::calculateChiSquare</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;observed, const std::vector&lt; int &gt; &amp;expected)</argsstring>
+        <name>calculateChiSquare</name>
+        <qualifiedname>themis::rag::judge::BiasDetector::calculateChiSquare</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>observed</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Chi Square. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">observed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="145" column="12" bodyfile="src/rag/bias_detector.cpp" bodystart="314" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bias detector for judge evaluations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Detects and quantifies various types of bias in judge evaluations including position bias, length bias, and self-enhancement bias. </para>
+    </detaileddescription>
+    <location file="include/rag/bias_detector.h" line="62" column="1" bodyfile="include/rag/bias_detector.h" bodystart="62" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1ae197c4e8e8b1685897d30bf46b9cb992" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>analyzeAllBiases</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1ab988082968043b23c3c9a438a639ebc7" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>applyBiasMitigation</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a88035a233f33601f2b94e1936c916579" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>BiasDetector</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a0e36a1e8f76a22aff3d76bb4ed114b4e" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>BiasDetector</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a4b3feaee5059c04b0baa4315c39f323a" prot="private" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>calculateChiSquare</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a689759c732816a47e691aea0b346f4c9" prot="private" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>calculateCorrelation</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a993c065b464e0dd02317285c18d6568d" prot="private" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>calculatePValue</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1ac19782f2df56bae7786d7847cf5d1006" prot="private" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a5c750a1acfe4e5ab6f9ed0ec0656c5eb" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>detectLengthBias</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a508ab7a5e493d1463d99d97830f7f695" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>detectPositionBias</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a33493e4c2a77988dd81f7a8290ff5e77" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_bias_detector_1a103fe8c99f10356c15c83b90f6cd06a6" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetector</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

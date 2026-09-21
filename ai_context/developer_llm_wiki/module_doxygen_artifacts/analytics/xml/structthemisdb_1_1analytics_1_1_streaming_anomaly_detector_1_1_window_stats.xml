@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::StreamingAnomalyDetector::WindowStats</compoundname>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1aad25f962c604043bf2bba1313b384204" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::StreamingAnomalyDetector::WindowStats::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::WindowStats::window_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>current window size (may be &lt; config window_size during warm-up) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="343" column="16" bodyfile="include/analytics/anomaly_detection.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1a0e2e4de5b1b628f2bf87b85c3d6adb05" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::StreamingAnomalyDetector::WindowStats::anomaly_count</definition>
+        <argsstring></argsstring>
+        <name>anomaly_count</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::WindowStats::anomaly_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="344" column="16" bodyfile="include/analytics/anomaly_detection.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1aa8348ba9a568f54a4bd62b17c270937b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::StreamingAnomalyDetector::WindowStats::anomaly_rate</definition>
+        <argsstring></argsstring>
+        <name>anomaly_rate</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::WindowStats::anomaly_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="345" column="16" bodyfile="include/analytics/anomaly_detection.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1a9f30494957c24714bfdf03df74d55830" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::StreamingAnomalyDetector::WindowStats::trained</definition>
+        <argsstring></argsstring>
+        <name>trained</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::WindowStats::trained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="346" column="16" bodyfile="include/analytics/anomaly_detection.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/anomaly_detection.h" line="342" column="5" bodyfile="include/analytics/anomaly_detection.h" bodystart="342" bodyend="347"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1a0e2e4de5b1b628f2bf87b85c3d6adb05" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::WindowStats</scope><name>anomaly_count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1aa8348ba9a568f54a4bd62b17c270937b" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::WindowStats</scope><name>anomaly_rate</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1a9f30494957c24714bfdf03df74d55830" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::WindowStats</scope><name>trained</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_window_stats_1aad25f962c604043bf2bba1313b384204" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::WindowStats</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="timestamp_8h" kind="file" language="C++">
+    <compoundname>timestamp.h</compoundname>
+    <includes local="yes">storage/hlc.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/timestamp.h</label>
+        <link refid="timestamp_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>storage/hlc.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacecore">core</innernamespace>
+    <briefdescription>
+<para>Compatibility shim exposing HLCTimestamp as <computeroutput><ref refid="namespacecore_1a428134f3c445054ef099ea6e780ed148" kindref="member">core::HLCTimestamp</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Historically some components included &quot;core/timestamp.h&quot; and referenced <computeroutput><ref refid="namespacecore_1a428134f3c445054ef099ea6e780ed148" kindref="member">core::HLCTimestamp</ref></computeroutput>. The canonical definition is <computeroutput>themis::HLCTimestamp</computeroutput> in <computeroutput>include/storage/hlc.h</computeroutput>. This header provides a lightweight alias to preserve existing include paths without moving the original type. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/hlc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="namespacecore" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecore" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="16" refid="namespacecore_1a428134f3c445054ef099ea6e780ed148" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacecore_1a428134f3c445054ef099ea6e780ed148" kindref="member">HLCTimestamp</ref><sp/>=<sp/>::themis::HLCTimestamp;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="include/core/timestamp.h"/>
+  </compounddef>
+</doxygen>

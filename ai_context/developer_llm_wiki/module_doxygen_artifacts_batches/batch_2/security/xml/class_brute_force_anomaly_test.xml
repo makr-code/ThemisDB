@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_brute_force_anomaly_test" kind="class" language="C++" prot="public">
+    <compoundname>BruteForceAnomalyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" prot="protected" static="no" mutable="no">
+        <type>AuthRateLimitConfig</type>
+        <definition>AuthRateLimitConfig BruteForceAnomalyTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>BruteForceAnomalyTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="63" column="25" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_brute_force_anomaly_test_1a6c4eb1adc5e68ec7bf13ba8b133f5b87" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_collected_auth_events" kindref="compound">CollectedAuthEvents</ref></type>
+        <definition>CollectedAuthEvents BruteForceAnomalyTest::collected</definition>
+        <argsstring></argsstring>
+        <name>collected</name>
+        <qualifiedname>BruteForceAnomalyTest::collected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="64" column="25" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_brute_force_anomaly_test_1a56d06c38550c9c8f45a14e73f63c0b63" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BruteForceAnomalyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BruteForceAnomalyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="66" column="10" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BruteForceAnomalyTest</label>
+        <link refid="class_brute_force_anomaly_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BruteForceAnomalyTest</label>
+        <link refid="class_brute_force_anomaly_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>collected</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>CollectedAuthEvents</label>
+        <link refid="struct_collected_auth_events"/>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_auth_anomaly_detection.cpp" line="61" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="61" bodyend="74"/>
+    <listofallmembers>
+      <member refid="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" prot="protected" virt="non-virtual"><scope>BruteForceAnomalyTest</scope><name>cfg</name></member>
+      <member refid="class_brute_force_anomaly_test_1a6c4eb1adc5e68ec7bf13ba8b133f5b87" prot="protected" virt="non-virtual"><scope>BruteForceAnomalyTest</scope><name>collected</name></member>
+      <member refid="class_brute_force_anomaly_test_1a56d06c38550c9c8f45a14e73f63c0b63" prot="protected" virt="non-virtual"><scope>BruteForceAnomalyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,893 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::plugins::test</compoundname>
+    <innerclass refid="classthemis_1_1plugins_1_1test_1_1_i_mock_plugin" prot="public">themis::plugins::test::IMockPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl" prot="public">themis::plugins::test::MockPluginImpl</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" prot="public">themis::plugins::test::PluginErrorHandlingPhase3</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1_1test_1a7da69faebefa7554552c71c5c730abaa" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::plugins::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="29" column="27" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginsContractHardening, PLG01_ErrorCodeUniqueness)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginsContractHardening</type>
+        </param>
+        <param>
+          <type>PLG01_ErrorCodeUniqueness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="35" column="1" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="35" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a66f5497fcf3cd3425da8964814961cce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginsContractHardening, PLG02_ErrorCodeRange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginsContractHardening</type>
+        </param>
+        <param>
+          <type>PLG02_ErrorCodeRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="59" column="1" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="59" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a0a3af7ee085d9dc710bd177920ca3e5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginsContractHardening, PLG03_SwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginsContractHardening</type>
+        </param>
+        <param>
+          <type>PLG03_SwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="80" column="1" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="80" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1ae985fde74f21087f886a6160130bc6d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginsContractHardening, PLG04_PluginStateDistinct)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginsContractHardening</type>
+        </param>
+        <param>
+          <type>PLG04_PluginStateDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="106" column="1" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="106" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a3455ca4f6dcdd7b8af8cba21ddb8ce2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginsContractHardening, PLG05_RegistrationDescriptorDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginsContractHardening</type>
+        </param>
+        <param>
+          <type>PLG05_RegistrationDescriptorDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="121" column="1" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="121" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a806ef31deb43b1a673007c042ef6325f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginsContractHardening, PLG06_RegistrationDescriptorCopy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginsContractHardening</type>
+        </param>
+        <param>
+          <type>PLG06_RegistrationDescriptorCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="134" column="1" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="134" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1ac1b2127a352e76eedd907eef3fdcf7a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginsContractHardening, PLG07_RegistrationDescriptorMove)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginsContractHardening</type>
+        </param>
+        <param>
+          <type>PLG07_RegistrationDescriptorMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="150" column="1" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="150" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a42a4ca5f1a21d634770c4d6bd8c37f73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginsContractHardening, PLG08_FailClosedPredicate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginsContractHardening</type>
+        </param>
+        <param>
+          <type>PLG08_FailClosedPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="164" column="1" bodyfile="tests/plugins/test_plugins_contract_hardening_focused.cpp" bodystart="164" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a8d898f39cf017ddfdfd4be33b5f738bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG29_ConcurrentLoadUnload)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG29_ConcurrentLoadUnload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="115" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="115" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1ad17f7ac1ac6b1c53c559ddc1ccee425f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG30_SignatureVerificationTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG30_SignatureVerificationTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="159" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="159" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a6725bda4140f5a609070b97c033fbc24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG31_PartialStateRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG31_PartialStateRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="185" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="185" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a555a88ded90615a19958a5b673ab5836" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG32_MissingOptionalFields)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG32_MissingOptionalFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="204" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="204" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a5486696e5ac623644cdc92eddbeb1b96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG33_AbiIncompatibilityDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG33_AbiIncompatibilityDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="230" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="230" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1ab34988b44a7b3df20d32f09986c60aa0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG34_InitializationFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG34_InitializationFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="259" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="259" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a7ef1937e2794ab84ffbeb407a430b91a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG35_ResourceLeakHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG35_ResourceLeakHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="280" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="280" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1abc270bafa284d3d090d78299b6de00ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG36_RapidCycles)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG36_RapidCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="296" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="296" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a722a281fbf7ac3df9d93c0ad734498c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG37_ConcurrentRegistryOperations)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG37_ConcurrentRegistryOperations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="320" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="320" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a566f3f02c0b9f48dc39f281abb3cb71e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG38_DeadlockTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG38_DeadlockTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="368" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="368" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1af6b18a570421f38e534b5163ac984c8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG39_DiagnosticMessageConsistency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG39_DiagnosticMessageConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="393" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="393" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a89b1af09eb95533d7a564adaa1565808" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, PLG40_ErrorRecoveryRetry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>PLG40_ErrorRecoveryRetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="433" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="433" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a9a1ad52904273584c21467a92746048f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, ConcurrentStateValidation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentStateValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="457" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="457" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a6519368c40fcd869c44b9e0b9f656a30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, DiagnosticDataStructure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticDataStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="474" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="474" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a12810d1f1374897139ef4135063517ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST_F</definition>
+        <argsstring>(PluginErrorHandlingPhase3, ManifestOptionalFieldsComprehensive)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kindref="compound">PluginErrorHandlingPhase3</ref></type>
+        </param>
+        <param>
+          <type>ManifestOptionalFieldsComprehensive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="485" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="485" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1aa148ebc792446d981266602d759a0ab5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginLifecycleStateMachine, PLG09_StateEnumValues)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginLifecycleStateMachine</type>
+        </param>
+        <param>
+          <type>PLG09_StateEnumValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp" line="29" column="1" bodyfile="tests/plugins/test_plugin_lifecycle_state_machine.cpp" bodystart="29" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a54e95db337b9cc8b80d1b4048b7e5144" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginLifecycleStateMachine, PLG10_StateToString)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginLifecycleStateMachine</type>
+        </param>
+        <param>
+          <type>PLG10_StateToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp" line="42" column="1" bodyfile="tests/plugins/test_plugin_lifecycle_state_machine.cpp" bodystart="42" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a11fa636b8624969233eb23260d427a5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginLifecycleStateMachine, PLG11_TransitionsFromUnloaded)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginLifecycleStateMachine</type>
+        </param>
+        <param>
+          <type>PLG11_TransitionsFromUnloaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp" line="57" column="1" bodyfile="tests/plugins/test_plugin_lifecycle_state_machine.cpp" bodystart="57" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a43ee4c2e723202c6f54a7afcc97adb19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginLifecycleStateMachine, PLG12_TransitionsFromLoading)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginLifecycleStateMachine</type>
+        </param>
+        <param>
+          <type>PLG12_TransitionsFromLoading</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp" line="74" column="1" bodyfile="tests/plugins/test_plugin_lifecycle_state_machine.cpp" bodystart="74" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a995f8f15bdc2313e4801c98bd326e2f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginLifecycleStateMachine, PLG13_TransitionsFromLoaded)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginLifecycleStateMachine</type>
+        </param>
+        <param>
+          <type>PLG13_TransitionsFromLoaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp" line="91" column="1" bodyfile="tests/plugins/test_plugin_lifecycle_state_machine.cpp" bodystart="91" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a32091da1a4def08e13ba4f9d5cb36581" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginLifecycleStateMachine, PLG14_TransitionsFromUnloading)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginLifecycleStateMachine</type>
+        </param>
+        <param>
+          <type>PLG14_TransitionsFromUnloading</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp" line="108" column="1" bodyfile="tests/plugins/test_plugin_lifecycle_state_machine.cpp" bodystart="108" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1acd2a161b73c2d351f492cdd1d2a7800f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginLifecycleStateMachine, PLG15_CompleteValidPath)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginLifecycleStateMachine</type>
+        </param>
+        <param>
+          <type>PLG15_CompleteValidPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp" line="125" column="1" bodyfile="tests/plugins/test_plugin_lifecycle_state_machine.cpp" bodystart="125" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a064dab4eddd9e11c10184f674ce02d30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(PluginLifecycleStateMachine, PLG16_ReloadPath)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>PluginLifecycleStateMachine</type>
+        </param>
+        <param>
+          <type>PLG16_ReloadPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp" line="149" column="1" bodyfile="tests/plugins/test_plugin_lifecycle_state_machine.cpp" bodystart="149" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1acf874caa430ef06d20a3022761cef752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(RegistryConcurrencyHardening, PLG17_SingleRegistration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>RegistryConcurrencyHardening</type>
+        </param>
+        <param>
+          <type>PLG17_SingleRegistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="48" column="1" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="48" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a3556bf8f784ee5d6e853609f3361bd63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(RegistryConcurrencyHardening, PLG18_MultipleRegistrationsDifferentTypes)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>RegistryConcurrencyHardening</type>
+        </param>
+        <param>
+          <type>PLG18_MultipleRegistrationsDifferentTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="69" column="1" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="69" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a157723dafe65adfdd446e91b8e1fbc11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(RegistryConcurrencyHardening, PLG19_RegistrationUnregistration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>RegistryConcurrencyHardening</type>
+        </param>
+        <param>
+          <type>PLG19_RegistrationUnregistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="101" column="1" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="101" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1abf91dd00eb71ef139d3d341dcfaaeca9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(RegistryConcurrencyHardening, PLG20_CreateNonExistentPlugin)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>RegistryConcurrencyHardening</type>
+        </param>
+        <param>
+          <type>PLG20_CreateNonExistentPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="126" column="1" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="126" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a3da49bc531f5f501367c0a38380687d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(RegistryConcurrencyHardening, PLG21_AtomicReRegistration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>RegistryConcurrencyHardening</type>
+        </param>
+        <param>
+          <type>PLG21_AtomicReRegistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="142" column="1" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="142" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1ad0c8c34901773e6c48cde799e68dfc4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(RegistryConcurrencyHardening, PLG22_ConcurrentReads)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>RegistryConcurrencyHardening</type>
+        </param>
+        <param>
+          <type>PLG22_ConcurrentReads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="178" column="1" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="178" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a7a60388bd60fa0a4e03eede883fcdd48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(ValidationContractHardening, PLG23_ValidationErrorSemantics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>ValidationContractHardening</type>
+        </param>
+        <param>
+          <type>PLG23_ValidationErrorSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_validation_contract_hardening.cpp" line="32" column="1" bodyfile="tests/plugins/test_validation_contract_hardening.cpp" bodystart="32" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a9041f0fe14d0b6b1ee87cf8d49c11f0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(ValidationContractHardening, PLG24_ManifestInvalidContract)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>ValidationContractHardening</type>
+        </param>
+        <param>
+          <type>PLG24_ManifestInvalidContract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_validation_contract_hardening.cpp" line="52" column="1" bodyfile="tests/plugins/test_validation_contract_hardening.cpp" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a32fc2c2df850261ba41f737dad877816" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(ValidationContractHardening, PLG25_SignatureVerificationContract)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>ValidationContractHardening</type>
+        </param>
+        <param>
+          <type>PLG25_SignatureVerificationContract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_validation_contract_hardening.cpp" line="67" column="1" bodyfile="tests/plugins/test_validation_contract_hardening.cpp" bodystart="67" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1acb3f5048ec92e205acf35230cb8476cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(ValidationContractHardening, PLG26_CapabilityValidationContract)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>ValidationContractHardening</type>
+        </param>
+        <param>
+          <type>PLG26_CapabilityValidationContract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_validation_contract_hardening.cpp" line="83" column="1" bodyfile="tests/plugins/test_validation_contract_hardening.cpp" bodystart="83" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a4ee072a06281bffea227664c8f0b41ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(ValidationContractHardening, PLG27_FailSafeValidationSemantics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>ValidationContractHardening</type>
+        </param>
+        <param>
+          <type>PLG27_FailSafeValidationSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_validation_contract_hardening.cpp" line="98" column="1" bodyfile="tests/plugins/test_validation_contract_hardening.cpp" bodystart="98" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1test_1a896bb9a97ebadc205e48c4e103ccc1e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::TEST</definition>
+        <argsstring>(ValidationContractHardening, PLG28_ValidationDeterminism)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::test::TEST</qualifiedname>
+        <param>
+          <type>ValidationContractHardening</type>
+        </param>
+        <param>
+          <type>PLG28_ValidationDeterminism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_validation_contract_hardening.cpp" line="128" column="1" bodyfile="tests/plugins/test_validation_contract_hardening.cpp" bodystart="128" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

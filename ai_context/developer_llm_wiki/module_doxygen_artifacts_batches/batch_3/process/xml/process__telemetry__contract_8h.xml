@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__telemetry__contract_8h" kind="file" language="C++">
+    <compoundname>process_telemetry_contract.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="process__telemetry__integration_8cpp" local="yes">src/process/process_telemetry_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_telemetry_contract.h</label>
+        <link refid="process__telemetry__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/process_telemetry_contract.h</label>
+        <link refid="process__telemetry__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/process_telemetry_integration.cpp</label>
+        <link refid="process__telemetry__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1process_1_1_audit_trail_entry" prot="public">themisdb::process::AuditTrailEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_snapshot_index" prot="public">themisdb::process::SnapshotIndex</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_temporal_query_result" prot="public">themisdb::process::TemporalQueryResult</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1_process_audit_logger" prot="public">themisdb::process::ProcessAuditLogger</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1process">themisdb::process</innernamespace>
+    <briefdescription>
+<para>Process telemetry contract for audit trail, temporal reconstruction, and diagnostics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines interfaces for immutable audit trails, delta encoding, temporal snapshots, and point-in-time model recovery in federated Process Module deployments.</para>
+<para><simplesect kind="version"><para>2.1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-06 @status PHASE_1_DESIGN (Q1 2027)</para>
+</simplesect>
+</para>
+<sect1 id="process__telemetry__contract_8h_1autotoc_md29_1s1"><sect2 id="process__telemetry__contract_8h_1autotoc_md29">
+<title>Overview</title><para>Incremental evolution tracking provides:<itemizedlist>
+<listitem><para><bold>Immutable Audit Trail:</bold> Append-only log of all model changes</para>
+</listitem><listitem><para><bold>Delta Encoding:</bold> RFC 7386 JSON Merge Patch for efficient storage</para>
+</listitem><listitem><para><bold>Temporal Snapshots:</bold> O(log N) reconstruction of any historical model version</para>
+</listitem><listitem><para><bold>Storage Backends:</bold> Pluggable backends (RocksDB, S3, file-based)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__telemetry__contract_8h_1autotoc_md30_1s1"><sect2 id="process__telemetry__contract_8h_1autotoc_md30">
+<title>Immutability Guarantee</title><para>Once an entry is committed to the audit trail:<orderedlist>
+<listitem><para>Entry checksum validated (CRC32 chain per entry)</para>
+</listitem><listitem><para>No retroactive modifications possible</para>
+</listitem><listitem><para>Bulk verification on recovery ensures integrity</para>
+</listitem><listitem><para>Corrupted entries trigger incident (AUDIT_CORRUPTION)</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__telemetry__contract_8h_1autotoc_md31_1s1"><sect2 id="process__telemetry__contract_8h_1autotoc_md31">
+<title>Delta Encoding</title><para>Uses RFC 7386 JSON Merge Patch format:<itemizedlist>
+<listitem><para>Minimal encoding overhead (typical 5-10% of full model size)</para>
+</listitem><listitem><para>Invertible: can compute forward and reverse deltas</para>
+</listitem><listitem><para>Semantic equivalence: replayed deltas produce identical state</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__telemetry__contract_8h_1autotoc_md32_1s1"><sect2 id="process__telemetry__contract_8h_1autotoc_md32">
+<title>Temporal Query Support</title><para><itemizedlist>
+<listitem><para><bold>Point-in-Time Queries:</bold> Retrieve model as of timestamp T</para>
+</listitem><listitem><para><bold>Delta Queries:</bold> Get deltas between two timestamps</para>
+</listitem><listitem><para><bold>History Search:</bold> Find model versions by creation time range</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="process__federation__contract_8h" kindref="compound">process_federation_contract.h</ref> – Federated concurrency model </para>
+</simplesect>
+<simplesect kind="see"><para>ROADMAP_FEDERATION.md – Phase 1-6 implementation plan </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_CONTRACT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_CONTRACT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1process" kindref="compound">themisdb::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUDIT<sp/>TRAIL<sp/>ENTRY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemisdb_1_1process_1_1_audit_trail_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry" kindref="compound">AuditTrailEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1ae432819e442b6328b0b53f2cc7e69b10" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1ae432819e442b6328b0b53f2cc7e69b10" kindref="member">entry_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1abbaefb1bfeb25b6f3350773586f13bc9" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1abbaefb1bfeb25b6f3350773586f13bc9" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1acbdb1c1a2cb7dd6ea66e461b556d3e55" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1acbdb1c1a2cb7dd6ea66e461b556d3e55" kindref="member">operation_type</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a9574449d893f76415d829c143be6bb7b" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a9574449d893f76415d829c143be6bb7b" kindref="member">delta_patch</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1ae45d9c02e9196859f1ebc1023925a3be" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1ae45d9c02e9196859f1ebc1023925a3be" kindref="member">before_hash</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1aa8769054ac93243629d83b19289b955c" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1aa8769054ac93243629d83b19289b955c" kindref="member">after_hash</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a30c74ce3491183cd36ecbcac243bdfcd" refkind="member"><highlight class="normal"><sp/><sp/>std::uint32_t<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a30c74ce3491183cd36ecbcac243bdfcd" kindref="member">crc32_checksum</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a0c7e912030546b130501cdd70b771e46" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a0c7e912030546b130501cdd70b771e46" kindref="member">mutation_time</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a8df6603179db92d8e87cd8c87c68d3f0" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a8df6603179db92d8e87cd8c87c68d3f0" kindref="member">source_node_id</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a9bb467ec87aaca510fbcf109f6d1df11" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a9bb467ec87aaca510fbcf109f6d1df11" kindref="member">before_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a36e9a5c33d8a27ec87b83671bb155799" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a36e9a5c33d8a27ec87b83671bb155799" kindref="member">after_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a11a98920cfa8b4c72880bb6f163d8b9e" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a11a98920cfa8b4c72880bb6f163d8b9e" kindref="member">metadata_json</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a7affa17e5e67067e307beceaf1646f66" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a7affa17e5e67067e307beceaf1646f66" kindref="member">is_persisted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DELTA<sp/>ENCODING<sp/>&amp;<sp/>SNAPSHOTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959" kindref="member">DeltaEncodingFormat</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="116" refid="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959a5aa233c8badede12d443f52adff2fb72" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959a5aa233c8badede12d443f52adff2fb72" kindref="member">kJsonMergePatch</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959a365fd063889d53238c6a0b3b0c636c7e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1aa5ce699f95a28e670beca864d15c0959a365fd063889d53238c6a0b3b0c636c7e" kindref="member">kBinaryDiff</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemisdb_1_1process_1_1_snapshot_index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1process_1_1_snapshot_index" kindref="compound">SnapshotIndex</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemisdb_1_1process_1_1_snapshot_index_1a44f4aedfb20c4b76fb024c76b4b8dcde" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_snapshot_index_1a44f4aedfb20c4b76fb024c76b4b8dcde" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemisdb_1_1process_1_1_snapshot_index_1a3409dcd29fb1deaad640c03bb2f5cbbe" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1process_1_1_snapshot_index_1a3409dcd29fb1deaad640c03bb2f5cbbe" kindref="member">snapshot_time</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemisdb_1_1process_1_1_snapshot_index_1a2e12e8bfcaa35c9ef430c4800d051488" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemisdb_1_1process_1_1_snapshot_index_1a2e12e8bfcaa35c9ef430c4800d051488" kindref="member">snapshot_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemisdb_1_1process_1_1_snapshot_index_1a36bc02300503e9950bc86a93c92018e6" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemisdb_1_1process_1_1_snapshot_index_1a36bc02300503e9950bc86a93c92018e6" kindref="member">start_entry_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemisdb_1_1process_1_1_snapshot_index_1a31aee0cde8adf0fdb4dcb23874381570" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemisdb_1_1process_1_1_snapshot_index_1a31aee0cde8adf0fdb4dcb23874381570" kindref="member">end_entry_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemisdb_1_1process_1_1_snapshot_index_1a2a99c7e1be64320bfacaae8554293967" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_snapshot_index_1a2a99c7e1be64320bfacaae8554293967" kindref="member">storage_location</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemisdb_1_1process_1_1_snapshot_index_1a694cbe4a074dd4de4e46f206d8f3641c" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_snapshot_index_1a694cbe4a074dd4de4e46f206d8f3641c" kindref="member">integrity_hash</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TEMPORAL<sp/>QUERY<sp/>SUPPORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemisdb_1_1process_1_1_temporal_query_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1process_1_1_temporal_query_result" kindref="compound">TemporalQueryResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemisdb_1_1process_1_1_temporal_query_result_1a5524eaa4c3421e217c9e4c48f5a09468" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_temporal_query_result_1a5524eaa4c3421e217c9e4c48f5a09468" kindref="member">model_json</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemisdb_1_1process_1_1_temporal_query_result_1ac780adffeadb9431855dfe7a949e2b91" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1process_1_1_temporal_query_result_1ac780adffeadb9431855dfe7a949e2b91" kindref="member">query_time</ref>;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemisdb_1_1process_1_1_temporal_query_result_1a2197dacdaa6102ea8828e3cf288195bf" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1process_1_1_temporal_query_result_1a2197dacdaa6102ea8828e3cf288195bf" kindref="member">actual_time</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemisdb_1_1process_1_1_temporal_query_result_1aafb0c5865211e3ac2a46e462234c62c7" refkind="member"><highlight class="normal"><sp/><sp/>std::uint32_t<sp/><ref refid="structthemisdb_1_1process_1_1_temporal_query_result_1aafb0c5865211e3ac2a46e462234c62c7" kindref="member">deltas_applied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemisdb_1_1process_1_1_temporal_query_result_1a66aa98e7ef54c641173abef6d1abfd41" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemisdb_1_1process_1_1_temporal_query_result_1a66aa98e7ef54c641173abef6d1abfd41" kindref="member">reconstruction_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemisdb_1_1process_1_1_temporal_query_result_1a86e512b2e06be302a76b7fccc5ce338b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_temporal_query_result_1a86e512b2e06be302a76b7fccc5ce338b" kindref="member">is_accurate</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STORAGE<sp/>BACKENDS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522" kindref="member">AuditStorageBackend</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="186" refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a5eced7b095ca2e98613012ddc0f9010d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a5eced7b095ca2e98613012ddc0f9010d" kindref="member">kRocksDB</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a19f1e519b9f1f6af86172b6b5f2c25e6" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a19f1e519b9f1f6af86172b6b5f2c25e6" kindref="member">kFile</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522abbe5e23597e4939c426f60291c6ef6c1" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522abbe5e23597e4939c426f60291c6ef6c1" kindref="member">kS3</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a62daf6760aa0e901461b249437b033b3" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a8244f10e3b59abf5ddf002142e2b0522a62daf6760aa0e901461b249437b033b3" kindref="member">kDualWrite</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUDIT<sp/>LOGGER<sp/>INTERFACE<sp/>(Phase<sp/>2<sp/>Implementation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemisdb_1_1process_1_1_process_audit_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1_process_audit_logger" kindref="compound">ProcessAuditLogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="222" refid="classthemisdb_1_1process_1_1_process_audit_logger_1afee3a417c883592003b28f263edeabae" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="classthemisdb_1_1process_1_1_process_audit_logger_1afee3a417c883592003b28f263edeabae" kindref="member">AppendEntry</ref>(<ref refid="structthemisdb_1_1process_1_1_audit_trail_entry" kindref="compound">AuditTrailEntry</ref>&amp;<sp/>entry)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemisdb_1_1process_1_1_process_audit_logger_1af6198e2efd8ebd8413a462b2f9e6f5cd" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;AuditTrailEntry&gt;<sp/><ref refid="classthemisdb_1_1process_1_1_process_audit_logger_1af6198e2efd8ebd8413a462b2f9e6f5cd" kindref="member">GetEntry</ref>(std::uint64_t<sp/>entry_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="classthemisdb_1_1process_1_1_process_audit_logger_1a8fbbfc88373c631ffaada53f58fac353" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;AuditTrailEntry&gt;<sp/><ref refid="classthemisdb_1_1process_1_1_process_audit_logger_1a8fbbfc88373c631ffaada53f58fac353" kindref="member">GetEntriesInRange</ref>(</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/>start_id,<sp/>std::uint64_t<sp/>end_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="classthemisdb_1_1process_1_1_process_audit_logger_1ac05e8f79ec8d7867f6495e8475bda9dd" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_temporal_query_result" kindref="compound">TemporalQueryResult</ref><sp/><ref refid="classthemisdb_1_1process_1_1_process_audit_logger_1ac05e8f79ec8d7867f6495e8475bda9dd" kindref="member">ReconstructAsOfTime</ref>(</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>timestamp)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="classthemisdb_1_1process_1_1_process_audit_logger_1addb71b2f56f955fdcc3b5896c2c4d473" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1_process_audit_logger_1addb71b2f56f955fdcc3b5896c2c4d473" kindref="member">VerifyIntegrity</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="classthemisdb_1_1process_1_1_process_audit_logger_1ae307880207376607341cc5f7488bcaaa" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="classthemisdb_1_1process_1_1_process_audit_logger_1ae307880207376607341cc5f7488bcaaa" kindref="member">GetNextEntryId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277" refid="classthemisdb_1_1process_1_1_process_audit_logger_1a4aba3518667c100ad34bd5198b7540fe" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1_process_audit_logger_1a4aba3518667c100ad34bd5198b7540fe" kindref="member">~ProcessAuditLogger</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DOCUMENTATION<sp/>SECTIONS<sp/>(Design-Phase<sp/>Specifications)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb::process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_CONTRACT_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_telemetry_contract.h"/>
+  </compounddef>
+</doxygen>

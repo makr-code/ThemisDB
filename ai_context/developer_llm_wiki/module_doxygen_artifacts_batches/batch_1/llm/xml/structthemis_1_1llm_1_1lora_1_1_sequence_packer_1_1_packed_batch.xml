@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::SequencePacker::PackedBatch</compoundname>
+    <includes refid="sequence__packer_8h" local="no">sequence_packer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1afb1744ba701ebe3314c22765c2c31f73" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::SequencePacker::PackedBatch::token_ids</definition>
+        <argsstring></argsstring>
+        <name>token_ids</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::PackedBatch::token_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="30" column="19" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a9f1163bfcdc43a8e32ce11a61cea52dc" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::SequencePacker::PackedBatch::attention_mask</definition>
+        <argsstring></argsstring>
+        <name>attention_mask</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::PackedBatch::attention_mask</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="31" column="19" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3d382fb52ed069977505adfcf82e56a4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::SequencePacker::PackedBatch::sequence_lengths</definition>
+        <argsstring></argsstring>
+        <name>sequence_lengths</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::PackedBatch::sequence_lengths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="32" column="21" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ae07cfbc18372ce23d8c95b74a1910672" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::SequencePacker::PackedBatch::sequence_offsets</definition>
+        <argsstring></argsstring>
+        <name>sequence_offsets</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::PackedBatch::sequence_offsets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="33" column="21" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ac79f4cf97712ef7990be8bc718e23313" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::SequencePacker::PackedBatch::num_sequences</definition>
+        <argsstring></argsstring>
+        <name>num_sequences</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::PackedBatch::num_sequences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="34" column="16" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3160e9b3a07d0ad7430ca522f51c95e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::SequencePacker::PackedBatch::total_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_tokens</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::PackedBatch::total_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="35" column="16" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a7f0310b1f77021456c3575318aa497d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::SequencePacker::PackedBatch::is_valid</definition>
+        <argsstring>() const</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::llm::lora::SequencePacker::PackedBatch::is_valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/sequence_packer.h" line="37" column="14" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="37" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::GPUTensor</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::SequencePacker::PackedBatch</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>attention_mask</edgelabel>
+          <edgelabel>token_ids</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/sequence_packer.h" line="29" column="5" bodyfile="include/llm/lora_framework/sequence_packer.h" bodystart="29" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a9f1163bfcdc43a8e32ce11a61cea52dc" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker::PackedBatch</scope><name>attention_mask</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a7f0310b1f77021456c3575318aa497d1" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker::PackedBatch</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ac79f4cf97712ef7990be8bc718e23313" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker::PackedBatch</scope><name>num_sequences</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3d382fb52ed069977505adfcf82e56a4" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker::PackedBatch</scope><name>sequence_lengths</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ae07cfbc18372ce23d8c95b74a1910672" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker::PackedBatch</scope><name>sequence_offsets</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1afb1744ba701ebe3314c22765c2c31f73" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker::PackedBatch</scope><name>token_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3160e9b3a07d0ad7430ca522f51c95e1" prot="public" virt="non-virtual"><scope>themis::llm::lora::SequencePacker::PackedBatch</scope><name>total_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

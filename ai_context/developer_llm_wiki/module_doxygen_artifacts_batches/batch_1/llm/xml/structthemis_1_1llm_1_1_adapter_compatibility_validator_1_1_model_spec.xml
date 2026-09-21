@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterCompatibilityValidator::ModelSpec</compoundname>
+    <includes refid="adapter__compatibility_8h" local="no">adapter_compatibility.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1abcbded77f73438cb781d6e487b2682cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCompatibilityValidator::ModelSpec::architecture</definition>
+        <argsstring></argsstring>
+        <name>architecture</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::ModelSpec::architecture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="121" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a3493d44c56603b7b3df1c47376a1195d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterCompatibilityValidator::ModelSpec::hidden_size</definition>
+        <argsstring></argsstring>
+        <name>hidden_size</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::ModelSpec::hidden_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="122" column="13" bodyfile="include/llm/adapter_compatibility.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1ae79e9eced055518d4665fcfe2c131edb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterCompatibilityValidator::ModelSpec::ffn_dimension</definition>
+        <argsstring></argsstring>
+        <name>ffn_dimension</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::ModelSpec::ffn_dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="123" column="13" bodyfile="include/llm/adapter_compatibility.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a8c55f28e019dd0d9d14ef7f419d669ad" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::AdapterCompatibilityValidator::ModelSpec::supported_versions</definition>
+        <argsstring></argsstring>
+        <name>supported_versions</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::ModelSpec::supported_versions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="124" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a0fd13f02be4e80760f283c5dc20b7d09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCompatibilityValidator::ModelSpec::tokenizer_type</definition>
+        <argsstring></argsstring>
+        <name>tokenizer_type</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::ModelSpec::tokenizer_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="125" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a35d0cf0774afa158d1aa55fa738cfa05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::AdapterCompatibilityValidator::ModelSpec::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::ModelSpec::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="131" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_compatibility.h" line="120" column="5" bodyfile="include/llm/adapter_compatibility.h" bodystart="120" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1abcbded77f73438cb781d6e487b2682cd" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::ModelSpec</scope><name>architecture</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1ae79e9eced055518d4665fcfe2c131edb" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::ModelSpec</scope><name>ffn_dimension</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a3493d44c56603b7b3df1c47376a1195d" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::ModelSpec</scope><name>hidden_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a8c55f28e019dd0d9d14ef7f419d669ad" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::ModelSpec</scope><name>supported_versions</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a35d0cf0774afa158d1aa55fa738cfa05" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::ModelSpec</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec_1a0fd13f02be4e80760f283c5dc20b7d09" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::ModelSpec</scope><name>tokenizer_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

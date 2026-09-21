@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_performance_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::PerformanceSnapshot</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1aef31d3c39f743b366e6469db32884658" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::learning::PerformanceSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::learning::PerformanceSnapshot::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="83" column="43" bodyfile="include/rag/learning_metrics.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a8c7928dd5c05384f4160f563edaca411" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::PerformanceSnapshot::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::rag::learning::PerformanceSnapshot::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="84" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a0d8fac0ea148bce6428300d25c7ff9d0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::PerformanceSnapshot::avg_confidence</definition>
+        <argsstring></argsstring>
+        <name>avg_confidence</name>
+        <qualifiedname>themis::rag::learning::PerformanceSnapshot::avg_confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="85" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1add29a568c58f746b8dd24d758db15d26" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::PerformanceSnapshot::gap_detection_rate</definition>
+        <argsstring></argsstring>
+        <name>gap_detection_rate</name>
+        <qualifiedname>themis::rag::learning::PerformanceSnapshot::gap_detection_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="86" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a3a70b8ddffc6c88647f353df37614b5b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::PerformanceSnapshot::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::rag::learning::PerformanceSnapshot::total_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="87" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a2f33e4206e73fd45dd0174c64c2740ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::PerformanceSnapshot::component_version</definition>
+        <argsstring></argsstring>
+        <name>component_version</name>
+        <qualifiedname>themis::rag::learning::PerformanceSnapshot::component_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="88" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of performance at a point in time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="82" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="82" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a8c7928dd5c05384f4160f563edaca411" prot="public" virt="non-virtual"><scope>themis::rag::learning::PerformanceSnapshot</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a0d8fac0ea148bce6428300d25c7ff9d0" prot="public" virt="non-virtual"><scope>themis::rag::learning::PerformanceSnapshot</scope><name>avg_confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a2f33e4206e73fd45dd0174c64c2740ab" prot="public" virt="non-virtual"><scope>themis::rag::learning::PerformanceSnapshot</scope><name>component_version</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1add29a568c58f746b8dd24d758db15d26" prot="public" virt="non-virtual"><scope>themis::rag::learning::PerformanceSnapshot</scope><name>gap_detection_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1aef31d3c39f743b366e6469db32884658" prot="public" virt="non-virtual"><scope>themis::rag::learning::PerformanceSnapshot</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a3a70b8ddffc6c88647f353df37614b5b" prot="public" virt="non-virtual"><scope>themis::rag::learning::PerformanceSnapshot</scope><name>total_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_operation_log_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::OperationLogQueryResult</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_operation_log_query_result_1a70c17228bcd85816bd9e4c08e24787ed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::OperationLogQueryResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::process::OperationLogQueryResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether query succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="360" column="10" bodyfile="include/process/model_history_contract.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_operation_log_query_result_1a85e061406d0897c85b037a5bf0998089" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_audit_record" kindref="compound">AuditRecord</ref> &gt;</type>
+        <definition>std::vector&lt;AuditRecord&gt; themis::process::OperationLogQueryResult::records</definition>
+        <argsstring></argsstring>
+        <name>records</name>
+        <qualifiedname>themis::process::OperationLogQueryResult::records</qualifiedname>
+        <briefdescription>
+<para>Audit records matching query (in chronological order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="363" column="17" bodyfile="include/process/model_history_contract.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_operation_log_query_result_1a3b249c525e4ee6ec63033d1fc368cbaf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::OperationLogQueryResult::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::process::OperationLogQueryResult::total_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of matching records (may exceed len(records) if limited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="366" column="14" bodyfile="include/process/model_history_contract.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_operation_log_query_result_1aff3bc1e3c745690d39d6a20e8f9aad59" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::OperationLogQueryResult::query_time_ms</definition>
+        <argsstring></argsstring>
+        <name>query_time_ms</name>
+        <qualifiedname>themis::process::OperationLogQueryResult::query_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Time to execute query (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="369" column="14" bodyfile="include/process/model_history_contract.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_operation_log_query_result_1a3a40bf7c5d1341e8815cd0e3fedaf418" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::OperationLogQueryResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::process::OperationLogQueryResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Reason for failure (if success=false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="372" column="17" bodyfile="include/process/model_history_contract.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of operation log query. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="358" column="1" bodyfile="include/process/model_history_contract.h" bodystart="358" bodyend="373"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_operation_log_query_result_1a3a40bf7c5d1341e8815cd0e3fedaf418" prot="public" virt="non-virtual"><scope>themis::process::OperationLogQueryResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1process_1_1_operation_log_query_result_1aff3bc1e3c745690d39d6a20e8f9aad59" prot="public" virt="non-virtual"><scope>themis::process::OperationLogQueryResult</scope><name>query_time_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_operation_log_query_result_1a85e061406d0897c85b037a5bf0998089" prot="public" virt="non-virtual"><scope>themis::process::OperationLogQueryResult</scope><name>records</name></member>
+      <member refid="structthemis_1_1process_1_1_operation_log_query_result_1a70c17228bcd85816bd9e4c08e24787ed" prot="public" virt="non-virtual"><scope>themis::process::OperationLogQueryResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1process_1_1_operation_log_query_result_1a3b249c525e4ee6ec63033d1fc368cbaf" prot="public" virt="non-virtual"><scope>themis::process::OperationLogQueryResult</scope><name>total_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

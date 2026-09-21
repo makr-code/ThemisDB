@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="logger_8h" kind="file" language="C++">
+    <compoundname>logger.h</compoundname>
+    <includes local="yes">themis_export.h</includes>
+    <includes local="no">spdlog/common.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes refid="logger__impl_8h" local="yes">utils/logger_impl.h</includes>
+    <includedby refid="lossless__vector__integration_8h" local="yes">include/utils/lossless_vector_integration.h</includedby>
+    <includedby refid="safe__access_8h" local="yes">include/utils/safe_access.h</includedby>
+    <includedby refid="utils__adapters_8h" local="yes">include/utils/utils_adapters.h</includedby>
+    <includedby refid="audit__logger_8cpp" local="yes">src/utils/audit_logger.cpp</includedby>
+    <includedby refid="cron__parser_8cpp" local="yes">src/utils/cron_parser.cpp</includedby>
+    <includedby refid="input__validator_8cpp" local="yes">src/utils/input_validator.cpp</includedby>
+    <includedby refid="logger_8cpp" local="yes">src/utils/logger.cpp</includedby>
+    <includedby refid="lz4__codec_8cpp" local="yes">src/utils/lz4_codec.cpp</includedby>
+    <includedby refid="pii__pseudonymizer_8cpp" local="yes">src/utils/pii_pseudonymizer.cpp</includedby>
+    <includedby refid="saga__logger_8cpp" local="yes">src/utils/saga_logger.cpp</includedby>
+    <includedby refid="sampled__logger_8cpp" local="yes">src/utils/sampled_logger.cpp</includedby>
+    <includedby refid="serialization_8cpp" local="yes">src/utils/serialization.cpp</includedby>
+    <includedby refid="tracing_8cpp" local="yes">src/utils/tracing.cpp</includedby>
+    <includedby refid="update__checker_8cpp" local="yes">src/utils/update_checker.cpp</includedby>
+    <includedby refid="zstd__codec_8cpp" local="yes">src/utils/zstd_codec.cpp</includedby>
+    <includedby refid="test__utils__interfaces_8cpp" local="yes">tests/utils/test_utils_interfaces.cpp</includedby>
+    <includedby refid="test__utils__observability__error__contracts_8cpp" local="yes">tests/utils/test_utils_observability_error_contracts.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/logger.h</label>
+        <link refid="logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>utils/logger_impl.h</label>
+        <link refid="logger__impl_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>random</label>
+      </node>
+      <node id="3">
+        <label>spdlog/common.h</label>
+      </node>
+      <node id="13">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>themis_export.h</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/logger.h</label>
+        <link refid="logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/utils/lossless_vector_integration.h</label>
+        <link refid="lossless__vector__integration_8h"/>
+      </node>
+      <node id="3">
+        <label>include/utils/safe_access.h</label>
+        <link refid="safe__access_8h"/>
+      </node>
+      <node id="4">
+        <label>include/utils/utils_adapters.h</label>
+        <link refid="utils__adapters_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/utils/audit_logger.cpp</label>
+        <link refid="audit__logger_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/utils/cron_parser.cpp</label>
+        <link refid="cron__parser_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/utils/input_validator.cpp</label>
+        <link refid="input__validator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/utils/logger.cpp</label>
+        <link refid="logger_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/utils/lz4_codec.cpp</label>
+        <link refid="lz4__codec_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/utils/pii_pseudonymizer.cpp</label>
+        <link refid="pii__pseudonymizer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/utils/saga_logger.cpp</label>
+        <link refid="saga__logger_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/utils/sampled_logger.cpp</label>
+        <link refid="sampled__logger_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/utils/serialization.cpp</label>
+        <link refid="serialization_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/utils/tracing.cpp</label>
+        <link refid="tracing_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/utils/update_checker.cpp</label>
+        <link refid="update__checker_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/utils/utils_adapters.cpp</label>
+        <link refid="utils__adapters_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/utils/zstd_codec.cpp</label>
+        <link refid="zstd__codec_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/utils/test_utils_interfaces.cpp</label>
+        <link refid="test__utils__interfaces_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/utils/test_utils_observability_error_contracts.cpp</label>
+        <link refid="test__utils__observability__error__contracts_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_log_metrics" prot="public">themis::utils::LogMetrics</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot" prot="public">themis::utils::LogMetrics::Snapshot</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_logger" prot="public">themis::utils::Logger</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_sampled_logger_config" prot="public">themis::utils::SampledLoggerConfig</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_sampled_logger" prot="public">themis::utils::SampledLogger</innerclass>
+    <innernamespace refid="namespacespdlog">spdlog</innernamespace>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="logger_8h_1a9603f7f97492c80ecefc020460fc7c8d" prot="public" static="no">
+        <name>THEMIS_TRACE</name>
+        <param><defname>...</defname></param>
+        <initializer><ref refid="classthemis_1_1utils_1_1_logger_1a8dc3a03fd3d93fbe9e9440cda76811f5" kindref="member">::themis::utils::Logger::trace</ref>(__VA_ARGS__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="261" column="9" bodyfile="include/utils/logger.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="logger_8h_1aa78260bb6745022cfee44846264ce6fc" prot="public" static="no">
+        <name>THEMIS_DEBUG</name>
+        <param><defname>...</defname></param>
+        <initializer><ref refid="classthemis_1_1utils_1_1_logger_1ac9caf5cadc0d32978ea63616f1561b9a" kindref="member">::themis::utils::Logger::debug</ref>(__VA_ARGS__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="262" column="9" bodyfile="include/utils/logger.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="logger_8h_1a39e87e8a08bc7617cdd677afcb210e82" prot="public" static="no">
+        <name>THEMIS_INFO</name>
+        <param><defname>...</defname></param>
+        <initializer><ref refid="classthemis_1_1utils_1_1_logger_1a7070a0eef299c1d01c7ddd3a7f503282" kindref="member">::themis::utils::Logger::info</ref>(__VA_ARGS__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="263" column="9" bodyfile="include/utils/logger.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="logger_8h_1ade0528e3f53f4548ffa6867f699a9444" prot="public" static="no">
+        <name>THEMIS_WARN</name>
+        <param><defname>...</defname></param>
+        <initializer><ref refid="classthemis_1_1utils_1_1_logger_1a15d42312f4b96a350eb1cf80379ff15c" kindref="member">::themis::utils::Logger::warn</ref>(__VA_ARGS__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="264" column="9" bodyfile="include/utils/logger.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="logger_8h_1ac57df04ff125f5183ff1d602a0cad21f" prot="public" static="no">
+        <name>THEMIS_ERROR</name>
+        <param><defname>...</defname></param>
+        <initializer><ref refid="classthemis_1_1utils_1_1_logger_1aab5d06ab245c132b742848f1711a5633" kindref="member">::themis::utils::Logger::error</ref>(__VA_ARGS__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="265" column="9" bodyfile="include/utils/logger.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="logger_8h_1a4f1f238b290da61f99c5c4ccf17c8fc6" prot="public" static="no">
+        <name>THEMIS_CRITICAL</name>
+        <param><defname>...</defname></param>
+        <initializer><ref refid="classthemis_1_1utils_1_1_logger_1a3adaf63419c76fdb429f3aaf2461d3aa" kindref="member">::themis::utils::Logger::critical</ref>(__VA_ARGS__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="266" column="9" bodyfile="include/utils/logger.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis_export.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/common.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacespdlog" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacespdlog" kindref="compound">spdlog</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">logger;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceutils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1utils_1_1_log_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_log_metrics" kindref="compound">LogMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1utils_1_1_log_metrics_1aa90019b1fe7a35d67d3be0664f073de4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1aa90019b1fe7a35d67d3be0664f073de4" kindref="member">trace_count</ref>{0};</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1utils_1_1_log_metrics_1a0fa1fac01ab51cc8ff69a1f1a0bd5f54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a0fa1fac01ab51cc8ff69a1f1a0bd5f54" kindref="member">debug_count</ref>{0};</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1utils_1_1_log_metrics_1a2d1223f1fb15efffdea025d291ccbeee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a2d1223f1fb15efffdea025d291ccbeee" kindref="member">info_count</ref>{0};</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1utils_1_1_log_metrics_1a4b2fe4ec939c495927e60651ceeab3ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a4b2fe4ec939c495927e60651ceeab3ab" kindref="member">warn_count</ref>{0};</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1utils_1_1_log_metrics_1af5462ba74f97f5fd65c19b53ae1ea2e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1af5462ba74f97f5fd65c19b53ae1ea2e0" kindref="member">error_count</ref>{0};</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1utils_1_1_log_metrics_1a9fbce6ee785f41614a2d0820f88546b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a9fbce6ee785f41614a2d0820f88546b4" kindref="member">critical_count</ref>{0};</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1utils_1_1_log_metrics_1a8cc97220bbeb327b4b18e35b3a4f6fdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a8cc97220bbeb327b4b18e35b3a4f6fdb" kindref="member">total_count</ref>{0};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot" kindref="compound">Snapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a6fffb78f348a8150d2397e395c7cf1ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a6fffb78f348a8150d2397e395c7cf1ff" kindref="member">trace_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a23ea49dc146ca4225921fa1deebc6f3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a23ea49dc146ca4225921fa1deebc6f3c" kindref="member">debug_count</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a6c5cbb2d86e48cf3fb8294335045f17c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a6c5cbb2d86e48cf3fb8294335045f17c" kindref="member">info_count</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1ac30b404e528ec597ee824083fa6e1490" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1ac30b404e528ec597ee824083fa6e1490" kindref="member">warn_count</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a97c15f41d6a76695bb36364e7494e1e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a97c15f41d6a76695bb36364e7494e1e2" kindref="member">error_count</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a10f91267eceadac516361b4bf5f3a27f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1a10f91267eceadac516361b4bf5f3a27f" kindref="member">critical_count</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1aa91bc37d432dfaef888b47f8a1cf3972" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot_1aa91bc37d432dfaef888b47f8a1cf3972" kindref="member">total_count</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1utils_1_1_log_metrics_1a6c6304f1679b64bd398a4ffa17cc8227" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1_1_snapshot" kindref="compound">Snapshot</ref><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a6c6304f1679b64bd398a4ffa17cc8227" kindref="member">snapshot</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1aa90019b1fe7a35d67d3be0664f073de4" kindref="member">trace_count</ref>.load(),</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a0fa1fac01ab51cc8ff69a1f1a0bd5f54" kindref="member">debug_count</ref>.load(),</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a2d1223f1fb15efffdea025d291ccbeee" kindref="member">info_count</ref>.load(),</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a4b2fe4ec939c495927e60651ceeab3ab" kindref="member">warn_count</ref>.load(),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1af5462ba74f97f5fd65c19b53ae1ea2e0" kindref="member">error_count</ref>.load(),</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a9fbce6ee785f41614a2d0820f88546b4" kindref="member">critical_count</ref>.load(),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a8cc97220bbeb327b4b18e35b3a4f6fdb" kindref="member">total_count</ref>.load()</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1utils_1_1_log_metrics_1a1748e9e9f53695f139856b82ae76e9a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a1748e9e9f53695f139856b82ae76e9a3" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1aa90019b1fe7a35d67d3be0664f073de4" kindref="member">trace_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a0fa1fac01ab51cc8ff69a1f1a0bd5f54" kindref="member">debug_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a2d1223f1fb15efffdea025d291ccbeee" kindref="member">info_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a4b2fe4ec939c495927e60651ceeab3ab" kindref="member">warn_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1af5462ba74f97f5fd65c19b53ae1ea2e0" kindref="member">error_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a9fbce6ee785f41614a2d0820f88546b4" kindref="member">critical_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics_1a8cc97220bbeb327b4b18e35b3a4f6fdb" kindref="member">total_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1utils_1_1_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">THEMIS_BASE_API<sp/><ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref><sp/>{<sp/>TRACE,<sp/>DEBUG,<sp/>INFO,<sp/>WARN,<sp/>ERROR,<sp/>CRITICAL<sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>init(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>log_file<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vccdb.log&quot;</highlight><highlight class="normal">,<sp/>Level<sp/>level<sp/>=<sp/>Level::INFO);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>log_file<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vccdb.json.log&quot;</highlight><highlight class="normal">,<sp/>Level<sp/>level<sp/>=<sp/>Level::INFO);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initRotating(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>log_file<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vccdb.log&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>max_file_size<sp/>=<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>max_files<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Level<sp/>level<sp/>=<sp/>Level::INFO);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>shutdown();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;spdlog::logger&gt;<sp/>get();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setLevel(Level<sp/>level);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Level<sp/>getLevel();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setPattern(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setTraceContext(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>trace_id);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>getTraceContext();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Level<sp/>levelFromString(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>lvl);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>levelToString(Level<sp/>lvl);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_log_metrics" kindref="compound">LogMetrics</ref>&amp;<sp/>getMetrics();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>resetMetrics();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>trace(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>debug(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>info(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>warn(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>error(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>critical(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backwards-compatible<sp/>capitalized<sp/>aliases<sp/>used<sp/>across<sp/>the<sp/>codebase.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1utils_1_1_logger_1a25008587734e34dec7c271d734bbd532" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_logger_1a25008587734e34dec7c271d734bbd532" kindref="member">Trace</ref>(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args)<sp/>{<sp/><ref refid="classthemis_1_1utils_1_1_logger_1a8dc3a03fd3d93fbe9e9440cda76811f5" kindref="member">trace</ref>(std::forward&lt;FormatString&gt;(fmt),<sp/>std::forward&lt;Args&gt;(args)...);<sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1utils_1_1_logger_1a3cee136d1711ee6842ea8cadaf3b6092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_logger_1a3cee136d1711ee6842ea8cadaf3b6092" kindref="member">Debug</ref>(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args)<sp/>{<sp/><ref refid="classthemis_1_1utils_1_1_logger_1ac9caf5cadc0d32978ea63616f1561b9a" kindref="member">debug</ref>(std::forward&lt;FormatString&gt;(fmt),<sp/>std::forward&lt;Args&gt;(args)...);<sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1utils_1_1_logger_1afbb8fed370a1b151e1bb80d90cc1941a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_logger_1afbb8fed370a1b151e1bb80d90cc1941a" kindref="member">Info</ref>(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args)<sp/>{<sp/><ref refid="classthemis_1_1utils_1_1_logger_1a7070a0eef299c1d01c7ddd3a7f503282" kindref="member">info</ref>(std::forward&lt;FormatString&gt;(fmt),<sp/>std::forward&lt;Args&gt;(args)...);<sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1utils_1_1_logger_1ac2284ba51397cca53ffaf356963e0b7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_logger_1ac2284ba51397cca53ffaf356963e0b7c" kindref="member">Warn</ref>(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args)<sp/>{<sp/><ref refid="classthemis_1_1utils_1_1_logger_1a15d42312f4b96a350eb1cf80379ff15c" kindref="member">warn</ref>(std::forward&lt;FormatString&gt;(fmt),<sp/>std::forward&lt;Args&gt;(args)...);<sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1utils_1_1_logger_1a633c030969a25cdc65531095850eab0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_logger_1a633c030969a25cdc65531095850eab0b" kindref="member">Error</ref>(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args)<sp/>{<sp/><ref refid="classthemis_1_1utils_1_1_logger_1aab5d06ab245c132b742848f1711a5633" kindref="member">error</ref>(std::forward&lt;FormatString&gt;(fmt),<sp/>std::forward&lt;Args&gt;(args)...);<sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FormatString,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1utils_1_1_logger_1a3196659d746987ff1837676b9cd7bdac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_logger_1a3196659d746987ff1837676b9cd7bdac" kindref="member">Critical</ref>(FormatString&amp;&amp;<sp/>fmt,<sp/>Args&amp;&amp;...<sp/>args)<sp/>{<sp/><ref refid="classthemis_1_1utils_1_1_logger_1a3adaf63419c76fdb429f3aaf2461d3aa" kindref="member">critical</ref>(std::forward&lt;FormatString&gt;(fmt),<sp/>std::forward&lt;Args&gt;(args)...);<sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;spdlog::logger&gt;<sp/>logger_{};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>LogMetrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>trace_context_{};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>trace_context_mu_{};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>json_mode_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>LogMetrics&amp;<sp/>metricsStorage();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>spdlog::level::level_enum<sp/>toSpdlogLevel(Level<sp/>level);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SampledLogger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="structthemis_1_1utils_1_1_sampled_logger_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1utils_1_1_sampled_logger_config_1a650b0cced7672dbf73ebccc4f35d08f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config_1a650b0cced7672dbf73ebccc4f35d08f6" kindref="member">trace_sample_rate</ref><sp/>=<sp/>0.01;<sp/><sp/></highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1utils_1_1_sampled_logger_config_1a68d5cbffedb9a7193507204abba5d79b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config_1a68d5cbffedb9a7193507204abba5d79b" kindref="member">debug_sample_rate</ref><sp/>=<sp/>0.10;<sp/><sp/></highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1utils_1_1_sampled_logger_config_1a43ca5b85794aebf41a4f455fbd146b54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config_1a43ca5b85794aebf41a4f455fbd146b54" kindref="member">info_sample_rate</ref><sp/><sp/>=<sp/>1.00;<sp/><sp/></highlight></codeline>
+<codeline lineno="209" refid="structthemis_1_1utils_1_1_sampled_logger_config_1a58e036730b173ed0143b575a852bfc36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config_1a58e036730b173ed0143b575a852bfc36" kindref="member">warn_sample_rate</ref><sp/><sp/>=<sp/>1.00;<sp/><sp/></highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1utils_1_1_sampled_logger_config_1a83d8a3380d80d4b4b162a955fd1658b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config_1a83d8a3380d80d4b4b162a955fd1658b0" kindref="member">error_sample_rate</ref><sp/>=<sp/>1.00;<sp/><sp/></highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1utils_1_1_sampled_logger_config_1af5591b63c5be7aea50e5db457e7aeb67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config_1af5591b63c5be7aea50e5db457e7aeb67" kindref="member">burst_rate</ref><sp/>=<sp/>100.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1utils_1_1_sampled_logger_config_1a642edb2965e70fd598dfb520145db329" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config_1a642edb2965e70fd598dfb520145db329" kindref="member">burst_size</ref><sp/>=<sp/>10.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1utils_1_1_sampled_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">THEMIS_BASE_API<sp/><ref refid="classthemis_1_1utils_1_1_sampled_logger_1a20691088837783147e929b3dd486c439" kindref="member">SampledLogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_sampled_logger_1a20691088837783147e929b3dd486c439" kindref="member">SampledLogger</ref>(std::shared_ptr&lt;Logger&gt;<sp/>underlying,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref><sp/>cfg<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1utils_1_1_sampled_logger_1aa34be22500e10a33b28c355d61cf998f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_sampled_logger_1aa34be22500e10a33b28c355d61cf998f" kindref="member">~SampledLogger</ref>();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_sampled_logger_1aea6d5540351371e2e94590c283e6c35e" kindref="member">log</ref>(<ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Logger::Level</ref><sp/>level,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>file<sp/>=<sp/>__builtin_FILE(),</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line<sp/>=<sp/>__builtin_LINE());</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1utils_1_1_sampled_logger_1a478f22247b10d6da03ad0416c85566e7" kindref="member">suppressed_total</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_sampled_logger_1a06386dfc325ac0b9c0aec24d72875db2" kindref="member">reset_stats</ref>();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_sampled_logger_1aa84a79e8bf46f71431ee4881e2eafffa" kindref="member">set_config</ref>(<ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref><sp/>cfg);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket" kindref="compound">Bucket</ref>;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>should_log(<ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Logger::Level</ref><sp/>level,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>file,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Logger&gt;<sp/><sp/>underlying_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/><sp/>suppressed_{0};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/>buckets_mutex_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;Bucket&gt;&gt;<sp/>buckets_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="logger__impl_8h" kindref="compound">utils/logger_impl.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="logger_8h_1a9603f7f97492c80ecefc020460fc7c8d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TRACE(...)<sp/>::themis::utils::Logger::trace(__VA_ARGS__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="logger_8h_1aa78260bb6745022cfee44846264ce6fc" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_DEBUG(...)<sp/>::themis::utils::Logger::debug(__VA_ARGS__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="logger_8h_1a39e87e8a08bc7617cdd677afcb210e82" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_INFO(...)<sp/>::themis::utils::Logger::info(__VA_ARGS__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="logger_8h_1ade0528e3f53f4548ffa6867f699a9444" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_WARN(...)<sp/>::themis::utils::Logger::warn(__VA_ARGS__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="logger_8h_1ac57df04ff125f5183ff1d602a0cad21f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_ERROR(...)<sp/>::themis::utils::Logger::error(__VA_ARGS__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="logger_8h_1a4f1f238b290da61f99c5c4ccf17c8fc6" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_CRITICAL(...)<sp/>::themis::utils::Logger::critical(__VA_ARGS__)</highlight></codeline>
+    </programlisting>
+    <location file="include/utils/logger.h"/>
+  </compounddef>
+</doxygen>

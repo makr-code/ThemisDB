@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::LWWRegister</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a28cd6a90a90391d3c1fd2c4a373046c5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::crdt::LWWRegister&lt; T &gt;::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="180" column="20" bodyfile="include/replication/crdt_types.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1afb41c1885b9c810b792dcd26e4deed30" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt;T&gt; themisdb::replication::crdt::LWWRegister&lt; T &gt;::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="181" column="19" bodyfile="include/replication/crdt_types.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a291c7ecfdf398905497b9665623a2ae2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::LWWRegister&lt; T &gt;::ts_</definition>
+        <argsstring></argsstring>
+        <name>ts_</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::ts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="182" column="20" bodyfile="include/replication/crdt_types.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a1799b34faaf9ae7545c0690652934334" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::crdt::LWWRegister&lt; T &gt;::winning_node_</definition>
+        <argsstring></argsstring>
+        <name>winning_node_</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::winning_node_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="183" column="20" bodyfile="include/replication/crdt_types.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a15ec9054d0af185ff02d0f6376fed443" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::crdt::LWWRegister&lt; T &gt;::LWWRegister</definition>
+        <argsstring>()=default</argsstring>
+        <name>LWWRegister</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::LWWRegister</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a9c3920dbb6b2613eeaf0ab83687dafb5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::crdt::LWWRegister&lt; T &gt;::LWWRegister</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>LWWRegister</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::LWWRegister</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="146" column="14" bodyfile="include/replication/crdt_types.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a38e1fccbaacc1a8402d76c52b8fbd933" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::LWWRegister&lt; T &gt;::write</definition>
+        <argsstring>(T value, uint64_t timestamp_us)</argsstring>
+        <name>write</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::write</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_us</declname>
+        </param>
+        <briefdescription>
+<para>Write <computeroutput>value</computeroutput> with the given <computeroutput>timestamp_us</computeroutput> (microseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="152" column="10" bodyfile="include/replication/crdt_types.h" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a385fdcafcf71a176659a6f9a667d7a49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::optional&lt; T &gt; &amp;</type>
+        <definition>const std::optional&lt; T &gt; &amp; themisdb::replication::crdt::LWWRegister&lt; T &gt;::read</definition>
+        <argsstring>() const</argsstring>
+        <name>read</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::read</qualifiedname>
+        <briefdescription>
+<para>Returns the current value (empty optional if never written). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="162" column="25" bodyfile="include/replication/crdt_types.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1ab60bb0407d40f8991e0fc194eb137ea2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::LWWRegister&lt; T &gt;::timestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::timestamp</qualifiedname>
+        <briefdescription>
+<para>Returns the timestamp of the winning write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="165" column="14" bodyfile="include/replication/crdt_types.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a759585c0d430f77e3e24369e5ec357c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::LWWRegister&lt; T &gt;::merge</definition>
+        <argsstring>(const LWWRegister&lt; T &gt; &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::LWWRegister::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a15ec9054d0af185ff02d0f6376fed443" kindref="member">LWWRegister</ref>&lt; T &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="167" column="10" bodyfile="include/replication/crdt_types.h" bodystart="167" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A Last-Write-Wins Register. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Writes with a strictly higher timestamp win. On equal timestamps the lexicographically-greater node ID is preferred (tie-break).</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value type (must be copy-constructible). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="143" column="1" bodyfile="include/replication/crdt_types.h" bodystart="143" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a15ec9054d0af185ff02d0f6376fed443" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>LWWRegister</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a9c3920dbb6b2613eeaf0ab83687dafb5" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>LWWRegister</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a759585c0d430f77e3e24369e5ec357c1" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a28cd6a90a90391d3c1fd2c4a373046c5" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>node_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a385fdcafcf71a176659a6f9a667d7a49" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>read</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1ab60bb0407d40f8991e0fc194eb137ea2" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>timestamp</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a291c7ecfdf398905497b9665623a2ae2" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>ts_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1afb41c1885b9c810b792dcd26e4deed30" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>value_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a1799b34faaf9ae7545c0690652934334" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>winning_node_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register_1a38e1fccbaacc1a8402d76c52b8fbd933" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::LWWRegister</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

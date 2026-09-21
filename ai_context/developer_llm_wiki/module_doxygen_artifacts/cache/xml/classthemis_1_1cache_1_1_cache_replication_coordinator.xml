@@ -1,0 +1,732 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_cache_replication_coordinator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::cache::CacheReplicationCoordinator</compoundname>
+    <basecompoundref refid="classthemis_1_1cache_1_1_i_cache_coordinator" prot="public" virt="non-virtual">themis::cache::ICacheCoordinator</basecompoundref>
+    <includes refid="cache__replication__coordinator_8h" local="no">cache_replication_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item" prot="private">themis::cache::CacheReplicationCoordinator::FanoutItem</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a9c7d3099782ee0142031036e84e5b85b" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1cache_1_1_i_remote_cache_peer" kindref="compound">IRemoteCachePeer</ref> &gt;(const std::string &amp;addr)&gt;</type>
+        <definition>using themis::cache::CacheReplicationCoordinator::PeerFactory = 
+std::function&lt;std::unique_ptr&lt;IRemoteCachePeer&gt;(const std::string&amp; addr)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PeerFactory</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::PeerFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="242" column="5" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a10cafeeaa12f33c91ebac12313645f20" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::CacheReplicationCoordinator::kRetryQueueCapacity</definition>
+        <argsstring></argsstring>
+        <name>kRetryQueueCapacity</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::kRetryQueueCapacity</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="238" column="34" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1af83291632b45a836cc3169177b139bc8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::CacheReplicationCoordinator::kMaxRetryAttempts</definition>
+        <argsstring></argsstring>
+        <name>kMaxRetryAttempts</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::kMaxRetryAttempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="240" column="26" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1af5c6fecd48244181ebe63dda59fdc32f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_i_cluster_view" kindref="compound">IClusterView</ref> *</type>
+        <definition>IClusterView* themis::cache::CacheReplicationCoordinator::cluster_view_</definition>
+        <argsstring></argsstring>
+        <name>cluster_view_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::cluster_view_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="303" column="27" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a8aae126c154c041506617fa28f4cd2ea" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a9c7d3099782ee0142031036e84e5b85b" kindref="member">PeerFactory</ref></type>
+        <definition>PeerFactory themis::cache::CacheReplicationCoordinator::peer_factory_</definition>
+        <argsstring></argsstring>
+        <name>peer_factory_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::peer_factory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="304" column="28" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1ad823e5e73614ec0875bea8bb38613ea8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_in_process_cache_coordinator" kindref="compound">InProcessCacheCoordinator</ref></type>
+        <definition>InProcessCacheCoordinator themis::cache::CacheReplicationCoordinator::local_</definition>
+        <argsstring></argsstring>
+        <name>local_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::local_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="306" column="31" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1ad71cb6b9433b30e8c8ad506ecbf2f03a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::CacheReplicationCoordinator::peers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>peers_mutex_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::peers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="308" column="58" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1af69cff83d9b81eac8025a841c492819e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_i_remote_cache_peer" kindref="compound">IRemoteCachePeer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IRemoteCachePeer&gt; &gt; themis::cache::CacheReplicationCoordinator::remote_peers_</definition>
+        <argsstring></argsstring>
+        <name>remote_peers_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::remote_peers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="309" column="23" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a5c048d6424cf0ecea3a8ca8601438efc" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::CacheReplicationCoordinator::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="313" column="29" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a65f93c9f0dd10fd661067b3739b17a56" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::cache::CacheReplicationCoordinator::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="314" column="29" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a447a08525f03abc22fcdeba5e8d53b72" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; FanoutItem &gt;</type>
+        <definition>std::queue&lt;FanoutItem&gt; themis::cache::CacheReplicationCoordinator::fanout_queue_</definition>
+        <argsstring></argsstring>
+        <name>fanout_queue_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::fanout_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="315" column="17" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1add48f07750df36dad658d38ca50381ec" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheReplicationCoordinator::stopping_</definition>
+        <argsstring></argsstring>
+        <name>stopping_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::stopping_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="316" column="29" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1adf5abdb0fbb3f5ceec4eac84e9e902fd" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::cache::CacheReplicationCoordinator::fanout_thread_</definition>
+        <argsstring></argsstring>
+        <name>fanout_thread_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::fanout_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="317" column="29" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a7ab8f8ad879b0c142900340381fa23b1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::CacheReplicationCoordinator::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="321" column="24" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1ac5dd36b1b9d99532ad691ea8f5a25dbb" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheReplicationCoordinator::fanout_enqueued_</definition>
+        <argsstring></argsstring>
+        <name>fanout_enqueued_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::fanout_enqueued_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="322" column="14" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1af677b8520d09fda3414f476e4604b2e8" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheReplicationCoordinator::fanout_dropped_</definition>
+        <argsstring></argsstring>
+        <name>fanout_dropped_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::fanout_dropped_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="323" column="14" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1af7ab16179852e1be6ac30123f547ff5c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheReplicationCoordinator::fanout_delivered_</definition>
+        <argsstring></argsstring>
+        <name>fanout_delivered_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::fanout_delivered_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="324" column="14" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1af71f39348598658d543a08322fbcaea5" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheReplicationCoordinator::fanout_retried_</definition>
+        <argsstring></argsstring>
+        <name>fanout_retried_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::fanout_retried_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="325" column="14" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a9fa5e1f16aefd91c66b0caecd6768f96" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheReplicationCoordinator::fanout_failed_</definition>
+        <argsstring></argsstring>
+        <name>fanout_failed_</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::fanout_failed_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="326" column="14" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1ae2bfcabf2bcd815259fdaf734b3e843c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheReplicationCoordinator::CacheReplicationCoordinator</definition>
+        <argsstring>(IClusterView *cluster_view, std::shared_ptr&lt; InProcessCacheCoordinator::Bus &gt; bus=nullptr, PeerFactory peer_factory=nullptr)</argsstring>
+        <name>CacheReplicationCoordinator</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::CacheReplicationCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_i_cluster_view" kindref="compound">IClusterView</ref> *</type>
+          <declname>cluster_view</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus" kindref="compound">InProcessCacheCoordinator::Bus</ref> &gt;</type>
+          <declname>bus</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a9c7d3099782ee0142031036e84e5b85b" kindref="member">PeerFactory</ref></type>
+          <declname>peer_factory</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="245" column="14" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="235" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1aecc0a39b8cba0b7a71a4b6d8df7554d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheReplicationCoordinator::~CacheReplicationCoordinator</definition>
+        <argsstring>() override</argsstring>
+        <name>~CacheReplicationCoordinator</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::~CacheReplicationCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="250" column="5" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="249" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1ad2f9fdbfa262c1dd86608c333e246dde" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationCoordinator::publishEntry</definition>
+        <argsstring>(const std::string &amp;key, const nlohmann::json &amp;result, int ttl_seconds, const std::string &amp;tenant_id) override</argsstring>
+        <name>publishEntry</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::publishEntry</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a239e342544156f15cd25bb950bf28836">publishEntry</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ttl_seconds</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Publish Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements publishEntry without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="253" column="10" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="316" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a0e9d63d02f1c3a98c3e74b5003f38e8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationCoordinator::publishInvalidation</definition>
+        <argsstring>(const std::string &amp;pattern, const std::string &amp;tenant_id=&quot;&quot;) override</argsstring>
+        <name>publishInvalidation</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::publishInvalidation</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1af9f7f77e61dd64bafdb7a4a4e7dd4594">publishInvalidation</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Publish Invalidation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: enqueueFanout(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="258" column="10" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="330" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a45efcd5db71c720cee7f60e90b7bf3dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationCoordinator::subscribeEntries</definition>
+        <argsstring>(EntryCallback callback) override</argsstring>
+        <name>subscribeEntries</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::subscribeEntries</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1aac77720dc659636b5899ecd297731988">subscribeEntries</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a1b4046bf057c4031fcd7c7cd2a25353c" kindref="member">EntryCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="261" column="10" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="344" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1abf4b5da96d8d8b3084a1a8eb95758111" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationCoordinator::subscribeInvalidations</definition>
+        <argsstring>(InvalidationCallback callback) override</argsstring>
+        <name>subscribeInvalidations</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::subscribeInvalidations</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a69771142cf118195870aa7eadcd14f4f">subscribeInvalidations</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a9e18e6c69a0bd08f4f6a72785d24cbd5" kindref="member">InvalidationCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe Invalidations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="262" column="10" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="348" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a21b074cb9589108dda4406918f63a9c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheReplicationCoordinator::isConnected</definition>
+        <argsstring>() const override</argsstring>
+        <name>isConnected</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::isConnected</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a43515033f1395d1b12421cde6f39f55e">isConnected</reimplements>
+        <briefdescription>
+<para>Is Connected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="264" column="20" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="352" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a60ceb0cda9655a29505fd76de3ba31c5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheReplicationCoordinator::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::name</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a4ae9c5cc52d1c7cdfefef09718aebe19">name</reimplements>
+        <briefdescription>
+<para>Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="265" column="20" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="265" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1aa93ebdc1d543e852ede43695113d399c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::CacheReplicationCoordinator::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::getStats</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1af928bf1657ad499c222beafebb759f80">getStats</reimplements>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="266" column="20" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="356" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a25cf716abab46e63da9d50ce1b9919a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationCoordinator::refreshPeers</definition>
+        <argsstring>()</argsstring>
+        <name>refreshPeers</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::refreshPeers</qualifiedname>
+        <briefdescription>
+<para>Refresh Peers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: getPeerAddresses(), lk(), reserve(), size(), address(), find(), end(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="271" column="10" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="269" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1ab59be8a533b0dc35cbb262334a988b6f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationCoordinator::fanoutWorker</definition>
+        <argsstring>()</argsstring>
+        <name>fanoutWorker</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::fanoutWorker</qualifiedname>
+        <briefdescription>
+<para>Fanout Worker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), wait_for(), empty(), std::move(), front(), pop(), pl(), invalidate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="294" column="10" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="442" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_coordinator_1a964ad378fc05a54cde54a4df9289597b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationCoordinator::enqueueFanout</definition>
+        <argsstring>(FanoutItem item)</argsstring>
+        <name>enqueueFanout</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::enqueueFanout</qualifiedname>
+        <param>
+          <type>FanoutItem</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Enqueue Fanout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Private helpers ───────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), size(), THEMIS_WARN(), push(), std::move(), ml(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="299" column="10" bodyfile="src/cache/cache_replication_coordinator.cpp" bodystart="398" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cache::CacheReplicationCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_cache_replication_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_coordinator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cache::CacheReplicationCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_cache_replication_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_coordinator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cache/cache_replication_coordinator.h" line="236" column="1" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="236" bodyend="327"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1ae2bfcabf2bcd815259fdaf734b3e843c" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>CacheReplicationCoordinator</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1af5c6fecd48244181ebe63dda59fdc32f" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>cluster_view_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a964ad378fc05a54cde54a4df9289597b" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>enqueueFanout</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a1b4046bf057c4031fcd7c7cd2a25353c" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>EntryCallback</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1af7ab16179852e1be6ac30123f547ff5c" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>fanout_delivered_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1af677b8520d09fda3414f476e4604b2e8" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>fanout_dropped_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1ac5dd36b1b9d99532ad691ea8f5a25dbb" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>fanout_enqueued_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a9fa5e1f16aefd91c66b0caecd6768f96" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>fanout_failed_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a447a08525f03abc22fcdeba5e8d53b72" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>fanout_queue_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1af71f39348598658d543a08322fbcaea5" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>fanout_retried_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1adf5abdb0fbb3f5ceec4eac84e9e902fd" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>fanout_thread_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1ab59be8a533b0dc35cbb262334a988b6f" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>fanoutWorker</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1aa93ebdc1d543e852ede43695113d399c" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a9e18e6c69a0bd08f4f6a72785d24cbd5" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>InvalidationCallback</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a21b074cb9589108dda4406918f63a9c3" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>isConnected</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1af83291632b45a836cc3169177b139bc8" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>kMaxRetryAttempts</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a10cafeeaa12f33c91ebac12313645f20" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>kRetryQueueCapacity</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1ad823e5e73614ec0875bea8bb38613ea8" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>local_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a7ab8f8ad879b0c142900340381fa23b1" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a60ceb0cda9655a29505fd76de3ba31c5" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>name</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a8aae126c154c041506617fa28f4cd2ea" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>peer_factory_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a9c7d3099782ee0142031036e84e5b85b" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>PeerFactory</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1ad71cb6b9433b30e8c8ad506ecbf2f03a" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>peers_mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1ad2f9fdbfa262c1dd86608c333e246dde" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>publishEntry</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a0e9d63d02f1c3a98c3e74b5003f38e8d" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>publishInvalidation</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a65f93c9f0dd10fd661067b3739b17a56" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>queue_cv_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a5c048d6424cf0ecea3a8ca8601438efc" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a25cf716abab46e63da9d50ce1b9919a9" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>refreshPeers</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1af69cff83d9b81eac8025a841c492819e" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>remote_peers_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1add48f07750df36dad658d38ca50381ec" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>stopping_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1a45efcd5db71c720cee7f60e90b7bf3dd" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>subscribeEntries</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1abf4b5da96d8d8b3084a1a8eb95758111" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>subscribeInvalidations</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_coordinator_1aecc0a39b8cba0b7a71a4b6d8df7554d0" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>~CacheReplicationCoordinator</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_coordinator_1ac1a0b3bf03cf40b263bac9e16a8bf5ac" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationCoordinator</scope><name>~ICacheCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

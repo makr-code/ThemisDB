@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_changefeed_1_1_subscription_entry" kind="struct" language="C++" prot="private">
+    <compoundname>Changefeed::SubscriptionEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_changefeed_1_1_subscription_entry_1a78cefaf9ac51554a0fa267bd3f0b8b86" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_changefeed_1_1_subscription_filter" kindref="compound">SubscriptionFilter</ref></type>
+        <definition>SubscriptionFilter themis::Changefeed::SubscriptionEntry::filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <qualifiedname>Changefeed::SubscriptionEntry::filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="413" column="30" bodyfile="include/cdc/changefeed.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_subscription_entry_1af0b3ccd873f6a0bd7a60025eb6105441" prot="public" static="no" mutable="no">
+        <type><ref refid="class_changefeed_1aa38af7b02036b188d864a9eccdbbf919" kindref="member">SubscriptionCallback</ref></type>
+        <definition>SubscriptionCallback themis::Changefeed::SubscriptionEntry::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>Changefeed::SubscriptionEntry::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="414" column="30" bodyfile="include/cdc/changefeed.h" bodystart="414" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>Changefeed::SubscriptionEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>filter</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::Changefeed::SubscriptionFilter</label>
+        <link refid="structthemis_1_1_changefeed_1_1_subscription_filter"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/changefeed.h" line="412" column="5" bodyfile="include/cdc/changefeed.h" bodystart="412" bodyend="415"/>
+    <listofallmembers>
+      <member refid="struct_changefeed_1_1_subscription_entry_1af0b3ccd873f6a0bd7a60025eb6105441" prot="public" virt="non-virtual"><scope>Changefeed::SubscriptionEntry</scope><name>callback</name></member>
+      <member refid="struct_changefeed_1_1_subscription_entry_1a78cefaf9ac51554a0fa267bd3f0b8b86" prot="public" virt="non-virtual"><scope>Changefeed::SubscriptionEntry</scope><name>filter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

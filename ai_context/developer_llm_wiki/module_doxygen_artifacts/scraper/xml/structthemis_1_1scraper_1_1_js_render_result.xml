@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_js_render_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::JsRenderResult</compoundname>
+    <includes refid="scraper__js__renderer_8h" local="no">scraper_js_renderer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_result_1adfb565254466b82bc5985b0caab57c0e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::JsRenderResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::scraper::JsRenderResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when rendering succeeded and HTML was captured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="46" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_result_1afa869ed2bfe9959b23ffea01c8d7787b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::JsRenderResult::html</definition>
+        <argsstring></argsstring>
+        <name>html</name>
+        <qualifiedname>themis::scraper::JsRenderResult::html</qualifiedname>
+        <briefdescription>
+<para>Fully-rendered HTML (empty on failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="47" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_result_1a9b07c7187571746de2acc18ee0d73308" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::JsRenderResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::scraper::JsRenderResult::error</qualifiedname>
+        <briefdescription>
+<para>Non-empty diagnostic string when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="48" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_result_1ac083c9d8c471433348990c9a8ae742a0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::JsRenderResult::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::scraper::JsRenderResult::status_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>HTTP status code reported by the renderer (0 = unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="49" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_js_render_result_1a7cde4edb3d2663f66671aacc7f47bbd0" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::scraper::JsRenderResult::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::scraper::JsRenderResult::elapsed_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock rendering time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="50" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single JavaScript page rendering request. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When success == false, html is empty and error contains a diagnostic string (e.g. timeout message or non-zero exit code). </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_js_renderer.h" line="45" column="1" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="45" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_js_render_result_1a7cde4edb3d2663f66671aacc7f47bbd0" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderResult</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_result_1a9b07c7187571746de2acc18ee0d73308" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_result_1afa869ed2bfe9959b23ffea01c8d7787b" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderResult</scope><name>html</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_result_1ac083c9d8c471433348990c9a8ae742a0" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderResult</scope><name>status_code</name></member>
+      <member refid="structthemis_1_1scraper_1_1_js_render_result_1adfb565254466b82bc5985b0caab57c0e" prot="public" virt="non-virtual"><scope>themis::scraper::JsRenderResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

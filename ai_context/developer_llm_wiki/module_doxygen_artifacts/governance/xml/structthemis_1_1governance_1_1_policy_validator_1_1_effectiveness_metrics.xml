@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyValidator::EffectivenessMetrics</compoundname>
+    <includes refid="policy__validation_8h" local="no">policy_validation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1a5bc7783a08fbb532deb9221c8a6a5c98" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyValidator::EffectivenessMetrics::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::PolicyValidator::EffectivenessMetrics::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="46" column="21" bodyfile="include/governance/policy_validation.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1ae488c590ea210dd5076b4c78827bdba7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyValidator::EffectivenessMetrics::hit_count</definition>
+        <argsstring></argsstring>
+        <name>hit_count</name>
+        <qualifiedname>themis::governance::PolicyValidator::EffectivenessMetrics::hit_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="47" column="13" bodyfile="include/governance/policy_validation.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1a220619ec4821c3a31df380ccb0cfcb14" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyValidator::EffectivenessMetrics::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::governance::PolicyValidator::EffectivenessMetrics::last_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="48" column="17" bodyfile="include/governance/policy_validation.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1ac3b0dfa450dc25e8a5ac619a5a49ce46" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyValidator::EffectivenessMetrics::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::governance::PolicyValidator::EffectivenessMetrics::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="49" column="17" bodyfile="include/governance/policy_validation.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1ad9752e2585a49a6372b1760ae641579e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyValidator::EffectivenessMetrics::days_since_last_use</definition>
+        <argsstring></argsstring>
+        <name>days_since_last_use</name>
+        <qualifiedname>themis::governance::PolicyValidator::EffectivenessMetrics::days_since_last_use</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="50" column="13" bodyfile="include/governance/policy_validation.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1af154e6c8be3675c4e09abe348d4ffa77" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyValidator::EffectivenessMetrics::is_unused</definition>
+        <argsstring></argsstring>
+        <name>is_unused</name>
+        <qualifiedname>themis::governance::PolicyValidator::EffectivenessMetrics::is_unused</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="51" column="14" bodyfile="include/governance/policy_validation.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1ab97bd823e92785e0afbbb7b38e991b77" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::PolicyValidator::EffectivenessMetrics::effectiveness_score</definition>
+        <argsstring></argsstring>
+        <name>effectiveness_score</name>
+        <qualifiedname>themis::governance::PolicyValidator::EffectivenessMetrics::effectiveness_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="52" column="16" bodyfile="include/governance/policy_validation.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1a00ca6c79e34f34824ad18bc10c949c89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyValidator::EffectivenessMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyValidator::EffectivenessMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="58" column="24" bodyfile="src/governance/policy_validation.cpp" bodystart="43" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_validation.h" line="45" column="5" bodyfile="include/governance/policy_validation.h" bodystart="45" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1ac3b0dfa450dc25e8a5ac619a5a49ce46" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::EffectivenessMetrics</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1ad9752e2585a49a6372b1760ae641579e" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::EffectivenessMetrics</scope><name>days_since_last_use</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1ab97bd823e92785e0afbbb7b38e991b77" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::EffectivenessMetrics</scope><name>effectiveness_score</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1ae488c590ea210dd5076b4c78827bdba7" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::EffectivenessMetrics</scope><name>hit_count</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1af154e6c8be3675c4e09abe348d4ffa77" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::EffectivenessMetrics</scope><name>is_unused</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1a220619ec4821c3a31df380ccb0cfcb14" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::EffectivenessMetrics</scope><name>last_used</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1a5bc7783a08fbb532deb9221c8a6a5c98" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::EffectivenessMetrics</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics_1a00ca6c79e34f34824ad18bc10c949c89" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator::EffectivenessMetrics</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

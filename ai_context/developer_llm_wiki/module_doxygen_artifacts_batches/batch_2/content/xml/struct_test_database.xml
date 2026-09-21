@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_test_database" kind="struct" language="C++" prot="public">
+    <compoundname>TestDatabase</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_test_database_1ae68edcc1740ac3573ad7fb48f0c063f3" prot="public" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path TestDatabase::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>TestDatabase::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="75" column="45" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_database_1a972a1c0e42c1d907f4603078fd430699" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; TestDatabase::storage</definition>
+        <argsstring></argsstring>
+        <name>storage</name>
+        <qualifiedname>TestDatabase::storage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="76" column="29" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_database_1ae17c78a36a3443b2949cb04f57ffcafa" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; TestDatabase::vector_index</definition>
+        <argsstring></argsstring>
+        <name>vector_index</name>
+        <qualifiedname>TestDatabase::vector_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="77" column="25" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_database_1a064159eb4d1357d505d6fb63eb0a0757" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; TestDatabase::graph_index</definition>
+        <argsstring></argsstring>
+        <name>graph_index</name>
+        <qualifiedname>TestDatabase::graph_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="78" column="26" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_database_1a0d692c94f762e1783972f316ffced4f9" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; TestDatabase::secondary_index</definition>
+        <argsstring></argsstring>
+        <name>secondary_index</name>
+        <qualifiedname>TestDatabase::secondary_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="79" column="22" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_database_1ade8ac98849fbed96ce318ef8102c17d1" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_content_manager" kindref="compound">ContentManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ContentManager&gt; TestDatabase::content_manager</definition>
+        <argsstring></argsstring>
+        <name>content_manager</name>
+        <qualifiedname>TestDatabase::content_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="80" column="29" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_test_database_1aae7946325530a5b54afbc4f6002067e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TestDatabase::TestDatabase</definition>
+        <argsstring>()</argsstring>
+        <name>TestDatabase</name>
+        <qualifiedname>TestDatabase::TestDatabase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="82" column="5" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="82" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_test_database_1a589f617cd62b50343e5b2bf0148011f4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>TestDatabase::~TestDatabase</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~TestDatabase</name>
+        <qualifiedname>TestDatabase::~TestDatabase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="109" column="5" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="109" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/content/test_content_toolbox_bridge.cpp" line="74" column="1" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="74" bodyend="118"/>
+    <listofallmembers>
+      <member refid="struct_test_database_1ade8ac98849fbed96ce318ef8102c17d1" prot="public" virt="non-virtual"><scope>TestDatabase</scope><name>content_manager</name></member>
+      <member refid="struct_test_database_1a064159eb4d1357d505d6fb63eb0a0757" prot="public" virt="non-virtual"><scope>TestDatabase</scope><name>graph_index</name></member>
+      <member refid="struct_test_database_1ae68edcc1740ac3573ad7fb48f0c063f3" prot="public" virt="non-virtual"><scope>TestDatabase</scope><name>path</name></member>
+      <member refid="struct_test_database_1a0d692c94f762e1783972f316ffced4f9" prot="public" virt="non-virtual"><scope>TestDatabase</scope><name>secondary_index</name></member>
+      <member refid="struct_test_database_1a972a1c0e42c1d907f4603078fd430699" prot="public" virt="non-virtual"><scope>TestDatabase</scope><name>storage</name></member>
+      <member refid="struct_test_database_1aae7946325530a5b54afbc4f6002067e5" prot="public" virt="non-virtual"><scope>TestDatabase</scope><name>TestDatabase</name></member>
+      <member refid="struct_test_database_1ae17c78a36a3443b2949cb04f57ffcafa" prot="public" virt="non-virtual"><scope>TestDatabase</scope><name>vector_index</name></member>
+      <member refid="struct_test_database_1a589f617cd62b50343e5b2bf0148011f4" prot="public" virt="non-virtual"><scope>TestDatabase</scope><name>~TestDatabase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

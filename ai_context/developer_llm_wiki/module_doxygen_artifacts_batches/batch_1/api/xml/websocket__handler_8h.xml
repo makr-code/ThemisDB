@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="websocket__handler_8h" kind="file" language="C++">
+    <compoundname>websocket_handler.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="test__api__contracts_8cpp" local="yes">tests/api/test_api_contracts.cpp</includedby>
+    <includedby refid="test__api__interfaces_8cpp" local="yes">tests/api/test_api_interfaces.cpp</includedby>
+    <includedby refid="test__api__transport__hardening_8cpp" local="yes">tests/api/test_api_transport_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/api/websocket_handler.h</label>
+        <link refid="websocket__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/api/websocket_handler.h</label>
+        <link refid="websocket__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/api/test_api_contracts.cpp</label>
+        <link refid="test__api__contracts_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/api/test_api_interfaces.cpp</label>
+        <link refid="test__api__interfaces_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/api/test_api_transport_hardening.cpp</label>
+        <link refid="test__api__transport__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1api_1_1_web_socket_frame" prot="public">themis::api::WebSocketFrame</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_web_socket_frame_callback" prot="public">themis::api::IWebSocketFrameCallback</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_web_socket_session" prot="public">themis::api::WebSocketSession</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_web_socket_handler" prot="public">themis::api::IWebSocketHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1api">themis::api</innernamespace>
+    <briefdescription>
+<para>WebSocket transport adapter for ThemisDB GraphQL subscriptions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides WebSocket connection lifecycle management, frame parsing, and event callback interfaces aligned with RFC 6455.</para>
+<para>Core components:<itemizedlist>
+<listitem><para><computeroutput>WebSocketCloseCode</computeroutput>: RFC 6455 close code constants (1000-1015)</para>
+</listitem><listitem><para><computeroutput>WebSocketFrame</computeroutput>: Frame representation with type (Text, Binary, Ping, Pong, Close)</para>
+</listitem><listitem><para><computeroutput>IWebSocketFrameCallback</computeroutput>: Pure-virtual callback for frame reception and connection closure</para>
+</listitem><listitem><para><computeroutput>WebSocketSession</computeroutput>: Opaque handle to an active connection</para>
+</listitem><listitem><para><computeroutput>IWebSocketHandler</computeroutput>: Factory interface for protocol upgrade and session creation</para>
+</listitem></itemizedlist>
+</para>
+<para>Design constraints (from FUTURE_ENHANCEMENTS.md):<itemizedlist>
+<listitem><para>Adapter behavior remains fail-closed on invalid protocol input</para>
+</listitem><listitem><para>WebSocket frames must be bounded by explicit resource controls</para>
+</listitem><listitem><para>Connection lifecycle is tied to callback delivery — no frames after onClose()</para>
+</listitem><listitem><para>Message queuing respects runtime bounds to prevent resource exhaustion</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Lifecycle</heading>
+</para>
+<para><orderedlist>
+<listitem><para>HTTP Upgrade handshake received by <computeroutput>IWebSocketHandler::upgrade()</computeroutput></para>
+</listitem><listitem><para>On success, creates <computeroutput>WebSocketSession</computeroutput> and invokes callback with frames</para>
+</listitem><listitem><para>Callback receives frames via <computeroutput>onFrame()</computeroutput>; may call <computeroutput>send()</computeroutput> or <computeroutput>close()</computeroutput></para>
+</listitem><listitem><para>Connection closes (graceful or abnormal) → <computeroutput>onClose()</computeroutput> invoked once</para>
+</listitem><listitem><para>After <computeroutput>onClose()</computeroutput>, session handle is invalid; no further <computeroutput>send()</computeroutput> allowed</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>send()</computeroutput> and <computeroutput>close()</computeroutput> are thread-safe after <computeroutput>upgrade()</computeroutput> returns</para>
+</listitem><listitem><para>Callbacks (<computeroutput>onFrame</computeroutput>, <computeroutput>onClose</computeroutput>) must be <computeroutput>noexcept</computeroutput>; exceptions trigger <computeroutput>std::terminate()</computeroutput></para>
+</listitem><listitem><para>Session object is internally synchronized; safe for concurrent frame reception and transmission</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 82/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">api</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_web_socket_session" kindref="compound">WebSocketSession</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WebSocketCloseCode<sp/>—<sp/>strongly-typed<sp/>close<sp/>codes<sp/>aligned<sp/>with<sp/>RFC<sp/>6455</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453" kindref="member">WebSocketCloseCode</ref><sp/>:<sp/>uint16_t<sp/>{</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453acb398181d3e3294eaaabe45596512747" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453acb398181d3e3294eaaabe45596512747" kindref="member">NormalClosure</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000,<sp/></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453ab16f53879e8cacc9f1040facec98b2b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453ab16f53879e8cacc9f1040facec98b2b8" kindref="member">GoingAway</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1001,<sp/></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aca3da8f495e4e628912a7798655da6c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aca3da8f495e4e628912a7798655da6c2" kindref="member">ProtocolError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1002,<sp/></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aa63d4c1207867216c93e257bfa05e818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aa63d4c1207867216c93e257bfa05e818" kindref="member">UnsupportedData</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1003,<sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a5bf8ff15f1501074bed95401c41ae356" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a5bf8ff15f1501074bed95401c41ae356" kindref="member">NoStatusReceived</ref><sp/><sp/><sp/><sp/>=<sp/>1005,<sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a2b30f3b5089eda6904c45a3a56b897cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a2b30f3b5089eda6904c45a3a56b897cb" kindref="member">AbnormalClosure</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1006,<sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a2d730f4aa6a660e8825d5294008a4ef7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a2d730f4aa6a660e8825d5294008a4ef7" kindref="member">InvalidPayload</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1007,<sp/></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aaee43f65108573ca863298db0692a4f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aaee43f65108573ca863298db0692a4f1" kindref="member">PolicyViolation</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1008,<sp/></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a27b656394c5563311cf8421c85a3d39b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a27b656394c5563311cf8421c85a3d39b" kindref="member">MessageTooBig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1009,<sp/></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aea01a47c39d4e19f699528308a4930a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aea01a47c39d4e19f699528308a4930a5" kindref="member">MissingExtension</ref><sp/><sp/><sp/><sp/>=<sp/>1010,<sp/></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a8462b58246e70e5c83e5b939a9332cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a8462b58246e70e5c83e5b939a9332cb5" kindref="member">InternalError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1011,<sp/></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a5ea32b9182206cbe3cb62dd52882b358" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a5ea32b9182206cbe3cb62dd52882b358" kindref="member">ServiceRestart</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1012,<sp/></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453adec7a474edaa7a2f9b22f6adfdec3882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453adec7a474edaa7a2f9b22f6adfdec3882" kindref="member">TryAgainLater</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1013,<sp/></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a0e7c9ad08be0653518bf456c9994ace5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a0e7c9ad08be0653518bf456c9994ace5" kindref="member">BadGateway</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1014,<sp/></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a01ba6a034abdc6cd416818d1c6f21d48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a01ba6a034abdc6cd416818d1c6f21d48" kindref="member">TlsHandshakeFailed</ref><sp/><sp/>=<sp/>1015,<sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WebSocketFrame<sp/>—<sp/>an<sp/>inbound<sp/>or<sp/>outbound<sp/>WebSocket<sp/>frame</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1api_1_1_web_socket_frame" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_web_socket_frame" kindref="compound">WebSocketFrame</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a6ce976e8f061b2b5cfe4d0c50c3405dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487" kindref="member">Type</ref><sp/>{<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a9dffbf69ffba8bc38bc4e01abf4b1675" kindref="member">Text</ref>,<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a6ce976e8f061b2b5cfe4d0c50c3405dd" kindref="member">Binary</ref>,<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487ab85815d04cec053ce6deb8021f2df1b8" kindref="member">Ping</ref>,<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a4d94412495a32342e1b8c78f7960f2bc" kindref="member">Pong</ref>,<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487ad3d2e617335f08df83599665eef8a418" kindref="member">Close</ref><sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1api_1_1_web_socket_frame_1a3bd57ae0553c97665654a8f2678f22fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487" kindref="member">Type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a3bd57ae0553c97665654a8f2678f22fb" kindref="member">type</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a9dffbf69ffba8bc38bc4e01abf4b1675" kindref="member">Type::Text</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1api_1_1_web_socket_frame_1a39aef7314846d44ae32ed7838988bffb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a39aef7314846d44ae32ed7838988bffb" kindref="member">payload</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1api_1_1_web_socket_frame_1a3bebcef22b5d63476bda1fa475989816" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame" kindref="compound">WebSocketFrame</ref><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a3bebcef22b5d63476bda1fa475989816" kindref="member">text</ref>(std::string<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a9dffbf69ffba8bc38bc4e01abf4b1675" kindref="member">Type::Text</ref>,<sp/>std::move(data)};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1api_1_1_web_socket_frame_1a53c7840b1b22771d9adc359937ea1e23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame" kindref="compound">WebSocketFrame</ref><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a53c7840b1b22771d9adc359937ea1e23" kindref="member">binary</ref>(std::string<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a6ce976e8f061b2b5cfe4d0c50c3405dd" kindref="member">Type::Binary</ref>,<sp/>std::move(data)};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IWebSocketFrameCallback<sp/>—<sp/>pure-virtual<sp/>callback<sp/>for<sp/>inbound<sp/>frames</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1api_1_1_i_web_socket_frame_callback" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_i_web_socket_frame_callback" kindref="compound">IWebSocketFrameCallback</ref><sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a98bcf570d587db5718b305d1bb61c95f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a98bcf570d587db5718b305d1bb61c95f" kindref="member">~IWebSocketFrameCallback</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a533aafa106dc06aff32eda718ca4c0bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a533aafa106dc06aff32eda718ca4c0bb" kindref="member">onFrame</ref>(<ref refid="classthemis_1_1api_1_1_web_socket_session" kindref="compound">WebSocketSession</ref>&amp;<sp/>session,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_web_socket_frame" kindref="compound">WebSocketFrame</ref>&amp;<sp/>frame)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a572d24f699b2c7da69d2ed7177d3fe7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_web_socket_frame_callback_1a572d24f699b2c7da69d2ed7177d3fe7b" kindref="member">onClose</ref>(<ref refid="classthemis_1_1api_1_1_web_socket_session" kindref="compound">WebSocketSession</ref>&amp;<sp/>session,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453" kindref="member">WebSocketCloseCode</ref><sp/>code,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>reason)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WebSocketSession<sp/>—<sp/>opaque<sp/>handle<sp/>to<sp/>an<sp/>active<sp/>WebSocket<sp/>connection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1api_1_1_web_socket_session" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kindref="member">WebSocketSession</ref><sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1api_1_1_web_socket_session_1a3caa4be9f7a1aaeeca41234731f8a090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1a3caa4be9f7a1aaeeca41234731f8a090" kindref="member">~WebSocketSession</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kindref="member">WebSocketSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kindref="member">WebSocketSession</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1api_1_1_web_socket_session_1aa41f4f6c6cbf214cd0a2453a4afc7164" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kindref="member">WebSocketSession</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1aa41f4f6c6cbf214cd0a2453a4afc7164" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kindref="member">WebSocketSession</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1api_1_1_web_socket_session_1a4227d1a3df25adfba40fc059432b258b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1a4227d1a3df25adfba40fc059432b258b" kindref="member">send</ref>(<ref refid="structthemis_1_1api_1_1_web_socket_frame" kindref="compound">WebSocketFrame</ref><sp/>frame)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1api_1_1_web_socket_session_1a95046b4bbb4e709a13ff2db3813eb170" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1a95046b4bbb4e709a13ff2db3813eb170" kindref="member">close</ref>(<ref refid="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453" kindref="member">WebSocketCloseCode</ref><sp/>code,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>reason<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1api_1_1_web_socket_session_1a78e7a6b0a8b286d163441205f72a893d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1a78e7a6b0a8b286d163441205f72a893d" kindref="member">remoteAddress</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1api_1_1_web_socket_session_1a40f466825dcd7646e210005b6d80d89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1a40f466825dcd7646e210005b6d80d89c" kindref="member">sessionId</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1api_1_1_web_socket_session_1af05fe339438796149702958f086d2971" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1af05fe339438796149702958f086d2971" kindref="member">isOpen</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1api_1_1_web_socket_session_1a9b99006fda92143e78257d6eea142359" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_web_socket_session_1adc3eb3150828d593659d11e76c44c2e9" kindref="member">WebSocketSession</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IWebSocketHandler<sp/>—<sp/>pure-virtual<sp/>interface<sp/>for<sp/>WebSocket<sp/>upgrade<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1api_1_1_i_web_socket_handler" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1api_1_1_i_web_socket_handler" kindref="compound">IWebSocketHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1api_1_1_i_web_socket_handler_1a48230883133412bd5d0caae0a7317876" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_web_socket_handler_1a48230883133412bd5d0caae0a7317876" kindref="member">~IWebSocketHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1api_1_1_i_web_socket_handler_1a3bc1db992c9c4216e3502c9b8b5e7b7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>themis::Result&lt;WebSocketSession*&gt;<sp/><ref refid="classthemis_1_1api_1_1_i_web_socket_handler_1a3bc1db992c9c4216e3502c9b8b5e7b7b" kindref="member">upgrade</ref>(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>method,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>path,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_i_web_socket_frame_callback" kindref="compound">IWebSocketFrameCallback</ref>&amp;<sp/>callback)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1api_1_1_i_web_socket_handler_1ac221e0f302b74e08c24ac4795d09f08c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="classthemis_1_1api_1_1_i_web_socket_handler_1ac221e0f302b74e08c24ac4795d09f08c" kindref="member">handlerName</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>api</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/api/websocket_handler.h"/>
+  </compounddef>
+</doxygen>

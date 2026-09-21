@@ -1,0 +1,751 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__server__http3__stress__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_server_http3_stress_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="server__api__contract_8h" local="yes">server/server_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>server/server_api_contract.h</label>
+        <link refid="server__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/server/test_server_http3_stress_focused.cpp</label>
+        <link refid="test__server__http3__stress__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_fake_peer_endpoint" prot="public">FakePeerEndpoint</innerclass>
+    <innerclass refid="struct_fake_quic_conn_state" prot="public">FakeQuicConnState</innerclass>
+    <innerclass refid="struct_fake_session_token" prot="public">FakeSessionToken</innerclass>
+    <innerclass refid="class_stub_zero_rtt_gate" prot="public">StubZeroRttGate</innerclass>
+    <innerclass refid="struct_retransmit_simulator" prot="public">RetransmitSimulator</innerclass>
+    <innerclass refid="struct_retransmit_simulator_1_1_result" prot="public">RetransmitSimulator::Result</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__server__http3__stress__focused_8cpp_1a8e6f8100a3e91af2707bffa16c83c738" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t kHttp3StressSeed</definition>
+        <argsstring></argsstring>
+        <name>kHttp3StressSeed</name>
+        <initializer>= 7331U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="52" column="27" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH301_ConnectionMigrationAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH301_ConnectionMigrationAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="155" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="155" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1ade07708d10efdf337ccffdf6f5476e5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH302_ConcurrentMigrationsSerialised)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH302_ConcurrentMigrationsSerialised</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="171" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="171" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1abb11d7c357d3e33d22f2ff60e211f221" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH303_MigratedSessionCompletesInFlightRequest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH303_MigratedSessionCompletesInFlightRequest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="204" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="204" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1a109e09b90066fa2c25e61dd78013c6ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH304_RetransmitInjection1PctLoss)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH304_RetransmitInjection1PctLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="231" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="231" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1a22f4000a1a392046ca4f3e55ebb4cada" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH305_RetransmitInjection5PctLoss)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH305_RetransmitInjection5PctLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="257" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="257" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1af707fee724e06b1a5a52e6ff300872c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH306_ZeroRttValidTokenAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH306_ZeroRttValidTokenAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="289" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="289" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1a5c390a8d56b2d07b34e7d78da8868e02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH307_ZeroRttInvalidTokenRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH307_ZeroRttInvalidTokenRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="300" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="300" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1a33d442208ad3f4a716fb9052e864c8d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH308_ZeroRttReplayedTokenRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH308_ZeroRttReplayedTokenRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="312" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="312" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1a4d7f8025863ccb01037a6c6c0d3262d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH309_SlowHandshakeEstablishedWithinBudget)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH309_SlowHandshakeEstablishedWithinBudget</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="323" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="323" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1ab88bdf1a8470a49597e558601c363c71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH310_ForcedHttp2FallbackWhenQuicUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH310_ForcedHttp2FallbackWhenQuicUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="342" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="342" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1aa948166a94833ead60b7780802385bfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH311_DrainingStateRejectsNewStreams)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH311_DrainingStateRejectsNewStreams</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="364" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="364" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="test__server__http3__stress__focused_8cpp_1adc9e3de0c653631b38bb5c285c624e2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServerHttp3Stress, SH312_DrainingStateRaiiCleanup)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServerHttp3Stress</type>
+        </param>
+        <param>
+          <type>SH312_DrainingStateRaiiCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="391" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="391" bodyend="405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Server Module — HTTP/3 Production Stress focused regression tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 2 Protocol Hardening acceptance tests for HTTP/3 migration, retransmit injection, 0-RTT session resumption, and handshake variability.</para>
+<para>Test IDs (Phase 2, Protocol-Hardening):<itemizedlist>
+<listitem><para><bold>SH3-01</bold> — Connection-migration: peer address change accepted, migration_count incremented</para>
+</listitem><listitem><para><bold>SH3-02</bold> — Connection-migration: concurrent migrations serialised, no double-free</para>
+</listitem><listitem><para><bold>SH3-03</bold> — Connection-migration: migrated session still completes in-flight requests</para>
+</listitem><listitem><para><bold>SH3-04</bold> — Retransmit injection: simulated 1 % packet loss, request completes within p99 ≤ 800 ms</para>
+</listitem><listitem><para><bold>SH3-05</bold> — Retransmit injection: simulated 5 % packet loss, bounded tail latency</para>
+</listitem><listitem><para><bold>SH3-06</bold> — 0-RTT resumption: valid session token → early data accepted</para>
+</listitem><listitem><para><bold>SH3-07</bold> — 0-RTT resumption: invalid/mismatched token → early data rejected (security gate)</para>
+</listitem><listitem><para><bold>SH3-08</bold> — 0-RTT resumption: replayed token → rejected (replay-protection gate)</para>
+</listitem><listitem><para><bold>SH3-09</bold> — Handshake variability: slow RTT (&gt; 200 ms simulation) → session established within budget</para>
+</listitem><listitem><para><bold>SH3-10</bold> — Handshake variability: forced HTTP/2 fallback when QUIC unavailable</para>
+</listitem><listitem><para><bold>SH3-11</bold> — NGTCP2_ERR_DRAINING: session does not accept new streams after draining starts</para>
+</listitem><listitem><para><bold>SH3-12</bold> — NGTCP2_ERR_DRAINING: quic_conn_ RAII cleanup verified, no double-free</para>
+</listitem></itemizedlist>
+</para>
+<para>All infrastructure is fully in-process; no real UDP sockets are opened. Deterministic seed: kHttp3StressSeed = 7331.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>CTest labels: release_critical;server;phase2;http3 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="server__api__contract_8h" kindref="compound">server/server_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kHttp3StressSeed<sp/>=<sp/>7331U;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stubs<sp/>and<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="struct_fake_peer_endpoint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_fake_peer_endpoint_1a159b672da9792fbaa10f9ca9da22b864" kindref="member">address</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><sp/><sp/><sp/><ref refid="struct_fake_peer_endpoint_1a016b9948439711abaa0dcf36ded1d772" kindref="member">port</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_fake_peer_endpoint_1ac9203876216b5a3fb769355e8efaa282" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="struct_fake_peer_endpoint_1a159b672da9792fbaa10f9ca9da22b864" kindref="member">address</ref><sp/>==<sp/>o.<ref refid="struct_fake_peer_endpoint_1a159b672da9792fbaa10f9ca9da22b864" kindref="member">address</ref><sp/>&amp;&amp;<sp/><ref refid="struct_fake_peer_endpoint_1a016b9948439711abaa0dcf36ded1d772" kindref="member">port</ref><sp/>==<sp/>o.<ref refid="struct_fake_peer_endpoint_1a016b9948439711abaa0dcf36ded1d772" kindref="member">port</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_fake_peer_endpoint_1a9e0c680c7b3b576fba91623389ac04e8" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>o);<sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="struct_fake_quic_conn_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_fake_quic_conn_state" kindref="compound">FakeQuicConnState</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref><sp/><ref refid="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" kindref="member">current_peer</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/><ref refid="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" kindref="member">migration_count</ref>{0};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><ref refid="struct_fake_quic_conn_state_1a8df4ab17ccc3499c36f670d10e4b545b" kindref="member">draining</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><ref refid="struct_fake_quic_conn_state_1a0fd1c21ec94014d2f25a7a7b01515de3" kindref="member">conn_deleted</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_fake_quic_conn_state_1a481107a1ca033b2d612b4ccef370bd5c" kindref="member">onPathMigration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref>&amp;<sp/>new_peer)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="struct_fake_quic_conn_state_1a8df4ab17ccc3499c36f670d10e4b545b" kindref="member">draining</ref>.load(std::memory_order_acquire))<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Migration<sp/>refused<sp/>while<sp/>draining<sp/>—<sp/>contract<sp/>requirement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" kindref="member">current_peer</ref><sp/>=<sp/>new_peer;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" kindref="member">migration_count</ref>.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_fake_quic_conn_state_1a61b5b6ec558be834359d03a83d46b95f" kindref="member">enterDraining</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_fake_quic_conn_state_1a8df4ab17ccc3499c36f670d10e4b545b" kindref="member">draining</ref>.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_fake_quic_conn_state_1ae79cbdf2cd2c0566ea1e5fb30a2f5f09" kindref="member">destroy</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/><ref refid="struct_fake_quic_conn_state_1a0fd1c21ec94014d2f25a7a7b01515de3" kindref="member">conn_deleted</ref>.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_release);<sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="struct_fake_session_token" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_fake_session_token" kindref="compound">FakeSessionToken</ref><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_fake_session_token_1a02eeb1884adafe35b105e90edc0d996d" kindref="member">token_id</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_fake_session_token_1a262888eaaf3a4112cc92afb6665f695b" kindref="member">valid</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_fake_session_token_1a62337855cee52b762fc3e12df4301d20" kindref="member">replayed</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="class_stub_zero_rtt_gate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_zero_rtt_gate" kindref="compound">StubZeroRttGate</ref><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_stub_zero_rtt_gate_1aebd0de814c37a6ceb51821f535194512" kindref="member">acceptEarlyData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_fake_session_token" kindref="compound">FakeSessionToken</ref>&amp;<sp/>tok)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!tok.<ref refid="struct_fake_session_token_1a262888eaaf3a4112cc92afb6665f695b" kindref="member">valid</ref>)<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>mismatch<sp/>or<sp/>corruption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tok.<ref refid="struct_fake_session_token_1a62337855cee52b762fc3e12df4301d20" kindref="member">replayed</ref>)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>replay-protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="struct_retransmit_simulator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_retransmit_simulator" kindref="compound">RetransmitSimulator</ref><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="struct_retransmit_simulator_1ada49de6a80aa157ee7042417ab7486c1" kindref="member">loss_rate</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_retransmit_simulator_1ac7f8779ae792681ec6b7e207bf39d8ca" kindref="member">base_rtt_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_retransmit_simulator_1a7160e8e593223e7684a8b0aa417ee195" kindref="member">max_retransmits</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="struct_retransmit_simulator_1_1_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_retransmit_simulator_1_1_result" kindref="compound">Result</ref><sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="struct_retransmit_simulator_1_1_result_1aae2b67cd49bafaf00ed2b3b911408725" kindref="member">completed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="struct_retransmit_simulator_1_1_result_1a42fedf552e8b3dfc2f4c1ceaf0e0bb04" kindref="member">observed_latency_ms</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_retransmit_simulator_1_1_result" kindref="compound">Result</ref><sp/><ref refid="struct_retransmit_simulator_1aa10bd56e4ebf170f0cc008071c9ae729" kindref="member">simulate</ref>(uint32_t<sp/>seed_offset)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(kHttp3StressSeed<sp/>+<sp/>seed_offset);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>loss_dist(0.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total_ms<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>attempt<sp/>=<sp/>0;<sp/>attempt<sp/>&lt;=<sp/><ref refid="struct_retransmit_simulator_1a7160e8e593223e7684a8b0aa417ee195" kindref="member">max_retransmits</ref>;<sp/>++attempt)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>dropped<sp/>=<sp/>loss_dist(rng)<sp/>&lt;<sp/><ref refid="struct_retransmit_simulator_1ada49de6a80aa157ee7042417ab7486c1" kindref="member">loss_rate</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dropped)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exponential<sp/>backoff<sp/>approximation<sp/>for<sp/>retransmit<sp/>timing:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initial<sp/>+<sp/>2^attempt<sp/>*<sp/>base_rtt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>rtt<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="struct_retransmit_simulator_1ac7f8779ae792681ec6b7e207bf39d8ca" kindref="member">base_rtt_ms</ref>)<sp/>*<sp/>(uint64_t{1}<sp/>&lt;&lt;<sp/>attempt);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_ms<sp/>+=<sp/>rtt;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>total_ms};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Packet<sp/>was<sp/>dropped;<sp/>add<sp/>one<sp/>RTT<sp/>for<sp/>retransmit<sp/>timer<sp/>fire</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_ms<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="struct_retransmit_simulator_1ac7f8779ae792681ec6b7e207bf39d8ca" kindref="member">base_rtt_ms</ref>)<sp/>*<sp/>(uint64_t{1}<sp/>&lt;&lt;<sp/>attempt);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>total_ms};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-01:<sp/>Connection-migration<sp/>—<sp/>peer<sp/>address<sp/>change<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH301_ConnectionMigrationAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_quic_conn_state" kindref="compound">FakeQuicConnState</ref><sp/>conn;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" kindref="member">current_peer</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/>44000};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref><sp/>new_peer{</highlight><highlight class="stringliteral">&quot;10.0.0.2&quot;</highlight><highlight class="normal">,<sp/>44001};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a481107a1ca033b2d612b4ccef370bd5c" kindref="member">onPathMigration</ref>(new_peer);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.<ref refid="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" kindref="member">current_peer</ref>,<sp/>new_peer)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Peer<sp/>endpoint<sp/>must<sp/>be<sp/>updated<sp/>after<sp/>migration&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.<ref refid="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" kindref="member">migration_count</ref>.load(),<sp/>1u)</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;migration_count<sp/>must<sp/>be<sp/>incremented<sp/>exactly<sp/>once&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-02:<sp/>Connection-migration<sp/>—<sp/>concurrent<sp/>migrations<sp/>serialised</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH302_ConcurrentMigrationsSerialised)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_quic_conn_state" kindref="compound">FakeQuicConnState</ref><sp/>conn;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" kindref="member">current_peer</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/>44000};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kMigrationsPerThread<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;conn,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kMigrationsPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref><sp/>ep{</highlight><highlight class="stringliteral">&quot;10.0.0.&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(44000<sp/>+<sp/>i)};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a481107a1ca033b2d612b4ccef370bd5c" kindref="member">onPathMigration</ref>(ep);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>migrations<sp/>≤<sp/>kThreads<sp/>×<sp/>kMigrationsPerThread<sp/>(some<sp/>may<sp/>be<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>draining,<sp/>but<sp/>draining<sp/>is<sp/>not<sp/>active<sp/>here,<sp/>so<sp/>all<sp/>should<sp/>count).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.<ref refid="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" kindref="member">migration_count</ref>.load(),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads<sp/>*<sp/>kMigrationsPerThread))</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Every<sp/>concurrent<sp/>migration<sp/>must<sp/>be<sp/>counted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(conn.<ref refid="struct_fake_quic_conn_state_1a0fd1c21ec94014d2f25a7a7b01515de3" kindref="member">conn_deleted</ref>.load())</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Connection<sp/>must<sp/>not<sp/>be<sp/>destroyed<sp/>during<sp/>concurrent<sp/>migration&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-03:<sp/>Connection-migration<sp/>—<sp/>migrated<sp/>session<sp/>completes<sp/>in-flight<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH303_MigratedSessionCompletesInFlightRequest)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_quic_conn_state" kindref="compound">FakeQuicConnState</ref><sp/>conn;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" kindref="member">current_peer</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/>44000};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>request<sp/>being<sp/>processed<sp/>(represented<sp/>by<sp/>a<sp/>flag)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>request_done{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>request_thread([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Work<sp/>that<sp/>represents<sp/>an<sp/>in-flight<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(10ms);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>request_done.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Migrate<sp/>mid-flight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a481107a1ca033b2d612b4ccef370bd5c" kindref="member">onPathMigration</ref>({</highlight><highlight class="stringliteral">&quot;10.0.0.2&quot;</highlight><highlight class="normal">,<sp/>44001});</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>request_thread.join();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(request_done.load())</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;In-flight<sp/>request<sp/>must<sp/>complete<sp/>after<sp/>connection<sp/>migration&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.<ref refid="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" kindref="member">migration_count</ref>.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(conn.<ref refid="struct_fake_quic_conn_state_1a0fd1c21ec94014d2f25a7a7b01515de3" kindref="member">conn_deleted</ref>.load())</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUIC<sp/>conn<sp/>must<sp/>not<sp/>be<sp/>destroyed<sp/>while<sp/>request<sp/>is<sp/>in-flight&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-04:<sp/>Retransmit<sp/>injection<sp/>—<sp/>1%<sp/>packet<sp/>loss,<sp/>p99<sp/>≤<sp/>800<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH304_RetransmitInjection1PctLoss)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_retransmit_simulator" kindref="compound">RetransmitSimulator</ref><sp/>sim{0.01,<sp/>20,<sp/>4};<sp/><sp/></highlight><highlight class="comment">//<sp/>1%<sp/>loss,<sp/>20<sp/>ms<sp/>base<sp/>RTT,<sp/>max<sp/>4<sp/>retransmits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kSamples<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>max_latency_ms<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>completed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kSamples;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sim.<ref refid="struct_retransmit_simulator_1aa10bd56e4ebf170f0cc008071c9ae729" kindref="member">simulate</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.completed)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++completed;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_latency_ms<sp/>=<sp/>std::max(max_latency_ms,<sp/>result.observed_latency_ms);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Under<sp/>1%<sp/>loss<sp/>with<sp/>max<sp/>4<sp/>retransmits<sp/>all<sp/>requests<sp/>must<sp/>complete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(completed,<sp/>kSamples)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>requests<sp/>must<sp/>complete<sp/>at<sp/>1%<sp/>loss<sp/>with<sp/>4<sp/>retransmit<sp/>budget&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>p99<sp/>ceiling:<sp/>800<sp/>ms<sp/>(contract<sp/>requirement)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(max_latency_ms,<sp/>800u)</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Max<sp/>observed<sp/>latency<sp/>must<sp/>be<sp/>≤<sp/>800<sp/>ms<sp/>under<sp/>1%<sp/>loss&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-05:<sp/>Retransmit<sp/>injection<sp/>—<sp/>5%<sp/>packet<sp/>loss,<sp/>bounded<sp/>tail<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH305_RetransmitInjection5PctLoss)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_retransmit_simulator" kindref="compound">RetransmitSimulator</ref><sp/>sim{0.05,<sp/>20,<sp/>6};<sp/><sp/></highlight><highlight class="comment">//<sp/>5%<sp/>loss,<sp/>20<sp/>ms<sp/>base<sp/>RTT,<sp/>max<sp/>6<sp/>retransmits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kSamples<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>completed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/>latencies;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>latencies.reserve(kSamples);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kSamples;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sim.<ref refid="struct_retransmit_simulator_1aa10bd56e4ebf170f0cc008071c9ae729" kindref="member">simulate</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>kSamples));</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.completed)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++completed;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latencies.push_back(result.observed_latency_ms);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(latencies.begin(),<sp/>latencies.end());</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>p99_latency_ms<sp/>=<sp/>latencies.empty()</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>0u</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>latencies[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(latencies.size()<sp/>*<sp/>99<sp/>/<sp/>100)];</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>≥<sp/>90%<sp/>completion<sp/>rate<sp/>at<sp/>5%<sp/>loss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(completed,<sp/>kSamples<sp/>*<sp/>9<sp/>/<sp/>10)</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;At<sp/>least<sp/>90%<sp/>of<sp/>requests<sp/>must<sp/>complete<sp/>at<sp/>5%<sp/>loss&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>p99<sp/>bounded<sp/>(5%<sp/>loss,<sp/>6<sp/>retransmits:<sp/>max<sp/>2^6<sp/>×<sp/>20<sp/>ms<sp/>=<sp/>1280<sp/>ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(p99_latency_ms,<sp/>1500u)</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;p99<sp/>latency<sp/>must<sp/>be<sp/>bounded<sp/>under<sp/>5%<sp/>loss&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-06:<sp/>0-RTT<sp/>resumption<sp/>—<sp/>valid<sp/>token<sp/>→<sp/>early<sp/>data<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH306_ZeroRttValidTokenAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_zero_rtt_gate" kindref="compound">StubZeroRttGate</ref><sp/>gate;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_session_token" kindref="compound">FakeSessionToken</ref><sp/>token{</highlight><highlight class="stringliteral">&quot;session-abc-123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*valid=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*replayed=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(gate.<ref refid="class_stub_zero_rtt_gate_1aebd0de814c37a6ceb51821f535194512" kindref="member">acceptEarlyData</ref>(token))</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Valid<sp/>session<sp/>token<sp/>must<sp/>be<sp/>accepted<sp/>for<sp/>0-RTT<sp/>early<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-07:<sp/>0-RTT<sp/>resumption<sp/>—<sp/>invalid/mismatched<sp/>token<sp/>→<sp/>rejected<sp/>(security<sp/>gate)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH307_ZeroRttInvalidTokenRejected)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_zero_rtt_gate" kindref="compound">StubZeroRttGate</ref><sp/>gate;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mismatched<sp/>token<sp/>(wrong<sp/>session,<sp/>simulated<sp/>corruption)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_session_token" kindref="compound">FakeSessionToken</ref><sp/>token{</highlight><highlight class="stringliteral">&quot;session-xyz-corrupt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*valid=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*replayed=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(gate.<ref refid="class_stub_zero_rtt_gate_1aebd0de814c37a6ceb51821f535194512" kindref="member">acceptEarlyData</ref>(token))</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Invalid/mismatched<sp/>token<sp/>must<sp/>be<sp/>rejected<sp/>(security<sp/>gate)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-08:<sp/>0-RTT<sp/>resumption<sp/>—<sp/>replayed<sp/>token<sp/>→<sp/>rejected<sp/>(replay-protection<sp/>gate)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH308_ZeroRttReplayedTokenRejected)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_zero_rtt_gate" kindref="compound">StubZeroRttGate</ref><sp/>gate;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_session_token" kindref="compound">FakeSessionToken</ref><sp/>token{</highlight><highlight class="stringliteral">&quot;session-abc-123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*valid=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*replayed=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(gate.<ref refid="class_stub_zero_rtt_gate_1aebd0de814c37a6ceb51821f535194512" kindref="member">acceptEarlyData</ref>(token))</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Replayed<sp/>session<sp/>token<sp/>must<sp/>be<sp/>rejected<sp/>(replay-protection<sp/>gate)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-09:<sp/>Handshake<sp/>variability<sp/>—<sp/>slow<sp/>RTT<sp/>simulation,<sp/>session<sp/>established</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH309_SlowHandshakeEstablishedWithinBudget)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>QUIC<sp/>handshake<sp/>with<sp/>RTT<sp/>&gt;<sp/>200<sp/>ms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Contract:<sp/>handshake<sp/>must<sp/>complete<sp/>within<sp/>a<sp/>5-second<sp/>budget<sp/>(kRetryGlobalBudget).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kSlowRttMs<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>250;<sp/><sp/></highlight><highlight class="comment">//<sp/>&gt;<sp/>200<sp/>ms<sp/>per<sp/>the<sp/>plan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kHandshakeRounds<sp/>=<sp/>2;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TLS<sp/>1.3<sp/>requires<sp/>1-RTT;<sp/>QUIC<sp/>adds<sp/>1<sp/>more</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kBudgetMs<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5000;<sp/></highlight><highlight class="comment">//<sp/>5-second<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>handshake_time_ms<sp/>=<sp/>kSlowRttMs<sp/>*<sp/>kHandshakeRounds;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(handshake_time_ms,<sp/>kBudgetMs)</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Handshake<sp/>must<sp/>complete<sp/>within<sp/>budget<sp/>even<sp/>at<sp/>slow<sp/>RTT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>slow<sp/>handshake<sp/>is<sp/>defined<sp/>as<sp/>RTT<sp/>&gt;<sp/>200<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(kSlowRttMs,<sp/>200u)</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;This<sp/>test<sp/>must<sp/>exercise<sp/>a<sp/>genuinely<sp/>slow<sp/>RTT<sp/>path<sp/>(&gt;<sp/>200<sp/>ms)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-10:<sp/>Handshake<sp/>variability<sp/>—<sp/>forced<sp/>HTTP/2<sp/>fallback<sp/>when<sp/>QUIC<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH310_ForcedHttp2FallbackWhenQuicUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>the<sp/>fallback<sp/>negotiation<sp/>outcome:<sp/>when<sp/>QUIC<sp/>negotiation<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(e.g.,<sp/>all<sp/>UDP<sp/>packets<sp/>dropped),<sp/>the<sp/>connection<sp/>must<sp/>fall<sp/>back<sp/>to<sp/>HTTP/2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>NegotiationResult<sp/>{<sp/>HTTP3_QUIC,<sp/>HTTP2_FALLBACK<sp/>};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>negotiateProtocol<sp/>=<sp/>[](</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>quic_available)<sp/>-&gt;<sp/>NegotiationResult<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>quic_available<sp/>?<sp/>NegotiationResult::HTTP3_QUIC</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>NegotiationResult::HTTP2_FALLBACK;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>QUIC<sp/>available<sp/>→<sp/>HTTP/3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(negotiateProtocol(</highlight><highlight class="keyword">true</highlight><highlight class="normal">),<sp/>NegotiationResult::HTTP3_QUIC)</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUIC<sp/>available<sp/>must<sp/>produce<sp/>HTTP/3<sp/>outcome&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>QUIC<sp/>unavailable<sp/>(UDP<sp/>blocked)<sp/>→<sp/>HTTP/2<sp/>fallback<sp/>(no<sp/>failure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(negotiateProtocol(</highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>NegotiationResult::HTTP2_FALLBACK)</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUIC<sp/>unavailable<sp/>must<sp/>fall<sp/>back<sp/>to<sp/>HTTP/2<sp/>(no<sp/>service<sp/>interruption)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-11:<sp/>NGTCP2_ERR_DRAINING<sp/>—<sp/>no<sp/>new<sp/>streams<sp/>accepted<sp/>after<sp/>draining</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH311_DrainingStateRejectsNewStreams)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_fake_quic_conn_state" kindref="compound">FakeQuicConnState</ref><sp/>conn;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" kindref="member">current_peer</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/>44000};</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>entering<sp/>the<sp/>DRAINING<sp/>state<sp/>(NGTCP2_ERR_DRAINING<sp/>received)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a61b5b6ec558be834359d03a83d46b95f" kindref="member">enterDraining</ref>();</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(conn.<ref refid="struct_fake_quic_conn_state_1a8df4ab17ccc3499c36f670d10e4b545b" kindref="member">draining</ref>.load())</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Connection<sp/>must<sp/>be<sp/>in<sp/>draining<sp/>state&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>a<sp/>new<sp/>request<sp/>stream<sp/>—<sp/>must<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>acceptNewStream<sp/>=<sp/>[&amp;conn]()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!conn.<ref refid="struct_fake_quic_conn_state_1a8df4ab17ccc3499c36f670d10e4b545b" kindref="member">draining</ref>.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(acceptNewStream())</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;New<sp/>streams<sp/>must<sp/>not<sp/>be<sp/>accepted<sp/>while<sp/>connection<sp/>is<sp/>draining&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Migration<sp/>attempts<sp/>during<sp/>draining<sp/>must<sp/>also<sp/>be<sp/>silently<sp/>dropped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>migration_before<sp/>=<sp/>conn.<ref refid="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" kindref="member">migration_count</ref>.load();</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_fake_quic_conn_state_1a481107a1ca033b2d612b4ccef370bd5c" kindref="member">onPathMigration</ref>({</highlight><highlight class="stringliteral">&quot;10.0.0.2&quot;</highlight><highlight class="normal">,<sp/>44001});</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.<ref refid="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" kindref="member">migration_count</ref>.load(),<sp/>migration_before)</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Migration<sp/>must<sp/>be<sp/>refused<sp/>during<sp/>draining&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SH3-12:<sp/>NGTCP2_ERR_DRAINING<sp/>—<sp/>RAII<sp/>cleanup<sp/>verified,<sp/>no<sp/>double-free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><ref refid="test__server__http3__stress__focused_8cpp_1aa2063750bd642535727c5ce2d3faf793" kindref="member">TEST</ref>(ServerHttp3Stress,<sp/>SH312_DrainingStateRaiiCleanup)<sp/>{</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>std::make_unique&lt;FakeQuicConnState&gt;();</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>conn-&gt;<ref refid="struct_fake_quic_conn_state_1a61b5b6ec558be834359d03a83d46b95f" kindref="member">enterDraining</ref>();</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>orderly<sp/>RAII<sp/>destroy<sp/>(mirroring<sp/>QuicConnDeleter<sp/>in<sp/>Http3Session)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>conn-&gt;<ref refid="struct_fake_quic_conn_state_1ae79cbdf2cd2c0566ea1e5fb30a2f5f09" kindref="member">destroy</ref>();</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(conn-&gt;<ref refid="struct_fake_quic_conn_state_1a0fd1c21ec94014d2f25a7a7b01515de3" kindref="member">conn_deleted</ref>.load())</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUIC<sp/>connection<sp/>must<sp/>be<sp/>marked<sp/>destroyed<sp/>after<sp/>RAII<sp/>cleanup&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calling<sp/>destroy()<sp/>again<sp/>must<sp/>be<sp/>idempotent<sp/>(no<sp/>double-free<sp/>in<sp/>production</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>ngtcp2_conn_del<sp/>guard<sp/>handles<sp/>this<sp/>via<sp/>the<sp/>unique_ptr<sp/>deleter)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>conn-&gt;<ref refid="struct_fake_quic_conn_state_1ae79cbdf2cd2c0566ea1e5fb30a2f5f09" kindref="member">destroy</ref>();</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(conn-&gt;<ref refid="struct_fake_quic_conn_state_1a0fd1c21ec94014d2f25a7a7b01515de3" kindref="member">conn_deleted</ref>.load())</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Repeated<sp/>destroy()<sp/>must<sp/>be<sp/>idempotent<sp/>(no<sp/>double-free)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/server/test_server_http3_stress_focused.cpp"/>
+  </compounddef>
+</doxygen>

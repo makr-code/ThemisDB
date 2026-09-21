@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum_1a458d5d7938ae63cbc00d60f0e6ad1fdf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::AdaptiveQueryCompiler::Impl::AggAccum::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum::sum</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/adaptive_query_compiler.cpp" line="425" column="17" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum_1ab6e8f2e11dda1e5fdc325d62a2669482" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::AdaptiveQueryCompiler::Impl::AggAccum::min_v</definition>
+        <argsstring></argsstring>
+        <name>min_v</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum::min_v</qualifiedname>
+        <initializer>= std::numeric_limits&lt;double&gt;::max()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/adaptive_query_compiler.cpp" line="426" column="17" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum_1a4ce74a9052cef01c68d438613bbe53c5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::AdaptiveQueryCompiler::Impl::AggAccum::max_v</definition>
+        <argsstring></argsstring>
+        <name>max_v</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum::max_v</qualifiedname>
+        <initializer>= std::numeric_limits&lt;double&gt;::lowest()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/adaptive_query_compiler.cpp" line="427" column="17" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum_1ab1ed4dc28c7e02be971a048bf0b1c77c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::performance::AdaptiveQueryCompiler::Impl::AggAccum::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/adaptive_query_compiler.cpp" line="428" column="17" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="428" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/adaptive_query_compiler.cpp" line="424" column="5" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="424" bodyend="429"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum_1ab1ed4dc28c7e02be971a048bf0b1c77c" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum</scope><name>count</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum_1a4ce74a9052cef01c68d438613bbe53c5" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum</scope><name>max_v</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum_1ab6e8f2e11dda1e5fdc325d62a2669482" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum</scope><name>min_v</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl_1_1_agg_accum_1a458d5d7938ae63cbc00d60f0e6ad1fdf" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::Impl::AggAccum</scope><name>sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

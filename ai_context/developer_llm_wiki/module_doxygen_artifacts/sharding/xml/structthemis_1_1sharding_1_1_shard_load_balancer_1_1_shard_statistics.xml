@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardLoadBalancer::ShardStatistics</compoundname>
+    <includes refid="shard__load__balancer_8h" local="no">shard_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics_1af300feb649cd676d3be69a6b17ca7328" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardLoadBalancer::ShardStatistics::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardStatistics::shard_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="113" column="21" bodyfile="include/sharding/shard_load_balancer.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics_1ac1b806720097a742f98659ba94b6ead4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_metrics" kindref="compound">ShardMetrics</ref></type>
+        <definition>ShardMetrics themis::sharding::ShardLoadBalancer::ShardStatistics::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardStatistics::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="114" column="22" bodyfile="include/sharding/shard_load_balancer.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics_1a8e3992508e85177a5c4b60d8fd5c50b8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadBalancer::ShardStatistics::load_score</definition>
+        <argsstring></argsstring>
+        <name>load_score</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardStatistics::load_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="115" column="22" bodyfile="include/sharding/shard_load_balancer.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics_1a06656504f3482767b73cc54a7382c752" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::sharding::ShardLoadBalancer::ShardStatistics::total_selected</definition>
+        <argsstring></argsstring>
+        <name>total_selected</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardStatistics::total_selected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="116" column="22" bodyfile="include/sharding/shard_load_balancer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-shard statistics exported by <ref refid="classthemis_1_1sharding_1_1_shard_load_balancer_1ad579c3276fc71fa2137d6a07912fb5dc" kindref="member">statistics()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::ShardLoadBalancer::ShardStatistics</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::ShardMetrics</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/shard_load_balancer.h" line="112" column="5" bodyfile="include/sharding/shard_load_balancer.h" bodystart="112" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics_1a8e3992508e85177a5c4b60d8fd5c50b8" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::ShardStatistics</scope><name>load_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics_1ac1b806720097a742f98659ba94b6ead4" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::ShardStatistics</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics_1af300feb649cd676d3be69a6b17ca7328" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::ShardStatistics</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics_1a06656504f3482767b73cc54a7382c752" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::ShardStatistics</scope><name>total_selected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

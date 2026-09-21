@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_pooled_connection" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::PooledConnection</compoundname>
+    <includes refid="ldap__connection__pool_8h" local="no">ldap_connection_pool.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1auth_1_1_pooled_connection_1a7d88e4a1282f4eea9c7ac44b962a30b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class LDAPConnectionPool</definition>
+        <argsstring></argsstring>
+        <name>LDAPConnectionPool</name>
+        <qualifiedname>themis::auth::PooledConnection::LDAPConnectionPool</qualifiedname>
+        <param>
+          <type>LDAPConnectionPool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="72" column="18" bodyfile="include/auth/ldap_connection_pool.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_pooled_connection_1ad2edfb52664ddedbab080cb5a6700570" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_pooled_connection_1a7d88e4a1282f4eea9c7ac44b962a30b6" kindref="member">LDAPConnectionPool</ref> *</type>
+        <definition>LDAPConnectionPool* themis::auth::PooledConnection::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::auth::PooledConnection::pool_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="76" column="24" bodyfile="include/auth/ldap_connection_pool.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_pooled_connection_1aebbfa02a18c50f254db8ce134f198546" prot="private" static="no" mutable="no">
+        <type><ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> *</type>
+        <definition>LDAP* themis::auth::PooledConnection::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>themis::auth::PooledConnection::handle_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="77" column="24" bodyfile="include/auth/ldap_connection_pool.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_pooled_connection_1af3e4f3ca6d881de7f7d09778cfef5941" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::PooledConnection::stale_</definition>
+        <argsstring></argsstring>
+        <name>stale_</name>
+        <qualifiedname>themis::auth::PooledConnection::stale_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="78" column="25" bodyfile="include/auth/ldap_connection_pool.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1a5d124fd7c2ad7261b128743f3d0aff36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::PooledConnection::PooledConnection</definition>
+        <argsstring>(const PooledConnection &amp;)=delete</argsstring>
+        <name>PooledConnection</name>
+        <qualifiedname>themis::auth::PooledConnection::PooledConnection</qualifiedname>
+        <param>
+          <type>const PooledConnection &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1ad9d0d55cd5bcdd37916abca0291e11cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_pooled_connection_1a5d124fd7c2ad7261b128743f3d0aff36" kindref="member">PooledConnection</ref> &amp;</type>
+        <definition>PooledConnection &amp; themis::auth::PooledConnection::operator=</definition>
+        <argsstring>(const PooledConnection &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::PooledConnection::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_pooled_connection_1a5d124fd7c2ad7261b128743f3d0aff36" kindref="member">PooledConnection</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="59" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1a0be0044a7b272d5387f5acb198bf67dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::PooledConnection::PooledConnection</definition>
+        <argsstring>(PooledConnection &amp;&amp;)</argsstring>
+        <name>PooledConnection</name>
+        <qualifiedname>themis::auth::PooledConnection::PooledConnection</qualifiedname>
+        <param>
+          <type>PooledConnection &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="60" column="5" bodyfile="src/auth/ldap_connection_pool.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1abfda73c42b3c29d7666eb566355061f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_pooled_connection_1a5d124fd7c2ad7261b128743f3d0aff36" kindref="member">PooledConnection</ref> &amp;</type>
+        <definition>PooledConnection &amp; themis::auth::PooledConnection::operator=</definition>
+        <argsstring>(PooledConnection &amp;&amp;)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::PooledConnection::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_pooled_connection_1a5d124fd7c2ad7261b128743f3d0aff36" kindref="member">PooledConnection</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="61" column="22" bodyfile="src/auth/ldap_connection_pool.cpp" bodystart="51" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1a847f75bc0f525f5ab3bef935f9d7b17a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::PooledConnection::~PooledConnection</definition>
+        <argsstring>()</argsstring>
+        <name>~PooledConnection</name>
+        <qualifiedname>themis::auth::PooledConnection::~PooledConnection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="63" column="5" bodyfile="src/auth/ldap_connection_pool.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1abcea4bc92d73f06ccba7d80ddd5bbd94" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> *</type>
+        <definition>LDAP * themis::auth::PooledConnection::rawHandle</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rawHandle</name>
+        <qualifiedname>themis::auth::PooledConnection::rawHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="65" column="10" bodyfile="include/auth/ldap_connection_pool.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1a9eae49eafdbd6b971b25002dcaaa013d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PooledConnection::markStale</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>markStale</name>
+        <qualifiedname>themis::auth::PooledConnection::markStale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="67" column="10" bodyfile="include/auth/ldap_connection_pool.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1a7fba21e2435fc94463c1ed437c4481e0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::PooledConnection::isStale</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::auth::PooledConnection::isStale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="69" column="10" bodyfile="include/auth/ldap_connection_pool.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_pooled_connection_1a6ddc33690517193ba270649df5541b10" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::PooledConnection::PooledConnection</definition>
+        <argsstring>(LDAPConnectionPool &amp;pool, LDAP *handle)</argsstring>
+        <name>PooledConnection</name>
+        <qualifiedname>themis::auth::PooledConnection::PooledConnection</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_pooled_connection_1a7d88e4a1282f4eea9c7ac44b962a30b6" kindref="member">LDAPConnectionPool</ref> &amp;</type>
+          <declname>pool</declname>
+        </param>
+        <param>
+          <type><ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="74" column="5" bodyfile="src/auth/ldap_connection_pool.cpp" bodystart="42" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/ldap_connection_pool.h" line="56" column="1" bodyfile="include/auth/ldap_connection_pool.h" bodystart="56" bodyend="79"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1aebbfa02a18c50f254db8ce134f198546" prot="private" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>handle_</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1a7fba21e2435fc94463c1ed437c4481e0" prot="public" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>isStale</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1a7d88e4a1282f4eea9c7ac44b962a30b6" prot="private" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>LDAPConnectionPool</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1a9eae49eafdbd6b971b25002dcaaa013d" prot="public" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>markStale</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1ad9d0d55cd5bcdd37916abca0291e11cf" prot="public" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1abfda73c42b3c29d7666eb566355061f2" prot="public" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1ad2edfb52664ddedbab080cb5a6700570" prot="private" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1a5d124fd7c2ad7261b128743f3d0aff36" prot="public" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>PooledConnection</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1a0be0044a7b272d5387f5acb198bf67dd" prot="public" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>PooledConnection</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1a6ddc33690517193ba270649df5541b10" prot="private" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>PooledConnection</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1abcea4bc92d73f06ccba7d80ddd5bbd94" prot="public" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>rawHandle</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1af3e4f3ca6d881de7f7d09778cfef5941" prot="private" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>stale_</name></member>
+      <member refid="classthemis_1_1auth_1_1_pooled_connection_1a847f75bc0f525f5ab3bef935f9d7b17a" prot="public" virt="non-virtual"><scope>themis::auth::PooledConnection</scope><name>~PooledConnection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

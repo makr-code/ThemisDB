@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_adaptive_i_o_scaler" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::AdaptiveIOScaler</compoundname>
+    <includes refid="adaptive__io__scaler_8h" local="no">adaptive_io_scaler.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config" prot="public">themis::network::AdaptiveIOScaler::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats" prot="public">themis::network::AdaptiveIOScaler::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" prot="public" static="no">
+        <type>std::function&lt; uint64_t()&gt;</type>
+        <definition>using themis::network::AdaptiveIOScaler::ConnectionCountProvider = std::function&lt;uint64_t()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConnectionCountProvider</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::ConnectionCountProvider</qualifiedname>
+        <briefdescription>
+<para>Callable that returns the current number of active connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="116" column="5" bodyfile="include/network/adaptive_io_scaler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab5d3aadbbc531b81f2b2fa4366d86a50" prot="public" static="no">
+        <type>std::function&lt; void(size_t new_thread_count)&gt;</type>
+        <definition>using themis::network::AdaptiveIOScaler::ScaleCallback = std::function&lt;void(size_t new_thread_count)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ScaleCallback</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::ScaleCallback</qualifiedname>
+        <briefdescription>
+<para>Callback invoked when the recommended thread count changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_thread_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new recommended number of I/O threads.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Called <emphasis>outside</emphasis> the internal mutex so the callback may freely call back into the scaler (e.g., to read stats). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="126" column="5" bodyfile="include/network/adaptive_io_scaler.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ac67badbd925ee5b55630a963ed3b241f" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::AdaptiveIOScaler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="211" column="29" bodyfile="include/network/adaptive_io_scaler.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a06d2276edffbc9f1302fcce07ba70db5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" kindref="member">ConnectionCountProvider</ref></type>
+        <definition>ConnectionCountProvider themis::network::AdaptiveIOScaler::provider_</definition>
+        <argsstring></argsstring>
+        <name>provider_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="212" column="29" bodyfile="include/network/adaptive_io_scaler.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ac29a9648735871e6e09ebceaefcbad82" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab5d3aadbbc531b81f2b2fa4366d86a50" kindref="member">ScaleCallback</ref></type>
+        <definition>ScaleCallback themis::network::AdaptiveIOScaler::scale_cb_</definition>
+        <argsstring></argsstring>
+        <name>scale_cb_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::scale_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="213" column="29" bodyfile="include/network/adaptive_io_scaler.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a57894c9717150ae59bced491392ac12a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::AdaptiveIOScaler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="215" column="24" bodyfile="include/network/adaptive_io_scaler.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a15979a567cbecb0de5fcb3b9353e4652" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveIOScaler::current_threads_</definition>
+        <argsstring></argsstring>
+        <name>current_threads_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::current_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="216" column="13" bodyfile="include/network/adaptive_io_scaler.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a712d01b7de7772341757a67c439cf66f" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveIOScaler::scale_up_events_</definition>
+        <argsstring></argsstring>
+        <name>scale_up_events_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::scale_up_events_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="219" column="14" bodyfile="include/network/adaptive_io_scaler.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aca3bdfbe91abcc2c52625e4f4e0c510a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveIOScaler::scale_down_events_</definition>
+        <argsstring></argsstring>
+        <name>scale_down_events_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::scale_down_events_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="220" column="14" bodyfile="include/network/adaptive_io_scaler.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab13bb5030814b14fcbdc82c3a9e3de95" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveIOScaler::check_iterations_</definition>
+        <argsstring></argsstring>
+        <name>check_iterations_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::check_iterations_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="221" column="14" bodyfile="include/network/adaptive_io_scaler.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ad2ce46a06455264aef6c7243a6c7b3b2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveIOScaler::last_conn_count_</definition>
+        <argsstring></argsstring>
+        <name>last_conn_count_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::last_conn_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="222" column="14" bodyfile="include/network/adaptive_io_scaler.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a29c07e19b4da6d0b36069d77784be43e" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::network::AdaptiveIOScaler::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="225" column="24" bodyfile="include/network/adaptive_io_scaler.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a0a0b681275ff8d84dfa249b54d0a247f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::network::AdaptiveIOScaler::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="226" column="18" bodyfile="include/network/adaptive_io_scaler.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::AdaptiveIOScaler::AdaptiveIOScaler</definition>
+        <argsstring>(const Config &amp;config, ConnectionCountProvider provider)</argsstring>
+        <name>AdaptiveIOScaler</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::AdaptiveIOScaler</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" kindref="member">ConnectionCountProvider</ref></type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scaling parameters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable returning the current active-connection count. Must remain valid for the lifetime of the scaler. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="137" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1acd6a509fa2319f3326f369eb600643cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::AdaptiveIOScaler::~AdaptiveIOScaler</definition>
+        <argsstring>()</argsstring>
+        <name>~AdaptiveIOScaler</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::~AdaptiveIOScaler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="139" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aa08649d71c311d0fd18730f8e4b19bb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::AdaptiveIOScaler::AdaptiveIOScaler</definition>
+        <argsstring>(const AdaptiveIOScaler &amp;)=delete</argsstring>
+        <name>AdaptiveIOScaler</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::AdaptiveIOScaler</qualifiedname>
+        <param>
+          <type>const AdaptiveIOScaler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aea63fe0781256887eeb8e4c064e82ee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref> &amp;</type>
+        <definition>AdaptiveIOScaler &amp; themis::network::AdaptiveIOScaler::operator=</definition>
+        <argsstring>(const AdaptiveIOScaler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="142" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a36cd4b036dff767856ebefc8f5aa68cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::AdaptiveIOScaler::AdaptiveIOScaler</definition>
+        <argsstring>(AdaptiveIOScaler &amp;&amp;)=delete</argsstring>
+        <name>AdaptiveIOScaler</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::AdaptiveIOScaler</qualifiedname>
+        <param>
+          <type>AdaptiveIOScaler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a9a9f749ab3c34c8ee0d542549f29360d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref> &amp;</type>
+        <definition>AdaptiveIOScaler &amp; themis::network::AdaptiveIOScaler::operator=</definition>
+        <argsstring>(AdaptiveIOScaler &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="144" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a45ed0841d7a2602ed6d753c3be76f904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::AdaptiveIOScaler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::start</qualifiedname>
+        <briefdescription>
+<para>Start the background monitoring thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe to call multiple times; subsequent calls are no-ops. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="155" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a172abb6bcf6082fee1be70ca1e57c18a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::AdaptiveIOScaler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the background monitoring thread and join it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocks until the monitor thread has exited. Safe to call if <ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a45ed0841d7a2602ed6d753c3be76f904" kindref="member">start()</ref> was never called. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="163" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a3044edd9e4c8fb22ac9ed443a4b04a13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::AdaptiveIOScaler::setScaleCallback</definition>
+        <argsstring>(ScaleCallback cb)</argsstring>
+        <name>setScaleCallback</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::setScaleCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab5d3aadbbc531b81f2b2fa4366d86a50" kindref="member">ScaleCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked whenever the thread count changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pass nullptr to clear an existing callback. Can be called before or after <ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a45ed0841d7a2602ed6d753c3be76f904" kindref="member">start()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="175" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a8a9adea65b32de82cd948d26a9849588" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveIOScaler::evaluateNow</definition>
+        <argsstring>()</argsstring>
+        <name>evaluateNow</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::evaluateNow</qualifiedname>
+        <briefdescription>
+<para>Evaluate the scaling rules once synchronously. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful in tests or for immediate reactions to a connection-count spike without waiting for the next background poll interval.</para>
+<para><simplesect kind="return"><para>The (potentially updated) recommended thread count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="189" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a67076e842c2fdada72ad85ba05e197fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveIOScaler::getCurrentThreadCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentThreadCount</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::getCurrentThreadCount</qualifiedname>
+        <briefdescription>
+<para>Return the current recommended thread count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="198" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a83dfc34ba62815c40daaeb3b764c6225" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::network::AdaptiveIOScaler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::getStats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of scaling statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="203" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab828510130f467d3e3c33a399ce0d89e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::network::AdaptiveIOScaler::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the configuration used to construct this scaler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="208" column="18" bodyfile="include/network/adaptive_io_scaler.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a89bf3042f10ceb0abc46848c7cfd9710" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::AdaptiveIOScaler::monitorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>monitorLoop</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::monitorLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="228" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive I/O thread scaler for the network layer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Monitors a caller-supplied &quot;active connection&quot; metric and adjusts the recommended number of I/O threads up or down so that the server always has an appropriate level of parallelism without wasting resources.</para>
+<para>The scaler does <emphasis>not</emphasis> directly manage threads; it computes a target thread count and notifies the caller via an optional callback so that the server can adjust its own thread pool at the appropriate point.</para>
+<para>Scale-up rule: If (active_connections / current_threads) &gt;= scale_up_threshold and current_threads &lt; max_threads → increase by one thread.</para>
+<para>Scale-down rule: If (active_connections / current_threads) &lt;= scale_down_threshold and current_threads &gt; min_threads → decrease by one thread.</para>
+<para>A background thread polls the metric at <computeroutput>check_interval</computeroutput> and applies the rules. The caller must provide a <computeroutput><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" kindref="member">ConnectionCountProvider</ref></computeroutput> callable that returns the current number of active connections.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">AdaptiveIOScaler::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.min_threads<sp/>=<sp/>2;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_threads<sp/>=<sp/>16;</highlight></codeline>
+<codeline><highlight class="normal">cfg.scale_up_threshold<sp/><sp/><sp/>=<sp/>200;<sp/><sp/></highlight><highlight class="comment">//<sp/>conns<sp/>per<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">cfg.scale_down_threshold<sp/>=<sp/>50;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>conns<sp/>per<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref><sp/>scaler(cfg,<sp/>[]{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>server.getActiveConnections();<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">scaler.setScaleCallback([&amp;](</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n){<sp/>server.resizeIOThreadPool(n);<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">scaler.start();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/adaptive_io_scaler.h" line="59" column="1" bodyfile="include/network/adaptive_io_scaler.h" bodystart="59" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>AdaptiveIOScaler</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aa08649d71c311d0fd18730f8e4b19bb4" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>AdaptiveIOScaler</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a36cd4b036dff767856ebefc8f5aa68cf" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>AdaptiveIOScaler</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab13bb5030814b14fcbdc82c3a9e3de95" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>check_iterations_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ac67badbd925ee5b55630a963ed3b241f" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>ConnectionCountProvider</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a15979a567cbecb0de5fcb3b9353e4652" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>current_threads_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a8a9adea65b32de82cd948d26a9849588" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>evaluateNow</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab828510130f467d3e3c33a399ce0d89e" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a67076e842c2fdada72ad85ba05e197fb" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>getCurrentThreadCount</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a83dfc34ba62815c40daaeb3b764c6225" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ad2ce46a06455264aef6c7243a6c7b3b2" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>last_conn_count_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a29c07e19b4da6d0b36069d77784be43e" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a89bf3042f10ceb0abc46848c7cfd9710" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>monitorLoop</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a57894c9717150ae59bced491392ac12a" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aea63fe0781256887eeb8e4c064e82ee2" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a9a9f749ab3c34c8ee0d542549f29360d" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a06d2276edffbc9f1302fcce07ba70db5" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>provider_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a0a0b681275ff8d84dfa249b54d0a247f" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>running_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ac29a9648735871e6e09ebceaefcbad82" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>scale_cb_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aca3bdfbe91abcc2c52625e4f4e0c510a" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>scale_down_events_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a712d01b7de7772341757a67c439cf66f" prot="private" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>scale_up_events_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab5d3aadbbc531b81f2b2fa4366d86a50" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>ScaleCallback</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a3044edd9e4c8fb22ac9ed443a4b04a13" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>setScaleCallback</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a45ed0841d7a2602ed6d753c3be76f904" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>start</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a172abb6bcf6082fee1be70ca1e57c18a" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>stop</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1acd6a509fa2319f3326f369eb600643cf" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler</scope><name>~AdaptiveIOScaler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

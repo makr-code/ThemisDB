@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSQueryOptimizer::OptimizationHint</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DecodeWidth</name>
+        <qualifiedname>themis::TSQueryOptimizer::OptimizationHint::DecodeWidth</qualifiedname>
+        <enumvalue id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a06b9281e396db002010bde1de57262eb" prot="public">
+          <name>Auto</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a166495adc0d0f53bee6baecc577f5204" prot="public">
+          <name>Float32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05ad2b556d8a8f5c8ac323f51a4b82e79a0" prot="public">
+          <name>Float64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode-width hint for the Gorilla SIMD decoder. Tells the decoder which value width to use for width-specific vectorisation paths, avoiding unnecessary bit-width checks in tight decode loops. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="114" column="9" bodyfile="include/timeseries/query_optimizer.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a9d19fe8bc52f587d592564f23c4a79c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TSQueryOptimizer::OptimizationHint::use_aggregates</definition>
+        <argsstring></argsstring>
+        <name>use_aggregates</name>
+        <qualifiedname>themis::TSQueryOptimizer::OptimizationHint::use_aggregates</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="104" column="14" bodyfile="include/timeseries/query_optimizer.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aa3809c383bebc9765fadb131045227ae" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSQueryOptimizer::OptimizationHint::min_window_for_agg_ms</definition>
+        <argsstring></argsstring>
+        <name>min_window_for_agg_ms</name>
+        <qualifiedname>themis::TSQueryOptimizer::OptimizationHint::min_window_for_agg_ms</qualifiedname>
+        <initializer>= 3600000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="105" column="17" bodyfile="include/timeseries/query_optimizer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1ad5ce648a8635845f4d3782c4fb3e58c4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSQueryOptimizer::OptimizationHint::max_raw_points</definition>
+        <argsstring></argsstring>
+        <name>max_raw_points</name>
+        <qualifiedname>themis::TSQueryOptimizer::OptimizationHint::max_raw_points</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="106" column="16" bodyfile="include/timeseries/query_optimizer.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a17dd8f7b0a03d396fd6ecb2340ba4d86" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TSQueryOptimizer::OptimizationHint::explain</definition>
+        <argsstring></argsstring>
+        <name>explain</name>
+        <qualifiedname>themis::TSQueryOptimizer::OptimizationHint::explain</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="107" column="14" bodyfile="include/timeseries/query_optimizer.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a2bb73c9dc80e1fc7391bca5848883de7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter" kindref="compound">PredicateFilter</ref> &gt;</type>
+        <definition>std::vector&lt;PredicateFilter&gt; themis::TSQueryOptimizer::OptimizationHint::predicates</definition>
+        <argsstring></argsstring>
+        <name>predicates</name>
+        <qualifiedname>themis::TSQueryOptimizer::OptimizationHint::predicates</qualifiedname>
+        <briefdescription>
+<para>Optional tag predicates to push down. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="108" column="21" bodyfile="include/timeseries/query_optimizer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1acac84d20d47353eab285b8ab8809b65b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TSQueryOptimizer::OptimizationHint::use_cache</definition>
+        <argsstring></argsstring>
+        <name>use_cache</name>
+        <qualifiedname>themis::TSQueryOptimizer::OptimizationHint::use_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to use/populate the query plan cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="109" column="14" bodyfile="include/timeseries/query_optimizer.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1adb5fef2a0c1fc689e3a37026c5325e63" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05" kindref="member">DecodeWidth</ref></type>
+        <definition>DecodeWidth themis::TSQueryOptimizer::OptimizationHint::decode_width</definition>
+        <argsstring></argsstring>
+        <name>decode_width</name>
+        <qualifiedname>themis::TSQueryOptimizer::OptimizationHint::decode_width</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a06b9281e396db002010bde1de57262eb" kindref="member">DecodeWidth::Auto</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="115" column="21" bodyfile="include/timeseries/query_optimizer.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/query_optimizer.h" line="103" column="5" bodyfile="include/timeseries/query_optimizer.h" bodystart="103" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1adb5fef2a0c1fc689e3a37026c5325e63" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::OptimizationHint</scope><name>decode_width</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::OptimizationHint</scope><name>DecodeWidth</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a17dd8f7b0a03d396fd6ecb2340ba4d86" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::OptimizationHint</scope><name>explain</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1ad5ce648a8635845f4d3782c4fb3e58c4" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::OptimizationHint</scope><name>max_raw_points</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aa3809c383bebc9765fadb131045227ae" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::OptimizationHint</scope><name>min_window_for_agg_ms</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a2bb73c9dc80e1fc7391bca5848883de7" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::OptimizationHint</scope><name>predicates</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1a9d19fe8bc52f587d592564f23c4a79c4" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::OptimizationHint</scope><name>use_aggregates</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1acac84d20d47353eab285b8ab8809b65b" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::OptimizationHint</scope><name>use_cache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

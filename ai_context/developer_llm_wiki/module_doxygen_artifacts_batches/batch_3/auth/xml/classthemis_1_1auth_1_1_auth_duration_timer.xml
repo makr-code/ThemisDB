@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_auth_duration_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AuthDurationTimer</compoundname>
+    <includes refid="auth__metrics_8h" local="no">auth_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_duration_timer_1aa7f935b08ae950898e869488f461393b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref> &amp;</type>
+        <definition>AuthMetrics&amp; themis::auth::AuthDurationTimer::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="413" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_duration_timer_1a5f6f8a45a3848b1361c1034cc8cf3fb5" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585c" kindref="member">AuthMethod</ref></type>
+        <definition>AuthMethod themis::auth::AuthDurationTimer::method_</definition>
+        <argsstring></argsstring>
+        <name>method_</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::method_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="414" column="16" bodyfile="include/auth/auth_metrics.h" bodystart="414" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_duration_timer_1abbc6e54ef9702755d729922388a9930e" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::auth::AuthDurationTimer::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="415" column="43" bodyfile="include/auth/auth_metrics.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_duration_timer_1adebd196f963506993df54287120ec246" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthDurationTimer::recorded_</definition>
+        <argsstring></argsstring>
+        <name>recorded_</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::recorded_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="416" column="10" bodyfile="include/auth/auth_metrics.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_duration_timer_1a3088807fbbf0020929f15f20a1d5b7db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthDurationTimer::AuthDurationTimer</definition>
+        <argsstring>(AuthMetrics &amp;metrics, AuthMethod method)</argsstring>
+        <name>AuthDurationTimer</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::AuthDurationTimer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585c" kindref="member">AuthMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="367" column="5" bodyfile="include/auth/auth_metrics.h" bodystart="367" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_duration_timer_1a50d6a7956bfcca46554f601b2bba06ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthDurationTimer::~AuthDurationTimer</definition>
+        <argsstring>()</argsstring>
+        <name>~AuthDurationTimer</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::~AuthDurationTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="374" column="5" bodyfile="include/auth/auth_metrics.h" bodystart="374" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_duration_timer_1a40cc62b2b6c63c916db08b0fc7d08fa3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthDurationTimer::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::recordSuccess</qualifiedname>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1auth_1_1_auth_duration_timer_1a260ca8bd0d6b44dca0ffe72f4448e6dd" kindref="member">getDuration()</ref>, recordAuthSuccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="386" column="10" bodyfile="include/auth/auth_metrics.h" bodystart="386" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_duration_timer_1a59aa60652ae06d48fd65a2090983bc4a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthDurationTimer::recordFailure</definition>
+        <argsstring>(int error_code)</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::recordFailure</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1auth_1_1_auth_duration_timer_1a260ca8bd0d6b44dca0ffe72f4448e6dd" kindref="member">getDuration()</ref>, recordAuthFailure(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="399" column="10" bodyfile="include/auth/auth_metrics.h" bodystart="399" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_duration_timer_1a260ca8bd0d6b44dca0ffe72f4448e6dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::auth::AuthDurationTimer::getDuration</definition>
+        <argsstring>() const</argsstring>
+        <name>getDuration</name>
+        <qualifiedname>themis::auth::AuthDurationTimer::getDuration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="407" column="12" bodyfile="include/auth/auth_metrics.h" bodystart="407" bodyend="410"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_metrics.h" line="365" column="1" bodyfile="include/auth/auth_metrics.h" bodystart="365" bodyend="417"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1a3088807fbbf0020929f15f20a1d5b7db" prot="public" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>AuthDurationTimer</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1a260ca8bd0d6b44dca0ffe72f4448e6dd" prot="public" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>getDuration</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1a5f6f8a45a3848b1361c1034cc8cf3fb5" prot="private" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>method_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1aa7f935b08ae950898e869488f461393b" prot="private" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1adebd196f963506993df54287120ec246" prot="private" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>recorded_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1a59aa60652ae06d48fd65a2090983bc4a" prot="public" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1a40cc62b2b6c63c916db08b0fc7d08fa3" prot="public" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1abbc6e54ef9702755d729922388a9930e" prot="private" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>start_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_duration_timer_1a50d6a7956bfcca46554f601b2bba06ed" prot="public" virt="non-virtual"><scope>themis::auth::AuthDurationTimer</scope><name>~AuthDurationTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

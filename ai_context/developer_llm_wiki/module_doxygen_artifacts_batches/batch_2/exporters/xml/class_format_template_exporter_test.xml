@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_format_template_exporter_test" kind="class" language="C++" prot="public">
+    <compoundname>FormatTemplateExporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_format_template_exporter_test_1ac271e9cf412f9e9276029d626a5d82bd" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FormatTemplateExporterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>FormatTemplateExporterTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_format_template.cpp" line="369" column="17" bodyfile="tests/exporters/test_format_template.cpp" bodystart="369" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_format_template_exporter_test_1afabf04ded642f4fc22dae62569a2a89d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FormatTemplateExporterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FormatTemplateExporterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_format_template.cpp" line="325" column="10" bodyfile="tests/exporters/test_format_template.cpp" bodystart="325" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="class_format_template_exporter_test_1a1f5328df212439cc4c5586ec5a660ea7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FormatTemplateExporterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>FormatTemplateExporterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_format_template.cpp" line="334" column="10" bodyfile="tests/exporters/test_format_template.cpp" bodystart="334" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="class_format_template_exporter_test_1a569f0e83778f2a92d34189996d229aaa" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; FormatTemplateExporterTest::makeSampleEntities</definition>
+        <argsstring>(int count=5) const</argsstring>
+        <name>makeSampleEntities</name>
+        <qualifiedname>FormatTemplateExporterTest::makeSampleEntities</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_format_template.cpp" line="340" column="17" bodyfile="tests/exporters/test_format_template.cpp" bodystart="340" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="class_format_template_exporter_test_1a5ba53245bf47afcfafa4ccfce16a1257" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; FormatTemplateExporterTest::readLines</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>readLines</name>
+        <qualifiedname>FormatTemplateExporterTest::readLines</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_format_template.cpp" line="357" column="17" bodyfile="tests/exporters/test_format_template.cpp" bodystart="357" bodyend="367"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FormatTemplateExporterTest</label>
+        <link refid="class_format_template_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FormatTemplateExporterTest</label>
+        <link refid="class_format_template_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_format_template.cpp" line="323" column="1" bodyfile="tests/exporters/test_format_template.cpp" bodystart="323" bodyend="370"/>
+    <listofallmembers>
+      <member refid="class_format_template_exporter_test_1a569f0e83778f2a92d34189996d229aaa" prot="protected" virt="non-virtual"><scope>FormatTemplateExporterTest</scope><name>makeSampleEntities</name></member>
+      <member refid="class_format_template_exporter_test_1a5ba53245bf47afcfafa4ccfce16a1257" prot="protected" virt="non-virtual"><scope>FormatTemplateExporterTest</scope><name>readLines</name></member>
+      <member refid="class_format_template_exporter_test_1afabf04ded642f4fc22dae62569a2a89d" prot="protected" virt="non-virtual"><scope>FormatTemplateExporterTest</scope><name>SetUp</name></member>
+      <member refid="class_format_template_exporter_test_1a1f5328df212439cc4c5586ec5a660ea7" prot="protected" virt="non-virtual"><scope>FormatTemplateExporterTest</scope><name>TearDown</name></member>
+      <member refid="class_format_template_exporter_test_1ac271e9cf412f9e9276029d626a5d82bd" prot="protected" virt="non-virtual"><scope>FormatTemplateExporterTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

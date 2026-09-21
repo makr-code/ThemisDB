@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_lease_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LeaseConfig</compoundname>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_config_1a553c6268a344b0e7489bde88ffdb5746" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::LeaseConfig::ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>ttl_ms</name>
+        <qualifiedname>themis::sharding::LeaseConfig::ttl_ms</qualifiedname>
+        <initializer>{10&apos;000}</initializer>
+        <briefdescription>
+<para>Default lease TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="375" column="31" bodyfile="include/sharding/epoch_fencing.h" bodystart="375" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_config_1ac6345be85b812d630a8e31e779358405" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::LeaseConfig::renew_before_ms</definition>
+        <argsstring></argsstring>
+        <name>renew_before_ms</name>
+        <qualifiedname>themis::sharding::LeaseConfig::renew_before_ms</qualifiedname>
+        <initializer>{3&apos;000}</initializer>
+        <briefdescription>
+<para>How early before expiry the holder should renew. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="378" column="31" bodyfile="include/sharding/epoch_fencing.h" bodystart="378" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_config_1a577ea3676357614ffd01826606058319" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::LeaseConfig::acquire_wait_ms</definition>
+        <argsstring></argsstring>
+        <name>acquire_wait_ms</name>
+        <qualifiedname>themis::sharding::LeaseConfig::acquire_wait_ms</qualifiedname>
+        <initializer>{15&apos;000}</initializer>
+        <briefdescription>
+<para>Maximum time to wait for a competing lease to expire. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="381" column="31" bodyfile="include/sharding/epoch_fencing.h" bodystart="381" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_config_1a7d65443197e4bb97401a3c045d9b3b0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LeaseConfig::wal_path</definition>
+        <argsstring></argsstring>
+        <name>wal_path</name>
+        <qualifiedname>themis::sharding::LeaseConfig::wal_path</qualifiedname>
+        <briefdescription>
+<para>Path prefix for WAL persistence (empty ⇒ in-memory only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="384" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_lease_config_1a2f6951061ae22aad36011fdb85d0c48f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::LeaseConfig::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::sharding::LeaseConfig::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="386" column="10" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="246" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/epoch_fencing.h" line="373" column="1" bodyfile="include/sharding/epoch_fencing.h" bodystart="373" bodyend="387"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_lease_config_1a577ea3676357614ffd01826606058319" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseConfig</scope><name>acquire_wait_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_config_1ac6345be85b812d630a8e31e779358405" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseConfig</scope><name>renew_before_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_config_1a553c6268a344b0e7489bde88ffdb5746" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseConfig</scope><name>ttl_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_config_1a2f6951061ae22aad36011fdb85d0c48f" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseConfig</scope><name>validate</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_config_1a7d65443197e4bb97401a3c045d9b3b0c" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseConfig</scope><name>wal_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

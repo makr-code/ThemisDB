@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::WireProtocolConnectionPool::TargetPool</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1a41a73a10e87e3ea03a7b9426d3decbc6" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::WireProtocolConnectionPool::TargetPool::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::TargetPool::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="340" column="20" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1a56184f6743d906620a5c81f858c4dca7" prot="public" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::network::WireProtocolConnectionPool::TargetPool::cv</definition>
+        <argsstring></argsstring>
+        <name>cv</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::TargetPool::cv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="341" column="33" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1a36c2db9dbfc77cc7505d2a9b2161db30" prot="public" static="no" mutable="no">
+        <type>std::queue&lt; std::shared_ptr&lt; PooledConnection &gt; &gt;</type>
+        <definition>std::queue&lt;std::shared_ptr&lt;PooledConnection&gt; &gt; themis::network::WireProtocolConnectionPool::TargetPool::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::TargetPool::available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="342" column="20" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1ad8ac0e54d46b6b06c857e60bcbdf526c" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; void *, std::shared_ptr&lt; PooledConnection &gt; &gt;</type>
+        <definition>std::unordered_map&lt;void*, std::shared_ptr&lt;PooledConnection&gt; &gt; themis::network::WireProtocolConnectionPool::TargetPool::all_connections</definition>
+        <argsstring></argsstring>
+        <name>all_connections</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::TargetPool::all_connections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="343" column="28" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1aacb68740c1ef3255a99432b5c4737d17" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::TargetPool::active_count</definition>
+        <argsstring></argsstring>
+        <name>active_count</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::TargetPool::active_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="344" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-target connection pool. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_connection_pool.h" line="339" column="5" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="339" bodyend="345"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1aacb68740c1ef3255a99432b5c4737d17" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::TargetPool</scope><name>active_count</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1ad8ac0e54d46b6b06c857e60bcbdf526c" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::TargetPool</scope><name>all_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1a36c2db9dbfc77cc7505d2a9b2161db30" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::TargetPool</scope><name>available</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1a56184f6743d906620a5c81f858c4dca7" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::TargetPool</scope><name>cv</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_target_pool_1a41a73a10e87e3ea03a7b9426d3decbc6" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::TargetPool</scope><name>mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

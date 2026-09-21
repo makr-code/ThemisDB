@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_reproducibility_guidelines" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ReproducibilityGuidelines</compoundname>
+    <includes refid="process__determinism__spec_8h" local="no">process_determinism_spec.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_reproducibility_guidelines_1a5ac459a92679fca0f1639c60a624b251" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::ReproducibilityGuidelines::use_fixed_uuids_hint</definition>
+        <argsstring>()</argsstring>
+        <name>use_fixed_uuids_hint</name>
+        <qualifiedname>themis::process::ReproducibilityGuidelines::use_fixed_uuids_hint</qualifiedname>
+        <briefdescription>
+<para>Use fixed UUIDs (RFC 4122 v5) for models to ensure consistent IDs across test runs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="297" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="297" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_reproducibility_guidelines_1a4053848bcd3412fd50ae9c5b017e65b3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::ReproducibilityGuidelines::avoid_subprocess_ordering_hint</definition>
+        <argsstring>()</argsstring>
+        <name>avoid_subprocess_ordering_hint</name>
+        <qualifiedname>themis::process::ReproducibilityGuidelines::avoid_subprocess_ordering_hint</qualifiedname>
+        <briefdescription>
+<para>Avoid dependency on subprocess execution order in test assertions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="303" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="303" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_reproducibility_guidelines_1a2dbf06bff8936eb6f88d1b13e3e00830" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::ReproducibilityGuidelines::use_version_clocks_hint</definition>
+        <argsstring>()</argsstring>
+        <name>use_version_clocks_hint</name>
+        <qualifiedname>themis::process::ReproducibilityGuidelines::use_version_clocks_hint</qualifiedname>
+        <briefdescription>
+<para>Use version numbers to ensure model consistency in multi-threaded tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="309" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="309" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_reproducibility_guidelines_1a489a73d411093bb15fddefdc7cae40df" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::ReproducibilityGuidelines::capture_snapshots_at_known_points_hint</definition>
+        <argsstring>()</argsstring>
+        <name>capture_snapshots_at_known_points_hint</name>
+        <qualifiedname>themis::process::ReproducibilityGuidelines::capture_snapshots_at_known_points_hint</qualifiedname>
+        <briefdescription>
+<para>Capture snapshots at known points to ensure consistent retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="315" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="315" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guidelines for reproducing process behavior in testing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Use these guidelines to ensure test cases are reproducible and deterministic. </para>
+    </detaileddescription>
+    <location file="include/process/process_determinism_spec.h" line="295" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="295" bodyend="319"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a4053848bcd3412fd50ae9c5b017e65b3" prot="public" virt="non-virtual"><scope>themis::process::ReproducibilityGuidelines</scope><name>avoid_subprocess_ordering_hint</name></member>
+      <member refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a489a73d411093bb15fddefdc7cae40df" prot="public" virt="non-virtual"><scope>themis::process::ReproducibilityGuidelines</scope><name>capture_snapshots_at_known_points_hint</name></member>
+      <member refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a5ac459a92679fca0f1639c60a624b251" prot="public" virt="non-virtual"><scope>themis::process::ReproducibilityGuidelines</scope><name>use_fixed_uuids_hint</name></member>
+      <member refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a2dbf06bff8936eb6f88d1b13e3e00830" prot="public" virt="non-virtual"><scope>themis::process::ReproducibilityGuidelines</scope><name>use_version_clocks_hint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

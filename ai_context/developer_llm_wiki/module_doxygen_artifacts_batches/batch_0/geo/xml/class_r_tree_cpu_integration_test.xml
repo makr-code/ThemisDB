@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_r_tree_cpu_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>RTreeCpuIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_r_tree_cpu_integration_test_1a856919171ddb32fc5340793ff2401ece" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* RTreeCpuIntegrationTest::kTable</definition>
+        <argsstring></argsstring>
+        <name>kTable</name>
+        <qualifiedname>RTreeCpuIntegrationTest::kTable</qualifiedname>
+        <initializer>= &quot;test_rtree_table&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="23" column="33" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_r_tree_cpu_integration_test_1a213071891cdac5008bf09b9102e06196" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; RTreeCpuIntegrationTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>RTreeCpuIntegrationTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="84" column="27" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_r_tree_cpu_integration_test_1a25537911a7c59dc0bf405765c535e67b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SpatialIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SpatialIndexManager&gt; RTreeCpuIntegrationTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>RTreeCpuIntegrationTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="85" column="22" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_r_tree_cpu_integration_test_1a8097560543478078db91c1af4067d53a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string RTreeCpuIntegrationTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>RTreeCpuIntegrationTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="86" column="43" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_r_tree_cpu_integration_test_1a5267921e591a298515eab4e3f7958af2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RTreeCpuIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RTreeCpuIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="25" column="10" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="25" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_r_tree_cpu_integration_test_1a4f425bdc32858fbc1662ac083d179883" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RTreeCpuIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>RTreeCpuIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="54" column="10" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_r_tree_cpu_integration_test_1a93a250826e349d5e70ef2eaab3151b94" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeoSidecar</type>
+        <definition>static GeoSidecar RTreeCpuIntegrationTest::pointSidecar</definition>
+        <argsstring>(double lon, double lat)</argsstring>
+        <name>pointSidecar</name>
+        <qualifiedname>RTreeCpuIntegrationTest::pointSidecar</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="64" column="23" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_r_tree_cpu_integration_test_1a203d51dab040d283ffced9356a2f5ede" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeoSidecar</type>
+        <definition>static GeoSidecar RTreeCpuIntegrationTest::boxSidecar</definition>
+        <argsstring>(double minx, double miny, double maxx, double maxy)</argsstring>
+        <name>boxSidecar</name>
+        <qualifiedname>RTreeCpuIntegrationTest::boxSidecar</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>minx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>miny</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="72" column="23" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_r_tree_cpu_integration_test_1a8e172676af263989d1903584b002359a" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool RTreeCpuIntegrationTest::hasKey</definition>
+        <argsstring>(const std::vector&lt; SpatialResult &gt; &amp;v, const std::string &amp;k)</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>RTreeCpuIntegrationTest::hasKey</qualifiedname>
+        <param>
+          <type>const std::vector&lt; SpatialResult &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="79" column="17" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RTreeCpuIntegrationTest</label>
+        <link refid="class_r_tree_cpu_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RTreeCpuIntegrationTest</label>
+        <link refid="class_r_tree_cpu_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_rtree_cpu_integration.cpp" line="21" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="21" bodyend="87"/>
+    <listofallmembers>
+      <member refid="class_r_tree_cpu_integration_test_1a203d51dab040d283ffced9356a2f5ede" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>boxSidecar</name></member>
+      <member refid="class_r_tree_cpu_integration_test_1a213071891cdac5008bf09b9102e06196" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>db_</name></member>
+      <member refid="class_r_tree_cpu_integration_test_1a8097560543478078db91c1af4067d53a" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>db_path_</name></member>
+      <member refid="class_r_tree_cpu_integration_test_1a8e172676af263989d1903584b002359a" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>hasKey</name></member>
+      <member refid="class_r_tree_cpu_integration_test_1a856919171ddb32fc5340793ff2401ece" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>kTable</name></member>
+      <member refid="class_r_tree_cpu_integration_test_1a25537911a7c59dc0bf405765c535e67b" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>mgr_</name></member>
+      <member refid="class_r_tree_cpu_integration_test_1a93a250826e349d5e70ef2eaab3151b94" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>pointSidecar</name></member>
+      <member refid="class_r_tree_cpu_integration_test_1a5267921e591a298515eab4e3f7958af2" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_r_tree_cpu_integration_test_1a4f425bdc32858fbc1662ac083d179883" prot="protected" virt="non-virtual"><scope>RTreeCpuIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

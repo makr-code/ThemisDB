@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_orchestrator_job" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::OrchestratorJob</compoundname>
+    <includes refid="maintenance__task_8h" local="no">maintenance_task.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1a68ddebbf6ebe17c7cce16f751ab3b69f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::OrchestratorJob::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::id</qualifiedname>
+        <briefdescription>
+<para>Unique job identifier (UUID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="181" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1af20e85a97b560a48cdf5eb3f54a0f6d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::OrchestratorJob::schedule_id</definition>
+        <argsstring></argsstring>
+        <name>schedule_id</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::schedule_id</qualifiedname>
+        <briefdescription>
+<para>Parent schedule that spawned this job (&quot;&quot; = ad-hoc). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="182" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1adf1fc908f757daa118ec5134688cdd35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::OrchestratorJob::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant that owns this job (from schedule; &quot;&quot; = global). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="183" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1a965eafb364270391f21d16196223f254" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+        <definition>MaintenanceTaskType themis::maintenance::OrchestratorJob::task_type</definition>
+        <argsstring></argsstring>
+        <name>task_type</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::task_type</qualifiedname>
+        <briefdescription>
+<para>Which operation is being performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="184" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1afda48e69b24bf1ec54eb8089adaf78c5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3" kindref="member">MaintenanceJobState</ref></type>
+        <definition>MaintenanceJobState themis::maintenance::OrchestratorJob::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">MaintenanceJobState::PENDING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="185" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1ad4a287121c058cec5b0d42f20ad755d4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::OrchestratorJob::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="186" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1a1c101f625b02edd1e91e4c922245970b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::OrchestratorJob::result_summary</definition>
+        <argsstring></argsstring>
+        <name>result_summary</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::result_summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="187" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1a5bd9bcf4945ac8debf8160cca7c95f55" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::maintenance::OrchestratorJob::progress_pct</definition>
+        <argsstring></argsstring>
+        <name>progress_pct</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::progress_pct</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="188" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1a2a30b4a0178bfa78bb1c39cb779b432e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::OrchestratorJob::started_at_ms</definition>
+        <argsstring></argsstring>
+        <name>started_at_ms</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::started_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="189" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1ac95754adc5022f24dca328ec79b999f4" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::OrchestratorJob::finished_at_ms</definition>
+        <argsstring></argsstring>
+        <name>finished_at_ms</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::finished_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="190" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_orchestrator_job_1a0f424de19adea73feaf5001fcd5d354c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::maintenance::OrchestratorJob::forced</definition>
+        <argsstring></argsstring>
+        <name>forced</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::forced</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when the job was triggered with force=true (bypassed window) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="191" column="26" bodyfile="include/maintenance/maintenance_task.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1_orchestrator_job_1a4f4aca0d540884d4f6917f66c038ee34" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::maintenance::OrchestratorJob::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::maintenance::OrchestratorJob::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task.h" line="193" column="20" bodyfile="include/maintenance/maintenance_task.h" bodystart="193" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a single running or completed orchestrator job. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_task.h" line="180" column="1" bodyfile="include/maintenance/maintenance_task.h" bodystart="180" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1ad4a287121c058cec5b0d42f20ad755d4" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1ac95754adc5022f24dca328ec79b999f4" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>finished_at_ms</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a0f424de19adea73feaf5001fcd5d354c" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>forced</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a68ddebbf6ebe17c7cce16f751ab3b69f" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>id</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a5bd9bcf4945ac8debf8160cca7c95f55" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>progress_pct</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a1c101f625b02edd1e91e4c922245970b" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>result_summary</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1af20e85a97b560a48cdf5eb3f54a0f6d5" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>schedule_id</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a2a30b4a0178bfa78bb1c39cb779b432e" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>started_at_ms</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1afda48e69b24bf1ec54eb8089adaf78c5" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>state</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a965eafb364270391f21d16196223f254" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>task_type</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1adf1fc908f757daa118ec5134688cdd35" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_orchestrator_job_1a4f4aca0d540884d4f6917f66c038ee34" prot="public" virt="non-virtual"><scope>themis::maintenance::OrchestratorJob</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

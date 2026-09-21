@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::GraphChangeSet</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change" prot="public">themis::graph::GraphQueryOptimizer::GraphChangeSet::Change</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a670fc08961895a4e4c1524113ace865a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChangeType</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::ChangeType</qualifiedname>
+        <enumvalue id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a670fc08961895a4e4c1524113ace865aaa489aefe9a445e0e8afc0cc1bed66623" prot="public">
+          <name>EDGE_ADDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a670fc08961895a4e4c1524113ace865aa68c1d8d4eae60cb90a9d5c770a21e9e7" prot="public">
+          <name>EDGE_REMOVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a670fc08961895a4e4c1524113ace865aa9521008788c4fafe6ebea8a42888713a" prot="public">
+          <name>VERTEX_ADDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a670fc08961895a4e4c1524113ace865aa92081e3a2cf2db29dfdce7005fdd5154" prot="public">
+          <name>VERTEX_REMOVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="280" column="9" bodyfile="include/graph/graph_query_optimizer.h" bodystart="280" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a4c4105e17a8ec2ed0e7896e21c433cbb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change" kindref="compound">Change</ref> &gt;</type>
+        <definition>std::vector&lt;Change&gt; themis::graph::GraphQueryOptimizer::GraphChangeSet::changes</definition>
+        <argsstring></argsstring>
+        <name>changes</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::changes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="294" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1afa776a7c26cd66c8aae1225bceab8f75" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::GraphChangeSet::addEdgeAdded</definition>
+        <argsstring>(std::string id, std::string from, std::string to)</argsstring>
+        <name>addEdgeAdded</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::addEdgeAdded</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> Added. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="303" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="303" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a4af1e5259a041f3863c17bdff0006140" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::GraphChangeSet::addEdgeRemoved</definition>
+        <argsstring>(std::string id, std::string from, std::string to)</argsstring>
+        <name>addEdgeRemoved</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::addEdgeRemoved</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> Removed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="314" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="314" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1ae1d9d3edadb06cbf85f8e91c945c3366" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::GraphChangeSet::addVertexAdded</definition>
+        <argsstring>(std::string id)</argsstring>
+        <name>addVertexAdded</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::addVertexAdded</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Add Vertex Added. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="323" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="323" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a8f5f46ffb7c3a9e113ec3974c4ff5141" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::GraphChangeSet::addVertexRemoved</definition>
+        <argsstring>(std::string id)</argsstring>
+        <name>addVertexRemoved</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::addVertexRemoved</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Add Vertex Removed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="331" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="331" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1aa04300be3f41f1aa15f5d6151466abfc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::GraphChangeSet::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="334" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="334" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a2bb2619b2a2f456be53aae05be2169cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::GraphChangeSet::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="335" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="335" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="279" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="279" bodyend="336"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1afa776a7c26cd66c8aae1225bceab8f75" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet</scope><name>addEdgeAdded</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a4af1e5259a041f3863c17bdff0006140" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet</scope><name>addEdgeRemoved</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1ae1d9d3edadb06cbf85f8e91c945c3366" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet</scope><name>addVertexAdded</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a8f5f46ffb7c3a9e113ec3974c4ff5141" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet</scope><name>addVertexRemoved</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a4c4105e17a8ec2ed0e7896e21c433cbb" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet</scope><name>changes</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a670fc08961895a4e4c1524113ace865a" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet</scope><name>ChangeType</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1aa04300be3f41f1aa15f5d6151466abfc" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet</scope><name>empty</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a2bb2619b2a2f456be53aae05be2169cf" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

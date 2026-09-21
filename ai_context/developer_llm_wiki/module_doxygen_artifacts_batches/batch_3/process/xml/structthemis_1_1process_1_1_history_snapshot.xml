@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_history_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::HistorySnapshot</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_history_snapshot_1a2b750666c5a99e15316f3e4c4b187323" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::HistorySnapshot::snapshot_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>snapshot_timestamp_ns</name>
+        <qualifiedname>themis::process::HistorySnapshot::snapshot_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp when this snapshot was taken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="248" column="13" bodyfile="include/process/model_history_contract.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_history_snapshot_1a9d8e5a9e666c4b108a6a1cdce7346374" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::HistorySnapshot::revision</definition>
+        <argsstring></argsstring>
+        <name>revision</name>
+        <qualifiedname>themis::process::HistorySnapshot::revision</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Revision/version number at this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="251" column="14" bodyfile="include/process/model_history_contract.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_history_snapshot_1a8b35da08c42c5cd1ef58cb7b3818ae23" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::HistorySnapshot::model_content</definition>
+        <argsstring></argsstring>
+        <name>model_content</name>
+        <qualifiedname>themis::process::HistorySnapshot::model_content</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Full serialized model content (BPMN/CMMN XML or JSON). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="254" column="17" bodyfile="include/process/model_history_contract.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_history_snapshot_1a68e59c1ec40df54bd8afd498624a733e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::HistorySnapshot::model_state_hash</definition>
+        <argsstring></argsstring>
+        <name>model_state_hash</name>
+        <qualifiedname>themis::process::HistorySnapshot::model_state_hash</qualifiedname>
+        <briefdescription>
+<para>Cryptographic hash of model_content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="257" column="17" bodyfile="include/process/model_history_contract.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_history_snapshot_1a988a3d70249fb9c02ba0294873c24627" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::HistorySnapshot::snapshot_index</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index</name>
+        <qualifiedname>themis::process::HistorySnapshot::snapshot_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index of this snapshot (e.g., &quot;snapshot #10&quot; if snapshots every 100 ops). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="260" column="14" bodyfile="include/process/model_history_contract.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_history_snapshot_1ada4de9266d497e675947490a6c400c0f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_model_delta" kindref="compound">ModelDelta</ref> &gt;</type>
+        <definition>std::vector&lt;ModelDelta&gt; themis::process::HistorySnapshot::deltas_to_next</definition>
+        <argsstring></argsstring>
+        <name>deltas_to_next</name>
+        <qualifiedname>themis::process::HistorySnapshot::deltas_to_next</qualifiedname>
+        <briefdescription>
+<para>Sequence of delta records between this snapshot and the next. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="263" column="17" bodyfile="include/process/model_history_contract.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_history_snapshot_1a1744c42ee39089472bec86663d5cc51e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::HistorySnapshot::validated</definition>
+        <argsstring></argsstring>
+        <name>validated</name>
+        <qualifiedname>themis::process::HistorySnapshot::validated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if this snapshot has been validated (schema, cycle checks) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="266" column="10" bodyfile="include/process/model_history_contract.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref> of model state at a point in time (for efficient recovery). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Periodic snapshots allow efficient point-in-time queries without replaying all history. </para>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="246" column="1" bodyfile="include/process/model_history_contract.h" bodystart="246" bodyend="267"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_history_snapshot_1ada4de9266d497e675947490a6c400c0f" prot="public" virt="non-virtual"><scope>themis::process::HistorySnapshot</scope><name>deltas_to_next</name></member>
+      <member refid="structthemis_1_1process_1_1_history_snapshot_1a8b35da08c42c5cd1ef58cb7b3818ae23" prot="public" virt="non-virtual"><scope>themis::process::HistorySnapshot</scope><name>model_content</name></member>
+      <member refid="structthemis_1_1process_1_1_history_snapshot_1a68e59c1ec40df54bd8afd498624a733e" prot="public" virt="non-virtual"><scope>themis::process::HistorySnapshot</scope><name>model_state_hash</name></member>
+      <member refid="structthemis_1_1process_1_1_history_snapshot_1a9d8e5a9e666c4b108a6a1cdce7346374" prot="public" virt="non-virtual"><scope>themis::process::HistorySnapshot</scope><name>revision</name></member>
+      <member refid="structthemis_1_1process_1_1_history_snapshot_1a988a3d70249fb9c02ba0294873c24627" prot="public" virt="non-virtual"><scope>themis::process::HistorySnapshot</scope><name>snapshot_index</name></member>
+      <member refid="structthemis_1_1process_1_1_history_snapshot_1a2b750666c5a99e15316f3e4c4b187323" prot="public" virt="non-virtual"><scope>themis::process::HistorySnapshot</scope><name>snapshot_timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_history_snapshot_1a1744c42ee39089472bec86663d5cc51e" prot="public" virt="non-virtual"><scope>themis::process::HistorySnapshot</scope><name>validated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

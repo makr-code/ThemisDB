@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GpuBackendCircuitBreaker</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a814a2cdd0a958ad177f720a22f868173" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::State</qualifiedname>
+        <enumvalue id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a814a2cdd0a958ad177f720a22f868173a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+<para>GPU backend is enabled (normal operation). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a814a2cdd0a958ad177f720a22f868173aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+<para>GPU backend is disabled (due to high failure rate). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a814a2cdd0a958ad177f720a22f868173a5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+<para>Attempting to recover after failure (limited retries). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Operational states of the circuit breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="66" column="5" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a89f06769de03a518fff575f336f79424" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a814a2cdd0a958ad177f720a22f868173" kindref="member">State</ref> &gt;</type>
+        <definition>std::atomic&lt;State&gt; themis::geo::GpuBackendCircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="160" column="55" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a09abdb0d35edb8a1532b782633fdab70" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint32_t &gt;</type>
+        <definition>std::atomic&lt;std::uint32_t&gt; themis::geo::GpuBackendCircuitBreaker::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::failure_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="161" column="47" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1ab1a69aadf9bb46a507791d60dfaa5e3e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint32_t &gt;</type>
+        <definition>std::atomic&lt;std::uint32_t&gt; themis::geo::GpuBackendCircuitBreaker::success_count_</definition>
+        <argsstring></argsstring>
+        <name>success_count_</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::success_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="162" column="47" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a4cb99861859262726d248072e9eb0cd8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::chrono::high_resolution_clock::time_point &gt;</type>
+        <definition>std::atomic&lt;std::chrono::high_resolution_clock::time_point&gt; themis::geo::GpuBackendCircuitBreaker::backoff_deadline_</definition>
+        <argsstring></argsstring>
+        <name>backoff_deadline_</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::backoff_deadline_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="164" column="61" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a7fbc086d041258e0e525011fabf98ad4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GpuBackendCircuitBreaker::GpuBackendCircuitBreaker</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>GpuBackendCircuitBreaker</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::GpuBackendCircuitBreaker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="72" column="5" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a79206d9bc07c4cb49f0ec4c4a5a5b2c1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GpuBackendCircuitBreaker::canDispatchToGpu</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>canDispatchToGpu</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::canDispatchToGpu</qualifiedname>
+        <briefdescription>
+<para>Check if GPU backend dispatch is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if GPU backend should be attempted; false if CPU-only </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="83" column="11" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="83" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a8b238224543d5f62f308db5b46c9ac30" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GpuBackendCircuitBreaker::recordGpuFailure</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>recordGpuFailure</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::recordGpuFailure</qualifiedname>
+        <briefdescription>
+<para>Record a GPU operation failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Increments failure counter and transitions to OPEN state if failure rate exceeds threshold (&gt;50% in rolling 100-op window). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="105" column="10" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="105" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a699a3f68da0c1e4da43023da7da7d8f8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GpuBackendCircuitBreaker::recordGpuSuccess</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>recordGpuSuccess</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::recordGpuSuccess</qualifiedname>
+        <briefdescription>
+<para>Record a GPU operation success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Increments success counter and transitions back to CLOSED state after 5 consecutive successes (indicating recovery). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="122" column="10" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="122" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a8787c3f19d5c30c96959426dc60714cc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a814a2cdd0a958ad177f720a22f868173" kindref="member">State</ref></type>
+        <definition>State themis::geo::GpuBackendCircuitBreaker::currentState</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>currentState</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::currentState</qualifiedname>
+        <briefdescription>
+<para>Get the current circuit breaker state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current <ref refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a814a2cdd0a958ad177f720a22f868173" kindref="member">State</ref> (CLOSED, OPEN, or HALF_OPEN) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="144" column="12" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1aa3105c1ee92add1fb62d14466729e745" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GpuBackendCircuitBreaker::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::geo::GpuBackendCircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the circuit breaker to CLOSED state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used for testing and manual recovery after transient GPU failures. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="153" column="10" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="153" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Circuit breaker for GPU backend failures. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks persistent GPU failures and transitions to CPU-only mode when the error rate exceeds a threshold. Implements exponential backoff to allow GPU recovery without repeatedly attempting flaky operations.</para>
+<para>Thread safety: all methods are thread-safe via atomic operations.</para>
+<para>Specification:<itemizedlist>
+<listitem><para>Failure window: last 100 operations</para>
+</listitem><listitem><para>Threshold: &gt; 50% failures in window</para>
+</listitem><listitem><para>Backoff: exponential with max 10s between retry attempts</para>
+</listitem><listitem><para>Reset: after 5 consecutive successes </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="src/geo/geo_phase2_phase3_integration.cpp" line="61" column="1" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="61" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a4cb99861859262726d248072e9eb0cd8" prot="private" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>backoff_deadline_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a79206d9bc07c4cb49f0ec4c4a5a5b2c1" prot="public" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>canDispatchToGpu</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a8787c3f19d5c30c96959426dc60714cc" prot="public" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>currentState</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a09abdb0d35edb8a1532b782633fdab70" prot="private" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a7fbc086d041258e0e525011fabf98ad4" prot="public" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>GpuBackendCircuitBreaker</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a8b238224543d5f62f308db5b46c9ac30" prot="public" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>recordGpuFailure</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a699a3f68da0c1e4da43023da7da7d8f8" prot="public" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>recordGpuSuccess</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1aa3105c1ee92add1fb62d14466729e745" prot="public" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a814a2cdd0a958ad177f720a22f868173" prot="public" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1a89f06769de03a518fff575f336f79424" prot="private" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1geo_1_1_gpu_backend_circuit_breaker_1ab1a69aadf9bb46a507791d60dfaa5e3e" prot="private" virt="non-virtual"><scope>themis::geo::GpuBackendCircuitBreaker</scope><name>success_count_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

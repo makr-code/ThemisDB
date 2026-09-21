@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1testing_1_1_coverage_metrics_test_class" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::testing::CoverageMetricsTestClass</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <briefdescription>
+<para>Test coverage and statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::testing::CoverageMetricsTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_coverage_metrics_test_class"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::testing::CoverageMetricsTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_coverage_metrics_test_class"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="444" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="444" bodyend="445"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

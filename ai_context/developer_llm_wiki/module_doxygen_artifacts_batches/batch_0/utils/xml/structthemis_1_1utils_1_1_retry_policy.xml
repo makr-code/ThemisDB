@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_retry_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::RetryPolicy</compoundname>
+    <includes refid="utils__api__contract_8h" local="no">utils_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::RetryPolicy::maxAttempts</definition>
+        <argsstring></argsstring>
+        <name>maxAttempts</name>
+        <qualifiedname>themis::utils::RetryPolicy::maxAttempts</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_api_contract.h" line="90" column="14" bodyfile="include/utils/utils_api_contract.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_policy_1abecb63bfdcc66317370751ff9a830d86" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::utils::RetryPolicy::initialDelay</definition>
+        <argsstring></argsstring>
+        <name>initialDelay</name>
+        <qualifiedname>themis::utils::RetryPolicy::initialDelay</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_api_contract.h" line="91" column="31" bodyfile="include/utils/utils_api_contract.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_policy_1a27e8803f0408ca45321a062502766e97" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RetryPolicy::backoffMultiplier</definition>
+        <argsstring></argsstring>
+        <name>backoffMultiplier</name>
+        <qualifiedname>themis::utils::RetryPolicy::backoffMultiplier</qualifiedname>
+        <initializer>{2.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_api_contract.h" line="92" column="14" bodyfile="include/utils/utils_api_contract.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_policy_1a58da3b205be3e60132594a69a34cd4c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::RetryPolicy::withJitter</definition>
+        <argsstring></argsstring>
+        <name>withJitter</name>
+        <qualifiedname>themis::utils::RetryPolicy::withJitter</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_api_contract.h" line="93" column="14" bodyfile="include/utils/utils_api_contract.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retry policy configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/utils_api_contract.h" line="89" column="1" bodyfile="include/utils/utils_api_contract.h" bodystart="89" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_retry_policy_1a27e8803f0408ca45321a062502766e97" prot="public" virt="non-virtual"><scope>themis::utils::RetryPolicy</scope><name>backoffMultiplier</name></member>
+      <member refid="structthemis_1_1utils_1_1_retry_policy_1abecb63bfdcc66317370751ff9a830d86" prot="public" virt="non-virtual"><scope>themis::utils::RetryPolicy</scope><name>initialDelay</name></member>
+      <member refid="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" prot="public" virt="non-virtual"><scope>themis::utils::RetryPolicy</scope><name>maxAttempts</name></member>
+      <member refid="structthemis_1_1utils_1_1_retry_policy_1a58da3b205be3e60132594a69a34cd4c2" prot="public" virt="non-virtual"><scope>themis::utils::RetryPolicy</scope><name>withJitter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

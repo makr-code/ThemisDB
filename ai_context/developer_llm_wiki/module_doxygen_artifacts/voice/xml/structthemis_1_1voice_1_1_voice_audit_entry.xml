@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceAuditEntry</compoundname>
+    <includes refid="voice__security_8h" local="no">voice_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1a58cdd5d54a945d727f4be81434f3faa2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditEntry::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="116" column="17" bodyfile="include/voice/voice_security.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1abad8fe9cbc91a24e03da1356615b523a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditEntry::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="117" column="17" bodyfile="include/voice/voice_security.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1a28410d4cb54f25e1f6296e1730b29999" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditEntry::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="118" column="17" bodyfile="include/voice/voice_security.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1a572a45758168ce23a0d6e718ddeab69e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditEntry::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="119" column="17" bodyfile="include/voice/voice_security.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1afe06671f6f3b1416e582685386792c27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditEntry::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="120" column="17" bodyfile="include/voice/voice_security.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1a3505da6d76d8b68aec092bb64e994039" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceAuditEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="121" column="13" bodyfile="include/voice/voice_security.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1ad6dd4016d1d98cb010237ceca387c530" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAuditEntry::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::success</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="122" column="10" bodyfile="include/voice/voice_security.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1ab6024c830b50e8643643de9b74373bfe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditEntry::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="123" column="17" bodyfile="include/voice/voice_security.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_audit_entry_1a86beee703e1cc80a0ca3ff4104a618ef" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceAuditEntry::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::voice::VoiceAuditEntry::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="124" column="10" bodyfile="include/voice/voice_security.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_security.h" line="115" column="1" bodyfile="include/voice/voice_security.h" bodystart="115" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1a572a45758168ce23a0d6e718ddeab69e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>action</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1ab6024c830b50e8643643de9b74373bfe" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>details</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1a58cdd5d54a945d727f4be81434f3faa2" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1a86beee703e1cc80a0ca3ff4104a618ef" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1afe06671f6f3b1416e582685386792c27" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>resource</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1abad8fe9cbc91a24e03da1356615b523a" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1ad6dd4016d1d98cb010237ceca387c530" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>success</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1a3505da6d76d8b68aec092bb64e994039" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_audit_entry_1a28410d4cb54f25e1f6296e1730b29999" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditEntry</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

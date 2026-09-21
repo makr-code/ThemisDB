@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_i_utils_stage" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::utils::IUtilsStage</compoundname>
+    <derivedcompoundref refid="class_counting_stage" prot="public" virt="non-virtual">CountingStage</derivedcompoundref>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_utils_stage_1a078838c2d3a7cc97b9e79d5aac47cf01" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::IUtilsStage::~IUtilsStage</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IUtilsStage</name>
+        <qualifiedname>themis::utils::IUtilsStage::~IUtilsStage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="553" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_utils_stage_1ae4a2772164f47a81f4d832bbec5d032b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::utils::IUtilsStage::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::utils::IUtilsStage::name</qualifiedname>
+        <reimplementedby refid="class_counting_stage_1a717cbd0e7b77cc860402228f7c77b7a5">name</reimplementedby>
+        <briefdescription>
+<para>Human-readable stage name (for logging/diagnostics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="556" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_utils_stage_1a6d7f7ae423c1bdbaa78b35af6e215454" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::utils::IUtilsStage::execute</definition>
+        <argsstring>()=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::utils::IUtilsStage::execute</qualifiedname>
+        <reimplementedby refid="class_counting_stage_1a6e21c9aceb2552299c3d3cb9cf503a40">execute</reimplementedby>
+        <briefdescription>
+<para>Execute this stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true on success; false causes the pipeline to record an error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="563" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_utils_stage_1a9a7cc646f03e272e924015c3a3034f65" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::utils::IUtilsStage::teardown</definition>
+        <argsstring>() noexcept=0</argsstring>
+        <name>teardown</name>
+        <qualifiedname>themis::utils::IUtilsStage::teardown</qualifiedname>
+        <reimplementedby refid="class_counting_stage_1a1d13fa4d7c543c142db10bfaa4ab3301">teardown</reimplementedby>
+        <briefdescription>
+<para>Called by the pipeline during shutdown to release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations must not throw. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="570" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for a single composable stage in a <ref refid="classthemis_1_1utils_1_1_i_utils_pipeline" kindref="compound">IUtilsPipeline</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>CountingStage</label>
+        <link refid="class_counting_stage"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::utils::IUtilsStage</label>
+        <link refid="classthemis_1_1utils_1_1_i_utils_stage"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/utils/utils_interfaces.h" line="551" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="551" bodyend="571"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_i_utils_stage_1a6d7f7ae423c1bdbaa78b35af6e215454" prot="public" virt="pure-virtual"><scope>themis::utils::IUtilsStage</scope><name>execute</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_utils_stage_1ae4a2772164f47a81f4d832bbec5d032b" prot="public" virt="pure-virtual"><scope>themis::utils::IUtilsStage</scope><name>name</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_utils_stage_1a9a7cc646f03e272e924015c3a3034f65" prot="public" virt="pure-virtual"><scope>themis::utils::IUtilsStage</scope><name>teardown</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_utils_stage_1a078838c2d3a7cc97b9e79d5aac47cf01" prot="public" virt="virtual"><scope>themis::utils::IUtilsStage</scope><name>~IUtilsStage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

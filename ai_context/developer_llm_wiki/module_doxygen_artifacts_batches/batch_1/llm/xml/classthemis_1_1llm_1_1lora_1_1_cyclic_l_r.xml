@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CyclicLR</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler" prot="public" virt="non-virtual">themis::llm::lora::LRScheduler</basecompoundref>
+    <includes refid="lr__scheduler_8h" local="no">lr_scheduler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1addddb09a6abc9bfdf9e455f741faab24" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CyclicLR::base_lr_</definition>
+        <argsstring></argsstring>
+        <name>base_lr_</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::base_lr_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="323" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a503ab5a37dd14507eb480f1beeddf3b5" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CyclicLR::max_lr_</definition>
+        <argsstring></argsstring>
+        <name>max_lr_</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::max_lr_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="324" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a493971f8deee6a47642ee622aeb25294" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::CyclicLR::step_size_up_</definition>
+        <argsstring></argsstring>
+        <name>step_size_up_</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::step_size_up_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="325" column="9" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a881083f37b620bc91f1605433d0425cb" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::CyclicLR::step_size_down_</definition>
+        <argsstring></argsstring>
+        <name>step_size_down_</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::step_size_down_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="326" column="9" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1ada8f2ebc229085ca14dff930c268cc78" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CyclicLR::CyclicLR</definition>
+        <argsstring>(float base_lr, float max_lr, int step_size_up, int step_size_down)</argsstring>
+        <name>CyclicLR</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::CyclicLR</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>base_lr</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>max_lr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step_size_up</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step_size_down</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="314" column="5" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="314" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1ae185c8ff11ddf0f6b697aee5dfe84827" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CyclicLR::~CyclicLR</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~CyclicLR</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::~CyclicLR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="316" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1af08b6816e2c3c824045f33e1b1b46b30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::CyclicLR::get_lr</definition>
+        <argsstring>(int step) const override</argsstring>
+        <name>get_lr</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::get_lr</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a905c0c3ee0eaac8261866f2e6bec5688">get_lr</reimplements>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Get lr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="318" column="11" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="255" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a18c92c164fa1d1753b53043e17192686" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359" kindref="member">SchedulerType</ref></type>
+        <definition>SchedulerType themis::llm::lora::CyclicLR::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::type</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a7048b5e15ba36ca63863eac93bc1ca1e">type</reimplements>
+        <briefdescription>
+<para>Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="319" column="19" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="319" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a14f0be76721b72250a4815512fb5aff2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config" kindref="compound">LRSchedulerConfig</ref></type>
+        <definition>LRSchedulerConfig themis::llm::lora::CyclicLR::config</definition>
+        <argsstring>() const override</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::CyclicLR::config</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a90c87567122b5d4efe777820ffa5109a">config</reimplements>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="320" column="23" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="272" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::lora::CyclicLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::CyclicLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lr_scheduler.h" line="312" column="1" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="312" bodyend="327"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1addddb09a6abc9bfdf9e455f741faab24" prot="private" virt="non-virtual"><scope>themis::llm::lora::CyclicLR</scope><name>base_lr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a14f0be76721b72250a4815512fb5aff2" prot="public" virt="virtual"><scope>themis::llm::lora::CyclicLR</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1ada8f2ebc229085ca14dff930c268cc78" prot="public" virt="non-virtual"><scope>themis::llm::lora::CyclicLR</scope><name>CyclicLR</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1af08b6816e2c3c824045f33e1b1b46b30" prot="public" virt="virtual"><scope>themis::llm::lora::CyclicLR</scope><name>get_lr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a503ab5a37dd14507eb480f1beeddf3b5" prot="private" virt="non-virtual"><scope>themis::llm::lora::CyclicLR</scope><name>max_lr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a881083f37b620bc91f1605433d0425cb" prot="private" virt="non-virtual"><scope>themis::llm::lora::CyclicLR</scope><name>step_size_down_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a493971f8deee6a47642ee622aeb25294" prot="private" virt="non-virtual"><scope>themis::llm::lora::CyclicLR</scope><name>step_size_up_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a18c92c164fa1d1753b53043e17192686" prot="public" virt="virtual"><scope>themis::llm::lora::CyclicLR</scope><name>type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1ae185c8ff11ddf0f6b697aee5dfe84827" prot="public" virt="non-virtual"><scope>themis::llm::lora::CyclicLR</scope><name>~CyclicLR</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a55400958819352469981cae8a4cfc66d" prot="public" virt="virtual"><scope>themis::llm::lora::CyclicLR</scope><name>~LRScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

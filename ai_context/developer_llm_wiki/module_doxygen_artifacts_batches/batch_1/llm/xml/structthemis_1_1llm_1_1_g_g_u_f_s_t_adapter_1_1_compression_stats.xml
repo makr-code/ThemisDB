@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GGUFSTAdapter::CompressionStats</compoundname>
+    <includes refid="gguf__st__adapter_8h" local="no">gguf_st_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a5c36b022a5324ad8b0aad4d0e79d337e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GGUFSTAdapter::CompressionStats::uncompressed_size</definition>
+        <argsstring></argsstring>
+        <name>uncompressed_size</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::CompressionStats::uncompressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="215" column="16" bodyfile="include/llm/gguf_st_adapter.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1aad70ccb433070bd0957338db5765a726" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GGUFSTAdapter::CompressionStats::compressed_size</definition>
+        <argsstring></argsstring>
+        <name>compressed_size</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::CompressionStats::compressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="216" column="16" bodyfile="include/llm/gguf_st_adapter.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a5cf0a8c450c8758daeb2e08510c7acb2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::GGUFSTAdapter::CompressionStats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::CompressionStats::compression_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="217" column="16" bodyfile="include/llm/gguf_st_adapter.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a61720a482c64400c1a410f06ae95ccf6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::GGUFSTAdapter::CompressionStats::space_saved_percent</definition>
+        <argsstring></argsstring>
+        <name>space_saved_percent</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::CompressionStats::space_saved_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="218" column="16" bodyfile="include/llm/gguf_st_adapter.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a7fa992bc6b11d76a8aa433efa1b68413" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::GGUFSTAdapter::CompressionStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::CompressionStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="224" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gguf_st_adapter.h" line="214" column="5" bodyfile="include/llm/gguf_st_adapter.h" bodystart="214" bodyend="225"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1aad70ccb433070bd0957338db5765a726" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::CompressionStats</scope><name>compressed_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a5cf0a8c450c8758daeb2e08510c7acb2" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::CompressionStats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a61720a482c64400c1a410f06ae95ccf6" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::CompressionStats</scope><name>space_saved_percent</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a7fa992bc6b11d76a8aa433efa1b68413" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::CompressionStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a5c36b022a5324ad8b0aad4d0e79d337e" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::CompressionStats</scope><name>uncompressed_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

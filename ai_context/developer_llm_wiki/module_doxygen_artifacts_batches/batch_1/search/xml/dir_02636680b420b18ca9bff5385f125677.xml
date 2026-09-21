@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_02636680b420b18ca9bff5385f125677" kind="dir">
+    <compoundname>tests/search</compoundname>
+    <innerfile refid="test__layered__retrieval__integration__phase4_8cpp">test_layered_retrieval_integration_phase4.cpp</innerfile>
+    <innerfile refid="test__search__analytics_8cpp">test_search_analytics.cpp</innerfile>
+    <innerfile refid="test__search__distributed__merge__phase2_8cpp">test_search_distributed_merge_phase2.cpp</innerfile>
+    <innerfile refid="test__search__distributed__merge__stress_8cpp">test_search_distributed_merge_stress.cpp</innerfile>
+    <innerfile refid="test__search__edge__cases__analytics_8cpp">test_search_edge_cases_analytics.cpp</innerfile>
+    <innerfile refid="test__search__edge__cases__distributed_8cpp">test_search_edge_cases_distributed.cpp</innerfile>
+    <innerfile refid="test__search__edge__cases__fusion_8cpp">test_search_edge_cases_fusion.cpp</innerfile>
+    <innerfile refid="test__search__edge__cases__phase3_8cpp">test_search_edge_cases_phase3.cpp</innerfile>
+    <innerfile refid="test__search__edge__cases__retrieval_8cpp">test_search_edge_cases_retrieval.cpp</innerfile>
+    <innerfile refid="test__search__edge__cases__utility_8cpp">test_search_edge_cases_utility.cpp</innerfile>
+    <innerfile refid="test__search__future__interfaces_8cpp">test_search_future_interfaces.cpp</innerfile>
+    <innerfile refid="test__search__highcardinality__stress_8cpp">test_search_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__search__highlighter_8cpp">test_search_highlighter.cpp</innerfile>
+    <innerfile refid="test__search__hybrid__degradation__phase2_8cpp">test_search_hybrid_degradation_phase2.cpp</innerfile>
+    <innerfile refid="test__search__integration__phase4_8cpp">test_search_integration_phase4.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/search/"/>
+  </compounddef>
+</doxygen>

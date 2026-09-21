@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__optimizer__scope__bounds_8cpp" kind="file" language="C++">
+    <compoundname>test_query_optimizer_scope_bounds.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="query__optimizer_8h" local="yes">query/query_optimizer.h</includes>
+    <incdepgraph>
+      <node id="22">
+        <label>query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>query/query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_query_optimizer_scope_bounds.cpp</label>
+        <link refid="test__query__optimizer__scope__bounds_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="25">
+        <label>cstddef</label>
+      </node>
+      <node id="26">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="20">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="21">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="19">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+      <node id="18">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__optimizer__scope__bounds_8cpp_1ae2e71c8ab0f20f5fddb122d846c67fb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryOptimizerScopeBoundsContract, EmptyBoundsAreInvalid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryOptimizerScopeBoundsContract</type>
+        </param>
+        <param>
+          <type>EmptyBoundsAreInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_scope_bounds.cpp" line="12" column="1" bodyfile="tests/query/test_query_optimizer_scope_bounds.cpp" bodystart="12" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__optimizer__scope__bounds_8cpp_1a60b96cc534a4b864b4f0da91d17e5efb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryOptimizerScopeBoundsContract, RowBoundMakesPlanValid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryOptimizerScopeBoundsContract</type>
+        </param>
+        <param>
+          <type>RowBoundMakesPlanValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_scope_bounds.cpp" line="17" column="1" bodyfile="tests/query/test_query_optimizer_scope_bounds.cpp" bodystart="17" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__optimizer__scope__bounds_8cpp_1a399cf53c36883ab756d2d9e4faf2016c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryOptimizerScopeBoundsContract, ByteBoundMakesPlanValid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryOptimizerScopeBoundsContract</type>
+        </param>
+        <param>
+          <type>ByteBoundMakesPlanValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_scope_bounds.cpp" line="24" column="1" bodyfile="tests/query/test_query_optimizer_scope_bounds.cpp" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__optimizer__scope__bounds_8cpp_1aa3589b2307cefe7024fb75901e1cebb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryOptimizerScopeBoundsContract, EmptyScopeIdIsAlwaysInvalid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryOptimizerScopeBoundsContract</type>
+        </param>
+        <param>
+          <type>EmptyScopeIdIsAlwaysInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_scope_bounds.cpp" line="31" column="1" bodyfile="tests/query/test_query_optimizer_scope_bounds.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Scope-bounds contract tests for <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__optimizer_8h" kindref="compound">query/query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="test__query__optimizer__scope__bounds_8cpp_1ae2e71c8ab0f20f5fddb122d846c67fb4" kindref="member">TEST</ref>(QueryOptimizerScopeBoundsContract,<sp/>EmptyBoundsAreInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a5fe7e3ad8b32f57b8ac9eed9cdc5db57" kindref="member">has_valid_scope_bounds</ref>());</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><ref refid="test__query__optimizer__scope__bounds_8cpp_1ae2e71c8ab0f20f5fddb122d846c67fb4" kindref="member">TEST</ref>(QueryOptimizerScopeBoundsContract,<sp/>RowBoundMakesPlanValid)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1acdee2d81010a3e8a343b2d48d80b2a86" kindref="member">scope_bounds</ref>.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1a7a230926ae9d15c10a44774240706c55" kindref="member">scope_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant_a/db_users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1acdee2d81010a3e8a343b2d48d80b2a86" kindref="member">scope_bounds</ref>.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1ab6817d18afee3064c8e5225d3b39c67a" kindref="member">max_result_rows</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a5fe7e3ad8b32f57b8ac9eed9cdc5db57" kindref="member">has_valid_scope_bounds</ref>());</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__query__optimizer__scope__bounds_8cpp_1ae2e71c8ab0f20f5fddb122d846c67fb4" kindref="member">TEST</ref>(QueryOptimizerScopeBoundsContract,<sp/>ByteBoundMakesPlanValid)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1acdee2d81010a3e8a343b2d48d80b2a86" kindref="member">scope_bounds</ref>.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1a7a230926ae9d15c10a44774240706c55" kindref="member">scope_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant_a/db_users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1acdee2d81010a3e8a343b2d48d80b2a86" kindref="member">scope_bounds</ref>.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1ae8c2c33946843d86ff0db6d164f140cf" kindref="member">max_result_bytes</ref><sp/>=<sp/>1<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a5fe7e3ad8b32f57b8ac9eed9cdc5db57" kindref="member">has_valid_scope_bounds</ref>());</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__query__optimizer__scope__bounds_8cpp_1ae2e71c8ab0f20f5fddb122d846c67fb4" kindref="member">TEST</ref>(QueryOptimizerScopeBoundsContract,<sp/>EmptyScopeIdIsAlwaysInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1acdee2d81010a3e8a343b2d48d80b2a86" kindref="member">scope_bounds</ref>.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1ab6817d18afee3064c8e5225d3b39c67a" kindref="member">max_result_rows</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1acdee2d81010a3e8a343b2d48d80b2a86" kindref="member">scope_bounds</ref>.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1ae8c2c33946843d86ff0db6d164f140cf" kindref="member">max_result_bytes</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plan.<ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a5fe7e3ad8b32f57b8ac9eed9cdc5db57" kindref="member">has_valid_scope_bounds</ref>());</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_optimizer_scope_bounds.cpp"/>
+  </compounddef>
+</doxygen>

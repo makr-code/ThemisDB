@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1test_1_1_voice_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::test::VoiceBackend</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1a74ea9a80a5b7a1dd953bcc6a5c4dd0b8" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1_1test_1a443e38e44f9c9b3df7c53abc3eb4dfb3" kindref="member">BackendKind</ref></type>
+        <definition>BackendKind themis::voice::test::VoiceBackend::kind_</definition>
+        <argsstring></argsstring>
+        <name>kind_</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::kind_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="140" column="15" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1a3105d65f3aa1931ec8b046232b2c0fdf" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::test::VoiceBackend::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::available_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="141" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1a845e52aef65cea5e8ff2e343993a7ee1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref></type>
+        <definition>CircuitBreaker themis::voice::test::VoiceBackend::breaker_</definition>
+        <argsstring></argsstring>
+        <name>breaker_</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::breaker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="142" column="18" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1ad79765a1627804075d2d644dc4c6b7fe" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::VoiceBackend::VoiceBackend</definition>
+        <argsstring>(BackendKind kind)</argsstring>
+        <name>VoiceBackend</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::VoiceBackend</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1_1test_1a443e38e44f9c9b3df7c53abc3eb4dfb3" kindref="member">BackendKind</ref></type>
+          <declname>kind</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="116" column="12" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1aed5f706fe8254887044032505cc54556" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1_1test_1a443e38e44f9c9b3df7c53abc3eb4dfb3" kindref="member">BackendKind</ref></type>
+        <definition>BackendKind themis::voice::test::VoiceBackend::kind</definition>
+        <argsstring>() const</argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="118" column="15" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1af28e9c0bc2bfc5acaa36108ae5a3803b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::test::VoiceBackend::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="120" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1aa263ae49931b4f6356ba7b6fdfbd697a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::VoiceBackend::setAvailable</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>setAvailable</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::setAvailable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="121" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1aac56fd5d9ed138cb3f4fa65da572a8c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> &amp;</type>
+        <definition>CircuitBreaker &amp; themis::voice::test::VoiceBackend::breaker</definition>
+        <argsstring>()</argsstring>
+        <name>breaker</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::breaker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="123" column="18" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1a9a9d8f6a336ec7970d6babdfc78c3368" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> &amp;</type>
+        <definition>const CircuitBreaker &amp; themis::voice::test::VoiceBackend::breaker</definition>
+        <argsstring>() const</argsstring>
+        <name>breaker</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::breaker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="124" column="24" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_backend_1a80fd8d180c51f8a43e4844f12f3a7d92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::test::VoiceBackend::call</definition>
+        <argsstring>(const std::string &amp;)</argsstring>
+        <name>call</name>
+        <qualifiedname>themis::voice::test::VoiceBackend::call</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Returns true iff the call succeeds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="127" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="127" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="114" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="114" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1a3105d65f3aa1931ec8b046232b2c0fdf" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>available_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1aac56fd5d9ed138cb3f4fa65da572a8c1" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>breaker</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1a9a9d8f6a336ec7970d6babdfc78c3368" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>breaker</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1a845e52aef65cea5e8ff2e343993a7ee1" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>breaker_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1a80fd8d180c51f8a43e4844f12f3a7d92" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>call</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1af28e9c0bc2bfc5acaa36108ae5a3803b" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1aed5f706fe8254887044032505cc54556" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>kind</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1a74ea9a80a5b7a1dd953bcc6a5c4dd0b8" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>kind_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1aa263ae49931b4f6356ba7b6fdfbd697a" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>setAvailable</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_backend_1ad79765a1627804075d2d644dc4c6b7fe" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceBackend</scope><name>VoiceBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

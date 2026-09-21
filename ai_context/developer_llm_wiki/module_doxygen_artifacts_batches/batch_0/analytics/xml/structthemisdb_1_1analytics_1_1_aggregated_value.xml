@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_aggregated_value" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AggregatedValue</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregated_value_1a54ab06e09a4b9779f4fcc43e904c5c03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AggregatedValue::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::analytics::AggregatedValue::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="150" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregated_value_1a5de75e7ef4fa86d75ffeacb0c4a93836" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref></type>
+        <definition>AggFunc themisdb::analytics::AggregatedValue::func</definition>
+        <argsstring></argsstring>
+        <name>func</name>
+        <qualifiedname>themisdb::analytics::AggregatedValue::func</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="151" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregated_value_1a349d7745aaece99adbca5ea75a76fff4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" kindref="member">RecordValue</ref></type>
+        <definition>RecordValue themisdb::analytics::AggregatedValue::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::analytics::AggregatedValue::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="152" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregated_value_1a05e49dbde75234e9cf6f1400d64a3da5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::AggregatedValue::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themisdb::analytics::AggregatedValue::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="153" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_window.h" line="149" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="149" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a05e49dbde75234e9cf6f1400d64a3da5" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregatedValue</scope><name>count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a5de75e7ef4fa86d75ffeacb0c4a93836" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregatedValue</scope><name>func</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a54ab06e09a4b9779f4fcc43e904c5c03" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregatedValue</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a349d7745aaece99adbca5ea75a76fff4" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregatedValue</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

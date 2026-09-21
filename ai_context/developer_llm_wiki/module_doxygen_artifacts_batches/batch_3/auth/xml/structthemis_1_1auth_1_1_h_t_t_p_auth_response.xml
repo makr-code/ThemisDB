@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_h_t_t_p_auth_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::HTTPAuthResponse</compoundname>
+    <includes refid="http__auth__async_8h" local="no">http_auth_async.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1a4fac0a0c2bd231d5988462c4c3fd2958" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::HTTPAuthResponse::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::auth::HTTPAuthResponse::status_code</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="26" column="9" bodyfile="include/auth/http_auth_async.h" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1a0a626c46810a4c6fc5174af90045e92c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::HTTPAuthResponse::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::auth::HTTPAuthResponse::body</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="27" column="17" bodyfile="include/auth/http_auth_async.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1af47cc867a216217ec62c259b70213c97" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::HTTPAuthResponse::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::auth::HTTPAuthResponse::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="28" column="10" bodyfile="include/auth/http_auth_async.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1a16e73772219f4916e3f95af949fa3d4d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::HTTPAuthResponse::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::auth::HTTPAuthResponse::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="29" column="17" bodyfile="include/auth/http_auth_async.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1aafaf1a2874c5da4ad724e536effd06ae" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response" kindref="compound">HTTPAuthResponse</ref></type>
+        <definition>static HTTPAuthResponse themis::auth::HTTPAuthResponse::Success</definition>
+        <argsstring>(int code, const std::string &amp;body_content)</argsstring>
+        <name>Success</name>
+        <qualifiedname>themis::auth::HTTPAuthResponse::Success</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body_content</declname>
+        </param>
+        <briefdescription>
+<para>Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="37" column="29" bodyfile="include/auth/http_auth_async.h" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1aa581074ce4bee87d5510681e797c8345" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response" kindref="compound">HTTPAuthResponse</ref></type>
+        <definition>static HTTPAuthResponse themis::auth::HTTPAuthResponse::Failed</definition>
+        <argsstring>(const std::string &amp;error)</argsstring>
+        <name>Failed</name>
+        <qualifiedname>themis::auth::HTTPAuthResponse::Failed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="51" column="29" bodyfile="include/auth/http_auth_async.h" bodystart="51" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/http_auth_async.h" line="25" column="1" bodyfile="include/auth/http_auth_async.h" bodystart="25" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1a0a626c46810a4c6fc5174af90045e92c" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthResponse</scope><name>body</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1a16e73772219f4916e3f95af949fa3d4d" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthResponse</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1aa581074ce4bee87d5510681e797c8345" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthResponse</scope><name>Failed</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1a4fac0a0c2bd231d5988462c4c3fd2958" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthResponse</scope><name>status_code</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1aafaf1a2874c5da4ad724e536effd06ae" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthResponse</scope><name>Success</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response_1af47cc867a216217ec62c259b70213c97" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthResponse</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

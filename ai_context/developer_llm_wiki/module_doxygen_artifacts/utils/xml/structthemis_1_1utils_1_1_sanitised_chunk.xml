@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_sanitised_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SanitisedChunk</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sanitised_chunk_1aaa82dd3c1ead3d252c58cc05df43eedb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::byte &gt;</type>
+        <definition>std::vector&lt;std::byte&gt; themis::utils::SanitisedChunk::sanitisedData</definition>
+        <argsstring></argsstring>
+        <name>sanitisedData</name>
+        <qualifiedname>themis::utils::SanitisedChunk::sanitisedData</qualifiedname>
+        <briefdescription>
+<para>Sanitised byte content for this chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="78" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sanitised_chunk_1a01b119d310fd49e51e652dbaa9f808e4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::SanitisedChunk::replacementCount</definition>
+        <argsstring></argsstring>
+        <name>replacementCount</name>
+        <qualifiedname>themis::utils::SanitisedChunk::replacementCount</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of PII spans replaced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="79" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sanitised_chunk_1ae8a69dfc60dbc77d2b762fddadad0119" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_pseudonym_map_handle" kindref="compound">PseudonymMapHandle</ref></type>
+        <definition>PseudonymMapHandle themis::utils::SanitisedChunk::pseudonymMap</definition>
+        <argsstring></argsstring>
+        <name>pseudonymMap</name>
+        <qualifiedname>themis::utils::SanitisedChunk::pseudonymMap</qualifiedname>
+        <briefdescription>
+<para>Opaque handle; no raw values exposed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="80" column="24" bodyfile="include/utils/utils_interfaces.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> returned by <ref refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1ab392a779d487d42002a48bca1f45531e" kindref="member">IStreamingPIIDetector::pseudonymise()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains the sanitised bytes (with PII replaced by deterministic pseudonyms) and metadata; original PII values are not included. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::PseudonymMapHandle</label>
+        <link refid="structthemis_1_1utils_1_1_pseudonym_map_handle"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SanitisedChunk</label>
+        <link refid="structthemis_1_1utils_1_1_sanitised_chunk"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>pseudonymMap</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/utils_interfaces.h" line="77" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="77" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_sanitised_chunk_1ae8a69dfc60dbc77d2b762fddadad0119" prot="public" virt="non-virtual"><scope>themis::utils::SanitisedChunk</scope><name>pseudonymMap</name></member>
+      <member refid="structthemis_1_1utils_1_1_sanitised_chunk_1a01b119d310fd49e51e652dbaa9f808e4" prot="public" virt="non-virtual"><scope>themis::utils::SanitisedChunk</scope><name>replacementCount</name></member>
+      <member refid="structthemis_1_1utils_1_1_sanitised_chunk_1aaa82dd3c1ead3d252c58cc05df43eedb" prot="public" virt="non-virtual"><scope>themis::utils::SanitisedChunk</scope><name>sanitisedData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

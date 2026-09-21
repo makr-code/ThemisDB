@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_fusion_search_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpFusionSearchTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_fusion_search_test_1a4dc1752cfc984ee640a38454e8b072d6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpFusionSearchTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpFusionSearchTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="87" column="21" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_fusion_search_test_1aa2f5537bc4a4215bdc1fc71044b20029" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpFusionSearchTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpFusionSearchTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="88" column="21" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_fusion_search_test_1abd13d10fe6cb427c40e5d0ced114b2dd" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpFusionSearchTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpFusionSearchTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="89" column="21" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_fusion_search_test_1abf0a68fbc4bc71964370b8681ed5ccf7" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpFusionSearchTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpFusionSearchTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="90" column="21" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_fusion_search_test_1aed0e57365f5b36d495336920c2ba2642" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpFusionSearchTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpFusionSearchTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="91" column="21" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_fusion_search_test_1a96b022ae388f155e781e9126238e1586" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpFusionSearchTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpFusionSearchTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="92" column="21" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_fusion_search_test_1a0257920d9e33478d52d019d014a58b28" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpFusionSearchTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpFusionSearchTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="25" column="10" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="25" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_fusion_search_test_1a227865357fb98f6a1256bb94885af21e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpFusionSearchTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpFusionSearchTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="65" column="10" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="65" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_fusion_search_test_1a47063fdc76df783eb329b6bbe21a2321" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpFusionSearchTest::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>post</name>
+        <qualifiedname>HttpFusionSearchTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_fusion_search.cpp" line="73" column="20" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="73" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpFusionSearchTest</label>
+        <link refid="class_http_fusion_search_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpFusionSearchTest</label>
+        <link refid="class_http_fusion_search_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_fusion_search.cpp" line="23" column="1" bodyfile="tests/network/test_http_fusion_search.cpp" bodystart="23" bodyend="93"/>
+    <listofallmembers>
+      <member refid="class_http_fusion_search_test_1abf0a68fbc4bc71964370b8681ed5ccf7" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_fusion_search_test_1a47063fdc76df783eb329b6bbe21a2321" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>post</name></member>
+      <member refid="class_http_fusion_search_test_1abd13d10fe6cb427c40e5d0ced114b2dd" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_fusion_search_test_1a4dc1752cfc984ee640a38454e8b072d6" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>server_</name></member>
+      <member refid="class_http_fusion_search_test_1a0257920d9e33478d52d019d014a58b28" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>SetUp</name></member>
+      <member refid="class_http_fusion_search_test_1aa2f5537bc4a4215bdc1fc71044b20029" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>storage_</name></member>
+      <member refid="class_http_fusion_search_test_1a227865357fb98f6a1256bb94885af21e" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>TearDown</name></member>
+      <member refid="class_http_fusion_search_test_1a96b022ae388f155e781e9126238e1586" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_fusion_search_test_1aed0e57365f5b36d495336920c2ba2642" prot="protected" virt="non-virtual"><scope>HttpFusionSearchTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

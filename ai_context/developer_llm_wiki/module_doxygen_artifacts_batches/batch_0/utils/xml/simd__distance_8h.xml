@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="simd__distance_8h" kind="file" language="C++">
+    <compoundname>simd_distance.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includedby refid="geometric__distances_8h" local="yes">include/utils/geometric_distances.h</includedby>
+    <includedby refid="simd__distance_8cpp" local="yes">src/utils/simd_distance.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/simd_distance.h</label>
+        <link refid="simd__distance_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/utils/geometric_distances.h</label>
+        <link refid="geometric__distances_8h"/>
+      </node>
+      <node id="1">
+        <label>include/utils/simd_distance.h</label>
+        <link refid="simd__distance_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/utils/simd_distance.cpp</label>
+        <link refid="simd__distance_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1simd">themis::simd</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="17" refid="namespacethemis_1_1simd" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1simd" kindref="compound">simd</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compute<sp/>L2<sp/>distance<sp/>(Euclidean)<sp/>between<sp/>two<sp/>float<sp/>vectors<sp/>of<sp/>length<sp/>dim.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Returns<sp/>sqrt(sum((a[i]-b[i])^2)).<sp/>Uses<sp/>SIMD<sp/>when<sp/>available:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>x86_64:<sp/>AVX512<sp/>or<sp/>AVX2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>ARM64/AArch64:<sp/>NEON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Falls<sp/>back<sp/>to<sp/>portable<sp/>scalar<sp/>implementation<sp/>if<sp/>no<sp/>SIMD<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1simd_1a13658abad10d1900bb59e5af00343091" kindref="member">l2_distance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/>std::size_t<sp/>dim);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compute<sp/>squared<sp/>L2<sp/>distance<sp/>(without<sp/>sqrt).<sp/>Useful<sp/>for<sp/>ranking<sp/>when<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>relative<sp/>ordering<sp/>is<sp/>required.<sp/>Also<sp/>SIMD-optimized<sp/>when<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1simd_1a973965f0b7a00eff58deeb34b8b49a2e" kindref="member">l2_distance_sq</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/>std::size_t<sp/>dim);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>compute<sp/>squared<sp/>L2<sp/>distances<sp/>(without<sp/>sqrt)<sp/>from<sp/>a<sp/>single<sp/>query<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>multiple<sp/>database<sp/>vectors.<sp/>More<sp/>efficient<sp/>than<sp/>calling<sp/>l2_distance_sq<sp/>in<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>loop<sp/>due<sp/>to<sp/>better<sp/>cache<sp/>utilization.<sp/>Callers<sp/>who<sp/>need<sp/>true<sp/>Euclidean</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distances<sp/>should<sp/>apply<sp/>sqrt<sp/>to<sp/>each<sp/>output<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>query:<sp/>single<sp/>query<sp/>vector<sp/>of<sp/>length<sp/>dim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>database:<sp/>n<sp/>database<sp/>vectors<sp/>stored<sp/>contiguously<sp/>(n<sp/>*<sp/>dim<sp/>floats)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>n:<sp/>number<sp/>of<sp/>database<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>dim:<sp/>vector<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distances:<sp/>output<sp/>array<sp/>of<sp/>n<sp/>squared<sp/>distances<sp/>(must<sp/>be<sp/>pre-allocated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1simd_1a3c025175c8bc30ba57cdfd7eb50286a2" kindref="member">batch_l2_distance_sq</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>query,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>database,<sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>n,<sp/>std::size_t<sp/>dim,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>distances);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compute<sp/>inner<sp/>product<sp/>(dot<sp/>product)<sp/>between<sp/>two<sp/>float<sp/>vectors<sp/>of<sp/>length<sp/>dim.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Returns<sp/>sum(a[i]<sp/>*<sp/>b[i]).<sp/>Uses<sp/>AVX-512/AVX2/NEON<sp/>when<sp/>available,<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>scalar<sp/>fallback.<sp/>Useful<sp/>for<sp/>pre-normalized<sp/>vectors<sp/>where<sp/>cosine<sp/>similarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>equals<sp/>the<sp/>inner<sp/>product.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1simd_1a2f05b9e241265660172e7cd05f59419b" kindref="member">inner_product</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/>std::size_t<sp/>dim);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compute<sp/>cosine<sp/>distance<sp/>(1<sp/>-<sp/>cosine_similarity)<sp/>between<sp/>two<sp/>float<sp/>vectors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Returns<sp/>a<sp/>value<sp/>in<sp/>[0,<sp/>2]:<sp/>0<sp/>means<sp/>identical<sp/>direction,<sp/>1<sp/>means<sp/>orthogonal,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2<sp/>means<sp/>opposite<sp/>direction.<sp/>Uses<sp/>AVX-512/AVX2/NEON<sp/>when<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Zero-norm<sp/>vectors<sp/>are<sp/>treated<sp/>as<sp/>maximally<sp/>distant<sp/>(returns<sp/>1.0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1simd_1a967d4e88e1b1437bf07b755f9e2e4b5e" kindref="member">cosine_distance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/>std::size_t<sp/>dim);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compute<sp/>cosine<sp/>similarity<sp/>between<sp/>two<sp/>float<sp/>vectors<sp/>of<sp/>length<sp/>dim.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Returns<sp/>a<sp/>value<sp/>in<sp/>[-1,<sp/>1]:<sp/>1<sp/>means<sp/>identical<sp/>direction,<sp/>0<sp/>means<sp/>orthogonal,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-1<sp/>means<sp/>opposite<sp/>direction.<sp/>This<sp/>is<sp/>the<sp/>canonical<sp/>entry<sp/>point;<sp/>callers<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>only<sp/>need<sp/>a<sp/>distance<sp/>metric<sp/>should<sp/>prefer<sp/>cosine_distance()<sp/>which<sp/>avoids<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>subtraction<sp/>and<sp/>is<sp/>marginally<sp/>faster.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Zero-norm<sp/>vectors<sp/>are<sp/>treated<sp/>as<sp/>maximally<sp/>dissimilar<sp/>(returns<sp/>0.0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1simd_1a7931dbc2995c9f83577f2c4a736decce" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1simd_1a7931dbc2995c9f83577f2c4a736decce" kindref="member">cosine_similarity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/>std::size_t<sp/>dim)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0f<sp/>-<sp/><ref refid="namespacethemis_1_1simd_1a967d4e88e1b1437bf07b755f9e2e4b5e" kindref="member">cosine_distance</ref>(a,<sp/>b,<sp/>dim);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>cosine<sp/>similarity:<sp/>compute<sp/>cosine_similarity<sp/>from<sp/>a<sp/>single<sp/>query<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>n<sp/>database<sp/>vectors<sp/>stored<sp/>contiguously<sp/>(n<sp/>*<sp/>dim<sp/>floats).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Results<sp/>are<sp/>written<sp/>to<sp/>the<sp/>pre-allocated<sp/>output<sp/>array<sp/>of<sp/>n<sp/>floats.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>More<sp/>cache-efficient<sp/>than<sp/>calling<sp/>cosine_similarity()<sp/>in<sp/>a<sp/>loop.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1simd_1a6b0ee57b75eac478d43a1b0d626ef7dc" kindref="member">batch_cosine_similarity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>query,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>database,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>n,<sp/>std::size_t<sp/>dim,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>results);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>simd</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/simd_distance.h"/>
+  </compounddef>
+</doxygen>

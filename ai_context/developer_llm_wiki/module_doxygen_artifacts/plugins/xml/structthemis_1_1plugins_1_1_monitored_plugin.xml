@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_monitored_plugin" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::MonitoredPlugin</compoundname>
+    <includes refid="plugin__health__monitor_8h" local="no">plugin_health_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1a7b41442eab1fdb758ea6454efda0d59a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MonitoredPlugin::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="66" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1a155d5a065d8f34edba4389c860e79294" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" kindref="compound">ISelfHealingPlugin</ref> *</type>
+        <definition>ISelfHealingPlugin* themis::plugins::MonitoredPlugin::plugin</definition>
+        <argsstring></argsstring>
+        <name>plugin</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::plugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="67" column="24" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1a9613e9b507c25e9de0f8a31cdb90b3cf" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref></type>
+        <definition>PluginDiagnostics themis::plugins::MonitoredPlugin::last_diagnostics</definition>
+        <argsstring></argsstring>
+        <name>last_diagnostics</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::last_diagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="68" column="23" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1acdddfd425679ac582bb8a3b82fdea053" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::MonitoredPlugin::last_check</definition>
+        <argsstring></argsstring>
+        <name>last_check</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::last_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="69" column="43" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1a7ccf1200371030fb3d6390d5b87045d3" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::MonitoredPlugin::last_recovery_attempt</definition>
+        <argsstring></argsstring>
+        <name>last_recovery_attempt</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::last_recovery_attempt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="70" column="43" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1a942c95de5af4f4d8bf4d20b8309691e7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::MonitoredPlugin::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="72" column="14" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1a479b14d235aac177d7de670f0c2423c6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::MonitoredPlugin::total_recovery_attempts</definition>
+        <argsstring></argsstring>
+        <name>total_recovery_attempts</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::total_recovery_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="73" column="14" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1a95688697f87ffc87d45992efd8719992" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::MonitoredPlugin::successful_recoveries</definition>
+        <argsstring></argsstring>
+        <name>successful_recoveries</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::successful_recoveries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="74" column="14" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1ae0d2a2b2ee75cd60a3885eb5de59c2ff" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::MonitoredPlugin::failed_recoveries</definition>
+        <argsstring></argsstring>
+        <name>failed_recoveries</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::failed_recoveries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="75" column="14" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1a7926faf1ea4cc258df44aeeb384b0bea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::MonitoredPlugin::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="77" column="10" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_monitored_plugin_1ad33cb336c0e03e0083add00e1de05292" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::MonitoredPlugin::in_recovery</definition>
+        <argsstring></argsstring>
+        <name>in_recovery</name>
+        <qualifiedname>themis::plugins::MonitoredPlugin::in_recovery</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="78" column="10" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Monitored plugin information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::ISelfHealingPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_self_healing_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::MonitoredPlugin</label>
+        <link refid="structthemis_1_1plugins_1_1_monitored_plugin"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>plugin</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>last_diagnostics</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginDiagnostics</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_diagnostics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/plugin_health_monitor.h" line="65" column="1" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="65" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1a942c95de5af4f4d8bf4d20b8309691e7" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7926faf1ea4cc258df44aeeb384b0bea" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1ae0d2a2b2ee75cd60a3885eb5de59c2ff" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>failed_recoveries</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1ad33cb336c0e03e0083add00e1de05292" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>in_recovery</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1acdddfd425679ac582bb8a3b82fdea053" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>last_check</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1a9613e9b507c25e9de0f8a31cdb90b3cf" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>last_diagnostics</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7ccf1200371030fb3d6390d5b87045d3" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>last_recovery_attempt</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7b41442eab1fdb758ea6454efda0d59a" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>name</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1a155d5a065d8f34edba4389c860e79294" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>plugin</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1a95688697f87ffc87d45992efd8719992" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>successful_recoveries</name></member>
+      <member refid="structthemis_1_1plugins_1_1_monitored_plugin_1a479b14d235aac177d7de670f0c2423c6" prot="public" virt="non-virtual"><scope>themis::plugins::MonitoredPlugin</scope><name>total_recovery_attempts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

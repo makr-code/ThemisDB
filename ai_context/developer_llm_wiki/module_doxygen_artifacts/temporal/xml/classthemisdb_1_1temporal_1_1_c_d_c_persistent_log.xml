@@ -1,0 +1,780 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::CDCPersistentLog</compoundname>
+    <includes refid="temporal__cdc_8h" local="no">temporal_cdc.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5dea4ed9cbbb3e84d38649a23dc40dc6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::CDCPersistentLog::kDefaultMaxSegmentBytes</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxSegmentBytes</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::kDefaultMaxSegmentBytes</qualifiedname>
+        <initializer>= 64ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Byte capacity at which a segment is rotated. Default: 64 MiB. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="382" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a9a5b5a546f7bf8c7fe9be38fa91005dd" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::temporal::CDCPersistentLog::kMagic</definition>
+        <argsstring></argsstring>
+        <name>kMagic</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::kMagic</qualifiedname>
+        <initializer>= 0x54444357u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="467" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="467" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a89c03ac1d3f945ba986ae346903cd0b1" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themisdb::temporal::CDCPersistentLog::kVersion</definition>
+        <argsstring></argsstring>
+        <name>kVersion</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::kVersion</qualifiedname>
+        <initializer>= 0x0100u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="468" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="468" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1adac508ef57927b6c4a12cfef63eafcea" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::CDCPersistentLog::segment_dir_</definition>
+        <argsstring></argsstring>
+        <name>segment_dir_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::segment_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="471" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a184d05fb13f92a6892d1f778e1b15f43" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::CDCPersistentLog::log_prefix_</definition>
+        <argsstring></argsstring>
+        <name>log_prefix_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::log_prefix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="472" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5541bf4f65146dc4a17e4b146272987e" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::CDCPersistentLog::max_segment_bytes_</definition>
+        <argsstring></argsstring>
+        <name>max_segment_bytes_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::max_segment_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="473" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="473" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1aa86b0bf1be3298de6c6a86e52605dbae" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::CDCPersistentLog::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="475" column="24" bodyfile="include/temporal/temporal_cdc.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a035fdeef4059c3e5d00b0da7125586d0" prot="private" static="no" mutable="no">
+        <type>std::FILE *</type>
+        <definition>std::FILE* themisdb::temporal::CDCPersistentLog::active_fd_</definition>
+        <argsstring></argsstring>
+        <name>active_fd_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::active_fd_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="478" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="478" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a39aafb5a3a0c682503be5b4335d00c61" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::CDCPersistentLog::active_seq_</definition>
+        <argsstring></argsstring>
+        <name>active_seq_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::active_seq_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Sequence number of active segment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="479" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="479" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a3c605c9f5d54376b42bf90a146ecd763" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::CDCPersistentLog::active_bytes_</definition>
+        <argsstring></argsstring>
+        <name>active_bytes_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::active_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Bytes written to active segment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="480" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="480" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5db36eeeeba3d8631cb3eb29f6290e2b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::CDCPersistentLog::is_open_</definition>
+        <argsstring></argsstring>
+        <name>is_open_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::is_open_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="481" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="481" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1abeb5a31d5a6180806023daaac38e9ba6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::CDCPersistentLog::total_events_</definition>
+        <argsstring></argsstring>
+        <name>total_events_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::total_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="483" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="483" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a472095b5fa46b9cdf5ce07396a616df7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::CDCPersistentLog::total_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::total_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="484" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="484" bodyend="484"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::CDCPersistentLog::CDCPersistentLog</definition>
+        <argsstring>(std::string segment_dir, std::string log_prefix=&quot;cdc&quot;, uint64_t max_segment_bytes=kDefaultMaxSegmentBytes)</argsstring>
+        <name>CDCPersistentLog</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::CDCPersistentLog</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>segment_dir</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>log_prefix</declname>
+          <defval>&quot;cdc&quot;</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_segment_bytes</declname>
+          <defval><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5dea4ed9cbbb3e84d38649a23dc40dc6" kindref="member">kDefaultMaxSegmentBytes</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a <ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>segment_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory in which WAL segments are stored. Created automatically if it does not exist. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>log_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefix for segment file names (e.g. &quot;cdc&quot; or a table name). Must not be empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_segment_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rotate to a new segment after this many bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="393" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="385" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1add8ebd74f9be9d37d7568cf0c32d84e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::CDCPersistentLog::~CDCPersistentLog</definition>
+        <argsstring>()</argsstring>
+        <name>~CDCPersistentLog</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::~CDCPersistentLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="397" column="5" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="393" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ae86f817d8a814a089baab7a2fa2abc34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::CDCPersistentLog::CDCPersistentLog</definition>
+        <argsstring>(const CDCPersistentLog &amp;)=delete</argsstring>
+        <name>CDCPersistentLog</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::CDCPersistentLog</qualifiedname>
+        <param>
+          <type>const CDCPersistentLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="400" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a0b6d2e042ba6dca1569953ada3fef2e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" kindref="member">CDCPersistentLog</ref> &amp;</type>
+        <definition>CDCPersistentLog &amp; themisdb::temporal::CDCPersistentLog::operator=</definition>
+        <argsstring>(const CDCPersistentLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" kindref="member">CDCPersistentLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="401" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a98aa8fccf6ab5c56ea17a2e5294f5aea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::CDCPersistentLog::open</definition>
+        <argsstring>()</argsstring>
+        <name>open</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::open</qualifiedname>
+        <briefdescription>
+<para>Open. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Open the log: scan existing segments in <computeroutput>segment_dir</computeroutput>, recover any truncated tail record, and position the write head at the first valid segment for appending.</para>
+<para>Must be called exactly once before <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a84a2aa4c18ddc11083e9eac6aca693d4" kindref="member">append()</ref></computeroutput>. Idempotent: calling <ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a98aa8fccf6ab5c56ea17a2e5294f5aea" kindref="member">open()</ref> again after <ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1afd1a2b7c8da4bbd8c58d92dea58270d5" kindref="member">close()</ref> re-opens the log.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on I/O errors during directory creation or segment scanning.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::filesystem::create_directories(), message(), listSegmentSeqs(), empty(), back(), segmentPath(), std::fopen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="414" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="406" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1afd1a2b7c8da4bbd8c58d92dea58270d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::CDCPersistentLog::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::close</qualifiedname>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush and close the current segment file handle. Safe to call multiple times.</para>
+<para>Calls: lk(), std::fflush(), std::fclose(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="420" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="490" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a84a2aa4c18ddc11083e9eac6aca693d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::CDCPersistentLog::append</definition>
+        <argsstring>(const ChangeEvent &amp;event)</argsstring>
+        <name>append</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::append</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Append. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append a <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> to the persistent log.</para>
+<para>The event is JSON-serialised, CRC-32 checked, and written atomically (length-prefixed) to the current segment. If the segment exceeds <computeroutput>max_segment_bytes</computeroutput> after the write, a new segment is rotated.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when called before <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a98aa8fccf6ab5c56ea17a2e5294f5aea" kindref="member">open()</ref></computeroutput>, or on I/O errors.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmentHeader(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="432" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="510" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a396980b64d5c7bf90dcd2cb8a8f89bfb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; ChangeEvent &gt; themisdb::temporal::CDCPersistentLog::replayAll</definition>
+        <argsstring>() const</argsstring>
+        <name>replayAll</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::replayAll</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replay all persisted events from all segments in chronological order.</para>
+<para>Records with invalid CRC are silently skipped (truncation recovery). This is a read-only scan and can be called concurrently with <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a84a2aa4c18ddc11083e9eac6aca693d4" kindref="member">append()</ref></computeroutput>.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on segment directory I/O errors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="442" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="603" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a0454d7582727f6ef8a3a687ab1575ae2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; ChangeEvent &gt; themisdb::temporal::CDCPersistentLog::replaySegment</definition>
+        <argsstring>(uint64_t segment_seq) const</argsstring>
+        <name>replaySegment</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::replaySegment</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>segment_seq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replay events from a specific segment (by 0-based sequence number).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>segment_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Segment sequence number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when <computeroutput>segment_seq</computeroutput> &gt;= <ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a7ca66fb7437c860fa1af2b1c6cc08683" kindref="member">segmentCount()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on I/O errors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="451" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="624" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a7ca66fb7437c860fa1af2b1c6cc08683" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::CDCPersistentLog::segmentCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>segmentCount</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::segmentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of WAL segments that have been created (including active). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="454" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="647" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a690dea3197b19d1e7e2585553927b278" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::CDCPersistentLog::totalBytesWritten</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalBytesWritten</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::totalBytesWritten</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total bytes written to all segments (approximation, not fsynced). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="457" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="657" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a3f7c83f5cc087fe6eef2c13eb4e030ef" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::CDCPersistentLog::totalEventsAppended</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalEventsAppended</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::totalEventsAppended</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total events successfully appended since <ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a98aa8fccf6ab5c56ea17a2e5294f5aea" kindref="member">open()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="460" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="661" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1af179b791063094acca532eb9307954f5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::CDCPersistentLog::isOpen</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isOpen</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::isOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>true when the log is currently open for writing. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="463" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="665" bodyend="673"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a2f2103332e58996e6cd28008ba7b7e4a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::CDCPersistentLog::segmentPath</definition>
+        <argsstring>(uint64_t seq) const</argsstring>
+        <name>segmentPath</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::segmentPath</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build the full path for a segment with the given sequence number. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="489" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="679" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ad33d28f63596f12fdfc36d83872909ef" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; themisdb::temporal::CDCPersistentLog::listSegmentSeqs</definition>
+        <argsstring>() const</argsstring>
+        <name>listSegmentSeqs</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::listSegmentSeqs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Scan segment_dir_ for existing .wal files and return sorted seqs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="492" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="685" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a93ecfcc48c6beb168902898b8b6ce0c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::CDCPersistentLog::rotate</definition>
+        <argsstring>()</argsstring>
+        <name>rotate</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::rotate</qualifiedname>
+        <briefdescription>
+<para>Rotate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rotate: close active segment, increment seq, open new segment.</para>
+<para>Calls: std::fflush(), std::fclose(), segmentPath(), std::fopen(), c_str(), writeSegmentHeader(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="504" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="756" bodyend="774"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a8e6b05ff2b05acf104f6606ce1ec81c3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::CDCPersistentLog::writeSegmentHeader</definition>
+        <argsstring>(std::FILE *fd, uint64_t seq)</argsstring>
+        <name>writeSegmentHeader</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::writeSegmentHeader</qualifiedname>
+        <param>
+          <type>std::FILE *</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Write the 22-byte segment header to <computeroutput>fd</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="495" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="711" bodyend="724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a23e7f3b84dc325851a534e3ee2e3bedb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::CDCPersistentLog::validateSegmentHeader</definition>
+        <argsstring>(std::FILE *fd)</argsstring>
+        <name>validateSegmentHeader</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::validateSegmentHeader</qualifiedname>
+        <param>
+          <type>std::FILE *</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate the header of a segment file; return true on success. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="498" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="726" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1af823979332265783e70385e3fd0a1a54" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::temporal::CDCPersistentLog::crc32</definition>
+        <argsstring>(const std::string &amp;data) noexcept</argsstring>
+        <name>crc32</name>
+        <qualifiedname>themisdb::temporal::CDCPersistentLog::crc32</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute CRC-32/ISO-HDLC of <computeroutput>data</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="501" column="21" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="748" bodyend="750"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Append-only, WAL-backed persistent CDC log. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref></computeroutput> implements the <computeroutput>CDCListener</computeroutput> interface (via <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2d922aa42751275fe9b774ae009c62fc" kindref="member">TemporalCDC::subscribeToChanges</ref></computeroutput>) and durably persists each <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref></computeroutput> to a binary append-only Write-Ahead Log (WAL) on the file-system.</para>
+<sect1 id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1autotoc_md5_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1autotoc_md5">
+<title>WAL segment format</title><para>Each segment is an append-only binary file named <computeroutput>&lt;segment_dir&gt;/&lt;prefix&gt;_&lt;segment_seq&gt;.wal</computeroutput>. A segment header is written once at creation time, followed by zero or more fixed-layout records:</para>
+<para><programlisting><codeline><highlight class="normal">Segment<sp/>file<sp/>layout</highlight></codeline>
+<codeline><highlight class="normal">───────────────────</highlight></codeline>
+<codeline><highlight class="normal">[HEADER]<sp/><sp/>magic(4)<sp/>|<sp/>version(2)<sp/>|<sp/>segment_seq(8)<sp/>|<sp/>created_at_ms(8)</highlight></codeline>
+<codeline><highlight class="normal">[RECORD]*<sp/>payload_len(4)<sp/>|<sp/>crc32(4)<sp/>|<sp/>payload(&lt;payload_len<sp/>bytes<sp/>JSON)</highlight></codeline>
+</programlisting></para>
+<para><computeroutput>magic</computeroutput> = 0x54444357 (&apos;TDCW&apos; in little-endian) <computeroutput>version</computeroutput> = 0x0100 (major=1, minor=0)</para>
+<para>A new segment is created automatically when the current segment reaches or exceeds <computeroutput>max_segment_bytes</computeroutput> (default 64 MiB).</para>
+</sect2></sect1>
+<sect1 id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1autotoc_md6_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1autotoc_md6">
+<title>CRC-32 validation</title><para>Each record carries a CRC-32/ISO-HDLC checksum of the JSON payload bytes. On open (<computeroutput><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a98aa8fccf6ab5c56ea17a2e5294f5aea" kindref="member">open()</ref></computeroutput>), the log scans all records in the segment directory and discards any tail record whose CRC does not match — providing truncation recovery without data loss on abrupt shutdown.</para>
+</sect2></sect1>
+<sect1 id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1autotoc_md7_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1autotoc_md7">
+<title>Thread-safety</title><para>All public methods are thread-safe.</para>
+</sect2></sect1>
+<sect1 id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1autotoc_md8_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1autotoc_md8">
+<title>Usage</title><para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" kindref="member">CDCPersistentLog</ref><sp/>wal(</highlight><highlight class="stringliteral">&quot;/var/lib/themisdb/cdc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">wal.open();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">TemporalCDC<sp/>cdc;</highlight></codeline>
+<codeline><highlight class="normal">cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ChangeEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>wal.append(ev);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Replay<sp/>all<sp/>durable<sp/>events:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>wal.replayAll();</highlight></codeline>
+<codeline><highlight class="normal">wal.close();</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/temporal/temporal_cdc.h" line="379" column="1" bodyfile="include/temporal/temporal_cdc.h" bodystart="379" bodyend="505"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a3c605c9f5d54376b42bf90a146ecd763" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>active_bytes_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a035fdeef4059c3e5d00b0da7125586d0" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>active_fd_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a39aafb5a3a0c682503be5b4335d00c61" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>active_seq_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a84a2aa4c18ddc11083e9eac6aca693d4" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>append</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ac49b1b6285ba8b62dfc8d84f28177520" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>CDCPersistentLog</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ae86f817d8a814a089baab7a2fa2abc34" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>CDCPersistentLog</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1afd1a2b7c8da4bbd8c58d92dea58270d5" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>close</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1af823979332265783e70385e3fd0a1a54" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>crc32</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5db36eeeeba3d8631cb3eb29f6290e2b" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>is_open_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1af179b791063094acca532eb9307954f5" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>isOpen</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5dea4ed9cbbb3e84d38649a23dc40dc6" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>kDefaultMaxSegmentBytes</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a9a5b5a546f7bf8c7fe9be38fa91005dd" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>kMagic</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a89c03ac1d3f945ba986ae346903cd0b1" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>kVersion</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1ad33d28f63596f12fdfc36d83872909ef" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>listSegmentSeqs</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a184d05fb13f92a6892d1f778e1b15f43" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>log_prefix_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a5541bf4f65146dc4a17e4b146272987e" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>max_segment_bytes_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1aa86b0bf1be3298de6c6a86e52605dbae" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a98aa8fccf6ab5c56ea17a2e5294f5aea" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>open</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a0b6d2e042ba6dca1569953ada3fef2e1" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a396980b64d5c7bf90dcd2cb8a8f89bfb" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>replayAll</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a0454d7582727f6ef8a3a687ab1575ae2" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>replaySegment</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a93ecfcc48c6beb168902898b8b6ce0c4" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>rotate</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1adac508ef57927b6c4a12cfef63eafcea" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>segment_dir_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a7ca66fb7437c860fa1af2b1c6cc08683" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>segmentCount</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a2f2103332e58996e6cd28008ba7b7e4a" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>segmentPath</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a472095b5fa46b9cdf5ce07396a616df7" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>total_bytes_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1abeb5a31d5a6180806023daaac38e9ba6" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>total_events_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a690dea3197b19d1e7e2585553927b278" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>totalBytesWritten</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a3f7c83f5cc087fe6eef2c13eb4e030ef" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>totalEventsAppended</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a23e7f3b84dc325851a534e3ee2e3bedb" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>validateSegmentHeader</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a8e6b05ff2b05acf104f6606ce1ec81c3" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>writeSegmentHeader</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1add8ebd74f9be9d37d7568cf0c32d84e6" prot="public" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>~CDCPersistentLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

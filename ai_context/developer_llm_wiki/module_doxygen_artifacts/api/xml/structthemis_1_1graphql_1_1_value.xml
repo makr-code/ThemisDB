@@ -1,0 +1,645 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_value" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::Value</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::graphql::Value::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120cabbb93ef26e3c101ff11cdd21cab08a94" prot="public">
+          <name>Null</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca27226c864bac7454a8504f8edb15d95b" prot="public">
+          <name>Boolean</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca1686a6c336b71b36d77354cea19a8b52" prot="public">
+          <name>Int</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca22ae0e2b89e5e3d477f988cc36d3272b" prot="public">
+          <name>Float</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca27118326006d3829667a400ad23d5d98" prot="public">
+          <name>String</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120cacf20423ed48998082c20099488a0917c" prot="public">
+          <name>Enum</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca4ee29ca12c7d126654bd0e5275de6135" prot="public">
+          <name>List</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca497031794414a552435f90151ac3b54b" prot="public">
+          <name>Object</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120ca8ab1135951e3438bda9948542e8a5369" prot="public">
+          <name>VariableRef</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="64" column="5" bodyfile="include/api/graphql.h" bodystart="64" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_value_1a427bc7c7e005e166ac36f0fad4a2afad" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120c" kindref="member">Type</ref></type>
+        <definition>Type themis::graphql::Value::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::graphql::Value::type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120cabbb93ef26e3c101ff11cdd21cab08a94" kindref="member">Type::Null</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="76" column="10" bodyfile="include/api/graphql.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_value_1ac5119c0bae16ac2aa091f53eec1c740d" prot="public" static="no" mutable="no">
+        <type>std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string, <ref refid="namespacethemis_1_1graphql_1aa6464615b9c9cfb6ba66e0ceb88cf540" kindref="member">ValueList</ref>, <ref refid="namespacethemis_1_1graphql_1acbd82cfdf8723d4e36855c04927a1f7e" kindref="member">ValueMap</ref> &gt;</type>
+        <definition>std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string, ValueList, ValueMap &gt; themis::graphql::Value::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::graphql::Value::data</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="85" column="2" bodyfile="include/api/graphql.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a310d9dd8825f23b2546227479eeb88e5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::null</definition>
+        <argsstring>()</argsstring>
+        <name>null</name>
+        <qualifiedname>themis::graphql::Value::null</qualifiedname>
+        <briefdescription>
+<para>Null. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements null without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="93" column="28" bodyfile="include/api/graphql.h" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a24be87faa42bded3541ec1d46b18013e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::boolean</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>boolean</name>
+        <qualifiedname>themis::graphql::Value::boolean</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Boolean. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements boolean without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="103" column="28" bodyfile="include/api/graphql.h" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1ab29943cc1bb1f841516d4e8d2bab3819" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::integer</definition>
+        <argsstring>(int64_t v)</argsstring>
+        <name>integer</name>
+        <qualifiedname>themis::graphql::Value::integer</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Integer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements integer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="116" column="28" bodyfile="include/api/graphql.h" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1aa20b44e2c556d145d0ba33a72610491a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::floating</definition>
+        <argsstring>(double v)</argsstring>
+        <name>floating</name>
+        <qualifiedname>themis::graphql::Value::floating</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Floating. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements floating without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="129" column="28" bodyfile="include/api/graphql.h" bodystart="129" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a32d5b925c4f37868563e4cf9b308cd4e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::string</definition>
+        <argsstring>(std::string v)</argsstring>
+        <name>string</name>
+        <qualifiedname>themis::graphql::Value::string</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="142" column="28" bodyfile="include/api/graphql.h" bodystart="142" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a616a92a77774b3db2c82a7dc24c57651" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::enumValue</definition>
+        <argsstring>(std::string v)</argsstring>
+        <name>enumValue</name>
+        <qualifiedname>themis::graphql::Value::enumValue</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Enum <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="155" column="28" bodyfile="include/api/graphql.h" bodystart="155" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a7d4d0d908c22c1d3bb7700e0f852dc5c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::list</definition>
+        <argsstring>(ValueList v)</argsstring>
+        <name>list</name>
+        <qualifiedname>themis::graphql::Value::list</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graphql_1aa6464615b9c9cfb6ba66e0ceb88cf540" kindref="member">ValueList</ref></type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="168" column="28" bodyfile="include/api/graphql.h" bodystart="168" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1ac0ed4cfb1ca65934bd26826373d03e82" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::object</definition>
+        <argsstring>(ValueMap v)</argsstring>
+        <name>object</name>
+        <qualifiedname>themis::graphql::Value::object</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graphql_1acbd82cfdf8723d4e36855c04927a1f7e" kindref="member">ValueMap</ref></type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="181" column="28" bodyfile="include/api/graphql.h" bodystart="181" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1ad960d891dea77f21ed5bcd171bd9e006" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; Value &gt; themis::graphql::Value::variableRef</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>variableRef</name>
+        <qualifiedname>themis::graphql::Value::variableRef</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Variable Ref. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="194" column="28" bodyfile="include/api/graphql.h" bodystart="194" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a4d33732345f0219ddc9ee610f2de8353" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isNull</definition>
+        <argsstring>() const</argsstring>
+        <name>isNull</name>
+        <qualifiedname>themis::graphql::Value::isNull</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="202" column="10" bodyfile="include/api/graphql.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1abc4c1fb70835b2ef7f9e82d5df867712" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isBool</definition>
+        <argsstring>() const</argsstring>
+        <name>isBool</name>
+        <qualifiedname>themis::graphql::Value::isBool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="203" column="10" bodyfile="include/api/graphql.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a3170d1cd7564136d2ee67761a9ade135" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isInt</definition>
+        <argsstring>() const</argsstring>
+        <name>isInt</name>
+        <qualifiedname>themis::graphql::Value::isInt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="204" column="10" bodyfile="include/api/graphql.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a9db7eaddf72f51902fe131c3115faa01" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isFloat</definition>
+        <argsstring>() const</argsstring>
+        <name>isFloat</name>
+        <qualifiedname>themis::graphql::Value::isFloat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="205" column="10" bodyfile="include/api/graphql.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1adf121e214f59c99ba70ce6eaca290d92" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isString</definition>
+        <argsstring>() const</argsstring>
+        <name>isString</name>
+        <qualifiedname>themis::graphql::Value::isString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="206" column="10" bodyfile="include/api/graphql.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1aeb56649073f433f81ab09fe8a7e59ae1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isEnum</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnum</name>
+        <qualifiedname>themis::graphql::Value::isEnum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="207" column="10" bodyfile="include/api/graphql.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a5fba46783d33aafc11fca5bf15ed5f92" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isList</definition>
+        <argsstring>() const</argsstring>
+        <name>isList</name>
+        <qualifiedname>themis::graphql::Value::isList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="208" column="10" bodyfile="include/api/graphql.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1af234db68c1ca15416b39c7aebbe59e8a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isObject</definition>
+        <argsstring>() const</argsstring>
+        <name>isObject</name>
+        <qualifiedname>themis::graphql::Value::isObject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="209" column="10" bodyfile="include/api/graphql.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a68b2ec02d5cc51383b621764980e3459" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::isVariableRef</definition>
+        <argsstring>() const</argsstring>
+        <name>isVariableRef</name>
+        <qualifiedname>themis::graphql::Value::isVariableRef</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="210" column="10" bodyfile="include/api/graphql.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a6c22556bf5fe1e99e63942cbea9880c3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Value::asBool</definition>
+        <argsstring>() const</argsstring>
+        <name>asBool</name>
+        <qualifiedname>themis::graphql::Value::asBool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="213" column="10" bodyfile="include/api/graphql.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a617d10cb0f205d33c400a4faf15f2f9c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::graphql::Value::asInt</definition>
+        <argsstring>() const</argsstring>
+        <name>asInt</name>
+        <qualifiedname>themis::graphql::Value::asInt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="214" column="13" bodyfile="include/api/graphql.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1aebbc2358481027c30ecb5eda9a9be0e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graphql::Value::asFloat</definition>
+        <argsstring>() const</argsstring>
+        <name>asFloat</name>
+        <qualifiedname>themis::graphql::Value::asFloat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="215" column="12" bodyfile="include/api/graphql.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a482e166e53b46efb249d72374e5692ec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::graphql::Value::asString</definition>
+        <argsstring>() const</argsstring>
+        <name>asString</name>
+        <qualifiedname>themis::graphql::Value::asString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="216" column="23" bodyfile="include/api/graphql.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a44841e1507172e85a97f28fd5259a645" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="namespacethemis_1_1graphql_1aa6464615b9c9cfb6ba66e0ceb88cf540" kindref="member">ValueList</ref> &amp;</type>
+        <definition>const ValueList &amp; themis::graphql::Value::asList</definition>
+        <argsstring>() const</argsstring>
+        <name>asList</name>
+        <qualifiedname>themis::graphql::Value::asList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="217" column="21" bodyfile="include/api/graphql.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1ae2f5e01740399e4819a0c30028b8e42d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="namespacethemis_1_1graphql_1acbd82cfdf8723d4e36855c04927a1f7e" kindref="member">ValueMap</ref> &amp;</type>
+        <definition>const ValueMap &amp; themis::graphql::Value::asObject</definition>
+        <argsstring>() const</argsstring>
+        <name>asObject</name>
+        <qualifiedname>themis::graphql::Value::asObject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="218" column="20" bodyfile="include/api/graphql.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_value_1a5dc88e8d2ebadb9dc05376909ecf3cfc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::graphql::Value::asVariableRef</definition>
+        <argsstring>() const</argsstring>
+        <name>asVariableRef</name>
+        <qualifiedname>themis::graphql::Value::asVariableRef</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="219" column="23" bodyfile="include/api/graphql.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="63" column="1" bodyfile="include/api/graphql.h" bodystart="63" bodyend="220"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_value_1a6c22556bf5fe1e99e63942cbea9880c3" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>asBool</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1aebbc2358481027c30ecb5eda9a9be0e1" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>asFloat</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a617d10cb0f205d33c400a4faf15f2f9c" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>asInt</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a44841e1507172e85a97f28fd5259a645" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>asList</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1ae2f5e01740399e4819a0c30028b8e42d" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>asObject</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a482e166e53b46efb249d72374e5692ec" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>asString</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a5dc88e8d2ebadb9dc05376909ecf3cfc" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>asVariableRef</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a24be87faa42bded3541ec1d46b18013e" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>boolean</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1ac5119c0bae16ac2aa091f53eec1c740d" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>data</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a616a92a77774b3db2c82a7dc24c57651" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>enumValue</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1aa20b44e2c556d145d0ba33a72610491a" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>floating</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1ab29943cc1bb1f841516d4e8d2bab3819" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>integer</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1abc4c1fb70835b2ef7f9e82d5df867712" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isBool</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1aeb56649073f433f81ab09fe8a7e59ae1" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isEnum</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a9db7eaddf72f51902fe131c3115faa01" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isFloat</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a3170d1cd7564136d2ee67761a9ade135" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isInt</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a5fba46783d33aafc11fca5bf15ed5f92" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isList</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a4d33732345f0219ddc9ee610f2de8353" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isNull</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1af234db68c1ca15416b39c7aebbe59e8a" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isObject</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1adf121e214f59c99ba70ce6eaca290d92" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isString</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a68b2ec02d5cc51383b621764980e3459" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>isVariableRef</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a7d4d0d908c22c1d3bb7700e0f852dc5c" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>list</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a310d9dd8825f23b2546227479eeb88e5" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>null</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1ac0ed4cfb1ca65934bd26826373d03e82" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>object</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a32d5b925c4f37868563e4cf9b308cd4e" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>string</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1ac2b54c3c38370136d0f061911d6f120c" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>Type</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1a427bc7c7e005e166ac36f0fad4a2afad" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>type</name></member>
+      <member refid="structthemis_1_1graphql_1_1_value_1ad960d891dea77f21ed5bcd171bd9e006" prot="public" virt="non-virtual"><scope>themis::graphql::Value</scope><name>variableRef</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

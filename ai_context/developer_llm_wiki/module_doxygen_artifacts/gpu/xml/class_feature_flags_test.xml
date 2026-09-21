@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_feature_flags_test" kind="class" language="C++" prot="public">
+    <compoundname>FeatureFlagsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_feature_flags_test_1a841c0a9fb052b66f8c3698c654b86ab7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FeatureFlagsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FeatureFlagsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_feature_flags.cpp" line="12" column="10" bodyfile="tests/gpu/test_gpu_feature_flags.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_feature_flags_test_1abd65863cb0bea7affec354807087afe9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FeatureFlagsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>FeatureFlagsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_feature_flags.cpp" line="15" column="10" bodyfile="tests/gpu/test_gpu_feature_flags.cpp" bodystart="15" bodyend="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FeatureFlagsTest</label>
+        <link refid="class_feature_flags_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FeatureFlagsTest</label>
+        <link refid="class_feature_flags_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_feature_flags.cpp" line="10" column="1" bodyfile="tests/gpu/test_gpu_feature_flags.cpp" bodystart="10" bodyend="18"/>
+    <listofallmembers>
+      <member refid="class_feature_flags_test_1a841c0a9fb052b66f8c3698c654b86ab7" prot="protected" virt="non-virtual"><scope>FeatureFlagsTest</scope><name>SetUp</name></member>
+      <member refid="class_feature_flags_test_1abd65863cb0bea7affec354807087afe9" prot="protected" virt="non-virtual"><scope>FeatureFlagsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

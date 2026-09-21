@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_view_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ViewQueryResult</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_query_result_1a53b608dd7614bc61ccad65a6e1c0fc0a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_view_row" kindref="compound">ViewRow</ref> &gt;</type>
+        <definition>std::vector&lt;ViewRow&gt; themisdb::analytics::ViewQueryResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themisdb::analytics::ViewQueryResult::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="143" column="19" bodyfile="include/analytics/incremental_view.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_query_result_1a880b6eb0ecd48635127df5394b01abb9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ViewQueryResult::total_rows</definition>
+        <argsstring></argsstring>
+        <name>total_rows</name>
+        <qualifiedname>themisdb::analytics::ViewQueryResult::total_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="144" column="28" bodyfile="include/analytics/incremental_view.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_query_result_1a6e5b40ecb90665f8013b2c35bd6cb9b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ViewQueryResult::is_stale</definition>
+        <argsstring></argsstring>
+        <name>is_stale</name>
+        <qualifiedname>themisdb::analytics::ViewQueryResult::is_stale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="145" column="28" bodyfile="include/analytics/incremental_view.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_query_result_1a21703c0b54ea1318509405913e94cc3e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::ViewQueryResult::last_update</definition>
+        <argsstring></argsstring>
+        <name>last_update</name>
+        <qualifiedname>themisdb::analytics::ViewQueryResult::last_update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="146" column="43" bodyfile="include/analytics/incremental_view.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/incremental_view.h" line="142" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="142" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_view_query_result_1a6e5b40ecb90665f8013b2c35bd6cb9b8" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewQueryResult</scope><name>is_stale</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_query_result_1a21703c0b54ea1318509405913e94cc3e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewQueryResult</scope><name>last_update</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_query_result_1a53b608dd7614bc61ccad65a6e1c0fc0a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewQueryResult</scope><name>rows</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_query_result_1a880b6eb0ecd48635127df5394b01abb9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewQueryResult</scope><name>total_rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_node_capacity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::NodeCapacity</compoundname>
+    <includes refid="shard__placement_8h" local="no">shard_placement.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1a06d9455fab18831ffe1bb3e51fa84df5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::NodeCapacity::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="27" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1a184b17fb03a274e3537f7301d28bf4a7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::NodeCapacity::available_capacity_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_capacity_bytes</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::available_capacity_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="29" column="12" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1a0a99391a8cddc3a73d24baeac6451018" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::NodeCapacity::tier_level</definition>
+        <argsstring></argsstring>
+        <name>tier_level</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::tier_level</qualifiedname>
+        <initializer>= &quot;warm&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="31" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1ae99941ebe2c9455aee79df711803644e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::NodeCapacity::accelerator_type</definition>
+        <argsstring></argsstring>
+        <name>accelerator_type</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::accelerator_type</qualifiedname>
+        <initializer>= &quot;CPU&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="33" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1a4caba49f047eae321baa2b54bac876e4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::NodeCapacity::bandwidth_utilization</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_utilization</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::bandwidth_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="35" column="9" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1ab110772beaa78a79fd16318707929276" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::NodeCapacity::network_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>network_latency_ms</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::network_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="37" column="12" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1a1bcbf7a1eca929e4ff219c845abfbd1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::NodeCapacity::topology_zone</definition>
+        <argsstring></argsstring>
+        <name>topology_zone</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::topology_zone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="39" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1ae63145567b7f322ae5ed686c4d944e96" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::NodeCapacity::load_factor</definition>
+        <argsstring></argsstring>
+        <name>load_factor</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::load_factor</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="41" column="9" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_node_capacity_1a7c7426566337cd5a97ecdd47d33d43a7" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::distributed_tensor::NodeCapacity::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::distributed_tensor::NodeCapacity::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="43" column="22" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/shard_placement.h" line="26" column="1" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="26" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ae99941ebe2c9455aee79df711803644e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>accelerator_type</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a184b17fb03a274e3537f7301d28bf4a7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>available_capacity_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a4caba49f047eae321baa2b54bac876e4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>bandwidth_utilization</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a7c7426566337cd5a97ecdd47d33d43a7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ae63145567b7f322ae5ed686c4d944e96" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>load_factor</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ab110772beaa78a79fd16318707929276" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>network_latency_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a06d9455fab18831ffe1bb3e51fa84df5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a0a99391a8cddc3a73d24baeac6451018" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>tier_level</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a1bcbf7a1eca929e4ff219c845abfbd1d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::NodeCapacity</scope><name>topology_zone</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_pipeline_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::PipelineStats</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a6017fdf1268c40fd75b9ef0ca03263e4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::documents_labeled</definition>
+        <argsstring></argsstring>
+        <name>documents_labeled</name>
+        <qualifiedname>themis::training::PipelineStats::documents_labeled</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="42" column="12" bodyfile="include/training/training_pipeline.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1afe826f4f91eaf9ece3987610d831d189" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::samples_created</definition>
+        <argsstring></argsstring>
+        <name>samples_created</name>
+        <qualifiedname>themis::training::PipelineStats::samples_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="43" column="12" bodyfile="include/training/training_pipeline.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a1e23847b32355cb9755b8be3488b456a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::high_confidence</definition>
+        <argsstring></argsstring>
+        <name>high_confidence</name>
+        <qualifiedname>themis::training::PipelineStats::high_confidence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="44" column="12" bodyfile="include/training/training_pipeline.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a4d4472e073db88b1f90fc23833c75298" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::samples_enriched</definition>
+        <argsstring></argsstring>
+        <name>samples_enriched</name>
+        <qualifiedname>themis::training::PipelineStats::samples_enriched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="47" column="12" bodyfile="include/training/training_pipeline.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a16d1126be595d8c690234344781e5df2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::context_items_added</definition>
+        <argsstring></argsstring>
+        <name>context_items_added</name>
+        <qualifiedname>themis::training::PipelineStats::context_items_added</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="48" column="12" bodyfile="include/training/training_pipeline.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a0cd110fbeaea1d463949b70806a277bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineStats::training_success</definition>
+        <argsstring></argsstring>
+        <name>training_success</name>
+        <qualifiedname>themis::training::PipelineStats::training_success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="51" column="12" bodyfile="include/training/training_pipeline.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a3b50bb1dec257686311ef59fc0a7caee" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::PipelineStats::training_loss</definition>
+        <argsstring></argsstring>
+        <name>training_loss</name>
+        <qualifiedname>themis::training::PipelineStats::training_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="52" column="12" bodyfile="include/training/training_pipeline.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a09cad756bd58683f6e2f43f0fb322e6f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::PipelineStats::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::training::PipelineStats::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="53" column="12" bodyfile="include/training/training_pipeline.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a655d901410f22d3604b3155c716ca877" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::PipelineStats::adapter_version</definition>
+        <argsstring></argsstring>
+        <name>adapter_version</name>
+        <qualifiedname>themis::training::PipelineStats::adapter_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="54" column="17" bodyfile="include/training/training_pipeline.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a5e6fac62c7541ea7237efde801435210" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::selection_input_count</definition>
+        <argsstring></argsstring>
+        <name>selection_input_count</name>
+        <qualifiedname>themis::training::PipelineStats::selection_input_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Candidates fed to the selection pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="57" column="12" bodyfile="include/training/training_pipeline.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a0fcbb2c75fcb21d27c9b8115644e79cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::selection_output_count</definition>
+        <argsstring></argsstring>
+        <name>selection_output_count</name>
+        <qualifiedname>themis::training::PipelineStats::selection_output_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Samples passing all selection stages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="58" column="12" bodyfile="include/training/training_pipeline.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a55ddfcf58573a90a4453696994259cf8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::selection_filtered_count</definition>
+        <argsstring></argsstring>
+        <name>selection_filtered_count</name>
+        <qualifiedname>themis::training::PipelineStats::selection_filtered_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Samples removed by selection stages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="59" column="12" bodyfile="include/training/training_pipeline.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a0a5386e35285ad389bd221a042af4a93" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::PipelineStats::total_elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>total_elapsed_seconds</name>
+        <qualifiedname>themis::training::PipelineStats::total_elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="62" column="12" bodyfile="include/training/training_pipeline.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1ab9dca07eac9f01d263145fa8006e8781" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::quality_issues_found</definition>
+        <argsstring></argsstring>
+        <name>quality_issues_found</name>
+        <qualifiedname>themis::training::PipelineStats::quality_issues_found</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="65" column="12" bodyfile="include/training/training_pipeline.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1aa2ffc81d1fd95b4062ba80de38019bd1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineStats::drift_detected</definition>
+        <argsstring></argsstring>
+        <name>drift_detected</name>
+        <qualifiedname>themis::training::PipelineStats::drift_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="66" column="12" bodyfile="include/training/training_pipeline.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1a4bac2482058042bca5be3cd2bb3f452b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::provenance_records_written</definition>
+        <argsstring></argsstring>
+        <name>provenance_records_written</name>
+        <qualifiedname>themis::training::PipelineStats::provenance_records_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Records written to provenance graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="69" column="12" bodyfile="include/training/training_pipeline.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_stats_1ab71e29d7250363fe8fc8c74a0a27c4df" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::PipelineStats::provenance_records_rejected</definition>
+        <argsstring></argsstring>
+        <name>provenance_records_rejected</name>
+        <qualifiedname>themis::training::PipelineStats::provenance_records_rejected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Records rejected (missing URN, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="70" column="12" bodyfile="include/training/training_pipeline.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_pipeline_stats_1a9fb2cc0c1c29a8b7415bc408f7984bfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::PipelineStats::PipelineStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>PipelineStats</name>
+        <qualifiedname>themis::training::PipelineStats::PipelineStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="72" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Overall pipeline execution statistics (Phase 7). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="40" column="1" bodyfile="include/training/training_pipeline.h" bodystart="40" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a09cad756bd58683f6e2f43f0fb322e6f" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a655d901410f22d3604b3155c716ca877" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>adapter_version</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a16d1126be595d8c690234344781e5df2" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>context_items_added</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a6017fdf1268c40fd75b9ef0ca03263e4" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>documents_labeled</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1aa2ffc81d1fd95b4062ba80de38019bd1" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>drift_detected</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a1e23847b32355cb9755b8be3488b456a" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>high_confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a9fb2cc0c1c29a8b7415bc408f7984bfc" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>PipelineStats</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1ab71e29d7250363fe8fc8c74a0a27c4df" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>provenance_records_rejected</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a4bac2482058042bca5be3cd2bb3f452b" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>provenance_records_written</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1ab9dca07eac9f01d263145fa8006e8781" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>quality_issues_found</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1afe826f4f91eaf9ece3987610d831d189" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>samples_created</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a4d4472e073db88b1f90fc23833c75298" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>samples_enriched</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a55ddfcf58573a90a4453696994259cf8" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>selection_filtered_count</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a5e6fac62c7541ea7237efde801435210" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>selection_input_count</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a0fcbb2c75fcb21d27c9b8115644e79cd" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>selection_output_count</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a0a5386e35285ad389bd221a042af4a93" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>total_elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a3b50bb1dec257686311ef59fc0a7caee" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>training_loss</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_stats_1a0cd110fbeaea1d463949b70806a277bd" prot="public" virt="non-virtual"><scope>themis::training::PipelineStats</scope><name>training_success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

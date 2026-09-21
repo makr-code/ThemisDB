@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_fc4c7f03e1a69a98c370fae55a743828" kind="dir">
+    <compoundname>src/network</compoundname>
+    <innerfile refid="adaptive__circuit__breaker_8cpp">adaptive_circuit_breaker.cpp</innerfile>
+    <innerfile refid="bbr__congestion__control_8cpp">bbr_congestion_control.cpp</innerfile>
+    <innerfile refid="connection__compression_8cpp">connection_compression.cpp</innerfile>
+    <innerfile refid="envoy__xds_8cpp">envoy_xds.cpp</innerfile>
+    <innerfile refid="geo__topology__router_8cpp">geo_topology_router.cpp</innerfile>
+    <innerfile refid="grpc__transport_8cpp">grpc_transport.cpp</innerfile>
+    <innerfile refid="io__uring__batcher_8cpp">io_uring_batcher.cpp</innerfile>
+    <innerfile refid="kernel__bypass_8cpp">kernel_bypass.cpp</innerfile>
+    <innerfile refid="multipath__tcp_8cpp">multipath_tcp.cpp</innerfile>
+    <innerfile refid="network__audit__log_8cpp">network_audit_log.cpp</innerfile>
+    <innerfile refid="network__observability_8cpp">network_observability.cpp</innerfile>
+    <innerfile refid="qos__manager_8cpp">qos_manager.cpp</innerfile>
+    <innerfile refid="quic__server_8cpp">quic_server.cpp</innerfile>
+    <innerfile refid="quic__transport_8cpp">quic_transport.cpp</innerfile>
+    <innerfile refid="raft__load__balancer_8cpp">raft_load_balancer.cpp</innerfile>
+    <innerfile refid="retry__policy_8cpp">retry_policy.cpp</innerfile>
+    <innerfile refid="service__mesh_8cpp">service_mesh.cpp</innerfile>
+    <innerfile refid="socket__timeout__manager_8cpp">socket_timeout_manager.cpp</innerfile>
+    <innerfile refid="udp__fast__path_8cpp">udp_fast_path.cpp</innerfile>
+    <innerfile refid="udp__server_8cpp">udp_server.cpp</innerfile>
+    <innerfile refid="wire__protocol_8cpp">wire_protocol.cpp</innerfile>
+    <innerfile refid="wire__protocol__batch_8cpp">wire_protocol_batch.cpp</innerfile>
+    <innerfile refid="wire__protocol__connection__pool_8cpp">wire_protocol_connection_pool.cpp</innerfile>
+    <innerfile refid="wire__protocol__helpers_8cpp">wire_protocol_helpers.cpp</innerfile>
+    <innerfile refid="wire__protocol__performance_8cpp">wire_protocol_performance.cpp</innerfile>
+    <innerfile refid="wire__protocol__server_8cpp">wire_protocol_server.cpp</innerfile>
+    <innerfile refid="wire__protocol__server__ws_8cpp">wire_protocol_server_ws.cpp</innerfile>
+    <innerfile refid="wire__protocol__v2_8cpp">wire_protocol_v2.cpp</innerfile>
+    <innerfile refid="wire__protocol__zero__copy_8cpp">wire_protocol_zero_copy.cpp</innerfile>
+    <innerfile refid="wire__retry__policy_8cpp">wire_retry_policy.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/network/"/>
+  </compounddef>
+</doxygen>

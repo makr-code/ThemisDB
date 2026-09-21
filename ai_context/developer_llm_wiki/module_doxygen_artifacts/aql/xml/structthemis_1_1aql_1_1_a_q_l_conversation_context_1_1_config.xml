@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLConversationContext::Config</compoundname>
+    <includes refid="aql__conversation__context_8h" local="no">aql_conversation_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a9892df25588a2db80300382a720ea1c7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLConversationContext::Config::max_turns</definition>
+        <argsstring></argsstring>
+        <name>max_turns</name>
+        <qualifiedname>themis::aql::AQLConversationContext::Config::max_turns</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_conversation_context.h" line="32" column="21" bodyfile="include/aql/aql_conversation_context.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a69e316141d2be81a1c4bcc85bd6b9af2" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLConversationContext::Config::max_history_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_history_tokens</name>
+        <qualifiedname>themis::aql::AQLConversationContext::Config::max_history_tokens</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_conversation_context.h" line="34" column="21" bodyfile="include/aql/aql_conversation_context.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a2e875d569c26b97ba4b03c5da6b7f507" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;&amp;)&gt; themis::aql::AQLConversationContext::Config::llm_executor</definition>
+        <argsstring></argsstring>
+        <name>llm_executor</name>
+        <qualifiedname>themis::aql::AQLConversationContext::Config::llm_executor</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_conversation_context.h" line="37" column="13" bodyfile="include/aql/aql_conversation_context.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1aa6aede7a33da1115def5b946bcc35e7a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLConversationContext::Config::enable_episodic_compaction</definition>
+        <argsstring></argsstring>
+        <name>enable_episodic_compaction</name>
+        <qualifiedname>themis::aql::AQLConversationContext::Config::enable_episodic_compaction</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_conversation_context.h" line="39" column="14" bodyfile="include/aql/aql_conversation_context.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1ab8a841d81d698fd3d4ff007571a65836" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::aql::AQLConversationContext::Config::episodic_compaction_trigger_tokens</definition>
+        <argsstring></argsstring>
+        <name>episodic_compaction_trigger_tokens</name>
+        <qualifiedname>themis::aql::AQLConversationContext::Config::episodic_compaction_trigger_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_conversation_context.h" line="41" column="17" bodyfile="include/aql/aql_conversation_context.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a7fd55362ce5b0901e048d9452f981902" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLConversationContext::Config::episodic_compression_gate_similarity</definition>
+        <argsstring></argsstring>
+        <name>episodic_compression_gate_similarity</name>
+        <qualifiedname>themis::aql::AQLConversationContext::Config::episodic_compression_gate_similarity</qualifiedname>
+        <initializer>= 0.85f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_conversation_context.h" line="43" column="15" bodyfile="include/aql/aql_conversation_context.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_conversation_context.h" line="31" column="5" bodyfile="include/aql/aql_conversation_context.h" bodystart="31" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1aa6aede7a33da1115def5b946bcc35e7a" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationContext::Config</scope><name>enable_episodic_compaction</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1ab8a841d81d698fd3d4ff007571a65836" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationContext::Config</scope><name>episodic_compaction_trigger_tokens</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a7fd55362ce5b0901e048d9452f981902" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationContext::Config</scope><name>episodic_compression_gate_similarity</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a2e875d569c26b97ba4b03c5da6b7f507" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationContext::Config</scope><name>llm_executor</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a69e316141d2be81a1c4bcc85bd6b9af2" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationContext::Config</scope><name>max_history_tokens</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a9892df25588a2db80300382a720ea1c7" prot="public" virt="non-virtual"><scope>themis::aql::AQLConversationContext::Config</scope><name>max_turns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

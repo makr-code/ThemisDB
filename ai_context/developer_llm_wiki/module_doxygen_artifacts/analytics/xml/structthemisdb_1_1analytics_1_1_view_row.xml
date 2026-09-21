@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_view_row" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ViewRow</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_row_1aada2e1fea3a2b6aa41eead0cbf9a24eb" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themisdb::analytics::ViewRow::group_key</definition>
+        <argsstring></argsstring>
+        <name>group_key</name>
+        <qualifiedname>themisdb::analytics::ViewRow::group_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="138" column="24" bodyfile="include/analytics/incremental_view.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_row_1ac05201712a856f546507348f1f80f9c3" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, FieldValue&gt; themisdb::analytics::ViewRow::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themisdb::analytics::ViewRow::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="139" column="25" bodyfile="include/analytics/incremental_view.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/incremental_view.h" line="137" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="137" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_view_row_1aada2e1fea3a2b6aa41eead0cbf9a24eb" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewRow</scope><name>group_key</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_row_1ac05201712a856f546507348f1f80f9c3" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewRow</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

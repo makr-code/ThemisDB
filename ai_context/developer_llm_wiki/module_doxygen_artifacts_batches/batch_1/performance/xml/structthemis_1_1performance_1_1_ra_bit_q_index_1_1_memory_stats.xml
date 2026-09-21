@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::RaBitQIndex::MemoryStats</compoundname>
+    <includes refid="rabitq_8h" local="no">rabitq.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1a555407103eba04c857f9d2adb7655671" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::RaBitQIndex::MemoryStats::uncompressed_bytes</definition>
+        <argsstring></argsstring>
+        <name>uncompressed_bytes</name>
+        <qualifiedname>themis::performance::RaBitQIndex::MemoryStats::uncompressed_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="124" column="16" bodyfile="include/performance/rabitq.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1a06255efcb402c250138b01c29a463a3e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::RaBitQIndex::MemoryStats::compressed_bytes</definition>
+        <argsstring></argsstring>
+        <name>compressed_bytes</name>
+        <qualifiedname>themis::performance::RaBitQIndex::MemoryStats::compressed_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="125" column="16" bodyfile="include/performance/rabitq.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1aeb5f7d884631eaf79bd036cb432d597e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::RaBitQIndex::MemoryStats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::performance::RaBitQIndex::MemoryStats::compression_ratio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rabitq.h" line="126" column="16" bodyfile="include/performance/rabitq.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/rabitq.h" line="123" column="5" bodyfile="include/performance/rabitq.h" bodystart="123" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1a06255efcb402c250138b01c29a463a3e" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQIndex::MemoryStats</scope><name>compressed_bytes</name></member>
+      <member refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1aeb5f7d884631eaf79bd036cb432d597e" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQIndex::MemoryStats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1performance_1_1_ra_bit_q_index_1_1_memory_stats_1a555407103eba04c857f9d2adb7655671" prot="public" virt="non-virtual"><scope>themis::performance::RaBitQIndex::MemoryStats</scope><name>uncompressed_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DistributedRetrievalPlan</compoundname>
+    <includes refid="include_2distributed__tensor_2distributed__planner_8h" local="no">distributed_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a513a314c7505d1c436f843b925bb0faf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DistributedRetrievalPlan::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="50" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1ad967cab9069c857527b8e205548fd14e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8f" kindref="member">RetrievalStrategy</ref></type>
+        <definition>RetrievalStrategy themis::distributed_tensor::DistributedRetrievalPlan::retrieval_strategy</definition>
+        <argsstring></argsstring>
+        <name>retrieval_strategy</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::retrieval_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8fac41e056424136b6e8c4e23dd6326efa1" kindref="member">RetrievalStrategy::EXACT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="51" column="19" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a625a4c4d94e5cbfeb6b418dd2b48d5b5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809" kindref="member">RetrievalLocation</ref></type>
+        <definition>RetrievalLocation themis::distributed_tensor::DistributedRetrievalPlan::retrieval_location</definition>
+        <argsstring></argsstring>
+        <name>retrieval_location</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::retrieval_location</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809ad417aec8c6eeaf8227dcdbae378fd2a9" kindref="member">RetrievalLocation::ANY_TIER</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="52" column="19" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a7ef6482bba0203bb83b269677154ab91" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::distributed_tensor::DistributedRetrievalPlan::shard_ids_to_retrieve</definition>
+        <argsstring></argsstring>
+        <name>shard_ids_to_retrieve</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::shard_ids_to_retrieve</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="53" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a95644114705de50b2f36ab518beef136" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedRetrievalPlan::parallel_retrieval</definition>
+        <argsstring></argsstring>
+        <name>parallel_retrieval</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::parallel_retrieval</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="54" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a254bf6a7250c38773fa3ef86283507ce" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::DistributedRetrievalPlan::max_parallel_streams</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_streams</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::max_parallel_streams</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="55" column="10" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1aa9cbc0eb65d7075a52ec0f1552efbc2b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DistributedRetrievalPlan::estimated_retrieval_time_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_retrieval_time_ms</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::estimated_retrieval_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="56" column="10" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a9a437ee822c0078394189d49f1234f4a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::DistributedRetrievalPlan::estimated_bandwidth_mbps</definition>
+        <argsstring></argsstring>
+        <name>estimated_bandwidth_mbps</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::estimated_bandwidth_mbps</qualifiedname>
+        <initializer>= 100.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="57" column="7" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1aae1d0d5273064d855060dbbf8f89e3e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedRetrievalPlan::can_execute</definition>
+        <argsstring></argsstring>
+        <name>can_execute</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::can_execute</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="58" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a566fad5296510ad507ed68ea3cf04b67" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedRetrievalPlan::degraded_mode</definition>
+        <argsstring></argsstring>
+        <name>degraded_mode</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::degraded_mode</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="59" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a804da670bcd9cc056a0e9bf26fa2b832" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DistributedRetrievalPlan::execution_rationale</definition>
+        <argsstring></argsstring>
+        <name>execution_rationale</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::execution_rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="60" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a28e5f2d80d719d9343e4725d8d6de92e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::distributed_tensor::DistributedRetrievalPlan::custom_parameters</definition>
+        <argsstring></argsstring>
+        <name>custom_parameters</name>
+        <qualifiedname>themis::distributed_tensor::DistributedRetrievalPlan::custom_parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="61" column="20" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/distributed_planner.h" line="49" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="49" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a513a314c7505d1c436f843b925bb0faf" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1aae1d0d5273064d855060dbbf8f89e3e1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>can_execute</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a28e5f2d80d719d9343e4725d8d6de92e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>custom_parameters</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a566fad5296510ad507ed68ea3cf04b67" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>degraded_mode</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a9a437ee822c0078394189d49f1234f4a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>estimated_bandwidth_mbps</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1aa9cbc0eb65d7075a52ec0f1552efbc2b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>estimated_retrieval_time_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a804da670bcd9cc056a0e9bf26fa2b832" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>execution_rationale</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a254bf6a7250c38773fa3ef86283507ce" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>max_parallel_streams</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a95644114705de50b2f36ab518beef136" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>parallel_retrieval</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a625a4c4d94e5cbfeb6b418dd2b48d5b5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>retrieval_location</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1ad967cab9069c857527b8e205548fd14e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>retrieval_strategy</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan_1a7ef6482bba0203bb83b269677154ab91" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedRetrievalPlan</scope><name>shard_ids_to_retrieve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metric_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MetricFilter</compoundname>
+    <includes refid="metrics__stream__server_8h" local="no">metrics_stream_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_filter_1a3d8d0a26d180881ac446832865356bdb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricFilter::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::observability::MetricFilter::label</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Label name to match (e.g. &quot;tenant_id&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="39" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_filter_1a86322c0a161b9a680cd23a804c5b86ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricFilter::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::MetricFilter::value</qualifiedname>
+        <briefdescription>
+<para>Required label value; empty = match any value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="41" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A label-based filter applied to incoming metric updates. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A filter matches when the metric update carries a label whose name equals <computeroutput>label</computeroutput> and whose value equals <computeroutput>value</computeroutput>. An empty <computeroutput>value</computeroutput> acts as a wildcard and matches any value for the given label name. </para>
+    </detaileddescription>
+    <location file="include/observability/metrics_stream_server.h" line="37" column="1" bodyfile="include/observability/metrics_stream_server.h" bodystart="37" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metric_filter_1a3d8d0a26d180881ac446832865356bdb" prot="public" virt="non-virtual"><scope>themis::observability::MetricFilter</scope><name>label</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_filter_1a86322c0a161b9a680cd23a804c5b86ee" prot="public" virt="non-virtual"><scope>themis::observability::MetricFilter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

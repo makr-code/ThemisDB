@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SpeculativeDecoder::Statistics</compoundname>
+    <includes refid="speculative__decoder_8h" local="no">speculative_decoder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a9a2271068b9da09ed523d81c3a3c0114" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SpeculativeDecoder::Statistics::total_draft_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_draft_tokens</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::Statistics::total_draft_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="59" column="16" bodyfile="include/llm/speculative_decoder.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a5def294382c560d20d071e74ce67064e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SpeculativeDecoder::Statistics::total_accepted_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_accepted_tokens</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::Statistics::total_accepted_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="60" column="16" bodyfile="include/llm/speculative_decoder.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a2f61c38cf4c5737b76c4b24092d2bfe1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SpeculativeDecoder::Statistics::total_rejected_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_rejected_tokens</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::Statistics::total_rejected_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="61" column="16" bodyfile="include/llm/speculative_decoder.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a2e7911a2b7f5d8cef972fc33b503c26d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::SpeculativeDecoder::Statistics::avg_acceptance_rate</definition>
+        <argsstring></argsstring>
+        <name>avg_acceptance_rate</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::Statistics::avg_acceptance_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="62" column="16" bodyfile="include/llm/speculative_decoder.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a4c889153c86584477a89491cde90bbb8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SpeculativeDecoder::Statistics::total_steps</definition>
+        <argsstring></argsstring>
+        <name>total_steps</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::Statistics::total_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="63" column="16" bodyfile="include/llm/speculative_decoder.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/speculative_decoder.h" line="58" column="5" bodyfile="include/llm/speculative_decoder.h" bodystart="58" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a2e7911a2b7f5d8cef972fc33b503c26d" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::Statistics</scope><name>avg_acceptance_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a5def294382c560d20d071e74ce67064e" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::Statistics</scope><name>total_accepted_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a9a2271068b9da09ed523d81c3a3c0114" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::Statistics</scope><name>total_draft_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a2f61c38cf4c5737b76c4b24092d2bfe1" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::Statistics</scope><name>total_rejected_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a4c889153c86584477a89491cde90bbb8" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::Statistics</scope><name>total_steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

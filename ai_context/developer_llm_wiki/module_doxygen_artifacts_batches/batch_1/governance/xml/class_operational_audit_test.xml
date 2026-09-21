@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_operational_audit_test" kind="class" language="C++" prot="public">
+    <compoundname>OperationalAuditTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_operational_audit_test_1ac73a4a827f4600fdc2d90aa8ca297afc" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_operational_audit_logger" kindref="compound">OperationalAuditLogger</ref> *</type>
+        <definition>OperationalAuditLogger* OperationalAuditTest::audit_logger</definition>
+        <argsstring></argsstring>
+        <name>audit_logger</name>
+        <qualifiedname>OperationalAuditTest::audit_logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="33" column="28" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_operational_audit_test_1a27a48739f00c77bd4f560ae9e90ea4e4" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_event_correlation_engine" kindref="compound">EventCorrelationEngine</ref> *</type>
+        <definition>EventCorrelationEngine* OperationalAuditTest::correlation_engine</definition>
+        <argsstring></argsstring>
+        <name>correlation_engine</name>
+        <qualifiedname>OperationalAuditTest::correlation_engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="34" column="28" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_operational_audit_test_1a7d714934b958c7c61b1948a12cad4d81" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_evidence_collector" kindref="compound">ComplianceEvidenceCollector</ref> *</type>
+        <definition>ComplianceEvidenceCollector* OperationalAuditTest::evidence_collector</definition>
+        <argsstring></argsstring>
+        <name>evidence_collector</name>
+        <qualifiedname>OperationalAuditTest::evidence_collector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="35" column="33" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_operational_audit_test_1ae99b8e0dc0b43f039a81d727379121a4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OperationalAuditTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OperationalAuditTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="37" column="10" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_operational_audit_test_1a2323c6bbea7f1be4c4945e1065bb1433" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OperationalAuditTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OperationalAuditTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="47" column="10" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_operational_audit_test_1af326da848b2677bc1edcbd7a7b06334a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceEvidence &gt; OperationalAuditTest::collectEvidenceCompat</definition>
+        <argsstring>(const std::string &amp;requirement)</argsstring>
+        <name>collectEvidenceCompat</name>
+        <qualifiedname>OperationalAuditTest::collectEvidenceCompat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requirement</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="110" column="17" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="110" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_operational_audit_test_1a714834245a876575209c2dee1b0f8150" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref></type>
+        <definition>ComplianceEvidence OperationalAuditTest::recordEvidenceCompat</definition>
+        <argsstring>(const std::string &amp;requirement_id, const std::string &amp;requirement_type, const std::string &amp;evidence_type, const std::string &amp;description, const std::string &amp;source_event_id, const nlohmann::json &amp;data, int64_t retention_days, const std::string &amp;audit_classification)</argsstring>
+        <name>recordEvidenceCompat</name>
+        <qualifiedname>OperationalAuditTest::recordEvidenceCompat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requirement_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requirement_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>evidence_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_event_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>retention_days</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audit_classification</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="114" column="24" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="114" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_operational_audit_test_1ad7033c0940b16080406a15c1e6efb5f7" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>static std::unordered_map&lt; std::string, std::string &gt; OperationalAuditTest::jsonToContext</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>jsonToContext</name>
+        <qualifiedname>OperationalAuditTest::jsonToContext</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="51" column="31" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="51" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_operational_audit_test_1a29eca2f3eec569d4eb136c684a179017" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_operational_event" kindref="compound">OperationalEvent</ref></type>
+        <definition>static OperationalEvent OperationalAuditTest::logEventCompat</definition>
+        <argsstring>(OperationalAuditLogger *logger, OperationalEventType event_type, const std::string &amp;actor_id, const std::string &amp;actor_type, const std::string &amp;module_name, const std::string &amp;operation_name, const std::string &amp;resource_id, const std::string &amp;resource_type, const std::string &amp;action, const std::string &amp;result, const std::string &amp;classification, int64_t operation_duration_us, const std::vector&lt; std::string &gt; &amp;compliance_tags, const nlohmann::json &amp;context_json, const std::string &amp;error_message=&quot;&quot;, const nlohmann::json &amp;event_payload_json=nlohmann::json::object(), const std::string &amp;correlation_id=&quot;&quot;, const std::string &amp;causality_parent_id=&quot;&quot;)</argsstring>
+        <name>logEventCompat</name>
+        <qualifiedname>OperationalAuditTest::logEventCompat</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_operational_audit_logger" kindref="compound">OperationalAuditLogger</ref> *</type>
+          <declname>logger</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a168a91c036fca841d82568b134b2c103" kindref="member">OperationalEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>classification</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>operation_duration_us</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>compliance_tags</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>context_json</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>event_payload_json</declname>
+          <defval>nlohmann::json::object()</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>causality_parent_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_operational_audit_evidence.cpp" line="69" column="29" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="69" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OperationalAuditTest</label>
+        <link refid="class_operational_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OperationalAuditTest</label>
+        <link refid="class_operational_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>audit_logger</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>correlation_engine</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>evidence_collector</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="5">
+        <label>themis::governance::ComplianceEvidenceCollector</label>
+        <link refid="classthemis_1_1governance_1_1_compliance_evidence_collector"/>
+      </node>
+      <node id="4">
+        <label>themis::governance::EventCorrelationEngine</label>
+        <link refid="classthemis_1_1governance_1_1_event_correlation_engine"/>
+      </node>
+      <node id="3">
+        <label>themis::governance::OperationalAuditLogger</label>
+        <link refid="classthemis_1_1governance_1_1_operational_audit_logger"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_operational_audit_evidence.cpp" line="31" column="1" bodyfile="tests/governance/test_operational_audit_evidence.cpp" bodystart="31" bodyend="137"/>
+    <listofallmembers>
+      <member refid="class_operational_audit_test_1ac73a4a827f4600fdc2d90aa8ca297afc" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>audit_logger</name></member>
+      <member refid="class_operational_audit_test_1af326da848b2677bc1edcbd7a7b06334a" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>collectEvidenceCompat</name></member>
+      <member refid="class_operational_audit_test_1a27a48739f00c77bd4f560ae9e90ea4e4" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>correlation_engine</name></member>
+      <member refid="class_operational_audit_test_1a7d714934b958c7c61b1948a12cad4d81" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>evidence_collector</name></member>
+      <member refid="class_operational_audit_test_1ad7033c0940b16080406a15c1e6efb5f7" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>jsonToContext</name></member>
+      <member refid="class_operational_audit_test_1a29eca2f3eec569d4eb136c684a179017" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>logEventCompat</name></member>
+      <member refid="class_operational_audit_test_1a714834245a876575209c2dee1b0f8150" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>recordEvidenceCompat</name></member>
+      <member refid="class_operational_audit_test_1ae99b8e0dc0b43f039a81d727379121a4" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>SetUp</name></member>
+      <member refid="class_operational_audit_test_1a2323c6bbea7f1be4c4945e1065bb1433" prot="protected" virt="non-virtual"><scope>OperationalAuditTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

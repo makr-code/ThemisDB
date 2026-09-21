@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b74ed0efa461d1dc3d2a2bcdca1c8270" kind="dir">
+    <compoundname>src/observability</compoundname>
+    <innerfile refid="advanced__metrics_8cpp">advanced_metrics.cpp</innerfile>
+    <innerfile refid="alerting__engine_8cpp">alerting_engine.cpp</innerfile>
+    <innerfile refid="alertmanager_8cpp">alertmanager.cpp</innerfile>
+    <innerfile refid="continuous__profiler_8cpp">continuous_profiler.cpp</innerfile>
+    <innerfile refid="distributed__flame__graph_8cpp">distributed_flame_graph.cpp</innerfile>
+    <innerfile refid="distributed__trace__span_8cpp">distributed_trace_span.cpp</innerfile>
+    <innerfile refid="distributed__tracing__sdk_8cpp">distributed_tracing_sdk.cpp</innerfile>
+    <innerfile refid="ebpf__tracer_8cpp">ebpf_tracer.cpp</innerfile>
+    <innerfile refid="exporter__stress__framework_8cpp">exporter_stress_framework.cpp</innerfile>
+    <innerfile refid="field__diagnostics__collector_8cpp">field_diagnostics_collector.cpp</innerfile>
+    <innerfile refid="high__cardinality__metrics_8cpp">high_cardinality_metrics.cpp</innerfile>
+    <innerfile refid="log__aggregator_8cpp">log_aggregator.cpp</innerfile>
+    <innerfile refid="log__search__engine_8cpp">log_search_engine.cpp</innerfile>
+    <innerfile refid="metric__aggregator_8cpp">metric_aggregator.cpp</innerfile>
+    <innerfile refid="metric__anomaly__detector_8cpp">metric_anomaly_detector.cpp</innerfile>
+    <innerfile refid="metrics__collector_8cpp">metrics_collector.cpp</innerfile>
+    <innerfile refid="metrics__stream__server_8cpp">metrics_stream_server.cpp</innerfile>
+    <innerfile refid="ml__anomaly__detector_8cpp">ml_anomaly_detector.cpp</innerfile>
+    <innerfile refid="opentelemetry__tracer_8cpp">opentelemetry_tracer.cpp</innerfile>
+    <innerfile refid="operator__remediation__engine_8cpp">operator_remediation_engine.cpp</innerfile>
+    <innerfile refid="performance__analyzer_8cpp">performance_analyzer.cpp</innerfile>
+    <innerfile refid="provenance__store_8cpp">provenance_store.cpp</innerfile>
+    <innerfile refid="query__profiler_8cpp">query_profiler.cpp</innerfile>
+    <innerfile refid="root__cause__analyzer_8cpp">root_cause_analyzer.cpp</innerfile>
+    <innerfile refid="slo__reporter_8cpp">slo_reporter.cpp</innerfile>
+    <innerfile refid="storage__profiler_8cpp">storage_profiler.cpp</innerfile>
+    <innerfile refid="tenant__metrics__namespace_8cpp">tenant_metrics_namespace.cpp</innerfile>
+    <innerfile refid="trace__instrumentation_8cpp">trace_instrumentation.cpp</innerfile>
+    <innerfile refid="tracer_8cpp">tracer.cpp</innerfile>
+    <innerfile refid="tracer__utils_8h">tracer_utils.h</innerfile>
+    <innerfile refid="wave__d__high__cardinality__metrics_8cpp">wave_d_high_cardinality_metrics.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/observability/"/>
+  </compounddef>
+</doxygen>

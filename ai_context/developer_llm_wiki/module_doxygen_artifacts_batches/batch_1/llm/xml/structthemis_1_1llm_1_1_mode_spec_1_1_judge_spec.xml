@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModeSpec::JudgeSpec</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec_1a8a027d19a85dd6a61e3f5dc2a97c06fa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModeSpec::JudgeSpec::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::ModeSpec::JudgeSpec::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="124" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec_1a63ebcb8d385b8b444967cb6c3660c4a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModeSpec::JudgeSpec::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::ModeSpec::JudgeSpec::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="125" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec_1a260829168409f694d83b4af7bc349d08" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ModeSpec::JudgeSpec::min_score</definition>
+        <argsstring></argsstring>
+        <name>min_score</name>
+        <qualifiedname>themis::llm::ModeSpec::JudgeSpec::min_score</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="126" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="123" column="5" bodyfile="include/llm/ai_orchestrator.h" bodystart="123" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec_1a8a027d19a85dd6a61e3f5dc2a97c06fa" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec::JudgeSpec</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec_1a260829168409f694d83b4af7bc349d08" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec::JudgeSpec</scope><name>min_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec_1a63ebcb8d385b8b444967cb6c3660c4a0" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec::JudgeSpec</scope><name>model_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

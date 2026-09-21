@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_update_event_payload" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdateEventPayload</compoundname>
+    <includes refid="notification__webhook_8h" local="no">notification_webhook.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_event_payload_1a4dbf1d067fdabe94a6c0875498f3be52" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5" kindref="member">UpdateEvent</ref></type>
+        <definition>UpdateEvent themis::updates::UpdateEventPayload::event</definition>
+        <argsstring></argsstring>
+        <name>event</name>
+        <qualifiedname>themis::updates::UpdateEventPayload::event</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5ad1d848f37bfa84efc9a007258eecc6ae" kindref="member">UpdateEvent::UPDATE_SUCCESS</ref>}</initializer>
+        <briefdescription>
+<para>Event type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="37" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_event_payload_1aca68f5654d80e0c308df75fbdb2b0398" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateEventPayload::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::UpdateEventPayload::version</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Version being applied / rolled back to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="40" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_event_payload_1ae403edcdf77fccffcd8d553fc1366339" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateEventPayload::from_version</definition>
+        <argsstring></argsstring>
+        <name>from_version</name>
+        <qualifiedname>themis::updates::UpdateEventPayload::from_version</qualifiedname>
+        <briefdescription>
+<para>Previous version (may be empty when not known). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="43" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_event_payload_1aeecba5030ec3c406bdb05e14d635a845" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateEventPayload::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::UpdateEventPayload::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty only on failure events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="46" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_event_payload_1a6656474816713b173a8164f0881fd937" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateEventPayload::rollback_id</definition>
+        <argsstring></argsstring>
+        <name>rollback_id</name>
+        <qualifiedname>themis::updates::UpdateEventPayload::rollback_id</qualifiedname>
+        <briefdescription>
+<para>Rollback ID – non-empty when a rollback is involved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="49" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_event_payload_1adf914f973ce1e1b23862fdfd242f48ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::UpdateEventPayload::files_updated</definition>
+        <argsstring></argsstring>
+        <name>files_updated</name>
+        <qualifiedname>themis::updates::UpdateEventPayload::files_updated</qualifiedname>
+        <briefdescription>
+<para>Files touched by the update (may be empty on failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="52" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_event_payload_1af5b3b4a8884dc9aa46d6220633906297" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::updates::UpdateEventPayload::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::updates::UpdateEventPayload::timestamp</qualifiedname>
+        <initializer>{
+        std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>When the event occurred; defaults to the time of construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="55" column="43" bodyfile="include/updates/notification_webhook.h" bodystart="55" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Data describing an update event sent to notification endpoints. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/notification_webhook.h" line="35" column="1" bodyfile="include/updates/notification_webhook.h" bodystart="35" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_update_event_payload_1aeecba5030ec3c406bdb05e14d635a845" prot="public" virt="non-virtual"><scope>themis::updates::UpdateEventPayload</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_event_payload_1a4dbf1d067fdabe94a6c0875498f3be52" prot="public" virt="non-virtual"><scope>themis::updates::UpdateEventPayload</scope><name>event</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_event_payload_1adf914f973ce1e1b23862fdfd242f48ab" prot="public" virt="non-virtual"><scope>themis::updates::UpdateEventPayload</scope><name>files_updated</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_event_payload_1ae403edcdf77fccffcd8d553fc1366339" prot="public" virt="non-virtual"><scope>themis::updates::UpdateEventPayload</scope><name>from_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_event_payload_1a6656474816713b173a8164f0881fd937" prot="public" virt="non-virtual"><scope>themis::updates::UpdateEventPayload</scope><name>rollback_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_event_payload_1af5b3b4a8884dc9aa46d6220633906297" prot="public" virt="non-virtual"><scope>themis::updates::UpdateEventPayload</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_event_payload_1aca68f5654d80e0c308df75fbdb2b0398" prot="public" virt="non-virtual"><scope>themis::updates::UpdateEventPayload</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

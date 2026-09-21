@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bi_temporal_table_test" kind="class" language="C++" prot="public">
+    <compoundname>BiTemporalTableTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_bi_temporal_table_test_1a52253220628ed4f46e6239aa7cd54c35" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref></type>
+        <definition>BiTemporalTable BiTemporalTableTest::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>BiTemporalTableTest::table</qualifiedname>
+        <initializer>{&quot;contracts&quot;, &quot;node_a&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_bi_temporal.cpp" line="15" column="21" bodyfile="tests/temporal/test_bi_temporal.cpp" bodystart="15" bodyend="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BiTemporalTableTest</label>
+        <link refid="class_bi_temporal_table_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BiTemporalTableTest</label>
+        <link refid="class_bi_temporal_table_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>table</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::BiTemporalTable</label>
+        <link refid="classthemisdb_1_1temporal_1_1_bi_temporal_table"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_bi_temporal.cpp" line="13" column="1" bodyfile="tests/temporal/test_bi_temporal.cpp" bodystart="13" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_bi_temporal_table_test_1a52253220628ed4f46e6239aa7cd54c35" prot="protected" virt="non-virtual"><scope>BiTemporalTableTest</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

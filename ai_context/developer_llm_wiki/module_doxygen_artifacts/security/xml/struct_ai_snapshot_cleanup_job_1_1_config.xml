@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_ai_snapshot_cleanup_job_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>AiSnapshotCleanupJob::Config</compoundname>
+    <includes refid="ai__snapshot__cleanup_8h" local="no">ai_snapshot_cleanup.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_ai_snapshot_cleanup_job_1_1_config_1afa897d1e735dd41bdfae81e9fdf45195" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AiSnapshotCleanupJob::Config::snapshot_dir</definition>
+        <argsstring></argsstring>
+        <name>snapshot_dir</name>
+        <qualifiedname>AiSnapshotCleanupJob::Config::snapshot_dir</qualifiedname>
+        <initializer>= &quot;/var/<ref refid="namespacethemis" kindref="compound">themis</ref>/ai-snapshots&quot;</initializer>
+        <briefdescription>
+<para>Root snapshot directory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="50" column="23" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_ai_snapshot_cleanup_job_1_1_config_1af9f80612bcbb4d5d3cd1d7fa5303016a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::AiSnapshotCleanupJob::Config::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>AiSnapshotCleanupJob::Config::retention_days</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+<para>Max age before deletion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="51" column="23" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_ai_snapshot_cleanup_job_1_1_config_1ae855c51e383cab32c2823f9cc3b15f68" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::security::AiSnapshotCleanupJob::Config::max_total_gb</definition>
+        <argsstring></argsstring>
+        <name>max_total_gb</name>
+        <qualifiedname>AiSnapshotCleanupJob::Config::max_total_gb</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Max total size in GiB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="52" column="23" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/ai_snapshot_cleanup.h" line="49" column="5" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="49" bodyend="53"/>
+    <listofallmembers>
+      <member refid="struct_ai_snapshot_cleanup_job_1_1_config_1ae855c51e383cab32c2823f9cc3b15f68" prot="public" virt="non-virtual"><scope>AiSnapshotCleanupJob::Config</scope><name>max_total_gb</name></member>
+      <member refid="struct_ai_snapshot_cleanup_job_1_1_config_1af9f80612bcbb4d5d3cd1d7fa5303016a" prot="public" virt="non-virtual"><scope>AiSnapshotCleanupJob::Config</scope><name>retention_days</name></member>
+      <member refid="struct_ai_snapshot_cleanup_job_1_1_config_1afa897d1e735dd41bdfae81e9fdf45195" prot="public" virt="non-virtual"><scope>AiSnapshotCleanupJob::Config</scope><name>snapshot_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

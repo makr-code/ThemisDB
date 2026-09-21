@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_49530f921f0ed5464560dc3275801d9d" kind="dir">
+    <compoundname>tests/exporters</compoundname>
+    <innerfile refid="test__aql__predicate__filter_8cpp">test_aql_predicate_filter.cpp</innerfile>
+    <innerfile refid="test__arrow__ipc__exporter_8cpp">test_arrow_ipc_exporter.cpp</innerfile>
+    <innerfile refid="test__data__augmentation_8cpp">test_data_augmentation.cpp</innerfile>
+    <innerfile refid="test__export__encryption_8cpp">test_export_encryption.cpp</innerfile>
+    <innerfile refid="test__export__format__registry_8cpp">test_export_format_registry.cpp</innerfile>
+    <innerfile refid="test__exporters__contract__hardening__focused_8cpp">test_exporters_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__exporters__highcardinality__stress_8cpp">test_exporters_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__exporters__phase23__hardening__focused_8cpp">test_exporters_phase23_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__format__template_8cpp">test_format_template.cpp</innerfile>
+    <innerfile refid="test__huggingface__exporter_8cpp">test_huggingface_exporter.cpp</innerfile>
+    <innerfile refid="test__huggingface__hub__client_8cpp">test_huggingface_hub_client.cpp</innerfile>
+    <innerfile refid="test__incremental__exporter_8cpp">test_incremental_exporter.cpp</innerfile>
+    <innerfile refid="test__join__exporter_8cpp">test_join_exporter.cpp</innerfile>
+    <innerfile refid="test__jsonl__llm__exporter_8cpp">test_jsonl_llm_exporter.cpp</innerfile>
+    <innerfile refid="test__parquet__exporter_8cpp">test_parquet_exporter.cpp</innerfile>
+    <innerfile refid="test__streaming__exporter_8cpp">test_streaming_exporter.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/exporters/"/>
+  </compounddef>
+</doxygen>

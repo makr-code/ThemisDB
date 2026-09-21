@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_repair_job" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RepairJob</compoundname>
+    <includes refid="shard__repair__engine_8h" local="no">shard_repair_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1ab8d955a6a432576eabf48440806553d9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RepairJob::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::sharding::RepairJob::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="113" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1a47bc91d42a96cb7970af52ca8dff7ea4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RepairJob::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::RepairJob::shard_id</qualifiedname>
+        <briefdescription>
+<para>Target shard (empty = all shards / full cluster scan). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="115" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1a9a657a37509f01b96357a089cb7cf8a1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RepairJob::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::sharding::RepairJob::document_id</qualifiedname>
+        <briefdescription>
+<para>Target document (empty = all documents in shard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="117" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1a4a3dec3f1d3ab04ef5ec595400ed32a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RepairJob::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::sharding::RepairJob::collection</qualifiedname>
+        <briefdescription>
+<para>Collection context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="119" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1ae3830f4e8c2768481c8f21cac4d2f324" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RepairJob::is_full_scan</definition>
+        <argsstring></argsstring>
+        <name>is_full_scan</name>
+        <qualifiedname>themis::sharding::RepairJob::is_full_scan</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="120" column="10" bodyfile="include/sharding/shard_repair_engine.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1af61bce9f4a6b22a2bcf67ed47c4b234b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::RepairJob::submitted_at</definition>
+        <argsstring></argsstring>
+        <name>submitted_at</name>
+        <qualifiedname>themis::sharding::RepairJob::submitted_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="122" column="43" bodyfile="include/sharding/shard_repair_engine.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1af70670b5a5f497d8b8d5ba9a0d9ac682" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::RepairJob::completed_at</definition>
+        <argsstring></argsstring>
+        <name>completed_at</name>
+        <qualifiedname>themis::sharding::RepairJob::completed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="123" column="43" bodyfile="include/sharding/shard_repair_engine.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1ac2d8af040831d30c6b1402dca8cf8bba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RepairJob::documents_scanned</definition>
+        <argsstring></argsstring>
+        <name>documents_scanned</name>
+        <qualifiedname>themis::sharding::RepairJob::documents_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="125" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1a67038937ffab8fbcb2d5d91e7047fea7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RepairJob::documents_repaired</definition>
+        <argsstring></argsstring>
+        <name>documents_repaired</name>
+        <qualifiedname>themis::sharding::RepairJob::documents_repaired</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="126" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1addef76503a18e4f3e5eefd6e721a742f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RepairJob::documents_failed</definition>
+        <argsstring></argsstring>
+        <name>documents_failed</name>
+        <qualifiedname>themis::sharding::RepairJob::documents_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="127" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1a27c896bed737d802494868b03e3e60d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RepairJob::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>themis::sharding::RepairJob::completed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="129" column="10" bodyfile="include/sharding/shard_repair_engine.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1a9f3d587e269f286d4dac070c644212a0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RepairJob::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::RepairJob::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="130" column="10" bodyfile="include/sharding/shard_repair_engine.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_repair_job_1ab02331e8aa2cf5e325e6c510224f9f63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RepairJob::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::RepairJob::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="131" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Queued or completed repair job execution record. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_repair_engine.h" line="112" column="1" bodyfile="include/sharding/shard_repair_engine.h" bodystart="112" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1a4a3dec3f1d3ab04ef5ec595400ed32a2" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>collection</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1a27c896bed737d802494868b03e3e60d6" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>completed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1af70670b5a5f497d8b8d5ba9a0d9ac682" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>completed_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1a9a657a37509f01b96357a089cb7cf8a1" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1addef76503a18e4f3e5eefd6e721a742f" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>documents_failed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1a67038937ffab8fbcb2d5d91e7047fea7" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>documents_repaired</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1ac2d8af040831d30c6b1402dca8cf8bba" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>documents_scanned</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1ab02331e8aa2cf5e325e6c510224f9f63" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1ae3830f4e8c2768481c8f21cac4d2f324" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>is_full_scan</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1ab8d955a6a432576eabf48440806553d9" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1a47bc91d42a96cb7970af52ca8dff7ea4" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1af61bce9f4a6b22a2bcf67ed47c4b234b" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>submitted_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_repair_job_1a9f3d587e269f286d4dac070c644212a0" prot="public" virt="non-virtual"><scope>themis::sharding::RepairJob</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

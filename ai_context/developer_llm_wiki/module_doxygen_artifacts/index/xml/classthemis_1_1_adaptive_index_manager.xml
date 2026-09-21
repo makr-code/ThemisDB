@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_adaptive_index_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::AdaptiveIndexManager</compoundname>
+    <includes refid="adaptive__index_8h" local="no">adaptive_index.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_index_manager_1ae642a9cd61baa081a7cee903eacc28d7" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::AdaptiveIndexManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::AdaptiveIndexManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="314" column="28" bodyfile="include/index/adaptive_index.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_index_manager_1a78098b4e4d0b05f025730109d0110fb2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_query_pattern_tracker" kindref="compound">QueryPatternTracker</ref></type>
+        <definition>QueryPatternTracker themis::AdaptiveIndexManager::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::AdaptiveIndexManager::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="315" column="25" bodyfile="include/index/adaptive_index.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_index_manager_1a6a9d49a391056ba13475d0e48152ba49" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_selectivity_analyzer" kindref="compound">SelectivityAnalyzer</ref></type>
+        <definition>SelectivityAnalyzer themis::AdaptiveIndexManager::analyzer_</definition>
+        <argsstring></argsstring>
+        <name>analyzer_</name>
+        <qualifiedname>themis::AdaptiveIndexManager::analyzer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="316" column="25" bodyfile="include/index/adaptive_index.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_index_manager_1afff8052926a7b2482fb8e575f6592bd6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_index_suggestion_engine" kindref="compound">IndexSuggestionEngine</ref></type>
+        <definition>IndexSuggestionEngine themis::AdaptiveIndexManager::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::AdaptiveIndexManager::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="317" column="27" bodyfile="include/index/adaptive_index.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_adaptive_index_manager_1afb756a0eb741a23f9dabdfc881a99207" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveIndexManager::AdaptiveIndexManager</definition>
+        <argsstring>(rocksdb::TransactionDB *db)</argsstring>
+        <name>AdaptiveIndexManager</name>
+        <qualifiedname>themis::AdaptiveIndexManager::AdaptiveIndexManager</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Adaptive Index Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="282" column="14" bodyfile="src/index/adaptive_index.cpp" bodystart="698" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_index_manager_1aced82bcb1f0ba0b175b3d480beb11176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveIndexManager::~AdaptiveIndexManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdaptiveIndexManager</name>
+        <qualifiedname>themis::AdaptiveIndexManager::~AdaptiveIndexManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="283" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_index_manager_1a2d7165291f4054bbdd06770f8ebdae31" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_query_pattern_tracker" kindref="compound">QueryPatternTracker</ref> *</type>
+        <definition>QueryPatternTracker * themis::AdaptiveIndexManager::getPatternTracker</definition>
+        <argsstring>()</argsstring>
+        <name>getPatternTracker</name>
+        <qualifiedname>themis::AdaptiveIndexManager::getPatternTracker</qualifiedname>
+        <briefdescription>
+<para>Get Pattern Tracker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getPatternTracker without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="291" column="25" bodyfile="include/index/adaptive_index.h" bodystart="291" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_index_manager_1ae9dc83f22997d632ecb1eba96ba64041" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_selectivity_analyzer" kindref="compound">SelectivityAnalyzer</ref> *</type>
+        <definition>SelectivityAnalyzer * themis::AdaptiveIndexManager::getSelectivityAnalyzer</definition>
+        <argsstring>()</argsstring>
+        <name>getSelectivityAnalyzer</name>
+        <qualifiedname>themis::AdaptiveIndexManager::getSelectivityAnalyzer</qualifiedname>
+        <briefdescription>
+<para>Get Selectivity Analyzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getSelectivityAnalyzer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="297" column="25" bodyfile="include/index/adaptive_index.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_index_manager_1a114a0f4f164db860f63ea81ff5fb8918" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_index_suggestion_engine" kindref="compound">IndexSuggestionEngine</ref> *</type>
+        <definition>IndexSuggestionEngine * themis::AdaptiveIndexManager::getSuggestionEngine</definition>
+        <argsstring>()</argsstring>
+        <name>getSuggestionEngine</name>
+        <qualifiedname>themis::AdaptiveIndexManager::getSuggestionEngine</qualifiedname>
+        <briefdescription>
+<para>Get Suggestion Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getSuggestionEngine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="303" column="27" bodyfile="include/index/adaptive_index.h" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_index_manager_1af32de282741282054d0fe976d87c5c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion" kindref="compound">IndexSuggestionEngine::IndexSuggestion</ref> &gt;</type>
+        <definition>std::vector&lt; IndexSuggestionEngine::IndexSuggestion &gt; themis::AdaptiveIndexManager::getSuggestions</definition>
+        <argsstring>(const std::string &amp;collection=&quot;&quot;, double min_score=0.5, size_t limit=10)</argsstring>
+        <name>getSuggestions</name>
+        <qualifiedname>themis::AdaptiveIndexManager::getSuggestions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_score</declname>
+          <defval>0.5</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="305" column="17" bodyfile="src/index/adaptive_index.cpp" bodystart="706" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_index_manager_1a96efe104e3be57075df9037280f95b12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" kindref="compound">QueryPatternTracker::QueryPattern</ref> &gt;</type>
+        <definition>std::vector&lt; QueryPatternTracker::QueryPattern &gt; themis::AdaptiveIndexManager::getPatterns</definition>
+        <argsstring>(const std::string &amp;collection=&quot;&quot;)</argsstring>
+        <name>getPatterns</name>
+        <qualifiedname>themis::AdaptiveIndexManager::getPatterns</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="310" column="17" bodyfile="src/index/adaptive_index.cpp" bodystart="713" bodyend="715"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/adaptive_index.h" line="275" column="1" bodyfile="include/index/adaptive_index.h" bodystart="275" bodyend="318"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_adaptive_index_manager_1afb756a0eb741a23f9dabdfc881a99207" prot="public" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>AdaptiveIndexManager</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1a6a9d49a391056ba13475d0e48152ba49" prot="private" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>analyzer_</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1ae642a9cd61baa081a7cee903eacc28d7" prot="private" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1afff8052926a7b2482fb8e575f6592bd6" prot="private" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1a96efe104e3be57075df9037280f95b12" prot="public" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>getPatterns</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1a2d7165291f4054bbdd06770f8ebdae31" prot="public" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>getPatternTracker</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1ae9dc83f22997d632ecb1eba96ba64041" prot="public" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>getSelectivityAnalyzer</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1a114a0f4f164db860f63ea81ff5fb8918" prot="public" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>getSuggestionEngine</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1af32de282741282054d0fe976d87c5c85" prot="public" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>getSuggestions</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1a78098b4e4d0b05f025730109d0110fb2" prot="private" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>tracker_</name></member>
+      <member refid="classthemis_1_1_adaptive_index_manager_1aced82bcb1f0ba0b175b3d480beb11176" prot="public" virt="non-virtual"><scope>themis::AdaptiveIndexManager</scope><name>~AdaptiveIndexManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

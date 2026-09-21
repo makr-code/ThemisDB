@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="embedding__cache_8h" kind="file" language="C++">
+    <compoundname>embedding_cache.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes refid="aligned__vector__allocator_8h" local="yes">cache/aligned_vector_allocator.h</includes>
+    <includedby refid="bench__embedding__cache__performance_8cpp" local="yes">benchmarks/cache/bench_embedding_cache_performance.cpp</includedby>
+    <includedby refid="embedding__cache_8cpp" local="yes">src/cache/embedding_cache.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>cache/aligned_vector_allocator.h</label>
+        <link refid="aligned__vector__allocator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cache/embedding_cache.h</label>
+        <link refid="embedding__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>limits</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>performance/allocator.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>type_traits</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/cache/bench_embedding_cache_performance.cpp</label>
+        <link refid="bench__embedding__cache__performance_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/cache/embedding_cache.h</label>
+        <link refid="embedding__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/cache/embedding_cache.cpp</label>
+        <link refid="embedding__cache_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_embedding_cache" prot="public">themis::EmbeddingCache</innerclass>
+    <innerclass refid="structthemis_1_1_embedding_cache_1_1_config" prot="public">themis::EmbeddingCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1_embedding_cache_1_1_cache_entry" prot="public">themis::EmbeddingCache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1_embedding_cache_1_1_cache_stats" prot="public">themis::EmbeddingCache::CacheStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aligned__vector__allocator_8h" kindref="compound">cache/aligned_vector_allocator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VectorIndexManager;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_embedding_cache_impl" kindref="compound">EmbeddingCacheImpl</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>for<sp/>pimpl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1_embedding_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1_embedding_cache_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_embedding_cache_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1_embedding_cache_1_1_config_1ab528bd1fa60f802f07774abbc367cbbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_config_1ab528bd1fa60f802f07774abbc367cbbd" kindref="member">max_entries</ref><sp/>=<sp/>100000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>cached<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1_embedding_cache_1_1_config_1af78f52209a2ea4b1d17d3cb985e77755" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_config_1af78f52209a2ea4b1d17d3cb985e77755" kindref="member">ttl_seconds</ref><sp/>=<sp/>3600;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>TTL<sp/>(1<sp/>hour)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1_embedding_cache_1_1_config_1aad9ec02a8321b036c4acfd3f812bb2a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_config_1aad9ec02a8321b036c4acfd3f812bb2a5" kindref="member">similarity_threshold</ref><sp/>=<sp/>0.95f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Min<sp/>similarity<sp/>for<sp/>cache<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_embedding_cache_1_1_config_1aec75a997913a2a762fe4c82dc443b658" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_config_1aec75a997913a2a762fe4c82dc443b658" kindref="member">embedding_dim</ref><sp/>=<sp/>1536;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OpenAI<sp/>ada-002<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_embedding_cache_1_1_config_1a05c8eaeaa9bcc9178a8fa131910feea5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_config_1a05c8eaeaa9bcc9178a8fa131910feea5" kindref="member">use_vector_index</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>HNSW<sp/>for<sp/>fast<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_embedding_cache_1_1_config_1a816020fa6c966cc5498c6014edd84c96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_embedding_cache_1_1_config_1a816020fa6c966cc5498c6014edd84c96" kindref="member">cache_dir</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/themis_embedding_cache&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>storage<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1_embedding_cache_1_1_cache_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a36920b27d72224af02668ac95a9ebb00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a36920b27d72224af02668ac95a9ebb00" kindref="member">query_text</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.6.0:<sp/>32-byte<sp/>aligned<sp/>for<sp/>efficient<sp/>AVX2/AVX-512<sp/>SIMD<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reduces<sp/>unaligned<sp/>load<sp/>penalties<sp/>in<sp/>distance<sp/>calculations<sp/>by<sp/>~5-15%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a6a3536d8756cb7e607316e523f573344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a3d21af20aa13f6ba9687bc4c334dfb23" kindref="member">cache::AlignedVector&lt;float&gt;</ref><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a6a3536d8756cb7e607316e523f573344" kindref="member">embedding</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a3924c4005f2039fc1b8d329443e67f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a3924c4005f2039fc1b8d329443e67f9f" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JSON<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a3038a0c165dac6174443101bdd3d33a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a3038a0c165dac6174443101bdd3d33a7" kindref="member">timestamp_ms</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a09eabf404335a9c91622dba6461a5cf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a09eabf404335a9c91622dba6461a5cf9" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a118af8b171f5de4b6bdf0b0d5a8041e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry_1a118af8b171f5de4b6bdf0b0d5a8041e4" kindref="member">last_similarity</ref><sp/>=<sp/>0.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Similarity<sp/>of<sp/>last<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_embedding_cache_1_1_cache_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a6b8119dc6823bbb734e4a42ce42bdcf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a6b8119dc6823bbb734e4a42ce42bdcf8" kindref="member">hit_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b50ed6d9e77ebf0f06de5ae9f7dde92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b50ed6d9e77ebf0f06de5ae9f7dde92" kindref="member">miss_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b27ca218b3dd50d7fe64cda9392c321" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b27ca218b3dd50d7fe64cda9392c321" kindref="member">total_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a5194cae6d1f14a09289cf9f90bda71b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a5194cae6d1f14a09289cf9f90bda71b0" kindref="member">hit_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b2502f38e77d03aed51f921c87c557e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1a2b2502f38e77d03aed51f921c87c557e" kindref="member">avg_similarity</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Average<sp/>similarity<sp/>on<sp/>cache<sp/>hits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1aff40688720041fa220ec692370d18b7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats_1aff40688720041fa220ec692370d18b7c" kindref="member">cost_savings_usd</ref><sp/>=<sp/>0.0;<sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>cost<sp/>savings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1_embedding_cache_1a14e214cef49d3dc2d770e6bc65c55bc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_embedding_cache_1a14e214cef49d3dc2d770e6bc65c55bc9" kindref="member">~EmbeddingCache</ref>();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1_embedding_cache_1a18d6f74c0941e38304b65a17524657ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_embedding_cache_1a18d6f74c0941e38304b65a17524657ca" kindref="member">EmbeddingCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1_embedding_cache_1ac5b822898313d9be1877f13fe005023b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref>&amp;<sp/><ref refid="classthemis_1_1_embedding_cache_1ac5b822898313d9be1877f13fe005023b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1_embedding_cache_1a11cb29e5c77fe1c8a6f2521cb82e2fe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_embedding_cache_1a11cb29e5c77fe1c8a6f2521cb82e2fe8" kindref="member">EmbeddingCache</ref>(<ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1_embedding_cache_1a9d97d4dfae7cf95d0f10cc117f83e82e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref>&gt;<sp/><ref refid="classthemis_1_1_embedding_cache_1a6cd3a160a8d7d1496b0c0765411c8cd2" kindref="member">query</ref>(const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&amp;<sp/>query_embedding)<sp/>const;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_embedding_cache_1ae30a1ab628696ec41be3b7d463559b10" kindref="member">store</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query_text,<sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&amp;<sp/>embedding,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>metadata<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1_embedding_cache_1a276e614a11c4336ec55df4c7d99ee651" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/><ref refid="classthemis_1_1_embedding_cache_1a276e614a11c4336ec55df4c7d99ee651" kindref="member">getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_embedding_cache_1adff17f90299d48e29c6547fb43400f78" kindref="member">clearExpired</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_embedding_cache_1a97ade80c3760b46566cfa54fdb7ba3ab" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>CacheStats<sp/>stats_;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;EmbeddingCacheImpl&gt;<sp/>impl_;<sp/><sp/></highlight><highlight class="comment">//<sp/>pimpl<sp/>for<sp/>vector<sp/>index<sp/>+<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isExpired(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CacheEntry&amp;<sp/>entry)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>getCurrentTimestampMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/embedding_cache.h"/>
+  </compounddef>
+</doxygen>

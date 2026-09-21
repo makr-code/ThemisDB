@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_aggregation_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::AggregationSpec</compoundname>
+    <includes refid="temporal__aggregator_8h" local="no">temporal_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_aggregation_spec_1a6923b25dd15b6461362aec80668493f1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1af1f789673e5d7cd28dc02edc51468798" kindref="member">WindowType</ref></type>
+        <definition>WindowType themisdb::temporal::AggregationSpec::window_type</definition>
+        <argsstring></argsstring>
+        <name>window_type</name>
+        <qualifiedname>themisdb::temporal::AggregationSpec::window_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1af1f789673e5d7cd28dc02edc51468798a95ad2287637805c77de2453d860476b2" kindref="member">WindowType::TUMBLING</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="65" column="18" bodyfile="include/temporal/temporal_aggregator.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_aggregation_spec_1a7f34fec38e9ca6d292dbe478a27ad074" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::temporal::AggregationSpec::window_size_ms</definition>
+        <argsstring></argsstring>
+        <name>window_size_ms</name>
+        <qualifiedname>themisdb::temporal::AggregationSpec::window_size_ms</qualifiedname>
+        <initializer>{60&apos;000}</initializer>
+        <briefdescription>
+<para>Window width in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="66" column="18" bodyfile="include/temporal/temporal_aggregator.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_aggregation_spec_1ade650311c20150c6eb7ecd4369618ea6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::temporal::AggregationSpec::slide_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>slide_interval_ms</name>
+        <qualifiedname>themisdb::temporal::AggregationSpec::slide_interval_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>For SLIDING: advance step (0 → same as window_size). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="67" column="18" bodyfile="include/temporal/temporal_aggregator.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_aggregation_spec_1af8f110913f78fab72205f0c8c43b7b20" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::temporal::AggregationSpec::gap_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>gap_duration_ms</name>
+        <qualifiedname>themisdb::temporal::AggregationSpec::gap_duration_ms</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+<para>For SESSION: inactivity gap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="68" column="18" bodyfile="include/temporal/temporal_aggregator.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_aggregation_spec_1a56ec558c151e0b81586a995f110d073c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75" kindref="member">AggregateFunc</ref></type>
+        <definition>AggregateFunc themisdb::temporal::AggregationSpec::func</definition>
+        <argsstring></argsstring>
+        <name>func</name>
+        <qualifiedname>themisdb::temporal::AggregationSpec::func</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75a4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">AggregateFunc::COUNT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="69" column="19" bodyfile="include/temporal/temporal_aggregator.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_aggregation_spec_1a7f70e505230afe0ee7b1feb996ebbb80" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::AggregationSpec::measure_field</definition>
+        <argsstring></argsstring>
+        <name>measure_field</name>
+        <qualifiedname>themisdb::temporal::AggregationSpec::measure_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>JSON field name for numeric measures (ignored for COUNT) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="70" column="18" bodyfile="include/temporal/temporal_aggregator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_aggregation_spec_1ade55cfc13745514052031625da2166ec" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::temporal::AggregationSpec::group_by_fields</definition>
+        <argsstring></argsstring>
+        <name>group_by_fields</name>
+        <qualifiedname>themisdb::temporal::AggregationSpec::group_by_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>JSON field names to group results by (empty = no grouping) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="72" column="17" bodyfile="include/temporal/temporal_aggregator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Specification for a windowed aggregation. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_aggregator.h" line="64" column="1" bodyfile="include/temporal/temporal_aggregator.h" bodystart="64" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_aggregation_spec_1a56ec558c151e0b81586a995f110d073c" prot="public" virt="non-virtual"><scope>themisdb::temporal::AggregationSpec</scope><name>func</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_aggregation_spec_1af8f110913f78fab72205f0c8c43b7b20" prot="public" virt="non-virtual"><scope>themisdb::temporal::AggregationSpec</scope><name>gap_duration_ms</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_aggregation_spec_1ade55cfc13745514052031625da2166ec" prot="public" virt="non-virtual"><scope>themisdb::temporal::AggregationSpec</scope><name>group_by_fields</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_aggregation_spec_1a7f70e505230afe0ee7b1feb996ebbb80" prot="public" virt="non-virtual"><scope>themisdb::temporal::AggregationSpec</scope><name>measure_field</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_aggregation_spec_1ade650311c20150c6eb7ecd4369618ea6" prot="public" virt="non-virtual"><scope>themisdb::temporal::AggregationSpec</scope><name>slide_interval_ms</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_aggregation_spec_1a7f34fec38e9ca6d292dbe478a27ad074" prot="public" virt="non-virtual"><scope>themisdb::temporal::AggregationSpec</scope><name>window_size_ms</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_aggregation_spec_1a6923b25dd15b6461362aec80668493f1" prot="public" virt="non-virtual"><scope>themisdb::temporal::AggregationSpec</scope><name>window_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::GunrockProcessor</compoundname>
+    <includes refid="gunrock_8h" local="no">gunrock.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats" prot="public">themis::performance::phase3::GunrockProcessor::Stats</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl" prot="public">themis::performance::phase3::GunrockProcessor::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a8abee596e8b7a12c9beaf4df50e9261b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::performance::phase3::GunrockProcessor::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="61" column="21" bodyfile="include/performance/phase3/gunrock.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a9b9dd2f093e2a85174f08d3d3c0e41e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::GunrockProcessor::GunrockProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>GunrockProcessor</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::GunrockProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="35" column="5" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a0d04a61746adaa0daeebe5a6464a13db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::GunrockProcessor::~GunrockProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>~GunrockProcessor</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::~GunrockProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a217328c61d0c35fb58c025c9fbee7471" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::GunrockProcessor::load_graph</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; NodeID &gt; &gt; &amp;adj_list)</argsstring>
+        <name>load_graph</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::load_graph</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="namespacethemis_1_1performance_1_1phase3_1a7972261ddb484882ae477c58301436ec" kindref="member">NodeID</ref> &gt; &gt; &amp;</type>
+          <declname>adj_list</declname>
+        </param>
+        <briefdescription>
+<para>Load graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adj_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), clear(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="39" column="10" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="47" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a04e6fb94c159271e8d5b7087ae6a4d05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::performance::phase3::GunrockProcessor::gpu_bfs</definition>
+        <argsstring>(NodeID start_vertex)</argsstring>
+        <name>gpu_bfs</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::gpu_bfs</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1_1phase3_1a7972261ddb484882ae477c58301436ec" kindref="member">NodeID</ref></type>
+          <declname>start_vertex</declname>
+        </param>
+        <briefdescription>
+<para>Gpu bfs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: distances(), push(), empty(), front(), pop(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="42" column="17" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="72" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1ad13b1bbaf28ef43dffe3513d6aac9433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::performance::phase3::GunrockProcessor::gpu_pagerank</definition>
+        <argsstring>(int num_iterations=10, double damping=0.85)</argsstring>
+        <name>gpu_pagerank</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::gpu_pagerank</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_iterations</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>damping</declname>
+          <defval>0.85</defval>
+        </param>
+        <briefdescription>
+<para>Gpu pagerank. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_iterations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">damping</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ranks(), new_ranks(), out_degree(), size(), std::fill(), begin(), end(), swap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="45" column="17" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="126" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a20f104ffe5ec1a0eedb1da8ca5a4dfff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::performance::phase3::GunrockProcessor::gpu_sssp</definition>
+        <argsstring>(NodeID start_vertex)</argsstring>
+        <name>gpu_sssp</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::gpu_sssp</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1_1phase3_1a7972261ddb484882ae477c58301436ec" kindref="member">NodeID</ref></type>
+          <declname>start_vertex</declname>
+        </param>
+        <briefdescription>
+<para>Gpu sssp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: distances(), infinity(), push(), empty(), top(), pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="48" column="17" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="169" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a61402a5f054fe1637f23a41355c6aaa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>GunrockProcessor::Stats themis::performance::phase3::GunrockProcessor::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::get_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="57" column="11" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="207" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GPU-accelerated graph processor. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/gunrock.h" line="33" column="1" bodyfile="include/performance/phase3/gunrock.h" bodystart="33" bodyend="62"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a61402a5f054fe1637f23a41355c6aaa6" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a04e6fb94c159271e8d5b7087ae6a4d05" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor</scope><name>gpu_bfs</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1ad13b1bbaf28ef43dffe3513d6aac9433" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor</scope><name>gpu_pagerank</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a20f104ffe5ec1a0eedb1da8ca5a4dfff" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor</scope><name>gpu_sssp</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a9b9dd2f093e2a85174f08d3d3c0e41e9" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor</scope><name>GunrockProcessor</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a8abee596e8b7a12c9beaf4df50e9261b" prot="private" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a217328c61d0c35fb58c025c9fbee7471" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor</scope><name>load_graph</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1a0d04a61746adaa0daeebe5a6464a13db" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor</scope><name>~GunrockProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

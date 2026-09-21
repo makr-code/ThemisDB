@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_graph_q_l_field_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::GraphQLFieldDescriptor</compoundname>
+    <includes refid="graphql__schema__builder_8h" local="no">graphql_schema_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a2afca354fd73bf871e00914f75b0d996" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GraphQLFieldDescriptor::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::api::GraphQLFieldDescriptor::name</qualifiedname>
+        <briefdescription>
+<para>Field name (must be a valid GraphQL identifier). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="75" column="17" bodyfile="include/api/graphql_schema_builder.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a5a6b05738d086c8f303f052d6a261f2e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GraphQLFieldDescriptor::type_string</definition>
+        <argsstring></argsstring>
+        <name>type_string</name>
+        <qualifiedname>themis::api::GraphQLFieldDescriptor::type_string</qualifiedname>
+        <briefdescription>
+<para>GraphQL type expression, e.g. &quot;String!&quot;, &quot;[Entity!]!&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="76" column="17" bodyfile="include/api/graphql_schema_builder.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1ae7b590fc2b78f9ab29c56aad41f8de68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GraphQLFieldDescriptor::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::api::GraphQLFieldDescriptor::description</qualifiedname>
+        <briefdescription>
+<para>Optional human-readable description (appears in introspection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="77" column="17" bodyfile="include/api/graphql_schema_builder.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a64b923b720a544188532be5b5cd7bd31" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::api::GraphQLFieldDescriptor::deprecated</definition>
+        <argsstring></argsstring>
+        <name>deprecated</name>
+        <qualifiedname>themis::api::GraphQLFieldDescriptor::deprecated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this field is deprecated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="78" column="17" bodyfile="include/api/graphql_schema_builder.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a9dc5195719da2df9cc013a13ccbb79a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GraphQLFieldDescriptor::deprecation_reason</definition>
+        <argsstring></argsstring>
+        <name>deprecation_reason</name>
+        <qualifiedname>themis::api::GraphQLFieldDescriptor::deprecation_reason</qualifiedname>
+        <briefdescription>
+<para>Non-empty when <computeroutput><ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a64b923b720a544188532be5b5cd7bd31" kindref="member">deprecated</ref> == true</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="79" column="17" bodyfile="include/api/graphql_schema_builder.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_schema_builder.h" line="74" column="1" bodyfile="include/api/graphql_schema_builder.h" bodystart="74" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a64b923b720a544188532be5b5cd7bd31" prot="public" virt="non-virtual"><scope>themis::api::GraphQLFieldDescriptor</scope><name>deprecated</name></member>
+      <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a9dc5195719da2df9cc013a13ccbb79a7" prot="public" virt="non-virtual"><scope>themis::api::GraphQLFieldDescriptor</scope><name>deprecation_reason</name></member>
+      <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1ae7b590fc2b78f9ab29c56aad41f8de68" prot="public" virt="non-virtual"><scope>themis::api::GraphQLFieldDescriptor</scope><name>description</name></member>
+      <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a2afca354fd73bf871e00914f75b0d996" prot="public" virt="non-virtual"><scope>themis::api::GraphQLFieldDescriptor</scope><name>name</name></member>
+      <member refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor_1a5a6b05738d086c8f303f052d6a261f2e" prot="public" virt="non-virtual"><scope>themis::api::GraphQLFieldDescriptor</scope><name>type_string</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

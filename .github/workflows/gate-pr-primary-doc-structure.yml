@@ -1,0 +1,151 @@
+name: "Gate: PR Primary Doc Structure"
+
+# Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-09-20
+# Trigger policy: structure and visualization gate for src/*/README.md and src/*/ARCHITECTURE.md.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'src/*/README.md'
+      - 'src/*/ARCHITECTURE.md'
+      - '.github/primary-doc-structure-gate.json'
+      - 'scripts/validate_primary_doc_structure.py'
+      - '.github/workflows/gate-pr-primary-doc-structure.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: primary-doc-structure-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  primary-doc-structure-gate:
+    name: primary-doc-structure-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Collect changed files
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="${{ github.base_ref }}"
+            git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+            if git merge-base "origin/${BASE_REF}" HEAD >/dev/null 2>&1; then
+              git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}...HEAD" > /tmp/primary-doc-files.txt
+            else
+              echo "::warning::No merge base found for origin/${BASE_REF}...HEAD; falling back to two-dot diff."
+              git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}..HEAD" > /tmp/primary-doc-files.txt
+            fi
+          elif [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            git diff --name-only --diff-filter=ACMR "${{ github.event.before }}" "${{ github.sha }}" > /tmp/primary-doc-files.txt
+          else
+            git ls-files 'src/*/README.md' 'src/*/ARCHITECTURE.md' > /tmp/primary-doc-files.txt
+          fi
+
+      - name: Run primary doc structure gate
+        run: |
+          python3 scripts/validate_primary_doc_structure.py \
+            --repo-root . \
+            --config .github/primary-doc-structure-gate.json \
+            --files-from /tmp/primary-doc-files.txt \
+            --report-json /tmp/primary-doc-report.json
+
+      - name: Write job summary
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          report_path = Path('/tmp/primary-doc-report.json')
+          print('## Primary Doc Structure Gate')
+          print()
+          if not report_path.exists():
+              print('- Result: no report produced')
+              raise SystemExit(0)
+
+          report = json.loads(report_path.read_text(encoding='utf-8'))
+          print(f"- Verdict: **{report['verdict']}**")
+          print(f"- Files seen: `{report['files_seen']}`")
+          print(f"- Files checked: `{report['files_checked']}`")
+          print(f"- Files skipped: `{report['files_skipped']}`")
+          print(f"- Files with errors: `{report['files_with_errors']}`")
+          print(f"- Files with warnings: `{report['files_with_warnings']}`")
+
+          if report['results']:
+              print()
+              print('| File | Errors | Warnings |')
+              print('|---|---|---|')
+              for result in report['results'][:20]:
+                  errors = '<br>'.join(result.get('errors', [])) or '-'
+                  warns = '<br>'.join(result.get('warnings', [])) or '-'
+                  print(f"| `{result['file']}` | {errors} | {warns} |")
+          PY
+
+      - name: Upload gate artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: primary-doc-structure-gate-${{ github.run_number }}
+          path: |
+            /tmp/primary-doc-files.txt
+            /tmp/primary-doc-report.json
+          retention-days: 14
+          if-no-files-found: warn
+
+  gate-feedback:
+    name: Gate Feedback (label + comment on failure)
+    needs:
+      - primary-doc-structure-gate
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Set failure label and comment
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: set_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: ci/failure
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Post failure context
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.pull_request.number }}
+          target-type: pr
+          issue-marker: "<!-- ci-error:gate-pr-primary-doc-structure -->"
+          issue-body: |
+            <!-- ci-error:gate-pr-primary-doc-structure -->
+            > [!CAUTION]
+            > **Gate: PR Primary Doc Structure** ist fehlgeschlagen.
+            > Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            > Commit: `${{ github.sha }}`

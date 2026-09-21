@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_a_i_decision_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::AIDecisionRecord</compoundname>
+    <includes refid="explainability__reason__builder_8h" local="no">explainability_reason_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_a_i_decision_record_1a4b5242f4c838eb5b8c88c5f461b26542" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::AIDecisionRecord::decision_type</definition>
+        <argsstring></argsstring>
+        <name>decision_type</name>
+        <qualifiedname>themis::rag::AIDecisionRecord::decision_type</qualifiedname>
+        <briefdescription>
+<para>Canonical decision type (e.g., &quot;HNSW_PARAMS_UPDATED&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="37" column="17" bodyfile="include/rag/explainability_reason_builder.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_a_i_decision_record_1a311ebb519454647f39d548861973c497" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::AIDecisionRecord::decision_id</definition>
+        <argsstring></argsstring>
+        <name>decision_id</name>
+        <qualifiedname>themis::rag::AIDecisionRecord::decision_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier (optional; used for deduplication in enrichAuditor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="40" column="17" bodyfile="include/rag/explainability_reason_builder.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_a_i_decision_record_1a123c8d5e04557268a99dcb571466cece" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::rag::AIDecisionRecord::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::rag::AIDecisionRecord::parameters</qualifiedname>
+        <briefdescription>
+<para>Arbitrary key/value parameters attached to this decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="43" column="14" bodyfile="include/rag/explainability_reason_builder.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_a_i_decision_record_1a56a294769708b629c1d9fd9f8e82a357" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::AIDecisionRecord::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::AIDecisionRecord::confidence</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Confidence score in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="46" column="12" bodyfile="include/rag/explainability_reason_builder.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_a_i_decision_record_1a179745b2d113ef8b382674d76c8e0799" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::AIDecisionRecord::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::AIDecisionRecord::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>When this decision was made. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="49" column="43" bodyfile="include/rag/explainability_reason_builder.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_a_i_decision_record_1a1e2d27575177af98ff183d390c86bdbb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::AIDecisionRecord::guardrail_passed</definition>
+        <argsstring></argsstring>
+        <name>guardrail_passed</name>
+        <qualifiedname>themis::rag::AIDecisionRecord::guardrail_passed</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>True when all guardrails and safety checks passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="52" column="10" bodyfile="include/rag/explainability_reason_builder.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_a_i_decision_record_1afca6fbb246dd0860526294d18a9d1798" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::AIDecisionRecord::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::rag::AIDecisionRecord::shard_id</qualifiedname>
+        <briefdescription>
+<para>Originating shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="55" column="17" bodyfile="include/rag/explainability_reason_builder.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight decision record consumed by <ref refid="classthemis_1_1rag_1_1_explainability_reason_builder" kindref="compound">ExplainabilityReasonBuilder</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This struct mirrors the subset of AIDecisionAudit (ai_decision_auditor.h) that is needed to build a causal explanation without pulling in the full RocksDB-backed AIDecisionAuditor. </para>
+    </detaileddescription>
+    <location file="include/rag/explainability_reason_builder.h" line="35" column="1" bodyfile="include/rag/explainability_reason_builder.h" bodystart="35" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_a_i_decision_record_1a56a294769708b629c1d9fd9f8e82a357" prot="public" virt="non-virtual"><scope>themis::rag::AIDecisionRecord</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1_a_i_decision_record_1a311ebb519454647f39d548861973c497" prot="public" virt="non-virtual"><scope>themis::rag::AIDecisionRecord</scope><name>decision_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_a_i_decision_record_1a4b5242f4c838eb5b8c88c5f461b26542" prot="public" virt="non-virtual"><scope>themis::rag::AIDecisionRecord</scope><name>decision_type</name></member>
+      <member refid="structthemis_1_1rag_1_1_a_i_decision_record_1a1e2d27575177af98ff183d390c86bdbb" prot="public" virt="non-virtual"><scope>themis::rag::AIDecisionRecord</scope><name>guardrail_passed</name></member>
+      <member refid="structthemis_1_1rag_1_1_a_i_decision_record_1a123c8d5e04557268a99dcb571466cece" prot="public" virt="non-virtual"><scope>themis::rag::AIDecisionRecord</scope><name>parameters</name></member>
+      <member refid="structthemis_1_1rag_1_1_a_i_decision_record_1afca6fbb246dd0860526294d18a9d1798" prot="public" virt="non-virtual"><scope>themis::rag::AIDecisionRecord</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_a_i_decision_record_1a179745b2d113ef8b382674d76c8e0799" prot="public" virt="non-virtual"><scope>themis::rag::AIDecisionRecord</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

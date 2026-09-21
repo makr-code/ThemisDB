@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::SearchResult</compoundname>
+    <includes refid="fts__executor_8h" local="no">fts_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_result_1af7e3a853e6b28f31a9db613f4db564b9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::fts::SearchResult::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::query::fts::SearchResult::doc_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="56" column="12" bodyfile="include/query/fts_executor.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_result_1a88ec5a4085743ea898cca34218b4325d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::fts::SearchResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::query::fts::SearchResult::score</qualifiedname>
+        <briefdescription>
+<para>BM25 score [0, ∞). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="57" column="9" bodyfile="include/query/fts_executor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_result_1a36563f4b552944ee165c92c0e2982e57" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::query::fts::SearchResult::term_positions</definition>
+        <argsstring></argsstring>
+        <name>term_positions</name>
+        <qualifiedname>themis::query::fts::SearchResult::term_positions</qualifiedname>
+        <briefdescription>
+<para>Positions of query terms (for highlighting). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="58" column="15" bodyfile="include/query/fts_executor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_result_1aa42a9f222acef3e5057708df070cf34e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::fts::SearchResult::snippet</definition>
+        <argsstring></argsstring>
+        <name>snippet</name>
+        <qualifiedname>themis::query::fts::SearchResult::snippet</qualifiedname>
+        <briefdescription>
+<para>First 200 chars with query context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="59" column="15" bodyfile="include/query/fts_executor.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_executor.h" line="55" column="1" bodyfile="include/query/fts_executor.h" bodystart="55" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_result_1af7e3a853e6b28f31a9db613f4db564b9" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchResult</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_result_1a88ec5a4085743ea898cca34218b4325d" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchResult</scope><name>score</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_result_1aa42a9f222acef3e5057708df070cf34e" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchResult</scope><name>snippet</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_result_1a36563f4b552944ee165c92c0e2982e57" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchResult</scope><name>term_positions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

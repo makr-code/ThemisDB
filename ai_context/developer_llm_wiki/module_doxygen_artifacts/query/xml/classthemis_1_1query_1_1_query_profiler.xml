@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_profiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryProfiler</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1_i_query_profiler" prot="public" virt="non-virtual">themis::query::IQueryProfiler</basecompoundref>
+    <includes refid="query__profiler_8h" local="no">query_profiler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_profiler_1aece049d17be01810d1b30f0bb93e2960" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_profile" kindref="compound">QueryProfile</ref></type>
+        <definition>QueryProfile themis::query::QueryProfiler::profile_</definition>
+        <argsstring></argsstring>
+        <name>profile_</name>
+        <qualifiedname>themis::query::QueryProfiler::profile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="114" column="18" bodyfile="include/query/query_profiler.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_profiler_1ab0a4b1f4c187f95274821f8245d03e26" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::query::QueryProfiler::query_start_</definition>
+        <argsstring></argsstring>
+        <name>query_start_</name>
+        <qualifiedname>themis::query::QueryProfiler::query_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="115" column="43" bodyfile="include/query/query_profiler.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_profiler_1a1efeb201253df49e23cdf6341cb16bf1" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::query::QueryProfiler::op_start_</definition>
+        <argsstring></argsstring>
+        <name>op_start_</name>
+        <qualifiedname>themis::query::QueryProfiler::op_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="116" column="43" bodyfile="include/query/query_profiler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_profiler_1a6a5ddef89952cd4f297d0fe925ce56b8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryProfiler::current_operator_</definition>
+        <argsstring></argsstring>
+        <name>current_operator_</name>
+        <qualifiedname>themis::query::QueryProfiler::current_operator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="117" column="17" bodyfile="include/query/query_profiler.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_profiler_1a413839999a251cdd3064c3bb652d58fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryProfiler::~QueryProfiler</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~QueryProfiler</name>
+        <qualifiedname>themis::query::QueryProfiler::~QueryProfiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_profiler_1a6566116c17baefdd16c0da96c62a8dd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryProfiler::QueryProfiler</definition>
+        <argsstring>()=default</argsstring>
+        <name>QueryProfiler</name>
+        <qualifiedname>themis::query::QueryProfiler::QueryProfiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_profiler_1a8babbfb1e4d20a9a66c6cec1e17b5be6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryProfiler::beginQuery</definition>
+        <argsstring>(const std::string &amp;query_text) override</argsstring>
+        <name>beginQuery</name>
+        <qualifiedname>themis::query::QueryProfiler::beginQuery</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_profiler_1abaf120c650ebe8e1ce1f810f072b7ee7">beginQuery</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+<para>Begin <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1query_1_1_query_profiler_1ad8c13f18cf5c803de83594caaaa817b5" kindref="member">reset()</ref>, std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="104" column="10" bodyfile="src/query/query_profiler.cpp" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_profiler_1a7f9ec4202f172c1fa9d3918ec320ba0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryProfiler::endQuery</definition>
+        <argsstring>(size_t result_rows, bool cache_hit=false) override</argsstring>
+        <name>endQuery</name>
+        <qualifiedname>themis::query::QueryProfiler::endQuery</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_profiler_1a2bb552f19e00e9d55f55ebd501c29bf4">endQuery</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>result_rows</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache_hit</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>End <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="105" column="10" bodyfile="src/query/query_profiler.cpp" bodystart="54" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_profiler_1a2f2d6bed02bd9f48c6c6ed14f64425d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryProfiler::beginOperator</definition>
+        <argsstring>(const std::string &amp;operator_name) override</argsstring>
+        <name>beginOperator</name>
+        <qualifiedname>themis::query::QueryProfiler::beginOperator</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_profiler_1a67e167e59d992ff8a1a69ff2efc0c722">beginOperator</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_name</declname>
+        </param>
+        <briefdescription>
+<para>Begin Operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operator.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="106" column="10" bodyfile="src/query/query_profiler.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_profiler_1a833a5761641d0ea2ccaaeb04af816867" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryProfiler::endOperator</definition>
+        <argsstring>(size_t rows_in, size_t rows_out, size_t memory_bytes=0, size_t io_reads=0) override</argsstring>
+        <name>endOperator</name>
+        <qualifiedname>themis::query::QueryProfiler::endOperator</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_profiler_1a0767930a90af32dd974692d326da9355">endOperator</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>rows_in</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rows_out</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>memory_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>io_reads</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>End Operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows_in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">io_reads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), count(), push_back(), std::move(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="107" column="10" bodyfile="src/query/query_profiler.cpp" bodystart="88" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_profiler_1aff900cf9c622a171214191a7fc802ca8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_profile" kindref="compound">QueryProfile</ref></type>
+        <definition>QueryProfile themis::query::QueryProfiler::getProfile</definition>
+        <argsstring>() const override</argsstring>
+        <name>getProfile</name>
+        <qualifiedname>themis::query::QueryProfiler::getProfile</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_profiler_1a329a8b3773e5ebcdf9451a2d0d6e8312">getProfile</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="110" column="18" bodyfile="src/query/query_profiler.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_profiler_1ad8c13f18cf5c803de83594caaaa817b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryProfiler::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::query::QueryProfiler::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_profiler_1a82e3a3727a15ec4e1310766ce679cb50">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_profiler.h" line="111" column="10" bodyfile="src/query/query_profiler.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::IQueryProfiler</label>
+        <link refid="classthemis_1_1query_1_1_i_query_profiler"/>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryProfiler</label>
+        <link refid="classthemis_1_1query_1_1_query_profiler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::IQueryProfiler</label>
+        <link refid="classthemis_1_1query_1_1_i_query_profiler"/>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryProfiler</label>
+        <link refid="classthemis_1_1query_1_1_query_profiler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_profiler.h" line="99" column="1" bodyfile="include/query/query_profiler.h" bodystart="99" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1a2f2d6bed02bd9f48c6c6ed14f64425d7" prot="public" virt="virtual"><scope>themis::query::QueryProfiler</scope><name>beginOperator</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1a8babbfb1e4d20a9a66c6cec1e17b5be6" prot="public" virt="virtual"><scope>themis::query::QueryProfiler</scope><name>beginQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1a6a5ddef89952cd4f297d0fe925ce56b8" prot="private" virt="non-virtual"><scope>themis::query::QueryProfiler</scope><name>current_operator_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1a833a5761641d0ea2ccaaeb04af816867" prot="public" virt="virtual"><scope>themis::query::QueryProfiler</scope><name>endOperator</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1a7f9ec4202f172c1fa9d3918ec320ba0f" prot="public" virt="virtual"><scope>themis::query::QueryProfiler</scope><name>endQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1aff900cf9c622a171214191a7fc802ca8" prot="public" virt="virtual"><scope>themis::query::QueryProfiler</scope><name>getProfile</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1a1efeb201253df49e23cdf6341cb16bf1" prot="private" virt="non-virtual"><scope>themis::query::QueryProfiler</scope><name>op_start_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1aece049d17be01810d1b30f0bb93e2960" prot="private" virt="non-virtual"><scope>themis::query::QueryProfiler</scope><name>profile_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1ab0a4b1f4c187f95274821f8245d03e26" prot="private" virt="non-virtual"><scope>themis::query::QueryProfiler</scope><name>query_start_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1a6566116c17baefdd16c0da96c62a8dd3" prot="public" virt="non-virtual"><scope>themis::query::QueryProfiler</scope><name>QueryProfiler</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1ad8c13f18cf5c803de83594caaaa817b5" prot="public" virt="virtual"><scope>themis::query::QueryProfiler</scope><name>reset</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_profiler_1adbdf5ffb7f639c40cfcd0b91b9467252" prot="public" virt="virtual"><scope>themis::query::QueryProfiler</scope><name>~IQueryProfiler</name></member>
+      <member refid="classthemis_1_1query_1_1_query_profiler_1a413839999a251cdd3064c3bb652d58fe" prot="public" virt="non-virtual"><scope>themis::query::QueryProfiler</scope><name>~QueryProfiler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

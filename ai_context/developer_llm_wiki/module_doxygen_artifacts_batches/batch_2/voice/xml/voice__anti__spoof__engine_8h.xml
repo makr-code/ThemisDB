@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__anti__spoof__engine_8h" kind="file" language="C++">
+    <compoundname>voice_anti_spoof_engine.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="voice__anti__spoof__engine_8cpp" local="yes">src/voice/voice_anti_spoof_engine.cpp</includedby>
+    <includedby refid="test__voice__wave__a8__hardening__focused_8cpp" local="yes">tests/voice/test_voice_wave_a8_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_anti_spoof_engine.h</label>
+        <link refid="voice__anti__spoof__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/voice/voice_anti_spoof_engine.h</label>
+        <link refid="voice__anti__spoof__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/voice/voice_anti_spoof_engine.cpp</label>
+        <link refid="voice__anti__spoof__engine_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/voice/test_voice_wave_a8_hardening_focused.cpp</label>
+        <link refid="test__voice__wave__a8__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_spoof_analysis" prot="public">themis::voice::SpoofAnalysis</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine" prot="public">themis::voice::VoiceAntiSpoofEngine</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" prot="public">themis::voice::VoiceAntiSpoofEngine::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Voice Anti-Spoofing Detection — Live vs. Synthetic Audio Detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>v1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Wave A Batch A-8 Implementation</para>
+</simplesect>
+Detects and rejects spoofed audio (recordings, synthetically generated, or replayed) by analyzing three deterministic local features:</para>
+<para><orderedlist>
+<listitem><para><bold>Audio Freshness</bold>: Detects synthetic/recorded vs. live stream<itemizedlist>
+<listitem><para>Spectral analysis for digital artifacts</para>
+</listitem><listitem><para>Live audio has natural variation; synthetic is too regular</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Speaker Verification</bold>: Compares against known baseline<itemizedlist>
+<listitem><para>Voice embedding comparison (speaker recognition model)</para>
+</listitem><listitem><para>Rejects speaker mismatch with high confidence</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Noise Analysis</bold>: Environmental consistency detection<itemizedlist>
+<listitem><para>Background noise patterns must be coherent</para>
+</listitem><listitem><para>Detects spliced/edited audio (noise discontinuities)</para>
+</listitem></itemizedlist>
+</para>
+</listitem></orderedlist>
+</para>
+<sect1 id="voice__anti__spoof__engine_8h_1autotoc_md7_1s1"><sect2 id="voice__anti__spoof__engine_8h_1autotoc_md7">
+<title>Spoofing Detection Strategy</title><para><programlisting><codeline><highlight class="normal">Audio<sp/>Input</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">[Spectral<sp/>Analysis]<sp/>→<sp/>Freshness<sp/>Score<sp/>(0-1)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">[Speaker<sp/>Embedding<sp/>Comparison]<sp/>→<sp/>Speaker<sp/>Match<sp/>(0-1)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">[Noise<sp/>Pattern<sp/>Analysis]<sp/>→<sp/>Noise<sp/>Consistency<sp/>(0-1)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">[Composite<sp/>Scoring]<sp/>→<sp/>Final<sp/>Verdict</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>-<sp/>All<sp/>scores<sp/>&gt;<sp/>0.7<sp/>→<sp/>PASS<sp/>(likely<sp/>live)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>-<sp/>Any<sp/>score<sp/>&lt;<sp/>0.4<sp/>→<sp/>FAIL<sp/>(likely<sp/>spoofed)</highlight></codeline>
+</programlisting></para>
+<para>@error 7200: Spoofing analysis failed @error 7201: Speaker verification failed @error 7202: Audio quality too low for analysis @error 7203: Synthetic/recorded audio detected </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1voice_1_1_spoof_analysis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_spoof_analysis" kindref="compound">SpoofAnalysis</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1voice_1_1_spoof_analysis_1abbf6fcfe322f17f5931c6006a547cef5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_spoof_analysis_1abbf6fcfe322f17f5931c6006a547cef5" kindref="member">audio_freshness_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1voice_1_1_spoof_analysis_1af14906dc364e35ee3930641762d9ada4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_spoof_analysis_1af14906dc364e35ee3930641762d9ada4" kindref="member">speaker_match_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1voice_1_1_spoof_analysis_1afe6557f525a3f1c907dddd557ac9870e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_spoof_analysis_1afe6557f525a3f1c907dddd557ac9870e" kindref="member">noise_consistency_score</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1voice_1_1_spoof_analysis_1afbbb16730f63f1db081165b9ab6ad3a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_spoof_analysis_1afbbb16730f63f1db081165b9ab6ad3a1" kindref="member">is_likely_spoofed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1voice_1_1_spoof_analysis_1ada246421c195a95a7303c36654ea0f17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_spoof_analysis_1ada246421c195a95a7303c36654ea0f17" kindref="member">spoof_probability</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1voice_1_1_spoof_analysis_1aeaf5eab3cbfb077065ae2838025604a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_spoof_analysis_1aeaf5eab3cbfb077065ae2838025604a9" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1voice_1_1_spoof_analysis_1a6cd9381b3385fe79d710c43573a68738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_spoof_analysis_1a6cd9381b3385fe79d710c43573a68738" kindref="member">overall_confidence</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a2ef19678e0c037a291dfebac3e60d666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a2ef19678e0c037a291dfebac3e60d666" kindref="member">freshness_threshold</ref><sp/>=<sp/>0.7;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1abaacb0da8e3cec8c2beb5decb1be9a4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1abaacb0da8e3cec8c2beb5decb1be9a4f" kindref="member">speaker_match_threshold</ref><sp/>=<sp/>0.8;<sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1aeacf8f05399e2fce3b94280f7bf23f25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1aeacf8f05399e2fce3b94280f7bf23f25" kindref="member">noise_consistency_threshold</ref><sp/>=<sp/>0.65;<sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a0b8f1b2728c9e5b4397fc39fe08f41c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a0b8f1b2728c9e5b4397fc39fe08f41c5" kindref="member">require_all_checks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1ad7d32a06ba934b9f89e4bb869e7af3a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1ad7d32a06ba934b9f89e4bb869e7af3a1" kindref="member">min_audio_bytes</ref><sp/>=<sp/>3200;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1ad3354b69cea46e422ef02bf905137650" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1ad3354b69cea46e422ef02bf905137650" kindref="member">max_audio_bytes</ref><sp/>=<sp/>2<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a50ef4de8d9869ccba5c96f5c1007c6a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a50ef4de8d9869ccba5c96f5c1007c6a0" kindref="member">~VoiceAntiSpoofEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1ab261cd78bb3e12f18f5e2ac09b002bec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1ab261cd78bb3e12f18f5e2ac09b002bec" kindref="member">VoiceAntiSpoofEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a99133dcf1f93573a565b2a2d8cfd9a75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a99133dcf1f93573a565b2a2d8cfd9a75" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a5ed3b5d9094558904ece9daf48c9f355" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a5ed3b5d9094558904ece9daf48c9f355" kindref="member">VoiceAntiSpoofEngine</ref>(<ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a528c324daf82227fe6a37177a4c09909" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1voice_1_1_spoof_analysis" kindref="compound">SpoofAnalysis</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a4848c37309dcbd443dfd9c4a44f2a924" kindref="member">analyzeSpoofRisk</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio_data,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>speaker_baseline</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a504344a59dff9a7d4ac4f3f86b439dde" kindref="member">analyzeAudioFreshness</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio_data);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1addc972d534b75052c28d5d49dea06138" kindref="member">analyzeSpeakerMatch</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio_data,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>baseline);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a987ded3e0d786ce974679d7fc6a5ad69" kindref="member">analyzeNoisePattern</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio_data);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/>extractSpectralFeatures(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/>extractSpeakerEmbedding(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/>extractNoiseProfile(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cosineSimilarity(const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/>v1,<sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/>v2)<sp/>const;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/>normalizeVector(const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/>vec)<sp/>const;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_anti_spoof_engine.h"/>
+  </compounddef>
+</doxygen>

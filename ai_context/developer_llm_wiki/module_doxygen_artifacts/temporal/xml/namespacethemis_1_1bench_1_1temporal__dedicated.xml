@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1temporal__dedicated" kind="namespace" language="C++">
+    <compoundname>themis::bench::temporal_dedicated</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a3e1c54786538a11930b08fb0e06174c0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::temporal_dedicated::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::temporal_dedicated::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="48" column="27" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a7dd1b2570548250dd6d219051931aa30" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::temporal_dedicated::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::temporal_dedicated::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="49" column="27" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a444cd163d8f0c475ee19a8848296e055" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::bench::temporal_dedicated::g_version</definition>
+        <argsstring></argsstring>
+        <name>g_version</name>
+        <qualifiedname>themis::bench::temporal_dedicated::g_version</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="53" column="20" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a9a9fedc9a55963023203c5c077955425" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::bench::temporal_dedicated::stubHistoryQuery</definition>
+        <argsstring>(uint64_t entity_id, uint64_t range_ms) noexcept</argsstring>
+        <name>stubHistoryQuery</name>
+        <qualifiedname>themis::bench::temporal_dedicated::stubHistoryQuery</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>range_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="55" column="17" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a131b46400e5af74d61cc0198916572fb" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::bench::temporal_dedicated::stubVersionedWrite</definition>
+        <argsstring>(uint64_t entity_id) noexcept</argsstring>
+        <name>stubVersionedWrite</name>
+        <qualifiedname>themis::bench::temporal_dedicated::stubVersionedWrite</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>entity_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="59" column="17" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1af8c3fec1b878078b75c68d387926128b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::bench::temporal_dedicated::stubConflictResolve</definition>
+        <argsstring>(uint64_t ver_a, uint64_t ver_b) noexcept</argsstring>
+        <name>stubConflictResolve</name>
+        <qualifiedname>themis::bench::temporal_dedicated::stubConflictResolve</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>ver_a</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ver_b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="64" column="17" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a5f41f01d286ef9982a020ba2b68192bc" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::temporal_dedicated::stubCdcEmit</definition>
+        <argsstring>(uint64_t entity_id, uint64_t ts_ms) noexcept</argsstring>
+        <name>stubCdcEmit</name>
+        <qualifiedname>themis::bench::temporal_dedicated::stubCdcEmit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ts_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="68" column="13" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="68" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1ae830a7d24d94cc4cfabe7c666cb92b20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::temporal_dedicated::BM_Temporal_HistoryQuery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Temporal_HistoryQuery</name>
+        <qualifiedname>themis::bench::temporal_dedicated::BM_Temporal_HistoryQuery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="76" column="13" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="76" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a7303dae7c5d2b128db9630d5a4f1efff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::temporal_dedicated::Name</definition>
+        <argsstring>(&quot;TMP-BM-01/HistoryQuery&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::temporal_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TMP-BM-01/HistoryQuery&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="86" column="5" declfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" declline="86" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1aced502d7889eb23ed14b72fd75249fe2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::temporal_dedicated::BM_Temporal_VersionedWrite</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Temporal_VersionedWrite</name>
+        <qualifiedname>themis::bench::temporal_dedicated::BM_Temporal_VersionedWrite</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="93" column="13" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="93" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a66a16dadbc2ac6ae06d53221d61bb587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::temporal_dedicated::Name</definition>
+        <argsstring>(&quot;TMP-BM-02/VersionedWrite&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::temporal_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TMP-BM-02/VersionedWrite&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="102" column="5" declfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" declline="102" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a0cfae14e5fb2d8123ba6fffb3307c251" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::temporal_dedicated::BM_Temporal_ConflictResolve</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Temporal_ConflictResolve</name>
+        <qualifiedname>themis::bench::temporal_dedicated::BM_Temporal_ConflictResolve</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="109" column="13" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="109" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1aff49fcf0d59bec3e665285057dbd9c28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::temporal_dedicated::Name</definition>
+        <argsstring>(&quot;TMP-BM-03/ConflictResolve&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::temporal_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TMP-BM-03/ConflictResolve&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="119" column="5" declfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" declline="119" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a0bff64f82ab2a031e141bd3bc9ec8e0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::temporal_dedicated::BM_Temporal_BatchCdcEmit</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Temporal_BatchCdcEmit</name>
+        <qualifiedname>themis::bench::temporal_dedicated::BM_Temporal_BatchCdcEmit</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="126" column="13" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="126" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1temporal__dedicated_1acaa6790baf73cc71f4f4f0f7e5112bd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::temporal_dedicated::Name</definition>
+        <argsstring>(&quot;TMP-BM-04/BatchCdcEmit1000&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::temporal_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;TMP-BM-04/BatchCdcEmit1000&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="140" column="5" declfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" declline="140" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="46" column="1"/>
+  </compounddef>
+</doxygen>

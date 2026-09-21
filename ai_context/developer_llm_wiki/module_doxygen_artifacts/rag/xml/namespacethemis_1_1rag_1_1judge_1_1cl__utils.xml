@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1judge_1_1cl__utils" kind="namespace" language="C++">
+    <compoundname>themis::rag::judge::cl_utils</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1judge_1_1cl__utils_1a5b22c6b881db9fda930f601cbe3a50b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric" kindref="compound">QualityMetric</ref> &gt;</type>
+        <definition>std::vector&lt; QualityMetric &gt; themis::rag::judge::cl_utils::qcResultToMetrics</definition>
+        <argsstring>(const QCResult &amp;result)</argsstring>
+        <name>qcResultToMetrics</name>
+        <qualifiedname>themis::rag::judge::cl_utils::qcResultToMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_q_c_result" kindref="compound">QCResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Convert QC result to metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Qc Result To Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality control result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of quality metrics</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), push_back(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_client.cpp" line="457" column="13" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="457" bodyend="508" declfile="include/rag/continuous_learning_client.h" declline="205" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1judge_1_1cl__utils_1a6f0ea263bc7681ea9bca85194cd5b330" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::cl_utils::generateRecommendation</definition>
+        <argsstring>(const QCResult &amp;result)</argsstring>
+        <name>generateRecommendation</name>
+        <qualifiedname>themis::rag::judge::cl_utils::generateRecommendation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_q_c_result" kindref="compound">QCResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Create recommendation based on low scores. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Recommendation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality control result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optimization recommendation</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_client.cpp" line="516" column="13" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="516" bodyend="548" declfile="include/rag/continuous_learning_client.h" declline="212" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1judge_1_1cl__utils_1a4b7ce84dd2cc3b63084ee8768d2f2af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::cl_utils::metricTypeToString</definition>
+        <argsstring>(MetricType type)</argsstring>
+        <name>metricTypeToString</name>
+        <qualifiedname>themis::rag::judge::cl_utils::metricTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145" kindref="member">MetricType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Convert metric type to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Metric Type To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metric type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements metricTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_client.cpp" line="556" column="13" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="556" bodyend="579" declfile="include/rag/continuous_learning_client.h" declline="219" declcolumn="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Helper functions for continuous learning integration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_client.h" line="198" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1imggen_1_1_generated_image" kind="struct" language="C++" prot="public">
+    <compoundname>themis::imggen::GeneratedImage</compoundname>
+    <includes refid="image__generation__interface_8h" local="no">image_generation_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1a9c08860386c8b9c59022dd4dc1e01d8e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::imggen::GeneratedImage::png_data</definition>
+        <argsstring></argsstring>
+        <name>png_data</name>
+        <qualifiedname>themis::imggen::GeneratedImage::png_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="33" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1aeddfaf437818e00151006f336ba60f21" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::GeneratedImage::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::imggen::GeneratedImage::width</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="34" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1a6749d7c63406bec9dd976b0ad8b12c12" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::GeneratedImage::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::imggen::GeneratedImage::height</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="35" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1a4aa44bd262b6511aa4c1d75a1091017d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::GeneratedImage::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::imggen::GeneratedImage::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="36" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1a72779a67f678a07e6fcdab3f42d2c702" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::GeneratedImage::plugin_version</definition>
+        <argsstring></argsstring>
+        <name>plugin_version</name>
+        <qualifiedname>themis::imggen::GeneratedImage::plugin_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="37" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1a16e9917a96e5542724716271eb587ef8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::GeneratedImage::sampler</definition>
+        <argsstring></argsstring>
+        <name>sampler</name>
+        <qualifiedname>themis::imggen::GeneratedImage::sampler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="38" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1a0e4b3ec542ba78f08265cf9b43ff2aa6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::imggen::GeneratedImage::seed_used</definition>
+        <argsstring></argsstring>
+        <name>seed_used</name>
+        <qualifiedname>themis::imggen::GeneratedImage::seed_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="39" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1a564a8461c00636cf76b3f5dca1d1271e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::imggen::GeneratedImage::generation_timestamp</definition>
+        <argsstring></argsstring>
+        <name>generation_timestamp</name>
+        <qualifiedname>themis::imggen::GeneratedImage::generation_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="40" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1ac82b76df3c7ef72799cd116e0a0bd116" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::GeneratedImage::prompt_hash</definition>
+        <argsstring></argsstring>
+        <name>prompt_hash</name>
+        <qualifiedname>themis::imggen::GeneratedImage::prompt_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="41" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1ac9476c7b88ac970a1db9e84ff9d5efa5" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::imggen::GeneratedImage::perceptual_hash</definition>
+        <argsstring></argsstring>
+        <name>perceptual_hash</name>
+        <qualifiedname>themis::imggen::GeneratedImage::perceptual_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="42" column="19" bodyfile="include/plugins/image_generation_interface.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1ae22fc87082ac06b780b431da69e8d0ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::imggen::GeneratedImage::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::imggen::GeneratedImage::success</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="43" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_generated_image_1aca152a4164d94d2e9cf9de8b6c651f6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::GeneratedImage::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::imggen::GeneratedImage::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="44" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of an image generation operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mandatory provenance fields allow auditing of every generated image back to the model, sampler and configuration used. </para>
+    </detaileddescription>
+    <location file="include/plugins/image_generation_interface.h" line="32" column="1" bodyfile="include/plugins/image_generation_interface.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1aca152a4164d94d2e9cf9de8b6c651f6b" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1a564a8461c00636cf76b3f5dca1d1271e" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>generation_timestamp</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1a6749d7c63406bec9dd976b0ad8b12c12" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>height</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1a4aa44bd262b6511aa4c1d75a1091017d" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1ac9476c7b88ac970a1db9e84ff9d5efa5" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>perceptual_hash</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1a72779a67f678a07e6fcdab3f42d2c702" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>plugin_version</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1a9c08860386c8b9c59022dd4dc1e01d8e" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>png_data</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1ac82b76df3c7ef72799cd116e0a0bd116" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>prompt_hash</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1a16e9917a96e5542724716271eb587ef8" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>sampler</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1a0e4b3ec542ba78f08265cf9b43ff2aa6" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>seed_used</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1ae22fc87082ac06b780b431da69e8d0ba" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>success</name></member>
+      <member refid="structthemis_1_1imggen_1_1_generated_image_1aeddfaf437818e00151006f336ba60f21" prot="public" virt="non-virtual"><scope>themis::imggen::GeneratedImage</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

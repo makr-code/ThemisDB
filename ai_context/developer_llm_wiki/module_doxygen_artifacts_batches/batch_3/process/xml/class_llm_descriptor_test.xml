@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_llm_descriptor_test" kind="class" language="C++" prot="public">
+    <compoundname>LlmDescriptorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_llm_descriptor_test_1ab90ca8c3f75a55487d3c3d3409139549" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">themis::process::ProcessModelRecord</ref></type>
+        <definition>themis::process::ProcessModelRecord LlmDescriptorTest::makeRecord</definition>
+        <argsstring>()</argsstring>
+        <name>makeRecord</name>
+        <qualifiedname>LlmDescriptorTest::makeRecord</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="240" column="41" bodyfile="tests/process/test_process_module.cpp" bodystart="240" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LlmDescriptorTest</label>
+        <link refid="class_llm_descriptor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LlmDescriptorTest</label>
+        <link refid="class_llm_descriptor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_module.cpp" line="238" column="1" bodyfile="tests/process/test_process_module.cpp" bodystart="238" bodyend="259"/>
+    <listofallmembers>
+      <member refid="class_llm_descriptor_test_1ab90ca8c3f75a55487d3c3d3409139549" prot="protected" virt="non-virtual"><scope>LlmDescriptorTest</scope><name>makeRecord</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

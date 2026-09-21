@@ -1,0 +1,378 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_shard_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::ShardSummary</compoundname>
+    <basecompoundref refid="structthemis_1_1tensor_1_1_base_tensor_summary" prot="public" virt="non-virtual">themis::tensor::BaseTensorSummary</basecompoundref>
+    <includes refid="tensor__summary__types_8h" local="no">tensor_summary_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a8e871bdcfe6b6100e840af1837876513" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ShardSummary::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::tensor::ShardSummary::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard identifier (e.g., &quot;shard_0&quot;, &quot;eu-west-1/shard_5&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="165" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a0ffb0d687ac70d24c478e9bf609ae162" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::tensor::ShardSummary::scope_kind</definition>
+        <argsstring></argsstring>
+        <name>scope_kind</name>
+        <qualifiedname>themis::tensor::ShardSummary::scope_kind</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Shard scope kind (matches AnnScopeKind). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="168" column="13" bodyfile="include/tensor/tensor_summary_types.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a27ff704aaa3f1e11d4234c672b9ef6fb" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::ShardSummary::candidates_before_compression</definition>
+        <argsstring></argsstring>
+        <name>candidates_before_compression</name>
+        <qualifiedname>themis::tensor::ShardSummary::candidates_before_compression</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of candidates returned by this shard before compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="171" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a0e4eb618622b3061fd718ca486f8cad9" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::ShardSummary::candidates_after_compression</definition>
+        <argsstring></argsstring>
+        <name>candidates_after_compression</name>
+        <qualifiedname>themis::tensor::ShardSummary::candidates_after_compression</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of candidates after compression/sampling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="174" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a68e8613dc18a8b09a9123cfffba23307" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ShardSummary::shard_relevance</definition>
+        <argsstring></argsstring>
+        <name>shard_relevance</name>
+        <qualifiedname>themis::tensor::ShardSummary::shard_relevance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Shard relevance score (how relevant is this shard to the query). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="177" column="11" bodyfile="include/tensor/tensor_summary_types.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a32cedc950977203b1e99235536ab6758" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ShardSummary::retrieval_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>retrieval_latency_ms</name>
+        <qualifiedname>themis::tensor::ShardSummary::retrieval_latency_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Latency of shard retrieval in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="180" column="11" bodyfile="include/tensor/tensor_summary_types.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a44a078265bfa0941a6a28468faa1411a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::ShardSummary::shard_healthy</definition>
+        <argsstring></argsstring>
+        <name>shard_healthy</name>
+        <qualifiedname>themis::tensor::ShardSummary::shard_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether the shard responded successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="183" column="10" bodyfile="include/tensor/tensor_summary_types.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a5ba67f80ca5d114c666b081cc028656b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ShardSummary::shard_routing_reason</definition>
+        <argsstring></argsstring>
+        <name>shard_routing_reason</name>
+        <qualifiedname>themis::tensor::ShardSummary::shard_routing_reason</qualifiedname>
+        <briefdescription>
+<para>Shard-local routing reason or error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="186" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a8b15fcb252f7c1ff5ad1b54cd10efa24" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::tensor::ShardSummary::compressed_candidates</definition>
+        <argsstring></argsstring>
+        <name>compressed_candidates</name>
+        <qualifiedname>themis::tensor::ShardSummary::compressed_candidates</qualifiedname>
+        <briefdescription>
+<para>Compressed candidate summaries from this shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="189" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a7677e469fa809bd1f62d67b156ae0c0e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ShardSummary::last_update_timestamp</definition>
+        <argsstring></argsstring>
+        <name>last_update_timestamp</name>
+        <qualifiedname>themis::tensor::ShardSummary::last_update_timestamp</qualifiedname>
+        <briefdescription>
+<para>Timestamp (ISO-8601) when this summary was last updated on the shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="194" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1aec67a15b6cd4d7c17484fca022e37931" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::tensor::ShardSummary::freshness_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>freshness_ttl_seconds</name>
+        <qualifiedname>themis::tensor::ShardSummary::freshness_ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+<para>Time-to-live for this summary in seconds (0 = no TTL). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="197" column="14" bodyfile="include/tensor/tensor_summary_types.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_shard_summary_1a071b4e21c7056536407f51aab3c85f9c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7" kindref="member">SummaryFreshnessState</ref></type>
+        <definition>SummaryFreshnessState themis::tensor::ShardSummary::freshness_state</definition>
+        <argsstring></argsstring>
+        <name>freshness_state</name>
+        <qualifiedname>themis::tensor::ShardSummary::freshness_state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7aa56278fcd527ad6b4619050916ca2ca8" kindref="member">SummaryFreshnessState::FRESH</ref></initializer>
+        <briefdescription>
+<para>Current freshness state (FRESH, STALE, or INVALID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="200" column="27" bodyfile="include/tensor/tensor_summary_types.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_shard_summary_1a0a11c29dc191fcf1cab8a793a16dd2b7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::ShardSummary::isStale</definition>
+        <argsstring>(const std::string &amp;now_timestamp=&quot;&quot;) const noexcept</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::tensor::ShardSummary::isStale</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>now_timestamp</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Check if this summary is stale based on current time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A summary is considered stale if:<itemizedlist>
+<listitem><para>freshness_state == STALE or INVALID, OR</para>
+</listitem><listitem><para>Current time &gt; last_update_timestamp + freshness_ttl_seconds</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>now_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ISO-8601 timestamp for comparison (defaults to now) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if summary is stale or invalid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">last_update_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="212" column="11" bodyfile="src/tensor/tensor_summary_types.cpp" bodystart="128" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_shard_summary_1a7dbc6c06c1f525c7525183dd3e2b9b1d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::ShardSummary::markAsStale</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>markAsStale</name>
+        <qualifiedname>themis::tensor::ShardSummary::markAsStale</qualifiedname>
+        <briefdescription>
+<para>Mark this summary as stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used when discovery or validation detects that the summary is outdated. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="219" column="10" bodyfile="include/tensor/tensor_summary_types.h" bodystart="219" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_shard_summary_1a792d4dfbe73347acdeb8501368d42994" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::ShardSummary::markAsInvalid</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>markAsInvalid</name>
+        <qualifiedname>themis::tensor::ShardSummary::markAsInvalid</qualifiedname>
+        <briefdescription>
+<para>Mark this summary as invalid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used when discovery detects corruption or integrity failure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="228" column="10" bodyfile="include/tensor/tensor_summary_types.h" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_shard_summary_1a5253436352119aa8912985a6dafbde57" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::ShardSummary::markAsFresh</definition>
+        <argsstring>(bool update_timestamp=false) noexcept</argsstring>
+        <name>markAsFresh</name>
+        <qualifiedname>themis::tensor::ShardSummary::markAsFresh</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>update_timestamp</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Mark this summary as fresh. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates freshness_state to FRESH and optionally updates timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>update_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if true, sets created_at to current time </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="239" column="10" bodyfile="src/tensor/tensor_summary_types.cpp" bodystart="176" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tensor summary for results from a specific shard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents compression of candidates retrieved from a single shard, with metadata about shard relevance and contribution. Includes freshness tracking for distributed summary-first routing. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::ShardSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_shard_summary"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>compression_info</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::tensor::CompressionResult</label>
+        <link refid="structthemis_1_1tensor_1_1_compression_result"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::ShardSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_shard_summary"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_summary_types.h" line="163" column="1" bodyfile="include/tensor/tensor_summary_types.h" bodystart="163" bodyend="240"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a0e4eb618622b3061fd718ca486f8cad9" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>candidates_after_compression</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a27ff704aaa3f1e11d4234c672b9ef6fb" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>candidates_before_compression</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a8b15fcb252f7c1ff5ad1b54cd10efa24" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>compressed_candidates</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a262766ce8623272fd51a89243f694687" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>compression_info</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a161a274c6b0209c4704e776e1f3b7b39" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>compression_strategy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1adcda9163e400eed8923e92b457c04057" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a642e98edb63b4c79f113cd07df747046" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a11d14d4114d5df375b2c948660e92ec2" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>domain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a071b4e21c7056536407f51aab3c85f9c" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>freshness_state</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1aec67a15b6cd4d7c17484fca022e37931" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>freshness_ttl_seconds</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a64892e40aa70517d46e09e6d11842741" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a0a11c29dc191fcf1cab8a793a16dd2b7" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>isStale</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a7677e469fa809bd1f62d67b156ae0c0e" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>last_update_timestamp</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a5253436352119aa8912985a6dafbde57" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>markAsFresh</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a792d4dfbe73347acdeb8501368d42994" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>markAsInvalid</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a7dbc6c06c1f525c7525183dd3e2b9b1d" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>markAsStale</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a32cedc950977203b1e99235536ab6758" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>retrieval_latency_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a21d90f934dee6c82ea89128e9cd02570" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a0ffb0d687ac70d24c478e9bf609ae162" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>scope_kind</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a44a078265bfa0941a6a28468faa1411a" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>shard_healthy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a8e871bdcfe6b6100e840af1837876513" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a68e8613dc18a8b09a9123cfffba23307" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>shard_relevance</name></member>
+      <member refid="structthemis_1_1tensor_1_1_shard_summary_1a5ba67f80ca5d114c666b081cc028656b" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>shard_routing_reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1af80994cc65277d71b3a6eca31ad4dfc2" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>similarity_score</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1ac6acd2dff1ca02aaf504b1d97c3163f2" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a8784066e1ff14eed769e135d36b06c2b" prot="public" virt="non-virtual"><scope>themis::tensor::ShardSummary</scope><name>validated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

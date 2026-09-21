@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_legal_extraction_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::LegalExtractionResult</compoundname>
+    <includes refid="semantic__validator_8h" local="no">semantic_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_extraction_result_1a556c90f708b175d39c4622f3be8d6f93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalExtractionResult::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::ingestion::LegalExtractionResult::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="178" column="36" bodyfile="include/ingestion/semantic_validator.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_extraction_result_1a94637f875b275d1fdde120b8fc26217f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalExtractionResult::effective_from</definition>
+        <argsstring></argsstring>
+        <name>effective_from</name>
+        <qualifiedname>themis::ingestion::LegalExtractionResult::effective_from</qualifiedname>
+        <briefdescription>
+<para>Document-level effective date. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="179" column="36" bodyfile="include/ingestion/semantic_validator.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_extraction_result_1aca75a490d7a85e02f9ff9f251d68abda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LegalExtractionResult::effective_to</definition>
+        <argsstring></argsstring>
+        <name>effective_to</name>
+        <qualifiedname>themis::ingestion::LegalExtractionResult::effective_to</qualifiedname>
+        <briefdescription>
+<para>Document-level expiry date (empty if current). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="180" column="36" bodyfile="include/ingestion/semantic_validator.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_extraction_result_1a5ab6ed8da3286e44489e934d7db6e996" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_legal_provision" kindref="compound">LegalProvision</ref> &gt;</type>
+        <definition>std::vector&lt;LegalProvision&gt; themis::ingestion::LegalExtractionResult::provisions</definition>
+        <argsstring></argsstring>
+        <name>provisions</name>
+        <qualifiedname>themis::ingestion::LegalExtractionResult::provisions</qualifiedname>
+        <briefdescription>
+<para>Per-provision results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="181" column="20" bodyfile="include/ingestion/semantic_validator.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_extraction_result_1a01c0a374b6802c351c09d09397ba417e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::LegalExtractionResult::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>themis::ingestion::LegalExtractionResult::quality_score</qualifiedname>
+        <briefdescription>
+<para>Overall quality score [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="182" column="37" bodyfile="include/ingestion/semantic_validator.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_extraction_result_1aee22beb6380ce0c157e5fcf27ee6254a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref></type>
+        <definition>SemanticValidationResult themis::ingestion::LegalExtractionResult::validation</definition>
+        <argsstring></argsstring>
+        <name>validation</name>
+        <qualifiedname>themis::ingestion::LegalExtractionResult::validation</qualifiedname>
+        <briefdescription>
+<para>Quality gate results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="183" column="37" bodyfile="include/ingestion/semantic_validator.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_extraction_result_1aa869cb5df99688c60ff2b840f65bc8f2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::LegalExtractionResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::ingestion::LegalExtractionResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="184" column="24" bodyfile="include/ingestion/semantic_validator.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_legal_extraction_result_1ac7bc595c35d646274d6e8ced17bd6340" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::LegalExtractionResult::LegalExtractionResult</definition>
+        <argsstring>()</argsstring>
+        <name>LegalExtractionResult</name>
+        <qualifiedname>themis::ingestion::LegalExtractionResult::LegalExtractionResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="186" column="5" bodyfile="include/ingestion/semantic_validator.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full extraction result for a legal document. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::LegalExtractionResult</label>
+        <link refid="structthemis_1_1ingestion_1_1_legal_extraction_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>validation</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::SemanticValidationResult</label>
+        <link refid="structthemis_1_1ingestion_1_1_semantic_validation_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/semantic_validator.h" line="177" column="1" bodyfile="include/ingestion/semantic_validator.h" bodystart="177" bodyend="187"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a556c90f708b175d39c4622f3be8d6f93" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalExtractionResult</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a94637f875b275d1fdde120b8fc26217f" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalExtractionResult</scope><name>effective_from</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aca75a490d7a85e02f9ff9f251d68abda" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalExtractionResult</scope><name>effective_to</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1ac7bc595c35d646274d6e8ced17bd6340" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalExtractionResult</scope><name>LegalExtractionResult</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a5ab6ed8da3286e44489e934d7db6e996" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalExtractionResult</scope><name>provisions</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a01c0a374b6802c351c09d09397ba417e" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalExtractionResult</scope><name>quality_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aee22beb6380ce0c157e5fcf27ee6254a" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalExtractionResult</scope><name>validation</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aa869cb5df99688c60ff2b840f65bc8f2" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalExtractionResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

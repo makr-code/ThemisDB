@@ -1,0 +1,834 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wal__manager_8h" kind="file" language="C++">
+    <compoundname>wal_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="cross__shard__transaction_8h" local="yes">include/sharding/cross_shard_transaction.h</includedby>
+    <includedby refid="distributed__transaction_8h" local="yes">include/sharding/distributed_transaction.h</includedby>
+    <includedby refid="metadata__shard_8h" local="yes">include/sharding/metadata_shard.h</includedby>
+    <includedby refid="metadata__snapshot_8h" local="yes">include/sharding/metadata_snapshot.h</includedby>
+    <includedby refid="metadata__wal_8h" local="yes">include/sharding/metadata_wal.h</includedby>
+    <includedby refid="multi__primary__coordinator_8h" local="yes">include/sharding/multi_primary_coordinator.h</includedby>
+    <includedby refid="paxos__consensus_8h" local="yes">include/sharding/paxos_consensus.h</includedby>
+    <includedby refid="paxos__snapshot_8h" local="yes">include/sharding/paxos_snapshot.h</includedby>
+    <includedby refid="paxos__wal_8h" local="yes">include/sharding/paxos_wal.h</includedby>
+    <includedby refid="raft__wal__integration_8h" local="yes">include/sharding/raft_wal_integration.h</includedby>
+    <includedby refid="transaction__wal_8h" local="yes">include/sharding/transaction_wal.h</includedby>
+    <includedby refid="two__phase__commit__coordinator_8h" local="yes">include/sharding/two_phase_commit_coordinator.h</includedby>
+    <includedby refid="two__phase__commit__participant_8h" local="yes">include/sharding/two_phase_commit_participant.h</includedby>
+    <includedby refid="wal__applier_8h" local="yes">include/sharding/wal_applier.h</includedby>
+    <includedby refid="wal__logging__helper_8h" local="yes">include/sharding/wal_logging_helper.h</includedby>
+    <includedby refid="wal__shipper_8h" local="yes">include/sharding/wal_shipper.h</includedby>
+    <includedby refid="wal__manager_8cpp" local="yes">src/sharding/wal_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="8">
+        <label>fstream</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>benchmarks/sharding/bench_distributed_coordinator.cpp</label>
+        <link refid="bench__distributed__coordinator_8cpp"/>
+      </node>
+      <node id="20">
+        <label>benchmarks/sharding/bench_shard_routing.cpp</label>
+        <link refid="bench__shard__routing_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="21">
+        <label>include/sharding/adaptive_shard_router.h</label>
+        <link refid="adaptive__shard__router_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>include/sharding/consensus_factory.h</label>
+        <link refid="consensus__factory_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/cross_shard_transaction.h</label>
+        <link refid="cross__shard__transaction_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/sharding/distributed_coordinator.h</label>
+        <link refid="distributed__coordinator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/sharding/distributed_transaction.h</label>
+        <link refid="distributed__transaction_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/sharding/dual_consensus_orchestrator.h</label>
+        <link refid="dual__consensus__orchestrator_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/sharding/gossip_consensus_adapter.h</label>
+        <link refid="gossip__consensus__adapter_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/sharding/health_monitor.h</label>
+        <link refid="health__monitor_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/sharding/metadata_shard.h</label>
+        <link refid="metadata__shard_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/sharding/metadata_snapshot.h</label>
+        <link refid="metadata__snapshot_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/sharding/metadata_wal.h</label>
+        <link refid="metadata__wal_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/sharding/multi_primary_coordinator.h</label>
+        <link refid="multi__primary__coordinator_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/sharding/orphan_detector.h</label>
+        <link refid="orphan__detector_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>include/sharding/paxos_consensus.h</label>
+        <link refid="paxos__consensus_8h"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>include/sharding/paxos_snapshot.h</label>
+        <link refid="paxos__snapshot_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>include/sharding/paxos_state_persistence.h</label>
+        <link refid="paxos__state__persistence_8h"/>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>include/sharding/paxos_wal.h</label>
+        <link refid="paxos__wal_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>include/sharding/raft_wal_integration.h</label>
+        <link refid="raft__wal__integration_8h"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/sharding/raid_paxos_config.h</label>
+        <link refid="raid__paxos__config_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>include/sharding/raid_paxos_consensus.h</label>
+        <link refid="raid__paxos__consensus_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>include/sharding/replication_coordinator.h</label>
+        <link refid="replication__coordinator_8h"/>
+        <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/sharding/shard_router.h</label>
+        <link refid="shard__router_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>include/sharding/transaction_snapshot.h</label>
+        <link refid="transaction__snapshot_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>include/sharding/transaction_wal.h</label>
+        <link refid="transaction__wal_8h"/>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>include/sharding/two_phase_commit_coordinator.h</label>
+        <link refid="two__phase__commit__coordinator_8h"/>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>include/sharding/two_phase_commit_participant.h</label>
+        <link refid="two__phase__commit__participant_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>include/sharding/wal_applier.h</label>
+        <link refid="wal__applier_8h"/>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>include/sharding/wal_logging_helper.h</label>
+        <link refid="wal__logging__helper_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>include/sharding/wal_shipper.h</label>
+        <link refid="wal__shipper_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>src/sharding/adaptive_shard_router.cpp</label>
+        <link refid="adaptive__shard__router_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/sharding/consensus_factory.cpp</label>
+        <link refid="consensus__factory_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/sharding/cross_shard_transaction.cpp</label>
+        <link refid="cross__shard__transaction_8cpp"/>
+      </node>
+      <node id="71">
+        <label>src/sharding/data_migrator.cpp</label>
+        <link refid="data__migrator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/sharding/distributed_coordinator.cpp</label>
+        <link refid="distributed__coordinator_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/sharding/distributed_transaction.cpp</label>
+        <link refid="distributed__transaction_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/sharding/dual_consensus_orchestrator.cpp</label>
+        <link refid="dual__consensus__orchestrator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/sharding/gossip_consensus_adapter.cpp</label>
+        <link refid="gossip__consensus__adapter_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/sharding/health_monitor.cpp</label>
+        <link refid="health__monitor_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/sharding/metadata_shard.cpp</label>
+        <link refid="metadata__shard_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/sharding/metadata_snapshot.cpp</label>
+        <link refid="metadata__snapshot_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/sharding/metadata_wal.cpp</label>
+        <link refid="metadata__wal_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/sharding/multi_primary_coordinator.cpp</label>
+        <link refid="multi__primary__coordinator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/sharding/orphan_detector.cpp</label>
+        <link refid="orphan__detector_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/sharding/paxos_consensus.cpp</label>
+        <link refid="paxos__consensus_8cpp"/>
+      </node>
+      <node id="48">
+        <label>src/sharding/paxos_snapshot.cpp</label>
+        <link refid="paxos__snapshot_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/sharding/paxos_state_persistence.cpp</label>
+        <link refid="paxos__state__persistence_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/sharding/paxos_wal.cpp</label>
+        <link refid="paxos__wal_8cpp"/>
+      </node>
+      <node id="55">
+        <label>src/sharding/raft_wal_integration.cpp</label>
+        <link refid="raft__wal__integration_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/sharding/raid_paxos_consensus.cpp</label>
+        <link refid="raid__paxos__consensus_8cpp"/>
+      </node>
+      <node id="70">
+        <label>src/sharding/replication_coordinator.cpp</label>
+        <link refid="replication__coordinator_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/sharding/shard_router.cpp</label>
+        <link refid="shard__router_8cpp"/>
+      </node>
+      <node id="58">
+        <label>src/sharding/transaction_snapshot.cpp</label>
+        <link refid="transaction__snapshot_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/sharding/transaction_wal.cpp</label>
+        <link refid="transaction__wal_8cpp"/>
+      </node>
+      <node id="62">
+        <label>src/sharding/two_phase_commit_coordinator.cpp</label>
+        <link refid="two__phase__commit__coordinator_8cpp"/>
+      </node>
+      <node id="64">
+        <label>src/sharding/two_phase_commit_participant.cpp</label>
+        <link refid="two__phase__commit__participant_8cpp"/>
+      </node>
+      <node id="66">
+        <label>src/sharding/wal_applier.cpp</label>
+        <link refid="wal__applier_8cpp"/>
+      </node>
+      <node id="73">
+        <label>src/sharding/wal_manager.cpp</label>
+        <link refid="wal__manager_8cpp"/>
+      </node>
+      <node id="72">
+        <label>src/sharding/wal_shipper.cpp</label>
+        <link refid="wal__shipper_8cpp"/>
+      </node>
+      <node id="41">
+        <label>tests/sharding/test_converged_chaos.cpp</label>
+        <link refid="test__converged__chaos_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/sharding/test_cross_shard_fk_validator.cpp</label>
+        <link refid="test__cross__shard__fk__validator_8cpp"/>
+      </node>
+      <node id="42">
+        <label>tests/sharding/test_dual_consensus.cpp</label>
+        <link refid="test__dual__consensus_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/sharding/test_raid_paxos.cpp</label>
+        <link refid="test__raid__paxos_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/sharding/test_sharding_cross_shard_fk.cpp</label>
+        <link refid="test__sharding__cross__shard__fk_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/sharding/test_sharding_e2e.cpp</label>
+        <link refid="test__sharding__e2e_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/sharding/test_sharding_integration.cpp</label>
+        <link refid="test__sharding__integration_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/sharding/test_sharding_transaction_wal.cpp</label>
+        <link refid="test__sharding__transaction__wal_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/sharding/test_sharding_uncovered.cpp</label>
+        <link refid="test__sharding__uncovered_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/sharding/test_three_phase_commit.cpp</label>
+        <link refid="test__three__phase__commit_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_l_s_n" prot="public">themis::sharding::LSN</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_w_a_l_entry" prot="public">themis::sharding::WALEntry</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_w_a_l_manager_config" prot="public">themis::sharding::WALManagerConfig</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_w_a_l_manager" prot="public">themis::sharding::WALManager</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics" prot="public">themis::sharding::WALManager::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Prevent/clean<sp/>Windows<sp/>macro<sp/>pollution<sp/>that<sp/>can<sp/>break<sp/>enum/identifiers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_WIN32)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NOMINMAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NOMINMAX<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>LSN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>LSN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>DELETE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>DELETE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>INSERT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>INSERT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>UPDATE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>UPDATE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>BEGIN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>BEGIN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>COMMIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>COMMIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>ABORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>ABORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CHECKPOINT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>CHECKPOINT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1sharding_1_1_l_s_n" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>WAL<sp/>segment<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" kindref="member">offset</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Offset<sp/>within<sp/>segment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref>()<sp/>:<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref>(0),<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" kindref="member">offset</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1sharding_1_1_l_s_n_1a6d72b1267445001a92eea7ef7579da6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a6d72b1267445001a92eea7ef7579da6c" kindref="member">LSN</ref>(uint64_t<sp/>seg,<sp/>uint64_t<sp/>off)<sp/>:<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref>(seg),<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" kindref="member">offset</ref>(off)<sp/>{}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1sharding_1_1_l_s_n_1a0e2cb869fc5470e3a69efe9b71963e9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a0e2cb869fc5470e3a69efe9b71963e9e" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref><sp/>!=<sp/>other.<ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref><sp/>&lt;<sp/>other.<ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" kindref="member">offset</ref><sp/>&lt;<sp/>other.<ref refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" kindref="member">offset</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1sharding_1_1_l_s_n_1a2577f9f5a36c43bf719ae507dbc71d33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a2577f9f5a36c43bf719ae507dbc71d33" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref><sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" kindref="member">offset</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" kindref="member">offset</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1sharding_1_1_l_s_n_1a7b88d60f1c52149123149e921edf2083" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a7b88d60f1c52149123149e921edf2083" kindref="member">operator&lt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>&lt;<sp/>other<sp/>||<sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>other;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1sharding_1_1_l_s_n_1ad335836e3aeb651b3ad83b602473e22f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1ad335836e3aeb651b3ad83b602473e22f" kindref="member">operator&gt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>other<sp/>&lt;<sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1sharding_1_1_l_s_n_1ac704f112b9c63653962de52763e45298" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1ac704f112b9c63653962de52763e45298" kindref="member">operator&gt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1a1491e9e7ba99da10be0cb548721f4928" kindref="member">LSN</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>&lt;<sp/>other);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1sharding_1_1_l_s_n_1ab28536490c5f20f4f0af6c56d93bfc4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1ab28536490c5f20f4f0af6c56d93bfc4f" kindref="member">toString</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::to_string(<ref refid="structthemis_1_1sharding_1_1_l_s_n_1a35a4349ec3536d4085a29c871c42117b" kindref="member">segment</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="structthemis_1_1sharding_1_1_l_s_n_1aed626f0039200d2aaaa54e5b26627fe9" kindref="member">offset</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n_1abf5d2bd022cce4532fc3f70b75c467bd" kindref="member">fromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="120" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a61ee777e7f71dc466c3b2c685d8d313b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">INSERT</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a15a8022d0ed9cd9c2a2e756822703eb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">UPDATE</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1ac3ad6539635acd781aa53d2d00269f0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1ac3ad6539635acd781aa53d2d00269f0d" kindref="member">BEGIN_TX</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a306155987773f69db0f6485f6539f729" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a306155987773f69db0f6485f6539f729" kindref="member">COMMIT_TX</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="125" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a83f0036a28d7453a0439528d3a0babbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a83f0036a28d7453a0439528d3a0babbd" kindref="member">ABORT_TX</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a0f15e1247e93ddfa95c008106eb0d22f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a0f15e1247e93ddfa95c008106eb0d22f" kindref="member">CHECKPOINT</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="127" refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a1064856c588d028dd20ab016dd9c7486" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1a1064856c588d028dd20ab016dd9c7486" kindref="member">PREPARE_TX</ref><sp/>=<sp/>8<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2PC<sp/>PREPARE<sp/>phase<sp/>log<sp/>entry<sp/>(in-doubt<sp/>recovery)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1sharding_1_1_w_a_l_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a67b91082c9d904e0c3fc509dcc8f574c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a67b91082c9d904e0c3fc509dcc8f574c" kindref="member">lsn</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>sequence<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a66fb7a161e6b76f41a4ef41afeffb93a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a66fb7a161e6b76f41a4ef41afeffb93a" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entry<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1sharding_1_1_w_a_l_entry_1abc8c60e5472ef9b41df487f0557f7785" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1abc8c60e5472ef9b41df487f0557f7785" kindref="member">timestamp</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>(milliseconds<sp/>since<sp/>epoch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a9cebed1fa32109f926d7e631c57fa757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a9cebed1fa32109f926d7e631c57fa757" kindref="member">transaction_id</ref>;<sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>ID<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>data<sp/>(JSON<sp/>for<sp/>flexibility)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1afa567a5535a0e65efbbee49d6bdef758" kindref="member">serialize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1ae29f68045fd1dfb95fa837ccfb99619b" kindref="member">deserialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>bytes);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a9dccd7cd37e8cc58216aa26dd696dde8" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1sharding_1_1_w_a_l_manager_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config" kindref="compound">WALManagerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a2ed2393af1ee1c6cdad113f9a680ed1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a2ed2393af1ee1c6cdad113f9a680ed1a" kindref="member">wal_directory</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./wal&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a99baba57e5879b316c535b122428859f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a99baba57e5879b316c535b122428859f" kindref="member">segment_size</ref><sp/>=<sp/>16<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>MB<sp/>per<sp/>segment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a73c961ed8e1a6c61f781e9ef43ed6797" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a73c961ed8e1a6c61f781e9ef43ed6797" kindref="member">max_segments</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>segments<sp/>to<sp/>keep</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1aae2873dc8ee2541dc1f5a06804c465ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1aae2873dc8ee2541dc1f5a06804c465ff" kindref="member">sync_on_write</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fsync<sp/>after<sp/>each<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1abb44ff37ab190ba254f75cbfd052de9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1abb44ff37ab190ba254f75cbfd052de9f" kindref="member">write_buffer_size</ref><sp/>=<sp/>64<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>KB<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1sharding_1_1_w_a_l_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a92bf3724f767e2fb40b7cdc23ee27c35" kindref="member">WALManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a92bf3724f767e2fb40b7cdc23ee27c35" kindref="member">WALManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config" kindref="compound">WALManagerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a9dbf873a325b53263a6b1b2d67cd7552" kindref="member">~WALManager</ref>();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a7ae845fb46e5fe524db5a67e6c7533c9" kindref="member">append</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;WALEntry&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a6012639765908cf03578a6826733dce2" kindref="member">read</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>lsn);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WALEntry&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a537bebfbdae31a90a33ab45c2f96870d" kindref="member">readRange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>start_lsn,<sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;LSN&gt;&amp;<sp/>end_lsn<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a25f073a175862d11fb507dbbcc7a57ff" kindref="member">getCurrentLSN</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1aedcc1fdfd06f0a9a2c95cec9bac41751" kindref="member">getOldestLSN</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1abc9f0e4662b3616563bff8335f2a31c0" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a79149194faf8643c0225460a4c91b08d" kindref="member">checkpoint</ref>();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a9c46c7e5d7bfaae7bcad7d1c88c9138a" kindref="member">truncate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>lsn);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics" kindref="compound">Statistics</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a7dd2a7417b5eeb4d8ab2764f25b1f7e4" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a6b668856554bd769de06498d38921c2b" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(implementation<sp/>provided<sp/>after<sp/>class<sp/>to<sp/>avoid<sp/>defining<sp/>member<sp/>inside<sp/>class)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config" kindref="compound">WALManagerConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>write<sp/>position</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/>current_lsn_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/>oldest_lsn_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>segment<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;std::fstream&gt;<sp/>current_segment_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>write_buffer_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_entries_{0};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_bytes_{0};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>openSegment(uint64_t<sp/>segment_number);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>closeSegment();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rotateSegment();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getSegmentPath(uint64_t<sp/>segment_number)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadExistingSegments();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupOldSegments();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics" kindref="compound">WALManager::Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="268" refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a2f028bc06a2feef2c05f6df71f71d59f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a2f028bc06a2feef2c05f6df71f71d59f" kindref="member">total_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a4b3d8fd1b2eeb5b7b9d18e7cea9a54a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a4b3d8fd1b2eeb5b7b9d18e7cea9a54a4" kindref="member">total_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a038d392fdf55401da6134f073d692878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a038d392fdf55401da6134f073d692878" kindref="member">segments</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="274" refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a22a877a7c9f99968a6931c0048b40617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a22a877a7c9f99968a6931c0048b40617" kindref="member">current_lsn</ref>;</highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1acad26baaec44792c106da5dd33e4833a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1acad26baaec44792c106da5dd33e4833a" kindref="member">oldest_lsn</ref>;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inline<sp/>implementation<sp/>of<sp/>initialize()<sp/>placed<sp/>in<sp/>header<sp/>for<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a6b668856554bd769de06498d38921c2b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a6b668856554bd769de06498d38921c2b" kindref="member">themis::sharding::WALManager::initialize</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(config_.wal_directory);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ignore<sp/>filesystem<sp/>errors<sp/>in<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>loadExistingSegments();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/wal_manager.h"/>
+  </compounddef>
+</doxygen>

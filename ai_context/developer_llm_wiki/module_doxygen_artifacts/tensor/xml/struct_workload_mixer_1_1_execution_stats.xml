@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_workload_mixer_1_1_execution_stats" kind="struct" language="C++" prot="public">
+    <compoundname>WorkloadMixer::ExecutionStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_workload_mixer_1_1_execution_stats_1ab913ef8e3010aaf169d3322fcc0f2ab3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t WorkloadMixer::ExecutionStats::total_operations</definition>
+        <argsstring></argsstring>
+        <name>total_operations</name>
+        <qualifiedname>WorkloadMixer::ExecutionStats::total_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="232" column="18" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_mixer_1_1_execution_stats_1ade6b504058ead11b12fc251bd261a06f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t WorkloadMixer::ExecutionStats::query_operations</definition>
+        <argsstring></argsstring>
+        <name>query_operations</name>
+        <qualifiedname>WorkloadMixer::ExecutionStats::query_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="233" column="18" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_mixer_1_1_execution_stats_1a9b5e9c32946bf1dd3fdf3e31cdc1499a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t WorkloadMixer::ExecutionStats::store_operations</definition>
+        <argsstring></argsstring>
+        <name>store_operations</name>
+        <qualifiedname>WorkloadMixer::ExecutionStats::store_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="234" column="18" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_mixer_1_1_execution_stats_1ac3c7b23594925daf0a1f6279c8d18b27" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t WorkloadMixer::ExecutionStats::remove_operations</definition>
+        <argsstring></argsstring>
+        <name>remove_operations</name>
+        <qualifiedname>WorkloadMixer::ExecutionStats::remove_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="235" column="18" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_mixer_1_1_execution_stats_1aa73a5f9a863ad7c09d78ddd45d3e476f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t WorkloadMixer::ExecutionStats::failed_operations</definition>
+        <argsstring></argsstring>
+        <name>failed_operations</name>
+        <qualifiedname>WorkloadMixer::ExecutionStats::failed_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="236" column="18" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_mixer_1_1_execution_stats_1ac09959aed34e7044ddcead3b5e677cd3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t WorkloadMixer::ExecutionStats::elapsed_ns</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ns</name>
+        <qualifiedname>WorkloadMixer::ExecutionStats::elapsed_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="237" column="18" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_mixer_1_1_execution_stats_1ae08bcc036b3005e10ca3f0791249d4fc" prot="public" static="no" mutable="no">
+        <type><ref refid="class_latency_tracker" kindref="compound">LatencyTracker</ref></type>
+        <definition>LatencyTracker WorkloadMixer::ExecutionStats::latencies</definition>
+        <argsstring></argsstring>
+        <name>latencies</name>
+        <qualifiedname>WorkloadMixer::ExecutionStats::latencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="238" column="24" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_mixer_1_1_execution_stats_1a283bfacd27fbb22e5eae70bbfa949e89" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double WorkloadMixer::ExecutionStats::throughput_ops_per_sec</definition>
+        <argsstring></argsstring>
+        <name>throughput_ops_per_sec</name>
+        <qualifiedname>WorkloadMixer::ExecutionStats::throughput_ops_per_sec</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="239" column="16" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Execute the entire workload, recording latencies and statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>LatencyTracker</label>
+        <link refid="class_latency_tracker"/>
+      </node>
+      <node id="1">
+        <label>WorkloadMixer::ExecutionStats</label>
+        <link refid="struct_workload_mixer_1_1_execution_stats"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>latencies</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="231" column="5" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="231" bodyend="240"/>
+    <listofallmembers>
+      <member refid="struct_workload_mixer_1_1_execution_stats_1ac09959aed34e7044ddcead3b5e677cd3" prot="public" virt="non-virtual"><scope>WorkloadMixer::ExecutionStats</scope><name>elapsed_ns</name></member>
+      <member refid="struct_workload_mixer_1_1_execution_stats_1aa73a5f9a863ad7c09d78ddd45d3e476f" prot="public" virt="non-virtual"><scope>WorkloadMixer::ExecutionStats</scope><name>failed_operations</name></member>
+      <member refid="struct_workload_mixer_1_1_execution_stats_1ae08bcc036b3005e10ca3f0791249d4fc" prot="public" virt="non-virtual"><scope>WorkloadMixer::ExecutionStats</scope><name>latencies</name></member>
+      <member refid="struct_workload_mixer_1_1_execution_stats_1ade6b504058ead11b12fc251bd261a06f" prot="public" virt="non-virtual"><scope>WorkloadMixer::ExecutionStats</scope><name>query_operations</name></member>
+      <member refid="struct_workload_mixer_1_1_execution_stats_1ac3c7b23594925daf0a1f6279c8d18b27" prot="public" virt="non-virtual"><scope>WorkloadMixer::ExecutionStats</scope><name>remove_operations</name></member>
+      <member refid="struct_workload_mixer_1_1_execution_stats_1a9b5e9c32946bf1dd3fdf3e31cdc1499a" prot="public" virt="non-virtual"><scope>WorkloadMixer::ExecutionStats</scope><name>store_operations</name></member>
+      <member refid="struct_workload_mixer_1_1_execution_stats_1a283bfacd27fbb22e5eae70bbfa949e89" prot="public" virt="non-virtual"><scope>WorkloadMixer::ExecutionStats</scope><name>throughput_ops_per_sec</name></member>
+      <member refid="struct_workload_mixer_1_1_execution_stats_1ab913ef8e3010aaf169d3322fcc0f2ab3" prot="public" virt="non-virtual"><scope>WorkloadMixer::ExecutionStats</scope><name>total_operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

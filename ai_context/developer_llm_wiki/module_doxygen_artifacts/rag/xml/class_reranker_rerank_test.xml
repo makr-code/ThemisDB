@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_reranker_rerank_test" kind="class" language="C++" prot="public">
+    <compoundname>RerankerRerankTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_reranker_rerank_test_1a6e1c9df99d56ed1cfa4638c10d7a3614" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref></type>
+        <definition>CrossEncoderConfig RerankerRerankTest::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>RerankerRerankTest::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="118" column="24" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_reranker_rerank_test_1a787b9f5922f9b4dab430c554f2927037" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string RerankerRerankTest::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>RerankerRerankTest::query</qualifiedname>
+        <initializer>= &quot;What is machine <ref refid="namespacethemis_1_1rag_1_1learning" kindref="compound">learning</ref>?&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="119" column="17" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_reranker_rerank_test_1a8c3dd0cab46f8eb90e353ac4fe1c1c10" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; RerankerRerankTest::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>RerankerRerankTest::candidates</qualifiedname>
+        <initializer>                       = makeDocuments({
+    {&quot;doc1&quot;, &quot;Machine <ref refid="namespacethemis_1_1rag_1_1learning" kindref="compound">learning</ref> is a subset of artificial intelligence.&quot;},
+    {&quot;doc2&quot;, &quot;Quantum computing leverages quantum mechanics.&quot;},
+    {&quot;doc3&quot;, &quot;Machine <ref refid="namespacethemis_1_1rag_1_1learning" kindref="compound">learning</ref> algorithms learn from data automatically.&quot;},
+    {&quot;doc4&quot;, &quot;The weather in Paris is mild in spring.&quot;},
+    {&quot;doc5&quot;, &quot;Supervised machine <ref refid="namespacethemis_1_1rag_1_1learning" kindref="compound">learning</ref> requires labelled <ref refid="namespacethemis_1_1rag_1_1training" kindref="compound">training</ref> data.&quot;}
+})</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="121" column="17" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RerankerRerankTest</label>
+        <link refid="class_reranker_rerank_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RerankerRerankTest</label>
+        <link refid="class_reranker_rerank_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::CrossEncoderConfig</label>
+        <link refid="structthemis_1_1rag_1_1_cross_encoder_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_reranker.cpp" line="116" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="116" bodyend="128"/>
+    <listofallmembers>
+      <member refid="class_reranker_rerank_test_1a8c3dd0cab46f8eb90e353ac4fe1c1c10" prot="protected" virt="non-virtual"><scope>RerankerRerankTest</scope><name>candidates</name></member>
+      <member refid="class_reranker_rerank_test_1a6e1c9df99d56ed1cfa4638c10d7a3614" prot="protected" virt="non-virtual"><scope>RerankerRerankTest</scope><name>config</name></member>
+      <member refid="class_reranker_rerank_test_1a787b9f5922f9b4dab430c554f2927037" prot="protected" virt="non-virtual"><scope>RerankerRerankTest</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

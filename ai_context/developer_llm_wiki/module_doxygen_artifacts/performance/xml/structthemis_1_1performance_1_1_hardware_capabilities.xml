@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_hardware_capabilities" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::HardwareCapabilities</compoundname>
+    <includes refid="phase2__feature__flags_8h" local="no">phase2_feature_flags.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_capabilities_1ad57a36990e9ff958e2b877f93a6f4edc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::HardwareCapabilities::has_sse2</definition>
+        <argsstring></argsstring>
+        <name>has_sse2</name>
+        <qualifiedname>themis::performance::HardwareCapabilities::has_sse2</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>SSE2 support (for RaBitQ SIMD). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="38" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_capabilities_1a6f8ba21392ae4bf7c515380eb62d622a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::HardwareCapabilities::has_avx2</definition>
+        <argsstring></argsstring>
+        <name>has_avx2</name>
+        <qualifiedname>themis::performance::HardwareCapabilities::has_avx2</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>AVX2 support (for advanced SIMD). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="39" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_capabilities_1a9cab28d100f669840f9fbad7542536a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::HardwareCapabilities::has_arm_neon</definition>
+        <argsstring></argsstring>
+        <name>has_arm_neon</name>
+        <qualifiedname>themis::performance::HardwareCapabilities::has_arm_neon</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>ARM NEON (mobile/embedded). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="40" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_capabilities_1a447cb1fe718100fc49105386b406073a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::HardwareCapabilities::has_rdtsc</definition>
+        <argsstring></argsstring>
+        <name>has_rdtsc</name>
+        <qualifiedname>themis::performance::HardwareCapabilities::has_rdtsc</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>RDTSC support (for Cicada versioning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="41" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_capabilities_1ad746f4c0967d8be62ed7b2a1df417262" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::HardwareCapabilities::has_cmpxchg16b</definition>
+        <argsstring></argsstring>
+        <name>has_cmpxchg16b</name>
+        <qualifiedname>themis::performance::HardwareCapabilities::has_cmpxchg16b</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>CMPXCHG16B (for lock-free Cicada). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="42" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_capabilities_1afa47adb1dbae3d207c7581e2d7eec524" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::HardwareCapabilities::num_cores</definition>
+        <argsstring></argsstring>
+        <name>num_cores</name>
+        <qualifiedname>themis::performance::HardwareCapabilities::num_cores</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Logical CPU cores available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="43" column="14" bodyfile="include/performance/phase2_feature_flags.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_capabilities_1a367df316c0e0ff23923037c836aef987" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::HardwareCapabilities::has_ssd</definition>
+        <argsstring></argsstring>
+        <name>has_ssd</name>
+        <qualifiedname>themis::performance::HardwareCapabilities::has_ssd</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>SSD/NVMe detected (for WiscKey). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="44" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hardware capability detection for Phase 2 features. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase2_feature_flags.h" line="37" column="1" bodyfile="include/performance/phase2_feature_flags.h" bodystart="37" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_hardware_capabilities_1a9cab28d100f669840f9fbad7542536a3" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCapabilities</scope><name>has_arm_neon</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_capabilities_1a6f8ba21392ae4bf7c515380eb62d622a" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCapabilities</scope><name>has_avx2</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_capabilities_1ad746f4c0967d8be62ed7b2a1df417262" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCapabilities</scope><name>has_cmpxchg16b</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_capabilities_1a447cb1fe718100fc49105386b406073a" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCapabilities</scope><name>has_rdtsc</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_capabilities_1a367df316c0e0ff23923037c836aef987" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCapabilities</scope><name>has_ssd</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_capabilities_1ad57a36990e9ff958e2b877f93a6f4edc" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCapabilities</scope><name>has_sse2</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_capabilities_1afa47adb1dbae3d207c7581e2d7eec524" prot="public" virt="non-virtual"><scope>themis::performance::HardwareCapabilities</scope><name>num_cores</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_paxos_w_a_l_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::PaxosWALConfig</compoundname>
+    <includes refid="paxos__wal_8h" local="no">paxos_wal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ac473e746a3d0cb6cda43f83c06bb5869" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PaxosWALConfig::wal_directory</definition>
+        <argsstring></argsstring>
+        <name>wal_directory</name>
+        <qualifiedname>themis::sharding::PaxosWALConfig::wal_directory</qualifiedname>
+        <initializer>= &quot;./wal/paxos&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="72" column="17" bodyfile="include/sharding/paxos_wal.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3ba0921225b0e54dd2207ab2b86971e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::PaxosWALConfig::segment_size</definition>
+        <argsstring></argsstring>
+        <name>segment_size</name>
+        <qualifiedname>themis::sharding::PaxosWALConfig::segment_size</qualifiedname>
+        <initializer>= 16 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="73" column="12" bodyfile="include/sharding/paxos_wal.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a88bd0deba5b8ee807e19cb3815470d39" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::PaxosWALConfig::max_segments</definition>
+        <argsstring></argsstring>
+        <name>max_segments</name>
+        <qualifiedname>themis::sharding::PaxosWALConfig::max_segments</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="74" column="12" bodyfile="include/sharding/paxos_wal.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3ed055992730f4f0ff8f3b2dac801616" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::PaxosWALConfig::sync_on_write</definition>
+        <argsstring></argsstring>
+        <name>sync_on_write</name>
+        <qualifiedname>themis::sharding::PaxosWALConfig::sync_on_write</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="75" column="10" bodyfile="include/sharding/paxos_wal.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3d3e162af925dc1c0f5dd19ffb859964" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::PaxosWALConfig::write_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>write_buffer_size</name>
+        <qualifiedname>themis::sharding::PaxosWALConfig::write_buffer_size</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="76" column="12" bodyfile="include/sharding/paxos_wal.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1aa1ff842eae680c4ee90b9975b2a324ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::PaxosWALConfig::snapshot_interval</definition>
+        <argsstring></argsstring>
+        <name>snapshot_interval</name>
+        <qualifiedname>themis::sharding::PaxosWALConfig::snapshot_interval</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="79" column="12" bodyfile="include/sharding/paxos_wal.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ad21a26cb6d384a0f88940062298b44cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PaxosWALConfig::snapshot_directory</definition>
+        <argsstring></argsstring>
+        <name>snapshot_directory</name>
+        <qualifiedname>themis::sharding::PaxosWALConfig::snapshot_directory</qualifiedname>
+        <initializer>= &quot;./snapshots/paxos&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="80" column="17" bodyfile="include/sharding/paxos_wal.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ad839286ddb4bb99f28104807aab26ad9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::PaxosWALConfig::max_snapshots</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots</name>
+        <qualifiedname>themis::sharding::PaxosWALConfig::max_snapshots</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_wal.h" line="81" column="12" bodyfile="include/sharding/paxos_wal.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Paxos WAL Configuration (Phase 2.1) </para>
+    </detaileddescription>
+    <location file="include/sharding/paxos_wal.h" line="71" column="1" bodyfile="include/sharding/paxos_wal.h" bodystart="71" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a88bd0deba5b8ee807e19cb3815470d39" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALConfig</scope><name>max_segments</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ad839286ddb4bb99f28104807aab26ad9" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALConfig</scope><name>max_snapshots</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3ba0921225b0e54dd2207ab2b86971e2" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALConfig</scope><name>segment_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ad21a26cb6d384a0f88940062298b44cb" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALConfig</scope><name>snapshot_directory</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1aa1ff842eae680c4ee90b9975b2a324ed" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALConfig</scope><name>snapshot_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3ed055992730f4f0ff8f3b2dac801616" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALConfig</scope><name>sync_on_write</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ac473e746a3d0cb6cda43f83c06bb5869" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALConfig</scope><name>wal_directory</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3d3e162af925dc1c0f5dd19ffb859964" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosWALConfig</scope><name>write_buffer_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

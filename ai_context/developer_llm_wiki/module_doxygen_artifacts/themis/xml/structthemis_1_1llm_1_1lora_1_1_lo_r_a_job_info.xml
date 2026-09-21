@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAJobInfo</compoundname>
+    <includes refid="lora__orchestrator__interface_8h" local="no">lora_orchestrator_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info_1a18f3e354121b3b04978fda84fb0557be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAJobInfo::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::llm::lora::LoRAJobInfo::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="16" column="17" bodyfile="include/themis/llm/lora_orchestrator_interface.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info_1a1bc558c2cc2b30165b5ef87cec6c8b6c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::lora::LoRAJobInfo::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::llm::lora::LoRAJobInfo::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="17" column="43" bodyfile="include/themis/llm/lora_orchestrator_interface.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/lora_orchestrator_interface.h" line="15" column="1" bodyfile="include/themis/llm/lora_orchestrator_interface.h" bodystart="15" bodyend="18"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info_1a18f3e354121b3b04978fda84fb0557be" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAJobInfo</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info_1a1bc558c2cc2b30165b5ef87cec6c8b6c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAJobInfo</scope><name>started_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

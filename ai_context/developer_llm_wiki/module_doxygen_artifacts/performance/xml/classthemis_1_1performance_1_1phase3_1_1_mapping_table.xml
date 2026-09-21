@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_mapping_table" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::MappingTable</compoundname>
+    <includes refid="bwtree_8h" local="no">bwtree.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1aefaa6cdfdc8496c7b6d64d1a7e1aa8e1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::atomic&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref> * &gt; &gt;</type>
+        <definition>std::vector&lt;std::atomic&lt;BwTreePage*&gt; &gt; themis::performance::phase3::MappingTable::table_</definition>
+        <argsstring></argsstring>
+        <name>table_</name>
+        <qualifiedname>themis::performance::phase3::MappingTable::table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="90" column="17" bodyfile="include/performance/phase3/bwtree.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1a79674d80d811cede1b4793d63cd675ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::MappingTable::MappingTable</definition>
+        <argsstring>(size_t size=10000)</argsstring>
+        <name>MappingTable</name>
+        <qualifiedname>themis::performance::phase3::MappingTable::MappingTable</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+          <defval>10000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="83" column="5" bodyfile="src/performance/phase3/bwtree.cpp" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1a1aeaf92665674b39a69c3d40c6869dda" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref> *</type>
+        <definition>BwTreePage * themis::performance::phase3::MappingTable::get</definition>
+        <argsstring>(PageID pid) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::performance::phase3::MappingTable::get</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref></type>
+          <declname>pid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="86" column="16" bodyfile="src/performance/phase3/bwtree.cpp" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1aa7ed3b469bb0d8a00dc64388bdf0aa16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::MappingTable::compare_and_swap</definition>
+        <argsstring>(PageID pid, BwTreePage *expected, BwTreePage *desired)</argsstring>
+        <name>compare_and_swap</name>
+        <qualifiedname>themis::performance::phase3::MappingTable::compare_and_swap</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" kindref="member">PageID</ref></type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref> *</type>
+          <declname>expected</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref> *</type>
+          <declname>desired</declname>
+        </param>
+        <briefdescription>
+<para>Compare and swap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">desired</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), compare_exchange_strong(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="87" column="10" bodyfile="src/performance/phase3/bwtree.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mapping table (lock-free hash table). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/bwtree.h" line="81" column="1" bodyfile="include/performance/phase3/bwtree.h" bodystart="81" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1aa7ed3b469bb0d8a00dc64388bdf0aa16" prot="public" virt="non-virtual"><scope>themis::performance::phase3::MappingTable</scope><name>compare_and_swap</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1a1aeaf92665674b39a69c3d40c6869dda" prot="public" virt="non-virtual"><scope>themis::performance::phase3::MappingTable</scope><name>get</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1a79674d80d811cede1b4793d63cd675ef" prot="public" virt="non-virtual"><scope>themis::performance::phase3::MappingTable</scope><name>MappingTable</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table_1aefaa6cdfdc8496c7b6d64d1a7e1aa8e1" prot="private" virt="non-virtual"><scope>themis::performance::phase3::MappingTable</scope><name>table_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

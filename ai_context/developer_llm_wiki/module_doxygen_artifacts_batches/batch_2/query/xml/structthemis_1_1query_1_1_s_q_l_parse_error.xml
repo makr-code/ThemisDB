@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_parse_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLParseError</compoundname>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_parse_error_1a88f0ac802d7cd1e99db0067a1d766974" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLParseError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::query::SQLParseError::message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="171" column="17" bodyfile="include/query/sql_parser.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_parse_error_1a8ba9964e7b3ba9b27bb266f5f852c8bd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::SQLParseError::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::query::SQLParseError::position</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="172" column="12" bodyfile="include/query/sql_parser.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_parse_error_1a3ce436f555cb4de625b69526804359e9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLParseError::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::query::SQLParseError::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="174" column="17" bodyfile="include/query/sql_parser.h" bodystart="174" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sql_parser.h" line="170" column="1" bodyfile="include/query/sql_parser.h" bodystart="170" bodyend="177"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a88f0ac802d7cd1e99db0067a1d766974" prot="public" virt="non-virtual"><scope>themis::query::SQLParseError</scope><name>message</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a8ba9964e7b3ba9b27bb266f5f852c8bd" prot="public" virt="non-virtual"><scope>themis::query::SQLParseError</scope><name>position</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_parse_error_1a3ce436f555cb4de625b69526804359e9" prot="public" virt="non-virtual"><scope>themis::query::SQLParseError</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

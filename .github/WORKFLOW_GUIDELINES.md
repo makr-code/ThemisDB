@@ -9,6 +9,16 @@
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 
+## Machine-readable GitHub Compliance Guidelines
+Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index- und Handover-Punkt fuer issue-, PR-, Dokumentations- und Security-Compliance:
+- `.github/compliance-guidelines.json`
+- `.github/issue-compliance.json`
+- `.github/pr-compliance.json`
+- `.github/documentation-compliance.json`
+- `.github/security-compliance.json`
+
+Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies ergänzen, nicht ersetzen. Aenderungen dort muessen mit den Workflow-Guidelines und den dokumentierten Governance-Sources synchron gehalten werden.
+
 ## Aktive Workflows (45)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
@@ -26,6 +36,8 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/gate-pr-core.yml`
 - `.github/workflows/gate-pr-doxygen-governance.yml`
 - `.github/workflows/gate-pr-doc-metadata.yml`
+- `.github/workflows/gate-pr-primary-doc-structure.yml`
+- `.github/workflows/gate-pr-module-doxygen-xml.yml`
 - `.github/workflows/release-build-matrix.yml`
 - `.github/workflows/release-mainline.yml`
 - `.github/workflows/wiki-pr-gate.yml`
@@ -48,6 +60,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/maintenance-build-issues.yml`
 - `.github/workflows/maintenance-ci-health.yml`
 - `.github/workflows/maintenance-docs.yml`
+- `.github/workflows/maintenance-soll-ist-gap-issues.yml`
 - `.github/workflows/maintenance-issues.yml`
 - `.github/workflows/maintenance-issue-recommendations.yml`
   — Recommend-only Issue Triage: kommentiert offene Issues mit merged-PR-Evidenz und schliesst nie automatisch

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PredictiveFailureDetector::Stats</compoundname>
+    <includes refid="predictive__detector_8h" local="no">predictive_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a06c83a400919acc6c3e3163181f2e8ff" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveFailureDetector::Stats::predictions_made</definition>
+        <argsstring></argsstring>
+        <name>predictions_made</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::Stats::predictions_made</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="138" column="18" bodyfile="include/sharding/predictive_detector.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a0d87610e29f48d903e0c6883d05e1879" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveFailureDetector::Stats::high_risk_detected</definition>
+        <argsstring></argsstring>
+        <name>high_risk_detected</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::Stats::high_risk_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="139" column="18" bodyfile="include/sharding/predictive_detector.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5cbcc5c15186add7f1ccd5582a5ead31" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveFailureDetector::Stats::alerts_sent</definition>
+        <argsstring></argsstring>
+        <name>alerts_sent</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::Stats::alerts_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="140" column="18" bodyfile="include/sharding/predictive_detector.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a803e65bd7f19e25dd55c08abdb16f596" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveFailureDetector::Stats::true_positives</definition>
+        <argsstring></argsstring>
+        <name>true_positives</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::Stats::true_positives</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="141" column="18" bodyfile="include/sharding/predictive_detector.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5074043c1496c95a53d66a1c86e76138" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveFailureDetector::Stats::false_positives</definition>
+        <argsstring></argsstring>
+        <name>false_positives</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::Stats::false_positives</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="142" column="18" bodyfile="include/sharding/predictive_detector.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a221cf3737c48dadd9cfad8350acbf5fb" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::PredictiveFailureDetector::Stats::avg_inference_time</definition>
+        <argsstring></argsstring>
+        <name>avg_inference_time</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::Stats::avg_inference_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="143" column="35" bodyfile="include/sharding/predictive_detector.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1aeec9e00a62ca3e07d13346733059ca46" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themisdb::sharding::PredictiveFailureDetector::Stats::getTruePositiveRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getTruePositiveRate</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::Stats::getTruePositiveRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="145" column="15" bodyfile="include/sharding/predictive_detector.h" bodystart="145" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1adb4bce1d752471e9cfce330f871dc3b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themisdb::sharding::PredictiveFailureDetector::Stats::getFalsePositiveRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getFalsePositiveRate</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::Stats::getFalsePositiveRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="150" column="15" bodyfile="include/sharding/predictive_detector.h" bodystart="150" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/predictive_detector.h" line="137" column="5" bodyfile="include/sharding/predictive_detector.h" bodystart="137" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5cbcc5c15186add7f1ccd5582a5ead31" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::Stats</scope><name>alerts_sent</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a221cf3737c48dadd9cfad8350acbf5fb" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::Stats</scope><name>avg_inference_time</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a5074043c1496c95a53d66a1c86e76138" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::Stats</scope><name>false_positives</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1adb4bce1d752471e9cfce330f871dc3b3" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::Stats</scope><name>getFalsePositiveRate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1aeec9e00a62ca3e07d13346733059ca46" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::Stats</scope><name>getTruePositiveRate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a0d87610e29f48d903e0c6883d05e1879" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::Stats</scope><name>high_risk_detected</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a06c83a400919acc6c3e3163181f2e8ff" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::Stats</scope><name>predictions_made</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_stats_1a803e65bd7f19e25dd55c08abdb16f596" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::Stats</scope><name>true_positives</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

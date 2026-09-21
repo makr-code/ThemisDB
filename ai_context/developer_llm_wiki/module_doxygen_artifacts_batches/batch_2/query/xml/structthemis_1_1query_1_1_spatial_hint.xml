@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_spatial_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SpatialHint</compoundname>
+    <includes refid="geospatial__optimizer__hints_8h" local="no">geospatial_optimizer_hints.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_hint_1a55399e80d93628754b2f8c38af8becb7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33" kindref="member">SpatialHintType</ref></type>
+        <definition>SpatialHintType themis::query::SpatialHint::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::SpatialHint::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="35" column="21" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_hint_1a5e0f1162f2a3524cbf3f18df872b157b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SpatialHint::fieldName</definition>
+        <argsstring></argsstring>
+        <name>fieldName</name>
+        <qualifiedname>themis::query::SpatialHint::fieldName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="36" column="17" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_hint_1af12ff69fb3f8e9fd09a6dcaf41fa344e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SpatialHint::indexName</definition>
+        <argsstring></argsstring>
+        <name>indexName</name>
+        <qualifiedname>themis::query::SpatialHint::indexName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="37" column="17" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_hint_1a04f15b562837d345e6e814a8caf02e9c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHint::priorityFactor</definition>
+        <argsstring></argsstring>
+        <name>priorityFactor</name>
+        <qualifiedname>themis::query::SpatialHint::priorityFactor</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="38" column="12" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_hint_1a7137cc3c30171e6285ad8b4892177c15" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SpatialHint::orderDirection</definition>
+        <argsstring></argsstring>
+        <name>orderDirection</name>
+        <qualifiedname>themis::query::SpatialHint::orderDirection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="39" column="17" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_hint_1aedb774707d97258102e62ceb94de1501" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::SpatialHint::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::query::SpatialHint::isValid</qualifiedname>
+        <briefdescription>
+<para>Is Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="45" column="10" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="25" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_hint_1ae2d756f5a12a3415e611dbbd67d2a12e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SpatialHint::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::query::SpatialHint::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="51" column="17" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="44" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_optimizer_hints.h" line="34" column="1" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="34" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_1a5e0f1162f2a3524cbf3f18df872b157b" prot="public" virt="non-virtual"><scope>themis::query::SpatialHint</scope><name>fieldName</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_1af12ff69fb3f8e9fd09a6dcaf41fa344e" prot="public" virt="non-virtual"><scope>themis::query::SpatialHint</scope><name>indexName</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_1aedb774707d97258102e62ceb94de1501" prot="public" virt="non-virtual"><scope>themis::query::SpatialHint</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_1a7137cc3c30171e6285ad8b4892177c15" prot="public" virt="non-virtual"><scope>themis::query::SpatialHint</scope><name>orderDirection</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_1a04f15b562837d345e6e814a8caf02e9c" prot="public" virt="non-virtual"><scope>themis::query::SpatialHint</scope><name>priorityFactor</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_1ae2d756f5a12a3415e611dbbd67d2a12e" prot="public" virt="non-virtual"><scope>themis::query::SpatialHint</scope><name>toString</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_1a55399e80d93628754b2f8c38af8becb7" prot="public" virt="non-virtual"><scope>themis::query::SpatialHint</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

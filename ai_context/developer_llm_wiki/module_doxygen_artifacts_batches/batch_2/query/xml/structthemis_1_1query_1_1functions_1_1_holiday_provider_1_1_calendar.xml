@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::HolidayProvider::Calendar</compoundname>
+    <includes refid="holiday__provider_8h" local="no">holiday_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1aaf4a55b894fb57678dff3b64be5b9e8d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::HolidayProvider::Calendar::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::Calendar::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="37" column="21" bodyfile="include/query/functions/holiday_provider.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1af1b4b3af3263b5a2308e20170e3f0be3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::HolidayProvider::Calendar::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::Calendar::region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="38" column="21" bodyfile="include/query/functions/holiday_provider.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1add708b8efa8d0537e86fe41dfe95db38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::HolidayProvider::Calendar::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::Calendar::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="39" column="21" bodyfile="include/query/functions/holiday_provider.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1a8006b57b32dd12e97e9d103174e85ea6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::functions::HolidayProvider::Calendar::year</definition>
+        <argsstring></argsstring>
+        <name>year</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::Calendar::year</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="40" column="13" bodyfile="include/query/functions/holiday_provider.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1a0c70edfe5dbc604d602baa61dfb42cbf" prot="public" static="no" mutable="no">
+        <type>std::set&lt; int64_t &gt;</type>
+        <definition>std::set&lt;int64_t&gt; themis::query::functions::HolidayProvider::Calendar::holidays</definition>
+        <argsstring></argsstring>
+        <name>holidays</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::Calendar::holidays</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="41" column="18" bodyfile="include/query/functions/holiday_provider.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1a7ab5ac196e3c263213836db152e2b176" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::HolidayProvider::Calendar::isBuiltin</definition>
+        <argsstring></argsstring>
+        <name>isBuiltin</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::Calendar::isBuiltin</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="42" column="14" bodyfile="include/query/functions/holiday_provider.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/holiday_provider.h" line="36" column="5" bodyfile="include/query/functions/holiday_provider.h" bodystart="36" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1add708b8efa8d0537e86fe41dfe95db38" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider::Calendar</scope><name>description</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1a0c70edfe5dbc604d602baa61dfb42cbf" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider::Calendar</scope><name>holidays</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1a7ab5ac196e3c263213836db152e2b176" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider::Calendar</scope><name>isBuiltin</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1aaf4a55b894fb57678dff3b64be5b9e8d" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider::Calendar</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1af1b4b3af3263b5a2308e20170e3f0be3" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider::Calendar</scope><name>region</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar_1a8006b57b32dd12e97e9d103174e85ea6" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider::Calendar</scope><name>year</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

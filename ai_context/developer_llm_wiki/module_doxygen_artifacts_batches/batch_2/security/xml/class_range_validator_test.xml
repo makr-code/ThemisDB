@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_range_validator_test" kind="class" language="C++" prot="public">
+    <compoundname>RangeValidatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_range_validator_test_1a6d755e3540bd5995f3b622c251becc83" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; RangeValidatorTest::vec_</definition>
+        <argsstring></argsstring>
+        <name>vec_</name>
+        <qualifiedname>RangeValidatorTest::vec_</qualifiedname>
+        <initializer>{1, 2, 3, 4, 5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="219" column="17" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_range_validator_test_1a89fc1f4136410f7ff389132d2c88e0d9" prot="protected" static="no" mutable="no">
+        <type>std::list&lt; int &gt;</type>
+        <definition>std::list&lt;int&gt; RangeValidatorTest::list_</definition>
+        <argsstring></argsstring>
+        <name>list_</name>
+        <qualifiedname>RangeValidatorTest::list_</qualifiedname>
+        <initializer>{10, 20, 30, 40, 50}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="220" column="15" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="220" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RangeValidatorTest</label>
+        <link refid="class_range_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RangeValidatorTest</label>
+        <link refid="class_range_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_safe_iterator.cpp" line="217" column="1" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="217" bodyend="221"/>
+    <listofallmembers>
+      <member refid="class_range_validator_test_1a89fc1f4136410f7ff389132d2c88e0d9" prot="protected" virt="non-virtual"><scope>RangeValidatorTest</scope><name>list_</name></member>
+      <member refid="class_range_validator_test_1a6d755e3540bd5995f3b622c251becc83" prot="protected" virt="non-virtual"><scope>RangeValidatorTest</scope><name>vec_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

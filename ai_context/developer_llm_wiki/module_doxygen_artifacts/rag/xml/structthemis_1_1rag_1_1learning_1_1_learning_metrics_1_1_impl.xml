@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::LearningMetrics::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1abaeb6defa235d230c1237ebf512f3ae9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::learning::LearningMetrics::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/learning_metrics.cpp" line="23" column="12" bodyfile="src/rag/learning_metrics.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a6671453663b3ed164b3551574fb0c6db" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::rag::learning::LearningMetrics::Impl::accuracy_history</definition>
+        <argsstring></argsstring>
+        <name>accuracy_history</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Impl::accuracy_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/learning_metrics.cpp" line="25" column="16" bodyfile="src/rag/learning_metrics.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a4243028f44a6c57900d11c4cd2e55a62" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::rag::learning::LearningMetrics::Impl::faithfulness_history</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_history</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Impl::faithfulness_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/learning_metrics.cpp" line="26" column="16" bodyfile="src/rag/learning_metrics.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a64db411534d66fba998504f5f1e798ef" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::rag::learning::LearningMetrics::Impl::relevance_history</definition>
+        <argsstring></argsstring>
+        <name>relevance_history</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Impl::relevance_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/learning_metrics.cpp" line="27" column="16" bodyfile="src/rag/learning_metrics.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a55cc71137c4582d16cf2b512482bb227" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::rag::learning::LearningMetrics::Impl::completeness_history</definition>
+        <argsstring></argsstring>
+        <name>completeness_history</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Impl::completeness_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/learning_metrics.cpp" line="28" column="16" bodyfile="src/rag/learning_metrics.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a6a1a69d1e434b242ea02750037a03b10" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::rag::learning::LearningMetrics::Impl::coherence_history</definition>
+        <argsstring></argsstring>
+        <name>coherence_history</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Impl::coherence_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/learning_metrics.cpp" line="29" column="16" bodyfile="src/rag/learning_metrics.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a859978b01b010c4acd1d5d63d94e2e41" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::deque&lt;std::chrono::system_clock::time_point&gt; themis::rag::learning::LearningMetrics::Impl::timestamps</definition>
+        <argsstring></argsstring>
+        <name>timestamps</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Impl::timestamps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/learning_metrics.cpp" line="30" column="16" bodyfile="src/rag/learning_metrics.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a7c5160e4891a2fafadeacf297ce31285" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::learning::LearningMetrics::Impl::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Impl::mtx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/learning_metrics.cpp" line="32" column="24" bodyfile="src/rag/learning_metrics.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::learning::LearningMetrics::Config</label>
+        <link refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::learning::LearningMetrics::Impl</label>
+        <link refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/learning_metrics.cpp" line="22" column="1" bodyfile="src/rag/learning_metrics.cpp" bodystart="22" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a6671453663b3ed164b3551574fb0c6db" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Impl</scope><name>accuracy_history</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a6a1a69d1e434b242ea02750037a03b10" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Impl</scope><name>coherence_history</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a55cc71137c4582d16cf2b512482bb227" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Impl</scope><name>completeness_history</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1abaeb6defa235d230c1237ebf512f3ae9" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a4243028f44a6c57900d11c4cd2e55a62" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Impl</scope><name>faithfulness_history</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a7c5160e4891a2fafadeacf297ce31285" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Impl</scope><name>mtx</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a64db411534d66fba998504f5f1e798ef" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Impl</scope><name>relevance_history</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl_1a859978b01b010c4acd1d5d63d94e2e41" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Impl</scope><name>timestamps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

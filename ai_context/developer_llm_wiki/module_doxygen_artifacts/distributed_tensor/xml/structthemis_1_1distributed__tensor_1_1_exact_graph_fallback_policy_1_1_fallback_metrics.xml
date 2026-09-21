@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics</compoundname>
+    <includes refid="exact__graph__fallback_8h" local="no">exact_graph_fallback.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1ab93dd1723153f0b2a8212fcd9f0eb50f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::total_fallback_decisions</definition>
+        <argsstring></argsstring>
+        <name>total_fallback_decisions</name>
+        <qualifiedname>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::total_fallback_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/exact_graph_fallback.h" line="92" column="14" bodyfile="src/distributed_tensor/include/exact_graph_fallback.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1ac4842586a595a58b14065a33ef337bbe" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::fallback_due_to_state</definition>
+        <argsstring></argsstring>
+        <name>fallback_due_to_state</name>
+        <qualifiedname>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::fallback_due_to_state</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/exact_graph_fallback.h" line="93" column="14" bodyfile="src/distributed_tensor/include/exact_graph_fallback.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a84c020d0cc76a86b24d5b84341cbda7e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::fallback_due_to_semantics</definition>
+        <argsstring></argsstring>
+        <name>fallback_due_to_semantics</name>
+        <qualifiedname>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::fallback_due_to_semantics</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/exact_graph_fallback.h" line="94" column="14" bodyfile="src/distributed_tensor/include/exact_graph_fallback.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a384e4e0a390285f54d7550fde7ee38ab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::fallback_due_to_residual</definition>
+        <argsstring></argsstring>
+        <name>fallback_due_to_residual</name>
+        <qualifiedname>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::fallback_due_to_residual</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/exact_graph_fallback.h" line="95" column="14" bodyfile="src/distributed_tensor/include/exact_graph_fallback.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a1be99f487c7a08184fb96e587e229d0a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::fallback_due_to_freshness</definition>
+        <argsstring></argsstring>
+        <name>fallback_due_to_freshness</name>
+        <qualifiedname>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::fallback_due_to_freshness</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/exact_graph_fallback.h" line="96" column="14" bodyfile="src/distributed_tensor/include/exact_graph_fallback.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a828f817f9884a4e739762b0907170839" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::artifacts_used_successfully</definition>
+        <argsstring></argsstring>
+        <name>artifacts_used_successfully</name>
+        <qualifiedname>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics::artifacts_used_successfully</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/exact_graph_fallback.h" line="97" column="14" bodyfile="src/distributed_tensor/include/exact_graph_fallback.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/exact_graph_fallback.h" line="91" column="3" bodyfile="src/distributed_tensor/include/exact_graph_fallback.h" bodystart="91" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a828f817f9884a4e739762b0907170839" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics</scope><name>artifacts_used_successfully</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a1be99f487c7a08184fb96e587e229d0a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics</scope><name>fallback_due_to_freshness</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a384e4e0a390285f54d7550fde7ee38ab" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics</scope><name>fallback_due_to_residual</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a84c020d0cc76a86b24d5b84341cbda7e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics</scope><name>fallback_due_to_semantics</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1ac4842586a595a58b14065a33ef337bbe" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics</scope><name>fallback_due_to_state</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1ab93dd1723153f0b2a8212fcd9f0eb50f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics</scope><name>total_fallback_decisions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

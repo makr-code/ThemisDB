@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::ROCmBackend::StreamHandle</compoundname>
+    <includes refid="rocm__backend_8h" local="no">rocm_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle_1a6219876494661abb1b5ccfbed62b5643" prot="public" static="no" mutable="no">
+        <type>uintptr_t</type>
+        <definition>uintptr_t themis::gpu::ROCmBackend::StreamHandle::native</definition>
+        <argsstring></argsstring>
+        <name>native</name>
+        <qualifiedname>themis::gpu::ROCmBackend::StreamHandle::native</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Underlying hipStream_t cast to uintptr_t; 0 = not created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="71" column="21" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle_1a05d156a8d89083b4bfce27a3aa689f9b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::ROCmBackend::StreamHandle::device_index</definition>
+        <argsstring></argsstring>
+        <name>device_index</name>
+        <qualifiedname>themis::gpu::ROCmBackend::StreamHandle::device_index</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="72" column="21" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle_1a89604974a64b4dbdef17d8f539bdfedd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ROCmBackend::StreamHandle::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::ROCmBackend::StreamHandle::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="73" column="21" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle_1a164321437e4cff26595882cf8e48c4a6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::ROCmBackend::StreamHandle::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::gpu::ROCmBackend::StreamHandle::is_valid</qualifiedname>
+        <briefdescription>
+<para>True when the native handle has been created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="76" column="14" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/rocm_backend.h" line="69" column="5" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="69" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle_1a05d156a8d89083b4bfce27a3aa689f9b" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::StreamHandle</scope><name>device_index</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle_1a164321437e4cff26595882cf8e48c4a6" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::StreamHandle</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle_1a89604974a64b4dbdef17d8f539bdfedd" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::StreamHandle</scope><name>name</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle_1a6219876494661abb1b5ccfbed62b5643" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::StreamHandle</scope><name>native</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

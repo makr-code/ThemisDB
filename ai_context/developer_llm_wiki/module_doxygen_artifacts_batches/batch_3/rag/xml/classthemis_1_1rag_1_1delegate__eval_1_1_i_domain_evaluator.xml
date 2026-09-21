@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::rag::delegate_eval::IDomainEvaluator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator" prot="public" virt="non-virtual">themis::rag::delegate_eval::AqlQueryEvaluator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator" prot="public" virt="non-virtual">themis::rag::delegate_eval::JsonDocumentEvaluator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator" prot="public" virt="non-virtual">themis::rag::delegate_eval::MarkdownEvaluator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" prot="public" virt="non-virtual">themis::rag::delegate_eval::PlainTextEvaluator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator" prot="public" virt="non-virtual">themis::rag::delegate_eval::XmlProcessEvaluator</derivedcompoundref>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a38a888ec22474c19255361a3dafff5ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::rag::delegate_eval::IDomainEvaluator::~IDomainEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDomainEvaluator</name>
+        <qualifiedname>themis::rag::delegate_eval::IDomainEvaluator::~IDomainEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="75" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1ac2fea1fc81006d87b26d15705ed42f73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref></type>
+        <definition>virtual ReconstructionScore themis::rag::delegate_eval::IDomainEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;original, const std::string &amp;recovered) const =0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::delegate_eval::IDomainEvaluator::evaluate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1ad4cb368a76c2de6009e40124d6937e57">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1acd0ffd5716d1529207adb0c78f5a9217">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1ad3977ca301bc32235043b4f25a9319fb">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a28d874d480dc1f06d7292118751e651a">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator_1a2377ba032a8f0ba49a9ded714b45701e">evaluate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recovered</declname>
+        </param>
+        <briefdescription>
+<para>Compute the reconstruction score for a single round-trip result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The seed document before any agentic edits. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recovered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The document after one or more forward/backward edits. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RS in <computeroutput>[0.0, 1.0]</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="84" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a3ece17ca6928803268fe59fd4380be8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref></type>
+        <definition>virtual DomainType themis::rag::delegate_eval::IDomainEvaluator::domain</definition>
+        <argsstring>() const =0</argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::rag::delegate_eval::IDomainEvaluator::domain</qualifiedname>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1ad8e573a4e6a54d4f99d36aa64892af82">domain</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1a58ce78bb52760c992d466b70c6702143">domain</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a43a0717e726b84f146b30285466297dc">domain</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a694ec4e431d245c26d95bfc2147ff654">domain</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator_1af15480a739f95fdb95758fd31cb237a5">domain</reimplementedby>
+        <briefdescription>
+<para>Domain identifier for logging and diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="90" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Domain-specific reconstruction-score evaluator interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations compute how much of <computeroutput>original</computeroutput> survives in <computeroutput>recovered</computeroutput> after one or more forward/backward agentic edits. All methods are logically <computeroutput>const</computeroutput>; state must not be mutated.</para>
+<para><heading level="3">Error / edge-case contracts</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Both <computeroutput>original</computeroutput> and <computeroutput>recovered</computeroutput> empty → return 0.0 (no content to preserve).</para>
+</listitem><listitem><para><computeroutput>original</computeroutput> empty, <computeroutput>recovered</computeroutput> non-empty → return 0.0.</para>
+</listitem><listitem><para><computeroutput>recovered</computeroutput> empty, <computeroutput>original</computeroutput> non-empty → return 0.0.</para>
+</listitem><listitem><para>Score always in <computeroutput>[0.0, 1.0]</computeroutput> — implementations must clamp. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::rag::delegate_eval::AqlQueryEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::rag::delegate_eval::IDomainEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator"/>
+      </node>
+      <node id="3">
+        <label>themis::rag::delegate_eval::JsonDocumentEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::rag::delegate_eval::MarkdownEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::rag::delegate_eval::PlainTextEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::rag::delegate_eval::XmlProcessEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/rag/delegate_evaluator.h" line="73" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="73" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a3ece17ca6928803268fe59fd4380be8c" prot="public" virt="pure-virtual"><scope>themis::rag::delegate_eval::IDomainEvaluator</scope><name>domain</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1ac2fea1fc81006d87b26d15705ed42f73" prot="public" virt="pure-virtual"><scope>themis::rag::delegate_eval::IDomainEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a38a888ec22474c19255361a3dafff5ed" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::IDomainEvaluator</scope><name>~IDomainEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

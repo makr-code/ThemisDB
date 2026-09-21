@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_distributed_tx_coordinator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockDistributedTxCoordinator</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator" prot="public" virt="non-virtual">themis::sharding::IDistributedTxCoordinator</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1adbd692f666d28122920ca03c0e79306f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex MockDistributedTxCoordinator::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>MockDistributedTxCoordinator::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="167" column="24" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1acd1b280e6a4f9960daadaf314a09e615" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; MockDistributedTxCoordinator::active_txns_</definition>
+        <argsstring></argsstring>
+        <name>active_txns_</name>
+        <qualifiedname>MockDistributedTxCoordinator::active_txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="168" column="24" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1a49ba5543041bd2876200e1fa68e0b59a" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; MockDistributedTxCoordinator::prepared_txns_</definition>
+        <argsstring></argsstring>
+        <name>prepared_txns_</name>
+        <qualifiedname>MockDistributedTxCoordinator::prepared_txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="169" column="24" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1ada2749d78435f0beb721be0795438fd8" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; MockDistributedTxCoordinator::committed_txns_</definition>
+        <argsstring></argsstring>
+        <name>committed_txns_</name>
+        <qualifiedname>MockDistributedTxCoordinator::committed_txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="170" column="24" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1a8876c1f5a8dd38d4e21c96ae9cd251d5" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; MockDistributedTxCoordinator::aborted_txns_</definition>
+        <argsstring></argsstring>
+        <name>aborted_txns_</name>
+        <qualifiedname>MockDistributedTxCoordinator::aborted_txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="171" column="24" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1a60dfe5ac57280a39af187cfa2bd7c4b7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockDistributedTxCoordinator::next_tx_id_</definition>
+        <argsstring></argsstring>
+        <name>next_tx_id_</name>
+        <qualifiedname>MockDistributedTxCoordinator::next_tx_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="172" column="17" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1a1d2044a88f25a289fe4fa2d3496995cf" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockDistributedTxCoordinator::force_conflict_</definition>
+        <argsstring></argsstring>
+        <name>force_conflict_</name>
+        <qualifiedname>MockDistributedTxCoordinator::force_conflict_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="173" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1a785227e79818738fc4a9d01ca233a293" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockDistributedTxCoordinator::force_timeout_</definition>
+        <argsstring></argsstring>
+        <name>force_timeout_</name>
+        <qualifiedname>MockDistributedTxCoordinator::force_timeout_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="174" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="174" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_tx_coordinator_1a622387e715efc92cf02ba43bf6481d6d" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds MockDistributedTxCoordinator::tx_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>tx_timeout_ms_</name>
+        <qualifiedname>MockDistributedTxCoordinator::tx_timeout_ms_</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="175" column="31" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="175" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1af88435e968abbd1ca1a9d34af281e349" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref></type>
+        <definition>TxHandle MockDistributedTxCoordinator::begin</definition>
+        <argsstring>() override</argsstring>
+        <name>begin</name>
+        <qualifiedname>MockDistributedTxCoordinator::begin</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1afdaeef254ee1ba3d0135057ca8122547">begin</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin a new distributed transaction. <simplesect kind="return"><para>A move-only <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> referencing the new transaction. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="101" column="14" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="101" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1a2e99c02f643d6c6243de3e5f00efc776" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1afeec61725edbf6962b56b0b094b5b721" kindref="member">PrepareResult</ref></type>
+        <definition>PrepareResult MockDistributedTxCoordinator::prepare</definition>
+        <argsstring>(TxHandle &amp;handle) override</argsstring>
+        <name>prepare</name>
+        <qualifiedname>MockDistributedTxCoordinator::prepare</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1abd86ac982a8dba892e75abe0de474f43">prepare</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Two-phase prepare: acquire locks and validate across all participants. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active transaction handle (must satisfy isActive()). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_prepared" kindref="compound">Prepared</ref>, <ref refid="structthemis_1_1sharding_1_1_conflict_error" kindref="compound">ConflictError</ref>, or <ref refid="structthemis_1_1sharding_1_1_timeout_error" kindref="compound">TimeoutError</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="114" column="19" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="114" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1a9eed85ede1593a0e48a20e42887272a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockDistributedTxCoordinator::commit</definition>
+        <argsstring>(TxHandle &amp;&amp;handle) override</argsstring>
+        <name>commit</name>
+        <qualifiedname>MockDistributedTxCoordinator::commit</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a5ce071b9063878b5d6c8e0e64930eb5c">commit</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> &amp;&amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit the prepared transaction and release the handle. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Move-in handle; becomes invalid after this call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="126" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="126" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1a1a2834b81a0c79d3d17d5fff1df8a34f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockDistributedTxCoordinator::abort</definition>
+        <argsstring>(TxHandle &amp;&amp;handle) override</argsstring>
+        <name>abort</name>
+        <qualifiedname>MockDistributedTxCoordinator::abort</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a43a7e6f5dc3e0ac229db105741864dd5">abort</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> &amp;&amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort the transaction and release the handle. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Move-in handle; becomes invalid after this call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="135" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1aa4523bcdc8bca4b105ec55a29aac9f74" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t MockDistributedTxCoordinator::maxConcurrentTx</definition>
+        <argsstring>() const override</argsstring>
+        <name>maxConcurrentTx</name>
+        <qualifiedname>MockDistributedTxCoordinator::maxConcurrentTx</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a8a6374beda5530ece4bc91927fa0539b">maxConcurrentTx</reimplements>
+        <briefdescription>
+<para>Maximum number of concurrent transactions this coordinator will accept. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="144" column="12" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1a4df2c9e3159c11c0a25fdc45af84e82d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t MockDistributedTxCoordinator::activeTxCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>activeTxCount</name>
+        <qualifiedname>MockDistributedTxCoordinator::activeTxCount</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a228cd17df5c4b44a944d4492ff6c2a49">activeTxCount</reimplements>
+        <briefdescription>
+<para>Current number of active (<ref refid="class_mock_distributed_tx_coordinator_1af88435e968abbd1ca1a9d34af281e349" kindref="member">begin()</ref>-but-not-committed/aborted) transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="145" column="12" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="145" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1a5c796067f1d824fbdecd7ffbb077b113" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds MockDistributedTxCoordinator::transactionTimeoutMs</definition>
+        <argsstring>() const override</argsstring>
+        <name>transactionTimeoutMs</name>
+        <qualifiedname>MockDistributedTxCoordinator::transactionTimeoutMs</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a047e10f56bb489e50b57c025c87acc48">transactionTimeoutMs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configurable TTL for abandoned transactions. The coordinator must abort any <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> whose <ref refid="class_mock_distributed_tx_coordinator_1af88435e968abbd1ca1a9d34af281e349" kindref="member">begin()</ref>-to-now duration exceeds this value, even if the handle was never explicitly committed or aborted. Returns zero duration if no TTL enforcement is applied (transactions are never forcibly timed out by the coordinator, relying solely on explicit <ref refid="class_mock_distributed_tx_coordinator_1a1a2834b81a0c79d3d17d5fff1df8a34f" kindref="member">abort()</ref> or <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> destruction). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="149" column="31" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1ac04e4950100244a9dcb192c37b0265ba" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockDistributedTxCoordinator::wasCommitted</definition>
+        <argsstring>(const std::string &amp;tx_id) const</argsstring>
+        <name>wasCommitted</name>
+        <qualifiedname>MockDistributedTxCoordinator::wasCommitted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tx_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="154" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1a874a4f6d279a3daf5baeba83148c3fe8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockDistributedTxCoordinator::wasAborted</definition>
+        <argsstring>(const std::string &amp;tx_id) const</argsstring>
+        <name>wasAborted</name>
+        <qualifiedname>MockDistributedTxCoordinator::wasAborted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tx_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="158" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="158" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1aa12b92ca663dc404b59fd62a61d1b5ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockDistributedTxCoordinator::forceConflict</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>forceConflict</name>
+        <qualifiedname>MockDistributedTxCoordinator::forceConflict</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="162" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1ade168587f7739500219f0b10b83d6a4b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockDistributedTxCoordinator::forceTimeout</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>forceTimeout</name>
+        <qualifiedname>MockDistributedTxCoordinator::forceTimeout</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="163" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_tx_coordinator_1a8026b8ee4cf964ec339184a7c29d83af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockDistributedTxCoordinator::setTxTimeoutMs</definition>
+        <argsstring>(int ms)</argsstring>
+        <name>setTxTimeoutMs</name>
+        <qualifiedname>MockDistributedTxCoordinator::setTxTimeoutMs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="164" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="164" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockDistributedTxCoordinator</label>
+        <link refid="class_mock_distributed_tx_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::IDistributedTxCoordinator</label>
+        <link refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockDistributedTxCoordinator</label>
+        <link refid="class_mock_distributed_tx_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::IDistributedTxCoordinator</label>
+        <link refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_interfaces.cpp" line="99" column="1" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="99" bodyend="176"/>
+    <listofallmembers>
+      <member refid="class_mock_distributed_tx_coordinator_1a1a2834b81a0c79d3d17d5fff1df8a34f" prot="public" virt="virtual"><scope>MockDistributedTxCoordinator</scope><name>abort</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a8876c1f5a8dd38d4e21c96ae9cd251d5" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>aborted_txns_</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1acd1b280e6a4f9960daadaf314a09e615" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>active_txns_</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a4df2c9e3159c11c0a25fdc45af84e82d" prot="public" virt="virtual"><scope>MockDistributedTxCoordinator</scope><name>activeTxCount</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1af88435e968abbd1ca1a9d34af281e349" prot="public" virt="virtual"><scope>MockDistributedTxCoordinator</scope><name>begin</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a9eed85ede1593a0e48a20e42887272a1" prot="public" virt="virtual"><scope>MockDistributedTxCoordinator</scope><name>commit</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1ada2749d78435f0beb721be0795438fd8" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>committed_txns_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a87699e6ac901646ee2b206f0a784b127" prot="protected" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>finalizeTxHandle</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a1d2044a88f25a289fe4fa2d3496995cf" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>force_conflict_</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a785227e79818738fc4a9d01ca233a293" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>force_timeout_</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1aa12b92ca663dc404b59fd62a61d1b5ef" prot="public" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>forceConflict</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1ade168587f7739500219f0b10b83d6a4b" prot="public" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>forceTimeout</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a6ee0ef7b464bb1df5ed44ce793650dd6" prot="protected" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>makeTxHandle</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1aa4523bcdc8bca4b105ec55a29aac9f74" prot="public" virt="virtual"><scope>MockDistributedTxCoordinator</scope><name>maxConcurrentTx</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1adbd692f666d28122920ca03c0e79306f" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>mu_</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a60dfe5ac57280a39af187cfa2bd7c4b7" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>next_tx_id_</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a2e99c02f643d6c6243de3e5f00efc776" prot="public" virt="virtual"><scope>MockDistributedTxCoordinator</scope><name>prepare</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a49ba5543041bd2876200e1fa68e0b59a" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>prepared_txns_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1acbcb87f993d0f15ee9a11cc369d5b283" prot="public" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>requiresMTLS</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a8026b8ee4cf964ec339184a7c29d83af" prot="public" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>setTxTimeoutMs</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a5c796067f1d824fbdecd7ffbb077b113" prot="public" virt="virtual"><scope>MockDistributedTxCoordinator</scope><name>transactionTimeoutMs</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a622387e715efc92cf02ba43bf6481d6d" prot="private" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>tx_timeout_ms_</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1a874a4f6d279a3daf5baeba83148c3fe8" prot="public" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>wasAborted</name></member>
+      <member refid="class_mock_distributed_tx_coordinator_1ac04e4950100244a9dcb192c37b0265ba" prot="public" virt="non-virtual"><scope>MockDistributedTxCoordinator</scope><name>wasCommitted</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a2f715c2b070c03df0be83020b44f356d" prot="public" virt="virtual"><scope>MockDistributedTxCoordinator</scope><name>~IDistributedTxCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

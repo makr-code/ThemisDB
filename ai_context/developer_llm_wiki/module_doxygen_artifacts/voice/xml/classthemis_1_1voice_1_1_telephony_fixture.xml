@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_telephony_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::TelephonyFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_fixture_1a36173a24b874aa863e8e6ec00536d759" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_telephony_handler" kindref="compound">TelephonyHandler</ref></type>
+        <definition>TelephonyHandler themis::voice::TelephonyFixture::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>themis::voice::TelephonyFixture::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="187" column="22" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_fixture_1a8312d2c74f9e33a9ee6639240a35b3a1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TelephonyFixture::createValidPhone</definition>
+        <argsstring>()</argsstring>
+        <name>createValidPhone</name>
+        <qualifiedname>themis::voice::TelephonyFixture::createValidPhone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="189" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="189" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_fixture_1a4e2b648475ea4c4d1fb11e1f92f850d0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TelephonyFixture::createInvalidPhone</definition>
+        <argsstring>()</argsstring>
+        <name>createInvalidPhone</name>
+        <qualifiedname>themis::voice::TelephonyFixture::createInvalidPhone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="193" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="193" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::TelephonyFixture</label>
+        <link refid="classthemis_1_1voice_1_1_telephony_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::TelephonyFixture</label>
+        <link refid="classthemis_1_1voice_1_1_telephony_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>handler_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::voice::TelephonyHandler</label>
+        <link refid="classthemis_1_1voice_1_1_telephony_handler"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_telephony_focused.cpp" line="185" column="1" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="185" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_telephony_fixture_1a4e2b648475ea4c4d1fb11e1f92f850d0" prot="protected" virt="non-virtual"><scope>themis::voice::TelephonyFixture</scope><name>createInvalidPhone</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_fixture_1a8312d2c74f9e33a9ee6639240a35b3a1" prot="protected" virt="non-virtual"><scope>themis::voice::TelephonyFixture</scope><name>createValidPhone</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_fixture_1a36173a24b874aa863e8e6ec00536d759" prot="protected" virt="non-virtual"><scope>themis::voice::TelephonyFixture</scope><name>handler_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

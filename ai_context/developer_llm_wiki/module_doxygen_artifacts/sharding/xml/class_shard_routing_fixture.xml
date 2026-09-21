@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_shard_routing_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ShardRoutingFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_shard_routing_fixture_1aa52004411e31ffaac2ef1f2d8c7c15fb" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ShardRoutingFixture::num_shards_</definition>
+        <argsstring></argsstring>
+        <name>num_shards_</name>
+        <qualifiedname>ShardRoutingFixture::num_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="102" column="9" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_routing_fixture_1ad0044cae99a926693ff7ed6f1a4df1a8" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsistentHashRing&gt; ShardRoutingFixture::hash_ring_</definition>
+        <argsstring></argsstring>
+        <name>hash_ring_</name>
+        <qualifiedname>ShardRoutingFixture::hash_ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="103" column="21" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_routing_fixture_1a2527e1132ea389cfa82ecaf7a8496a74" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; ShardRoutingFixture::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>ShardRoutingFixture::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="104" column="21" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_routing_fixture_1a9a76e42f2465e23bbf751ec96998debf" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;URNResolver&gt; ShardRoutingFixture::resolver_</definition>
+        <argsstring></argsstring>
+        <name>resolver_</name>
+        <qualifiedname>ShardRoutingFixture::resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="105" column="21" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_routing_fixture_1a80323f9e95c4ccbfeede0e8ba2644e8e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_remote_executor" kindref="compound">RemoteExecutor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RemoteExecutor&gt; ShardRoutingFixture::executor_</definition>
+        <argsstring></argsstring>
+        <name>executor_</name>
+        <qualifiedname>ShardRoutingFixture::executor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="106" column="21" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_routing_fixture_1a582f371a999918163f31b404e5ce9d81" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_router" kindref="compound">ShardRouter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ShardRouter&gt; ShardRoutingFixture::router_</definition>
+        <argsstring></argsstring>
+        <name>router_</name>
+        <qualifiedname>ShardRoutingFixture::router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="107" column="21" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_routing_fixture_1a58fcd7c4b1623c02de600761067ef812" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &gt;</type>
+        <definition>std::vector&lt;URN&gt; ShardRoutingFixture::test_urns_</definition>
+        <argsstring></argsstring>
+        <name>test_urns_</name>
+        <qualifiedname>ShardRoutingFixture::test_urns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="108" column="17" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_routing_fixture_1a8edeb351c1204edf0a612e1e5494f8b8" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ShardRoutingFixture::local_shard_id_</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id_</name>
+        <qualifiedname>ShardRoutingFixture::local_shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="109" column="17" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_shard_routing_fixture_1ac14d1e51e5badb420c31431b334edf62" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShardRoutingFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ShardRoutingFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="28" column="10" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="28" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_shard_routing_fixture_1ab9ca0829b3419de5c2513e8660c8d16b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShardRoutingFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ShardRoutingFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_shard_routing.cpp" line="92" column="10" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="92" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ShardRoutingFixture</label>
+        <link refid="class_shard_routing_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ShardRoutingFixture</label>
+        <link refid="class_shard_routing_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/sharding/bench_shard_routing.cpp" line="26" column="1" bodyfile="benchmarks/sharding/bench_shard_routing.cpp" bodystart="26" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_shard_routing_fixture_1a80323f9e95c4ccbfeede0e8ba2644e8e" prot="protected" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>executor_</name></member>
+      <member refid="class_shard_routing_fixture_1ad0044cae99a926693ff7ed6f1a4df1a8" prot="protected" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>hash_ring_</name></member>
+      <member refid="class_shard_routing_fixture_1a8edeb351c1204edf0a612e1e5494f8b8" prot="protected" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>local_shard_id_</name></member>
+      <member refid="class_shard_routing_fixture_1aa52004411e31ffaac2ef1f2d8c7c15fb" prot="protected" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>num_shards_</name></member>
+      <member refid="class_shard_routing_fixture_1a9a76e42f2465e23bbf751ec96998debf" prot="protected" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>resolver_</name></member>
+      <member refid="class_shard_routing_fixture_1a582f371a999918163f31b404e5ce9d81" prot="protected" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>router_</name></member>
+      <member refid="class_shard_routing_fixture_1ac14d1e51e5badb420c31431b334edf62" prot="public" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>SetUp</name></member>
+      <member refid="class_shard_routing_fixture_1ab9ca0829b3419de5c2513e8660c8d16b" prot="public" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>TearDown</name></member>
+      <member refid="class_shard_routing_fixture_1a58fcd7c4b1623c02de600761067ef812" prot="protected" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>test_urns_</name></member>
+      <member refid="class_shard_routing_fixture_1a2527e1132ea389cfa82ecaf7a8496a74" prot="protected" virt="non-virtual"><scope>ShardRoutingFixture</scope><name>topology_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

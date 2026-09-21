@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::test::MockConnection</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1a8ba05c0b6c1523e3671959982f732ea0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::perf::test::MockConnection::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>themis::server::perf::test::MockConnection::id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="54" column="9" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1a00519fc1e512b8cfe1e2b475f2cf0101" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt; int &gt; themis::server::perf::test::MockConnection::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themis::server::perf::test::MockConnection::next_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="55" column="24" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1a17f65e125b8fc99497e3096132b226b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::MockConnection::MockConnection</definition>
+        <argsstring>()</argsstring>
+        <name>MockConnection</name>
+        <qualifiedname>themis::server::perf::test::MockConnection::MockConnection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="45" column="5" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1af32202780b7de99e8e2c45ef86f622b0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::server::perf::test::MockConnection::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>themis::server::perf::test::MockConnection::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="47" column="9" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1a7e4cd1a3155b15a37dfde2cabe37079e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::test::MockConnection::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::server::perf::test::MockConnection::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="49" column="10" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="49" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase2_focused.cpp" line="43" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="43" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1af32202780b7de99e8e2c45ef86f622b0" prot="public" virt="non-virtual"><scope>themis::server::perf::test::MockConnection</scope><name>getId</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1a8ba05c0b6c1523e3671959982f732ea0" prot="private" virt="non-virtual"><scope>themis::server::perf::test::MockConnection</scope><name>id_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1a17f65e125b8fc99497e3096132b226b6" prot="public" virt="non-virtual"><scope>themis::server::perf::test::MockConnection</scope><name>MockConnection</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1a00519fc1e512b8cfe1e2b475f2cf0101" prot="private" virt="non-virtual"><scope>themis::server::perf::test::MockConnection</scope><name>next_id_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection_1a7e4cd1a3155b15a37dfde2cabe37079e" prot="public" virt="non-virtual"><scope>themis::server::perf::test::MockConnection</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

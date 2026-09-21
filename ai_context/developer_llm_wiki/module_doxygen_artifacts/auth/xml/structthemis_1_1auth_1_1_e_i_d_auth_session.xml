@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_e_i_d_auth_session" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::EIDAuthSession</compoundname>
+    <includes refid="eid__authenticator_8h" local="no">eid_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_session_1a28a3f38d1a881c209f4d40b1b0ee5d48" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthSession::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::auth::EIDAuthSession::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="301" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_session_1a9f5ec3945e00a1a6a0c1c7180981a62e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthSession::redirect_url</definition>
+        <argsstring></argsstring>
+        <name>redirect_url</name>
+        <qualifiedname>themis::auth::EIDAuthSession::redirect_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="302" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_session_1a0c4aab2c47ae845059b31005904025d5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1a92826b515d1b46b97ab4f50b1ee5f432" kindref="member">EIDSessionStatus</ref></type>
+        <definition>EIDSessionStatus themis::auth::EIDAuthSession::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::auth::EIDAuthSession::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1a92826b515d1b46b97ab4f50b1ee5f432ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">EIDSessionStatus::PENDING</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="303" column="22" bodyfile="include/auth/eid_authenticator.h" bodystart="303" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/eid_authenticator.h" line="300" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="300" bodyend="304"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_session_1a9f5ec3945e00a1a6a0c1c7180981a62e" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthSession</scope><name>redirect_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_session_1a28a3f38d1a881c209f4d40b1b0ee5d48" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthSession</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_session_1a0c4aab2c47ae845059b31005904025d5" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthSession</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

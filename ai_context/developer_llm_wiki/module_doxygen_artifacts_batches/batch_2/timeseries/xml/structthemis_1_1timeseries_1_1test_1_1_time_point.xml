@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1test_1_1_time_point" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::test::TimePoint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1test_1_1_time_point_1a0bb84df888f3ce2a592c05df4c1a43b3" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::timeseries::test::TimePoint::ts_ns</definition>
+        <argsstring></argsstring>
+        <name>ts_ns</name>
+        <qualifiedname>themis::timeseries::test::TimePoint::ts_ns</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="67" column="18" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1test_1_1_time_point_1ac54d5158d419c117b88444f96769805d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::timeseries::test::TimePoint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::timeseries::test::TimePoint::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="68" column="18" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="66" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="66" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1test_1_1_time_point_1a0bb84df888f3ce2a592c05df4c1a43b3" prot="public" virt="non-virtual"><scope>themis::timeseries::test::TimePoint</scope><name>ts_ns</name></member>
+      <member refid="structthemis_1_1timeseries_1_1test_1_1_time_point_1ac54d5158d419c117b88444f96769805d" prot="public" virt="non-virtual"><scope>themis::timeseries::test::TimePoint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

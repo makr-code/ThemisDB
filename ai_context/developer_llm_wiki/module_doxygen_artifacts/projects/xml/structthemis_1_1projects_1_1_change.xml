@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_change" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::Change</compoundname>
+    <includes refid="collaboration__manager_8h" local="no">collaboration_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_change_1a3c755cb0670338f3787e38c253c51e30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::Change::project_id</definition>
+        <argsstring></argsstring>
+        <name>project_id</name>
+        <qualifiedname>themis::projects::Change::project_id</qualifiedname>
+        <briefdescription>
+<para>Project in which the change occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="58" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_change_1a1d34d81ef5510398b52d38265c346ff5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::Change::object_name</definition>
+        <argsstring></argsstring>
+        <name>object_name</name>
+        <qualifiedname>themis::projects::Change::object_name</qualifiedname>
+        <briefdescription>
+<para>Affected object key (e.g. doc UUID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="59" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_change_1ae1874b5851394b3f90c120ce6ab106e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::Change::field_path</definition>
+        <argsstring></argsstring>
+        <name>field_path</name>
+        <qualifiedname>themis::projects::Change::field_path</qualifiedname>
+        <briefdescription>
+<para>JSON Pointer path of the changed field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="60" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_change_1a2c109493f34209cbadee7c3fa4165b99" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::Change::old_value</definition>
+        <argsstring></argsstring>
+        <name>old_value</name>
+        <qualifiedname>themis::projects::Change::old_value</qualifiedname>
+        <briefdescription>
+<para>Previous value (null for new fields). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="61" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_change_1aee8477862160ac820c99c36af55e5208" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::Change::new_value</definition>
+        <argsstring></argsstring>
+        <name>new_value</name>
+        <qualifiedname>themis::projects::Change::new_value</qualifiedname>
+        <briefdescription>
+<para>New value (null for deletions). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="62" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_change_1aabe940dcf4f1da93951e9044d86df863" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::projects::Change::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::projects::Change::timestamp</qualifiedname>
+        <briefdescription>
+<para>Unix timestamp (seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="63" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_change_1af7a6d33d24c81b82fac107bc5f7ce4b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::Change::actor</definition>
+        <argsstring></argsstring>
+        <name>actor</name>
+        <qualifiedname>themis::projects::Change::actor</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1projects_1_1_user" kindref="compound">User</ref> who made the change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="64" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_change_1ae08f7088dcfc90c6d13a04eb99589255" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::Change::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::projects::Change::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="66" column="10" bodyfile="src/projects/collaboration_manager.cpp" bodystart="22" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_change_1a6de41b8ba73f449bd39358c715687160" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_change" kindref="compound">Change</ref></type>
+        <definition>Change themis::projects::Change::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::projects::Change::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="67" column="19" bodyfile="src/projects/collaboration_manager.cpp" bodystart="40" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single change event emitted to collaboration subscribers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Subscribers registered via <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a800f10e1665a9a27812e6d980e91ae38" kindref="member">CollaborationManager::subscribe()</ref></computeroutput> receive one <computeroutput><ref refid="structthemis_1_1projects_1_1_change" kindref="compound">Change</ref></computeroutput> per committed write within the project. </para>
+    </detaileddescription>
+    <location file="include/projects/collaboration_manager.h" line="57" column="1" bodyfile="include/projects/collaboration_manager.h" bodystart="57" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_change_1af7a6d33d24c81b82fac107bc5f7ce4b9" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>actor</name></member>
+      <member refid="structthemis_1_1projects_1_1_change_1ae1874b5851394b3f90c120ce6ab106e1" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>field_path</name></member>
+      <member refid="structthemis_1_1projects_1_1_change_1a6de41b8ba73f449bd39358c715687160" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1projects_1_1_change_1aee8477862160ac820c99c36af55e5208" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>new_value</name></member>
+      <member refid="structthemis_1_1projects_1_1_change_1a1d34d81ef5510398b52d38265c346ff5" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>object_name</name></member>
+      <member refid="structthemis_1_1projects_1_1_change_1a2c109493f34209cbadee7c3fa4165b99" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>old_value</name></member>
+      <member refid="structthemis_1_1projects_1_1_change_1a3c755cb0670338f3787e38c253c51e30" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>project_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_change_1aabe940dcf4f1da93951e9044d86df863" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1projects_1_1_change_1ae08f7088dcfc90c6d13a04eb99589255" prot="public" virt="non-virtual"><scope>themis::projects::Change</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

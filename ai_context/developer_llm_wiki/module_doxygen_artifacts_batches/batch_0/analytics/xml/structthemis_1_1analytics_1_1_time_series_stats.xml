@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_time_series_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::TimeSeriesStats</compoundname>
+    <includes refid="time__series_8h" local="no">time_series.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_time_series_stats_1a86a5344be80741636c79cc3abe9f2399" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::analytics::TimeSeriesStats::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::analytics::TimeSeriesStats::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="68" column="17" bodyfile="include/analytics/time_series.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_time_series_stats_1aaed138394d5b50cb85c77f00b406fbf2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::TimeSeriesStats::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::analytics::TimeSeriesStats::sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="69" column="17" bodyfile="include/analytics/time_series.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_time_series_stats_1a2d91d6f0c211709f956eb39c5cd3c466" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::TimeSeriesStats::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::analytics::TimeSeriesStats::min</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="70" column="17" bodyfile="include/analytics/time_series.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_time_series_stats_1af9619c9361590d2b3ae7cd858c4093ca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::TimeSeriesStats::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::analytics::TimeSeriesStats::max</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="71" column="17" bodyfile="include/analytics/time_series.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_time_series_stats_1a4c97615c93f9e9ec91d17477b37c1f77" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::TimeSeriesStats::mean</definition>
+        <argsstring></argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::analytics::TimeSeriesStats::mean</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="72" column="17" bodyfile="include/analytics/time_series.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_time_series_stats_1a2fdbab48c8f837989391276ba7da1a5b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::TimeSeriesStats::variance</definition>
+        <argsstring></argsstring>
+        <name>variance</name>
+        <qualifiedname>themis::analytics::TimeSeriesStats::variance</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="73" column="17" bodyfile="include/analytics/time_series.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/time_series.h" line="67" column="1" bodyfile="include/analytics/time_series.h" bodystart="67" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_time_series_stats_1a86a5344be80741636c79cc3abe9f2399" prot="public" virt="non-virtual"><scope>themis::analytics::TimeSeriesStats</scope><name>count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_time_series_stats_1af9619c9361590d2b3ae7cd858c4093ca" prot="public" virt="non-virtual"><scope>themis::analytics::TimeSeriesStats</scope><name>max</name></member>
+      <member refid="structthemis_1_1analytics_1_1_time_series_stats_1a4c97615c93f9e9ec91d17477b37c1f77" prot="public" virt="non-virtual"><scope>themis::analytics::TimeSeriesStats</scope><name>mean</name></member>
+      <member refid="structthemis_1_1analytics_1_1_time_series_stats_1a2d91d6f0c211709f956eb39c5cd3c466" prot="public" virt="non-virtual"><scope>themis::analytics::TimeSeriesStats</scope><name>min</name></member>
+      <member refid="structthemis_1_1analytics_1_1_time_series_stats_1aaed138394d5b50cb85c77f00b406fbf2" prot="public" virt="non-virtual"><scope>themis::analytics::TimeSeriesStats</scope><name>sum</name></member>
+      <member refid="structthemis_1_1analytics_1_1_time_series_stats_1a2fdbab48c8f837989391276ba7da1a5b" prot="public" virt="non-virtual"><scope>themis::analytics::TimeSeriesStats</scope><name>variance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

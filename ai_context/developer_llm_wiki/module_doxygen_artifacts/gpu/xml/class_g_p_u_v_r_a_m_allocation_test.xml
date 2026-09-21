@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_v_r_a_m_allocation_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUVRAMAllocationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_v_r_a_m_allocation_test_1aeff9d7dc307d97d4802d302c06f7b376" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUVRAMAllocationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUVRAMAllocationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="12" column="10" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_v_r_a_m_allocation_test_1ab2769d7a2d0f91efd40d5f3d96f7cff9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUVRAMAllocationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUVRAMAllocationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="16" column="10" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="16" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_v_r_a_m_allocation_test_1af00aa5bced1b8c2dd77b53e419e65c8b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>AdaptiveVRAMAllocator::ModelConfig</type>
+        <definition>AdaptiveVRAMAllocator::ModelConfig GPUVRAMAllocationTest::createLlama7BConfig</definition>
+        <argsstring>()</argsstring>
+        <name>createLlama7BConfig</name>
+        <qualifiedname>GPUVRAMAllocationTest::createLlama7BConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="21" column="40" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="21" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_v_r_a_m_allocation_test_1a2e35993d496fe58ad0f17d7b6550ae33" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>AdaptiveVRAMAllocator::HardwareInfo</type>
+        <definition>AdaptiveVRAMAllocator::HardwareInfo GPUVRAMAllocationTest::createRTX4090Hardware</definition>
+        <argsstring>()</argsstring>
+        <name>createRTX4090Hardware</name>
+        <qualifiedname>GPUVRAMAllocationTest::createRTX4090Hardware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="35" column="41" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="35" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_v_r_a_m_allocation_test_1ac260e05e12729166917360773700a285" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>AdaptiveVRAMAllocator::HardwareInfo</type>
+        <definition>AdaptiveVRAMAllocator::HardwareInfo GPUVRAMAllocationTest::createA100Hardware</definition>
+        <argsstring>()</argsstring>
+        <name>createA100Hardware</name>
+        <qualifiedname>GPUVRAMAllocationTest::createA100Hardware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="47" column="41" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUVRAMAllocationTest</label>
+        <link refid="class_g_p_u_v_r_a_m_allocation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUVRAMAllocationTest</label>
+        <link refid="class_g_p_u_v_r_a_m_allocation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="10" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="10" bodyend="57"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_v_r_a_m_allocation_test_1ac260e05e12729166917360773700a285" prot="protected" virt="non-virtual"><scope>GPUVRAMAllocationTest</scope><name>createA100Hardware</name></member>
+      <member refid="class_g_p_u_v_r_a_m_allocation_test_1af00aa5bced1b8c2dd77b53e419e65c8b" prot="protected" virt="non-virtual"><scope>GPUVRAMAllocationTest</scope><name>createLlama7BConfig</name></member>
+      <member refid="class_g_p_u_v_r_a_m_allocation_test_1a2e35993d496fe58ad0f17d7b6550ae33" prot="protected" virt="non-virtual"><scope>GPUVRAMAllocationTest</scope><name>createRTX4090Hardware</name></member>
+      <member refid="class_g_p_u_v_r_a_m_allocation_test_1aeff9d7dc307d97d4802d302c06f7b376" prot="protected" virt="non-virtual"><scope>GPUVRAMAllocationTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_v_r_a_m_allocation_test_1ab2769d7a2d0f91efd40d5f3d96f7cff9" prot="protected" virt="non-virtual"><scope>GPUVRAMAllocationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

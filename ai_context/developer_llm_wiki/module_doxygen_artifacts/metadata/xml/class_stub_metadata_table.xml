@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_metadata_table" kind="class" language="C++" prot="public">
+    <compoundname>StubMetadataTable</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_metadata_table_1a01d440c6439837df1c871a16011e0b06" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubMetadataTable::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubMetadataTable::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="66" column="24" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_metadata_table_1a470b02c6c40c1fcb76374f60635df7e6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; StubMetadataTable::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>StubMetadataTable::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="67" column="24" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_metadata_table_1ac9cdfc348114c271b23389d6458ed5f4" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; StubMetadataTable::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>StubMetadataTable::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="68" column="24" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_metadata_table_1aac5569d40f97b207f0da25d799f1bc79" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubMetadataTable::insert_count_</definition>
+        <argsstring></argsstring>
+        <name>insert_count_</name>
+        <qualifiedname>StubMetadataTable::insert_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="69" column="17" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_metadata_table_1a7047922c2ea8f5f9a235586f71a32fc4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubMetadataTable::StubMetadataTable</definition>
+        <argsstring>()</argsstring>
+        <name>StubMetadataTable</name>
+        <qualifiedname>StubMetadataTable::StubMetadataTable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="38" column="5" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metadata_table_1ad08678ae97d2499f2aafb041280a53f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubMetadataTable::insert</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>StubMetadataTable::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="40" column="10" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="40" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metadata_table_1a65f80f93bebe28eba1aae02723f28965" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubMetadataTable::isIndexed</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>isIndexed</name>
+        <qualifiedname>StubMetadataTable::isIndexed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="47" column="10" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metadata_table_1af306913fa6ff064a54ffad783803e6ac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubMetadataTable::get</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>StubMetadataTable::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="52" column="17" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="52" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metadata_table_1a0757295eee385a1a453faa5f1ed3575c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubMetadataTable::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>StubMetadataTable::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="58" column="17" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metadata_table_1a0f3f1a8eff455488c93f706d530f070e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubMetadataTable::insertCount</definition>
+        <argsstring>() const</argsstring>
+        <name>insertCount</name>
+        <qualifiedname>StubMetadataTable::insertCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="63" column="14" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe stub metadata table with a secondary index. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/metadata/test_metadata_highcardinality_stress.cpp" line="36" column="1" bodyfile="tests/metadata/test_metadata_highcardinality_stress.cpp" bodystart="36" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_stub_metadata_table_1a470b02c6c40c1fcb76374f60635df7e6" prot="private" virt="non-virtual"><scope>StubMetadataTable</scope><name>data_</name></member>
+      <member refid="class_stub_metadata_table_1af306913fa6ff064a54ffad783803e6ac" prot="public" virt="non-virtual"><scope>StubMetadataTable</scope><name>get</name></member>
+      <member refid="class_stub_metadata_table_1ac9cdfc348114c271b23389d6458ed5f4" prot="private" virt="non-virtual"><scope>StubMetadataTable</scope><name>index_</name></member>
+      <member refid="class_stub_metadata_table_1ad08678ae97d2499f2aafb041280a53f6" prot="public" virt="non-virtual"><scope>StubMetadataTable</scope><name>insert</name></member>
+      <member refid="class_stub_metadata_table_1aac5569d40f97b207f0da25d799f1bc79" prot="private" virt="non-virtual"><scope>StubMetadataTable</scope><name>insert_count_</name></member>
+      <member refid="class_stub_metadata_table_1a0f3f1a8eff455488c93f706d530f070e" prot="public" virt="non-virtual"><scope>StubMetadataTable</scope><name>insertCount</name></member>
+      <member refid="class_stub_metadata_table_1a65f80f93bebe28eba1aae02723f28965" prot="public" virt="non-virtual"><scope>StubMetadataTable</scope><name>isIndexed</name></member>
+      <member refid="class_stub_metadata_table_1a01d440c6439837df1c871a16011e0b06" prot="private" virt="non-virtual"><scope>StubMetadataTable</scope><name>mu_</name></member>
+      <member refid="class_stub_metadata_table_1a0757295eee385a1a453faa5f1ed3575c" prot="public" virt="non-virtual"><scope>StubMetadataTable</scope><name>size</name></member>
+      <member refid="class_stub_metadata_table_1a7047922c2ea8f5f9a235586f71a32fc4" prot="public" virt="non-virtual"><scope>StubMetadataTable</scope><name>StubMetadataTable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

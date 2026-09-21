@@ -1,0 +1,635 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_tracer" kind="class" language="C++" prot="public">
+    <compoundname>themis::Tracer</compoundname>
+    <includes refid="tracing_8h" local="no">tracing.h</includes>
+    <innerclass refid="classthemis_1_1_tracer_1_1_span" prot="public">themis::Tracer::Span</innerclass>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_tracer_1a050e4f924fb78d9a524da39f99b7b28d" prot="private" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Tracer::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::Tracer::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="493" column="17" bodyfile="include/utils/tracing.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tracer_1a72012c2720c3a1b345a32717c4225bf1" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt; int64_t &gt; themis::Tracer::total_spans_</definition>
+        <argsstring></argsstring>
+        <name>total_spans_</name>
+        <qualifiedname>themis::Tracer::total_spans_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="494" column="24" bodyfile="include/utils/tracing.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tracer_1a76e0727bc8a038e240993c15e7da7ad7" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt; int64_t &gt; themis::Tracer::active_spans_</definition>
+        <argsstring></argsstring>
+        <name>active_spans_</name>
+        <qualifiedname>themis::Tracer::active_spans_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="495" column="24" bodyfile="include/utils/tracing.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tracer_1adf817cedab11eeb318047e8c19b2aebb" prot="private" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1_sampling_strategy" kindref="compound">SamplingStrategy</ref></type>
+        <definition>SamplingStrategy themis::Tracer::sampling_strategy_</definition>
+        <argsstring></argsstring>
+        <name>sampling_strategy_</name>
+        <qualifiedname>themis::Tracer::sampling_strategy_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1_sampling_strategy_1a9f7c755c345064c2099d590138631b73" kindref="member">SamplingStrategy::alwaysOn</ref>()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="496" column="29" bodyfile="include/utils/tracing.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tracer_1a6211348181f51baf97b8ec147190eb41" prot="private" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::Tracer::sampling_mu_</definition>
+        <argsstring></argsstring>
+        <name>sampling_mu_</name>
+        <qualifiedname>themis::Tracer::sampling_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="497" column="23" bodyfile="include/utils/tracing.h" bodystart="497" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_tracer_1af7d34dc092dc0ac4cf001e4dca940de9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Tracer::initialize</definition>
+        <argsstring>(const std::string &amp;serviceName, const std::string &amp;endpoint)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::Tracer::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serviceName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the global tracer with OTLP HTTP exporter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para>Probes the collector endpoint (3-second timeout) before registering the OTLP exporter. If the probe fails the tracer is marked initialized but operates in no-op mode (every span is discarded), bounding latency impact.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>serviceName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of this service (e.g., &quot;themis-server&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OTLP HTTP endpoint (e.g., &quot;http://localhost:4318&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialization succeeded and backend is reachable; false if backend unreachable (no-op mode, fail-open)</para>
+</simplesect>
+@error_contract <table rows="4" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para>ErrorCode  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Collector DNS resolution fails  </para>
+</entry><entry thead="no"><para>TRACE_EXPORT_FAILED (9031)  </para>
+</entry><entry thead="no"><para>Warning  </para>
+</entry><entry thead="no"><para>host, port, error  </para>
+</entry><entry thead="no"><para>Return false; use no-op spans (fail-open)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Collector TCP connect fails (timeout 3 s)  </para>
+</entry><entry thead="no"><para>TRACE_EXPORT_FAILED (9031)  </para>
+</entry><entry thead="no"><para>Warning  </para>
+</entry><entry thead="no"><para>host, port, error  </para>
+</entry><entry thead="no"><para>Return false; use no-op spans (fail-open)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Probe throws unexpected exception  </para>
+</entry><entry thead="no"><para>TRACE_EXPORT_FAILED (9031)  </para>
+</entry><entry thead="no"><para>Warning  </para>
+</entry><entry thead="no"><para>error  </para>
+</entry><entry thead="no"><para>Return false; use no-op spans (fail-open)  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-open – backend unavailable produces no-op spans; latency bounded to 3 s probe <simplesect kind="see"><para>ErrorCode 9030-9039 for tracing error taxonomy</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">serviceName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: defined(), <ref refid="logger_8h_1ade0528e3f53f4548ffa6867f699a9444" kindref="member">THEMIS_WARN()</ref>, re(), std::regex_search(), str(), size(), std::stoi(), parse_host_port(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="206" column="17" bodyfile="src/utils/tracing.cpp" bodystart="287" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1af2f838710dcac419e96ddbafae1ad25e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Tracer::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::Tracer::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown the tracer and flush remaining spans</para>
+<para>Calls: defined(), otel::trace::Provider::GetTracerProvider(), get(), Shutdown(), <ref refid="logger_8h_1a39e87e8a08bc7617cdd677afcb210e82" kindref="member">THEMIS_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="211" column="17" bodyfile="src/utils/tracing.cpp" bodystart="430" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1af9dfa23a0e4d1156e0996bb0dee1a3d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref></type>
+        <definition>Tracer::Span themis::Tracer::startSpan</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>startSpan</name>
+        <qualifiedname>themis::Tracer::startSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Start <ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start a new span with the given name</para>
+<para>Creates a child span of the currently active span (if any). Phase 2.10: Comprehensive error contract documentation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> name for display in tracing backend</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> RAII object; span ends when object is destroyed</para>
+</simplesect>
+@error_contract <bold>Phase 2.3 <ref refid="classthemis_1_1_error" kindref="compound">Error</ref> Codes (7300-7309, 7362):</bold><itemizedlist>
+<listitem><para>ERR_TRACING_DEGRADED (7362): <ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> creation fails<itemizedlist>
+<listitem><para>Recovery: Returns invalid span (valid_ = false); no-op operations</para>
+</listitem><listitem><para>Severity: WARNING</para>
+</listitem><listitem><para>User Action: Check tracing backend availability</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+<para><bold><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> Creation Semantics:</bold><itemizedlist>
+<listitem><para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> becomes child of active context (if set)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> lifetime bound to returned object (RAII)</para>
+</listitem><listitem><para>Tracing disabled: returns empty span (valid_ = false)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> name is immutable; cannot be changed after creation</para>
+</listitem></itemizedlist>
+</para>
+<para>@bounded_resources<itemizedlist>
+<listitem><para>Active spans limited by tracing backend configuration</para>
+</listitem><listitem><para>Resource check: if span count exceeds limit, returns invalid span</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety NOT thread-safe; call from trace context thread @performance O(1) amortized; O(n) on backend when span count exceeds threshold</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1_tracer_1a130e770e9cd3be6c60ec98df016ff23a" kindref="member">startChildSpan()</ref> to explicitly specify parent </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1_tracer_1a6f6c12a6e287da8b1225f81fdf4ba4a9" kindref="member">startSpanFromHeaders()</ref> for distributed tracing </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1_tracer_1_1_span_1abf6789ddfb75eaee5b944311083f2dba" kindref="member">Span::isValid()</ref> to check if creation succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), lk(), shouldSample(), Span(), getTracer(), StartSpan(), empty(), <ref refid="classthemis_1_1_baggage_1a0a27a84f572b5f1034a70386d6e7df04" kindref="member">Baggage::set()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="333" column="17" bodyfile="src/utils/tracing.cpp" bodystart="558" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1a130e770e9cd3be6c60ec98df016ff23a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref></type>
+        <definition>Tracer::Span themis::Tracer::startChildSpan</definition>
+        <argsstring>(const std::string &amp;name, const Span &amp;parent)</argsstring>
+        <name>startChildSpan</name>
+        <qualifiedname>themis::Tracer::startChildSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+<para>Start Child <ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start a new span as a child of the given parent span</para>
+<para>Creates a child span explicitly linked to a parent span. Useful when the parent is not the active context. Phase 2.10: Comprehensive error contract documentation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> name for display in tracing backend </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parent span to link this span to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> RAII object; span ends when object is destroyed</para>
+</simplesect>
+@error_contract <bold>Phase 2.3 <ref refid="classthemis_1_1_error" kindref="compound">Error</ref> Codes (7300-7309, 7362):</bold><itemizedlist>
+<listitem><para>ERR_TRACING_DEGRADED (7362): <ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> creation fails<itemizedlist>
+<listitem><para>Recovery: Returns invalid span (valid_ = false); no-op operations</para>
+</listitem><listitem><para>Severity: WARNING</para>
+</listitem><listitem><para>User Action: Check tracing backend availability</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Child <ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> Semantics:</bold><itemizedlist>
+<listitem><para>Creates explicit parent-child relationship in trace tree</para>
+</listitem><listitem><para>Parent span can be on different thread/context</para>
+</listitem><listitem><para>Parent validity is not checked; invalid parent creates orphan span</para>
+</listitem><listitem><para>Child inherits parent&apos;s trace context and baggage</para>
+</listitem></itemizedlist>
+</para>
+<para>@bounded_resources<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> hierarchy depth: limited by tracing backend</para>
+</listitem><listitem><para>Resource check: if span tree exceeds depth limit, returns invalid span</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety NOT thread-safe; call from trace context thread @performance O(1) amortized; depends on trace tree depth</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1_tracer_1af9dfa23a0e4d1156e0996bb0dee1a3d8" kindref="member">startSpan()</ref> for automatic parent detection </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1_tracer_1a6f6c12a6e287da8b1225f81fdf4ba4a9" kindref="member">startSpanFromHeaders()</ref> for distributed tracing</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), getTracer(), Span(), lk(), shouldSample(), StartSpan(), empty(), <ref refid="classthemis_1_1_baggage_1a0a27a84f572b5f1034a70386d6e7df04" kindref="member">Baggage::set()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="370" column="17" bodyfile="src/utils/tracing.cpp" bodystart="591" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1a6f6c12a6e287da8b1225f81fdf4ba4a9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref></type>
+        <definition>Tracer::Span themis::Tracer::startSpanFromHeaders</definition>
+        <argsstring>(const std::string &amp;name, const std::map&lt; std::string, std::string &gt; &amp;headers)</argsstring>
+        <name>startSpanFromHeaders</name>
+        <qualifiedname>themis::Tracer::startSpanFromHeaders</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Start a new root span using W3C TraceContext headers for context propagation</para>
+<para>Extracts the <computeroutput>traceparent</computeroutput> (and optionally <computeroutput>tracestate</computeroutput>) header from the provided header map and creates a span that is a child of the upstream trace context. This enables distributed tracing across service boundaries: callers (API gateways, service meshes, SDKs) can propagate their trace IDs into ThemisDB so that all internal spans appear in the same distributed trace.</para>
+<para>Format of <computeroutput>traceparent</computeroutput> (W3C Trace Context Level 1): version-traceid-parentid-flags e.g. &quot;00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01&quot;</para>
+<para>When THEMIS_ENABLE_TRACING is not defined, this falls back to <ref refid="classthemis_1_1_tracer_1af9dfa23a0e4d1156e0996bb0dee1a3d8" kindref="member">startSpan()</ref> and records the raw <computeroutput>traceparent</computeroutput> value as an attribute for log correlation.</para>
+<para>Phase 2.10: Comprehensive error contract documentation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP request headers (case-insensitive key lookup)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> RAII object; span ends when object is destroyed</para>
+</simplesect>
+@error_contract <bold>Phase 2.3 <ref refid="classthemis_1_1_error" kindref="compound">Error</ref> Codes (7300-7309, 7362):</bold><itemizedlist>
+<listitem><para>ERR_TRACING_DEGRADED (7362): W3C header parsing fails<itemizedlist>
+<listitem><para>Recovery: Falls back to <ref refid="classthemis_1_1_tracer_1af9dfa23a0e4d1156e0996bb0dee1a3d8" kindref="member">startSpan()</ref> without distributed trace context</para>
+</listitem><listitem><para>Severity: WARNING</para>
+</listitem><listitem><para>User Action: Validate traceparent header format</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>ERR_TRACING_DEGRADED (7362): <ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> creation fails after parsing<itemizedlist>
+<listitem><para>Recovery: Returns invalid span (valid_ = false)</para>
+</listitem><listitem><para>Severity: WARNING</para>
+</listitem><listitem><para>User Action: Check tracing backend availability</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>W3C Trace Context Semantics:</bold><itemizedlist>
+<listitem><para>Parses <computeroutput>traceparent</computeroutput> header using W3C Trace Context Level 1 format</para>
+</listitem><listitem><para>Optional <computeroutput>tracestate</computeroutput> header preserved for backend baggage</para>
+</listitem><listitem><para>If headers missing: creates root span (new trace ID)</para>
+</listitem><listitem><para>Invalid header format: logged as warning; root span created</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Distributed Trace Propagation:</bold><itemizedlist>
+<listitem><para>Enables end-to-end tracing across service boundaries</para>
+</listitem><listitem><para>Incoming trace ID is preserved in resulting span</para>
+</listitem><listitem><para>All child spans inherit propagated trace context</para>
+</listitem><listitem><para>Useful for API gateway → ThemisDB → backend service chains</para>
+</listitem></itemizedlist>
+</para>
+<para>@bounded_resources<itemizedlist>
+<listitem><para>Header parsing: O(header_count) for case-insensitive lookup</para>
+</listitem><listitem><para>Resource check: no additional resources required</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety NOT thread-safe; call from trace context thread @performance O(header_count) for header parsing; O(1) for span creation</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1_tracer_1af9dfa23a0e4d1156e0996bb0dee1a3d8" kindref="member">startSpan()</ref> for basic span creation without distributed context </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1_tracer_1a130e770e9cd3be6c60ec98df016ff23a" kindref="member">startChildSpan()</ref> for explicit parent linking </para>
+</simplesect>
+<simplesect kind="see"><para><ulink url="https://www.w3.org/TR/trace-context/">https://www.w3.org/TR/trace-context/</ulink> for W3C Trace Context specification </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="430" column="17" bodyfile="src/utils/tracing.cpp" bodystart="734" bodyend="787"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1aa2c12ac47aaf37d44abd4273abbf7963" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::Tracer::getTotalSpans</definition>
+        <argsstring>()</argsstring>
+        <name>getTotalSpans</name>
+        <qualifiedname>themis::Tracer::getTotalSpans</qualifiedname>
+        <briefdescription>
+<para>Get Total Spans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get total number of spans created (for metrics)</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="437" column="20" bodyfile="src/utils/tracing.cpp" bodystart="794" bodyend="796"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1ad5f0c12b29e5519fcf99ddf2c79ce620" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::Tracer::getActiveSpans</definition>
+        <argsstring>()</argsstring>
+        <name>getActiveSpans</name>
+        <qualifiedname>themis::Tracer::getActiveSpans</qualifiedname>
+        <briefdescription>
+<para>Get Active Spans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get active span count (for metrics)</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="442" column="20" bodyfile="src/utils/tracing.cpp" bodystart="803" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1a0f83bb146db9d6074c61fb703da1a9e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Tracer::setSamplingStrategy</definition>
+        <argsstring>(const SamplingStrategy &amp;strategy)</argsstring>
+        <name>setSamplingStrategy</name>
+        <qualifiedname>themis::Tracer::setSamplingStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_sampling_strategy" kindref="compound">SamplingStrategy</ref> &amp;</type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set Sampling Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure the sampling strategy used for new root spans. This takes effect for all spans created after this call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="448" column="17" bodyfile="src/utils/tracing.cpp" bodystart="489" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1aafd102246450c6cbaf4a271859129879" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_sampling_strategy" kindref="compound">SamplingStrategy</ref></type>
+        <definition>SamplingStrategy themis::Tracer::getSamplingStrategy</definition>
+        <argsstring>()</argsstring>
+        <name>getSamplingStrategy</name>
+        <qualifiedname>themis::Tracer::getSamplingStrategy</qualifiedname>
+        <briefdescription>
+<para>Get Sampling Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the current sampling strategy.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="453" column="29" bodyfile="src/utils/tracing.cpp" bodystart="499" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1a3a70040d0300a687998e25df8036e89d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::Tracer::getCurrentTraceId</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTraceId</name>
+        <qualifiedname>themis::Tracer::getCurrentTraceId</qualifiedname>
+        <briefdescription>
+<para>Get Current Trace Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the trace-ID of the most recently started span on this thread as a 32-character hex string, or an empty string when tracing is disabled / no span is active.</para>
+<para>Primarily intended for injecting the trace-ID into structured log messages to correlate logs with traces.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), otel::context::RuntimeContext::GetCurrent(), GetValue(), GetContext(), IsValid(), trace_id(), ToLowerBase16(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="463" column="24" bodyfile="src/utils/tracing.cpp" bodystart="509" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1a4e65f27dfb26fbabc9a3bc9040fc1e18" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::Tracer::getCurrentSpanId</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentSpanId</name>
+        <qualifiedname>themis::Tracer::getCurrentSpanId</qualifiedname>
+        <briefdescription>
+<para>Get Current <ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Span</ref> Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the span-ID of the most recently started span on this thread as a 16-character hex string, or empty string when unavailable.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), otel::context::RuntimeContext::GetCurrent(), GetValue(), GetContext(), IsValid(), span_id(), ToLowerBase16(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="469" column="24" bodyfile="src/utils/tracing.cpp" bodystart="533" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tracer_1a20c95f780ad119b999175d4d7cac7042" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Tracer::flush</definition>
+        <argsstring>(std::chrono::microseconds timeout=std::chrono::duration_cast&lt; std::chrono::microseconds &gt;(std::chrono::seconds(5))) noexcept</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::Tracer::flush</qualifiedname>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::duration_cast&lt; std::chrono::microseconds &gt;(std::chrono::seconds(5))</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush any buffered or in-flight spans to the exporter.</para>
+<para>Calls ForceFlush() on the underlying SDK TracerProvider so that all spans queued in the processor&apos;s internal buffer are exported before the call returns (subject to <computeroutput>timeout</computeroutput>). When THEMIS_ENABLE_TRACING is not defined this is a no-op and always returns true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait for the flush to complete. Defaults to 5 seconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all pending spans were exported within the timeout, false if the timeout expired or no provider is active. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="484" column="17" bodyfile="src/utils/tracing.cpp" bodystart="450" bodyend="467"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_tracer" kindref="compound">Tracer</ref> wrapper for OpenTelemetry distributed tracing</para>
+<para>Provides a simple interface for creating spans and managing trace context. When THEMIS_ENABLE_TRACING is not defined, this becomes a no-op wrapper.</para>
+<para>Usage: auto span = <ref refid="classthemis_1_1_tracer_1af9dfa23a0e4d1156e0996bb0dee1a3d8" kindref="member">Tracer::startSpan</ref>(&quot;handleAqlQuery&quot;); span.setAttribute(&quot;query.table&quot;, &quot;users&quot;); // ... work happens ... span.end(); // or rely on RAII destructor </para>
+    </detaileddescription>
+    <location file="include/utils/tracing.h" line="182" column="1" bodyfile="include/utils/tracing.h" bodystart="182" bodyend="498"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_tracer_1a76e0727bc8a038e240993c15e7da7ad7" prot="private" virt="non-virtual"><scope>themis::Tracer</scope><name>active_spans_</name></member>
+      <member refid="classthemis_1_1_tracer_1a20c95f780ad119b999175d4d7cac7042" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>flush</name></member>
+      <member refid="classthemis_1_1_tracer_1ad5f0c12b29e5519fcf99ddf2c79ce620" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>getActiveSpans</name></member>
+      <member refid="classthemis_1_1_tracer_1a4e65f27dfb26fbabc9a3bc9040fc1e18" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>getCurrentSpanId</name></member>
+      <member refid="classthemis_1_1_tracer_1a3a70040d0300a687998e25df8036e89d" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>getCurrentTraceId</name></member>
+      <member refid="classthemis_1_1_tracer_1aafd102246450c6cbaf4a271859129879" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>getSamplingStrategy</name></member>
+      <member refid="classthemis_1_1_tracer_1aa2c12ac47aaf37d44abd4273abbf7963" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>getTotalSpans</name></member>
+      <member refid="classthemis_1_1_tracer_1af7d34dc092dc0ac4cf001e4dca940de9" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1_tracer_1a050e4f924fb78d9a524da39f99b7b28d" prot="private" virt="non-virtual"><scope>themis::Tracer</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1_tracer_1a6211348181f51baf97b8ec147190eb41" prot="private" virt="non-virtual"><scope>themis::Tracer</scope><name>sampling_mu_</name></member>
+      <member refid="classthemis_1_1_tracer_1adf817cedab11eeb318047e8c19b2aebb" prot="private" virt="non-virtual"><scope>themis::Tracer</scope><name>sampling_strategy_</name></member>
+      <member refid="classthemis_1_1_tracer_1a0f83bb146db9d6074c61fb703da1a9e3" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>setSamplingStrategy</name></member>
+      <member refid="classthemis_1_1_tracer_1af2f838710dcac419e96ddbafae1ad25e" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1_tracer_1a130e770e9cd3be6c60ec98df016ff23a" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>startChildSpan</name></member>
+      <member refid="classthemis_1_1_tracer_1af9dfa23a0e4d1156e0996bb0dee1a3d8" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>startSpan</name></member>
+      <member refid="classthemis_1_1_tracer_1a6f6c12a6e287da8b1225f81fdf4ba4a9" prot="public" virt="non-virtual"><scope>themis::Tracer</scope><name>startSpanFromHeaders</name></member>
+      <member refid="classthemis_1_1_tracer_1a72012c2720c3a1b345a32717c4225bf1" prot="private" virt="non-virtual"><scope>themis::Tracer</scope><name>total_spans_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

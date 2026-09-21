@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_batcher_1_1_effective_policy" kind="struct" language="C++" prot="private">
+    <compoundname>themis::TransactionBatcher::EffectivePolicy</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_effective_policy_1a10d635adb45eacdc39b86a83e466bfc9" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::TransactionBatcher::EffectivePolicy::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themis::TransactionBatcher::EffectivePolicy::window</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="158" column="35" bodyfile="include/transaction/transaction_batcher.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_effective_policy_1a7aa7f567cd05046b987a38667967b9cc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionBatcher::EffectivePolicy::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::TransactionBatcher::EffectivePolicy::max_batch_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="159" column="35" bodyfile="include/transaction/transaction_batcher.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_effective_policy_1a56f3a2b2275bd3fb0778973d08476e1c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionBatcher::EffectivePolicy::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::TransactionBatcher::EffectivePolicy::min_batch_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="160" column="35" bodyfile="include/transaction/transaction_batcher.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_batcher.h" line="157" column="5" bodyfile="include/transaction/transaction_batcher.h" bodystart="157" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_effective_policy_1a7aa7f567cd05046b987a38667967b9cc" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::EffectivePolicy</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_effective_policy_1a56f3a2b2275bd3fb0778973d08476e1c" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::EffectivePolicy</scope><name>min_batch_size</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_effective_policy_1a10d635adb45eacdc39b86a83e466bfc9" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::EffectivePolicy</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

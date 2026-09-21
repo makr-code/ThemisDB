@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geo__clustering_8h" kind="file" language="C++">
+    <compoundname>geo_clustering.h</compoundname>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__geo__dbscan_8cpp" local="yes">benchmarks/geo/bench_geo_dbscan.cpp</includedby>
+    <includedby refid="geo__clustering_8cpp" local="yes">src/geo/geo_clustering.cpp</includedby>
+    <includedby refid="test__geo__clustering_8cpp" local="yes">tests/geo/test_geo_clustering.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/geo/geo_clustering.h</label>
+        <link refid="geo__clustering_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/geo/bench_geo_dbscan.cpp</label>
+        <link refid="bench__geo__dbscan_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/geo/geo_clustering.h</label>
+        <link refid="geo__clustering_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/geo/geo_clustering.cpp</label>
+        <link refid="geo__clustering_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/geo/test_geo_clustering.cpp</label>
+        <link refid="test__geo__clustering_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_cluster_result" prot="public">themis::geo::GeoClusterResult</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_dbscan_config" prot="public">themis::geo::DbscanConfig</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_k_means_config" prot="public">themis::geo::KMeansConfig</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_gpu_clustering_config" prot="public">themis::geo::GpuClusteringConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kDbscanNoise<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kDbscanUnclassified<sp/>=<sp/>-2;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1geo_1_1_geo_cluster_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_cluster_result" kindref="compound">GeoClusterResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1geo_1_1_geo_cluster_result_1ae80b350e850507a1f033ae0ce5f7854c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1geo_1_1_geo_cluster_result_1ae80b350e850507a1f033ae0ce5f7854c" kindref="member">labels</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1geo_1_1_geo_cluster_result_1aee19758dfb7036df39fbe804f4ebcd22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_geo_cluster_result_1aee19758dfb7036df39fbe804f4ebcd22" kindref="member">num_clusters</ref>{0};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="struct_dbscan_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_dbscan_config" kindref="compound">DbscanConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1geo_1_1_dbscan_config_1aa1587c2d311fb22f837693808c8b3ed3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_dbscan_config_1aa1587c2d311fb22f837693808c8b3ed3" kindref="member">epsilon_m</ref>{500.0};</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1geo_1_1_dbscan_config_1a07bd4d1aebb7770b5ff46994304379d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1geo_1_1_dbscan_config_1a07bd4d1aebb7770b5ff46994304379d0" kindref="member">min_points</ref>{3};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1geo_1_1_k_means_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_k_means_config" kindref="compound">KMeansConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1geo_1_1_k_means_config_1a147ff8a5a850b3e2cbafd15e29a0ed5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1geo_1_1_k_means_config_1a147ff8a5a850b3e2cbafd15e29a0ed5b" kindref="member">k</ref>{3};</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1geo_1_1_k_means_config_1a873ab90424fe849222b4f789bac94579" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1geo_1_1_k_means_config_1a873ab90424fe849222b4f789bac94579" kindref="member">max_iterations</ref>{100};</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1geo_1_1_k_means_config_1ae5dc96f09ae0b0f48333a81ea3c4013f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_k_means_config_1ae5dc96f09ae0b0f48333a81ea3c4013f" kindref="member">tolerance_m</ref>{1.0};</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1geo_1_1_k_means_config_1aa38afb13d2702d7d3eb2fecd8aa83941" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1geo_1_1_k_means_config_1aa38afb13d2702d7d3eb2fecd8aa83941" kindref="member">seed</ref>{0};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="struct_gpu_clustering_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_gpu_clustering_config" kindref="compound">GpuClusteringConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a4c54a32258ea8a9a768204032220e701" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a4c54a32258ea8a9a768204032220e701" kindref="member">use_gpu</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a08b4f09e160419310bf9a285b80a2569" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1geo_1_1_gpu_clustering_config_1a08b4f09e160419310bf9a285b80a2569" kindref="member">gpu_dbscan_max_n</ref>{32768};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">GeoClusterResult<sp/><ref refid="namespacethemis_1_1geo_1a6241d0d0b5c79bf06a6296a71a52b973" kindref="member">dbscanCluster</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GeometryInfo&gt;&amp;<sp/>points,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_dbscan_config" kindref="compound">DbscanConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="struct_dbscan_config" kindref="compound">DbscanConfig</ref>{},</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_gpu_clustering_config" kindref="compound">GpuClusteringConfig</ref>&amp;<sp/>gpu_cfg<sp/>=<sp/><ref refid="struct_gpu_clustering_config" kindref="compound">GpuClusteringConfig</ref>{});</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_cluster_result" kindref="compound">GeoClusterResult</ref><sp/><ref refid="namespacethemis_1_1geo_1ac8352b25b8d2d0024b1ff1c9fcd1e10b" kindref="member">kmeansCluster</ref>(</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GeometryInfo&gt;&amp;<sp/>points,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_k_means_config" kindref="compound">KMeansConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1geo_1_1_k_means_config" kindref="compound">KMeansConfig</ref>{},</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_gpu_clustering_config" kindref="compound">GpuClusteringConfig</ref>&amp;<sp/>gpu_cfg<sp/>=<sp/><ref refid="structthemis_1_1geo_1_1_gpu_clustering_config" kindref="compound">GpuClusteringConfig</ref>{});</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/geo_clustering.h"/>
+  </compounddef>
+</doxygen>

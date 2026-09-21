@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::MockTokenBlacklist</compoundname>
+    <basecompoundref refid="classthemis_1_1auth_1_1_token_blacklist" prot="public" virt="non-virtual">themis::auth::TokenBlacklist</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist_1aeb722bcb2439b5d4f2cdcfd72b912acd" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::auth::tests::MockTokenBlacklist::revoked_jtis_</definition>
+        <argsstring></argsstring>
+        <name>revoked_jtis_</name>
+        <qualifiedname>themis::auth::tests::MockTokenBlacklist::revoked_jtis_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_jwt_validator_focused.cpp" line="39" column="28" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist_1a5474fe8c8f8858bc10db9f3c9a91defd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::tests::MockTokenBlacklist::isRevoked</definition>
+        <argsstring>(const std::string &amp;jti) const override</argsstring>
+        <name>isRevoked</name>
+        <qualifiedname>themis::auth::tests::MockTokenBlacklist::isRevoked</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_token_blacklist_1a4143e749b180b3df021129be9665e8b7">isRevoked</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_jwt_validator_focused.cpp" line="26" column="14" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist_1a506fad71e16f260245e720ff0d8b4481" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::tests::MockTokenBlacklist::setRevoked</definition>
+        <argsstring>(const std::string &amp;jti, bool revoked)</argsstring>
+        <name>setRevoked</name>
+        <qualifiedname>themis::auth::tests::MockTokenBlacklist::setRevoked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>revoked</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_jwt_validator_focused.cpp" line="30" column="14" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight <ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref> test double for JTI revocation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::auth::ITokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_i_token_blacklist"/>
+      </node>
+      <node id="2">
+        <label>themis::auth::TokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_token_blacklist"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::MockTokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::auth::ITokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_i_token_blacklist"/>
+      </node>
+      <node id="2">
+        <label>themis::auth::TokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_token_blacklist"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::MockTokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_jwt_validator_focused.cpp" line="24" column="1" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="24" bodyend="40"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ad2f85a43c0ffed0b4b42988ad91a4826" prot="public" virt="virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>add</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ad3b5ffde4ba975b59469da263eb61773" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>clear</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a4d7f6332000f0c7f58b2ded875aca8c9" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>clearOnRevokeCallback</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a673d084488ffea42500472e99cc7a431" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist_1a5474fe8c8f8858bc10db9f3c9a91defd" prot="public" virt="virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>isRevoked</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a93ea7b1eb88bdb34328bf1b424edb471" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a963a79b228122e8e47ca931f4bfd44ac" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ab026eb6474556ad6d50e6d201a1bca18" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>pruneExpired</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a2b62fba0b041af858fb300e0687e9b5d" prot="public" virt="virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>purgeExpired</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a9d3a83e00df53043edcc527ffd435bac" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>RevocationCallback</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1acc55cb1d13afca06431dccc711da459b" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>revoke</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist_1aeb722bcb2439b5d4f2cdcfd72b912acd" prot="private" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>revoked_jtis_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a0b8a2298a0a5baed9e244ab9e81a5d6d" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a1f552fdcc0d153e731c19fa044bba22b" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>setOnRevokeCallback</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist_1a506fad71e16f260245e720ff0d8b4481" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>setRevoked</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1aeefbf4bc22783a2c289b24c8ea5425f9" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>size</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a21fbfa17ddee94ac06d93ea239954b55" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>TokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a2194ba6b7018fc4d1f117d2a8c6743ba" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>TokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a4071bf2259e89d573671111a1137de19" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>TokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ae2b3c77b455dc4f18c8268c5f396fa81" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>unrevoke</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_token_blacklist_1ac85bfacfbd62eea066156af8d9cf2642" prot="public" virt="virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>~ITokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a3947a91a627c8e4b1583371cbe71196d" prot="public" virt="non-virtual"><scope>themis::auth::tests::MockTokenBlacklist</scope><name>~TokenBlacklist</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

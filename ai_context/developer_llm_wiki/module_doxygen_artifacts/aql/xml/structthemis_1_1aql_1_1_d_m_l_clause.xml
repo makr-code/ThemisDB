@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_d_m_l_clause" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::DMLClause</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_d_m_l_clause_1a8d49c7295e9bfdc10fb2725c78972d60" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a905763d2f1cd44b97a6acb25a79d56a4" kindref="member">DMLType</ref></type>
+        <definition>DMLType themis::aql::DMLClause::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::aql::DMLClause::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="59" column="13" bodyfile="src/aql/aql_query_builder.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_d_m_l_clause_1aa9ffdb752e2be16b0678c4f5a3d61708" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DMLClause::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::aql::DMLClause::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="60" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_d_m_l_clause_1a2a8f0be33686e383fa2c8f231bef075d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DMLClause::doc_expr</definition>
+        <argsstring></argsstring>
+        <name>doc_expr</name>
+        <qualifiedname>themis::aql::DMLClause::doc_expr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="61" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_d_m_l_clause_1a53574cc4ee33792efb2c4cd489e7f006" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DMLClause::filter_expr</definition>
+        <argsstring></argsstring>
+        <name>filter_expr</name>
+        <qualifiedname>themis::aql::DMLClause::filter_expr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="62" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_d_m_l_clause_1a90a4b93e893a447187ee8b5fbf1c2258" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DMLClause::insert_expr</definition>
+        <argsstring></argsstring>
+        <name>insert_expr</name>
+        <qualifiedname>themis::aql::DMLClause::insert_expr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="63" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_d_m_l_clause_1a76c28a83138d8b056eb8d1fde3cf19a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DMLClause::update_expr</definition>
+        <argsstring></argsstring>
+        <name>update_expr</name>
+        <qualifiedname>themis::aql::DMLClause::update_expr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="64" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/aql/aql_query_builder.cpp" line="58" column="1" bodyfile="src/aql/aql_query_builder.cpp" bodystart="58" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_d_m_l_clause_1aa9ffdb752e2be16b0678c4f5a3d61708" prot="public" virt="non-virtual"><scope>themis::aql::DMLClause</scope><name>collection</name></member>
+      <member refid="structthemis_1_1aql_1_1_d_m_l_clause_1a2a8f0be33686e383fa2c8f231bef075d" prot="public" virt="non-virtual"><scope>themis::aql::DMLClause</scope><name>doc_expr</name></member>
+      <member refid="structthemis_1_1aql_1_1_d_m_l_clause_1a53574cc4ee33792efb2c4cd489e7f006" prot="public" virt="non-virtual"><scope>themis::aql::DMLClause</scope><name>filter_expr</name></member>
+      <member refid="structthemis_1_1aql_1_1_d_m_l_clause_1a90a4b93e893a447187ee8b5fbf1c2258" prot="public" virt="non-virtual"><scope>themis::aql::DMLClause</scope><name>insert_expr</name></member>
+      <member refid="structthemis_1_1aql_1_1_d_m_l_clause_1a8d49c7295e9bfdc10fb2725c78972d60" prot="public" virt="non-virtual"><scope>themis::aql::DMLClause</scope><name>type</name></member>
+      <member refid="structthemis_1_1aql_1_1_d_m_l_clause_1a76c28a83138d8b056eb8d1fde3cf19a3" prot="public" virt="non-virtual"><scope>themis::aql::DMLClause</scope><name>update_expr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

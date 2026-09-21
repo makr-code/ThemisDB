@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7d9718a2efa38b4d90de6a6945db8a94" kind="dir">
+    <compoundname>src/query/functions</compoundname>
+    <innerfile refid="ethics__functions_8cpp">ethics_functions.cpp</innerfile>
+    <innerfile refid="fulltext__functions_8cpp">fulltext_functions.cpp</innerfile>
+    <innerfile refid="function__registry_8cpp">function_registry.cpp</innerfile>
+    <innerfile refid="lora__functions_8cpp">lora_functions.cpp</innerfile>
+    <innerfile refid="process__mining__functions_8cpp">process_mining_functions.cpp</innerfile>
+    <innerfile refid="tensor__functions_8cpp">tensor_functions.cpp</innerfile>
+    <innerfile refid="udf__registry_8cpp">udf_registry.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/functions/"/>
+  </compounddef>
+</doxygen>

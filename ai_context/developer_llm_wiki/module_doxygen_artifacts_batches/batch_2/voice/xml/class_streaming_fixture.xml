@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_streaming_fixture" kind="class" language="C++" prot="public">
+    <compoundname>StreamingFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_streaming_fixture_1aa9ae7f949dc11cbe28047cade1fa4281" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_mock_stream_handler" kindref="compound">MockStreamHandler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockStreamHandler&gt; StreamingFixture::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>StreamingFixture::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="58" column="21" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_streaming_fixture_1a09afef6c7a4048af511eada66cbdd865" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t StreamingFixture::kMaxBufferSize</definition>
+        <argsstring></argsstring>
+        <name>kMaxBufferSize</name>
+        <qualifiedname>StreamingFixture::kMaxBufferSize</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="59" column="29" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_streaming_fixture_1a9e5ba970b2d1e898807f15390d11d788" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int StreamingFixture::kConnectionTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>kConnectionTimeoutMs</name>
+        <qualifiedname>StreamingFixture::kConnectionTimeoutMs</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="60" column="26" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_streaming_fixture_1a9d5b1fb7a5059f668b3154a2eace1119" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int StreamingFixture::kHeartbeatIntervalMs</definition>
+        <argsstring></argsstring>
+        <name>kHeartbeatIntervalMs</name>
+        <qualifiedname>StreamingFixture::kHeartbeatIntervalMs</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="61" column="26" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_streaming_fixture_1a747fb231047ddde10268e33479b76917" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StreamingFixture::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StreamingFixture::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="63" column="10" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_streaming_fixture_1ad1423c0396c74c1141a55e6df42a4928" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StreamingFixture::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StreamingFixture::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="67" column="10" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_streaming_fixture_1ae8bf6729518345691bec907e49952d04" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; StreamingFixture::createAudioChunk</definition>
+        <argsstring>(size_t size=1024)</argsstring>
+        <name>createAudioChunk</name>
+        <qualifiedname>StreamingFixture::createAudioChunk</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+          <defval>1024</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="72" column="17" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="72" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StreamingFixture</label>
+        <link refid="class_streaming_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StreamingFixture</label>
+        <link refid="class_streaming_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_streaming_focused.cpp" line="56" column="1" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="56" bodyend="75"/>
+    <listofallmembers>
+      <member refid="class_streaming_fixture_1ae8bf6729518345691bec907e49952d04" prot="protected" virt="non-virtual"><scope>StreamingFixture</scope><name>createAudioChunk</name></member>
+      <member refid="class_streaming_fixture_1aa9ae7f949dc11cbe28047cade1fa4281" prot="protected" virt="non-virtual"><scope>StreamingFixture</scope><name>handler_</name></member>
+      <member refid="class_streaming_fixture_1a9e5ba970b2d1e898807f15390d11d788" prot="protected" virt="non-virtual"><scope>StreamingFixture</scope><name>kConnectionTimeoutMs</name></member>
+      <member refid="class_streaming_fixture_1a9d5b1fb7a5059f668b3154a2eace1119" prot="protected" virt="non-virtual"><scope>StreamingFixture</scope><name>kHeartbeatIntervalMs</name></member>
+      <member refid="class_streaming_fixture_1a09afef6c7a4048af511eada66cbdd865" prot="protected" virt="non-virtual"><scope>StreamingFixture</scope><name>kMaxBufferSize</name></member>
+      <member refid="class_streaming_fixture_1a747fb231047ddde10268e33479b76917" prot="protected" virt="non-virtual"><scope>StreamingFixture</scope><name>SetUp</name></member>
+      <member refid="class_streaming_fixture_1ad1423c0396c74c1141a55e6df42a4928" prot="protected" virt="non-virtual"><scope>StreamingFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

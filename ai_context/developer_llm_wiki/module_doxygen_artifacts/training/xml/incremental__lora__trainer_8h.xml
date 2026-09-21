@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="incremental__lora__trainer_8h" kind="file" language="C++">
+    <compoundname>incremental_lora_trainer.h</compoundname>
+    <includes refid="adapter__serving_8h" local="yes">training/adapter_serving.h</includes>
+    <includes refid="training__error__codes_8h" local="yes">training/training_error_codes.h</includes>
+    <includes refid="training__exceptions_8h" local="yes">training/training_exceptions.h</includes>
+    <includes local="yes">distributed_knowledge/lora_federation_coordinator.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">limits</includes>
+    <includedby refid="training__pipeline_8h" local="yes">include/training/training_pipeline.h</includedby>
+    <includedby refid="database__optimizer__labeler_8cpp" local="yes">src/training/examples/database_optimizer_labeler.cpp</includedby>
+    <includedby refid="incremental__lora__trainer_8cpp" local="yes">src/training/incremental_lora_trainer.cpp</includedby>
+    <includedby refid="test__training__phase2_8cpp" local="yes">tests/training/test_training_phase2.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>training/adapter_serving.h</label>
+        <link refid="adapter__serving_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/training/incremental_lora_trainer.h</label>
+        <link refid="incremental__lora__trainer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>training/training_error_codes.h</label>
+        <link refid="training__error__codes_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>distributed_knowledge/lora_federation_coordinator.h</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>limits</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/training/incremental_lora_trainer.h</label>
+        <link refid="incremental__lora__trainer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/training/training_pipeline.h</label>
+        <link refid="training__pipeline_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/training/examples/database_optimizer_labeler.cpp</label>
+        <link refid="database__optimizer__labeler_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/training/incremental_lora_trainer.cpp</label>
+        <link refid="incremental__lora__trainer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/training/training_pipeline.cpp</label>
+        <link refid="training__pipeline_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/training/test_training_convergence.cpp</label>
+        <link refid="test__training__convergence_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/training/test_training_phase2.cpp</label>
+        <link refid="test__training__phase2_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/training/test_training_pipeline_e2e.cpp</label>
+        <link refid="test__training__pipeline__e2e_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/training/test_training_pipeline_injection_qw40.cpp</label>
+        <link refid="test__training__pipeline__injection__qw40_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1training_1_1_quantization_config" prot="public">themis::training::QuantizationConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_epoch_metrics" prot="public">themis::training::EpochMetrics</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_training_metrics" prot="public">themis::training::TrainingMetrics</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_training_result" prot="public">themis::training::TrainingResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_incremental_training_config" prot="public">themis::training::IncrementalTrainingConfig</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer" prot="public">themis::training::IncrementalLoRATrainer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training">themis::training</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__serving_8h" kindref="compound">training/adapter_serving.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__error__codes_8h" kindref="compound">training/training_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__exceptions_8h" kindref="compound">training/training_exceptions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;distributed_knowledge/lora_federation_coordinator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">training</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76" kindref="member">TrainingMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a91d26e4b2b105c74655093c9becd30b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a91d26e4b2b105c74655093c9becd30b7" kindref="member">INITIAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a9c098c060958933384cc3fde595a1c07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a9c098c060958933384cc3fde595a1c07" kindref="member">INCREMENTAL</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a60d8f94ae4b491f76f232be5ab4e7b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a60d8f94ae4b491f76f232be5ab4e7b18" kindref="member">FINETUNE</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Quantization<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9" kindref="member">TrainingQuantizationType</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9aa4bf99d6945c25077fd6660d536af8a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9aa4bf99d6945c25077fd6660d536af8a0" kindref="member">FP16</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9aee9d73311ff0658494edfff14c3ec1e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9aee9d73311ff0658494edfff14c3ec1e3" kindref="member">INT8</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9a167c795dd4cb725ea2c7da144e1f8e54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9a167c795dd4cb725ea2c7da144e1f8e54" kindref="member">NF4</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1training_1_1_quantization_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_quantization_config_1a0af931ffd9fa99ace2137017f8d7a9d5" kindref="member">QuantizationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1training_1_1_quantization_config_1a07aa3cf0158d4a0784d055e2b07e18d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9" kindref="member">TrainingQuantizationType</ref><sp/><ref refid="structthemis_1_1training_1_1_quantization_config_1a07aa3cf0158d4a0784d055e2b07e18d1" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9ab50339a10e1de285ac99d4c3990b8693" kindref="member">TrainingQuantizationType::NONE</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1training_1_1_quantization_config_1a38bb0c09591de892c9a098c896428022" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_quantization_config_1a38bb0c09591de892c9a098c896428022" kindref="member">block_size</ref><sp/>=<sp/>64;<sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1training_1_1_quantization_config_1a0af931ffd9fa99ace2137017f8d7a9d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_quantization_config_1a0af931ffd9fa99ace2137017f8d7a9d5" kindref="member">QuantizationConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1training_1_1_quantization_config_1a0f4c014cc8ecfc50b7eb374d27bb9237" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_quantization_config_1a0f4c014cc8ecfc50b7eb374d27bb9237" kindref="member">QuantizationConfig</ref>(<ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9" kindref="member">TrainingQuantizationType</ref><sp/>t,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>bs<sp/>=<sp/>64)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1training_1_1_quantization_config_1a07aa3cf0158d4a0784d055e2b07e18d1" kindref="member">type</ref>(t),<sp/><ref refid="structthemis_1_1training_1_1_quantization_config_1a38bb0c09591de892c9a098c896428022" kindref="member">block_size</ref>(bs)<sp/>{}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-step<sp/>/<sp/>per-epoch<sp/>training<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1training_1_1_epoch_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_epoch_metrics_1a5f3a275ff0131aea7b7a1994895e3c8a" kindref="member">EpochMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1training_1_1_epoch_metrics_1a689fb60850e8f30dad129d0d498406ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1a689fb60850e8f30dad129d0d498406ca" kindref="member">epoch</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1training_1_1_epoch_metrics_1a7e921102a5ec352545c86094d9bbb443" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1a7e921102a5ec352545c86094d9bbb443" kindref="member">steps</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1training_1_1_epoch_metrics_1a8ca04f459e46c09ace17cf46165c6967" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1a8ca04f459e46c09ace17cf46165c6967" kindref="member">train_loss</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1training_1_1_epoch_metrics_1aca50989abc99850c712f960e0986bd0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1aca50989abc99850c712f960e0986bd0d" kindref="member">val_loss</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1training_1_1_epoch_metrics_1a9c599456fa4d0d916b5cd52cd1024d05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1a9c599456fa4d0d916b5cd52cd1024d05" kindref="member">accuracy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1training_1_1_epoch_metrics_1a54c633792107edcf79e75279b57465d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1a54c633792107edcf79e75279b57465d5" kindref="member">learning_rate</ref><sp/><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1training_1_1_epoch_metrics_1abe86d1763f61a244a0287854b3814a91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1abe86d1763f61a244a0287854b3814a91" kindref="member">elapsed_seconds</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1training_1_1_epoch_metrics_1aba257f047f8e10ffd83bd89c862ada59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1aba257f047f8e10ffd83bd89c862ada59" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1training_1_1_epoch_metrics_1a5f3a275ff0131aea7b7a1994895e3c8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_epoch_metrics_1a5f3a275ff0131aea7b7a1994895e3c8a" kindref="member">EpochMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1training_1_1_training_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_training_metrics_1aae606dd990a0abfbbc49fc49f3aaa658" kindref="member">TrainingMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1training_1_1_training_metrics_1a63d93f3d5cc5949874eec4a6eb69f98d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EpochMetrics&gt;<sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1a63d93f3d5cc5949874eec4a6eb69f98d" kindref="member">epoch_metrics</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1training_1_1_training_metrics_1a1c9cb2333679166b6435028cb4624286" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1a1c9cb2333679166b6435028cb4624286" kindref="member">step_losses</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1training_1_1_training_metrics_1aef19c4d49790ec37972ecada1d0d858d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1aef19c4d49790ec37972ecada1d0d858d" kindref="member">total_steps</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1training_1_1_training_metrics_1aacb68d82eb4d3720f5cf18e47905f485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1aacb68d82eb4d3720f5cf18e47905f485" kindref="member">total_epochs</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1training_1_1_training_metrics_1addf4c2d23fc87b8673fe01cd46252795" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1addf4c2d23fc87b8673fe01cd46252795" kindref="member">best_train_loss</ref><sp/>=<sp/>std::numeric_limits&lt;double&gt;::max();</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1training_1_1_training_metrics_1ac308303ac1883eda5353cc14bc8766bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1ac308303ac1883eda5353cc14bc8766bc" kindref="member">best_val_loss</ref><sp/><sp/><sp/>=<sp/>std::numeric_limits&lt;double&gt;::max();</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1training_1_1_training_metrics_1af40b190e768e7d590af9f25bd2648aa4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1af40b190e768e7d590af9f25bd2648aa4" kindref="member">total_elapsed_seconds</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1training_1_1_training_metrics_1aae606dd990a0abfbbc49fc49f3aaa658" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1aae606dd990a0abfbbc49fc49f3aaa658" kindref="member">TrainingMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1training_1_1_training_metrics_1a7e807cf3d126ddf40add30e6ecb07e2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1a7e807cf3d126ddf40add30e6ecb07e2c" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1a63d93f3d5cc5949874eec4a6eb69f98d" kindref="member">epoch_metrics</ref>.clear();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1a1c9cb2333679166b6435028cb4624286" kindref="member">step_losses</ref>.clear();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1aef19c4d49790ec37972ecada1d0d858d" kindref="member">total_steps</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1aacb68d82eb4d3720f5cf18e47905f485" kindref="member">total_epochs</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1addf4c2d23fc87b8673fe01cd46252795" kindref="member">best_train_loss</ref><sp/>=<sp/>std::numeric_limits&lt;double&gt;::max();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1ac308303ac1883eda5353cc14bc8766bc" kindref="member">best_val_loss</ref><sp/><sp/><sp/>=<sp/>std::numeric_limits&lt;double&gt;::max();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics_1af40b190e768e7d590af9f25bd2648aa4" kindref="member">total_elapsed_seconds</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1training_1_1_training_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_training_result_1aa0a855651e431d964d21a429be278bfb" kindref="member">TrainingResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1training_1_1_training_result_1a50fe12a2cc4cba24f96580969cabfd39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_result_1a50fe12a2cc4cba24f96580969cabfd39" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1training_1_1_training_result_1ae162a04f2474095dc54e0e733b77a63e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_training_result_1ae162a04f2474095dc54e0e733b77a63e" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1training_1_1_training_result_1a88f0a5d98fe7fb6051d73a5e086db2aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_training_result_1a88f0a5d98fe7fb6051d73a5e086db2aa" kindref="member">adapter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1training_1_1_training_result_1ab2fee420821020c88e10570a608444cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_result_1ab2fee420821020c88e10570a608444cc" kindref="member">training_loss</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1training_1_1_training_result_1ae1ae44d848b7d11caf9ff92a67f25959" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_result_1ae1ae44d848b7d11caf9ff92a67f25959" kindref="member">validation_loss</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1training_1_1_training_result_1a2121341a403aae8facb0ce71fa742bfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_result_1a2121341a403aae8facb0ce71fa742bfe" kindref="member">accuracy</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1training_1_1_training_result_1aefac0a0ec38e3eb2ba992a36b6c52b17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_result_1aefac0a0ec38e3eb2ba992a36b6c52b17" kindref="member">samples_trained</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1training_1_1_training_result_1a382b2167cc3597c19c6e4e43e6d397da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_result_1a382b2167cc3597c19c6e4e43e6d397da" kindref="member">training_time_seconds</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1training_1_1_training_result_1a5978ee180289b7db2032982c386541be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_training_result_1a5978ee180289b7db2032982c386541be" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1training_1_1_training_result_1a1c70c71f127933b83a866bb3ee545edc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_training_result_1a1c70c71f127933b83a866bb3ee545edc" kindref="member">gpus_used</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1training_1_1_training_result_1aa0a855651e431d964d21a429be278bfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_result_1aa0a855651e431d964d21a429be278bfb" kindref="member">TrainingResult</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" kindref="member">TrainingCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>epoch,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>step,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>loss,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>status)&gt;;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1training_1_1_incremental_training_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a3532edebedc5d7fa70f31590bcdc6702" kindref="member">IncrementalTrainingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1training_1_1_incremental_training_config_1a1c7ce79ed686d56cbf4f1e90a09b17e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a1c7ce79ed686d56cbf4f1e90a09b17e5" kindref="member">training_data_collection</ref>;<sp/></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1training_1_1_incremental_training_config_1a5cfe0b882e09db239da68a5535b576d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a5cfe0b882e09db239da68a5535b576d5" kindref="member">base_model_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1training_1_1_incremental_training_config_1a99e0432de6206f615608d749c3b228bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a99e0432de6206f615608d749c3b228bc" kindref="member">adapter_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LoRA<sp/>hyperparameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1training_1_1_incremental_training_config_1a898b302e29b0cd33d9efa3301228f928" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a898b302e29b0cd33d9efa3301228f928" kindref="member">rank</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1training_1_1_incremental_training_config_1a5bd86364979b75fb8b816cc5047b153b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a5bd86364979b75fb8b816cc5047b153b" kindref="member">alpha</ref><sp/>=<sp/>16.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1training_1_1_incremental_training_config_1a446a2608a4a142cb8d208e54a3927c1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a446a2608a4a142cb8d208e54a3927c1f" kindref="member">dropout</ref><sp/>=<sp/>0.1f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1training_1_1_incremental_training_config_1a898f5cc0ad83ddd260d42449020b057b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a898f5cc0ad83ddd260d42449020b057b" kindref="member">learning_rate</ref><sp/>=<sp/>0.0003f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Training<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1training_1_1_incremental_training_config_1a1bc12ea801c4866d030d876a90e131c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a1bc12ea801c4866d030d876a90e131c9" kindref="member">batch_size</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1training_1_1_incremental_training_config_1a633a310b21d538124fb9cabf44879159" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a633a310b21d538124fb9cabf44879159" kindref="member">num_epochs</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1training_1_1_incremental_training_config_1aa3f259d5e067c2023d1b452f965c637f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1aa3f259d5e067c2023d1b452f965c637f" kindref="member">max_seq_length</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1training_1_1_incremental_training_config_1ad39a45b39b13cd55e0dcc750fea4f92c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1ad39a45b39b13cd55e0dcc750fea4f92c" kindref="member">validation_split</ref><sp/>=<sp/>0.1f;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Incremental<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1training_1_1_incremental_training_config_1aa844688083eacd7e335e01abe679191d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1aa844688083eacd7e335e01abe679191d" kindref="member">use_existing_adapter</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1training_1_1_incremental_training_config_1a953eb8e084640b91a1e7f36b8d75f04d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a953eb8e084640b91a1e7f36b8d75f04d" kindref="member">freeze_existing_layers</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1training_1_1_incremental_training_config_1ad99e60c3c479db2de287295c4acd91bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1ad99e60c3c479db2de287295c4acd91bf" kindref="member">incremental_steps</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1training_1_1_incremental_training_config_1a879f2c63b2de069332759f47f914bdeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a879f2c63b2de069332759f47f914bdeb" kindref="member">device</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cuda&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1training_1_1_incremental_training_config_1a31972c9a533d43f95db444b5c433a74d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a31972c9a533d43f95db444b5c433a74d" kindref="member">device_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-GPU<sp/>distributed<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1training_1_1_incremental_training_config_1af85ab2d6c49881a918e18723cf0443c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1af85ab2d6c49881a918e18723cf0443c5" kindref="member">num_gpus</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1training_1_1_incremental_training_config_1aa3b30e04b0857db8b84e667dcf6bcecc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1aa3b30e04b0857db8b84e667dcf6bcecc" kindref="member">gpu_ids</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1training_1_1_incremental_training_config_1a3f14e6b96121f2bfd9c8bbd50effc975" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a3f14e6b96121f2bfd9c8bbd50effc975" kindref="member">sync_steps</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantization<sp/>(QLoRA)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1training_1_1_incremental_training_config_1a4017af88b6faf456bfd0312c2a0f5cb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_quantization_config" kindref="compound">QuantizationConfig</ref><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a4017af88b6faf456bfd0312c2a0f5cb3" kindref="member">quantization</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checkpoint<sp/>directory<sp/>(non-empty<sp/>enables<sp/>LoRACheckpointManager<sp/>integration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1training_1_1_incremental_training_config_1a63c1131ec2f35188738294a1e8967eeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a63c1131ec2f35188738294a1e8967eeb" kindref="member">checkpoint_dir</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LoRA+<sp/>asymmetric<sp/>learning<sp/>rate<sp/>(Hayou<sp/>et<sp/>al.,<sp/>2024)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>&gt;<sp/>1.0,<sp/>B<sp/>matrices<sp/>use<sp/>lr<sp/>*<sp/>lora_plus_lambda<sp/>and<sp/>A<sp/>matrices<sp/>use<sp/>lr.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>yields<sp/>faster<sp/>convergence<sp/>and<sp/>better<sp/>downstream<sp/>task<sp/>performance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>to<sp/>1.0<sp/>(default)<sp/>to<sp/>use<sp/>standard<sp/>LoRA<sp/>(single<sp/>learning<sp/>rate<sp/>for<sp/>A<sp/>and<sp/>B).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1training_1_1_incremental_training_config_1ab9e5468a01b567a3a5c59dac7eeeffe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1ab9e5468a01b567a3a5c59dac7eeeffe8" kindref="member">lora_plus_lambda</ref><sp/>=<sp/>1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1training_1_1_incremental_training_config_1a3532edebedc5d7fa70f31590bcdc6702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config_1a3532edebedc5d7fa70f31590bcdc6702" kindref="member">IncrementalTrainingConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a46cd0ad5cb01b108ae6c32b1a424284e" kindref="member">IncrementalLoRATrainer</ref><sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a46cd0ad5cb01b108ae6c32b1a424284e" kindref="member">IncrementalLoRATrainer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_incremental_training_config" kindref="compound">IncrementalTrainingConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>db_connection);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a61e3f10f3a972cd5a4a481f20d4739d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a61e3f10f3a972cd5a4a481f20d4739d2" kindref="member">~IncrementalLoRATrainer</ref>();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1af7318bdc22f99696d2b128e5d499f785" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1af7318bdc22f99696d2b128e5d499f785" kindref="member">IncrementalLoRATrainer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a46cd0ad5cb01b108ae6c32b1a424284e" kindref="member">IncrementalLoRATrainer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1ab612226d02aaf2e6e89ca121c2136730" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a46cd0ad5cb01b108ae6c32b1a424284e" kindref="member">IncrementalLoRATrainer</ref>&amp;<sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1ab612226d02aaf2e6e89ca121c2136730" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a46cd0ad5cb01b108ae6c32b1a424284e" kindref="member">IncrementalLoRATrainer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a53d6be9fe0ac7e2e694de0252be1d3b5" kindref="member">train</ref>(<ref refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76" kindref="member">TrainingMode</ref><sp/>mode<sp/>=<sp/><ref refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a91d26e4b2b105c74655093c9becd30b7" kindref="member">TrainingMode::INITIAL</ref>,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" kindref="member">TrainingCallback</ref><sp/>callback<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a5a448dd0fb931b3d0f10228f96125dd1" kindref="member">resumeFromCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_path,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" kindref="member">TrainingCallback</ref><sp/>callback<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a6d66ac3dc013b40c685657dae113220c" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_version);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1ab6190ac86b5049213120dfd7d32d038e" kindref="member">deployVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_version,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>traffic_split<sp/>=<sp/>1.0f);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_deploy_result" kindref="compound">DeployResult</ref><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1ad6de083827f0b8073d56302ab7b16888" kindref="member">deployVersionEx</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_version,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>traffic_split<sp/>=<sp/>1.0f);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a14b0d58727d49d9666486230da33f354" kindref="member">rollbackVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_version);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_deploy_result" kindref="compound">DeployResult</ref><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a557ac1186702a6cbe27eaed8ac037483" kindref="member">rollbackVersionEx</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_version);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1ad343f9fba8f6bdc7defc79cc027ccffe" kindref="member">listVersions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1aae9334c371c3f8a84b05efc5e69aef9e" kindref="member">selectAdapterForRequest</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1aaad29bdb8c87a4562d09f049b38079f5" kindref="member">setHyperparameters</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rank,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>alpha,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>learning_rate);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a3bb1613884875f91f0eaed000cac6443" kindref="member">setCheckpointing</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>checkpoint_steps<sp/>=<sp/>100);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1af812f2f66628a377a9c8b9ce7055c6e0" kindref="member">setLLMRouter</ref>(<ref refid="classthemis_1_1training_1_1_i_l_l_m_router" kindref="compound">ILLMRouter</ref>*<sp/>router);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_training_metrics" kindref="compound">TrainingMetrics</ref><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a3948a88c059eff7d5d20eb6715135878" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>IMPL-A3:<sp/>Federation<sp/>bridges<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1abc757853a6b208a072c1dca919627997" kindref="member">setShardId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a25902b46bf14e12c191021c19ce71f2b" kindref="member">setFederatedLearningRate</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lr);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::distributed_knowledge::EncryptedGradient</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a577dee5d7e9063da59b759d541219e83" kindref="member">exportGradient</ref>(uint64_t<sp/>federation_round);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a580a129163d359394488f29facdbf7ab" kindref="member">applyGlobalDelta</ref>(</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::distributed_knowledge::GlobalAdapterDelta&amp;<sp/>delta);</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a1b6486c09dfb36856366c600277b1f53" kindref="member">getLocalWeight</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>layer_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Runtime<sp/>Stabilization<sp/>and<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a56ef65b6e6398975f225182a9b87fdfd" kindref="member">validateTrainingState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a02136711249849ddffc11d5efc0e6c1e" kindref="member">getTrainingDiagnostics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a0997552a2fffa46b147544f91dd0cd41" kindref="member">getRecoveryStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1ac5e4f0745fecef45b4de8a56e6ae3767" kindref="member">enableIntermediateCheckpointing</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>save_interval<sp/>=<sp/>100);</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="491"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/training/incremental_lora_trainer.h"/>
+  </compounddef>
+</doxygen>

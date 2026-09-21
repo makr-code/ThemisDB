@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_predicate_fuzzy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PredicateFuzzy</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_fuzzy_1aed6751fffa38ea4984fce5c1615a1c1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PredicateFuzzy::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::query::PredicateFuzzy::column</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="230" column="17" bodyfile="include/query/query_engine.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_fuzzy_1a3aaac1bc60fd29bf4e5f4f82ca6184cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PredicateFuzzy::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::query::PredicateFuzzy::query</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="231" column="17" bodyfile="include/query/query_engine.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_fuzzy_1aecbf86d922f4ec0d04d638e060318fbb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::PredicateFuzzy::maxDistance</definition>
+        <argsstring></argsstring>
+        <name>maxDistance</name>
+        <qualifiedname>themis::query::PredicateFuzzy::maxDistance</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="232" column="9" bodyfile="include/query/query_engine.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_fuzzy_1ae68db495b4580d6c735ef311cab3c9fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PredicateFuzzy::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::PredicateFuzzy::limit</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="233" column="12" bodyfile="include/query/query_engine.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="229" column="1" bodyfile="include/query/query_engine.h" bodystart="229" bodyend="234"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_predicate_fuzzy_1aed6751fffa38ea4984fce5c1615a1c1b" prot="public" virt="non-virtual"><scope>themis::query::PredicateFuzzy</scope><name>column</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_fuzzy_1ae68db495b4580d6c735ef311cab3c9fa" prot="public" virt="non-virtual"><scope>themis::query::PredicateFuzzy</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_fuzzy_1aecbf86d922f4ec0d04d638e060318fbb" prot="public" virt="non-virtual"><scope>themis::query::PredicateFuzzy</scope><name>maxDistance</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_fuzzy_1a3aaac1bc60fd29bf4e5f4f82ca6184cd" prot="public" virt="non-virtual"><scope>themis::query::PredicateFuzzy</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

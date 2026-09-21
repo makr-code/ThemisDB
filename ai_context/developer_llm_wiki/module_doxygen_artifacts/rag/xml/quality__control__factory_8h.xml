@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="quality__control__factory_8h" kind="file" language="C++">
+    <compoundname>quality_control_factory.h</compoundname>
+    <includes refid="quality__control__pipeline_8h" local="yes">rag/quality_control_pipeline.h</includes>
+    <includes refid="continuous__learning__client_8h" local="yes">rag/continuous_learning_client.h</includes>
+    <includes refid="llm__judge__client_8h" local="yes">rag/llm_judge_client.h</includes>
+    <includes refid="geval__evaluator_8h" local="yes">rag/geval_evaluator.h</includes>
+    <includes refid="nli__faithfulness__verifier_8h" local="yes">rag/nli_faithfulness_verifier.h</includes>
+    <includes local="yes">llm/inference_engine_enhanced.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includedby refid="quality__control__factory_8cpp" local="yes">src/rag/quality_control_factory.cpp</includedby>
+    <incdepgraph>
+      <node id="15">
+        <label>rag/continuous_learning_client.h</label>
+        <link refid="continuous__learning__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>rag/geval_evaluator.h</label>
+        <link refid="geval__evaluator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rag/llm_judge_client.h</label>
+        <link refid="llm__judge__client_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>rag/nli_faithfulness_verifier.h</label>
+        <link refid="nli__faithfulness__verifier_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/quality_control_factory.h</label>
+        <link refid="quality__control__factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/quality_control_pipeline.h</label>
+        <link refid="quality__control__pipeline_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>cmath</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>llm/inference_engine_enhanced.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/quality_control_factory.h</label>
+        <link refid="quality__control__factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/quality_control_factory.cpp</label>
+        <link refid="quality__control__factory_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory" prot="public">themis::rag::judge::QualityControlFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" prot="public">themis::rag::judge::QualityControlFactory::SetupConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator" prot="public">themis::rag::judge::RAGJudgeQCConfigurator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="quality__control__pipeline_8h" kindref="compound">rag/quality_control_pipeline.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__learning__client_8h" kindref="compound">rag/continuous_learning_client.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__judge__client_8h" kindref="compound">rag/llm_judge_client.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geval__evaluator_8h" kindref="compound">rag/geval_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="nli__faithfulness__verifier_8h" kindref="compound">rag/nli_faithfulness_verifier.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/inference_engine_enhanced.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory" kindref="compound">QualityControlFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" kindref="compound">SetupConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>paths<sp/>(optional<sp/>-<sp/>uses<sp/>heuristic<sp/>fallback<sp/>if<sp/>not<sp/>provided)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a162a1a21ab5fa0756a020bd4dd4599be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a162a1a21ab5fa0756a020bd4dd4599be" kindref="member">nli_model_path</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1aa15a5515f2c36a419cbc301f805909b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1aa15a5515f2c36a419cbc301f805909b7" kindref="member">nli_tokenizer_path</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>inference<sp/>engine<sp/>(optional<sp/>-<sp/>required<sp/>for<sp/>LLM<sp/>Judge<sp/>Client)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a42a5f806155a872a750efc8751b2f91c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::InferenceEngineEnhanced&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a42a5f806155a872a750efc8751b2f91c" kindref="member">inference_engine</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>control<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1aced2c22238db2ebf22e60b2205f14bd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7" kindref="member">QCMode</ref><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1aced2c22238db2ebf22e60b2205f14bd2" kindref="member">default_mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7a0cb4635d100151dcaac6f91db856c402" kindref="member">QCMode::BALANCED</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature<sp/>toggles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a67f0d41f9840c06eeb48b721c204d70c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a67f0d41f9840c06eeb48b721c204d70c" kindref="member">enable_nli</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a1e8f450f38bb793e4a25cd42ae65312f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a1e8f450f38bb793e4a25cd42ae65312f" kindref="member">enable_geval</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional,<sp/>adds<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a137153e8b2183d1635e8dd915d2a0dfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a137153e8b2183d1635e8dd915d2a0dfe" kindref="member">enable_llm_judge</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Requires<sp/>inference_engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>tuning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a0c8f79a922d97945f54d1967a2d6afbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a0c8f79a922d97945f54d1967a2d6afbd" kindref="member">enable_caching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a6799e88e3dcf1f3c820b8afab4e23e4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a6799e88e3dcf1f3c820b8afab4e23e4b" kindref="member">use_gpu_for_nli</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1ac90e2f857bd92fcc43848878793afad5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1ac90e2f857bd92fcc43848878793afad5" kindref="member">num_threads</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Continuous<sp/>learning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a39e0c8e73084b3ed1df35763741f581a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a39e0c8e73084b3ed1df35763741f581a" kindref="member">log_to_continuous_learning</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a82bd20cbd9e99e4791af8ab8f6d40324" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a82bd20cbd9e99e4791af8ab8f6d40324" kindref="member">cl_endpoint</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;QualityControlPipeline&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1ab4c4d0b16cc54c9dc6443a43cf27e081" kindref="member">createBasic</ref>(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7" kindref="member">QCMode</ref><sp/>mode<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7a0cb4635d100151dcaac6f91db856c402" kindref="member">QCMode::BALANCED</ref></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;QualityControlPipeline&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3615034a6a6beabb035c3e7cea305462" kindref="member">createProduction</ref>(</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" kindref="compound">SetupConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;QualityControlPipeline&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1ad6439a676f04aaac4932c300678e0570" kindref="member">createLightweight</ref>();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;QualityControlPipeline&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a5acf0dc47498ad64d054a128e279c13e" kindref="member">createComprehensive</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" kindref="compound">SetupConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;NLIFaithfulnessVerifier&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3b25f494c90557b58919fbe30bd95507" kindref="member">createNLIVerifier</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" kindref="compound">SetupConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;GEvalEvaluator&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1aa27b169cd67b2f5536a6049c5d52a15b" kindref="member">createGEvalEvaluator</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;LLMJudgeClient&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3c70d7ea6ef95dd3b35df87f2f2b21b0" kindref="member">createLLMJudgeClient</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::InferenceEngineEnhanced&gt;<sp/>inference_engine</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator" kindref="compound">RAGJudgeQCConfigurator</ref><sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1a29faa89bf6feb9107d6f87e2963a1626" kindref="member">configure</ref>(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_nli<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_geval<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_full_pipeline<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1a0ab687f66f4c02a35f7adf3633ee06f5" kindref="member">getProductionConfig</ref>();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1abe3a6b7d0017d8b9ef7b20cc5601fb0b" kindref="member">getDevelopmentConfig</ref>();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/quality_control_factory.h"/>
+  </compounddef>
+</doxygen>

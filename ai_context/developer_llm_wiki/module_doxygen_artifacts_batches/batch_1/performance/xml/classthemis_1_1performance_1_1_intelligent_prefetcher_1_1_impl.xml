@@ -1,0 +1,534 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::IntelligentPrefetcher::Impl</compoundname>
+    <innerclass refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1_1_access_entry" prot="public">themis::performance::IntelligentPrefetcher::Impl::AccessEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a425ee646ca7d586ddea5637135eb0210" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::IntelligentPrefetcher::Impl::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="395" column="24" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a3686661f6271804c8c96016272abe5d6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref></type>
+        <definition>PrefetchConfig themis::performance::IntelligentPrefetcher::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="397" column="20" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a5b34b66b3b844eacde796fc662c0eb75" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1_1_access_entry" kindref="compound">AccessEntry</ref> &gt;</type>
+        <definition>std::deque&lt;AccessEntry&gt; themis::performance::IntelligentPrefetcher::Impl::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="399" column="16" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a612522ffba7e7e9bfca2ec7ea61ae036" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern" kindref="compound">AccessPattern</ref></type>
+        <definition>AccessPattern themis::performance::IntelligentPrefetcher::Impl::pattern_</definition>
+        <argsstring></argsstring>
+        <name>pattern_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::pattern_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="400" column="29" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a504985132e9734eb4808815075ae4e62" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::performance::IntelligentPrefetcher::Impl::signed_stride_</definition>
+        <argsstring></argsstring>
+        <name>signed_stride_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::signed_stride_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Signed stride for direction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="401" column="29" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a6a5088f3914f3999ba061889f45eb9c7" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::Impl::adaptive_distance_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_distance_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::adaptive_distance_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="403" column="12" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1aef385fd095736ddd6fba9f700565d5c0" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::IntelligentPrefetcher::Impl::latency_ema_ns_</definition>
+        <argsstring></argsstring>
+        <name>latency_ema_ns_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::latency_ema_ns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="404" column="12" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a26b33f0414852ae972062a2ef805703d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::IntelligentPrefetcher::Impl::stat_total_accesses_</definition>
+        <argsstring></argsstring>
+        <name>stat_total_accesses_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::stat_total_accesses_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="408" column="17" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="408" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1ac163a9d3c04861b7b190b976b5a5b717" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::IntelligentPrefetcher::Impl::stat_useful_prefetches_</definition>
+        <argsstring></argsstring>
+        <name>stat_useful_prefetches_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::stat_useful_prefetches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="409" column="17" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="409" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a6ae8b3d8f77339321d7556de5a0c3f40" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::IntelligentPrefetcher::Impl::stat_total_prefetches_</definition>
+        <argsstring></argsstring>
+        <name>stat_total_prefetches_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::stat_total_prefetches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="410" column="17" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="410" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1af5cc9bb014de59f01fb7c4de9a02578e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::IntelligentPrefetcher::Impl::stat_wasted_prefetches_</definition>
+        <argsstring></argsstring>
+        <name>stat_wasted_prefetches_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::stat_wasted_prefetches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="411" column="17" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="411" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1ae3cac1c4be44c5fc52293a1c16225960" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; uint64_t &gt;</type>
+        <definition>std::unordered_set&lt;uint64_t&gt; themis::performance::IntelligentPrefetcher::Impl::pending_</definition>
+        <argsstring></argsstring>
+        <name>pending_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::pending_</qualifiedname>
+        <briefdescription>
+<para>Outstanding predictions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="413" column="31" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="413" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1af26301c2ce3b03cd5c6ea37ec45e008e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::IntelligentPrefetcher::Impl::Impl</definition>
+        <argsstring>(PrefetchConfig cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="103" column="14" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a313e7b3d2d4c58fdbb012b6c3c8b164e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::Impl::record_access</definition>
+        <argsstring>(uint64_t address, uint64_t timestamp)</argsstring>
+        <name>record_access</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::record_access</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>── record_access ──────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lk(), find(), end(), erase(), empty(), back(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="117" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="117" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1aef76bccd05b0396135521865d8dda79f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; themis::performance::IntelligentPrefetcher::Impl::predict_next_accesses</definition>
+        <argsstring>(uint64_t current_address, size_t lookahead)</argsstring>
+        <name>predict_next_accesses</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::predict_next_accesses</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_address</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>lookahead</declname>
+        </param>
+        <briefdescription>
+<para>── predict_next_accesses ──────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lookahead</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), std::min(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="171" column="17" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="171" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a43b517fb1f8a3b38d2930468b82884c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::Impl::prefetch_predicted</definition>
+        <argsstring>(const std::vector&lt; uint64_t &gt; &amp;addresses)</argsstring>
+        <name>prefetch_predicted</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::prefetch_predicted</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint64_t &gt; &amp;</type>
+          <declname>addresses</declname>
+        </param>
+        <briefdescription>
+<para>── prefetch_predicted ─────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">addresses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), fetch_add(), confidence_to_level(), issue_prefetch(), size(), insert(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="201" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="201" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1acbe3a727f459160be45ff471dc112195" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern" kindref="compound">AccessPattern</ref></type>
+        <definition>AccessPattern themis::performance::IntelligentPrefetcher::Impl::current_pattern</definition>
+        <argsstring>() const</argsstring>
+        <name>current_pattern</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::current_pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="229" column="19" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="229" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a2952c076cf39edb8c1966bd9e5e18069" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::Impl::adaptive_prefetch_distance</definition>
+        <argsstring>() const</argsstring>
+        <name>adaptive_prefetch_distance</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::adaptive_prefetch_distance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="241" column="12" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="241" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1aae24b361f23da5d6cce61aef87ee5c69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" kindref="compound">PrefetchStats</ref></type>
+        <definition>PrefetchStats themis::performance::IntelligentPrefetcher::Impl::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::get_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="253" column="19" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="253" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a7b1e7a6106cfecb81277a4e1ba123979" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::Impl::reset_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::reset_stats</qualifiedname>
+        <briefdescription>
+<para>Reset stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="274" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="274" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a991155abcedd3038b4c96e3afaeec226" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::Impl::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), lk(), clear(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="287" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="287" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a7638d4925ebe0c3012b304fa7023a364" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref> &amp;</type>
+        <definition>const PrefetchConfig &amp; themis::performance::IntelligentPrefetcher::Impl::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="300" column="26" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="300" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a4551843a7f98a869a000be613ac7aca8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::Impl::analyse_pattern</definition>
+        <argsstring>()</argsstring>
+        <name>analyse_pattern</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::analyse_pattern</qualifiedname>
+        <briefdescription>
+<para>── Internals ───────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), std::abs(), clear(), push_back(), empty(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="308" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="308" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a0ef7652a41833d1ca55f32042d358f5b" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abe" kindref="member">CacheLevel</ref></type>
+        <definition>static CacheLevel themis::performance::IntelligentPrefetcher::Impl::confidence_to_level</definition>
+        <argsstring>(double confidence) noexcept</argsstring>
+        <name>confidence_to_level</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::confidence_to_level</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>confidence</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="362" column="23" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="362" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a9791ffb3ee3bc62ae0fd09b036eec590" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::performance::IntelligentPrefetcher::Impl::issue_prefetch</definition>
+        <argsstring>(uint64_t addr, CacheLevel level) noexcept</argsstring>
+        <name>issue_prefetch</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::issue_prefetch</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>addr</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abe" kindref="member">CacheLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="375" column="17" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="375" bodyend="391"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/intelligent_prefetcher.cpp" line="91" column="1" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="91" bodyend="414"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a6a5088f3914f3999ba061889f45eb9c7" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>adaptive_distance_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a2952c076cf39edb8c1966bd9e5e18069" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>adaptive_prefetch_distance</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a4551843a7f98a869a000be613ac7aca8" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>analyse_pattern</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a0ef7652a41833d1ca55f32042d358f5b" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>confidence_to_level</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a7638d4925ebe0c3012b304fa7023a364" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a3686661f6271804c8c96016272abe5d6" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1acbe3a727f459160be45ff471dc112195" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>current_pattern</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1aae24b361f23da5d6cce61aef87ee5c69" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a5b34b66b3b844eacde796fc662c0eb75" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>history_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1af26301c2ce3b03cd5c6ea37ec45e008e" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a9791ffb3ee3bc62ae0fd09b036eec590" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>issue_prefetch</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1aef385fd095736ddd6fba9f700565d5c0" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>latency_ema_ns_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a425ee646ca7d586ddea5637135eb0210" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a612522ffba7e7e9bfca2ec7ea61ae036" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>pattern_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1ae3cac1c4be44c5fc52293a1c16225960" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>pending_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1aef76bccd05b0396135521865d8dda79f" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>predict_next_accesses</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a43b517fb1f8a3b38d2930468b82884c7" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>prefetch_predicted</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a313e7b3d2d4c58fdbb012b6c3c8b164e" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>record_access</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a991155abcedd3038b4c96e3afaeec226" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>reset</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a7b1e7a6106cfecb81277a4e1ba123979" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a504985132e9734eb4808815075ae4e62" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>signed_stride_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a26b33f0414852ae972062a2ef805703d" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>stat_total_accesses_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1a6ae8b3d8f77339321d7556de5a0c3f40" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>stat_total_prefetches_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1ac163a9d3c04861b7b190b976b5a5b717" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>stat_useful_prefetches_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1af5cc9bb014de59f01fb7c4de9a02578e" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl</scope><name>stat_wasted_prefetches_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

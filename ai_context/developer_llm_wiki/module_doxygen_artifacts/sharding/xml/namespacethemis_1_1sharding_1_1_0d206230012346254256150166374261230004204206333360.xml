@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1sharding_1_1_0d206230012346254256150166374261230004204206333360" kind="namespace" language="C++">
+    <compoundname>themis::sharding::@206230012346254256150166374261230004204206333360</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/lora_artifact_distribution.cpp" line="33" column="1"/>
+  </compounddef>
+</doxygen>

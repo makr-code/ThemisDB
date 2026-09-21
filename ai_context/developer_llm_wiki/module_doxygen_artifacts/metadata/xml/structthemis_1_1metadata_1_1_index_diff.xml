@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_index_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::IndexDiff</compoundname>
+    <includes refid="schema__diff_8h" local="no">schema_diff.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_index_diff_1a5000ad79d9699921e8d65b737c2abccf" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1metadata_1a00a8434370094c9481c98aa213a7570b" kindref="member">IndexDiffType</ref></type>
+        <definition>IndexDiffType themis::metadata::IndexDiff::diff_type</definition>
+        <argsstring></argsstring>
+        <name>diff_type</name>
+        <qualifiedname>themis::metadata::IndexDiff::diff_type</qualifiedname>
+        <briefdescription>
+<para>Nature of the change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="99" column="19" bodyfile="include/metadata/schema_diff.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_index_diff_1a6f1016ae297b1aaab64e866d3fe6f598" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::IndexDiff::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::metadata::IndexDiff::index_name</qualifiedname>
+        <briefdescription>
+<para>Affected index name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="100" column="19" bodyfile="include/metadata/schema_diff.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_index_diff_1aa9a2af148b0fc69548b3e7b51ea84a8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1a8efd44656ac5d0cf26226df8e9a7fbc2" kindref="member">json</ref></type>
+        <definition>json themis::metadata::IndexDiff::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::IndexDiff::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this diff to a JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Schema: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;diff_type&quot;</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="stringliteral">&quot;ADDED&quot;</highlight><highlight class="normal"><sp/>|<sp/></highlight><highlight class="stringliteral">&quot;REMOVED&quot;</highlight><highlight class="normal"><sp/>|<sp/></highlight><highlight class="stringliteral">&quot;CHANGED&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;index_name&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;&lt;name&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="113" column="10" bodyfile="include/metadata/schema_diff.h" bodystart="113" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single index-level change between two schema versions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/schema_diff.h" line="98" column="1" bodyfile="include/metadata/schema_diff.h" bodystart="98" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_index_diff_1a5000ad79d9699921e8d65b737c2abccf" prot="public" virt="non-virtual"><scope>themis::metadata::IndexDiff</scope><name>diff_type</name></member>
+      <member refid="structthemis_1_1metadata_1_1_index_diff_1a6f1016ae297b1aaab64e866d3fe6f598" prot="public" virt="non-virtual"><scope>themis::metadata::IndexDiff</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1metadata_1_1_index_diff_1aa9a2af148b0fc69548b3e7b51ea84a8e" prot="public" virt="non-virtual"><scope>themis::metadata::IndexDiff</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

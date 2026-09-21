@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1test_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::test::ErrorContext</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_error_context_1a08c999857bbcb6f13e51082d0402cb51" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref></type>
+        <definition>AnalyticsErrorCode themis::analytics::test::ErrorContext::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::analytics::test::ErrorContext::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="97" column="24" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_error_context_1aac67c77a95197b4877707c257e0c2860" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::test::ErrorContext::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::analytics::test::ErrorContext::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="98" column="17" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_error_context_1aca417fd1e2c2d0de8325af1ffebd8e56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::test::ErrorContext::module</definition>
+        <argsstring></argsstring>
+        <name>module</name>
+        <qualifiedname>themis::analytics::test::ErrorContext::module</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="99" column="17" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_error_context_1aa9c77084876068b4280f43eaa897fba3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::test::ErrorContext::context_data</definition>
+        <argsstring></argsstring>
+        <name>context_data</name>
+        <qualifiedname>themis::analytics::test::ErrorContext::context_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="100" column="17" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_error_context_1ad984966ad677b24af2ed88b5b3c4af49" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::test::ErrorContext::line_number</definition>
+        <argsstring></argsstring>
+        <name>line_number</name>
+        <qualifiedname>themis::analytics::test::ErrorContext::line_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="101" column="9" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1test_1_1_error_context_1a16792bf063a14e126910d64db88a4832" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::test::ErrorContext::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::analytics::test::ErrorContext::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="103" column="17" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="103" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Error context with full details. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="96" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="96" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_error_context_1a08c999857bbcb6f13e51082d0402cb51" prot="public" virt="non-virtual"><scope>themis::analytics::test::ErrorContext</scope><name>code</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aa9c77084876068b4280f43eaa897fba3" prot="public" virt="non-virtual"><scope>themis::analytics::test::ErrorContext</scope><name>context_data</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_error_context_1ad984966ad677b24af2ed88b5b3c4af49" prot="public" virt="non-virtual"><scope>themis::analytics::test::ErrorContext</scope><name>line_number</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aac67c77a95197b4877707c257e0c2860" prot="public" virt="non-virtual"><scope>themis::analytics::test::ErrorContext</scope><name>message</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_error_context_1aca417fd1e2c2d0de8325af1ffebd8e56" prot="public" virt="non-virtual"><scope>themis::analytics::test::ErrorContext</scope><name>module</name></member>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_error_context_1a16792bf063a14e126910d64db88a4832" prot="public" virt="non-virtual"><scope>themis::analytics::test::ErrorContext</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

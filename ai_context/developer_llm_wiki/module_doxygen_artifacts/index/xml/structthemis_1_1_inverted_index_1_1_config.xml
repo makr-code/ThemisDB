@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_inverted_index_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::InvertedIndex::Config</compoundname>
+    <includes refid="inverted__index_8h" local="no">inverted_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_inverted_index_1_1_config_1a64f781fb2dff6117889ead2ef1c53b6c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::InvertedIndex::Config::stemming_enabled</definition>
+        <argsstring></argsstring>
+        <name>stemming_enabled</name>
+        <qualifiedname>themis::InvertedIndex::Config::stemming_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="55" column="14" bodyfile="include/index/inverted_index.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_inverted_index_1_1_config_1a801dd9906239e2566f1b270d064c6dd0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::InvertedIndex::Config::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::InvertedIndex::Config::language</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+<para>&quot;en&quot;, &quot;de&quot;, or &quot;none&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="56" column="21" bodyfile="include/index/inverted_index.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_inverted_index_1_1_config_1a1916684d05df16febefd3efd6043fe68" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::InvertedIndex::Config::stopwords_enabled</definition>
+        <argsstring></argsstring>
+        <name>stopwords_enabled</name>
+        <qualifiedname>themis::InvertedIndex::Config::stopwords_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="57" column="14" bodyfile="include/index/inverted_index.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_inverted_index_1_1_config_1a6b128f3f52649f613e35cc18ae9f7098" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::InvertedIndex::Config::stopwords</definition>
+        <argsstring></argsstring>
+        <name>stopwords</name>
+        <qualifiedname>themis::InvertedIndex::Config::stopwords</qualifiedname>
+        <briefdescription>
+<para>custom stop-word list (lowercase) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="58" column="21" bodyfile="include/index/inverted_index.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_inverted_index_1_1_config_1a2f67a6e6bfe151d77efd58e05d65c7ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::InvertedIndex::Config::normalize_umlauts</definition>
+        <argsstring></argsstring>
+        <name>normalize_umlauts</name>
+        <qualifiedname>themis::InvertedIndex::Config::normalize_umlauts</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>de: ä→a, ö→o, ü→u, ß→ss </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="59" column="14" bodyfile="include/index/inverted_index.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration stored alongside the index metadata. </para>
+    </detaileddescription>
+    <location file="include/index/inverted_index.h" line="54" column="5" bodyfile="include/index/inverted_index.h" bodystart="54" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_inverted_index_1_1_config_1a801dd9906239e2566f1b270d064c6dd0" prot="public" virt="non-virtual"><scope>themis::InvertedIndex::Config</scope><name>language</name></member>
+      <member refid="structthemis_1_1_inverted_index_1_1_config_1a2f67a6e6bfe151d77efd58e05d65c7ae" prot="public" virt="non-virtual"><scope>themis::InvertedIndex::Config</scope><name>normalize_umlauts</name></member>
+      <member refid="structthemis_1_1_inverted_index_1_1_config_1a64f781fb2dff6117889ead2ef1c53b6c" prot="public" virt="non-virtual"><scope>themis::InvertedIndex::Config</scope><name>stemming_enabled</name></member>
+      <member refid="structthemis_1_1_inverted_index_1_1_config_1a6b128f3f52649f613e35cc18ae9f7098" prot="public" virt="non-virtual"><scope>themis::InvertedIndex::Config</scope><name>stopwords</name></member>
+      <member refid="structthemis_1_1_inverted_index_1_1_config_1a1916684d05df16febefd3efd6043fe68" prot="public" virt="non-virtual"><scope>themis::InvertedIndex::Config</scope><name>stopwords_enabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::QuotaTracker::QuotaRemaining</compoundname>
+    <includes refid="vision__resource__monitor_8h" local="no">vision_resource_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1a22c80feda4665e56fecf94421e3ac5bd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaTracker::QuotaRemaining::daily_requests_remaining</definition>
+        <argsstring></argsstring>
+        <name>daily_requests_remaining</name>
+        <qualifiedname>themis::llm::QuotaTracker::QuotaRemaining::daily_requests_remaining</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="138" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1a355fec23149a17fc4886dd6b354c8dc8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaTracker::QuotaRemaining::monthly_requests_remaining</definition>
+        <argsstring></argsstring>
+        <name>monthly_requests_remaining</name>
+        <qualifiedname>themis::llm::QuotaTracker::QuotaRemaining::monthly_requests_remaining</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="139" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1ad4e08abf81ce1aa1d629802c4273522b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaTracker::QuotaRemaining::inference_minutes_remaining</definition>
+        <argsstring></argsstring>
+        <name>inference_minutes_remaining</name>
+        <qualifiedname>themis::llm::QuotaTracker::QuotaRemaining::inference_minutes_remaining</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="140" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1aa8ee519282cca04b78f24a27c391a251" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaTracker::QuotaRemaining::vram_hours_remaining</definition>
+        <argsstring></argsstring>
+        <name>vram_hours_remaining</name>
+        <qualifiedname>themis::llm::QuotaTracker::QuotaRemaining::vram_hours_remaining</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="141" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_resource_monitor.h" line="137" column="5" bodyfile="include/llm/vision_resource_monitor.h" bodystart="137" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1a22c80feda4665e56fecf94421e3ac5bd" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::QuotaRemaining</scope><name>daily_requests_remaining</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1ad4e08abf81ce1aa1d629802c4273522b" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::QuotaRemaining</scope><name>inference_minutes_remaining</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1a355fec23149a17fc4886dd6b354c8dc8" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::QuotaRemaining</scope><name>monthly_requests_remaining</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1aa8ee519282cca04b78f24a27c391a251" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::QuotaRemaining</scope><name>vram_hours_remaining</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,888 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__security__signature__rocksdb__iteration_8cpp" kind="file" language="C++">
+    <compoundname>test_security_signature_rocksdb_iteration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/security_signature_manager.h</includes>
+    <includes local="yes">storage/security_signature.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_security_signature_rocksdb_iteration.cpp</label>
+        <link refid="test__security__signature__rocksdb__iteration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>filesystem</label>
+      </node>
+      <node id="8">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>storage/security_signature.h</label>
+      </node>
+      <node id="4">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_security_signature_rocks_d_b_iteration_tests" prot="public">SecuritySignatureRocksDBIterationTests</innerclass>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a2a1ac6342254ab033020233de37b9662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SecuritySignatureValidationTests, Deserialize_RejectsInvalidHashFormat)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SecuritySignatureValidationTests</type>
+        </param>
+        <param>
+          <type>Deserialize_RejectsInvalidHashFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="27" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a1713498ca74597b29a99dbb9a8a9cb5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SecuritySignatureValidationTests, Deserialize_RejectsUnsupportedAlgorithm)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SecuritySignatureValidationTests</type>
+        </param>
+        <param>
+          <type>Deserialize_RejectsUnsupportedAlgorithm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="39" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="39" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a727d103977eeb5e738c40d8b07dac470" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SecuritySignatureValidationTests, Deserialize_RejectsEmptyResourceId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SecuritySignatureValidationTests</type>
+        </param>
+        <param>
+          <type>Deserialize_RejectsEmptyResourceId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="51" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="51" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1ad6105cd822fe7b7e739967a3d470bac6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>static std::shared_ptr&lt; RocksDBWrapper &gt; openTempDB</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>openTempDB</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="67" column="24" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="67" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1abbe9558883c0d67f1c31493b0fdbb9a8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string uniqueTmpPath</definition>
+        <argsstring>(const std::string &amp;tag)</argsstring>
+        <name>uniqueTmpPath</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="78" column="20" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="78" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, IterateRange_ReturnsKeysWithinBounds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>IterateRange_ReturnsKeysWithinBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="115" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="115" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a86d29f059ae87f43f2a9c773060b67c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, IterateRange_EndKeyIsExclusive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>IterateRange_EndKeyIsExclusive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="135" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="135" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1ab08a66dfa242bcbbcba158305b331746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, IterateRange_EmptyRange_NoCallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>IterateRange_EmptyRange_NoCallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="150" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="150" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1ab202e791748e75e465e9c64f395a09b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, IterateRange_EarlyTermination)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>IterateRange_EarlyTermination</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="162" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="162" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a9fd99d41093646589f69ed559d139394" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, IterateRange_ReturnsValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>IterateRange_ReturnsValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="176" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="176" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a2e40fa0c916ff382c6c991fd18df35d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, ListAllSignatures_EmptyDB_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>ListAllSignatures_EmptyDB_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="195" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="195" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1aeb442f601a76de2c4fd827e4b4cf48f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, ListAllSignatures_ReturnsAllStoredSignatures)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>ListAllSignatures_ReturnsAllStoredSignatures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="200" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="200" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1ab316ed9bb0f66e0171aa132a59734f46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, ListAllSignatures_UnrelatedKeysNotIncluded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>ListAllSignatures_UnrelatedKeysNotIncluded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="229" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="229" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1ab5f13aa8b91a4534a48f471e0812329b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, VerifyAll_EmptyDB_SucceedsWithZeroTotal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>VerifyAll_EmptyDB_SucceedsWithZeroTotal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="251" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="251" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a444b9dea7809f76adaaab43fa0ad3b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, VerifyAll_MissingFile_ReportedAsFailed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>VerifyAll_MissingFile_ReportedAsFailed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="259" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="259" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a963679744d7db87b707a9f0c88ccb45b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, VerifyAll_CorrectHash_ReportedAsVerified)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>VerifyAll_CorrectHash_ReportedAsVerified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="276" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="276" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a519800a1991383e7e6f8bc27760994f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, VerifyAll_WrongHash_ReportedAsFailed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>VerifyAll_WrongHash_ReportedAsFailed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="304" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="304" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1ad7ca8a98314b9b723a432f6597c66a08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SecuritySignatureRocksDBIterationTests, VerifyAll_MixedResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref></type>
+        </param>
+        <param>
+          <type>VerifyAll_MixedResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="328" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="328" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1aa37b592a63a4cbe35422cd9068b008ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SecuritySignatureVerifyAllFallbackTests, NullBackendFailsClosedWithoutExplicitFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SecuritySignatureVerifyAllFallbackTests</type>
+        </param>
+        <param>
+          <type>NullBackendFailsClosedWithoutExplicitFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="367" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="367" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1af5d1d93113479e1b604a2228bb50f90f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SecuritySignatureVerifyAllFallbackTests, ExplicitFallbackListAllSignatures_ReturnsStoredSigs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SecuritySignatureVerifyAllFallbackTests</type>
+        </param>
+        <param>
+          <type>ExplicitFallbackListAllSignatures_ReturnsStoredSigs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="388" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="388" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="test__security__signature__rocksdb__iteration_8cpp_1a3b261b8bb6ebba1cd69d4384659a2c93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SecuritySignatureVerifyAllFallbackTests, ExplicitFallbackVerifyAll_EmptyStore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SecuritySignatureVerifyAllFallbackTests</type>
+        </param>
+        <param>
+          <type>ExplicitFallbackVerifyAll_EmptyStore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_signature_rocksdb_iteration.cpp" line="407" column="1" bodyfile="tests/security/test_security_signature_rocksdb_iteration.cpp" bodystart="407" bodyend="416"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Focused<sp/>tests<sp/>for<sp/>SecuritySignatureManager:<sp/>RocksDB<sp/>Iteration<sp/>(v1.8.0,<sp/>Issue<sp/>#206)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Acceptance<sp/>criteria<sp/>covered:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>AC-1<sp/><sp/>RocksDBWrapper::iterateRange(start_key,<sp/>end_key,<sp/>callback)<sp/>uses<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::Iterator<sp/>under<sp/>the<sp/>hood<sp/>and<sp/>honours<sp/>start/end<sp/>bounds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>AC-2<sp/><sp/>SecuritySignatureManager::verifyAll()<sp/>scans<sp/>all<sp/>document<sp/>keys<sp/>via</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iterateRange<sp/>and<sp/>reports<sp/>per-signature<sp/>verification<sp/>outcomes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/security_signature_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/security_signature.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::storage;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a2a1ac6342254ab033020233de37b9662" kindref="member">TEST</ref>(SecuritySignatureValidationTests,<sp/>Deserialize_RejectsInvalidHashFormat)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;resource_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;config/a.yaml&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hash&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;algorithm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">,<sp/>1234}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>SecuritySignature::deserialize(payload.dump());</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(parsed.has_value());</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a2a1ac6342254ab033020233de37b9662" kindref="member">TEST</ref>(SecuritySignatureValidationTests,<sp/>Deserialize_RejectsUnsupportedAlgorithm)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;resource_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;config/a.yaml&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hash&quot;</highlight><highlight class="normal">,<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;algorithm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sha1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">,<sp/>1234}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>SecuritySignature::deserialize(payload.dump());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(parsed.has_value());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a2a1ac6342254ab033020233de37b9662" kindref="member">TEST</ref>(SecuritySignatureValidationTests,<sp/>Deserialize_RejectsEmptyResourceId)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;resource_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hash&quot;</highlight><highlight class="normal">,<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;algorithm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">,<sp/>1234}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>SecuritySignature::deserialize(payload.dump());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(parsed.has_value());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>open<sp/>a<sp/>temporary<sp/>RocksDB<sp/>instance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>openTempDB(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/>=<sp/>path;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_wal<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>db<sp/>=<sp/>std::make_shared&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!db-&gt;open())<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>db;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>uniqueTmpPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_ssig_&quot;</highlight><highlight class="normal"><sp/>+<sp/>tag<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="class_security_signature_rocks_d_b_iteration_tests" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1a81310ae9ab9ff9f181d42d2482ab040f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1aacc0cf4f877fe260ef61d6bfd9015364" kindref="member">db_path_</ref><sp/>=<sp/>uniqueTmpPath(</highlight><highlight class="stringliteral">&quot;iter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_security_signature_rocks_d_b_iteration_tests_1aacc0cf4f877fe260ef61d6bfd9015364" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1a25ed1c7be2fbeb8f7061c6544b6c3b78" kindref="member">db_</ref><sp/>=<sp/>openTempDB(<ref refid="class_security_signature_rocks_d_b_iteration_tests_1aacc0cf4f877fe260ef61d6bfd9015364" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="class_security_signature_rocks_d_b_iteration_tests_1a25ed1c7be2fbeb8f7061c6544b6c3b78" kindref="member">db_</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>test<sp/>RocksDB<sp/>at<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1aacc0cf4f877fe260ef61d6bfd9015364" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1af4d637d50ae86cb26216c74e37493407" kindref="member">mgr_</ref><sp/>=<sp/>std::make_unique&lt;SecuritySignatureManager&gt;(<ref refid="class_security_signature_rocks_d_b_iteration_tests_1a25ed1c7be2fbeb8f7061c6544b6c3b78" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1a36c7eaf98da732639e606fe400b86ce2" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1af4d637d50ae86cb26216c74e37493407" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1a25ed1c7be2fbeb8f7061c6544b6c3b78" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_security_signature_rocks_d_b_iteration_tests_1aacc0cf4f877fe260ef61d6bfd9015364" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1aacc0cf4f877fe260ef61d6bfd9015364" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1a25ed1c7be2fbeb8f7061c6544b6c3b78" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecuritySignatureManager&gt;<sp/><ref refid="class_security_signature_rocks_d_b_iteration_tests_1af4d637d50ae86cb26216c74e37493407" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-1:<sp/>RocksDBWrapper::iterateRange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>IterateRange_ReturnsKeysWithinBounds)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Put<sp/>keys:<sp/>a_1,<sp/>a_2,<sp/>b_1,<sp/>b_2,<sp/>c_1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;a_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;a_2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;b_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;b_2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;c_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Iterate<sp/>[a_,<sp/>b_)<sp/>—<sp/>should<sp/>yield<sp/>a_1,<sp/>a_2<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>collected_keys;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;iterateRange(</highlight><highlight class="stringliteral">&quot;a_&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b_&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view<sp/>key,<sp/>std::string_view<sp/></highlight><highlight class="comment">/*value*/</highlight><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected_keys.emplace_back(key);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(collected_keys.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(collected_keys[0],<sp/></highlight><highlight class="stringliteral">&quot;a_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(collected_keys[1],<sp/></highlight><highlight class="stringliteral">&quot;a_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>IterateRange_EndKeyIsExclusive)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;x_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;x_2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>end_key<sp/>==<sp/>&quot;x_2&quot;<sp/>should<sp/>exclude<sp/>&quot;x_2&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>keys;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;iterateRange(</highlight><highlight class="stringliteral">&quot;x_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x_2&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view<sp/>k,<sp/>std::string_view)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keys.emplace_back(k);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(keys.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(keys[0],<sp/></highlight><highlight class="stringliteral">&quot;x_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>IterateRange_EmptyRange_NoCallback)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;z_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;iterateRange(</highlight><highlight class="stringliteral">&quot;m_&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n_&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view,<sp/>std::string_view)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>0);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>IterateRange_EarlyTermination)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;t_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;t_2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;t_3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;iterateRange(</highlight><highlight class="stringliteral">&quot;t_&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u_&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view,<sp/>std::string_view)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>stop<sp/>after<sp/>first<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>1);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>IterateRange_ReturnsValues)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;k_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;k_2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>values;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;iterateRange(</highlight><highlight class="stringliteral">&quot;k_&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;l_&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view,<sp/>std::string_view<sp/>v)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>values.emplace_back(v);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(values.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(values[0],<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(values[1],<sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-1<sp/>(continued):<sp/>listAllSignatures<sp/>uses<sp/>iterateRange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>ListAllSignatures_EmptyDB_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sigs<sp/>=<sp/>mgr_-&gt;listAllSignatures();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sigs.empty());</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>ListAllSignatures_ReturnsAllStoredSignatures)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>s1;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>s1.resource_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;file_a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>s1.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>s1.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>s1.created_at<sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>s2;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>s2.resource_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;file_b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>s2.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>s2.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>s2.created_at<sp/><sp/>=<sp/>2000;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;storeSignature(s1));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;storeSignature(s2));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sigs<sp/>=<sp/>mgr_-&gt;listAllSignatures();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sigs.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>resource_ids<sp/>are<sp/>present<sp/>(order<sp/>is<sp/>undefined)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>ids<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>sigs)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ids.push_back(s.resource_id);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;file_a&quot;</highlight><highlight class="normal">),<sp/>ids.end());</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;file_b&quot;</highlight><highlight class="normal">),<sp/>ids.end());</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>ListAllSignatures_UnrelatedKeysNotIncluded)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>a<sp/>signature<sp/>under<sp/>the<sp/>expected<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>sig;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.resource_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;myfile&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;c&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.created_at<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;storeSignature(sig));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>an<sp/>unrelated<sp/>key<sp/>directly<sp/>in<sp/>the<sp/>DB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;unrelated_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;some_value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>db_-&gt;put(</highlight><highlight class="stringliteral">&quot;other:prefix:stuff&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;noise&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sigs<sp/>=<sp/>mgr_-&gt;listAllSignatures();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sigs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sigs[0].resource_id,<sp/></highlight><highlight class="stringliteral">&quot;myfile&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>SecuritySignatureManager::verifyAll</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>VerifyAll_EmptyDB_SucceedsWithZeroTotal)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr_-&gt;verifyAll();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total,<sp/>0);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.verified,<sp/>0);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.failed,<sp/>0);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>VerifyAll_MissingFile_ReportedAsFailed)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>sig;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.resource_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/path/file.txt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;d&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.created_at<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;storeSignature(sig));</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr_-&gt;verifyAll();</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total,<sp/>1);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.verified,<sp/>0);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.failed,<sp/>1);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success());</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.failed_resource_ids.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.failed_resource_ids[0],<sp/>sig.resource_id);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>VerifyAll_CorrectHash_ReportedAsVerified)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>real<sp/>temporary<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tmp_file<sp/>=<sp/>uniqueTmpPath(</highlight><highlight class="stringliteral">&quot;verify_correct&quot;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.txt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(tmp_file);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>test<sp/>content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>its<sp/>hash<sp/>via<sp/>the<sp/>manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>hash<sp/>=<sp/>SecuritySignatureManager::computeFileHash(tmp_file);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(hash.empty());</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>sig;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.resource_id<sp/>=<sp/>tmp_file;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>hash;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.created_at<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;storeSignature(sig));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr_-&gt;verifyAll();</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total,<sp/>1);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.verified,<sp/>1);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.failed,<sp/>0);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success());</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove(tmp_file);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>VerifyAll_WrongHash_ReportedAsFailed)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>real<sp/>temporary<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tmp_file<sp/>=<sp/>uniqueTmpPath(</highlight><highlight class="stringliteral">&quot;verify_wrong&quot;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.txt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(tmp_file);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;original<sp/>content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>sig;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.resource_id<sp/>=<sp/>tmp_file;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;f&apos;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>deliberately<sp/>wrong<sp/>hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.created_at<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;storeSignature(sig));</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr_-&gt;verifyAll();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total,<sp/>1);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.verified,<sp/>0);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.failed,<sp/>1);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove(tmp_file);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a4436fa4df6d188e9e90692ceac27de4b" kindref="member">TEST_F</ref>(<ref refid="class_security_signature_rocks_d_b_iteration_tests" kindref="compound">SecuritySignatureRocksDBIterationTests</ref>,<sp/>VerifyAll_MixedResults)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>that<sp/>exists<sp/>with<sp/>correct<sp/>hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>good_file<sp/>=<sp/>uniqueTmpPath(</highlight><highlight class="stringliteral">&quot;good&quot;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.txt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(good_file);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;good<sp/>content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>good_hash<sp/>=<sp/>SecuritySignatureManager::computeFileHash(good_file);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>good_sig;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>good_sig.resource_id<sp/>=<sp/>good_file;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>good_sig.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>good_hash;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>good_sig.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>good_sig.created_at<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;storeSignature(good_sig));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>that<sp/>does<sp/>not<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>bad_sig;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>bad_sig.resource_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/no/such/file.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>bad_sig.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>bad_sig.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>bad_sig.created_at<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;storeSignature(bad_sig));</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr_-&gt;verifyAll();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total,<sp/>2);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.verified,<sp/>1);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.failed,<sp/>1);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success());</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.failed_resource_ids.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.failed_resource_ids[0],<sp/>bad_sig.resource_id);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove(good_file);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-memory<sp/>fallback<sp/>path<sp/>(no<sp/>RocksDB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a2a1ac6342254ab033020233de37b9662" kindref="member">TEST</ref>(SecuritySignatureVerifyAllFallbackTests,<sp/>NullBackendFailsClosedWithoutExplicitFallback)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignatureManager<sp/>mgr(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>sig;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.resource_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fb_file&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.created_at<sp/><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.isUsingFallbackMemoryStore());</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.hasPersistentBackend());</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.storeSignature(sig));</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.listAllSignatures().empty());</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.verifyAll();</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total,<sp/>0);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.backend_available);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.used_fallback_memory_store);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success());</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="386"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a2a1ac6342254ab033020233de37b9662" kindref="member">TEST</ref>(SecuritySignatureVerifyAllFallbackTests,<sp/>ExplicitFallbackListAllSignatures_ReturnsStoredSigs)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignatureManager<sp/>mgr(</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SecuritySignatureManager::Options{.allow_in_memory_fallback<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignature<sp/>sig;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.resource_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fb_file&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.hash<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(64,<sp/></highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.algorithm<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.created_at<sp/><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.storeSignature(sig));</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sigs<sp/>=<sp/>mgr.listAllSignatures();</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sigs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sigs[0].resource_id,<sp/></highlight><highlight class="stringliteral">&quot;fb_file&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.isUsingFallbackMemoryStore());</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.hasPersistentBackend());</highlight></codeline>
+<codeline lineno="405"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><ref refid="test__security__signature__rocksdb__iteration_8cpp_1a2a1ac6342254ab033020233de37b9662" kindref="member">TEST</ref>(SecuritySignatureVerifyAllFallbackTests,<sp/>ExplicitFallbackVerifyAll_EmptyStore)<sp/>{</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>SecuritySignatureManager<sp/>mgr(</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SecuritySignatureManager::Options{.allow_in_memory_fallback<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.verifyAll();</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total,<sp/>0);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.backend_available);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.used_fallback_memory_store);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success());</highlight></codeline>
+<codeline lineno="416"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_security_signature_rocksdb_iteration.cpp"/>
+  </compounddef>
+</doxygen>

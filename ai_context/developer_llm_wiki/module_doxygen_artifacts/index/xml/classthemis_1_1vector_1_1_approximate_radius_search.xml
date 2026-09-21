@@ -1,0 +1,397 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1vector_1_1_approximate_radius_search" kind="class" language="C++" prot="public">
+    <compoundname>themis::vector::ApproximateRadiusSearch</compoundname>
+    <includes refid="approximate__radius__search_8h" local="no">approximate_radius_search.h</includes>
+    <innerclass refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" prot="public">themis::vector::ApproximateRadiusSearch::SearchConfig</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result" prot="public">themis::vector::ApproximateRadiusSearch::RadiusResult</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result" prot="public">themis::vector::ApproximateRadiusSearch::SearchResult</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" prot="public">themis::vector::ApproximateRadiusSearch::Statistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Metric</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::Metric</qualifiedname>
+        <enumvalue id="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31a7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31ae66ba018ef96aa5c78c8fba787f43717" prot="public">
+          <name>COSINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31af631bca16207bd2c79fca06f9f1875e0" prot="public">
+          <name>DOT_PRODUCT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="28" column="5" bodyfile="include/index/approximate_radius_search.h" bodystart="28" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1vector_1_1_approximate_radius_search_1a44398d258fc4c359c6deea558951eaba" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> &amp;</type>
+        <definition>VectorIndexManager&amp; themis::vector::ApproximateRadiusSearch::vector_manager_</definition>
+        <argsstring></argsstring>
+        <name>vector_manager_</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::vector_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="131" column="24" bodyfile="include/index/approximate_radius_search.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1vector_1_1_approximate_radius_search_1a3dde2042874233909094f929cd6c46a8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::vector::ApproximateRadiusSearch::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="132" column="16" bodyfile="include/index/approximate_radius_search.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1vector_1_1_approximate_radius_search_1add23671f914669ec8a5f0a7791cf8e7a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::vector::ApproximateRadiusSearch::ApproximateRadiusSearch</definition>
+        <argsstring>(VectorIndexManager &amp;vector_manager)</argsstring>
+        <name>ApproximateRadiusSearch</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::ApproximateRadiusSearch</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> &amp;</type>
+          <declname>vector_manager</declname>
+        </param>
+        <briefdescription>
+<para>Approximate Radius Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">vector_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="63" column="14" bodyfile="src/index/approximate_radius_search.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1vector_1_1_approximate_radius_search_1a2af65881040760c5f1efdc2fb7850998" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result" kindref="compound">SearchResult</ref> &gt;</type>
+        <definition>Result&lt; ApproximateRadiusSearch::SearchResult &gt; themis::vector::ApproximateRadiusSearch::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_vector, const SearchConfig &amp;config)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="71" column="12" bodyfile="src/index/approximate_radius_search.cpp" bodystart="56" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1vector_1_1_approximate_radius_search_1a45e8a68e7301ae0fda5645fd0ce51c05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result" kindref="compound">SearchResult</ref> &gt;</type>
+        <definition>Result&lt; ApproximateRadiusSearch::SearchResult &gt; themis::vector::ApproximateRadiusSearch::searchById</definition>
+        <argsstring>(std::string_view query_id, const SearchConfig &amp;config)</argsstring>
+        <name>searchById</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::searchById</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Search By Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="82" column="12" bodyfile="src/index/approximate_radius_search.cpp" bodystart="143" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1vector_1_1_approximate_radius_search_1aaa83b5bd98d8e22e5571a820b629c51b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; ApproximateRadiusSearch::SearchResult &gt; &gt; themis::vector::ApproximateRadiusSearch::batchSearch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;query_vectors, const SearchConfig &amp;config)</argsstring>
+        <name>batchSearch</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::batchSearch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>query_vectors</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Batch Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="93" column="12" bodyfile="src/index/approximate_radius_search.cpp" bodystart="159" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1vector_1_1_approximate_radius_search_1a5eca919f2d2537564b52df271a02d89c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result" kindref="compound">SearchResult</ref> &gt;</type>
+        <definition>Result&lt; ApproximateRadiusSearch::SearchResult &gt; themis::vector::ApproximateRadiusSearch::searchWithTargetCount</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_vector, int target_count, const SearchConfig &amp;config)</argsstring>
+        <name>searchWithTargetCount</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::searchWithTargetCount</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>target_count</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Search With Target Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="105" column="12" bodyfile="src/index/approximate_radius_search.cpp" bodystart="186" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1vector_1_1_approximate_radius_search_1a42e1cfec0881a6868442c6a8fb14540b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; themis::vector::ApproximateRadiusSearch::estimateResultCount</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_vector, float radius, Metric metric=Metric::COSINE)</argsstring>
+        <name>estimateResultCount</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::estimateResultCount</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" kindref="member">Metric</ref></type>
+          <declname>metric</declname>
+          <defval><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31ae66ba018ef96aa5c78c8fba787f43717" kindref="member">Metric::COSINE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Estimate Result Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">radius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="namespacethemis_1_1vector_1a7cda1914467f5317f7f401765511bb12" kindref="member">makeError()</ref>, getMetric(), convertMetric(), getVectorCount(), size_t(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="111" column="12" bodyfile="src/index/approximate_radius_search.cpp" bodystart="272" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1vector_1_1_approximate_radius_search_1a8c12743362f6ef6d11f969786ff1b036" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+        <definition>const Statistics &amp; themis::vector::ApproximateRadiusSearch::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="124" column="22" bodyfile="include/index/approximate_radius_search.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1vector_1_1_approximate_radius_search_1a1f80e25ff282b91f7273ba9a06e19248" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::vector::ApproximateRadiusSearch::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements resetStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="128" column="10" bodyfile="src/index/approximate_radius_search.cpp" bodystart="351" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/approximate_radius_search.h" line="26" column="1" bodyfile="include/index/approximate_radius_search.h" bodystart="26" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1add23671f914669ec8a5f0a7791cf8e7a" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>ApproximateRadiusSearch</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1aaa83b5bd98d8e22e5571a820b629c51b" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>batchSearch</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a42e1cfec0881a6868442c6a8fb14540b" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>estimateResultCount</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a8c12743362f6ef6d11f969786ff1b036" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>Metric</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a1f80e25ff282b91f7273ba9a06e19248" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a2af65881040760c5f1efdc2fb7850998" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>search</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a45e8a68e7301ae0fda5645fd0ce51c05" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>searchById</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a5eca919f2d2537564b52df271a02d89c" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>searchWithTargetCount</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a3dde2042874233909094f929cd6c46a8" prot="private" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1vector_1_1_approximate_radius_search_1a44398d258fc4c359c6deea558951eaba" prot="private" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch</scope><name>vector_manager_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_admin_a_p_i_health_repair_test" kind="class" language="C++" prot="public">
+    <compoundname>AdminAPIHealthRepairTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_admin_a_p_i_health_repair_test_1a2187781c03cf10a9f5f0237c526186a6" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config" kindref="compound">ShardTopology::Config</ref></type>
+        <definition>ShardTopology::Config AdminAPIHealthRepairTest::topo_cfg_</definition>
+        <argsstring></argsstring>
+        <name>topo_cfg_</name>
+        <qualifiedname>AdminAPIHealthRepairTest::topo_cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="714" column="27" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_admin_a_p_i_health_repair_test_1a8e2fa1015fc466d453838aa1d6493b63" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; AdminAPIHealthRepairTest::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>AdminAPIHealthRepairTest::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="715" column="21" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="715" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_admin_a_p_i_health_repair_test_1a720e2823eb576a5c09d6ee26882879e7" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsistentHashRing&gt; AdminAPIHealthRepairTest::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>AdminAPIHealthRepairTest::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="716" column="21" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_admin_a_p_i_health_repair_test_1a976452fc86f5119eabf27181e4d4e5f0" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RedundancyStrategy&gt; AdminAPIHealthRepairTest::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>AdminAPIHealthRepairTest::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="717" column="21" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="717" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_admin_a_p_i_health_repair_test_1a721e470f7535f47db9847c8b90be0a3b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardRepairEngine&gt; AdminAPIHealthRepairTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>AdminAPIHealthRepairTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="718" column="21" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="718" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_admin_a_p_i_health_repair_test_1ae810ab744ec127e944de5f9956fc206b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_admin_a_p_i" kindref="compound">AdminAPI</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AdminAPI&gt; AdminAPIHealthRepairTest::api_</definition>
+        <argsstring></argsstring>
+        <name>api_</name>
+        <qualifiedname>AdminAPIHealthRepairTest::api_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="719" column="21" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="719" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_admin_a_p_i_health_repair_test_1af114d3a65c26bf4319dac4731d95605d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AdminAPIHealthRepairTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AdminAPIHealthRepairTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="685" column="10" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="685" bodyend="712"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdminAPIHealthRepairTest</label>
+        <link refid="class_admin_a_p_i_health_repair_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdminAPIHealthRepairTest</label>
+        <link refid="class_admin_a_p_i_health_repair_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>topo_cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::sharding::ShardTopology::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_repair.cpp" line="683" column="1" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="683" bodyend="720"/>
+    <listofallmembers>
+      <member refid="class_admin_a_p_i_health_repair_test_1ae810ab744ec127e944de5f9956fc206b" prot="protected" virt="non-virtual"><scope>AdminAPIHealthRepairTest</scope><name>api_</name></member>
+      <member refid="class_admin_a_p_i_health_repair_test_1a721e470f7535f47db9847c8b90be0a3b" prot="protected" virt="non-virtual"><scope>AdminAPIHealthRepairTest</scope><name>engine_</name></member>
+      <member refid="class_admin_a_p_i_health_repair_test_1a720e2823eb576a5c09d6ee26882879e7" prot="protected" virt="non-virtual"><scope>AdminAPIHealthRepairTest</scope><name>ring_</name></member>
+      <member refid="class_admin_a_p_i_health_repair_test_1af114d3a65c26bf4319dac4731d95605d" prot="protected" virt="non-virtual"><scope>AdminAPIHealthRepairTest</scope><name>SetUp</name></member>
+      <member refid="class_admin_a_p_i_health_repair_test_1a976452fc86f5119eabf27181e4d4e5f0" prot="protected" virt="non-virtual"><scope>AdminAPIHealthRepairTest</scope><name>strategy_</name></member>
+      <member refid="class_admin_a_p_i_health_repair_test_1a2187781c03cf10a9f5f0237c526186a6" prot="protected" virt="non-virtual"><scope>AdminAPIHealthRepairTest</scope><name>topo_cfg_</name></member>
+      <member refid="class_admin_a_p_i_health_repair_test_1a8e2fa1015fc466d453838aa1d6493b63" prot="protected" virt="non-virtual"><scope>AdminAPIHealthRepairTest</scope><name>topology_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

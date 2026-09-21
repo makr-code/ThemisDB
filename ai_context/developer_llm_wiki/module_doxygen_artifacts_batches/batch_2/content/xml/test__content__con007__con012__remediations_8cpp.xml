@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__con007__con012__remediations_8cpp" kind="file" language="C++">
+    <compoundname>test_content_con007_con012_remediations.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">type_traits</includes>
+    <includes refid="video__processor_8h" local="yes">content/video_processor.h</includes>
+    <includes refid="async__ingestion__worker_8h" local="yes">content/async_ingestion_worker.h</includes>
+    <incdepgraph>
+      <node id="14">
+        <label>content/async_ingestion_worker.h</label>
+        <link refid="async__ingestion__worker_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>content_plugin_interface.h</label>
+        <link refid="content__plugin__interface_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>content/video_processor.h</label>
+        <link refid="video__processor_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_con007_con012_remediations.cpp</label>
+        <link refid="test__content__con007__con012__remediations_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="17">
+        <label>condition_variable</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="19">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="20">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>queue</label>
+      </node>
+      <node id="21">
+        <label>sstream</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="3">
+        <label>type_traits</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="test__content__con007__con012__remediations_8cpp_1ae90756a78b2e85be70271d242b096a1c" prot="public" static="no">
+        <name>THEMIS_PLUGIN_EXPORTS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_con007_con012_remediations.cpp" line="24" column="9" bodyfile="tests/content/test_content_con007_con012_remediations.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__con007__con012__remediations_8cpp_1aba784479c2bcc622699336741e5fad51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VideoProcessorHealthCheckCON007, NotInitialized_AlwaysUnhealthy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VideoProcessorHealthCheckCON007</type>
+        </param>
+        <param>
+          <type>NotInitialized_AlwaysUnhealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>An un-initialized <ref refid="classthemis_1_1content_1_1_video_processor" kindref="compound">VideoProcessor</ref> must always report unhealthy, regardless of FFmpeg availability. This is a baseline invariant. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_con007_con012_remediations.cpp" line="38" column="1" bodyfile="tests/content/test_content_con007_con012_remediations.cpp" bodystart="38" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__con007__con012__remediations_8cpp_1a3cc7ebe96b674c2469920ac2af3b2933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VideoProcessorHealthCheckCON007, SimulationMode_InitializedButUnhealthy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VideoProcessorHealthCheckCON007</type>
+        </param>
+        <param>
+          <type>SimulationMode_InitializedButUnhealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>CON-007 regression: in a no-FFmpeg (simulation-mode) build an initialized <ref refid="classthemis_1_1content_1_1_video_processor" kindref="compound">VideoProcessor</ref> must report unhealthy so aggregators can surface the missing FFmpeg dependency.</para>
+</xrefdescription></xrefsect></para>
+<para>Pre-fix behaviour: both FFmpeg and no-FFmpeg branches returned initialized_, which is true after initialize() — the no-FFmpeg path was silent. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_con007_con012_remediations.cpp" line="52" column="1" bodyfile="tests/content/test_content_con007_con012_remediations.cpp" bodystart="52" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__con007__con012__remediations_8cpp_1ad3aa261ad44683ff92706b9da33c6012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VideoProcessorHealthCheckCON007, FFmpegMode_InitializedAndHealthy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VideoProcessorHealthCheckCON007</type>
+        </param>
+        <param>
+          <type>FFmpegMode_InitializedAndHealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>CON-007 regression guard: in an FFmpeg build an initialized <ref refid="classthemis_1_1content_1_1_video_processor" kindref="compound">VideoProcessor</ref> must still report healthy (the FFmpeg path is unchanged). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_con007_con012_remediations.cpp" line="70" column="1" bodyfile="tests/content/test_content_con007_con012_remediations.cpp" bodystart="70" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__con007__con012__remediations_8cpp_1a4011ecf74a3eda8e846f032ed9efdb8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VideoProcessorHealthCheckCON007, AfterShutdown_AlwaysUnhealthy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VideoProcessorHealthCheckCON007</type>
+        </param>
+        <param>
+          <type>AfterShutdown_AlwaysUnhealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>CON-007: shutdown resets health regardless of build. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_con007_con012_remediations.cpp" line="86" column="1" bodyfile="tests/content/test_content_con007_con012_remediations.cpp" bodystart="86" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__con007__con012__remediations_8cpp_1a8a35041ec59df25916a4853df1538114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AsyncIngestionWorkerCON012, DestructorIsNoexcept)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AsyncIngestionWorkerCON012</type>
+        </param>
+        <param>
+          <type>DestructorIsNoexcept</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>CON-012 compile-time check: <ref refid="classthemis_1_1content_1_1_async_ingestion_worker_1a9ac236fc4d984a9feb23cfaaf9d0aaf4" kindref="member">AsyncIngestionWorker::~AsyncIngestionWorker()</ref> must be noexcept.</para>
+</xrefdescription></xrefsect></para>
+<para>std::is_nothrow_destructible_v is true when the destructor is declared noexcept (or is implicitly noexcept). This check does not require constructing a live object, so no RocksDB or <ref refid="classthemis_1_1content_1_1_content_manager" kindref="compound">ContentManager</ref> setup is needed.</para>
+<para>Pre-fix: the destructor was declared without noexcept, so this assertion would have failed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_con007_con012_remediations.cpp" line="110" column="1" bodyfile="tests/content/test_content_con007_con012_remediations.cpp" bodystart="110" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Regression tests for CON-007 and CON-012 CONTENT module remediations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>CON-007: <ref refid="classthemis_1_1content_1_1_video_processor_1a5046b3bc9842cd7a1246c6842a4d3f5d" kindref="member">VideoProcessor::healthCheck()</ref> must return false in no-FFmpeg (simulation) builds. Prior to the fix, both the FFmpeg and no-FFmpeg branches returned initialized_, which is always true after initialize(), making it impossible for health-check aggregators to detect the missing FFmpeg dependency.</para>
+<para>CON-012: <ref refid="classthemis_1_1content_1_1_async_ingestion_worker_1a9ac236fc4d984a9feb23cfaaf9d0aaf4" kindref="member">AsyncIngestionWorker::~AsyncIngestionWorker()</ref> must be noexcept. Prior to the fix, the destructor called stop() without an exception guard. If stop() threw (e.g. mutex operation or promise::set_exception during stack unwinding), std::terminate() would be invoked. The fix declares the destructor noexcept and wraps stop() in a try/catch(...) block. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_PLUGIN_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="video__processor_8h" kindref="compound">content/video_processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="async__ingestion__worker_8h" kindref="compound">content/async_ingestion_worker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CON-007<sp/>—<sp/>VideoProcessor::healthCheck()<sp/>simulation-mode<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__content__con007__con012__remediations_8cpp_1aba784479c2bcc622699336741e5fad51" kindref="member">TEST</ref>(VideoProcessorHealthCheckCON007,<sp/>NotInitialized_AlwaysUnhealthy)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_video_processor" kindref="compound">VideoProcessor</ref><sp/>processor;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(processor.<ref refid="classthemis_1_1content_1_1_video_processor_1a5046b3bc9842cd7a1246c6842a4d3f5d" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Un-initialized<sp/>VideoProcessor<sp/>must<sp/>report<sp/>healthCheck()<sp/>==<sp/>false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__content__con007__con012__remediations_8cpp_1aba784479c2bcc622699336741e5fad51" kindref="member">TEST</ref>(VideoProcessorHealthCheckCON007,<sp/>SimulationMode_InitializedButUnhealthy)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_FFMPEG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;THEMIS_HAS_FFMPEG<sp/>defined;<sp/>simulation-mode<sp/>path<sp/>not<sp/>active<sp/>in<sp/>this<sp/>build.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_video_processor" kindref="compound">VideoProcessor</ref><sp/>processor;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(processor.<ref refid="classthemis_1_1content_1_1_video_processor_1a89f2b719d4f7b3e17fc75e506e1206b4" kindref="member">initialize</ref>(config))</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;initialize()<sp/>must<sp/>succeed<sp/>even<sp/>without<sp/>FFmpeg<sp/>(simulation<sp/>fallback)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(processor.<ref refid="classthemis_1_1content_1_1_video_processor_1a5046b3bc9842cd7a1246c6842a4d3f5d" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CON-007:<sp/>healthCheck()<sp/>must<sp/>return<sp/>false<sp/>in<sp/>no-FFmpeg<sp/>builds<sp/>so<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;health-check<sp/>aggregators<sp/>detect<sp/>the<sp/>missing<sp/>dependency&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__content__con007__con012__remediations_8cpp_1aba784479c2bcc622699336741e5fad51" kindref="member">TEST</ref>(VideoProcessorHealthCheckCON007,<sp/>FFmpegMode_InitializedAndHealthy)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_HAS_FFMPEG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;THEMIS_HAS_FFMPEG<sp/>not<sp/>defined;<sp/>FFmpeg<sp/>path<sp/>not<sp/>active<sp/>in<sp/>this<sp/>build.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_video_processor" kindref="compound">VideoProcessor</ref><sp/>processor;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(processor.<ref refid="classthemis_1_1content_1_1_video_processor_1a89f2b719d4f7b3e17fc75e506e1206b4" kindref="member">initialize</ref>(config));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.<ref refid="classthemis_1_1content_1_1_video_processor_1a5046b3bc9842cd7a1246c6842a4d3f5d" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CON-007<sp/>regression<sp/>guard:<sp/>healthCheck()<sp/>must<sp/>return<sp/>true<sp/>after<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;successful<sp/>initialize()<sp/>in<sp/>an<sp/>FFmpeg<sp/>build&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__content__con007__con012__remediations_8cpp_1aba784479c2bcc622699336741e5fad51" kindref="member">TEST</ref>(VideoProcessorHealthCheckCON007,<sp/>AfterShutdown_AlwaysUnhealthy)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_video_processor" kindref="compound">VideoProcessor</ref><sp/>processor;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(processor.<ref refid="classthemis_1_1content_1_1_video_processor_1a89f2b719d4f7b3e17fc75e506e1206b4" kindref="member">initialize</ref>(config));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>processor.<ref refid="classthemis_1_1content_1_1_video_processor_1aff3e8bebb8457e4f97712fe8cb4ae055" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(processor.<ref refid="classthemis_1_1content_1_1_video_processor_1a5046b3bc9842cd7a1246c6842a4d3f5d" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;VideoProcessor<sp/>must<sp/>report<sp/>unhealthy<sp/>after<sp/>shutdown()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CON-012<sp/>—<sp/>AsyncIngestionWorker<sp/>destructor<sp/>noexcept<sp/>guarantee</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__content__con007__con012__remediations_8cpp_1aba784479c2bcc622699336741e5fad51" kindref="member">TEST</ref>(AsyncIngestionWorkerCON012,<sp/>DestructorIsNoexcept)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>dtor_noexcept<sp/>=<sp/>std::is_nothrow_destructible_v&lt;AsyncIngestionWorker&gt;;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dtor_noexcept)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CON-012:<sp/>AsyncIngestionWorker::~AsyncIngestionWorker()<sp/>must<sp/>be<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;declared<sp/>noexcept<sp/>to<sp/>prevent<sp/>std::terminate()<sp/>if<sp/>stop()<sp/>throws<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;during<sp/>stack<sp/>unwinding&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_con007_con012_remediations.cpp"/>
+  </compounddef>
+</doxygen>

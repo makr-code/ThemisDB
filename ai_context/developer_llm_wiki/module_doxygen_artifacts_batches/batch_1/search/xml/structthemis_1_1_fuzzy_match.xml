@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_fuzzy_match" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FuzzyMatch</compoundname>
+    <includes refid="fuzzy__matcher_8h" local="no">fuzzy_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_fuzzy_match_1ae7c8c9e831095163fe9ba48bc5b6af80" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FuzzyMatch::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::FuzzyMatch::document_id</qualifiedname>
+        <briefdescription>
+<para>Primary key of the matched document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="24" column="17" bodyfile="include/search/fuzzy_matcher.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fuzzy_match_1ac410895d3a46275c43e555c5b56fbeba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FuzzyMatch::matched_token</definition>
+        <argsstring></argsstring>
+        <name>matched_token</name>
+        <qualifiedname>themis::FuzzyMatch::matched_token</qualifiedname>
+        <briefdescription>
+<para>The index token that matched the query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="25" column="17" bodyfile="include/search/fuzzy_matcher.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fuzzy_match_1a76bd5f80cb899234e5569e847fc4733e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FuzzyMatch::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::FuzzyMatch::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Similarity score in [0,1] (higher is better). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="26" column="12" bodyfile="include/search/fuzzy_matcher.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fuzzy_match_1a3c3bfcca98782d4a86a26177c10c2566" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::FuzzyMatch::edit_distance</definition>
+        <argsstring></argsstring>
+        <name>edit_distance</name>
+        <qualifiedname>themis::FuzzyMatch::edit_distance</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Levenshtein distance to query token (0 = exact). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="27" column="9" bodyfile="include/search/fuzzy_matcher.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single fuzzy-match result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/fuzzy_matcher.h" line="23" column="1" bodyfile="include/search/fuzzy_matcher.h" bodystart="23" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_fuzzy_match_1ae7c8c9e831095163fe9ba48bc5b6af80" prot="public" virt="non-virtual"><scope>themis::FuzzyMatch</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1_fuzzy_match_1a3c3bfcca98782d4a86a26177c10c2566" prot="public" virt="non-virtual"><scope>themis::FuzzyMatch</scope><name>edit_distance</name></member>
+      <member refid="structthemis_1_1_fuzzy_match_1ac410895d3a46275c43e555c5b56fbeba" prot="public" virt="non-virtual"><scope>themis::FuzzyMatch</scope><name>matched_token</name></member>
+      <member refid="structthemis_1_1_fuzzy_match_1a76bd5f80cb899234e5569e847fc4733e" prot="public" virt="non-virtual"><scope>themis::FuzzyMatch</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

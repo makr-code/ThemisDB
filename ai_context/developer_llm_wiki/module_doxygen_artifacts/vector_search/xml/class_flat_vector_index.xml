@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_flat_vector_index" kind="class" language="C++" prot="public">
+    <compoundname>FlatVectorIndex</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_flat_vector_index_1a0bafd386bc21f3832d2575bd3f93ef29" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t FlatVectorIndex::dim_</definition>
+        <argsstring></argsstring>
+        <name>dim_</name>
+        <qualifiedname>FlatVectorIndex::dim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/vector_search/test_vector_search_highcardinality_stress.cpp" line="99" column="23" bodyfile="tests/vector_search/test_vector_search_highcardinality_stress.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_flat_vector_index_1a5956df371e2a4212fa0db4528be112b3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex FlatVectorIndex::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>FlatVectorIndex::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/vector_search/test_vector_search_highcardinality_stress.cpp" line="100" column="24" bodyfile="tests/vector_search/test_vector_search_highcardinality_stress.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_flat_vector_index_1a952ca1f3a57302b4f512e47fd7458805" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; uint64_t, <ref refid="test__vector__search__highcardinality__stress_8cpp_1aa571fd0bb93a181104a2ac26022df51a" kindref="member">Vec</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;uint64_t, Vec&gt; &gt; FlatVectorIndex::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>FlatVectorIndex::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/vector_search/test_vector_search_highcardinality_stress.cpp" line="101" column="17" bodyfile="tests/vector_search/test_vector_search_highcardinality_stress.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_flat_vector_index_1aadb2d3518ef685a5210eb69034dae629" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FlatVectorIndex::FlatVectorIndex</definition>
+        <argsstring>(std::size_t dim)</argsstring>
+        <name>FlatVectorIndex</name>
+        <qualifiedname>FlatVectorIndex::FlatVectorIndex</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/vector_search/test_vector_search_highcardinality_stress.cpp" line="60" column="14" bodyfile="tests/vector_search/test_vector_search_highcardinality_stress.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_flat_vector_index_1ab30eee891ec07bcd3307fbf19d3910d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool FlatVectorIndex::insert</definition>
+        <argsstring>(uint64_t id, Vec vec)</argsstring>
+        <name>insert</name>
+        <qualifiedname>FlatVectorIndex::insert</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="test__vector__search__highcardinality__stress_8cpp_1aa571fd0bb93a181104a2ac26022df51a" kindref="member">Vec</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/vector_search/test_vector_search_highcardinality_stress.cpp" line="62" column="10" bodyfile="tests/vector_search/test_vector_search_highcardinality_stress.cpp" bodystart="62" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_flat_vector_index_1a177ee8e97a67fee825999723c22234e3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; FlatVectorIndex::knn</definition>
+        <argsstring>(const Vec &amp;q, std::size_t k) const</argsstring>
+        <name>knn</name>
+        <qualifiedname>FlatVectorIndex::knn</qualifiedname>
+        <param>
+          <type>const <ref refid="test__vector__search__highcardinality__stress_8cpp_1aa571fd0bb93a181104a2ac26022df51a" kindref="member">Vec</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/vector_search/test_vector_search_highcardinality_stress.cpp" line="73" column="17" bodyfile="tests/vector_search/test_vector_search_highcardinality_stress.cpp" bodystart="73" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="class_flat_vector_index_1a3abf224f43f1457537dc0dc5e4ea02a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t FlatVectorIndex::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>FlatVectorIndex::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/vector_search/test_vector_search_highcardinality_stress.cpp" line="93" column="17" bodyfile="tests/vector_search/test_vector_search_highcardinality_stress.cpp" bodystart="93" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe flat vector index (brute-force — simulates HNSW index for stress). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/vector_search/test_vector_search_highcardinality_stress.cpp" line="58" column="1" bodyfile="tests/vector_search/test_vector_search_highcardinality_stress.cpp" bodystart="58" bodyend="102"/>
+    <listofallmembers>
+      <member refid="class_flat_vector_index_1a0bafd386bc21f3832d2575bd3f93ef29" prot="private" virt="non-virtual"><scope>FlatVectorIndex</scope><name>dim_</name></member>
+      <member refid="class_flat_vector_index_1a952ca1f3a57302b4f512e47fd7458805" prot="private" virt="non-virtual"><scope>FlatVectorIndex</scope><name>entries_</name></member>
+      <member refid="class_flat_vector_index_1aadb2d3518ef685a5210eb69034dae629" prot="public" virt="non-virtual"><scope>FlatVectorIndex</scope><name>FlatVectorIndex</name></member>
+      <member refid="class_flat_vector_index_1ab30eee891ec07bcd3307fbf19d3910d7" prot="public" virt="non-virtual"><scope>FlatVectorIndex</scope><name>insert</name></member>
+      <member refid="class_flat_vector_index_1a177ee8e97a67fee825999723c22234e3" prot="public" virt="non-virtual"><scope>FlatVectorIndex</scope><name>knn</name></member>
+      <member refid="class_flat_vector_index_1a5956df371e2a4212fa0db4528be112b3" prot="private" virt="non-virtual"><scope>FlatVectorIndex</scope><name>mu_</name></member>
+      <member refid="class_flat_vector_index_1a3abf224f43f1457537dc0dc5e4ea02a8" prot="public" virt="non-virtual"><scope>FlatVectorIndex</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

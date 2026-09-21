@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_resource_usage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionResourceUsage</compoundname>
+    <includes refid="vision__resource__monitor_8h" local="no">vision_resource_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a44cb2e86fbafd316719af2afbad8cf64" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceUsage::current_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>current_memory_mb</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::current_memory_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="31" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1acce25518a7de62353866e87a1a7f448e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceUsage::peak_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>peak_memory_mb</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::peak_memory_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="32" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1ab7483cc7e74b1cf5ec2bfe50f9fad22e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceUsage::current_vram_mb</definition>
+        <argsstring></argsstring>
+        <name>current_vram_mb</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::current_vram_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="33" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a7dbd53bcd46d04b44c3960ae09b455e5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceUsage::peak_vram_mb</definition>
+        <argsstring></argsstring>
+        <name>peak_vram_mb</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::peak_vram_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="34" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a731f8ae174921fe1c92b1df792c72be3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceUsage::active_requests</definition>
+        <argsstring></argsstring>
+        <name>active_requests</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::active_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="35" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a3cf347ac8a1876c9dbfb9a03a04c236f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceUsage::queued_requests</definition>
+        <argsstring></argsstring>
+        <name>queued_requests</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::queued_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="36" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a3a2f1cda230491bf4dd3f9e3d26bcdc0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceUsage::loaded_models</definition>
+        <argsstring></argsstring>
+        <name>loaded_models</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::loaded_models</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="37" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a8bcb5b77b8615a19a62e75fa867e7c99" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::VisionResourceUsage::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="38" column="43" bodyfile="include/llm/vision_resource_monitor.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1aecfa90e278e0368033eb0f22a22ca15e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::VisionResourceUsage::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="41" column="14" bodyfile="include/llm/vision_resource_monitor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1ab92f254765f2b8f30962fc790010d188" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::VisionResourceUsage::successful_requests</definition>
+        <argsstring></argsstring>
+        <name>successful_requests</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::successful_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="42" column="14" bodyfile="include/llm/vision_resource_monitor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a3c1da86f6e38f07f0ed3a52fb416cf54" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::VisionResourceUsage::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::failed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="43" column="14" bodyfile="include/llm/vision_resource_monitor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a0fe818adc4e77c3c1dfc1f00d04eb542" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::VisionResourceUsage::rejected_requests</definition>
+        <argsstring></argsstring>
+        <name>rejected_requests</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::rejected_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="44" column="14" bodyfile="include/llm/vision_resource_monitor.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1aa5b74db22fbba73e484897d351237226" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::VisionResourceUsage::avg_inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_inference_time_ms</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::avg_inference_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="47" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1af76493de53e8858fc964e9c298185d97" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::VisionResourceUsage::max_inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_inference_time_ms</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::max_inference_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="48" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_usage_1a0f918e4ec4cd4ff68bd26e94b6f14cd4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::VisionResourceUsage::min_inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>min_inference_time_ms</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::min_inference_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="49" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_resource_usage_1aff1b0e7ae619233f82acf27e47f17752" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::VisionResourceUsage::~VisionResourceUsage</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VisionResourceUsage</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::~VisionResourceUsage</qualifiedname>
+        <briefdescription>
+<para>Vision Resource Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="30" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_resource_usage_1aae25bde56c6dfadc148fedbe0e3c69fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::VisionResourceUsage::getMemoryUtilization</definition>
+        <argsstring>(size_t limit_mb) const</argsstring>
+        <name>getMemoryUtilization</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::getMemoryUtilization</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit_mb</declname>
+        </param>
+        <briefdescription>
+<para>Get Memory Utilization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">limit_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="56" column="12" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_resource_usage_1a4b744980157169542fb01a5484b7af4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::VisionResourceUsage::getVRAMUtilization</definition>
+        <argsstring>(size_t limit_mb) const</argsstring>
+        <name>getVRAMUtilization</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::getVRAMUtilization</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit_mb</declname>
+        </param>
+        <briefdescription>
+<para>Get VRAMUtilization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">limit_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="62" column="12" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_resource_usage_1af8bd731ad9c89439f7de9e6c05557c42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::VisionResourceUsage::getRequestUtilization</definition>
+        <argsstring>(size_t limit) const</argsstring>
+        <name>getRequestUtilization</name>
+        <qualifiedname>themis::llm::VisionResourceUsage::getRequestUtilization</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Get Request Utilization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="68" column="12" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="40" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_resource_monitor.h" line="25" column="1" bodyfile="include/llm/vision_resource_monitor.h" bodystart="25" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a731f8ae174921fe1c92b1df792c72be3" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>active_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1aa5b74db22fbba73e484897d351237226" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>avg_inference_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a44cb2e86fbafd316719af2afbad8cf64" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>current_memory_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1ab7483cc7e74b1cf5ec2bfe50f9fad22e" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>current_vram_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3c1da86f6e38f07f0ed3a52fb416cf54" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>failed_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1aae25bde56c6dfadc148fedbe0e3c69fc" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>getMemoryUtilization</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1af8bd731ad9c89439f7de9e6c05557c42" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>getRequestUtilization</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a4b744980157169542fb01a5484b7af4b" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>getVRAMUtilization</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3a2f1cda230491bf4dd3f9e3d26bcdc0" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>loaded_models</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1af76493de53e8858fc964e9c298185d97" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>max_inference_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a0f918e4ec4cd4ff68bd26e94b6f14cd4" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>min_inference_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1acce25518a7de62353866e87a1a7f448e" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>peak_memory_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a7dbd53bcd46d04b44c3960ae09b455e5" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>peak_vram_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3cf347ac8a1876c9dbfb9a03a04c236f" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>queued_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a0fe818adc4e77c3c1dfc1f00d04eb542" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>rejected_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1a8bcb5b77b8615a19a62e75fa867e7c99" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1ab92f254765f2b8f30962fc790010d188" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>successful_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1aecfa90e278e0368033eb0f22a22ca15e" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceUsage</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_usage_1aff1b0e7ae619233f82acf27e47f17752" prot="public" virt="virtual"><scope>themis::llm::VisionResourceUsage</scope><name>~VisionResourceUsage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

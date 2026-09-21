@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1a92b6aee1fa9d350909cf4e572463c77e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::kBucketCount</definition>
+        <argsstring></argsstring>
+        <name>kBucketCount</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::kBucketCount</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="128" column="37" bodyfile="include/graph/graph_query_optimizer.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1ab44b9327f343988e9e93e55014dc136f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::kBounds[9]</definition>
+        <argsstring>[9]</argsstring>
+        <name>kBounds</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::kBounds</qualifiedname>
+        <initializer>= {1, 5, 10, 25, 50, 100, 250, 500, 1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="129" column="39" bodyfile="include/graph/graph_query_optimizer.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1a4eaef5f2deb021df6884bfeb04884f90" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::counts[kBucketCount]</definition>
+        <argsstring>[kBucketCount]</argsstring>
+        <name>counts</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::counts</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="131" column="25" bodyfile="include/graph/graph_query_optimizer.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1aa868ca39a49c84e2186bea25682cc141" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::record</definition>
+        <argsstring>(uint64_t latency_ms)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::record</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="138" column="18" bodyfile="include/graph/graph_query_optimizer.h" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1abfeecb45e38386163a96c92ffcf1016e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::percentileMs</definition>
+        <argsstring>(double p) const</argsstring>
+        <name>percentileMs</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::percentileMs</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="148" column="20" bodyfile="include/graph/graph_query_optimizer.h" bodystart="148" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="127" column="9" bodyfile="include/graph/graph_query_optimizer.h" bodystart="127" bodyend="179"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1a4eaef5f2deb021df6884bfeb04884f90" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram</scope><name>counts</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1ab44b9327f343988e9e93e55014dc136f" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram</scope><name>kBounds</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1a92b6aee1fa9d350909cf4e572463c77e" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram</scope><name>kBucketCount</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1abfeecb45e38386163a96c92ffcf1016e" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram</scope><name>percentileMs</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_query_metrics_1_1_latency_histogram_1aa868ca39a49c84e2186bea25682cc141" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram</scope><name>record</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

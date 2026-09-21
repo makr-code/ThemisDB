@@ -1,0 +1,1070 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__streaming__retriever_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_streaming_retriever.cpp</compoundname>
+    <includes refid="streaming__retriever_8h" local="yes">rag/streaming_retriever.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>rag/streaming_retriever.h</label>
+        <link refid="streaming__retriever_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_streaming_retriever.cpp</label>
+        <link refid="test__rag__streaming__retriever_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_context_window_filler_test" prot="public">ContextWindowFillerTest</innerclass>
+    <innerclass refid="class_streaming_retriever_test" prot="public">StreamingRetrieverTest</innerclass>
+    <innerclass refid="class_streaming_retriever_m_m_r_test" prot="public">StreamingRetrieverMMRTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1aa878e6064d417983bb5fb465bab7a980" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref></type>
+        <definition>static StreamedDocument makeDoc</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, double score, size_t token_count=0)</argsstring>
+        <name>makeDoc</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>token_count</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="17" column="25" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a974ef6ad569ef6d93f7d1a009fce8637" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &gt;</type>
+        <definition>static std::vector&lt; StreamedDocument &gt; makeDocs</definition>
+        <argsstring>(size_t n, double base_score=0.9)</argsstring>
+        <name>makeDocs</name>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>base_score</declname>
+          <defval>0.9</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="23" column="20" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="23" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, EstimateTokens)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>EstimateTokens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="45" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a171f30da640dff3939dc0de7fafd6eca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, InitiallyEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>InitiallyEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="52" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a30e17b056de9d9ff9473294e350789c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, AddDocumentWithExplicitTokenCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>AddDocumentWithExplicitTokenCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="62" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="62" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a99fcd3a05343666d807b7c1976f7e3bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, AddDocumentWithEstimatedTokenCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>AddDocumentWithEstimatedTokenCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="69" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="69" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1aff473c736ba1ebf7505bcd903b31dc08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, RejectWhenBudgetExceeded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>RejectWhenBudgetExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="76" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="76" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1ac37e82299381925862332fdc5ca70397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, RejectExactlyOverBudget)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>RejectExactlyOverBudget</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="87" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="87" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1ae78b8f22963f1504fc974111e2e188cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, AcceptExactlyFitting)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>AcceptExactlyFitting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="96" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="96" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a39f8aa313e2a254c445801fd23cecfb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, Reset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>Reset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="107" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="107" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1adffa9acd21144d19a616fcafeabc4474" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, FillRatio)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>FillRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="118" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1ab8e7c74ce80c4491fa5cb5273816d25e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContextWindowFillerTest, HasCapacityAfterPartialFill)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref></type>
+        </param>
+        <param>
+          <type>HasCapacityAfterPartialFill</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="124" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="124" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1ae079de3416fb439dc0314a1b14b77841" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, EmptyCandidatesReturnsEmptyResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyCandidatesReturnsEmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="150" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="150" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a152186cf5bf041ab3a8b331cb42db598" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, AllDocumentsFitInWindow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>AllDocumentsFitInWindow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="159" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="159" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a1418a8bd0bc12d1afb94acd777ddf014" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, ExcessDocumentsAreSkipped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>ExcessDocumentsAreSkipped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="169" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="169" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a71aa9a4d24c7b6e571a7a94979d37675" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, DocumentsAreOrderedByRelevance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>DocumentsAreOrderedByRelevance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="178" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="178" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a2464645d0eaf73745a4cfa5eeaaeb489" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, NoSortWhenDisabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>NoSortWhenDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="202" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="202" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1aa06a3f6e7f1a78d2d685e271907f95e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, RelevanceFilterApplied)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>RelevanceFilterApplied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="224" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="224" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a4ecd36588c70ebf4ee510ec7886f3a15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, MaxDocumentsToConsiderCap)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>MaxDocumentsToConsiderCap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="238" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="238" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a669b0526f726ef61e483c5176d533186" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, CallbacksAreInvoked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>CallbacksAreInvoked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="249" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="249" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a14d68a74629899d8b9c8a6cca6db1203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, WindowFullCallbackReceivesCorrectState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>WindowFullCallbackReceivesCorrectState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="277" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="277" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1ab6397e79b868b512e21a3282941795c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, ElapsedTimeIsPositive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>ElapsedTimeIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="294" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="294" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a8226dbc916e03bdfcb6b0e3e42e1ecb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, IsStreamingFalseAfterCompletion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>IsStreamingFalseAfterCompletion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="301" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="301" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a1c1de430ac76c819879df8acc8eb69ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverTest, ExplicitTokenCountHonoured)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>ExplicitTokenCountHonoured</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="308" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="308" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1ae7b064627bcee992a38686b686ca4c6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverMMRTest, IdenticalDocumentsDeduped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_m_m_r_test" kindref="compound">StreamingRetrieverMMRTest</ref></type>
+        </param>
+        <param>
+          <type>IdenticalDocumentsDeduped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="343" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="343" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a19b9f425e7f740530892c78704b9c665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingRetrieverMMRTest, DifferentDocumentsNotDeduped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_retriever_m_m_r_test" kindref="compound">StreamingRetrieverMMRTest</ref></type>
+        </param>
+        <param>
+          <type>DifferentDocumentsNotDeduped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="358" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="358" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a66395bbce354a5f4c45e977465d089b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRetrieverConfigTest, GetSetConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingRetrieverConfigTest</type>
+        </param>
+        <param>
+          <type>GetSetConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="375" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="375" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1afbe37e0385ca66a9e81d703e3224eee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContextWindowFillerEdgeTest, ZeroTokenDocumentAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContextWindowFillerEdgeTest</type>
+        </param>
+        <param>
+          <type>ZeroTokenDocumentAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="395" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="395" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a1ef09e4b5069f67e6c2ef8c745b0570b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContextWindowFillerEdgeTest, SingleCharContent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContextWindowFillerEdgeTest</type>
+        </param>
+        <param>
+          <type>SingleCharContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="403" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="403" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__streaming__retriever_8cpp_1a0e05df9693d1fb0f44ba556b7f07d7af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContextWindowFillerEdgeTest, MaxTokensBudgetZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContextWindowFillerEdgeTest</type>
+        </param>
+        <param>
+          <type>MaxTokensBudgetZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="410" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="410" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for streaming retrieval with incremental context window filling. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="streaming__retriever_8h" kindref="compound">rag/streaming_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1streaming" kindref="compound">themis::rag::streaming</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref><sp/>makeDoc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>token_count<sp/>=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>{id,<sp/>content,<sp/>score,<sp/>token_count};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>set<sp/>of<sp/>N<sp/>documents<sp/>each<sp/>with<sp/>roughly<sp/>100<sp/>tokens<sp/>of<sp/>content.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;StreamedDocument&gt;<sp/>makeDocs(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base_score<sp/>=<sp/>0.9)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>docs;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>docs.reserve(n);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>~400<sp/>chars<sp/>≈<sp/>100<sp/>tokens<sp/>at<sp/>4<sp/>chars/token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>content(400,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>base_score<sp/>-<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>0.01;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docs.push_back(makeDoc(</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>content,<sp/>score));</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>docs;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContextWindowFiller<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="class_context_window_filler_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1000-token<sp/>budget,<sp/>4<sp/>chars<sp/>per<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" kindref="compound">ContextWindowFiller</ref><sp/><ref refid="class_context_window_filler_test_1a1f6205574b0abfd0ef09468c106fad71" kindref="member">filler</ref>{1000,<sp/>4.0};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>EstimateTokens)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>400<sp/>chars<sp/>/<sp/>4.0<sp/>chars-per-token<sp/>=<sp/>100<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.estimateTokens(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.estimateTokens(std::string(400,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">)),<sp/>100u);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.estimateTokens(std::string(401,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">)),<sp/>101u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>InitiallyEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.documents().empty());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.hasCapacity(1));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>filler.snapshot();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_tokens_used,<sp/>0u);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.max_tokens,<sp/>1000u);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.fill_ratio,<sp/>0.0);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.is_full);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>AddDocumentWithExplicitTokenCount)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>50);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.documents().size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.snapshot().total_tokens_used,<sp/>50u);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>AddDocumentWithEstimatedTokenCount)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>400-char<sp/>content<sp/>→<sp/>100<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>std::string(400,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">),<sp/>0.9,<sp/>0);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.snapshot().total_tokens_used,<sp/>100u);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>RejectWhenBudgetExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>to<sp/>950<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc1<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>950);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc1));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Next<sp/>doc<sp/>needs<sp/>100<sp/>tokens<sp/>–<sp/>should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc2<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/>std::string(400,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">),<sp/>0.8,<sp/>0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filler.tryAdd(doc2));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.documents().size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>RejectExactlyOverBudget)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc1<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>999);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc1));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>tokens<sp/>→<sp/>exceeds<sp/>remaining<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc2<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.8,<sp/>2);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filler.tryAdd(doc2));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>AcceptExactlyFitting)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc1<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>999);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc1));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>token<sp/>→<sp/>fits<sp/>exactly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc2<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.8,<sp/>1);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc2));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filler.hasCapacity(1));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.snapshot().is_full);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>Reset)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>100);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.documents().size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>filler.reset();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.documents().empty());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.snapshot().total_tokens_used,<sp/>0u);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filler.snapshot().is_full);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>FillRatio)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>500);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>filler.tryAdd(doc);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(filler.snapshot().fill_ratio,<sp/>0.5);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_context_window_filler_test" kindref="compound">ContextWindowFillerTest</ref>,<sp/>HasCapacityAfterPartialFill)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>500);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>filler.tryAdd(doc);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.hasCapacity(500));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.hasCapacity(1));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filler.hasCapacity(501));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StreamingRetriever<sp/>–<sp/>basic<sp/>behavior</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="class_streaming_retriever_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref><sp/><ref refid="class_streaming_retriever_test_1a90c68b77d64ebea68d19a73c7881a435" kindref="member">cfg</ref>;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_streaming_retriever_test_1af7dd6dc419edaa3d957e1335e5c49206" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_test_1a90c68b77d64ebea68d19a73c7881a435" kindref="member">cfg</ref>.max_context_tokens<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>docs<sp/>of<sp/>~100<sp/>tokens<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_test_1a90c68b77d64ebea68d19a73c7881a435" kindref="member">cfg</ref>.chars_per_token<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4.0;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_test_1a90c68b77d64ebea68d19a73c7881a435" kindref="member">cfg</ref>.sort_by_relevance<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_test_1a90c68b77d64ebea68d19a73c7881a435" kindref="member">cfg</ref>.min_relevance_score<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_test_1a90c68b77d64ebea68d19a73c7881a435" kindref="member">cfg</ref>.enable_mmr_deduplication<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_test_1a90c68b77d64ebea68d19a73c7881a435" kindref="member">cfg</ref>.max_documents_to_consider<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>EmptyCandidatesReturnsEmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_added,<sp/>0u);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_considered,<sp/>0u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.selected_documents.empty());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.cancelled);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>AllDocumentsFitInWindow)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocs(5);<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>×<sp/>100<sp/>tokens<sp/>=<sp/>500<sp/>≤<sp/>1000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_added,<sp/>5u);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.skipped_documents.empty());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_tokens_used,<sp/>500u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.cancelled);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>ExcessDocumentsAreSkipped)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocs(15);<sp/><sp/></highlight><highlight class="comment">//<sp/>15<sp/>×<sp/>100<sp/>tokens<sp/>–<sp/>window<sp/>fits<sp/>only<sp/>10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_added,<sp/>10u);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.skipped_documents.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.total_tokens_used,<sp/>cfg.max_context_tokens);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>DocumentsAreOrderedByRelevance)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provide<sp/>in<sp/>ascending<sp/>score<sp/>order;<sp/>retriever<sp/>should<sp/>reverse<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">,<sp/><sp/>std::string(200,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">),<sp/>0.3,<sp/>50),</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;mid&quot;</highlight><highlight class="normal">,<sp/><sp/>std::string(200,<sp/></highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">),<sp/>0.6,<sp/>50),</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">,<sp/>std::string(200,<sp/></highlight><highlight class="charliteral">&apos;c&apos;</highlight><highlight class="normal">),<sp/>0.9,<sp/>50),</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>order;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.setDocumentAcceptedCallback(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;order](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>&amp;<sp/>doc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>order.push_back(doc.<ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a14a83b6e67452367e9789a3c01f1d46a" kindref="member">id</ref>);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(order.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(order[0],<sp/></highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(order[1],<sp/></highlight><highlight class="stringliteral">&quot;mid&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(order[2],<sp/></highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>NoSortWhenDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.sort_by_relevance<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>std::string(200,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">),<sp/>0.3,<sp/>50),</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>std::string(200,<sp/></highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">),<sp/>0.9,<sp/>50),</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>order;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.setDocumentAcceptedCallback(</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;order](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>&amp;<sp/>doc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>order.push_back(doc.<ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a14a83b6e67452367e9789a3c01f1d46a" kindref="member">id</ref>);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(order.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(order[0],<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>original<sp/>order<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(order[1],<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>RelevanceFilterApplied)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_relevance_score<sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;below&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>0.3,<sp/>50),</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;above&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>0.7,<sp/>50),</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_added,<sp/>1u);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.selected_documents[0].id,<sp/></highlight><highlight class="stringliteral">&quot;above&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>MaxDocumentsToConsiderCap)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_documents_to_consider<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocs(10);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.documents_added,<sp/>3u);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_considered,<sp/>10u);<sp/><sp/></highlight><highlight class="comment">//<sp/>reflects<sp/>original<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>CallbacksAreInvoked)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>accepted_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>skipped_count<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>window_full<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.setDocumentAcceptedCallback(</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;accepted_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++accepted_count;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.setDocumentSkippedCallback(</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;skipped_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++skipped_count;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.setWindowFullCallback(</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;window_full](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>window_full<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocs(15);<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>accepted,<sp/>5<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accepted_count,<sp/>10);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(skipped_count,<sp/><sp/>5);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(window_full);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>WindowFullCallbackReceivesCorrectState)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref><sp/>captured;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.setWindowFullCallback(</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;captured](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref>&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured<sp/>=<sp/>state;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocs(15);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(captured.<ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a236d8bd2672bd85c0c4470ec6b4ac897" kindref="member">is_full</ref>);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(captured.<ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1a7bf4b879a2469f3513e0eda333b128ea" kindref="member">max_tokens</ref>,<sp/>cfg.max_context_tokens);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(captured.<ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state_1aca6226dea762cc95853d5f1ad038891f" kindref="member">total_tokens_used</ref>,<sp/>cfg.max_context_tokens);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>ElapsedTimeIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocs(5);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.elapsed_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>IsStreamingFalseAfterCompletion)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocs(5);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(retriever.isStreaming());</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_test" kindref="compound">StreamingRetrieverTest</ref>,<sp/>ExplicitTokenCountHonoured)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_context_tokens<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>doc<sp/>has<sp/>an<sp/>explicit<sp/>token<sp/>count<sp/>of<sp/>100;<sp/>two<sp/>should<sp/>fit,<sp/>third<sp/>not.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>100),</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>0.8,<sp/>100),</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>0.7,<sp/>100),</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_added,<sp/>2u);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_tokens_used,<sp/>200u);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StreamingRetriever<sp/>–<sp/>MMR<sp/>deduplication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328" refid="class_streaming_retriever_m_m_r_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_streaming_retriever_m_m_r_test" kindref="compound">StreamingRetrieverMMRTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" kindref="member">cfg</ref>;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a7896c4db21aebe29ba0630f64d5e7108" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" kindref="member">cfg</ref>.max_context_tokens<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" kindref="member">cfg</ref>.chars_per_token<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4.0;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" kindref="member">cfg</ref>.sort_by_relevance<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" kindref="member">cfg</ref>.enable_mmr_deduplication<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" kindref="member">cfg</ref>.mmr_similarity_threshold<sp/><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" kindref="member">cfg</ref>.min_relevance_score<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" kindref="member">cfg</ref>.max_documents_to_consider<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_m_m_r_test" kindref="compound">StreamingRetrieverMMRTest</ref>,<sp/>IdenticalDocumentsDeduped)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>docs<sp/>have<sp/>identical<sp/>content<sp/>→<sp/>second<sp/>should<sp/>be<sp/>skipped.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>shared_content<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>quick<sp/>brown<sp/>fox<sp/>jumps<sp/>over<sp/>the<sp/>lazy<sp/>dog.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>shared_content,<sp/>0.9,<sp/>50),</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/>shared_content,<sp/>0.8,<sp/>50),</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_added,<sp/>1u);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.skipped_documents.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1ad7e3446c0acb06534fc58f8afbac0945" kindref="member">TEST_F</ref>(<ref refid="class_streaming_retriever_m_m_r_test" kindref="compound">StreamingRetrieverMMRTest</ref>,<sp/>DifferentDocumentsNotDeduped)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>50),</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Amazon<sp/>rainforest<sp/>covers<sp/>most<sp/>of<sp/>Brazil.&quot;</highlight><highlight class="normal">,<sp/>0.8,<sp/>50),</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.stream(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents_added,<sp/>2u);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.skipped_documents.empty());</highlight></codeline>
+<codeline lineno="369"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StreamingRetriever<sp/>–<sp/>config<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1a66395bbce354a5f4c45e977465d089b4" kindref="member">TEST</ref>(StreamingRetrieverConfigTest,<sp/>GetSetConfig)<sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1aa71149e334756e23c06055cf98c254fb" kindref="member">max_context_tokens</ref><sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1ab89fe9f7a7dfc8299c1304900fcf192f" kindref="member">sort_by_relevance</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" kindref="compound">StreamingRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>retriever.getConfig();</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.max_context_tokens,<sp/>2048u);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(retrieved.sort_by_relevance);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref><sp/>new_cfg;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.<ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config_1aa71149e334756e23c06055cf98c254fb" kindref="member">max_context_tokens</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>retriever.setConfig(new_cfg);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retriever.getConfig().max_context_tokens,<sp/>4096u);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContextWindowFiller<sp/>–<sp/>edge<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1a66395bbce354a5f4c45e977465d089b4" kindref="member">TEST</ref>(ContextWindowFillerEdgeTest,<sp/>ZeroTokenDocumentAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" kindref="compound">ContextWindowFiller</ref><sp/>filler(100,<sp/>4.0);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>content<sp/>→<sp/>0<sp/>tokens<sp/>→<sp/>should<sp/>fit<sp/>anywhere</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>0);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc));</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.snapshot().total_tokens_used,<sp/>0u);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1a66395bbce354a5f4c45e977465d089b4" kindref="member">TEST</ref>(ContextWindowFillerEdgeTest,<sp/>SingleCharContent)<sp/>{</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" kindref="compound">ContextWindowFiller</ref><sp/>filler(100,<sp/>4.0);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>0);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.tryAdd(doc));</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(filler.snapshot().total_tokens_used,<sp/>1u);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><ref refid="test__rag__streaming__retriever_8cpp_1a66395bbce354a5f4c45e977465d089b4" kindref="member">TEST</ref>(ContextWindowFillerEdgeTest,<sp/>MaxTokensBudgetZero)<sp/>{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" kindref="compound">ContextWindowFiller</ref><sp/>filler(0,<sp/>4.0);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>1);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filler.tryAdd(doc));</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filler.snapshot().is_full);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_streaming_retriever.cpp"/>
+  </compounddef>
+</doxygen>

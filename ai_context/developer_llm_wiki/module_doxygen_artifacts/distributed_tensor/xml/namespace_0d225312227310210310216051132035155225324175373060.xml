@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d225312227310210310216051132035155225324175373060" kind="namespace" language="C++">
+    <compoundname>@225312227310210310216051132035155225324175373060</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/distributed_tensor/test_distributed_tensor_highcardinality_stress.cpp" line="44" column="1"/>
+  </compounddef>
+</doxygen>

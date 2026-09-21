@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geo__api__contract_8h" kind="file" language="C++">
+    <compoundname>geo_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__geo__release__gates_8cpp" local="yes">benchmarks/geo/bench_geo_release_gates.cpp</includedby>
+    <includedby refid="geo__edge__case__handler_8h" local="yes">include/geo/geo_edge_case_handler.h</includedby>
+    <includedby refid="geo__operator__diagnostics_8h" local="yes">include/geo/geo_operator_diagnostics.h</includedby>
+    <includedby refid="geo__phase2__phase3__integration_8cpp" local="yes">src/geo/geo_phase2_phase3_integration.cpp</includedby>
+    <includedby refid="test__geo__contract__hardening__focused_8cpp" local="yes">tests/geo/test_geo_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__geo__phase2__phase3__focused_8cpp" local="yes">tests/geo/test_geo_phase2_phase3_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/geo/geo_api_contract.h</label>
+        <link refid="geo__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/geo/bench_geo_release_gates.cpp</label>
+        <link refid="bench__geo__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/geo/geo_api_contract.h</label>
+        <link refid="geo__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/geo/geo_edge_case_handler.h</label>
+        <link refid="geo__edge__case__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/geo/geo_operator_diagnostics.h</label>
+        <link refid="geo__operator__diagnostics_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/geo/geo_edge_case_handler.cpp</label>
+        <link refid="geo__edge__case__handler_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/geo/geo_operator_diagnostics.cpp</label>
+        <link refid="geo__operator__diagnostics_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/geo/geo_phase2_phase3_integration.cpp</label>
+        <link refid="geo__phase2__phase3__integration_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/geo/test_geo_contract_hardening_focused.cpp</label>
+        <link refid="test__geo__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/geo/test_geo_phase2_phase3_focused.cpp</label>
+        <link refid="test__geo__phase2__phase3__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/geo/test_geo_q4_hardening_focused.cpp</label>
+        <link refid="test__geo__q4__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Frozen geo module API contracts for the active v1.x major line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative, binding contract for the ThemisDB geo module covering:<itemizedlist>
+<listitem><para>GeoJSON validation (input contract, coordinate bounds enforcement)</para>
+</listitem><listitem><para>Backend dispatch (CPU/GPU selection, fallback order, accuracy guarantees)</para>
+</listitem><listitem><para>Spatial index (insert/query contract, bounding-box consistency)</para>
+</listitem><listitem><para>Spatial join (result completeness for intersect/contains/within)</para>
+</listitem><listitem><para>Canonical error taxonomy</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="geo__api__contract_8h_1autotoc_md0_1s1"><sect2 id="geo__api__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>These contracts are binding for all v1.x implementations:<itemizedlist>
+<listitem><para>Geometry processors (GeoJsonGeometry, GeoOpsExt, GeoMath)</para>
+</listitem><listitem><para>Spatial backends (SpatialBackend, GpuKernelDispatcher, DeviceDetector)</para>
+</listitem><listitem><para>Spatial indexes (GeoRtree, RtreeCursor)</para>
+</listitem><listitem><para>Spatial join (SpatialJoin, SpatialJoinFilter)</para>
+</listitem><listitem><para>Clustering (GeoClustering)</para>
+</listitem><listitem><para>Temporal-spatial query (TemporalSpatialQuery)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="geo__api__contract_8h_1autotoc_md1_1s1"><sect2 id="geo__api__contract_8h_1autotoc_md1">
+<title>Versioning</title><para>Stable within v1.x. Breaking changes require v2.0 with migration notes.</para>
+<para><simplesect kind="see"><para>src/geo/ROADMAP.md — Phase 1 frozen contract items </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="geo__json__geometry_8h" kindref="compound">include/geo/geo_json_geometry.h</ref> — Geometry types </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="spatial__backend_8h" kindref="compound">include/geo/spatial_backend.h</ref> — Backend interface </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="geo__rtree_8h" kindref="compound">include/geo/geo_rtree.h</ref> — Spatial index interface </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="spatial__join_8h" kindref="compound">include/geo/spatial_join.h</ref> — Spatial join interface </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>GeoJSON<sp/>Validation<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>geometry<sp/>inputs<sp/>MUST<sp/>pass<sp/>the<sp/>following<sp/>validation<sp/>before<sp/>being<sp/>used<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>any<sp/>spatial<sp/>operation:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>VALID<sp/>GEOJSON:<sp/>Geometry<sp/>objects<sp/>must<sp/>conform<sp/>to<sp/>RFC<sp/>7946.<sp/><sp/>Invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>objects<sp/>(null<sp/>coordinates,<sp/>wrong<sp/>type,<sp/>malformed<sp/>arrays)<sp/>→<sp/>GEOMETRY_INVALID.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>WGS84<sp/>BOUNDS:<sp/>Longitude<sp/>must<sp/>be<sp/>in<sp/>[-180,<sp/>+180];<sp/>latitude<sp/>in<sp/>[-90,<sp/>+90].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Out-of-bounds<sp/>coordinates<sp/>→<sp/>COORDINATE_OUT_OF_BOUNDS.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>RING<sp/>CLOSURE:<sp/>Polygon<sp/>exterior<sp/>and<sp/>interior<sp/>rings<sp/>MUST<sp/>be<sp/>closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>(first<sp/>coordinate<sp/>==<sp/>last<sp/>coordinate).<sp/><sp/>Open<sp/>rings<sp/>→<sp/>GEOMETRY_INVALID.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>MINIMUM<sp/>VERTICES:<sp/>A<sp/>valid<sp/>LineString<sp/>requires<sp/>≥<sp/>2<sp/>points;<sp/>a<sp/>Polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>exterior<sp/>ring<sp/>requires<sp/>≥<sp/>4<sp/>points<sp/>(including<sp/>the<sp/>closing<sp/>point).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>e)<sp/>NULL<sp/>REJECTION:<sp/>Null<sp/>or<sp/>empty<sp/>geometry<sp/>inputs<sp/>are<sp/>rejected<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>GEOMETRY_INVALID<sp/>before<sp/>any<sp/>backend<sp/>is<sp/>invoked.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1geo_1a33470afb7385e1f5fd74b8d67891a2f3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1geo_1a33470afb7385e1f5fd74b8d67891a2f3" kindref="member">kMaxGeometryCoordinates</ref><sp/>=<sp/>10&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1geo_1a7b9e859218009fc527d2f8453e3b6de6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a7b9e859218009fc527d2f8453e3b6de6" kindref="member">kMaxGeometryCollectionDepth</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1geo_1a87388a314b2dda26c4da828711b8f3d7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a87388a314b2dda26c4da828711b8f3d7" kindref="member">kWgs84LonMin</ref><sp/>=<sp/>-180.0;</highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1geo_1a2082725f53b2d6a23036dec9398fce47" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a2082725f53b2d6a23036dec9398fce47" kindref="member">kWgs84LonMax</ref><sp/>=<sp/>+180.0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1geo_1a7f561f7621f7f1ff7f441488013feeb9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a7f561f7621f7f1ff7f441488013feeb9" kindref="member">kWgs84LatMin</ref><sp/>=<sp/>-90.0;</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1geo_1a99cd4361aefc8299af4ee9bcee207609" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a99cd4361aefc8299af4ee9bcee207609" kindref="member">kWgs84LatMax</ref><sp/>=<sp/>+90.0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Backend<sp/>Dispatch<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Spatial<sp/>operations<sp/>use<sp/>a<sp/>two-tier<sp/>dispatch<sp/>hierarchy:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Primary:<sp/>GPU<sp/>(CUDA/HIP)<sp/>—<sp/>selected<sp/>when<sp/>a<sp/>GPU<sp/>is<sp/>present<sp/>and<sp/>the<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size<sp/>exceeds<sp/>kGpuDispatchMinBatchSize.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Fallback:<sp/>CPU<sp/>—<sp/>always<sp/>available;<sp/>used<sp/>when<sp/>GPU<sp/>is<sp/>absent<sp/>or<sp/>unavailable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Invariants:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>GPU<sp/>unavailable<sp/>→<sp/>automatic,<sp/>silent<sp/>fallback<sp/>to<sp/>CPU.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>Fallback<sp/>does<sp/>NOT<sp/>produce<sp/>different<sp/>results;<sp/>numeric<sp/>accuracy<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>equivalent<sp/>within<sp/>kBackendAccuracyTolerance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>BACKEND_UNAVAILABLE<sp/>is<sp/>returned<sp/>only<sp/>when<sp/>BOTH<sp/>GPU<sp/>and<sp/>CPU<sp/>fail;<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>state<sp/>is<sp/>considered<sp/>an<sp/>internal<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>Backend<sp/>selection<sp/>latency<sp/>overhead<sp/>must<sp/>not<sp/>exceed<sp/>kBackendSelectionBudget.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1geo_1a37bf5d6505b0a2f03df89f5351210f72" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1geo_1a37bf5d6505b0a2f03df89f5351210f72" kindref="member">kGpuDispatchMinBatchSize</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="namespacethemis_1_1geo_1aad341186ef2ec9fd764138101606d65a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1aad341186ef2ec9fd764138101606d65a" kindref="member">kBackendAccuracyTolerance</ref><sp/>=<sp/>1e-9;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1geo_1afd5e1d182d600deae3846e3c0bdc783d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::microseconds<sp/><ref refid="namespacethemis_1_1geo_1afd5e1d182d600deae3846e3c0bdc783d" kindref="member">kBackendSelectionBudget</ref>{100};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Spatial<sp/>Index<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>spatial<sp/>index<sp/>(R-tree<sp/>or<sp/>equivalent)<sp/>MUST<sp/>satisfy:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>INSERT<sp/>DURABILITY:<sp/>Once<sp/>insert()<sp/>returns<sp/>success,<sp/>the<sp/>entry<sp/>is<sp/>queryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>immediately<sp/>from<sp/>the<sp/>same<sp/>index<sp/>instance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>BOUNDING-BOX<sp/>CONSISTENCY:<sp/>A<sp/>query<sp/>with<sp/>bounding<sp/>box<sp/>B<sp/>MUST<sp/>return<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>entries<sp/>whose<sp/>MBR<sp/>intersects<sp/>B.<sp/><sp/>It<sp/>MUST<sp/>NOT<sp/>return<sp/>entries<sp/>whose<sp/>MBR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>does<sp/>not<sp/>intersect<sp/>B.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>CONCURRENT<sp/>SAFETY:<sp/>Index<sp/>operations<sp/>are<sp/>safe<sp/>from<sp/>multiple<sp/>threads<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>using<sp/>the<sp/>documented<sp/>locking<sp/>contract<sp/>(read-many,<sp/>write-exclusive).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>MAX<sp/>CAPACITY:<sp/>Inserting<sp/>beyond<sp/>kSpatialIndexMaxEntries<sp/>returns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>INDEX_CAPACITY_EXCEEDED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1geo_1a278e22d82ccc301f894c0ebc88139a72" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1geo_1a278e22d82ccc301f894c0ebc88139a72" kindref="member">kSpatialIndexMaxEntries</ref><sp/>=<sp/>100&apos;000&apos;000;<sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1geo_1ac1aa2e919b01b73e1ed18e1b1c2b5589" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1geo_1ac1aa2e919b01b73e1ed18e1b1c2b5589" kindref="member">kSpatialQueryMaxResults</ref><sp/>=<sp/>100&apos;000;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Spatial<sp/>Join<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Spatial<sp/>join<sp/>operations<sp/>(intersect,<sp/>contains,<sp/>within)<sp/>MUST<sp/>satisfy:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>COMPLETENESS:<sp/>The<sp/>result<sp/>set<sp/>for<sp/>predicate<sp/>P<sp/>on<sp/>sets<sp/>A<sp/>and<sp/>B<sp/>contains</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>ALL<sp/>pairs<sp/>(a<sp/>∈<sp/>A,<sp/>b<sp/>∈<sp/>B)<sp/>for<sp/>which<sp/>P(a,<sp/>b)<sp/>is<sp/>true.<sp/><sp/>No<sp/>qualifying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>pair<sp/>may<sp/>be<sp/>silently<sp/>omitted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>SOUNDNESS:<sp/>The<sp/>result<sp/>set<sp/>contains<sp/>ONLY<sp/>pairs<sp/>for<sp/>which<sp/>P(a,<sp/>b)<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>true.<sp/><sp/>False<sp/>positives<sp/>from<sp/>bounding-box<sp/>pre-filters<sp/>MUST<sp/>be<sp/>eliminated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>by<sp/>exact<sp/>predicate<sp/>evaluation<sp/>before<sp/>inclusion<sp/>in<sp/>the<sp/>result.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>INVALID<sp/>INPUT:<sp/>If<sp/>either<sp/>input<sp/>set<sp/>contains<sp/>GEOMETRY_INVALID<sp/>entries,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>join<sp/>returns<sp/>an<sp/>error<sp/>rather<sp/>than<sp/>silently<sp/>skipping<sp/>those<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>(unless<sp/>the<sp/>caller<sp/>sets<sp/>the<sp/>skip_invalid<sp/>flag<sp/>explicitly).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>EMPTY<sp/>SET:<sp/>A<sp/>spatial<sp/>join<sp/>with<sp/>an<sp/>empty<sp/>input<sp/>set<sp/>returns<sp/>an<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>set,<sp/>not<sp/>an<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1geo_1a49f915dbe08d8d8cbb7aa31dc6605eb6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1geo_1a49f915dbe08d8d8cbb7aa31dc6605eb6" kindref="member">kSpatialJoinMaxInputSize</ref><sp/>=<sp/>10&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Error<sp/>Taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Codes<sp/>1–99:<sp/>geometry<sp/>validation;<sp/>100–199:<sp/>backend;<sp/>200–299:<sp/>index;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>300–399:<sp/>join/query;<sp/>9xxx:<sp/>internal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Geometry<sp/>Validation<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da9656326d27d2b5da6a4dd84a720a0d76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da9656326d27d2b5da6a4dd84a720a0d76" kindref="member">GEOMETRY_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="177" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dad7adbb7952d84e311fbf10532da4b056" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dad7adbb7952d84e311fbf10532da4b056" kindref="member">COORDINATE_OUT_OF_BOUNDS</ref><sp/><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="179" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da7676190d4d1cb73f21497136d8861c4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da7676190d4d1cb73f21497136d8861c4a" kindref="member">GEOMETRY_TOO_LARGE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da9fee6143dd1f505c858789b7ca712f3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da9fee6143dd1f505c858789b7ca712f3a" kindref="member">UNSUPPORTED_GEOMETRY_TYPE</ref><sp/><sp/><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="183" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da930a372afd15d46afc0e2e57054f248c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da930a372afd15d46afc0e2e57054f248c" kindref="member">PRECISION_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Backend<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dad38ea596bc41688d4da58ca576f4d692" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dad38ea596bc41688d4da58ca576f4d692" kindref="member">BACKEND_UNAVAILABLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100,</highlight></codeline>
+<codeline lineno="189" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da87dd0dfdb28d89668d9861e9194ed220" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da87dd0dfdb28d89668d9861e9194ed220" kindref="member">GPU_FALLBACK_TO_CPU</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>101,</highlight></codeline>
+<codeline lineno="191" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dab89a128e0b707bc40b2dc6a82bbc2b28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dab89a128e0b707bc40b2dc6a82bbc2b28" kindref="member">BACKEND_RESULT_MISMATCH</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>102,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Spatial<sp/>Index<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da1f56e15267fc6e91e557d071475d81cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da1f56e15267fc6e91e557d071475d81cb" kindref="member">INDEX_CORRUPTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>200,</highlight></codeline>
+<codeline lineno="197" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da163c20768397994042ea31efbf510eb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da163c20768397994042ea31efbf510eb2" kindref="member">INDEX_CAPACITY_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>201,</highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da74e7e7af5e14f5d66d9c3a73c8b5c78d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da74e7e7af5e14f5d66d9c3a73c8b5c78d" kindref="member">QUERY_RESULT_TRUNCATED</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>202,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Spatial<sp/>Join<sp/>/<sp/>Query<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dadfd8e332da17248a0af5173592adad8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dadfd8e332da17248a0af5173592adad8c" kindref="member">JOIN_INVALID_INPUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300,</highlight></codeline>
+<codeline lineno="205" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da920cad2b563a0d7e57784584a58282ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da920cad2b563a0d7e57784584a58282ae" kindref="member">JOIN_INPUT_TOO_LARGE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>301,</highlight></codeline>
+<codeline lineno="207" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da0e37b0e1d53bd8ff19b39d596c3c428f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da0e37b0e1d53bd8ff19b39d596c3c428f" kindref="member">QUERY_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>302,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Generic<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="213" refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9999,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Fail-Closed<sp/>/<sp/>Fail-Safe<sp/>Classification<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="namespacethemis_1_1geo_1a8192bb98decf31fdea2c418dc664f69f" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a8192bb98decf31fdea2c418dc664f69f" kindref="member">isGeometryError</ref>(<ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da9656326d27d2b5da6a4dd84a720a0d76" kindref="member">GeoErrorCode::GEOMETRY_INVALID</ref></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dad7adbb7952d84e311fbf10532da4b056" kindref="member">GeoErrorCode::COORDINATE_OUT_OF_BOUNDS</ref></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da7676190d4d1cb73f21497136d8861c4a" kindref="member">GeoErrorCode::GEOMETRY_TOO_LARGE</ref></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da9fee6143dd1f505c858789b7ca712f3a" kindref="member">GeoErrorCode::UNSUPPORTED_GEOMETRY_TYPE</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="namespacethemis_1_1geo_1a8717a079ffa75fa8bec1afdbf070cf76" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a8717a079ffa75fa8bec1afdbf070cf76" kindref="member">isBackendFallback</ref>(<ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317da87dd0dfdb28d89668d9861e9194ed220" kindref="member">GeoErrorCode::GPU_FALLBACK_TO_CPU</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Contract<sp/>Conformance<sp/>Notes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>geo<sp/>module<sp/>implementations<sp/>MUST:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Validate<sp/>geometry<sp/>against<sp/>§<sp/>1<sp/>before<sp/>invoking<sp/>any<sp/>backend<sp/>operation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Apply<sp/>CPU<sp/>fallback<sp/>automatically<sp/>when<sp/>GPU<sp/>is<sp/>unavailable<sp/>(§<sp/>2).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Eliminate<sp/>bounding-box<sp/>false<sp/>positives<sp/>with<sp/>exact<sp/>predicate<sp/>checks<sp/>(§<sp/>4).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Return<sp/>GEOMETRY_INVALID<sp/>(not<sp/>a<sp/>silent<sp/>skip)<sp/>for<sp/>null<sp/>coordinates.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>5.<sp/>Return<sp/>GeoErrorCode<sp/>values<sp/>(or<sp/>Expected&lt;T,<sp/>GeoErrorCode&gt;).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/geo_api_contract.h"/>
+  </compounddef>
+</doxygen>

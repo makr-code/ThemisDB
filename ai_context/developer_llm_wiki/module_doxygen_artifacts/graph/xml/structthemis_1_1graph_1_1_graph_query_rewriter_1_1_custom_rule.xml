@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_custom_rule" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphQueryRewriter::CustomRule</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_custom_rule_1a61190590d6e62454baecffb3a12d8c83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryRewriter::CustomRule::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::CustomRule::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="146" column="21" bodyfile="include/graph/graph_query_rewriter.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_custom_rule_1ad39389d4e17cd4127382cd543df756c9" prot="public" static="no" mutable="no">
+        <type>std::function&lt; size_t(nlohmann::json &amp;)&gt;</type>
+        <definition>std::function&lt;size_t(nlohmann::json&amp;)&gt; themis::graph::GraphQueryRewriter::CustomRule::fn</definition>
+        <argsstring></argsstring>
+        <name>fn</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::CustomRule::fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="147" column="23" bodyfile="include/graph/graph_query_rewriter.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_rewriter.h" line="145" column="5" bodyfile="include/graph/graph_query_rewriter.h" bodystart="145" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_custom_rule_1ad39389d4e17cd4127382cd543df756c9" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter::CustomRule</scope><name>fn</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_custom_rule_1a61190590d6e62454baecffb3a12d8c83" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter::CustomRule</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

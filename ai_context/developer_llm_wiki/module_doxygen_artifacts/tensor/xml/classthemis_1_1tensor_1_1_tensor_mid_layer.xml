@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_mid_layer" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorMidLayer</compoundname>
+    <includes refid="tensor__mid__layer_8h" local="no">tensor_mid_layer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a63a812562e23bc9300e7d50183aeaa7e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_adapter_repository" kindref="compound">AdapterRepository</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdapterRepository&gt; themis::tensor::TensorMidLayer::adapter_repository_</definition>
+        <argsstring></argsstring>
+        <name>adapter_repository_</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::adapter_repository_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="116" column="21" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a7d1dd19501e9cfbd1d852e15c6b144d7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorFingerprintGraph&gt; themis::tensor::TensorMidLayer::fingerprint_graph_</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_graph_</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::fingerprint_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="117" column="21" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1afb42e0e6a7d370f972caac1143d0e253" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; index::AnnFrontdoor &gt;</type>
+        <definition>std::shared_ptr&lt;index::AnnFrontdoor&gt; themis::tensor::TensorMidLayer::ann_frontdoor_</definition>
+        <argsstring></argsstring>
+        <name>ann_frontdoor_</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::ann_frontdoor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="118" column="21" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a30bd4371066a0b5aaabf0af9e5549814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorMidLayer::TensorMidLayer</definition>
+        <argsstring>()=default</argsstring>
+        <name>TensorMidLayer</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::TensorMidLayer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1afa843e506728601f34c10851c4038b63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorMidLayer::~TensorMidLayer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TensorMidLayer</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::~TensorMidLayer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="97" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1ad0cf69f8750ca907ba65d60a31d6c6d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorMidLayer::setAdapterRepository</definition>
+        <argsstring>(std::shared_ptr&lt; AdapterRepository &gt; repository)</argsstring>
+        <name>setAdapterRepository</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::setAdapterRepository</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_adapter_repository" kindref="compound">AdapterRepository</ref> &gt;</type>
+          <declname>repository</declname>
+        </param>
+        <briefdescription>
+<para>Set Adapter Repository. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">repository</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="99" column="10" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a766584ef358302779b34a6e86819d3f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorMidLayer::setFingerprintGraph</definition>
+        <argsstring>(std::shared_ptr&lt; TensorFingerprintGraph &gt; graph)</argsstring>
+        <name>setFingerprintGraph</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::setFingerprintGraph</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Set Fingerprint Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="100" column="10" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a7d5045d4ce8c05539b9f1188cac77d1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorMidLayer::setAnnFrontdoor</definition>
+        <argsstring>(std::shared_ptr&lt; index::AnnFrontdoor &gt; frontdoor)</argsstring>
+        <name>setAnnFrontdoor</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::setAnnFrontdoor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; index::AnnFrontdoor &gt;</type>
+          <declname>frontdoor</declname>
+        </param>
+        <briefdescription>
+<para>Set Ann Frontdoor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">frontdoor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="101" column="10" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a1f531ce50894ea1a3bc38eda6c62c589" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_layer_plan" kindref="compound">TensorLayerPlan</ref></type>
+        <definition>TensorLayerPlan themis::tensor::TensorMidLayer::plan</definition>
+        <argsstring>(const TensorLayerContext &amp;context) const noexcept</argsstring>
+        <name>plan</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::plan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="103" column="22" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="46" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a443e1c6219c047fc15263fdcd0ef5cce" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary" kindref="compound">TensorLayerSummary</ref></type>
+        <definition>TensorLayerSummary themis::tensor::TensorMidLayer::summarize</definition>
+        <argsstring>(const TensorLayerContext &amp;context) const</argsstring>
+        <name>summarize</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::summarize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="104" column="25" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="82" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a1d42db0a230ed8679c536e4508941b15" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_federated_tensor_summary" kindref="compound">FederatedTensorSummary</ref></type>
+        <definition>FederatedTensorSummary themis::tensor::TensorMidLayer::summarizeFederatedShards</definition>
+        <argsstring>(const TensorLayerContext &amp;context) const</argsstring>
+        <name>summarizeFederatedShards</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::summarizeFederatedShards</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="105" column="29" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="110" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1ad0938786312e938cd349f298d5ce7112" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref></type>
+        <definition>TensorLayerKind themis::tensor::TensorMidLayer::classify</definition>
+        <argsstring>(const TensorLayerContext &amp;context) noexcept</argsstring>
+        <name>classify</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::classify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="109" column="29" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="147" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a241fc76bd985aec77d3c0c5fee2d370d" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>index::AnnScopeKind</type>
+        <definition>index::AnnScopeKind themis::tensor::TensorMidLayer::annScopeKindForLayer</definition>
+        <argsstring>(TensorLayerKind kind) noexcept</argsstring>
+        <name>annScopeKindForLayer</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::annScopeKindForLayer</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref></type>
+          <declname>kind</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="110" column="33" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="172" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a4b58eab486b3ae4b6ec1efd5e9a2aee2" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorMidLayer::buildScopeKey</definition>
+        <argsstring>(const TensorLayerContext &amp;context)</argsstring>
+        <name>buildScopeKey</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::buildScopeKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Build Scope Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="111" column="25" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="193" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mid_layer_1a0a3597eb930fcd2dda444e01e35db9e6" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt;</type>
+        <definition>std::vector&lt; SimilarityResult &gt; themis::tensor::TensorMidLayer::mergeSimilarityResults</definition>
+        <argsstring>(const std::vector&lt; TensorLayerSummary &gt; &amp;summaries, std::size_t top_k)</argsstring>
+        <name>mergeSimilarityResults</name>
+        <qualifiedname>themis::tensor::TensorMidLayer::mergeSimilarityResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary" kindref="compound">TensorLayerSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>top_k</declname>
+        </param>
+        <briefdescription>
+<para>Merge Similarity Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(), push_back(), std::move(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="112" column="25" bodyfile="src/tensor/tensor_mid_layer.cpp" bodystart="213" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight tensor mid-layer orchestration over adapter/fingerprint assets. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Responsibilities:<itemizedlist>
+<listitem><para>Normalize adapter/package/shard identifiers into a single scope key.</para>
+</listitem><listitem><para>Produce a stable routing plan for downstream layers.</para>
+</listitem><listitem><para>Use <ref refid="classthemis_1_1tensor_1_1_adapter_repository" kindref="compound">AdapterRepository</ref> and <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> as the first concrete tensor-summary stage above ANN retrieval. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_mid_layer.h" line="94" column="1" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="94" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a63a812562e23bc9300e7d50183aeaa7e" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>adapter_repository_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1afb42e0e6a7d370f972caac1143d0e253" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>ann_frontdoor_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a241fc76bd985aec77d3c0c5fee2d370d" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>annScopeKindForLayer</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a4b58eab486b3ae4b6ec1efd5e9a2aee2" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>buildScopeKey</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1ad0938786312e938cd349f298d5ce7112" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>classify</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a7d1dd19501e9cfbd1d852e15c6b144d7" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>fingerprint_graph_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a0a3597eb930fcd2dda444e01e35db9e6" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>mergeSimilarityResults</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a1f531ce50894ea1a3bc38eda6c62c589" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>plan</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1ad0cf69f8750ca907ba65d60a31d6c6d1" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>setAdapterRepository</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a7d5045d4ce8c05539b9f1188cac77d1c" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>setAnnFrontdoor</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a766584ef358302779b34a6e86819d3f7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>setFingerprintGraph</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a443e1c6219c047fc15263fdcd0ef5cce" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>summarize</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a1d42db0a230ed8679c536e4508941b15" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>summarizeFederatedShards</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a30bd4371066a0b5aaabf0af9e5549814" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>TensorMidLayer</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1afa843e506728601f34c10851c4038b63" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMidLayer</scope><name>~TensorMidLayer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_k_means_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::KMeansConfig</compoundname>
+    <includes refid="geo__clustering_8h" local="no">geo_clustering.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_k_means_config_1a147ff8a5a850b3e2cbafd15e29a0ed5b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::KMeansConfig::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::geo::KMeansConfig::k</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>Number of clusters to produce. Must be ≥ 1 and ≤ number of points. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="66" column="17" bodyfile="include/geo/geo_clustering.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_k_means_config_1a873ab90424fe849222b4f789bac94579" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::KMeansConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::geo::KMeansConfig::max_iterations</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Maximum number of Lloyd iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="68" column="17" bodyfile="include/geo/geo_clustering.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_k_means_config_1ae5dc96f09ae0b0f48333a81ea3c4013f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::KMeansConfig::tolerance_m</definition>
+        <argsstring></argsstring>
+        <name>tolerance_m</name>
+        <qualifiedname>themis::geo::KMeansConfig::tolerance_m</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convergence tolerance: stop early when all centroid shifts are ≤ this value in metres between two consecutive iterations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="71" column="12" bodyfile="include/geo/geo_clustering.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_k_means_config_1aa38afb13d2702d7d3eb2fecd8aa83941" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::geo::KMeansConfig::seed</definition>
+        <argsstring></argsstring>
+        <name>seed</name>
+        <qualifiedname>themis::geo::KMeansConfig::seed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Seed for the initial centroid selection (k-means++ initialisation). Use 0 for a deterministic default based on the first k distinct points. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="74" column="14" bodyfile="include/geo/geo_clustering.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the k-means geo clustering algorithm. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>k-means partitions <computeroutput>n</computeroutput> points into exactly <computeroutput><ref refid="structthemis_1_1geo_1_1_k_means_config_1a147ff8a5a850b3e2cbafd15e29a0ed5b" kindref="member">k</ref></computeroutput> clusters by minimising the sum of squared geodesic distances to cluster centroids. </para>
+    </detaileddescription>
+    <location file="include/geo/geo_clustering.h" line="64" column="1" bodyfile="include/geo/geo_clustering.h" bodystart="64" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_k_means_config_1a147ff8a5a850b3e2cbafd15e29a0ed5b" prot="public" virt="non-virtual"><scope>themis::geo::KMeansConfig</scope><name>k</name></member>
+      <member refid="structthemis_1_1geo_1_1_k_means_config_1a873ab90424fe849222b4f789bac94579" prot="public" virt="non-virtual"><scope>themis::geo::KMeansConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1geo_1_1_k_means_config_1aa38afb13d2702d7d3eb2fecd8aa83941" prot="public" virt="non-virtual"><scope>themis::geo::KMeansConfig</scope><name>seed</name></member>
+      <member refid="structthemis_1_1geo_1_1_k_means_config_1ae5dc96f09ae0b0f48333a81ea3c4013f" prot="public" virt="non-virtual"><scope>themis::geo::KMeansConfig</scope><name>tolerance_m</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

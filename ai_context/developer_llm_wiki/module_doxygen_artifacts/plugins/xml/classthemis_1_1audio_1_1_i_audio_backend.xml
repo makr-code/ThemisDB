@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1audio_1_1_i_audio_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::audio::IAudioBackend</compoundname>
+    <includes refid="audio__backend__interface_8h" local="no">audio_backend_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1a25caef49f8ef3bdec01993fffb1a03d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::audio::IAudioBackend::~IAudioBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAudioBackend</name>
+        <qualifiedname>themis::audio::IAudioBackend::~IAudioBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1a9061537d85650f4f8104e9ac59ac99bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::audio::IAudioBackend::initialize</definition>
+        <argsstring>(const std::string &amp;model_path, const json &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::audio::IAudioBackend::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1audio_1abbe3ca65d1d1d3ecd9e002d4c39437b6" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load model and apply configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model file on disk (or empty for stub). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON configuration object (see whisper_config.h). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="92" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1a3406d60b0a1dd438943d1f27369f3d89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::audio::IAudioBackend::isInitialized</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::audio::IAudioBackend::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="94" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1aebcfd61618736e4eef80c4d3126bccf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1audio_1_1_transcription_result" kindref="compound">TranscriptionResult</ref></type>
+        <definition>virtual TranscriptionResult themis::audio::IAudioBackend::transcribe</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm_samples, float sample_rate)=0</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>themis::audio::IAudioBackend::transcribe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Transcribe raw PCM float32 samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pcm_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mono float32 audio data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample rate of the audio (e.g. 16000.0f). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="101" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1ae4817e69c4bbebe795102709444b6dbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1audio_1_1_transcription_result" kindref="compound">TranscriptionResult</ref></type>
+        <definition>virtual TranscriptionResult themis::audio::IAudioBackend::transcribeFile</definition>
+        <argsstring>(const std::string &amp;path)=0</argsstring>
+        <name>transcribeFile</name>
+        <qualifiedname>themis::audio::IAudioBackend::transcribeFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Transcribe an audio file from disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute or relative path to a WAV/FLAC file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="108" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1ade758d12a51e10e09704cc1ffb5f5da2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1audio_1_1_transcription_result" kindref="compound">TranscriptionResult</ref></type>
+        <definition>virtual TranscriptionResult themis::audio::IAudioBackend::transcribeStream</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm_samples, float sample_rate, StreamCallback callback)</argsstring>
+        <name>transcribeStream</name>
+        <qualifiedname>themis::audio::IAudioBackend::transcribeStream</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1audio_1a325512fb3b8197c824579396b30ed635" kindref="member">StreamCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Transcribe PCM samples with incremental token streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The <computeroutput>callback</computeroutput> is invoked once per token on the worker thread as tokens are produced. The callback must not block; any exception thrown from the callback causes the method to return with success=false.</para>
+<para>Default implementation calls <ref refid="classthemis_1_1audio_1_1_i_audio_backend_1aebcfd61618736e4eef80c4d3126bccf9" kindref="member">transcribe()</ref> and emits the full text as a single token before returning.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pcm_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mono float32 audio data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample rate (e.g. 16000.0f). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Invoked once per token; must not block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Final <ref refid="structthemis_1_1audio_1_1_transcription_result" kindref="compound">TranscriptionResult</ref> (aggregated full text + provenance). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="125" column="33" bodyfile="include/plugins/audio_backend_interface.h" bodystart="125" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1a8d3bf1cbc398206ea7fb6130263c9611" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1audio_1_1_language_detection_result" kindref="compound">LanguageDetectionResult</ref></type>
+        <definition>virtual LanguageDetectionResult themis::audio::IAudioBackend::detectLanguage</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm_samples, float sample_rate)=0</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>themis::audio::IAudioBackend::detectLanguage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Detect the spoken language in PCM samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="146" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1ac3e26ecf83714ac271bccc8fb0b6cf59" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::audio::IAudioBackend::getModelId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::audio::IAudioBackend::getModelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="149" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1a4f794266bebf518ea14f14d5af7825a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::audio::IAudioBackend::getPluginVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getPluginVersion</name>
+        <qualifiedname>themis::audio::IAudioBackend::getPluginVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="150" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1audio_1_1_i_audio_backend_1ab1e7fd5200330bee629ebf1629e5273e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1audio_1abbe3ca65d1d1d3ecd9e002d4c39437b6" kindref="member">json</ref></type>
+        <definition>virtual json themis::audio::IAudioBackend::getStatistics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::audio::IAudioBackend::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="151" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pure-virtual interface for audio transcription / processing backends. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations: WhisperPlugin (whisper.cpp), stub/test doubles. </para>
+    </detaileddescription>
+    <location file="include/plugins/audio_backend_interface.h" line="82" column="1" bodyfile="include/plugins/audio_backend_interface.h" bodystart="82" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1a8d3bf1cbc398206ea7fb6130263c9611" prot="public" virt="pure-virtual"><scope>themis::audio::IAudioBackend</scope><name>detectLanguage</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1ac3e26ecf83714ac271bccc8fb0b6cf59" prot="public" virt="pure-virtual"><scope>themis::audio::IAudioBackend</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1a4f794266bebf518ea14f14d5af7825a4" prot="public" virt="pure-virtual"><scope>themis::audio::IAudioBackend</scope><name>getPluginVersion</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1ab1e7fd5200330bee629ebf1629e5273e" prot="public" virt="pure-virtual"><scope>themis::audio::IAudioBackend</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1a9061537d85650f4f8104e9ac59ac99bd" prot="public" virt="pure-virtual"><scope>themis::audio::IAudioBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1a3406d60b0a1dd438943d1f27369f3d89" prot="public" virt="pure-virtual"><scope>themis::audio::IAudioBackend</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1aebcfd61618736e4eef80c4d3126bccf9" prot="public" virt="pure-virtual"><scope>themis::audio::IAudioBackend</scope><name>transcribe</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1ae4817e69c4bbebe795102709444b6dbe" prot="public" virt="pure-virtual"><scope>themis::audio::IAudioBackend</scope><name>transcribeFile</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1ade758d12a51e10e09704cc1ffb5f5da2" prot="public" virt="virtual"><scope>themis::audio::IAudioBackend</scope><name>transcribeStream</name></member>
+      <member refid="classthemis_1_1audio_1_1_i_audio_backend_1a25caef49f8ef3bdec01993fffb1a03d6" prot="public" virt="virtual"><scope>themis::audio::IAudioBackend</scope><name>~IAudioBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

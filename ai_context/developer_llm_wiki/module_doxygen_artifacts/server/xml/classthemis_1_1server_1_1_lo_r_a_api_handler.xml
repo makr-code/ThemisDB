@@ -1,0 +1,1418 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_lo_r_a_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::LoRAApiHandler</compoundname>
+    <includes refid="lora__api__handler_8h" local="no">lora_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a27c84d5e151b97ec0a78c658577272c9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::lora::LoRAOrchestrator &gt;</type>
+        <definition>std::shared_ptr&lt;llm::lora::LoRAOrchestrator&gt; themis::server::LoRAApiHandler::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::server::LoRAApiHandler::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="286" column="21" bodyfile="include/server/lora_api_handler.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1afe88b70a942e5e539e0c3990d7c3b4e4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::JWTValidator &gt;</type>
+        <definition>std::unique_ptr&lt;auth::JWTValidator&gt; themis::server::LoRAApiHandler::jwt_validator_</definition>
+        <argsstring></argsstring>
+        <name>jwt_validator_</name>
+        <qualifiedname>themis::server::LoRAApiHandler::jwt_validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="287" column="21" bodyfile="include/server/lora_api_handler.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a6701ef4974e074ff418d2b651f673883" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt;</type>
+        <definition>std::shared_ptr&lt;llm::InferenceEngineEnhanced&gt; themis::server::LoRAApiHandler::inference_engine_</definition>
+        <argsstring></argsstring>
+        <name>inference_engine_</name>
+        <qualifiedname>themis::server::LoRAApiHandler::inference_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="288" column="21" bodyfile="include/server/lora_api_handler.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1ad41e9bc53dbf292356ad7eb557a6067b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::LoRAApiHandler::LoRAApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; llm::lora::LoRAOrchestrator &gt; orchestrator, std::optional&lt; auth::JWTValidatorConfig &gt; jwt_config=std::nullopt)</argsstring>
+        <name>LoRAApiHandler</name>
+        <qualifiedname>themis::server::LoRAApiHandler::LoRAApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; llm::lora::LoRAOrchestrator &gt;</type>
+          <declname>orchestrator</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; auth::JWTValidatorConfig &gt;</type>
+          <declname>jwt_config</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="45" column="14" bodyfile="src/server/lora_api_handler.cpp" bodystart="33" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a58b01cc817d1eedfff6c8ed59955f98f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::LoRAApiHandler::configureJWT</definition>
+        <argsstring>(const auth::JWTValidatorConfig &amp;config)</argsstring>
+        <name>configureJWT</name>
+        <qualifiedname>themis::server::LoRAApiHandler::configureJWT</qualifiedname>
+        <param>
+          <type>const auth::JWTValidatorConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure JWT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements configureJWT without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="53" column="10" bodyfile="src/server/lora_api_handler.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1affaca4a983088d5b5a1be88af9637e3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::LoRAApiHandler::setInferenceEngine</definition>
+        <argsstring>(std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt; engine)</argsstring>
+        <name>setInferenceEngine</name>
+        <qualifiedname>themis::server::LoRAApiHandler::setInferenceEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Set Inference Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="59" column="10" bodyfile="src/server/lora_api_handler.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a4a35c01de92fa475e219af82197921fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleRequest</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleRequest</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), target(), method(), validateBearerToken(), THEMIS_INFO(), std::string(), method_string(), createErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="66" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="68" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1ae2c690d9744cbd5c824cd34cb502182a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleRegisterModel</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRegisterModel</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleRegisterModel</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Register Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Model Management Endpoints ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), value(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="76" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="175" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1aeb90589726f27f37225f3153f391f63f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleGetModel</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetModel</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleGetModel</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="84" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="229" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1acd717f4cd5e614ecb0ecbe4aef899b0b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleListModels</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListModels</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleListModels</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Models. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), target(), find(), substr(), std::stoul(), json::array(), createJsonResponse(), createErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="92" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="266" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a01bf39591da14665f5e9e95f912215a0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleDeleteModel</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleDeleteModel</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleDeleteModel</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), createJsonResponse(), json::object(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="100" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="331" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1acb3a725e5cf9e411bea37c36c679a44a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleCreateAdapter</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCreateAdapter</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleCreateAdapter</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Adapter CRUD Endpoints ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), value(), empty(), createAdapter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="109" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="362" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a069da3ce1b1dfa08b4ff51d7f7ca9176" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleGetAdapter</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetAdapter</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleGetAdapter</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), getAdapter(), toJSON(), std::chrono::system_clock::to_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="117" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="448" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a6a78a1118de5a72acf7356d3698efd57" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleUpdateAdapter</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleUpdateAdapter</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleUpdateAdapter</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), parseRequestBody(), contains(), at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="125" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="497" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a16e5d4053ccb6816dbf720ab6204d5a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleDeleteAdapter</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleDeleteAdapter</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleDeleteAdapter</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), find(), substr(), deleteAdapter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="133" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="565" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1aec2124cd3c7da42db49fd1020732ab4f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleListAdapters</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListAdapters</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleListAdapters</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), target(), find(), substr(), std::stoul(), listAdapters(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="141" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="620" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a642f2f95b8944760adc78e0a3dc83f76" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleLoadAdapter</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleLoadAdapter</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleLoadAdapter</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Load Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Adapter Lifecycle Endpoints ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), target(), starts_with(), ends_with(), createErrorResponse(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="150" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="731" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1aa665ac95657ade09b457290c593ea666" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleUnloadAdapter</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleUnloadAdapter</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleUnloadAdapter</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Unload Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), target(), starts_with(), ends_with(), createErrorResponse(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="158" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="788" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a0608efb4592bcd3d8aed1e95f31141fd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleAdapterStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAdapterStatus</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleAdapterStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Adapter Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), target(), starts_with(), ends_with(), createErrorResponse(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="166" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="846" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1ab9944755427ae49892731c5d6e2c6fd3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleHotLoadStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleHotLoadStatus</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleHotLoadStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Hot Load Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Hot-Load Status Endpoint ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), target(), starts_with(), ends_with(), createErrorResponse(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="174" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="904" bodyend="978"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1aec99bc8e4b21ca1e2904c625859a586e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleReceiveAdapter</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleReceiveAdapter</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleReceiveAdapter</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Receive Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Cross-Shard Sync Endpoint ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), is_string(), utils::Cursor::base64Decode(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="182" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1303" bodyend="1498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a4a055877ec0c610d2ec154a2afdcf413" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleLoRAQuery</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleLoRAQuery</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleLoRAQuery</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Lo RAQuery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Inference Endpoint ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), value(), empty(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), submit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="191" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="987" bodyend="1084"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a085878daa700d0241cc8d4fcc7a35200" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleLoRAStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleLoRAStats</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleLoRAStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Lo RAStats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Health &amp; Monitoring Endpoints ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), getStats(), value(), createJsonResponse(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="200" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1093" bodyend="1123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1adddbb0d725d69d0c23467cb71ba166e0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleLoRAHealth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleLoRAHealth</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleLoRAHealth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Lo RAHealth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), healthCheck(), createJsonResponse(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="208" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1131" bodyend="1161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a7f54610b3b24a3191c747c5f6e8b1b1e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleGetProvenance</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetProvenance</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleGetProvenance</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GET /api/v1/llm/lora/adapters/{id}/provenance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="216" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1514" bodyend="1541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1aa656c986cf0ac5e625b5672f9a92d694" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleAttachProvenance</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAttachProvenance</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleAttachProvenance</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Attach Provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>POST /api/v1/llm/lora/adapters/{id}/provenance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="224" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1549" bodyend="1586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1af226f545147bce139f93ead1b55b6760" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleGetAuditLog</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetAuditLog</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleGetAuditLog</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GET /api/v1/llm/lora/adapters/{id}/audit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="232" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1594" bodyend="1624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a4a5d96cedce8ba872480dbe1a328d041" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleListSnapshots</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListSnapshots</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleListSnapshots</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GET /api/v1/llm/lora/adapters/{id}/snapshots.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="240" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1632" bodyend="1662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1ad9a57b5e851bc75d1c1b540fedd28729" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::handleVerifyAuditChain</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleVerifyAuditChain</name>
+        <qualifiedname>themis::server::LoRAApiHandler::handleVerifyAuditChain</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Verify Audit Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>POST /api/v1/llm/lora/adapters/{id}/verify.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="248" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1670" bodyend="1699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a6f932734fa9e6c2e4131af72a98a9c92" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::LoRAApiHandler::validateBearerToken</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>validateBearerToken</name>
+        <qualifiedname>themis::server::LoRAApiHandler::validateBearerToken</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Validate Bearer Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Helper Methods ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1server_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">AuthMiddleware::extractBearerToken()</ref>, std::string_view(), data(), size(), parseAndValidate(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="257" column="10" bodyfile="src/server/lora_api_handler.cpp" bodystart="1170" bodyend="1197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1af0329f3edfa8b80464fe431959cf3e2a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::createErrorResponse</definition>
+        <argsstring>(http::status status, std::string_view error, std::string_view details=&quot;&quot;)</argsstring>
+        <name>createErrorResponse</name>
+        <qualifiedname>themis::server::LoRAApiHandler::createErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>details</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), std::string(), empty(), set(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="259" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1207" bodyend="1226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a387e99f266c1da79c310b0bb5b041c48" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::LoRAApiHandler::createJsonResponse</definition>
+        <argsstring>(const json &amp;data, http::status status=http::status::ok)</argsstring>
+        <name>createJsonResponse</name>
+        <qualifiedname>themis::server::LoRAApiHandler::createJsonResponse</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+          <defval>http::status::ok</defval>
+        </param>
+        <briefdescription>
+<para>Create Json <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), set(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="264" column="20" bodyfile="src/server/lora_api_handler.cpp" bodystart="1235" bodyend="1246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1a7475743414e1d8fa837469b98bcd1551" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt; json &gt; themis::server::LoRAApiHandler::parseRequestBody</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>parseRequestBody</name>
+        <qualifiedname>themis::server::LoRAApiHandler::parseRequestBody</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> Body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), is_object(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="273" column="19" bodyfile="src/server/lora_api_handler.cpp" bodystart="1254" bodyend="1268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_lo_r_a_api_handler_1adae83d207ac17b9133bcb8d2bee5ee13" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::LoRAApiHandler::extractPathParameter</definition>
+        <argsstring>(std::string_view target, std::string_view prefix)</argsstring>
+        <name>extractPathParameter</name>
+        <qualifiedname>themis::server::LoRAApiHandler::extractPathParameter</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Extract Path Parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: starts_with(), substr(), length(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/lora_api_handler.h" line="282" column="17" bodyfile="src/server/lora_api_handler.cpp" bodystart="1277" bodyend="1294"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/lora_api_handler.h" line="43" column="1" bodyfile="include/server/lora_api_handler.h" bodystart="43" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a58b01cc817d1eedfff6c8ed59955f98f" prot="public" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>configureJWT</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1af0329f3edfa8b80464fe431959cf3e2a" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>createErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a387e99f266c1da79c310b0bb5b041c48" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>createJsonResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1adae83d207ac17b9133bcb8d2bee5ee13" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>extractPathParameter</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a0608efb4592bcd3d8aed1e95f31141fd" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleAdapterStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1aa656c986cf0ac5e625b5672f9a92d694" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleAttachProvenance</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1acb3a725e5cf9e411bea37c36c679a44a" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleCreateAdapter</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a16e5d4053ccb6816dbf720ab6204d5a8" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleDeleteAdapter</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a01bf39591da14665f5e9e95f912215a0" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleDeleteModel</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a069da3ce1b1dfa08b4ff51d7f7ca9176" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleGetAdapter</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1af226f545147bce139f93ead1b55b6760" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleGetAuditLog</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1aeb90589726f27f37225f3153f391f63f" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleGetModel</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a7f54610b3b24a3191c747c5f6e8b1b1e" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleGetProvenance</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1ab9944755427ae49892731c5d6e2c6fd3" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleHotLoadStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1aec2124cd3c7da42db49fd1020732ab4f" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleListAdapters</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1acd717f4cd5e614ecb0ecbe4aef899b0b" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleListModels</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a4a5d96cedce8ba872480dbe1a328d041" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleListSnapshots</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a642f2f95b8944760adc78e0a3dc83f76" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleLoadAdapter</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1adddbb0d725d69d0c23467cb71ba166e0" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleLoRAHealth</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a4a055877ec0c610d2ec154a2afdcf413" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleLoRAQuery</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a085878daa700d0241cc8d4fcc7a35200" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleLoRAStats</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1aec99bc8e4b21ca1e2904c625859a586e" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleReceiveAdapter</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1ae2c690d9744cbd5c824cd34cb502182a" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleRegisterModel</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a4a35c01de92fa475e219af82197921fc" prot="public" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1aa665ac95657ade09b457290c593ea666" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleUnloadAdapter</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a6a78a1118de5a72acf7356d3698efd57" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleUpdateAdapter</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1ad9a57b5e851bc75d1c1b540fedd28729" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>handleVerifyAuditChain</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a6701ef4974e074ff418d2b651f673883" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>inference_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1afe88b70a942e5e539e0c3990d7c3b4e4" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>jwt_validator_</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1ad41e9bc53dbf292356ad7eb557a6067b" prot="public" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>LoRAApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a27c84d5e151b97ec0a78c658577272c9" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a7475743414e1d8fa837469b98bcd1551" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>parseRequestBody</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1affaca4a983088d5b5a1be88af9637e3d" prot="public" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>setInferenceEngine</name></member>
+      <member refid="classthemis_1_1server_1_1_lo_r_a_api_handler_1a6f932734fa9e6c2e4131af72a98a9c92" prot="private" virt="non-virtual"><scope>themis::server::LoRAApiHandler</scope><name>validateBearerToken</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

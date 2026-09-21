@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::RateLimiterPool</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1a634cf0b7eac6dec53b8a5618581f7897" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="structthemis_1_1test_1_1wave__d_1_1_token_bucket" kindref="compound">TokenBucket</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;TokenBucket&gt; &gt; themis::test::wave_d::RateLimiterPool::buckets_</definition>
+        <argsstring></argsstring>
+        <name>buckets_</name>
+        <qualifiedname>themis::test::wave_d::RateLimiterPool::buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="108" column="17" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1ac89dfc64cf6b842a2f6d0700be986d85" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::RateLimiterPool::RateLimiterPool</definition>
+        <argsstring>(int clients, int capacity)</argsstring>
+        <name>RateLimiterPool</name>
+        <qualifiedname>themis::test::wave_d::RateLimiterPool::RateLimiterPool</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>clients</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="92" column="14" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="92" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1abf228389b09f3eca75909af4bc394ef9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::RateLimiterPool::consume</definition>
+        <argsstring>(int client_id)</argsstring>
+        <name>consume</name>
+        <qualifiedname>themis::test::wave_d::RateLimiterPool::consume</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>client_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="97" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1a5b2d67f3b962cf389c63bd9ec25dbb67" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::wave_d::RateLimiterPool::refill_all</definition>
+        <argsstring>()</argsstring>
+        <name>refill_all</name>
+        <qualifiedname>themis::test::wave_d::RateLimiterPool::refill_all</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="101" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1af8acdd1ca406e48ede96ac0c77c4e825" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::RateLimiterPool::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::test::wave_d::RateLimiterPool::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="105" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_highcardinality_stress.cpp" line="91" column="1" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="91" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1a634cf0b7eac6dec53b8a5618581f7897" prot="private" virt="non-virtual"><scope>themis::test::wave_d::RateLimiterPool</scope><name>buckets_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1abf228389b09f3eca75909af4bc394ef9" prot="public" virt="non-virtual"><scope>themis::test::wave_d::RateLimiterPool</scope><name>consume</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1ac89dfc64cf6b842a2f6d0700be986d85" prot="public" virt="non-virtual"><scope>themis::test::wave_d::RateLimiterPool</scope><name>RateLimiterPool</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1a5b2d67f3b962cf389c63bd9ec25dbb67" prot="public" virt="non-virtual"><scope>themis::test::wave_d::RateLimiterPool</scope><name>refill_all</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool_1af8acdd1ca406e48ede96ac0c77c4e825" prot="public" virt="non-virtual"><scope>themis::test::wave_d::RateLimiterPool</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

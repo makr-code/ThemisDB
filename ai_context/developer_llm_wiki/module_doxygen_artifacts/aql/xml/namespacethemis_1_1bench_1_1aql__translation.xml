@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1aql__translation" kind="namespace" language="C++">
+    <compoundname>themis::bench::aql_translation</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1aql__translation_1_1_mock_a_q_l_translator" prot="public">themis::bench::aql_translation::MockAQLTranslator</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1aql__translation_1_1_mock_a_q_l_validator" prot="public">themis::bench::aql_translation::MockAQLValidator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__translation_1ac889122620fcc2fdcfb763995e5586ba" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::aql_translation::kW7CanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kW7CanonicalSeed</name>
+        <qualifiedname>themis::bench::aql_translation::kW7CanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed shared across AQL benchmarks (Wave 7 convention). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="39" column="27" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__translation_1ad3e5025416d9bd74f617211a8182c24f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::aql_translation::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::aql_translation::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Number of warmup iterations per benchmark. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="42" column="22" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__translation_1ac6fa34b075bd97feeb9262ed9d8e3eb1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::aql_translation::buildSimpleNLCorpus</definition>
+        <argsstring>(int n, uint64_t seed=kW7CanonicalSeed)</argsstring>
+        <name>buildSimpleNLCorpus</name>
+        <qualifiedname>themis::bench::aql_translation::buildSimpleNLCorpus</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+          <defval>kW7CanonicalSeed</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="152" column="20" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="152" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__translation_1a340006ba0f003ceb9f4036c90040915f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::aql_translation::buildComplexNLCorpus</definition>
+        <argsstring>(int n, uint64_t seed=kW7CanonicalSeed+1)</argsstring>
+        <name>buildComplexNLCorpus</name>
+        <qualifiedname>themis::bench::aql_translation::buildComplexNLCorpus</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+          <defval>kW7CanonicalSeed+1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="170" column="20" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="170" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__translation_1a51569a73e110aad080dffd2ef90c1869" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_translation::BM_AQLTranslationSimple</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AQLTranslationSimple</name>
+        <qualifiedname>themis::bench::aql_translation::BM_AQLTranslationSimple</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>BM_AQLTranslationSimple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the p50/p95 latency of translating a simple single-clause NL query to AQL using the mock translation engine.</para>
+<para>Release gate: p95 ≤ 2 ms (see PERFORMANCE_EXPECTATIONS.md) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="198" column="13" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="198" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__translation_1ad069ad90b61745347b4bee5b02f97875" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_translation::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(3) -&gt;DisplayAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::aql_translation::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="219" column="5" declfile="benchmarks/aql/bench_aql_translation.cpp" declline="219" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__translation_1a48350623a5e2695bc247158b58e128c9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_translation::BM_AQLTranslationComplex</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AQLTranslationComplex</name>
+        <qualifiedname>themis::bench::aql_translation::BM_AQLTranslationComplex</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>BM_AQLTranslationComplex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the p50/p95 latency of translating a complex multi-clause NL query (JOIN + FILTER + SORT + LIMIT) to AQL.</para>
+<para>Release gate: p95 ≤ 5 ms (see PERFORMANCE_EXPECTATIONS.md) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="235" column="13" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="235" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__translation_1a569bc9852ce5d1de790e8c9252c7bc71" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_translation::BM_AQLValidationSimple</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AQLValidationSimple</name>
+        <qualifiedname>themis::bench::aql_translation::BM_AQLValidationSimple</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>BM_AQLValidationSimple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the p50/p95 latency of validating a single AQL query using the string-level validator (no AST parser).</para>
+<para>Release gate: p95 ≤ 200 µs (see PERFORMANCE_EXPECTATIONS.md) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="271" column="13" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="271" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__translation_1aa3d2c1b01ba17bafc4e518f2a69599ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_translation::BM_AQLValidationBatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AQLValidationBatch</name>
+        <qualifiedname>themis::bench::aql_translation::BM_AQLValidationBatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>BM_AQLValidationBatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the throughput of validating a batch of 32 AQL queries per iteration.</para>
+<para>Release gate: ≥ 10 000 batch-validations/s (see PERFORMANCE_EXPECTATIONS.md) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="305" column="13" bodyfile="benchmarks/aql/bench_aql_translation.cpp" bodystart="305" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__translation_1aa5d6cea4c9c12bbf6431d9e90497b6ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_translation::Arg</definition>
+        <argsstring>(32) -&gt; Arg(128) -&gt;UseRealTime() -&gt;Repetitions(3) -&gt;DisplayAggregatesOnly(true)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::bench::aql_translation::Arg</qualifiedname>
+        <param>
+          <type>32</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_translation.cpp" line="340" column="5" declfile="benchmarks/aql/bench_aql_translation.cpp" declline="340" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_translation.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

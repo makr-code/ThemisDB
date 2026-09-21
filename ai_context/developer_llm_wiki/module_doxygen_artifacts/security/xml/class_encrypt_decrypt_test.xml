@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_encrypt_decrypt_test" kind="class" language="C++" prot="public">
+    <compoundname>EncryptDecryptTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_encrypt_decrypt_test_1ad3b42831b016e0f9876e264ef966b752" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref></type>
+        <definition>CK_FUNCTION_LIST EncryptDecryptTest::funcs_</definition>
+        <argsstring></argsstring>
+        <name>funcs_</name>
+        <qualifiedname>EncryptDecryptTest::funcs_</qualifiedname>
+        <initializer>= makeStubFunctions()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="598" column="22" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="598" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_encrypt_decrypt_test_1ac93446901baee00b414b8fe37b5dbdea" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref></type>
+        <definition>Pkcs11Session EncryptDecryptTest::makeOpenSession</definition>
+        <argsstring>()</argsstring>
+        <name>makeOpenSession</name>
+        <qualifiedname>EncryptDecryptTest::makeOpenSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="599" column="19" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="599" bodyend="604"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EncryptDecryptTest</label>
+        <link refid="class_encrypt_decrypt_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>CK_FUNCTION_LIST</label>
+        <link refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t"/>
+      </node>
+      <node id="1">
+        <label>EncryptDecryptTest</label>
+        <link refid="class_encrypt_decrypt_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>funcs_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_pkcs11_wrapper.cpp" line="596" column="1" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="596" bodyend="605"/>
+    <listofallmembers>
+      <member refid="class_encrypt_decrypt_test_1ad3b42831b016e0f9876e264ef966b752" prot="protected" virt="non-virtual"><scope>EncryptDecryptTest</scope><name>funcs_</name></member>
+      <member refid="class_encrypt_decrypt_test_1ac93446901baee00b414b8fe37b5dbdea" prot="protected" virt="non-virtual"><scope>EncryptDecryptTest</scope><name>makeOpenSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

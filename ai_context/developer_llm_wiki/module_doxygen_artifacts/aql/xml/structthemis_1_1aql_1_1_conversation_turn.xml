@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_conversation_turn" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ConversationTurn</compoundname>
+    <includes refid="llm__aql__handler_8h" local="no">llm_aql_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_conversation_turn_1a83615b710937a4ae23df577f67fe7e9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ConversationTurn::nl_query</definition>
+        <argsstring></argsstring>
+        <name>nl_query</name>
+        <qualifiedname>themis::aql::ConversationTurn::nl_query</qualifiedname>
+        <briefdescription>
+<para>Natural language query from the user. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="67" column="17" bodyfile="include/aql/llm_aql_handler.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_conversation_turn_1a160bfcda77a508b9de54fa2b393a2988" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ConversationTurn::aql_result</definition>
+        <argsstring></argsstring>
+        <name>aql_result</name>
+        <qualifiedname>themis::aql::ConversationTurn::aql_result</qualifiedname>
+        <briefdescription>
+<para>AQL query generated for this turn. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="68" column="17" bodyfile="include/aql/llm_aql_handler.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_aql_handler.h" line="66" column="1" bodyfile="include/aql/llm_aql_handler.h" bodystart="66" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_conversation_turn_1a160bfcda77a508b9de54fa2b393a2988" prot="public" virt="non-virtual"><scope>themis::aql::ConversationTurn</scope><name>aql_result</name></member>
+      <member refid="structthemis_1_1aql_1_1_conversation_turn_1a83615b710937a4ae23df577f67fe7e9e" prot="public" virt="non-virtual"><scope>themis::aql::ConversationTurn</scope><name>nl_query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

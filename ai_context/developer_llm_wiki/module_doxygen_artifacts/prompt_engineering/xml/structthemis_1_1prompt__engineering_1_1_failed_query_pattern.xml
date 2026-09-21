@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_failed_query_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::FailedQueryPattern</compoundname>
+    <includes refid="feedback__collector_8h" local="no">feedback_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1a32851a9b8856cd5f59536b55e64f92ac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FailedQueryPattern::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::prompt_engineering::FailedQueryPattern::pattern</qualifiedname>
+        <briefdescription>
+<para>Pattern description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="114" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1a987f075e8a1050acf4f0e3107543d15b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::FailedQueryPattern::occurrences</definition>
+        <argsstring></argsstring>
+        <name>occurrences</name>
+        <qualifiedname>themis::prompt_engineering::FailedQueryPattern::occurrences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of times seen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="115" column="12" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1ae920757d60f9ebdb9b6923c35b87a8a5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::FailedQueryPattern::examples</definition>
+        <argsstring></argsstring>
+        <name>examples</name>
+        <qualifiedname>themis::prompt_engineering::FailedQueryPattern::examples</qualifiedname>
+        <briefdescription>
+<para>Example queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="116" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1aeb34a10266b7590fdbba1ac1ca056a5b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref></type>
+        <definition>FeedbackType themis::prompt_engineering::FailedQueryPattern::primary_type</definition>
+        <argsstring></argsstring>
+        <name>primary_type</name>
+        <qualifiedname>themis::prompt_engineering::FailedQueryPattern::primary_type</qualifiedname>
+        <briefdescription>
+<para>Most common feedback type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="117" column="18" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1af80dd99d74b065ad1c225811aee02041" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::FailedQueryPattern::avg_severity</definition>
+        <argsstring></argsstring>
+        <name>avg_severity</name>
+        <qualifiedname>themis::prompt_engineering::FailedQueryPattern::avg_severity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="118" column="12" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Failed query pattern. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/feedback_collector.h" line="113" column="1" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="113" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1af80dd99d74b065ad1c225811aee02041" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FailedQueryPattern</scope><name>avg_severity</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1ae920757d60f9ebdb9b6923c35b87a8a5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FailedQueryPattern</scope><name>examples</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1a987f075e8a1050acf4f0e3107543d15b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FailedQueryPattern</scope><name>occurrences</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1a32851a9b8856cd5f59536b55e64f92ac" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FailedQueryPattern</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern_1aeb34a10266b7590fdbba1ac1ca056a5b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FailedQueryPattern</scope><name>primary_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

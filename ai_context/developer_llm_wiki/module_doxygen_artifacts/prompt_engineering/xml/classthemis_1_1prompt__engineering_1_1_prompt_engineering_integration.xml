@@ -1,0 +1,844 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptEngineeringIntegration</compoundname>
+    <includes refid="prompt__engineering__integration_8h" local="no">prompt_engineering_integration.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a59db2768e467dc69175fb02a341268bc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_integration_config" kindref="compound">IntegrationConfig</ref></type>
+        <definition>IntegrationConfig themis::prompt_engineering::PromptEngineeringIntegration::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="263" column="23" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a95063200e743653b45cc71898def922e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptManager&gt; themis::prompt_engineering::PromptEngineeringIntegration::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="264" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a0395e4c6a97a35177bdc832991be40e5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer" kindref="compound">PromptOptimizer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptOptimizer&gt; themis::prompt_engineering::PromptEngineeringIntegration::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="265" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a17178ffff6a2d91ae228bf6b0865d3e7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker" kindref="compound">PromptPerformanceTracker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptPerformanceTracker&gt; themis::prompt_engineering::PromptEngineeringIntegration::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="266" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a7f2bbf6acf2a133183ad9ee564aa1ade" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator" kindref="compound">SelfImprovementOrchestrator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SelfImprovementOrchestrator&gt; themis::prompt_engineering::PromptEngineeringIntegration::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="267" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a2148665aece07b7c640d9e90369b4541" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;FeedbackCollector&gt; themis::prompt_engineering::PromptEngineeringIntegration::feedback_collector_</definition>
+        <argsstring></argsstring>
+        <name>feedback_collector_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::feedback_collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="268" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a22dba9fe89dd11e230a66e431dabfb7e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptVersionControl&gt; themis::prompt_engineering::PromptEngineeringIntegration::version_control_</definition>
+        <argsstring></argsstring>
+        <name>version_control_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::version_control_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="269" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a299f6b660643d32ced6c0d1be4d30c47" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector" kindref="compound">PromptInjectionDetector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptInjectionDetector&gt; themis::prompt_engineering::PromptEngineeringIntegration::injection_detector_</definition>
+        <argsstring></argsstring>
+        <name>injection_detector_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::injection_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="270" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a70508ace2e639ee5701c1b2da55268ba" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner" kindref="compound">ReflectionTuner</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ReflectionTuner&gt; themis::prompt_engineering::PromptEngineeringIntegration::reflection_tuner_</definition>
+        <argsstring></argsstring>
+        <name>reflection_tuner_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::reflection_tuner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="271" column="29" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a07358db70cc5606a78babc8b2909f936" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptEngineeringMetrics&gt; themis::prompt_engineering::PromptEngineeringIntegration::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="272" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a3c688d808b1d9499870aa9c11e62183c" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker" kindref="compound">BackgroundOptimizationWorker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;BackgroundOptimizationWorker&gt; themis::prompt_engineering::PromptEngineeringIntegration::background_worker_</definition>
+        <argsstring></argsstring>
+        <name>background_worker_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::background_worker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="274" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a82f4ff0de93ec09a2cae9044ae53747f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::PromptEngineeringIntegration::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="276" column="24" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a25f8be5e1447e3cba739c0f024c042df" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptEngineeringIntegration::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::running_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="277" column="10" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a16f5ce3c000e8b36f705c7b8b96346aa" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptEngineeringIntegration::total_executions_</definition>
+        <argsstring></argsstring>
+        <name>total_executions_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::total_executions_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="280" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1af32dc579d42da3dc17d03c3fdcd9b01e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptEngineeringIntegration::total_optimizations_</definition>
+        <argsstring></argsstring>
+        <name>total_optimizations_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::total_optimizations_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="281" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a29475d6bab52cda0a5af45fa3d23312e" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::PromptEngineeringIntegration::last_optimization_</definition>
+        <argsstring></argsstring>
+        <name>last_optimization_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::last_optimization_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="282" column="43" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ab373356510482955c198eb821967d94b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::prompt_engineering::PromptEngineeringIntegration::executions_by_prompt_</definition>
+        <argsstring></argsstring>
+        <name>executions_by_prompt_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::executions_by_prompt_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="283" column="24" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ab6d5f610398a4ba1ad1acd6b7970f5bf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_execution_context" kindref="compound">ExecutionContext</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ExecutionContext&gt; themis::prompt_engineering::PromptEngineeringIntegration::active_executions_</definition>
+        <argsstring></argsstring>
+        <name>active_executions_</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::active_executions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="286" column="24" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a171dec351b9c8c31379e162bee0b860d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptEngineeringIntegration::PromptEngineeringIntegration</definition>
+        <argsstring>(const IntegrationConfig &amp;config, std::shared_ptr&lt; PromptManager &gt; manager, std::shared_ptr&lt; PromptOptimizer &gt; optimizer, std::shared_ptr&lt; PromptPerformanceTracker &gt; tracker, std::shared_ptr&lt; SelfImprovementOrchestrator &gt; orchestrator, std::shared_ptr&lt; FeedbackCollector &gt; feedback_collector, std::shared_ptr&lt; PromptVersionControl &gt; version_control, std::shared_ptr&lt; PromptInjectionDetector &gt; injection_detector=nullptr)</argsstring>
+        <name>PromptEngineeringIntegration</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::PromptEngineeringIntegration</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_integration_config" kindref="compound">IntegrationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref> &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer" kindref="compound">PromptOptimizer</ref> &gt;</type>
+          <declname>optimizer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker" kindref="compound">PromptPerformanceTracker</ref> &gt;</type>
+          <declname>tracker</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator" kindref="compound">SelfImprovementOrchestrator</ref> &gt;</type>
+          <declname>orchestrator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> &gt;</type>
+          <declname>feedback_collector</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref> &gt;</type>
+          <declname>version_control</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector" kindref="compound">PromptInjectionDetector</ref> &gt;</type>
+          <declname>injection_detector</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="193" column="5" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="264" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a6cc6b503fc61e139aeccc86109e9f5aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptEngineeringIntegration::~PromptEngineeringIntegration</definition>
+        <argsstring>()</argsstring>
+        <name>~PromptEngineeringIntegration</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::~PromptEngineeringIntegration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="204" column="5" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="283" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a19a7cadd81c15efb84bb562e7b772b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1accbfe4d858440947b94ca3081f8ce4ae" kindref="member">startBackgroundOptimization()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="207" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="291" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a1af280fed8d399b44cea7538a41865ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ac02192a77ba0383db4d7e554ead9b699" kindref="member">stopBackgroundOptimization()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="208" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="310" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1abbbed9c5eb428252b14c5a82a4474925" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_integration_status" kindref="compound">IntegrationStatus</ref></type>
+        <definition>IntegrationStatus themis::prompt_engineering::PromptEngineeringIntegration::getStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::getStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="209" column="23" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="323" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ab3f7946cdeb79dedbf4feda1637f9a73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_execution_context" kindref="compound">ExecutionContext</ref></type>
+        <definition>ExecutionContext themis::prompt_engineering::PromptEngineeringIntegration::beforeExecution</definition>
+        <argsstring>(const std::string &amp;prompt_id, const nlohmann::json &amp;context={})</argsstring>
+        <name>beforeExecution</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::beforeExecution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Before Execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateExecutionId(), std::chrono::system_clock::now(), getTemplate(), has_value(), value(), enhancePrompt(), detect(), recordFeedback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="212" column="22" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="350" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a9aa6b73566d5416eba2271e7d967a691" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::afterExecution</definition>
+        <argsstring>(const ExecutionContext &amp;ctx, const std::string &amp;response, bool success, double latency_ms, double user_feedback=0.0)</argsstring>
+        <name>afterExecution</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::afterExecution</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>user_feedback</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>After Execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), recordExecution(), empty(), recordFeedback(), checkAndTriggerOptimization(), detectInResponse(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="217" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="430" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1accbfe4d858440947b94ca3081f8ce4ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::startBackgroundOptimization</definition>
+        <argsstring>()</argsstring>
+        <name>startBackgroundOptimization</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::startBackgroundOptimization</qualifiedname>
+        <briefdescription>
+<para>Start Background Optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a19a7cadd81c15efb84bb562e7b772b76" kindref="member">start()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="226" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="558" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ac02192a77ba0383db4d7e554ead9b699" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::stopBackgroundOptimization</definition>
+        <argsstring>()</argsstring>
+        <name>stopBackgroundOptimization</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::stopBackgroundOptimization</qualifiedname>
+        <briefdescription>
+<para>Stop Background Optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a1af280fed8d399b44cea7538a41865ee" kindref="member">stop()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="227" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="575" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1af9fc254bcd41bff63cf7cada1f3692fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_worker_status" kindref="compound">WorkerStatus</ref></type>
+        <definition>WorkerStatus themis::prompt_engineering::PromptEngineeringIntegration::getBackgroundWorkerStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getBackgroundWorkerStatus</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::getBackgroundWorkerStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="228" column="18" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="581" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a9d399b77457d214a302478f05247ad78" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptEngineeringIntegration::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="231" column="20" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="588" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a2ccecca664aefa76b2b4e7c30e741240" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_integration_config" kindref="compound">IntegrationConfig</ref></type>
+        <definition>IntegrationConfig themis::prompt_engineering::PromptEngineeringIntegration::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="234" column="23" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="610" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1aaf0817d5ff78e64a725babc5d4310707" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::updateConfig</definition>
+        <argsstring>(const IntegrationConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_integration_config" kindref="compound">IntegrationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), isRunning(), <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a1af280fed8d399b44cea7538a41865ee" kindref="member">stop()</ref>, <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a19a7cadd81c15efb84bb562e7b772b76" kindref="member">start()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="235" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="625" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a929c856bad740bf579445db9381a785e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::setReflectionTuner</definition>
+        <argsstring>(std::shared_ptr&lt; ReflectionTuner &gt; tuner)</argsstring>
+        <name>setReflectionTuner</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::setReflectionTuner</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner" kindref="compound">ReflectionTuner</ref> &gt;</type>
+          <declname>tuner</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner" kindref="compound">ReflectionTuner</ref></computeroutput> for optional post-generation response refinement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Reflection Tuner.</para>
+<para>When set and <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_integration_config_1a3f150b6d63af5f0d5ecaa44ccc27f24a" kindref="member">IntegrationConfig::enable_reflection_tuning</ref></computeroutput> is <computeroutput>true</computeroutput>, <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a9aa6b73566d5416eba2271e7d967a691" kindref="member">afterExecution()</ref></computeroutput> runs a reflection cycle on each successful response and records the results via <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tuner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="246" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="647" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1aa835c09593c3eefb35474b57938a25be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::setMetrics</definition>
+        <argsstring>(std::shared_ptr&lt; PromptEngineeringMetrics &gt; metrics)</argsstring>
+        <name>setMetrics</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::setMetrics</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref></computeroutput> instance for reflection observability. When not set, reflection metrics are silently discarded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="253" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="658" bodyend="662"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a1511ddf3910d521d6d13acc1169db6ec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptEngineeringIntegration::checkAndTriggerOptimization</definition>
+        <argsstring>(const std::string &amp;prompt_id)</argsstring>
+        <name>checkAndTriggerOptimization</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::checkAndTriggerOptimization</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Check And Trigger Optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getMetrics(), has_value(), shouldOptimize(), optimizePrompt(), lock(), std::chrono::system_clock::now(), commit(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="256" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="669" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a8a7d9b8806121321c738b7a06521522a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptEngineeringIntegration::enhancePrompt</definition>
+        <argsstring>(const std::string &amp;prompt_id, const nlohmann::json &amp;context)</argsstring>
+        <name>enhancePrompt</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::enhancePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Enhance Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: begin(), end(), value(), is_string(), key(), is_null(), dump(), getLatest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="257" column="17" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="710" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a484483b11c81cb3417c086c637f57e97" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptEngineeringIntegration::generateExecutionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateExecutionId</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringIntegration::generateExecutionId</qualifiedname>
+        <briefdescription>
+<para>Generate Execution Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), dis(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="261" column="17" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="749" bodyend="766"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Main integration point for prompt engineering system. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class provides seamless hooks into the LLM execution flow, automatically tracking performance, collecting feedback, and triggering optimization when needed.</para>
+<para>Usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>integration<sp/>=<sp/>std::make_shared&lt;PromptEngineeringIntegration&gt;(...);</highlight></codeline>
+<codeline><highlight class="normal">integration-&gt;start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Before<sp/>LLM<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>integration-&gt;beforeExecution(prompt_id,<sp/>context);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Execute<sp/>with<sp/>enhanced<sp/>prompt</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>llm-&gt;generate(ctx.enhanced_prompt);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>After<sp/>LLM<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">integration-&gt;afterExecution(ctx,<sp/>response,<sp/>success,<sp/>latency);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_engineering_integration.h" line="191" column="1" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="191" bodyend="287"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ab6d5f610398a4ba1ad1acd6b7970f5bf" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>active_executions_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a9aa6b73566d5416eba2271e7d967a691" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>afterExecution</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a3c688d808b1d9499870aa9c11e62183c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>background_worker_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ab3f7946cdeb79dedbf4feda1637f9a73" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>beforeExecution</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a1511ddf3910d521d6d13acc1169db6ec" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>checkAndTriggerOptimization</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a59db2768e467dc69175fb02a341268bc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a8a7d9b8806121321c738b7a06521522a" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>enhancePrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ab373356510482955c198eb821967d94b" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>executions_by_prompt_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a2148665aece07b7c640d9e90369b4541" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>feedback_collector_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a484483b11c81cb3417c086c637f57e97" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>generateExecutionId</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1af9fc254bcd41bff63cf7cada1f3692fd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>getBackgroundWorkerStatus</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a2ccecca664aefa76b2b4e7c30e741240" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a9d399b77457d214a302478f05247ad78" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1abbbed9c5eb428252b14c5a82a4474925" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a299f6b660643d32ced6c0d1be4d30c47" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>injection_detector_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a29475d6bab52cda0a5af45fa3d23312e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>last_optimization_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a95063200e743653b45cc71898def922e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a07358db70cc5606a78babc8b2909f936" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a82f4ff0de93ec09a2cae9044ae53747f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a0395e4c6a97a35177bdc832991be40e5" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>optimizer_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a7f2bbf6acf2a133183ad9ee564aa1ade" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a171dec351b9c8c31379e162bee0b860d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>PromptEngineeringIntegration</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a70508ace2e639ee5701c1b2da55268ba" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>reflection_tuner_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a25f8be5e1447e3cba739c0f024c042df" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>running_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1aa835c09593c3eefb35474b57938a25be" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>setMetrics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a929c856bad740bf579445db9381a785e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>setReflectionTuner</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a19a7cadd81c15efb84bb562e7b772b76" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>start</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1accbfe4d858440947b94ca3081f8ce4ae" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>startBackgroundOptimization</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a1af280fed8d399b44cea7538a41865ee" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>stop</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1ac02192a77ba0383db4d7e554ead9b699" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>stopBackgroundOptimization</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a16f5ce3c000e8b36f705c7b8b96346aa" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>total_executions_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1af32dc579d42da3dc17d03c3fdcd9b01e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>total_optimizations_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a17178ffff6a2d91ae228bf6b0865d3e7" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>tracker_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1aaf0817d5ff78e64a725babc5d4310707" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a22dba9fe89dd11e230a66e431dabfb7e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>version_control_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration_1a6cc6b503fc61e139aeccc86109e9f5aa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringIntegration</scope><name>~PromptEngineeringIntegration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

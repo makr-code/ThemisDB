@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_multi_field_boosted_search_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MultiFieldBoostedSearch::Config</compoundname>
+    <includes refid="multi__field__search_8h" local="no">multi_field_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_multi_field_boosted_search_1_1_config_1a5b61cb62b3c938a55babd415cab79311" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::MultiFieldBoostedSearch::Config::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::Config::k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum results to return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="78" column="16" bodyfile="include/search/multi_field_search.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_multi_field_boosted_search_1_1_config_1ac770adccd83b80674d1e348c64c9c800" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::MultiFieldBoostedSearch::Config::candidates_per_field</definition>
+        <argsstring></argsstring>
+        <name>candidates_per_field</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::Config::candidates_per_field</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>BM25 candidates fetched per field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="79" column="16" bodyfile="include/search/multi_field_search.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Engine-level configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/multi_field_search.h" line="77" column="5" bodyfile="include/search/multi_field_search.h" bodystart="77" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_multi_field_boosted_search_1_1_config_1ac770adccd83b80674d1e348c64c9c800" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch::Config</scope><name>candidates_per_field</name></member>
+      <member refid="structthemis_1_1_multi_field_boosted_search_1_1_config_1a5b61cb62b3c938a55babd415cab79311" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch::Config</scope><name>k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

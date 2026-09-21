@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_cluster_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::ClusterConfig</compoundname>
+    <includes refid="cluster__config_8h" local="no">cluster_config.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry" prot="public">themis::gpu::ClusterConfig::NodeEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Mode</name>
+        <qualifiedname>themis::gpu::ClusterConfig::Mode</qualifiedname>
+        <enumvalue id="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2ac80c9a0aec39457c14002a282aefd73a" prot="public">
+          <name>STANDALONE</name>
+          <briefdescription>
+<para>Single-node operation (default, backward-compatible). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2ad5ca8f4640f74943b969fb9f2ff9ccdd" prot="public">
+          <name>COORDINATOR</name>
+          <briefdescription>
+<para>This node is the authoritative cluster coordinator. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2a531886e636f1aa36e0fc96d49f342613" prot="public">
+          <name>WORKER</name>
+          <briefdescription>
+<para>This node is a worker managed by a coordinator. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Operating mode for this node in the cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="49" column="5" bodyfile="include/themis/gpu/cluster_config.h" bodystart="49" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1ae47e37aa0e082df34a23348a757fa932" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::ClusterConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::gpu::ClusterConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Set to true to activate multi-node cluster coordination. When false the coordinator runs in single-node pass-through mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="40" column="10" bodyfile="include/themis/gpu/cluster_config.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a3a7a45d63da193f808dabb94a976ef84" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2" kindref="member">Mode</ref></type>
+        <definition>Mode themis::gpu::ClusterConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::gpu::ClusterConfig::mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2ac80c9a0aec39457c14002a282aefd73a" kindref="member">Mode::STANDALONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="54" column="10" bodyfile="include/themis/gpu/cluster_config.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1ad435f72644b835b15aaa53a34e7a2146" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ClusterConfig::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::gpu::ClusterConfig::node_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for this node (e.g. hostname or ordinal). Empty is allowed when enabled == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="64" column="17" bodyfile="include/themis/gpu/cluster_config.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a519d28ca10871b2038abbf6f2153aeea" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::ClusterConfig::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::gpu::ClusterConfig::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Global rank in the cluster (0-based). 0 = primary/coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="69" column="9" bodyfile="include/themis/gpu/cluster_config.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a0c1ced7863052b4895c948268bf33bac" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::ClusterConfig::world_size</definition>
+        <argsstring></argsstring>
+        <name>world_size</name>
+        <qualifiedname>themis::gpu::ClusterConfig::world_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Total number of participating nodes. 1 = single-node mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="74" column="9" bodyfile="include/themis/gpu/cluster_config.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a54d31319810fa33bf7bf38337c9f7def" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ClusterConfig::coordinator_address</definition>
+        <argsstring></argsstring>
+        <name>coordinator_address</name>
+        <qualifiedname>themis::gpu::ClusterConfig::coordinator_address</qualifiedname>
+        <briefdescription>
+<para>Address of the coordinator node (&quot;host:port&quot;). Required when mode == WORKER. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="84" column="17" bodyfile="include/themis/gpu/cluster_config.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a8941a284f44e3e09b7a92eb37ec366c8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::ClusterConfig::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themis::gpu::ClusterConfig::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Interval between heartbeat ticks, in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="91" column="14" bodyfile="include/themis/gpu/cluster_config.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a4be4c4ab44e44695a3a545481d790066" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::ClusterConfig::node_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>node_timeout_ms</name>
+        <qualifiedname>themis::gpu::ClusterConfig::node_timeout_ms</qualifiedname>
+        <initializer>= 15000</initializer>
+        <briefdescription>
+<para>Time after which a node with no heartbeat is considered offline, in ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="94" column="14" bodyfile="include/themis/gpu/cluster_config.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1ad4fe2e23877232ce9922484a188a24ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry" kindref="compound">NodeEntry</ref> &gt;</type>
+        <definition>std::vector&lt;NodeEntry&gt; themis::gpu::ClusterConfig::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::gpu::ClusterConfig::nodes</qualifiedname>
+        <briefdescription>
+<para>Static list of cluster members (coordinator mode). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="111" column="17" bodyfile="include/themis/gpu/cluster_config.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a56108e1d2d3836bf51e3460a1d47f944" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::gpu::ClusterConfig::peer_nodes</definition>
+        <argsstring></argsstring>
+        <name>peer_nodes</name>
+        <qualifiedname>themis::gpu::ClusterConfig::peer_nodes</qualifiedname>
+        <briefdescription>
+<para>Host:port or node-id strings for all peer nodes. Used to register remote cluster nodes in the topology. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="121" column="17" bodyfile="include/themis/gpu/cluster_config.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a2b75e8af97d6b79009f9907158894edf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ClusterConfig::ib_device</definition>
+        <argsstring></argsstring>
+        <name>ib_device</name>
+        <qualifiedname>themis::gpu::ClusterConfig::ib_device</qualifiedname>
+        <briefdescription>
+<para>InfiniBand device name on this node (e.g. &quot;mlx5_0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="128" column="17" bodyfile="include/themis/gpu/cluster_config.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1a119f949575c508d765b4e3a83a1d496c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ClusterConfig::ib_port</definition>
+        <argsstring></argsstring>
+        <name>ib_port</name>
+        <qualifiedname>themis::gpu::ClusterConfig::ib_port</qualifiedname>
+        <briefdescription>
+<para>InfiniBand port (e.g. &quot;1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="131" column="17" bodyfile="include/themis/gpu/cluster_config.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1ae670672d7fbeebe433080d0a448b8e9a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::ClusterConfig::enable_nvlink</definition>
+        <argsstring></argsstring>
+        <name>enable_nvlink</name>
+        <qualifiedname>themis::gpu::ClusterConfig::enable_nvlink</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable NVLink-aware intra-node scheduling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="138" column="10" bodyfile="include/themis/gpu/cluster_config.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cluster_config_1afa59db5c0c60396c4fbc524eb72e5088" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::ClusterConfig::enable_infiniband</definition>
+        <argsstring></argsstring>
+        <name>enable_infiniband</name>
+        <qualifiedname>themis::gpu::ClusterConfig::enable_infiniband</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable InfiniBand for inter-node data transfers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="141" column="10" bodyfile="include/themis/gpu/cluster_config.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cluster_config_1a535b0eaaeb2f3cdb417f2354c8a948cb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::ClusterConfig::is_multi_node</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_multi_node</name>
+        <qualifiedname>themis::gpu::ClusterConfig::is_multi_node</qualifiedname>
+        <briefdescription>
+<para>True when this config represents a real multi-node deployment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="148" column="10" bodyfile="include/themis/gpu/cluster_config.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cluster_config_1ae433b846b305da7a47c9adccec1a5fe6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::ClusterConfig::has_infiniband</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>has_infiniband</name>
+        <qualifiedname>themis::gpu::ClusterConfig::has_infiniband</qualifiedname>
+        <briefdescription>
+<para>True when InfiniBand is configured and enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_config.h" line="151" column="10" bodyfile="include/themis/gpu/cluster_config.h" bodystart="151" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the multi-node GPU cluster coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This is the <emphasis>optional</emphasis> cluster configuration block embedded in <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_config" kindref="compound">GPUConfig</ref></computeroutput> (see ROADMAP.md Breaking Changes). The <computeroutput><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ae47e37aa0e082df34a23348a757fa932" kindref="member">enabled</ref></computeroutput> flag defaults to <computeroutput>false</computeroutput> which preserves single-node behaviour for existing deployments.</para>
+<para>Callers enable multi-node mode by setting <computeroutput><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ae47e37aa0e082df34a23348a757fa932" kindref="member">enabled</ref> = true</computeroutput>, providing a unique <computeroutput><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ad435f72644b835b15aaa53a34e7a2146" kindref="member">node_id</ref></computeroutput>, and selecting a <computeroutput><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a3a7a45d63da193f808dabb94a976ef84" kindref="member">mode</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/cluster_config.h" line="31" column="1" bodyfile="include/themis/gpu/cluster_config.h" bodystart="31" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a54d31319810fa33bf7bf38337c9f7def" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>coordinator_address</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1afa59db5c0c60396c4fbc524eb72e5088" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>enable_infiniband</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1ae670672d7fbeebe433080d0a448b8e9a" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>enable_nvlink</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1ae47e37aa0e082df34a23348a757fa932" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1ae433b846b305da7a47c9adccec1a5fe6" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>has_infiniband</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a8941a284f44e3e09b7a92eb37ec366c8" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a2b75e8af97d6b79009f9907158894edf" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>ib_device</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a119f949575c508d765b4e3a83a1d496c" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>ib_port</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a535b0eaaeb2f3cdb417f2354c8a948cb" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>is_multi_node</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>Mode</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a3a7a45d63da193f808dabb94a976ef84" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1ad435f72644b835b15aaa53a34e7a2146" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a4be4c4ab44e44695a3a545481d790066" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>node_timeout_ms</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1ad4fe2e23877232ce9922484a188a24ca" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a56108e1d2d3836bf51e3460a1d47f944" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>peer_nodes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a519d28ca10871b2038abbf6f2153aeea" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>rank</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cluster_config_1a0c1ced7863052b4895c948268bf33bac" prot="public" virt="non-virtual"><scope>themis::gpu::ClusterConfig</scope><name>world_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

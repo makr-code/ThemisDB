@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::NlpTextAnalyzer::Config</compoundname>
+    <includes refid="nlp__text__analyzer_8h" local="no">nlp_text_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1aad8f896bdad714d33ad02546ba6d6b86" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::Config::enable_stemming</definition>
+        <argsstring></argsstring>
+        <name>enable_stemming</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Config::enable_stemming</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable word stemming. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="119" column="14" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1a653aabc3fd5429f11c671615663d7e70" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::Config::enable_stopwords</definition>
+        <argsstring></argsstring>
+        <name>enable_stopwords</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Config::enable_stopwords</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Remove stopwords. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="120" column="14" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1a2d0bc98172e03e3d417dd94f053a16e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::NlpTextAnalyzer::Config::max_keywords</definition>
+        <argsstring></argsstring>
+        <name>max_keywords</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Config::max_keywords</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Max keywords to extract. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="121" column="16" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1ab9eed2113e615473fd0de764f1ee8346" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::NlpTextAnalyzer::Config::min_word_length</definition>
+        <argsstring></argsstring>
+        <name>min_word_length</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Config::min_word_length</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Minimum word length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="122" column="16" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1ab62fae3e599720a2b7eefeb59228aa32" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref></type>
+        <definition>Language themis::analytics::NlpTextAnalyzer::Config::default_language</definition>
+        <argsstring></argsstring>
+        <name>default_language</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Config::default_language</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1a11040bd29db4ec9964af9fd3f9a24f17" kindref="member">Language::ENGLISH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="123" column="18" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1ac0a371e648f164b7b969df36418b5cba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::Config::stopwords_directory</definition>
+        <argsstring></argsstring>
+        <name>stopwords_directory</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Config::stopwords_directory</qualifiedname>
+        <initializer>= &quot;config/nlp/stopwords&quot;</initializer>
+        <briefdescription>
+<para>Directory for stop word YAML files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="126" column="21" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1a1c1bdbc5fa2e547455d5f3120a3a90c3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::Config::auto_load_stopwords</definition>
+        <argsstring></argsstring>
+        <name>auto_load_stopwords</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Config::auto_load_stopwords</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Auto-load stop words from YAML files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="127" column="14" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1a3d63bdc06a0f667d50ecd52336d6308c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::NlpTextAnalyzer::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="129" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/nlp_text_analyzer.h" line="118" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="118" bodyend="130"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1a1c1bdbc5fa2e547455d5f3120a3a90c3" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::Config</scope><name>auto_load_stopwords</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1a3d63bdc06a0f667d50ecd52336d6308c" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1ab62fae3e599720a2b7eefeb59228aa32" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::Config</scope><name>default_language</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1aad8f896bdad714d33ad02546ba6d6b86" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::Config</scope><name>enable_stemming</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1a653aabc3fd5429f11c671615663d7e70" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::Config</scope><name>enable_stopwords</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1a2d0bc98172e03e3d417dd94f053a16e1" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::Config</scope><name>max_keywords</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1ab9eed2113e615473fd0de764f1ee8346" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::Config</scope><name>min_word_length</name></member>
+      <member refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config_1ac0a371e648f164b7b969df36418b5cba" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer::Config</scope><name>stopwords_directory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

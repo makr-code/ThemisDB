@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>  (ChaosCallbackDeterminismTest, CCD01_RecoverCallbackFires)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>CCD-01 — The event callback is called with injected=false for every successful recoverFault() call.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__callback__determinism_8cpp_1aab516baa8b4138dd07d6df58fbef2cce" kindref="member">TEST</ref>  (ChaosCallbackDeterminismTest, CCD02_DuplicateInjectLWWSemanticsFiresCallbackAgain)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>CCD-02 — injectFault() on an already-active (node, type) pair uses last-writer-wins (LWW) semantics: it updates the existing entry, returns true, and fires the callback a second time. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__callback__determinism_8cpp_1a935db32af8c5c9f4b62a2e4e4162ea27" kindref="member">TEST</ref>  (ChaosCallbackDeterminismTest, CCD03_EmptyNodeIdRejectedNoCallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>CCD-03 — injectFault() with an empty node_id returns false without touching the registry or firing any callback. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__callback__determinism_8cpp_1a62818fbb19a1877f72bf7f215c0cea74" kindref="member">TEST</ref>  (ChaosCallbackDeterminismTest, CCD04_InvalidProbabilityRejectedNoCallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>CCD-04 — injectFault() with probability outside [0.0, 1.0] returns false and does not fire any callback. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__callback__determinism_8cpp_1a2d1cf9a4e7b094e8629ae043e7b93d33" kindref="member">TEST</ref>  (ChaosCallbackDeterminismTest, CCD05_ClearAllFaultsNoCallbacks)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>CCD-05 — clearAllFaults() removes all faults from the registry without invoking any event callbacks. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__callback__determinism_8cpp_1a5040bc4d99a55d8e8654029cf7173170" kindref="member">TEST</ref>  (ChaosCallbackDeterminismTest, CCD06_ScheduleInZeroDelayFires)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>CCD-06 — scheduleIn() with a zero-or-minimal delay fires the fault through the injector within one tick window after start(). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__callback__determinism_8cpp_1afba46755ad5dfceece3d5dc45f2d7b67" kindref="member">TEST</ref>  (ChaosCallbackDeterminismTest, CCD07_ClearPendingThenLifecycle)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>CCD-07 — clearPending() reduces pendingCount() to zero, and the scheduler can be started and stopped cleanly afterwards. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__callback__determinism_8cpp_1a1e7771c2d19d7ad299046f8ddbbcb924" kindref="member">TEST</ref>  (ChaosCallbackDeterminismTest, CCD08_MultipleSchedulesSameNodeFireSequentially)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>CCD-08 — Scheduling multiple faults for the same node with staggered delays fires them sequentially; the injector ends with the last fault active (earlier ones are overwritten if same node+type, or co-exist if different types). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__concurrency__hardening_8cpp_1a87cc85e5ca4dc7f044f3a3ac95ec484d" kindref="member">TEST</ref>  (ChaosConcurrencyHardeningTest, CCH01_ConcurrentInjectNoRace)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>CCH-01 — Concurrent injectFault() from N threads does not crash and results in a consistent active fault count. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__concurrency__hardening_8cpp_1a1480ec0b3393752cfd532c7733507873" kindref="member">TEST</ref>  (ChaosConcurrencyHardeningTest, CCH02_ConcurrentRecoverDuringInject)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>CCH-02 — Concurrent recoverFault() while inject threads are running produces no crash or data race.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__concurrency__hardening_8cpp_1a70a17f458a3377fb22a4a47885056e53" kindref="member">TEST</ref>  (ChaosConcurrencyHardeningTest, CCH03_ConcurrentQueryDuringMutations)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>CCH-03 — isFaultActive() called concurrently with inject and recover threads always returns a valid boolean (no throw, no crash).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__concurrency__hardening_8cpp_1a2290bea7aac4495b060503b24a8e63d0" kindref="member">TEST</ref>  (ChaosConcurrencyHardeningTest, CCH04_CallbackFiresOncePerInject)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>CCH-04 — A callback registered before inject fires exactly once per successful injectFault() call.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__concurrency__hardening_8cpp_1a616333e0c20f8c866b1155920dc67513" kindref="member">TEST</ref>  (ChaosConcurrencyHardeningTest, CCH05_MultipleCallbacksFIFOOrder)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>CCH-05 — Multiple registered callbacks all fire in FIFO registration order on a single injectFault() call.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__concurrency__hardening_8cpp_1af4e23f0c68c3e188fc37bd2d6c698a2b" kindref="member">TEST</ref>  (ChaosConcurrencyHardeningTest, CCH06_LateCallbackDoesNotFireRetroactively)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>CCH-06 — A callback registered after injectFault() does NOT fire retroactively for the already-injected fault.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__concurrency__hardening_8cpp_1a3c343516e6ff40ee48e17e21c89bbe0f" kindref="member">TEST</ref>  (ChaosConcurrencyHardeningTest, CCH07_ConcurrentClearAndInject)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>CCH-07 — clearAllFaults() called concurrently with inject threads does not crash and leaves the registry in a consistent (empty or partially-populated) state after all threads complete.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__concurrency__hardening_8cpp_1a79033d619d4d3f455f432b26dc48ae0d" kindref="member">TEST</ref>  (ChaosConcurrencyHardeningTest, CCH08_GetActiveFaultsSnapshotUnderChurn)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>CCH-08 — getActiveFaults() snapshot is safe to call under concurrent inject and recover churn: no crash, no stale dangling entry.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__scheduler__timing_8cpp_1ad63b397afc926176553be96c851cbbf2" kindref="member">TEST</ref>  (ChaosSchedulerTimingTest, CTI01_ImmediateStopAfterStart)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>CTI-01 — stop() called immediately after start() must return within kSchedulerStopTimeout and leave isRunning() == false. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__scheduler__timing_8cpp_1a6cb999fe94e45cf61d3292f93e4df08e" kindref="member">TEST</ref>  (ChaosSchedulerTimingTest, CTI02_RepeatRestartCycle)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>CTI-02 — Repeated stop + start cycles are stable; the scheduler can be restarted after every stop without crashing or leaking resources.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__scheduler__timing_8cpp_1a6a9c5aa30eccf8f73e2b2d07b2969dcd" kindref="member">TEST</ref>  (ChaosSchedulerTimingTest, CTI03_ScheduleAfterStopNotFired)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>CTI-03 — Entries added with scheduleIn() when the scheduler is STOPPED are added to the pending queue but MUST NOT fire until start() is called. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__scheduler__timing_8cpp_1aae91486de86753f49e5e5a863fa2db42" kindref="member">TEST</ref>  (ChaosSchedulerTimingTest, CTI04_DoubleStartIdempotent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>CTI-04 — Calling start() while the scheduler is already running is idempotent: it must not launch a second worker thread or crash. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__scheduler__timing_8cpp_1ad112d422364f9a0ee1c21f6f15d96e85" kindref="member">TEST</ref>  (ChaosSchedulerTimingTest, CTI05_StopOnStoppedIdempotent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>CTI-05 — Calling stop() when the scheduler has never been started (or has already been stopped) must be a no-op without throwing. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__scheduler__timing_8cpp_1afafae5d9b45c9b5f64ba7af57195c0a5" kindref="member">TEST</ref>  (ChaosSchedulerTimingTest, CTI06_CondvarStopLatencyBounded)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>CTI-06 — With WakeStrategy::CONDVAR, stop() completes within <ref refid="namespacethemis_1_1chaos_1a1da32a926ab33f630557017462aa6172" kindref="member">themis::chaos::kSchedulerStopTimeout</ref> regardless of tick_interval. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__scheduler__timing_8cpp_1a5602443bd06d5b0e97269f1fb386ffc5" kindref="member">TEST</ref>  (ChaosSchedulerTimingTest, CTI07_FixedTickFaultFiresInWindow)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>CTI-07 — With WakeStrategy::FIXED_TICK, a scheduled fault fires within the expected deadline (delay + 3 × tick_interval as headroom).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__chaos__scheduler__timing_8cpp_1aee9f516ab1afb29213391371a735b569" kindref="member">TEST</ref>  (ChaosSchedulerTimingTest, CTI08_TwoSchedulersConcurrentNoInterference)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>CTI-08 — Two independent ChaosScheduler instances (one FIXED_TICK, one CONDVAR) running concurrently inject into separate FaultInjectors without interfering with each other. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

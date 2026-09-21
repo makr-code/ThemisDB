@@ -1,0 +1,1365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1wire" kind="namespace" language="C++">
+    <compoundname>themis::wire</compoundname>
+    <innerclass refid="classthemis_1_1wire_1_1_message_dispatcher" prot="public">themis::wire::MessageDispatcher</innerclass>
+    <innerclass refid="structthemis_1_1wire_1_1_v2_connection_config" prot="public">themis::wire::V2ConnectionConfig</innerclass>
+    <innerclass refid="structthemis_1_1wire_1_1_v2_frame_header" prot="public">themis::wire::V2FrameHeader</innerclass>
+    <innerclass refid="classthemis_1_1wire_1_1_v2_server" prot="public">themis::wire::V2Server</innerclass>
+    <innerclass refid="classthemis_1_1wire_1_1_v2_session" prot="public">themis::wire::V2Session</innerclass>
+    <innerclass refid="structthemis_1_1wire_1_1_v2_setting" prot="public">themis::wire::V2Setting</innerclass>
+    <innerclass refid="structthemis_1_1wire_1_1_v2_stream" prot="public">themis::wire::V2Stream</innerclass>
+    <innerclass refid="structthemis_1_1wire_1_1_wire_engine_config" prot="public">themis::wire::WireEngineConfig</innerclass>
+    <innerclass refid="structthemis_1_1wire_1_1_wire_frame_header" prot="public">themis::wire::WireFrameHeader</innerclass>
+    <innerclass refid="classthemis_1_1wire_1_1_wire_protocol_server" prot="public">themis::wire::WireProtocolServer</innerclass>
+    <innerclass refid="classthemis_1_1wire_1_1_wire_protocol_session" prot="public">themis::wire::WireProtocolSession</innerclass>
+    <innernamespace refid="namespacethemis_1_1wire_1_1v1">themis::wire::v1</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>OpCode</name>
+        <qualifiedname>themis::wire::OpCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba4f1dfc95bc93eecdb74d91d4d9eeb0c1" prot="public">
+          <name>OP_HELLO</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba98ef5d1285db92040268921287ed79f5" prot="public">
+          <name>OP_HELLO_ACK</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37bafa885d621f143078e4d7dbf739be814a" prot="public">
+          <name>OP_AUTH_REQUEST</name>
+          <initializer>= 0x03</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba0cfc6ec10c8de38a700f77ee1b0ab204" prot="public">
+          <name>OP_AUTH_RESPONSE</name>
+          <initializer>= 0x04</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37baf4d34cd78fb74a997ec72276bc705462" prot="public">
+          <name>OP_AUTH_SUCCESS</name>
+          <initializer>= 0x05</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37bac8b7a8b0dfba069c9255d5c642aef38c" prot="public">
+          <name>OP_AUTH_FAILURE</name>
+          <initializer>= 0x06</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37baac4057909db6ab77884178191412072b" prot="public">
+          <name>OP_GET</name>
+          <initializer>= 0x10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba15fff00c9262df5657cfcfb946c84449" prot="public">
+          <name>OP_PUT</name>
+          <initializer>= 0x11</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba1f880f83d676db79c78a5f4952ff9a4c" prot="public">
+          <name>OP_DELETE</name>
+          <initializer>= 0x12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba3842704bb9a9ead8ff3ee23d018275ae" prot="public">
+          <name>OP_BATCH_GET</name>
+          <initializer>= 0x13</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba656c8b54ad959738ee860cbcdfeaa85f" prot="public">
+          <name>OP_BATCH_PUT</name>
+          <initializer>= 0x14</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba1ec97f8f59d80f6f089f4d72e7663cfa" prot="public">
+          <name>OP_QUERY_AQL</name>
+          <initializer>= 0x20</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba38b6d7301be6edca76d3b7a49d2b2f1d" prot="public">
+          <name>OP_QUERY_RESULT</name>
+          <initializer>= 0x21</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37babfefc66664fa751f939e515e5179b5e0" prot="public">
+          <name>OP_QUERY_CURSOR</name>
+          <initializer>= 0x22</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba29ba2cc15af4a47dd928a18a79927082" prot="public">
+          <name>OP_CURSOR_NEXT</name>
+          <initializer>= 0x23</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba3454b136c21ca3d462ea6af486ff89ac" prot="public">
+          <name>OP_CURSOR_CLOSE</name>
+          <initializer>= 0x24</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37bac516ba232bcb169ec6a231cf4342880f" prot="public">
+          <name>OP_TRANSACTION_BEGIN</name>
+          <initializer>= 0x30</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37bac6b267b9be119d8bb01d31aa646ef531" prot="public">
+          <name>OP_TRANSACTION_COMMIT</name>
+          <initializer>= 0x31</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37babd0088f24059367e76afea6a5ed323cd" prot="public">
+          <name>OP_TRANSACTION_ABORT</name>
+          <initializer>= 0x32</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba4b3cdc440cec1f293e61ae2db8b7bf92" prot="public">
+          <name>OP_VECTOR_SEARCH</name>
+          <initializer>= 0x40</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba8c5431785d8b8b323d4dab0b7ecf6fd4" prot="public">
+          <name>OP_GRAPH_TRAVERSE</name>
+          <initializer>= 0x41</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba0806c703f0ed2388829a0fd2887d2d6b" prot="public">
+          <name>OP_GEO_QUERY</name>
+          <initializer>= 0x50</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba1a1767a79f7c2a09f2a0f62389c71683" prot="public">
+          <name>OP_TIMESERIES_QUERY</name>
+          <initializer>= 0x51</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37babded03148370aeeac9e6f3051563f37e" prot="public">
+          <name>OP_BPMN_START_PROCESS</name>
+          <initializer>= 0x60</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37baec0e3c3588a968eeecc79f6d6752fdd7" prot="public">
+          <name>OP_BPMN_TASK_COMPLETE</name>
+          <initializer>= 0x61</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37baa1a50ddd162178a696da3ea486e34fe8" prot="public">
+          <name>OP_BPMN_QUERY_INSTANCE</name>
+          <initializer>= 0x62</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba3b75e49c9f289b87010bc5da50d6b15c" prot="public">
+          <name>OP_ERROR</name>
+          <initializer>= 0xF0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37bac9f4a6cded20cf70308efbe150d10dac" prot="public">
+          <name>OP_OK</name>
+          <initializer>= 0xF1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37bade5383b1915d625a936296d93b1816a9" prot="public">
+          <name>OP_PING</name>
+          <initializer>= 0xFE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba42342a2497a0215de6bb7b38a348b9ff" prot="public">
+          <name>OP_PONG</name>
+          <initializer>= 0xFE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5d17e1c9607ffbd53f32b546d8b7f37ba911b3fb93a5ff3c52572ae551d801206" prot="public">
+          <name>OP_CLOSE</name>
+          <initializer>= 0xFF</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="117" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="117" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1wire_1a36b100d8d62a80727f6afb10ec1ea43a" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>MessageFlags</name>
+        <qualifiedname>themis::wire::MessageFlags</qualifiedname>
+        <enumvalue id="namespacethemis_1_1wire_1a36b100d8d62a80727f6afb10ec1ea43aab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0x0000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a36b100d8d62a80727f6afb10ec1ea43aaf113f7e0c29f93b924e8d5d653ac45d9" prot="public">
+          <name>SKIP_CHECKSUM</name>
+          <initializer>= 0x0001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a36b100d8d62a80727f6afb10ec1ea43aa724ba27218714b182f22d5b24b5e4317" prot="public">
+          <name>COMPRESSED</name>
+          <initializer>= 0x0002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a36b100d8d62a80727f6afb10ec1ea43aa3fe1c5068682cdee737d379207ab631f" prot="public">
+          <name>ENCRYPTED</name>
+          <initializer>= 0x0004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="159" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="159" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>V2FrameType</name>
+        <qualifiedname>themis::wire::V2FrameType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064ae44f9e348e41cb272efa87387728571b" prot="public">
+          <name>DATA</name>
+          <initializer>= 0x00</initializer>
+          <briefdescription>
+<para>Request / response data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064a1242249ca7c09fa7634e292cf2819f85" prot="public">
+          <name>HEADERS</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+<para>Stream metadata (method, namespace, auth token). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064acaf55db72c49969e2ed270adbcd0a8f5" prot="public">
+          <name>PRIORITY</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+<para>Stream priority hint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064ab1f3602a647feee25f03b754f03316c0" prot="public">
+          <name>RST_STREAM</name>
+          <initializer>= 0x03</initializer>
+          <briefdescription>
+<para>Abruptly terminate a stream. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064aed6f7aca7887a927b9ed3d62aa347a86" prot="public">
+          <name>SETTINGS</name>
+          <initializer>= 0x04</initializer>
+          <briefdescription>
+<para>Connection-level settings negotiation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064aa2302bddf66a619a09f67beb7c446504" prot="public">
+          <name>PUSH_PROMISE</name>
+          <initializer>= 0x05</initializer>
+          <briefdescription>
+<para>Server announces upcoming push stream. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064ae07ff41a486c27c095a15898dcca34d1" prot="public">
+          <name>PING</name>
+          <initializer>= 0x06</initializer>
+          <briefdescription>
+<para>Keep-alive / round-trip measurement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064a21c426cbdb92c2439053c570eb511c30" prot="public">
+          <name>GOAWAY</name>
+          <initializer>= 0x07</initializer>
+          <briefdescription>
+<para>Graceful connection shutdown. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064a8930ff86ec057f61f21407e49bf82e6d" prot="public">
+          <name>WINDOW_UPDATE</name>
+          <initializer>= 0x08</initializer>
+          <briefdescription>
+<para>Increase flow-control window. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae67e3fcbf9d825e89a1d079b22a51064aa912ad8cd8aeb3f2762b4359d4c36583" prot="public">
+          <name>CONTINUATION</name>
+          <initializer>= 0x09</initializer>
+          <briefdescription>
+<para>Continuation of a HEADERS frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="55" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="55" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>V2FrameFlags</name>
+        <qualifiedname>themis::wire::V2FrameFlags</qualifiedname>
+        <enumvalue id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0x0000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27aab54103b775e57cea0cacebd2afbea62" prot="public">
+          <name>END_STREAM</name>
+          <initializer>= 0x0001</initializer>
+          <briefdescription>
+<para>Last frame for this stream. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27af2eb9a4653d7e1f0a2722e24b6045ae6" prot="public">
+          <name>END_HEADERS</name>
+          <initializer>= 0x0004</initializer>
+          <briefdescription>
+<para>This HEADERS frame ends the header block. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27a9f7c0f307ac7db39eee9c8a2234e508b" prot="public">
+          <name>PADDED</name>
+          <initializer>= 0x0008</initializer>
+          <briefdescription>
+<para>DATA frame carries padding. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27ac07ed4fdc52cfbfa92bec1346853312c" prot="public">
+          <name>PRIORITY_FLAG</name>
+          <initializer>= 0x0020</initializer>
+          <briefdescription>
+<para>HEADERS frame has priority fields. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27a0fc437bc317835cad5faafc12a83fad5" prot="public">
+          <name>ACK</name>
+          <initializer>= 0x0001</initializer>
+          <briefdescription>
+<para>SETTINGS or PING acknowledgement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27a724ba27218714b182f22d5b24b5e4317" prot="public">
+          <name>COMPRESSED</name>
+          <initializer>= 0x0100</initializer>
+          <briefdescription>
+<para>Payload is LZ4-compressed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a6b25212a6158923df2bd06758f0e2c27a9493046e30f8112edad1ac71c563f216" prot="public">
+          <name>ZSTD_COMPRESSED</name>
+          <initializer>= 0x0200</initializer>
+          <briefdescription>
+<para>Payload is Zstd-compressed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="72" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1wire_1a5f0d9255c94a6daf07be567c402d37d9" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>V2SettingId</name>
+        <qualifiedname>themis::wire::V2SettingId</qualifiedname>
+        <enumvalue id="namespacethemis_1_1wire_1a5f0d9255c94a6daf07be567c402d37d9ab21db98ae5570cf2d2eea1ae84dadc0c" prot="public">
+          <name>HEADER_TABLE_SIZE</name>
+          <initializer>= 0x0001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5f0d9255c94a6daf07be567c402d37d9a230ce83dbccb31567e5e780d698c7d1d" prot="public">
+          <name>ENABLE_PUSH</name>
+          <initializer>= 0x0002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5f0d9255c94a6daf07be567c402d37d9af6fa2500b99d7b98c0bb4479135f7967" prot="public">
+          <name>MAX_CONCURRENT_STREAMS</name>
+          <initializer>= 0x0003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5f0d9255c94a6daf07be567c402d37d9addacca0555b4339b6e9dd1818d95e338" prot="public">
+          <name>INITIAL_WINDOW_SIZE</name>
+          <initializer>= 0x0004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5f0d9255c94a6daf07be567c402d37d9ae787c90dc72d889f3497d9f97ab0236e" prot="public">
+          <name>MAX_FRAME_SIZE</name>
+          <initializer>= 0x0005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1a5f0d9255c94a6daf07be567c402d37d9a3b178b97bc72243896a77eed1af09f19" prot="public">
+          <name>MAX_HEADER_LIST_SIZE</name>
+          <initializer>= 0x0006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="117" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>V2StreamState</name>
+        <qualifiedname>themis::wire::V2StreamState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8aa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+<para>Not yet opened. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+<para>Request/response in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8ac6b7663a66479cc1fea577692b511aba" prot="public">
+          <name>HALF_CLOSED_LOCAL</name>
+          <briefdescription>
+<para>Local side sent END_STREAM. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8ac2d1178181de552352fa50c33d283b69" prot="public">
+          <name>HALF_CLOSED_REMOTE</name>
+          <briefdescription>
+<para>Remote side sent END_STREAM. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+<para>Stream fully closed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8aacf29cfcde56b8473856efefb417906b" prot="public">
+          <name>RESERVED_LOCAL</name>
+          <briefdescription>
+<para>Promised by local PUSH_PROMISE. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8a39285c4ecd7c518faeacc22a4c83e04b" prot="public">
+          <name>RESERVED_REMOTE</name>
+          <briefdescription>
+<para>Promised by remote PUSH_PROMISE. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="135" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="135" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1a2ee6db0d40f61be1622c144678f71873" prot="public" static="no">
+        <type>std::function&lt; std::string( const std::string &amp;aql, const std::string &amp;ns)&gt;</type>
+        <definition>using themis::wire::WireAqlExecFn = std::function&lt;std::string(
+   const std::string&amp; aql, const std::string&amp; ns)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WireAqlExecFn</name>
+        <qualifiedname>themis::wire::WireAqlExecFn</qualifiedname>
+        <briefdescription>
+<para>AQL query execution bridge for the Protobuf wire protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, QUERY_AQL messages are dispatched to this function instead of returning HTTP 501. The function receives the AQL string and the authenticated session&apos;s namespace and must return a JSON-encoded result string. An exception or empty return keeps the error path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AQL query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Namespace / tenant derived from the authenticated session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-encoded query result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="238" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1a6781a0192fd9e2e2a443160f232fc662" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;cursor_id)&gt;</type>
+        <definition>using themis::wire::WireCursorNextFn = std::function&lt;std::string(const std::string&amp; cursor_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WireCursorNextFn</name>
+        <qualifiedname>themis::wire::WireCursorNextFn</qualifiedname>
+        <briefdescription>
+<para>Cursor next-page bridge for the Protobuf wire protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cursor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cursor identifier from the CURSOR_NEXT request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-encoded next page of results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="247" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1aeb99f269ca5c3fb1f17ac0b50cf4b6c9" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;cursor_id)&gt;</type>
+        <definition>using themis::wire::WireCursorCloseFn = std::function&lt;bool(const std::string&amp; cursor_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WireCursorCloseFn</name>
+        <qualifiedname>themis::wire::WireCursorCloseFn</qualifiedname>
+        <briefdescription>
+<para>Cursor close bridge for the Protobuf wire protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cursor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cursor identifier from the CURSOR_CLOSE request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the cursor was found and closed, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="255" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1aaca6789c6092c4a2b27051125f46a77f" prot="public" static="no">
+        <type>std::function&lt; std::string( const std::string &amp;collection, double lat, double lon, double radius_m, int limit)&gt;</type>
+        <definition>using themis::wire::WireGeoQueryFn = std::function&lt;std::string(
+   const std::string&amp; collection, double lat, double lon,
+   double radius_m, int limit)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WireGeoQueryFn</name>
+        <qualifiedname>themis::wire::WireGeoQueryFn</qualifiedname>
+        <briefdescription>
+<para>Geospatial query bridge for the Protobuf wire protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latitude of the search centre (WGS84, decimal degrees). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Longitude of the search centre (WGS84, decimal degrees). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius_m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search radius in metres. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-encoded array of matching document objects. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="267" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1adfc8d5b586d1c06e291f77e91029ee76" prot="public" static="no">
+        <type>std::function&lt; std::string( const std::string &amp;collection, int64_t start_ns, int64_t end_ns)&gt;</type>
+        <definition>using themis::wire::WireTSQueryFn = std::function&lt;std::string(
+   const std::string&amp; collection, int64_t start_ns, int64_t end_ns)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WireTSQueryFn</name>
+        <qualifiedname>themis::wire::WireTSQueryFn</qualifiedname>
+        <briefdescription>
+<para>Time-series query bridge for the Protobuf wire protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection / series name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start_ns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of the query range (nanoseconds since Unix epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_ns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of the query range (nanoseconds since Unix epoch). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-encoded time-series data points. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="279" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1aa0c3325108e579abdb42d7a36bae013a" prot="public" static="no">
+        <type>std::function&lt; std::string( const std::string &amp;collection, const std::string &amp;start_vertex, int max_depth)&gt;</type>
+        <definition>using themis::wire::WireGraphTraversalFn = std::function&lt;std::string(
+   const std::string&amp; collection, const std::string&amp; start_vertex, int max_depth)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WireGraphTraversalFn</name>
+        <qualifiedname>themis::wire::WireGraphTraversalFn</qualifiedname>
+        <briefdescription>
+<para>Graph traversal bridge for the Protobuf wire protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection / edge-set name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start_vertex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start vertex identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum traversal depth (0 = unlimited). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-encoded traversal result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="290" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1a0b5b3e2ac6d3540e9c5001a9a4729727" prot="public" static="no">
+        <type>std::function&lt; void( uint32_t stream_id, const std::vector&lt; uint8_t &gt; &amp;payload, bool end_stream)&gt;</type>
+        <definition>using themis::wire::V2DataHandler = std::function&lt;void(
+   uint32_t stream_id,
+   const std::vector&lt;uint8_t&gt;&amp; payload,
+   bool end_stream)&gt;</definition>
+        <argsstring></argsstring>
+        <name>V2DataHandler</name>
+        <qualifiedname>themis::wire::V2DataHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called when a complete DATA frame arrives on a stream. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the stream carrying the data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw payload bytes (may be decompressed already). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if this is the last frame on the stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="193" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1a20ce419a3c89d7f2b96c5102f620afdb" prot="public" static="no">
+        <type>std::function&lt; void( uint32_t stream_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, bool end_stream)&gt;</type>
+        <definition>using themis::wire::V2HeadersHandler = std::function&lt;void(
+   uint32_t stream_id,
+   const std::unordered_map&lt;std::string, std::string&gt;&amp; headers,
+   bool end_stream)&gt;</definition>
+        <argsstring></argsstring>
+        <name>V2HeadersHandler</name>
+        <qualifiedname>themis::wire::V2HeadersHandler</qualifiedname>
+        <briefdescription>
+<para>Called when a HEADERS frame arrives (new stream or trailer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="199" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1a808e6c5c214e36f46de83d90b47a3f49" prot="public" static="no">
+        <type>std::function&lt; void( uint32_t stream_id, uint32_t <ref refid="namespacethemis_1_1wire_1adde4caab103ac9e95bc8c58bce156ea2" kindref="member">error_code</ref>)&gt;</type>
+        <definition>using themis::wire::V2RstStreamHandler = std::function&lt;void(
+   uint32_t stream_id, uint32_t error_code)&gt;</definition>
+        <argsstring></argsstring>
+        <name>V2RstStreamHandler</name>
+        <qualifiedname>themis::wire::V2RstStreamHandler</qualifiedname>
+        <briefdescription>
+<para>Called when a stream is reset (RST_STREAM received). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="205" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1ac3e4e64d3814732428a4e82954b47fb8" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::wire::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::wire::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="62" column="1" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1a4dade274b72f99d9c06283872e82e7c2" prot="public" static="no">
+        <type>net::ip::tcp</type>
+        <definition>using themis::wire::tcp = net::ip::tcp</definition>
+        <argsstring></argsstring>
+        <name>tcp</name>
+        <qualifiedname>themis::wire::tcp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="63" column="1" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1adde4caab103ac9e95bc8c58bce156ea2" prot="public" static="no">
+        <type>boost::system::error_code</type>
+        <definition>using themis::wire::error_code = boost::system::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::wire::error_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="64" column="1" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1a9dcf5674c1387556e71e56951b37e989" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::WIRE_MAGIC</definition>
+        <argsstring></argsstring>
+        <name>WIRE_MAGIC</name>
+        <qualifiedname>themis::wire::WIRE_MAGIC</qualifiedname>
+        <initializer>= 0x544D4442</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="110" column="20" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1a0048bcc87c399f0ca84d6b88a740dbef" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::wire::WIRE_VERSION_1</definition>
+        <argsstring></argsstring>
+        <name>WIRE_VERSION_1</name>
+        <qualifiedname>themis::wire::WIRE_VERSION_1</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="111" column="19" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1a9a33b782832a56dd0a3e294a99a29c97" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::wire::HEADER_SIZE</definition>
+        <argsstring></argsstring>
+        <name>HEADER_SIZE</name>
+        <qualifiedname>themis::wire::HEADER_SIZE</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="112" column="18" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1a3a3bdc74a8b30ae3d3a9854be923c300" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::wire::CHECKSUM_SIZE</definition>
+        <argsstring></argsstring>
+        <name>CHECKSUM_SIZE</name>
+        <qualifiedname>themis::wire::CHECKSUM_SIZE</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="113" column="18" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1a565b1c3c0fc6702be88263938592ad2e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::wire::MAX_PAYLOAD_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_PAYLOAD_SIZE</name>
+        <qualifiedname>themis::wire::MAX_PAYLOAD_SIZE</qualifiedname>
+        <initializer>= 64 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="114" column="18" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1a555b6a150e65d89857a9cffff3fa630f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::WIRE_V2_MAGIC</definition>
+        <argsstring></argsstring>
+        <name>WIRE_V2_MAGIC</name>
+        <qualifiedname>themis::wire::WIRE_V2_MAGIC</qualifiedname>
+        <initializer>= 0x544D4432</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="44" column="20" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1ac5671665701f0159adf87f2245a82463" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::wire::WIRE_VERSION_2</definition>
+        <argsstring></argsstring>
+        <name>WIRE_VERSION_2</name>
+        <qualifiedname>themis::wire::WIRE_VERSION_2</qualifiedname>
+        <initializer>= 0x02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="45" column="20" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1aacaa8f2bc4b700c5b116060f5b966ce3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::wire::V2_HEADER_SIZE</definition>
+        <argsstring></argsstring>
+        <name>V2_HEADER_SIZE</name>
+        <qualifiedname>themis::wire::V2_HEADER_SIZE</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="46" column="20" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1aa9a3e833bed1a2e3a41996917ddfad44" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2_MAX_STREAM_ID</definition>
+        <argsstring></argsstring>
+        <name>V2_MAX_STREAM_ID</name>
+        <qualifiedname>themis::wire::V2_MAX_STREAM_ID</qualifiedname>
+        <initializer>= 0x7FFFFFFF</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="47" column="20" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1aafbbb9af3441c350520973d6002377df" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::wire::V2_DEFAULT_WINDOW</definition>
+        <argsstring></argsstring>
+        <name>V2_DEFAULT_WINDOW</name>
+        <qualifiedname>themis::wire::V2_DEFAULT_WINDOW</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="48" column="20" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1wire_1a689418cf57a0f397d47b549b8a12e838" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::wire::V2_MAX_PAYLOAD</definition>
+        <argsstring></argsstring>
+        <name>V2_MAX_PAYLOAD</name>
+        <qualifiedname>themis::wire::V2_MAX_PAYLOAD</qualifiedname>
+        <initializer>= 16 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="49" column="20" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1wire_1aa39f1c2338594bcaa75d6508e9dd9516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::setWireAqlExecFn</definition>
+        <argsstring>(WireAqlExecFn fn)</argsstring>
+        <name>setWireAqlExecFn</name>
+        <qualifiedname>themis::wire::setWireAqlExecFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1a2ee6db0d40f61be1622c144678f71873" kindref="member">WireAqlExecFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the AQL execution bridge for the Protobuf wire protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Wire Aql Exec Fn.</para>
+<para>Thread-safe. Pass nullptr to clear. Registered once at server startup.</para>
+<para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1af31db11c6d9a7a4a7a4fdc628d0f41e9" kindref="member">WireProtocolServer::setAqlQueryFn()</ref> for per-server wiring or WireProtocolSession::setQueryAqlFn() for the process-global Protobuf fallback hook. </para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="88" column="6" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="88" bodyend="91" declfile="include/themis/network/wire_protocol_server.hpp" declline="302" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1a9b0534821ae0d1c9461b6208899313e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::setWireCursorNextFn</definition>
+        <argsstring>(WireCursorNextFn fn)</argsstring>
+        <name>setWireCursorNextFn</name>
+        <qualifiedname>themis::wire::setWireCursorNextFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1a6781a0192fd9e2e2a443160f232fc662" kindref="member">WireCursorNextFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the cursor next-page bridge for the Protobuf wire protocol. Thread-safe. Pass nullptr to clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Wire Cursor Next Fn.</para>
+<para><xrefsect id="deprecated_1_deprecated000002"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1a9ce90480cf0dd0acf06a6e2bc46edf80" kindref="member">WireProtocolServer::setCursorNextFn()</ref> instead. </para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="97" column="6" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="97" bodyend="100" declfile="include/themis/network/wire_protocol_server.hpp" declline="310" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1acc4b347366ea7a64fbf54a2ad422d556" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::setWireCursorCloseFn</definition>
+        <argsstring>(WireCursorCloseFn fn)</argsstring>
+        <name>setWireCursorCloseFn</name>
+        <qualifiedname>themis::wire::setWireCursorCloseFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1aeb99f269ca5c3fb1f17ac0b50cf4b6c9" kindref="member">WireCursorCloseFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the cursor close bridge for the Protobuf wire protocol. Thread-safe. Pass nullptr to clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Wire Cursor Close Fn.</para>
+<para><xrefsect id="deprecated_1_deprecated000003"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1ab55cb2b211fba6261d68be074f020b02" kindref="member">WireProtocolServer::setCursorCloseFn()</ref> instead. </para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="106" column="6" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="106" bodyend="109" declfile="include/themis/network/wire_protocol_server.hpp" declline="318" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1aaae93d9b18af804690acb911a2e1b1d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::setWireGeoQueryFn</definition>
+        <argsstring>(WireGeoQueryFn fn)</argsstring>
+        <name>setWireGeoQueryFn</name>
+        <qualifiedname>themis::wire::setWireGeoQueryFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1aaca6789c6092c4a2b27051125f46a77f" kindref="member">WireGeoQueryFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the geospatial query bridge for the Protobuf wire protocol. Thread-safe. Pass nullptr to clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Wire Geo Query Fn.</para>
+<para><xrefsect id="deprecated_1_deprecated000004"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1ad6bd20d5ae4a8908f8117e9d38107794" kindref="member">WireProtocolServer::setGeoQueryFn()</ref> for per-server wiring or WireProtocolSession::setGeoQueryFn() for the process-global Protobuf fallback hook. </para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="115" column="6" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="115" bodyend="118" declfile="include/themis/network/wire_protocol_server.hpp" declline="328" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1a908f1807483554ee6ab6ff064b1ff6c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::setWireTSQueryFn</definition>
+        <argsstring>(WireTSQueryFn fn)</argsstring>
+        <name>setWireTSQueryFn</name>
+        <qualifiedname>themis::wire::setWireTSQueryFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1adfc8d5b586d1c06e291f77e91029ee76" kindref="member">WireTSQueryFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the time-series query bridge for the Protobuf wire protocol. Thread-safe. Pass nullptr to clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Wire TSQuery Fn.</para>
+<para><xrefsect id="deprecated_1_deprecated000005"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1a68fef921c5fbe94f64d1e356358e0378" kindref="member">WireProtocolServer::setTimeseriesQueryFn()</ref> for per-server wiring or WireProtocolSession::setTimeseriesQueryFn() for the process-global Protobuf fallback hook. </para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="124" column="6" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="124" bodyend="127" declfile="include/themis/network/wire_protocol_server.hpp" declline="338" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1aad6af2c6d5a4d5d98c072b33ce485d59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::setWireGraphTraversalFn</definition>
+        <argsstring>(WireGraphTraversalFn fn)</argsstring>
+        <name>setWireGraphTraversalFn</name>
+        <qualifiedname>themis::wire::setWireGraphTraversalFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1aa0c3325108e579abdb42d7a36bae013a" kindref="member">WireGraphTraversalFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the graph traversal bridge for the Protobuf wire protocol. Thread-safe. Pass nullptr to clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Wire Graph Traversal Fn.</para>
+<para><xrefsect id="deprecated_1_deprecated000006"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1a378d8d8247a31ec193939fccecd79103" kindref="member">WireProtocolServer::setGraphTraverseFn()</ref> for per-server wiring or WireProtocolSession::setGraphTraverseFn() for the process-global Protobuf fallback hook. </para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/wire_protocol_server.cpp" line="133" column="6" bodyfile="src/themis/wire_protocol_server.cpp" bodystart="133" bodyend="136" declfile="include/themis/network/wire_protocol_server.hpp" declline="348" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/network/wire_protocol_server.hpp" line="68" column="1"/>
+  </compounddef>
+</doxygen>

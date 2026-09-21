@@ -1,0 +1,631 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_principal_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::PrincipalValidator</compoundname>
+    <includes refid="principal__validator_8h" local="no">principal_validator.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" prot="public">themis::auth::PrincipalValidator::Rule</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule" prot="public">themis::auth::PrincipalValidator::MappingRule</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context" prot="public">themis::auth::PrincipalValidator::ValidationContext</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result" prot="public">themis::auth::PrincipalValidator::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" prot="public">themis::auth::PrincipalValidator::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" prot="public">themis::auth::PrincipalValidator::Statistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RuleType</name>
+        <qualifiedname>themis::auth::PrincipalValidator::RuleType</qualifiedname>
+        <enumvalue id="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88adae9872c1b9c27810241dd18aedfc173" prot="public">
+          <name>WHITELIST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88a7c70757b78984c0990d99dc3524395ef" prot="public">
+          <name>BLACKLIST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88ad6755acdb0e43aa4f108e33ad4432c0f" prot="public">
+          <name>REGEX_MATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88a07ae4d97c96f2c88d54384af928b66ce" prot="public">
+          <name>REGEX_DENY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="30" column="5" bodyfile="include/auth/principal_validator.h" bodystart="30" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_principal_validator_1a4f92670a64f93ebf3352feae8b912ff3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::PrincipalValidator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::PrincipalValidator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="156" column="12" bodyfile="include/auth/principal_validator.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_principal_validator_1a9f458272fcb41e26570129ea555e6ab4" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::auth::PrincipalValidator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::auth::PrincipalValidator::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="157" column="24" bodyfile="include/auth/principal_validator.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_principal_validator_1aa37bd442c9dcd012141e953975b31aa3" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::PrincipalValidator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::PrincipalValidator::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning, optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="158" column="24" bodyfile="include/auth/principal_validator.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_principal_validator_1a130a85e35ceb84951163d7c506c0fde0" prot="private" static="no" mutable="no">
+        <type>PolicyEngine *</type>
+        <definition>PolicyEngine* themis::auth::PrincipalValidator::abac_engine_</definition>
+        <argsstring></argsstring>
+        <name>abac_engine_</name>
+        <qualifiedname>themis::auth::PrincipalValidator::abac_engine_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning, optional ABAC engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="159" column="24" bodyfile="include/auth/principal_validator.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a7b3708403145dacb9bb3f1ae709d259c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::PrincipalValidator::PrincipalValidator</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>PrincipalValidator</name>
+        <qualifiedname>themis::auth::PrincipalValidator::PrincipalValidator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config_1a476fccb35bd0c630c7acff7fd7055871" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="98" column="14" bodyfile="src/auth/principal_validator.cpp" bodystart="24" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1ab0b65aeca48daa18345e869c41f59f35" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PrincipalValidator::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::PrincipalValidator::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="105" column="10" bodyfile="include/auth/principal_validator.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1ad42c33f8318f9ad07af3de53b038e28e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PrincipalValidator::setAbacEngine</definition>
+        <argsstring>(PolicyEngine *engine)</argsstring>
+        <name>setAbacEngine</name>
+        <qualifiedname>themis::auth::PrincipalValidator::setAbacEngine</qualifiedname>
+        <param>
+          <type>PolicyEngine *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Set Abac Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAbacEngine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="112" column="10" bodyfile="include/auth/principal_validator.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1afd8c1f3f49a10572b8a7f485f71c8fb5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const PolicyEngine *</type>
+        <definition>const PolicyEngine * themis::auth::PrincipalValidator::getAbacEngine</definition>
+        <argsstring>() const</argsstring>
+        <name>getAbacEngine</name>
+        <qualifiedname>themis::auth::PrincipalValidator::getAbacEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="114" column="24" bodyfile="include/auth/principal_validator.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1adc85daae8528c8c44a0a56b9c77c2b83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>PrincipalValidator::ValidationResult themis::auth::PrincipalValidator::validate</definition>
+        <argsstring>(const std::string &amp;principal, const ValidationContext &amp;ctx={})</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::auth::PrincipalValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context" kindref="compound">ValidationContext</ref> &amp;</type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: matchesRule(), empty(), logAudit(), applyMappingRules(), value_or(), authorize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="116" column="22" bodyfile="src/auth/principal_validator.cpp" bodystart="47" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1ad4d1d57d3db04f381843f81941c1a623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PrincipalValidator::addRule</definition>
+        <argsstring>(const Rule &amp;rule)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themis::auth::PrincipalValidator::addRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" kindref="compound">Rule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" kindref="compound">Rule</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="123" column="10" bodyfile="src/auth/principal_validator.cpp" bodystart="138" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a0dab521700d6434be51e595cbd8dd311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PrincipalValidator::addMappingRule</definition>
+        <argsstring>(const MappingRule &amp;rule)</argsstring>
+        <name>addMappingRule</name>
+        <qualifiedname>themis::auth::PrincipalValidator::addMappingRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule" kindref="compound">MappingRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Add Mapping <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" kindref="compound">Rule</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="129" column="10" bodyfile="src/auth/principal_validator.cpp" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a34e487a28aff2dcbf3882537b79165f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PrincipalValidator::clearRules</definition>
+        <argsstring>(RuleType type)</argsstring>
+        <name>clearRules</name>
+        <qualifiedname>themis::auth::PrincipalValidator::clearRules</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88" kindref="member">RuleType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Clear Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="135" column="10" bodyfile="src/auth/principal_validator.cpp" bodystart="164" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1ae352d103f0a33302628fd1869d879381" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::auth::PrincipalValidator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::auth::PrincipalValidator::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="137" column="18" bodyfile="include/auth/principal_validator.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a7969c6ab02cb167bddc594734fec1c4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>PrincipalValidator::Statistics themis::auth::PrincipalValidator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::auth::PrincipalValidator::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="153" column="16" bodyfile="src/auth/principal_validator.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a416239ef19d0771fd07593e36b71bf02" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::PrincipalValidator::matchesRule</definition>
+        <argsstring>(const std::string &amp;principal, const Rule &amp;rule) const</argsstring>
+        <name>matchesRule</name>
+        <qualifiedname>themis::auth::PrincipalValidator::matchesRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" kindref="compound">Rule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Check if principal matches a rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="167" column="10" bodyfile="src/auth/principal_validator.cpp" bodystart="174" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a46dcac6264ac6491d9cf81a8c6311311" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::PrincipalValidator::matchesMappingRule</definition>
+        <argsstring>(const std::string &amp;principal, const MappingRule &amp;rule) const</argsstring>
+        <name>matchesMappingRule</name>
+        <qualifiedname>themis::auth::PrincipalValidator::matchesMappingRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule" kindref="compound">MappingRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Check if principal matches a mapping rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="175" column="10" bodyfile="src/auth/principal_validator.cpp" bodystart="203" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a7a9b61cfcc261538aed7ff6cb44e8016" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::PrincipalValidator::applyMappingRules</definition>
+        <argsstring>(const std::string &amp;principal) const</argsstring>
+        <name>applyMappingRules</name>
+        <qualifiedname>themis::auth::PrincipalValidator::applyMappingRules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <briefdescription>
+<para>Apply mapping rules to get roles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="182" column="17" bodyfile="src/auth/principal_validator.cpp" bodystart="244" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a3fc1886a43541973dedb589f25323ef1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PrincipalValidator::logAudit</definition>
+        <argsstring>(const ValidationResult &amp;result) const</argsstring>
+        <name>logAudit</name>
+        <qualifiedname>themis::auth::PrincipalValidator::logAudit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Log Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="189" column="10" bodyfile="src/auth/principal_validator.cpp" bodystart="264" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a0f48574356bbe9867b0cd0eeee8f3f62" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PrincipalValidator::compileRegex</definition>
+        <argsstring>(const Rule &amp;rule) const</argsstring>
+        <name>compileRegex</name>
+        <qualifiedname>themis::auth::PrincipalValidator::compileRegex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule" kindref="compound">Rule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Compile regex for a rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="195" column="10" bodyfile="src/auth/principal_validator.cpp" bodystart="308" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_principal_validator_1a6fd4fbfefcfe9f4a47b0dad0f6619160" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::PrincipalValidator::compileRegex</definition>
+        <argsstring>(const MappingRule &amp;rule) const</argsstring>
+        <name>compileRegex</name>
+        <qualifiedname>themis::auth::PrincipalValidator::compileRegex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_principal_validator_1_1_mapping_rule" kindref="compound">MappingRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Compile Regex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="200" column="10" bodyfile="src/auth/principal_validator.cpp" bodystart="324" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/principal_validator.h" line="28" column="1" bodyfile="include/auth/principal_validator.h" bodystart="28" bodyend="201"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a130a85e35ceb84951163d7c506c0fde0" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>abac_engine_</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a0dab521700d6434be51e595cbd8dd311" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>addMappingRule</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1ad4d1d57d3db04f381843f81941c1a623" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>addRule</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a7a9b61cfcc261538aed7ff6cb44e8016" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>applyMappingRules</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1aa37bd442c9dcd012141e953975b31aa3" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a34e487a28aff2dcbf3882537b79165f3" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>clearRules</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a0f48574356bbe9867b0cd0eeee8f3f62" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>compileRegex</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a6fd4fbfefcfe9f4a47b0dad0f6619160" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>compileRegex</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a4f92670a64f93ebf3352feae8b912ff3" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1afd8c1f3f49a10572b8a7f485f71c8fb5" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>getAbacEngine</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1ae352d103f0a33302628fd1869d879381" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a7969c6ab02cb167bddc594734fec1c4f" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a3fc1886a43541973dedb589f25323ef1" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>logAudit</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a46dcac6264ac6491d9cf81a8c6311311" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>matchesMappingRule</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a416239ef19d0771fd07593e36b71bf02" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>matchesRule</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a7b3708403145dacb9bb3f1ae709d259c" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>PrincipalValidator</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>RuleType</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1ad42c33f8318f9ad07af3de53b038e28e" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>setAbacEngine</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1ab0b65aeca48daa18345e869c41f59f35" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1a9f458272fcb41e26570129ea555e6ab4" prot="private" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1auth_1_1_principal_validator_1adc85daae8528c8c44a0a56b9c77c2b83" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6063c3b199fb02c611cb93b9fb5209f3" kind="dir">
+    <compoundname>benchmarks/graph</compoundname>
+    <innerfile refid="bench__gnn__embeddings_8cpp">bench_gnn_embeddings.cpp</innerfile>
+    <innerfile refid="bench__graph__dedicated__gates_8cpp">bench_graph_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__graph__query__optimizer_8cpp">bench_graph_query_optimizer.cpp</innerfile>
+    <innerfile refid="bench__graph__release__gates_8cpp">bench_graph_release_gates.cpp</innerfile>
+    <innerfile refid="bench__graph__traversal_8cpp">bench_graph_traversal.cpp</innerfile>
+    <innerfile refid="bench__pagerank_8cpp">bench_pagerank.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/graph/"/>
+  </compounddef>
+</doxygen>

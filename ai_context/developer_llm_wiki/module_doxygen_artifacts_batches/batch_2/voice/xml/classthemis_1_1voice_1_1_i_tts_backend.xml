@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_i_tts_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::voice::ITtsBackend</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_i_tts_backend_1a16bcf712d85f89e8436fd718fbc4f434" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::voice::ITtsBackend::~ITtsBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITtsBackend</name>
+        <qualifiedname>themis::voice::ITtsBackend::~ITtsBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="125" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_i_tts_backend_1a9d0167efed739d06bf0294092a1921cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::voice::ITtsBackend::synthesize</definition>
+        <argsstring>(const std::string &amp;text, AudioCodec codec)=0</argsstring>
+        <name>synthesize</name>
+        <qualifiedname>themis::voice::ITtsBackend::synthesize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1ae650ea81d1f35201800909d85db40f56" kindref="member">AudioCodec</ref></type>
+          <declname>codec</declname>
+        </param>
+        <briefdescription>
+<para>Synthesise <computeroutput>text</computeroutput> into a sequence of encoded audio frames. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to synthesise. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>codec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target codec (used to select the encoder). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Encoded audio payload frames (one per 20 ms); empty on failure or when the text is empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="135" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Injectable text-to-speech backend interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this interface to supply a real TTS encoder (e.g. a G.711 µ-law PCMU encoder for SIP, or an Opus encoder for WebRTC).</para>
+<sect1 id="classthemis_1_1voice_1_1_i_tts_backend_1autotoc_md35_1s1"><sect2 id="classthemis_1_1voice_1_1_i_tts_backend_1autotoc_md35">
+<title>Contract</title><para><itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1voice_1_1_i_tts_backend_1a9d0167efed739d06bf0294092a1921cc" kindref="member">synthesize()</ref></computeroutput> must be thread-safe.</para>
+</listitem><listitem><para>Each returned inner <computeroutput>vector&lt;uint8_t&gt;</computeroutput> represents one RTP payload frame (without RTP header); the session wrapper adds the correct RTP header.</para>
+</listitem><listitem><para>An empty outer vector indicates synthesis failure or unsupported text.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1voice_1_1_sip_call_session_1a1ba983d2a0436b8c6210f93bf2e2e008" kindref="member">SipCallSession::setTtsBackend()</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a57fd5827ddff8f9beeabc6719df4b078" kindref="member">WebRtcCallSession::setTtsBackend()</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="123" column="1" bodyfile="include/voice/voice_telephony.h" bodystart="123" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_i_tts_backend_1a9d0167efed739d06bf0294092a1921cc" prot="public" virt="pure-virtual"><scope>themis::voice::ITtsBackend</scope><name>synthesize</name></member>
+      <member refid="classthemis_1_1voice_1_1_i_tts_backend_1a16bcf712d85f89e8436fd718fbc4f434" prot="public" virt="virtual"><scope>themis::voice::ITtsBackend</scope><name>~ITtsBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

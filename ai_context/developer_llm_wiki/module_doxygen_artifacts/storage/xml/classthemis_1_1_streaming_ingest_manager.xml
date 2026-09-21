@@ -1,0 +1,624 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_streaming_ingest_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::StreamingIngestManager</compoundname>
+    <includes refid="streaming__ingest__manager_8h" local="no">streaming_ingest_manager.h</includes>
+    <innerclass refid="structthemis_1_1_streaming_ingest_manager_1_1_event" prot="public">themis::StreamingIngestManager::Event</innerclass>
+    <innerclass refid="structthemis_1_1_streaming_ingest_manager_1_1_stats" prot="public">themis::StreamingIngestManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_streaming_ingest_manager_1_1_config" prot="public">themis::StreamingIngestManager::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_streaming_ingest_manager_1a113b75e4b672c6bce8fd019becc47313" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OverflowPolicy</name>
+        <qualifiedname>themis::StreamingIngestManager::OverflowPolicy</qualifiedname>
+        <enumvalue id="classthemis_1_1_streaming_ingest_manager_1a113b75e4b672c6bce8fd019becc47313a4d34f53389ed7f28ca91fc31ea360a66" prot="public">
+          <name>BLOCK</name>
+          <briefdescription>
+<para>Block the caller until space is available (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_streaming_ingest_manager_1a113b75e4b672c6bce8fd019becc47313abf8f3be424eb6a72b21549fbb24ffb57" prot="public">
+          <name>DROP</name>
+          <briefdescription>
+<para>Silently discard the event and increment dropped_events. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>What to do when the ring buffer is full. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="59" column="5" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="59" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1afe4dc12454f936ce772c2044ba6ab33d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::StreamingIngestManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::StreamingIngestManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="189" column="21" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1a4c10301769d37f697be8fd50cc1dc146" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_streaming_ingest_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::StreamingIngestManager::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::StreamingIngestManager::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="190" column="37" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1a0ebf165cdf49d5ebf47628c42df33a8c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::StreamingIngestManager::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::StreamingIngestManager::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="192" column="37" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1a5fc3039f994d3ae91738b268e551ce1c" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::StreamingIngestManager::not_full_</definition>
+        <argsstring></argsstring>
+        <name>not_full_</name>
+        <qualifiedname>themis::StreamingIngestManager::not_full_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="193" column="37" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1ad75d78a4e2085518a9fd1ea0e0d2b4f8" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::StreamingIngestManager::not_empty_</definition>
+        <argsstring></argsstring>
+        <name>not_empty_</name>
+        <qualifiedname>themis::StreamingIngestManager::not_empty_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="194" column="37" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1a33c823b85c88538bff1232fafeb9753c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_streaming_ingest_manager_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt;Event&gt; themis::StreamingIngestManager::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::StreamingIngestManager::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="196" column="30" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1aa291a02b55bd35fe24d3f6bf8d9e5109" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::StreamingIngestManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::StreamingIngestManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="197" column="31" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1ae12efb86d766cdd794c6c01df7334d0b" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::StreamingIngestManager::flush_thread_</definition>
+        <argsstring></argsstring>
+        <name>flush_thread_</name>
+        <qualifiedname>themis::StreamingIngestManager::flush_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="198" column="37" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1af51708faaacd503c18cdc84e2691fadd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StreamingIngestManager::stat_ingested_</definition>
+        <argsstring></argsstring>
+        <name>stat_ingested_</name>
+        <qualifiedname>themis::StreamingIngestManager::stat_ingested_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="201" column="27" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1af1a925c2200328072bcb06b5e14b0566" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StreamingIngestManager::stat_flushed_</definition>
+        <argsstring></argsstring>
+        <name>stat_flushed_</name>
+        <qualifiedname>themis::StreamingIngestManager::stat_flushed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="202" column="27" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1a506aaba310243d4966e9df888eeff1b8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StreamingIngestManager::stat_flush_count_</definition>
+        <argsstring></argsstring>
+        <name>stat_flush_count_</name>
+        <qualifiedname>themis::StreamingIngestManager::stat_flush_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="203" column="27" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1abbcb07dea172dc2c76ffaeeb2ce9efc9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StreamingIngestManager::stat_backpressure_</definition>
+        <argsstring></argsstring>
+        <name>stat_backpressure_</name>
+        <qualifiedname>themis::StreamingIngestManager::stat_backpressure_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="204" column="27" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_streaming_ingest_manager_1a5135e769b176ba02e0d7d7ddd0e7ac6c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StreamingIngestManager::stat_dropped_</definition>
+        <argsstring></argsstring>
+        <name>stat_dropped_</name>
+        <qualifiedname>themis::StreamingIngestManager::stat_dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="205" column="27" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a71cb7b8d90264622ed02d3eafc48b2b0" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_streaming_ingest_manager_1a8aa242d63263a71d70503ba0fac10832" kindref="member">StreamingIngestManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; StreamingIngestManager &gt; themis::StreamingIngestManager::create</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, Config cfg={})</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::StreamingIngestManager::create</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_streaming_ingest_manager_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="classthemis_1_1_streaming_ingest_manager" kindref="compound">StreamingIngestManager</ref> backed by <computeroutput>db</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper (must outlive the manager). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tuning parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A stopped manager; call <ref refid="classthemis_1_1_streaming_ingest_manager_1a4227fe067bb1d029311b245c4f7a7be2" kindref="member">start()</ref> before ingesting events.</para>
+</simplesect>
+<simplesect kind="note"><para>Ownership model: the private constructor is only reachable via this factory. The caller receives sole ownership via std::unique_ptr. The internal <computeroutput>new StreamingIngestManager(...)</computeroutput> is immediately transferred to the returned unique_ptr — this is the correct idiom when std::make_unique cannot be used due to a private constructor, resolving the smart_ptr_misuse scanner gap at line 64.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="123" column="29" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="41" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a4227fe067bb1d029311b245c4f7a7be2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StreamingIngestManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::StreamingIngestManager::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start the background flush thread.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: compare_exchange_strong(), tl::unexpected(), Error(), std::thread(), flushLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="128" column="12" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="98" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1ae216e4a68ead6f27b581f9693e9b0f2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StreamingIngestManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::StreamingIngestManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the background flush thread and flush all pending events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Blocks until the queue is drained. After <ref refid="classthemis_1_1_streaming_ingest_manager_1ae216e4a68ead6f27b581f9693e9b0f2e" kindref="member">stop()</ref> the manager may not be restarted.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), store(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(), lock(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="136" column="12" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="114" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a92b387539887f44ab11bbaaaee7084b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StreamingIngestManager::ingest</definition>
+        <argsstring>(std::string_view key, std::string_view value)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::StreamingIngestManager::ingest</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Enqueue a single event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para>When <computeroutput><ref refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1ab244d2cb00c1d0577eb84116b0c68bdb" kindref="member">Config::overflow_policy</ref> == BLOCK</computeroutput>, this method blocks until buffer space is available (subject to <computeroutput>backpressure_timeout</computeroutput>).</para>
+<para>When <computeroutput><ref refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1ab244d2cb00c1d0577eb84116b0c68bdb" kindref="member">Config::overflow_policy</ref> == DROP</computeroutput>, returns success immediately even if the event was discarded.</para>
+<para><simplesect kind="return"><para>Success, or ERR_STORAGE_LOG_FULL if the buffer is full and the backpressure timeout expired.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="152" column="12" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="144" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a0de31babb2ee0fa40779aa6269187c8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; themis::StreamingIngestManager::ingestBatch</definition>
+        <argsstring>(std::vector&lt; Event &gt; events)</argsstring>
+        <name>ingestBatch</name>
+        <qualifiedname>themis::StreamingIngestManager::ingestBatch</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_streaming_ingest_manager_1_1_event" kindref="compound">Event</ref> &gt;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Enqueue a batch of pre-built events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest Batch.</para>
+<para>More efficient than calling <ref refid="classthemis_1_1_streaming_ingest_manager_1a92b387539887f44ab11bbaaaee7084b0" kindref="member">ingest()</ref> in a loop because the mutex is taken only once. Events are appended in order.</para>
+<para><simplesect kind="return"><para>Number of events successfully enqueued. If back-pressure triggers, the returned count may be less than <computeroutput>events.size()</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_DEBUG(), lock(), size(), fetch_add(), THEMIS_WARN(), count(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="163" column="12" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="192" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a14921216ab1329d1a95a93d770e515bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StreamingIngestManager::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::StreamingIngestManager::flush</qualifiedname>
+        <briefdescription>
+<para>Immediately flush all buffered events to RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Blocks until the flush is complete. Useful for testing and graceful shutdown scenarios.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), THEMIS_DEBUG(), flushOnce(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="171" column="12" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="243" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a03f8829c23479e63e4425b11fcd29124" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_streaming_ingest_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>StreamingIngestManager::Stats themis::StreamingIngestManager::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::StreamingIngestManager::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a snapshot of current statistics. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="176" column="11" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="350" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a4b0e396cb9810b19ee2a006c8b903423" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StreamingIngestManager::~StreamingIngestManager</definition>
+        <argsstring>()</argsstring>
+        <name>~StreamingIngestManager</name>
+        <qualifiedname>themis::StreamingIngestManager::~StreamingIngestManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="178" column="5" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="77" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a8aa242d63263a71d70503ba0fac10832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StreamingIngestManager::StreamingIngestManager</definition>
+        <argsstring>(const StreamingIngestManager &amp;)=delete</argsstring>
+        <name>StreamingIngestManager</name>
+        <qualifiedname>themis::StreamingIngestManager::StreamingIngestManager</qualifiedname>
+        <param>
+          <type>const StreamingIngestManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="180" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a41e2341953bbe655ccb5845087968f12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_streaming_ingest_manager_1a8aa242d63263a71d70503ba0fac10832" kindref="member">StreamingIngestManager</ref> &amp;</type>
+        <definition>StreamingIngestManager &amp; themis::StreamingIngestManager::operator=</definition>
+        <argsstring>(const StreamingIngestManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::StreamingIngestManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_streaming_ingest_manager_1a8aa242d63263a71d70503ba0fac10832" kindref="member">StreamingIngestManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="181" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a09d4046763c72eb6e78e00c21d9e9334" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StreamingIngestManager::StreamingIngestManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, Config cfg)</argsstring>
+        <name>StreamingIngestManager</name>
+        <qualifiedname>themis::StreamingIngestManager::StreamingIngestManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_streaming_ingest_manager_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="184" column="14" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a20c89628b568c5f9380c202a26d8c806" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StreamingIngestManager::flushLoop</definition>
+        <argsstring>()</argsstring>
+        <name>flushLoop</name>
+        <qualifiedname>themis::StreamingIngestManager::flushLoop</qualifiedname>
+        <briefdescription>
+<para>Flush Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), empty(), flushOnce(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="186" column="10" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="260" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_streaming_ingest_manager_1a7c551e78d29632f032e8e2b4555005d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StreamingIngestManager::flushOnce</definition>
+        <argsstring>(std::unique_lock&lt; std::mutex &gt; &amp;lock)</argsstring>
+        <name>flushOnce</name>
+        <qualifiedname>themis::StreamingIngestManager::flushOnce</qualifiedname>
+        <param>
+          <type>std::unique_lock&lt; std::mutex &gt; &amp;</type>
+          <declname>lock</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Internal flush (called with mu_ held; may unlock/re-lock) ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), swap(), reserve(), std::min(), notify_all(), unlock(), size(), Put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="187" column="12" bodyfile="src/storage/streaming_ingest_manager.cpp" bodystart="293" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Streaming ingest manager component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/streaming_ingest_manager.h" line="29" column="1" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="29" bodyend="206"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a33c823b85c88538bff1232fafeb9753c" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a4c10301769d37f697be8fd50cc1dc146" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a71cb7b8d90264622ed02d3eafc48b2b0" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>create</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1afe4dc12454f936ce772c2044ba6ab33d" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a14921216ab1329d1a95a93d770e515bf" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>flush</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1ae12efb86d766cdd794c6c01df7334d0b" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>flush_thread_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a20c89628b568c5f9380c202a26d8c806" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>flushLoop</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a7c551e78d29632f032e8e2b4555005d1" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>flushOnce</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a92b387539887f44ab11bbaaaee7084b0" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a0de31babb2ee0fa40779aa6269187c8c" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>ingestBatch</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a0ebf165cdf49d5ebf47628c42df33a8c" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1ad75d78a4e2085518a9fd1ea0e0d2b4f8" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>not_empty_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a5fc3039f994d3ae91738b268e551ce1c" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>not_full_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a41e2341953bbe655ccb5845087968f12" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a113b75e4b672c6bce8fd019becc47313" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>OverflowPolicy</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1aa291a02b55bd35fe24d3f6bf8d9e5109" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a4227fe067bb1d029311b245c4f7a7be2" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1abbcb07dea172dc2c76ffaeeb2ce9efc9" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>stat_backpressure_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a5135e769b176ba02e0d7d7ddd0e7ac6c" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>stat_dropped_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a506aaba310243d4966e9df888eeff1b8" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>stat_flush_count_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1af1a925c2200328072bcb06b5e14b0566" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>stat_flushed_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1af51708faaacd503c18cdc84e2691fadd" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>stat_ingested_</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a03f8829c23479e63e4425b11fcd29124" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>stats</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1ae216e4a68ead6f27b581f9693e9b0f2e" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>stop</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a8aa242d63263a71d70503ba0fac10832" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>StreamingIngestManager</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a09d4046763c72eb6e78e00c21d9e9334" prot="private" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>StreamingIngestManager</name></member>
+      <member refid="classthemis_1_1_streaming_ingest_manager_1a4b0e396cb9810b19ee2a006c8b903423" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager</scope><name>~StreamingIngestManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

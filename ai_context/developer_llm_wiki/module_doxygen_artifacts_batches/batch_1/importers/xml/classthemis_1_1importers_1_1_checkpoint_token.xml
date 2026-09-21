@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_checkpoint_token" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::CheckpointToken</compoundname>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_checkpoint_token_1ad3653efc9028d0d5daf4b1e0efb54dc8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::CheckpointToken::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::importers::CheckpointToken::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="181" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_checkpoint_token_1a19edf2c9bea76d03d1cefc47932ce764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::CheckpointToken::CheckpointToken</definition>
+        <argsstring>()=default</argsstring>
+        <name>CheckpointToken</name>
+        <qualifiedname>themis::importers::CheckpointToken::CheckpointToken</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="163" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_checkpoint_token_1a62045c50a4a863f805a1bff88a67acd4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::CheckpointToken::CheckpointToken</definition>
+        <argsstring>(std::string serialized)</argsstring>
+        <name>CheckpointToken</name>
+        <qualifiedname>themis::importers::CheckpointToken::CheckpointToken</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>serialized</declname>
+        </param>
+        <briefdescription>
+<para>Checkpoint Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">serialized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="170" column="14" bodyfile="include/importers/importer_interfaces.h" bodystart="170" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_checkpoint_token_1a8094ca99194265bbe1033da575835c84" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::importers::CheckpointToken::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::importers::CheckpointToken::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="173" column="23" bodyfile="include/importers/importer_interfaces.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_checkpoint_token_1aca1b344a9a9c3a7f1b2d4b9755c6c3c2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::CheckpointToken::valid</definition>
+        <argsstring>() const</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::importers::CheckpointToken::valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="175" column="10" bodyfile="include/importers/importer_interfaces.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_checkpoint_token_1a46904f6cb41b87fc751169937f70981f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::CheckpointToken::operator==</definition>
+        <argsstring>(const CheckpointToken &amp;o) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::importers::CheckpointToken::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1importers_1_1_checkpoint_token_1a19edf2c9bea76d03d1cefc47932ce764" kindref="member">CheckpointToken</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="177" column="10" bodyfile="include/importers/importer_interfaces.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_checkpoint_token_1a3d1d8e0fca8bec3e30567e4ac375b7ec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::CheckpointToken::operator!=</definition>
+        <argsstring>(const CheckpointToken &amp;o) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::importers::CheckpointToken::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1importers_1_1_checkpoint_token_1a19edf2c9bea76d03d1cefc47932ce764" kindref="member">CheckpointToken</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="178" column="10" bodyfile="include/importers/importer_interfaces.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interfaces.h" line="161" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="161" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_checkpoint_token_1a19edf2c9bea76d03d1cefc47932ce764" prot="public" virt="non-virtual"><scope>themis::importers::CheckpointToken</scope><name>CheckpointToken</name></member>
+      <member refid="classthemis_1_1importers_1_1_checkpoint_token_1a62045c50a4a863f805a1bff88a67acd4" prot="public" virt="non-virtual"><scope>themis::importers::CheckpointToken</scope><name>CheckpointToken</name></member>
+      <member refid="classthemis_1_1importers_1_1_checkpoint_token_1a3d1d8e0fca8bec3e30567e4ac375b7ec" prot="public" virt="non-virtual"><scope>themis::importers::CheckpointToken</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1importers_1_1_checkpoint_token_1a46904f6cb41b87fc751169937f70981f" prot="public" virt="non-virtual"><scope>themis::importers::CheckpointToken</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1importers_1_1_checkpoint_token_1a8094ca99194265bbe1033da575835c84" prot="public" virt="non-virtual"><scope>themis::importers::CheckpointToken</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_checkpoint_token_1aca1b344a9a9c3a7f1b2d4b9755c6c3c2" prot="public" virt="non-virtual"><scope>themis::importers::CheckpointToken</scope><name>valid</name></member>
+      <member refid="classthemis_1_1importers_1_1_checkpoint_token_1ad3653efc9028d0d5daf4b1e0efb54dc8" prot="private" virt="non-virtual"><scope>themis::importers::CheckpointToken</scope><name>value_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

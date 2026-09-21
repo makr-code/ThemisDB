@@ -1,0 +1,1599 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__scheduler__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_scheduler_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="task__scheduler_8h" local="yes">scheduler/task_scheduler.h</includes>
+    <includes refid="event__trigger_8h" local="yes">scheduler/event_trigger.h</includes>
+    <includes local="yes">utils/cron_parser.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">query/query_engine.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">sstream</includes>
+    <incdepgraph>
+      <node id="25">
+        <label>scheduler/event_trigger.h</label>
+        <link refid="event__trigger_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>scheduler/scheduler_api_contract.h</label>
+        <link refid="scheduler__api__contract_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>scheduler/task_audit_event.h</label>
+        <link refid="task__audit__event_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>scheduler/task_result_store.h</label>
+        <link refid="task__result__store_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>scheduler/task_scheduler.h</label>
+        <link refid="task__scheduler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/scheduler/test_scheduler_integration.cpp</label>
+        <link refid="test__scheduler__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="19">
+        <label>cdc/changefeed.h</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>condition_variable</label>
+      </node>
+      <node id="21">
+        <label>cstdint</label>
+      </node>
+      <node id="30">
+        <label>filesystem</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="28">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="24">
+        <label>observability/alertmanager.h</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="29">
+        <label>query/query_engine.h</label>
+      </node>
+      <node id="7">
+        <label>set</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="31">
+        <label>sstream</label>
+      </node>
+      <node id="27">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_set</label>
+      </node>
+      <node id="26">
+        <label>utils/cron_parser.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_scheduler_integration_test" prot="public">SchedulerIntegrationTest</innerclass>
+    <innernamespace refid="namespacestd_1_1chrono__literals">std::chrono_literals</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, StartStopIsIdempotent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StartStopIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="111" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="111" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a7747c9e40d3c765aac45d33e04d33a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, RegisterAndUnregisterTask)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterAndUnregisterTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="121" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="121" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a8aee83952f9d468dfeb140326ee29cb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, EnableDisableTask)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>EnableDisableTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="131" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="131" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a6ae78d18602ff340e19b226509638837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ListTasksReturnsAllRegistered)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ListTasksReturnsAllRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="144" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="144" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1abe6b0c7b9a64a8b8f5521cd234697cdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ManualExecutionUpdatesStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ManualExecutionUpdatesStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="157" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="157" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a18df17bf07c5c353db5ea47c0d352ee5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, FailedManualExecutionUpdatesFailureStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>FailedManualExecutionUpdatesFailureStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="172" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="172" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1aad6ace75a39a20e9169149dd8b846200" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, MultipleManualExecutionsAccumulateStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleManualExecutionsAccumulateStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="194" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="194" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1ac659474c2298f2399500a4d8e5636e95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ExportMetricsIsNotEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ExportMetricsIsNotEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="213" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="213" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1aacf63d89e911c57f912f470f6587dfbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ExportMetricsContainsRequiredMetricNames)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ExportMetricsContainsRequiredMetricNames</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="218" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="218" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a6e6d9a8c4adb310b603dca1e441c2619" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ExportMetricsReflectsRegisteredTaskCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ExportMetricsReflectsRegisteredTaskCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="226" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="226" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1ae8b25333a50946420acd7c2cab6bfbf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ExportMetricsSuccessCounterIncrementsAfterExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ExportMetricsSuccessCounterIncrementsAfterExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="237" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="237" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1abd915e37c6bae58d72f04d0de7de29fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ExportMetricsHasHelpAndTypeLines)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ExportMetricsHasHelpAndTypeLines</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="247" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="247" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1abe620287583355fac4d99d4a2771948c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ExportMetricsPrometheusFormatValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ExportMetricsPrometheusFormatValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="253" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="253" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1aa865b0e28096770530ee193830d02ee6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, IntervalTaskExecutedBySchedulerLoop)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>IntervalTaskExecutedBySchedulerLoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="289" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="289" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a8a9383de2eb8ae4e7f3be40b058cf0f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ConcurrentTasksExecuteInParallel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentTasksExecuteInParallel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="315" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="315" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a39cb1d5f16100add8ea09c2a08d80b48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, PersistenceRoundTripRestoresTask)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>PersistenceRoundTripRestoresTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="365" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="365" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a0837cb78af63274c0e26d3ea519f2c7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, PersistenceRoundTripRestoresRetryPolicy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>PersistenceRoundTripRestoresRetryPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="401" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="401" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a9ea1913e50ca31af2cd470372fcef827" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, SchedulerLoopAppliesRetryPolicy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SchedulerLoopAppliesRetryPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="444" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="444" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a41abf41953bdd9258f514ce7149ab85b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, GetStatsReflectsRunningState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>GetStatsReflectsRunningState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="476" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="476" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a00d3558515b42d92efe49541388e0a1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, GetStatsActiveVsRegistered)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>GetStatsActiveVsRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="501" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="501" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1ae9f85a62d3bda352ea4c93012cae73ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, CronTaskIsRegisteredAndHasValidExpression)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CronTaskIsRegisteredAndHasValidExpression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="516" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="516" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a9d7e7fedf54274eb872ab1f7b85a34d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, InvalidCronExpressionThrowsOnRegister)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidCronExpressionThrowsOnRegister</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="536" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="536" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a8f019e2c2fb003ff417d997813d6c219" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, OnSuccessHookCalledAfterSuccessfulExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>OnSuccessHookCalledAfterSuccessfulExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="554" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="554" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1aeea8ba7c7e64d869d14f93d813d61cc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, OnFailureHookCalledAfterFailedExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>OnFailureHookCalledAfterFailedExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="573" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="573" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a4c625bb025dc70f48517f688e6349964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, UpdateTaskChangesDescription)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateTaskChangesDescription</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="597" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="597" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1ab2c90ba69df7c919c01de610becbbb50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, UpdateTaskPreservesExecutionStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateTaskPreservesExecutionStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="615" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="615" bodyend="635"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a90381793583d401872e3db46ef5f9213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, UnregisteredFunctionReturnsErrorOnExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisteredFunctionReturnsErrorOnExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="641" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="641" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1a8c9fc102b523b8650f489d2188d4e82a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ManualTriggerTaskNotExecutedBySchedulerLoop)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ManualTriggerTaskNotExecutedBySchedulerLoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="671" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="671" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1af9072468ff96e177c3142046abe6fae0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, ExportMetricsShowsDisabledTaskAsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ExportMetricsShowsDisabledTaskAsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="700" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="700" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1adbf260c479739aa9bdbfd905ca40da73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, RapidStartStopDoesNotCrash)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RapidStartStopDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="719" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="719" bodyend="743"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scheduler__integration_8cpp_1aed0686bd609881d8c4f040cbce828954" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchedulerIntegrationTest, GetStatsTotalExecutionsAggregatesAllTasks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>GetStatsTotalExecutionsAggregatesAllTasks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_integration.cpp" line="749" column="1" bodyfile="tests/scheduler/test_scheduler_integration.cpp" bodystart="749" bodyend="760"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integration tests for the Scheduler module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests end-to-end scheduler flows:<itemizedlist>
+<listitem><para>Task lifecycle (register → start → execute → stop)</para>
+</listitem><listitem><para>Per-task statistics accumulation</para>
+</listitem><listitem><para>Prometheus metrics export</para>
+</listitem><listitem><para>Persistence round-trip (save/load)</para>
+</listitem><listitem><para>RetryPolicy applied in scheduled execution</para>
+</listitem><listitem><para><ref refid="classthemis_1_1_event_trigger" kindref="compound">EventTrigger</ref> circuit breaker integration</para>
+</listitem><listitem><para>CronExpression scheduling integration</para>
+</listitem><listitem><para>Concurrent task execution </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="task__scheduler_8h" kindref="compound">scheduler/task_scheduler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="event__trigger_8h" kindref="compound">scheduler/event_trigger.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/cron_parser.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_scheduler_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_scheduler_integration_test_1afcf94b7d03e73f36cda2edb21058c0e3" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1aa83609bf64c91cd4e5f48c1492f7545b" kindref="member">db_path_</ref><sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::path(</highlight><highlight class="stringliteral">&quot;themis_integ_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(now))).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(<ref refid="class_scheduler_integration_test_1aa83609bf64c91cd4e5f48c1492f7545b" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/><ref refid="class_scheduler_integration_test_1aa83609bf64c91cd4e5f48c1492f7545b" kindref="member">db_path_</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_blobdb<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" kindref="member">storage_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" kindref="member">storage_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a6c0e1df8f722d44e30bc2690d915d8c1" kindref="member">idx_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a2b64ef01dbcae471b929a7cc4f980868" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" kindref="member">storage_</ref>,<sp/>*<ref refid="class_scheduler_integration_test_1a6c0e1df8f722d44e30bc2690d915d8c1" kindref="member">idx_</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a651ac76ca0df9e567cc20b6796a0cebf" kindref="member">makeScheduler</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_scheduler_integration_test_1ab44e3cc571ce7e952656ec48c0aecbc5" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref>.reset();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a2b64ef01dbcae471b929a7cc4f980868" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a6c0e1df8f722d44e30bc2690d915d8c1" kindref="member">idx_</ref>.reset();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" kindref="member">storage_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" kindref="member">storage_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" kindref="member">storage_</ref>.reset();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_scheduler_integration_test_1aa83609bf64c91cd4e5f48c1492f7545b" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_scheduler_integration_test_1a651ac76ca0df9e567cc20b6796a0cebf" kindref="member">makeScheduler</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>persist<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_task_scheduler_1_1_config" kindref="compound">TaskScheduler::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_task_scheduler_1_1_config_1acd4f732eafee8e99d312263411a41fe7" kindref="member">max_concurrent_tasks</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_task_scheduler_1_1_config_1ab2ff9ad11a16c0f4bc84170586dc91ab" kindref="member">check_interval</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50ms;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_task_scheduler_1_1_config_1a49e2aba4d74b0a6c6f67ac6088a014cd" kindref="member">persist_tasks</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>persist;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_task_scheduler_1_1_config_1a7e8c9c44fa7c178f306c502d43a0d48b" kindref="member">persistence_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_scheduler_integration_test_1aa83609bf64c91cd4e5f48c1492f7545b" kindref="member">db_path_</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/tasks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_task_scheduler_1_1_config_1a6a8bab24d1e6d47291696cb75be41634" kindref="member">enable_audit_logging</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_task_scheduler_1_1_config_1a465067a2aa0edc53c7ec9f7f5103b7ad" kindref="member">enable_anomaly_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref><sp/>=<sp/>std::make_unique&lt;TaskScheduler&gt;(<ref refid="class_scheduler_integration_test_1a2b64ef01dbcae471b929a7cc4f980868" kindref="member">engine_</ref>.get(),<sp/>cfg);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>simple<sp/>function<sp/>task<sp/>that<sp/>counts<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_scheduler_integration_test_1af923bb86da07c493270c3d742c51b988" kindref="member">registerCountingTask</ref>(std::atomic&lt;int&gt;&amp;<sp/>counter,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;count_task&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref>-&gt;registerFunction(name,<sp/>[&amp;counter](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++counter;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/>counter.load()}};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref>-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_scheduler_integration_test_1aa83609bf64c91cd4e5f48c1492f7545b" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_scheduler_integration_test_1a4614c8284f95dc933829320841e3ce9c" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_scheduler_integration_test_1a6c0e1df8f722d44e30bc2690d915d8c1" kindref="member">idx_</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_scheduler_integration_test_1a2b64ef01dbcae471b929a7cc4f980868" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TaskScheduler&gt;<sp/><ref refid="class_scheduler_integration_test_1a2ae11ae669553621daa659742a90fb12" kindref="member">scheduler_</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Lifecycle<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>StartStopIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(scheduler_-&gt;isRunning());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;start();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(scheduler_-&gt;isRunning());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;stop();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(scheduler_-&gt;isRunning());</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>stop<sp/>is<sp/>a<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(scheduler_-&gt;stop());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>RegisterAndUnregisterTask)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(scheduler_-&gt;getStats().registered_tasks,<sp/>1u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;unregisterTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(scheduler_-&gt;getStats().registered_tasks,<sp/>0u);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>EnableDisableTask)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;disableTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(t-&gt;enabled);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;enableTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;enabled);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ListTasksReturnsAllRegistered)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>c1{0},<sp/>c2{0};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>registerCountingTask(c1,<sp/></highlight><highlight class="stringliteral">&quot;task_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>registerCountingTask(c2,<sp/></highlight><highlight class="stringliteral">&quot;task_b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tasks<sp/>=<sp/>scheduler_-&gt;listTasks();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tasks.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Manual<sp/>execution<sp/>+<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ManualExecutionUpdatesStats)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>result.dump();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;total_executions,<sp/>1u);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;successful_executions,<sp/>1u);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;failed_executions,<sp/>0u);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>FailedManualExecutionUpdatesFailureStats)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;always_fail&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;intentional<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fail_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;always_fail&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1ad0c47b65fe87862493d10adaaa4e0f8b" kindref="member">max_retries</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;failed_executions,<sp/>1u);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;successful_executions,<sp/>0u);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(t-&gt;last_error.empty());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>MultipleManualExecutionsAccumulateStats)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;total_executions,<sp/>5u);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;successful_executions,<sp/>5u);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count.load(),<sp/>5);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Prometheus<sp/>metrics<sp/>export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ExportMetricsIsNotEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>text<sp/>=<sp/>scheduler_-&gt;exportMetrics();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(text.empty());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ExportMetricsContainsRequiredMetricNames)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>text<sp/>=<sp/>scheduler_-&gt;exportMetrics();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;themis_scheduler_tasks_registered&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;themis_scheduler_tasks_active&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;themis_scheduler_tasks_running&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;themis_scheduler_executions_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ExportMetricsReflectsRegisteredTaskCount)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>c1{0},<sp/>c2{0};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>registerCountingTask(c1,<sp/></highlight><highlight class="stringliteral">&quot;m_task_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>registerCountingTask(c2,<sp/></highlight><highlight class="stringliteral">&quot;m_task_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>text<sp/>=<sp/>scheduler_-&gt;exportMetrics();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>per-task<sp/>metrics<sp/>for<sp/>both<sp/>tasks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;m_task_1&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;m_task_2&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ExportMetricsSuccessCounterIncrementsAfterExecution)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count,<sp/></highlight><highlight class="stringliteral">&quot;metrics_task&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>text<sp/>=<sp/>scheduler_-&gt;exportMetrics();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>success<sp/>counter<sp/>should<sp/>be<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;status=\&quot;success\&quot;}<sp/>1&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>text;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ExportMetricsHasHelpAndTypeLines)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>text<sp/>=<sp/>scheduler_-&gt;exportMetrics();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;#<sp/>HELP&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;#<sp/>TYPE&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ExportMetricsPrometheusFormatValid)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>registerCountingTask(count,<sp/></highlight><highlight class="stringliteral">&quot;fmt_task&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>text<sp/>=<sp/>scheduler_-&gt;exportMetrics();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>non-blank<sp/>line<sp/>must<sp/>start<sp/>with<sp/>&apos;#&apos;,<sp/>or<sp/>be<sp/>a<sp/>valid<sp/>metric<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(i.e.<sp/>must<sp/>not<sp/>have<sp/>spaces<sp/>in<sp/>the<sp/>metric<sp/>name<sp/>portion).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::istringstream<sp/>iss(text);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(iss,<sp/>line))<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(line.empty())<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lines<sp/>starting<sp/>with<sp/>&apos;#&apos;<sp/>are<sp/>HELP/TYPE<sp/>comments<sp/>–<sp/>always<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(line[0]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;#&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metric<sp/>lines:<sp/>name[{labels}]<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>metric<sp/>name<sp/>must<sp/>not<sp/>contain<sp/>spaces<sp/>(label<sp/>block<sp/>starts<sp/>with<sp/>&apos;{&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>brace<sp/>=<sp/>line.find(</highlight><highlight class="charliteral">&apos;{&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>space<sp/>=<sp/>line.find(</highlight><highlight class="charliteral">&apos;<sp/>&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>no<sp/>label<sp/>block,<sp/>first<sp/>space<sp/>separates<sp/>name<sp/>from<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>name_end<sp/>=<sp/>(brace<sp/>!=<sp/>std::string::npos<sp/>&amp;&amp;<sp/>brace<sp/>&lt;<sp/>space)<sp/>?<sp/>brace<sp/>:<sp/>space;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(name_end,<sp/>std::string::npos)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Malformed<sp/>line:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>line;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Name<sp/>must<sp/>start<sp/>with<sp/>a<sp/>letter<sp/>or<sp/>&apos;_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>line[0];</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::isalpha(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(first))<sp/>||<sp/>first<sp/>==<sp/></highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Metric<sp/>name<sp/>starts<sp/>with<sp/>invalid<sp/>character:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>line;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Scheduled<sp/>(interval)<sp/>execution<sp/>via<sp/>the<sp/>loop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>IntervalTaskExecutedBySchedulerLoop)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;loop_fn&quot;</highlight><highlight class="normal">,<sp/>[&amp;count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;loop_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;loop_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5a21ef3147a98040a9167367c1ad8d065e" kindref="member">ScheduledTask::TriggerType::INTERVAL</ref>;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a3968f26710f6611bd2df6491113792ca" kindref="member">interval</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000ms;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a0f1e592847eb04a7f38616253e2d7f34" kindref="member">next_run</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;start();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(350ms);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;stop();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(count.load(),<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>at<sp/>least<sp/>one<sp/>execution<sp/>after<sp/>immediate<sp/>scheduling&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>Concurrent<sp/>task<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ConcurrentTasksExecuteInParallel)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>concurrent_peak{0};</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>active{0};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;slow_fn&quot;</highlight><highlight class="normal">,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cur<sp/>=<sp/>++active;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>peak<sp/>=<sp/>concurrent_peak.load();</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(cur<sp/>&gt;<sp/>peak)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>concurrent_peak.compare_exchange_weak(peak,<sp/>cur);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>peak<sp/>=<sp/>concurrent_peak.load();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(100ms);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>--active;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>3<sp/>tasks,<sp/>each<sp/>triggered<sp/>manually<sp/>back-to-back</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>ids<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>t;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;slow_task_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;slow_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5a21ef3147a98040a9167367c1ad8d065e" kindref="member">ScheduledTask::TriggerType::INTERVAL</ref>;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1_scheduled_task_1a3968f26710f6611bd2df6491113792ca" kindref="member">interval</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10s;<sp/><sp/></highlight><highlight class="comment">//<sp/>Large<sp/>interval<sp/>–<sp/>we<sp/>execute<sp/>manually</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ids.push_back(scheduler_-&gt;registerTask(t));</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;start();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fire<sp/>all<sp/>three<sp/>nearly<sp/>simultaneously<sp/>via<sp/>the<sp/>scheduler<sp/>loop&apos;s<sp/>thread<sp/>pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>by<sp/>setting<sp/>next_run<sp/>to<sp/>&quot;now&quot;<sp/>for<sp/>all<sp/>tasks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>ids)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t-&gt;<ref refid="structthemis_1_1_scheduled_task_1a0f1e592847eb04a7f38616253e2d7f34" kindref="member">next_run</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Notify<sp/>scheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(300ms);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;stop();</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>max_concurrent_tasks<sp/>=<sp/>4<sp/>and<sp/>3<sp/>tasks<sp/>launched,<sp/>peak<sp/>should<sp/>be<sp/>≥<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(concurrent_peak.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>Persistence<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>PersistenceRoundTripRestoresTask)<sp/>{</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>scheduler<sp/>with<sp/>persistence<sp/>enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>makeScheduler(</highlight><highlight class="comment">/*persist=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(db_path_<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/tasks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;persist_fn&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;persisted&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;persist_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a336b9d96f8dcf785da0f0a90139b6e35" kindref="member">description</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>persistence&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;persist_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty());</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;stop();</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reload<sp/>in<sp/>a<sp/>fresh<sp/>scheduler<sp/>instance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>makeScheduler(</highlight><highlight class="comment">/*persist=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>task<sp/>should<sp/>be<sp/>present<sp/>after<sp/>load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>on<sp/>load,<sp/>the<sp/>task<sp/>is<sp/>re-registered,<sp/>so<sp/>it<sp/>might<sp/>have<sp/>been<sp/>assigned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>fresh<sp/>id<sp/>matching<sp/>the<sp/>original<sp/>name-based<sp/>ID<sp/>generation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>by<sp/>listing<sp/>tasks<sp/>instead.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tasks<sp/>=<sp/>scheduler_-&gt;listTasks();</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>tasks)<sp/>{</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;persist_task&quot;</highlight><highlight class="normal">)<sp/>{<sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Task<sp/>&apos;persist_task&apos;<sp/>was<sp/>not<sp/>restored<sp/>after<sp/>reload&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>PersistenceRoundTripRestoresRetryPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>makeScheduler(</highlight><highlight class="comment">/*persist=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(db_path_<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/tasks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;rp_fn&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rp_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rp_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy" kindref="compound">ScheduledTask::RetryPolicy</ref><sp/>rp;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy_1a8c36ad97fdee2aa0fb87c0a2dc4819f1" kindref="member">strategy</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351ae987b446013d8207f930674b1b6bbfc6" kindref="member">ScheduledTask::RetryStrategy::LINEAR_BACKOFF</ref>;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy_1ab16ec85d7934f9bb8eda69fd44abc272" kindref="member">max_retries</ref><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy_1a3bb752ddc93d463fa59ae5a80f056d17" kindref="member">initial_delay</ref><sp/>=<sp/>500ms;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy_1a4a13a08e753d7bfde37ee38aed23e4e5" kindref="member">max_delay</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>5s;</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9c7a8fd9011413f425745669503cc5e1" kindref="member">retry_policy</ref><sp/>=<sp/>rp;</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;stop();</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>makeScheduler(</highlight><highlight class="comment">/*persist=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>restored<sp/>task<sp/>and<sp/>check<sp/>retry<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>scheduler_-&gt;listTasks())<sp/>{</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(t.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;rp_task&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(t.<ref refid="structthemis_1_1_scheduled_task_1a9c7a8fd9011413f425745669503cc5e1" kindref="member">retry_policy</ref>.has_value());</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1_scheduled_task_1a9c7a8fd9011413f425745669503cc5e1" kindref="member">retry_policy</ref>-&gt;strategy,<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351ae987b446013d8207f930674b1b6bbfc6" kindref="member">ScheduledTask::RetryStrategy::LINEAR_BACKOFF</ref>);</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1_scheduled_task_1a9c7a8fd9011413f425745669503cc5e1" kindref="member">retry_policy</ref>-&gt;max_retries,<sp/>4u);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1_scheduled_task_1a9c7a8fd9011413f425745669503cc5e1" kindref="member">retry_policy</ref>-&gt;initial_delay.count(),<sp/>500);</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>ADD_FAILURE()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Task<sp/>&apos;rp_task&apos;<sp/>not<sp/>found<sp/>after<sp/>reload&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="438"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight><highlight class="comment">//<sp/>7.<sp/>RetryPolicy<sp/>in<sp/>scheduler<sp/>loop<sp/>(not<sp/>just<sp/>executeTaskNow)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>SchedulerLoopAppliesRetryPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>attempts{0};</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;loop_retry_fn&quot;</highlight><highlight class="normal">,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(++attempts<sp/>&lt;<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;transient&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;loop_retry_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;loop_retry_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy" kindref="compound">ScheduledTask::RetryPolicy</ref><sp/>rp;</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy_1a8c36ad97fdee2aa0fb87c0a2dc4819f1" kindref="member">strategy</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351ad62e88ba503a6d3aaf07624660eb6d17" kindref="member">ScheduledTask::RetryStrategy::FIXED_DELAY</ref>;</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy_1ab16ec85d7934f9bb8eda69fd44abc272" kindref="member">max_retries</ref><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy_1a3bb752ddc93d463fa59ae5a80f056d17" kindref="member">initial_delay</ref><sp/>=<sp/>10ms;<sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>short<sp/>for<sp/>test<sp/>speed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>rp.<ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy_1a4a13a08e753d7bfde37ee38aed23e4e5" kindref="member">max_delay</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>50ms;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9c7a8fd9011413f425745669503cc5e1" kindref="member">retry_policy</ref><sp/>=<sp/>rp;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>result.dump();</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(attempts.load(),<sp/>2);</highlight></codeline>
+<codeline lineno="470"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight><highlight class="comment">//<sp/>8.<sp/>Stats<sp/>sanity<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>GetStatsReflectsRunningState)<sp/>{</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>scheduler_-&gt;getStats();</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.registered_tasks,<sp/>0u);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_executions,<sp/>0u);</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count);</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>scheduler_-&gt;getStats();</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.registered_tasks,<sp/>1u);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.active_tasks,<sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>scheduler_-&gt;getStats();</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_executions,<sp/>1u);</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.failed_executions,<sp/>0u);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="499"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>GetStatsActiveVsRegistered)<sp/>{</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>c{0};</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(c,<sp/></highlight><highlight class="stringliteral">&quot;active_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(scheduler_-&gt;getStats().active_tasks,<sp/>1u);</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;disableTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(scheduler_-&gt;getStats().active_tasks,<sp/>0u);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(scheduler_-&gt;getStats().registered_tasks,<sp/>1u);</highlight></codeline>
+<codeline lineno="510"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight><highlight class="comment">//<sp/>9.<sp/>CronExpression<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"></highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>CronTaskIsRegisteredAndHasValidExpression)<sp/>{</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;cron_fn&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cron_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cron_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5ac16afd878f99cc59851c860ea909059d" kindref="member">ScheduledTask::TriggerType::CRON</ref>;</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a37fc2f2ad099392ec9d0b897883a7221" kindref="member">cron_expression</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;@hourly&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Special<sp/>expression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty());</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref>,<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5ac16afd878f99cc59851c860ea909059d" kindref="member">ScheduledTask::TriggerType::CRON</ref>);</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t-&gt;<ref refid="structthemis_1_1_scheduled_task_1a37fc2f2ad099392ec9d0b897883a7221" kindref="member">cron_expression</ref>,<sp/></highlight><highlight class="stringliteral">&quot;@hourly&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="534"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>InvalidCronExpressionThrowsOnRegister)<sp/>{</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;bad_cron_fn&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bad_cron&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bad_cron_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5ac16afd878f99cc59851c860ea909059d" kindref="member">ScheduledTask::TriggerType::CRON</ref>;</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a37fc2f2ad099392ec9d0b897883a7221" kindref="member">cron_expression</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;99<sp/>99<sp/>99<sp/>99<sp/>99&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(scheduler_-&gt;registerTask(task),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="548"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"></highlight></codeline>
+<codeline lineno="550"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"></highlight><highlight class="comment">//<sp/>10.<sp/>on_success<sp/>/<sp/>on_failure<sp/>hooks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="553"><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>OnSuccessHookCalledAfterSuccessfulExecution)<sp/>{</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>hook_fired{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;hook_fn&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hook_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hook_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a449a13e9ff179ab8bed7818a79867c7b" kindref="member">on_success</ref><sp/><sp/><sp/><sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hook_fired.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hook_fired.load());</highlight></codeline>
+<codeline lineno="571"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>OnFailureHookCalledAfterFailedExecution)<sp/>{</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>hook_fired{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;fail_hook_fn&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;forced<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fail_hook_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fail_hook_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1ad0c47b65fe87862493d10adaaa4e0f8b" kindref="member">max_retries</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aafba7fa3282be8d6323d8e2ee7f1b29f" kindref="member">on_failure</ref><sp/><sp/><sp/><sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hook_fired.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hook_fired.load());</highlight></codeline>
+<codeline lineno="591"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal"></highlight><highlight class="comment">//<sp/>11.<sp/>updateTask</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="595"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>UpdateTaskChangesDescription)<sp/>{</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count,<sp/></highlight><highlight class="stringliteral">&quot;updatable_task&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="600"><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>initial<sp/>description</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t_before<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t_before,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"></highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>updated<sp/>=<sp/>*t_before;</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1_scheduled_task_1a336b9d96f8dcf785da0f0a90139b6e35" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;updated<sp/>description&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;updateTask(updated);</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t_after<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t_after,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t_after-&gt;description,<sp/></highlight><highlight class="stringliteral">&quot;updated<sp/>description&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="613"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"></highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>UpdateTaskPreservesExecutionStats)<sp/>{</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count,<sp/></highlight><highlight class="stringliteral">&quot;stats_preserve_task&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"></highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>a<sp/>couple<sp/>of<sp/>times<sp/>to<sp/>build<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"></highlight></codeline>
+<codeline lineno="623"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t_before<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t_before,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t_before-&gt;total_executions,<sp/>2u);</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"></highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>metadata<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>updated<sp/>=<sp/>*t_before;</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1_scheduled_task_1a336b9d96f8dcf785da0f0a90139b6e35" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;after<sp/>update&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;updateTask(updated);</highlight></codeline>
+<codeline lineno="631"><highlight class="normal"></highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t_after<sp/>=<sp/>scheduler_-&gt;getTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="633"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(t_after,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t_after-&gt;total_executions,<sp/>2u);</highlight></codeline>
+<codeline lineno="635"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="636"><highlight class="normal"></highlight></codeline>
+<codeline lineno="637"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="638"><highlight class="normal"></highlight><highlight class="comment">//<sp/>12.<sp/>Function<sp/>registration<sp/>/<sp/>unregistration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="639"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="640"><highlight class="normal"></highlight></codeline>
+<codeline lineno="641"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>UnregisteredFunctionReturnsErrorOnExecution)<sp/>{</highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>task<sp/>that<sp/>calls<sp/>a<sp/>function,<sp/>then<sp/>unregister<sp/>the<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;temp_fn&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"></highlight></codeline>
+<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;temp_fn_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="649"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;temp_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;</highlight></codeline>
+<codeline lineno="652"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1ad0c47b65fe87862493d10adaaa4e0f8b" kindref="member">max_retries</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="654"><highlight class="normal"></highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Succeeds<sp/>while<sp/>function<sp/>is<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="656"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ok_result<sp/>=<sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok_result.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>ok_result.dump();</highlight></codeline>
+<codeline lineno="658"><highlight class="normal"></highlight></codeline>
+<codeline lineno="659"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unregister<sp/>the<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;unregisterFunction(</highlight><highlight class="stringliteral">&quot;temp_fn&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"></highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>execution<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err_result<sp/>=<sp/>scheduler_-&gt;executeTaskNow(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err_result.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/>err_result.dump();</highlight></codeline>
+<codeline lineno="665"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"></highlight></codeline>
+<codeline lineno="667"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="668"><highlight class="normal"></highlight><highlight class="comment">//<sp/>13.<sp/>MANUAL-trigger<sp/>task<sp/>should<sp/>not<sp/>auto-execute<sp/>in<sp/>scheduler<sp/>loop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="670"><highlight class="normal"></highlight></codeline>
+<codeline lineno="671"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ManualTriggerTaskNotExecutedBySchedulerLoop)<sp/>{</highlight></codeline>
+<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;manual_only_fn&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="674"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="675"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="677"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="678"><highlight class="normal"></highlight></codeline>
+<codeline lineno="679"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="680"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;manual_only_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="681"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="682"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;manual_only_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="683"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">ScheduledTask::TriggerType::MANUAL</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="684"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="685"><highlight class="normal"></highlight></codeline>
+<codeline lineno="686"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;start();</highlight></codeline>
+<codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Let<sp/>the<sp/>scheduler<sp/>loop<sp/>run<sp/>for<sp/>several<sp/>ticks<sp/>(check_interval=20ms<sp/>in<sp/>this<sp/>fixture)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(200));</highlight></codeline>
+<codeline lineno="689"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;stop();</highlight></codeline>
+<codeline lineno="690"><highlight class="normal"></highlight></codeline>
+<codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Task<sp/>should<sp/>NOT<sp/>have<sp/>been<sp/>auto-executed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="692"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count.load(),<sp/>0)</highlight></codeline>
+<codeline lineno="693"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;MANUAL<sp/>trigger<sp/>task<sp/>must<sp/>not<sp/>be<sp/>executed<sp/>by<sp/>the<sp/>scheduler<sp/>loop&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="694"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="695"><highlight class="normal"></highlight></codeline>
+<codeline lineno="696"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="697"><highlight class="normal"></highlight><highlight class="comment">//<sp/>14.<sp/>exportMetrics<sp/>reflects<sp/>disabled<sp/>tasks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="698"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="699"><highlight class="normal"></highlight></codeline>
+<codeline lineno="700"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>ExportMetricsShowsDisabledTaskAsZero)<sp/>{</highlight></codeline>
+<codeline lineno="701"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="702"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>registerCountingTask(count,<sp/></highlight><highlight class="stringliteral">&quot;disable_metrics_task&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="703"><highlight class="normal"></highlight></codeline>
+<codeline lineno="704"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>the<sp/>task</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="705"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;disableTask(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="706"><highlight class="normal"></highlight></codeline>
+<codeline lineno="707"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>text<sp/>=<sp/>scheduler_-&gt;exportMetrics();</highlight></codeline>
+<codeline lineno="708"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>task_enabled<sp/>metric<sp/>should<sp/>show<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="709"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;themis_scheduler_task_enabled&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>text;</highlight></codeline>
+<codeline lineno="710"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;disable_metrics_task&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>text;</highlight></codeline>
+<codeline lineno="711"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>active<sp/>tasks<sp/>gauge<sp/>should<sp/>be<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="712"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(text.find(</highlight><highlight class="stringliteral">&quot;themis_scheduler_tasks_active&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>text;</highlight></codeline>
+<codeline lineno="713"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="714"><highlight class="normal"></highlight></codeline>
+<codeline lineno="715"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="716"><highlight class="normal"></highlight><highlight class="comment">//<sp/>15.<sp/>Scheduler<sp/>lifecycle<sp/>under<sp/>rapid<sp/>start/stop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="717"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="718"><highlight class="normal"></highlight></codeline>
+<codeline lineno="719"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>RapidStartStopDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="721"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerFunction(</highlight><highlight class="stringliteral">&quot;rapid_fn&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="722"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/>nlohmann::json<sp/>{</highlight></codeline>
+<codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="724"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="725"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="726"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/>task;</highlight></codeline>
+<codeline lineno="727"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rapid_task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="728"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" kindref="member">ScheduledTask::TaskType::FUNCTION</ref>;</highlight></codeline>
+<codeline lineno="729"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" kindref="member">function_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rapid_fn&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="730"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" kindref="member">trigger_type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5a21ef3147a98040a9167367c1ad8d065e" kindref="member">ScheduledTask::TriggerType::INTERVAL</ref>;</highlight></codeline>
+<codeline lineno="731"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a3968f26710f6611bd2df6491113792ca" kindref="member">interval</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(1000);</highlight></codeline>
+<codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/>task.<ref refid="structthemis_1_1_scheduled_task_1a0f1e592847eb04a7f38616253e2d7f34" kindref="member">next_run</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;registerTask(task);</highlight></codeline>
+<codeline lineno="734"><highlight class="normal"></highlight></codeline>
+<codeline lineno="735"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="736"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scheduler_-&gt;start();</highlight></codeline>
+<codeline lineno="737"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(60));</highlight></codeline>
+<codeline lineno="738"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scheduler_-&gt;stop();</highlight></codeline>
+<codeline lineno="739"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="740"><highlight class="normal"></highlight></codeline>
+<codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>complete<sp/>without<sp/>crash<sp/>or<sp/>deadlock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="743"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="744"><highlight class="normal"></highlight></codeline>
+<codeline lineno="745"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="746"><highlight class="normal"></highlight><highlight class="comment">//<sp/>16.<sp/>getStats<sp/>total_executions<sp/>aggregates<sp/>across<sp/>multiple<sp/>tasks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="747"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="748"><highlight class="normal"></highlight></codeline>
+<codeline lineno="749"><highlight class="normal"><ref refid="test__scheduler__integration_8cpp_1afec8234171c7d4bedc0f547823427155" kindref="member">TEST_F</ref>(<ref refid="class_scheduler_integration_test" kindref="compound">SchedulerIntegrationTest</ref>,<sp/>GetStatsTotalExecutionsAggregatesAllTasks)<sp/>{</highlight></codeline>
+<codeline lineno="750"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>c1{0},<sp/>c2{0};</highlight></codeline>
+<codeline lineno="751"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>id1<sp/>=<sp/>registerCountingTask(c1,<sp/></highlight><highlight class="stringliteral">&quot;agg_task_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="752"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>id2<sp/>=<sp/>registerCountingTask(c2,<sp/></highlight><highlight class="stringliteral">&quot;agg_task_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="753"><highlight class="normal"></highlight></codeline>
+<codeline lineno="754"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(id1);</highlight></codeline>
+<codeline lineno="755"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(id1);</highlight></codeline>
+<codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/>scheduler_-&gt;executeTaskNow(id2);</highlight></codeline>
+<codeline lineno="757"><highlight class="normal"></highlight></codeline>
+<codeline lineno="758"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>scheduler_-&gt;getStats();</highlight></codeline>
+<codeline lineno="759"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_executions,<sp/>3u);</highlight></codeline>
+<codeline lineno="760"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/scheduler/test_scheduler_integration.cpp"/>
+  </compounddef>
+</doxygen>

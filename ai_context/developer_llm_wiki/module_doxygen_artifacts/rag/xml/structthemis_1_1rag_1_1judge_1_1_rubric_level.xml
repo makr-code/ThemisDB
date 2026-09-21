@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_rubric_level" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RubricLevel</compoundname>
+    <includes refid="rubric__evaluator_8h" local="no">rubric_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_level_1a29ae845441ac59d3262d079b01ce6bd9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::RubricLevel::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::judge::RubricLevel::score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Numeric score (1-5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="24" column="9" bodyfile="include/rag/rubric_evaluator.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_level_1ae996f9f0d6a38917ccdbb572ccc32d71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RubricLevel::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::rag::judge::RubricLevel::description</qualifiedname>
+        <briefdescription>
+<para>Level description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="25" column="17" bodyfile="include/rag/rubric_evaluator.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_level_1ad03be9ed7e6adc883c4205140a3e1a2e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::RubricLevel::examples</definition>
+        <argsstring></argsstring>
+        <name>examples</name>
+        <qualifiedname>themis::rag::judge::RubricLevel::examples</qualifiedname>
+        <briefdescription>
+<para>Example indicators. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="26" column="17" bodyfile="include/rag/rubric_evaluator.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_level_1acf6cc17e34d01cef608cdc7ecd6cbeb4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::RubricLevel::criteria</definition>
+        <argsstring></argsstring>
+        <name>criteria</name>
+        <qualifiedname>themis::rag::judge::RubricLevel::criteria</qualifiedname>
+        <briefdescription>
+<para>Specific criteria. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="27" column="17" bodyfile="include/rag/rubric_evaluator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Score level in a rubric. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rubric_evaluator.h" line="23" column="1" bodyfile="include/rag/rubric_evaluator.h" bodystart="23" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1acf6cc17e34d01cef608cdc7ecd6cbeb4" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricLevel</scope><name>criteria</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1ae996f9f0d6a38917ccdbb572ccc32d71" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricLevel</scope><name>description</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1ad03be9ed7e6adc883c4205140a3e1a2e" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricLevel</scope><name>examples</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1a29ae845441ac59d3262d079b01ce6bd9" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricLevel</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

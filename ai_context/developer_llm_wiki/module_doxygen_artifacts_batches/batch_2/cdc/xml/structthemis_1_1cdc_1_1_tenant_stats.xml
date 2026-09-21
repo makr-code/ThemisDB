@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_tenant_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::TenantStats</compoundname>
+    <includes refid="tenant__buffer__manager_8h" local="no">tenant_buffer_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1a8e8b7b1d68523518cb1d4df958c4f04f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::TenantStats::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::cdc::TenantStats::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="64" column="17" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1a1e54c7a7ca2285e8087e5e3864681fb7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::TenantStats::events_recorded</definition>
+        <argsstring></argsstring>
+        <name>events_recorded</name>
+        <qualifiedname>themis::cdc::TenantStats::events_recorded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="67" column="14" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1af44cc2d6455688ad0c1f66917dceb901" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::TenantStats::events_flushed</definition>
+        <argsstring></argsstring>
+        <name>events_flushed</name>
+        <qualifiedname>themis::cdc::TenantStats::events_flushed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="68" column="14" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1ac960e262085a7e37253f403090d14f9c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::TenantStats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::cdc::TenantStats::errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="69" column="14" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1a3d07de628a85dd39b09adc19dc13f5ad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::TenantStats::quota_violations</definition>
+        <argsstring></argsstring>
+        <name>quota_violations</name>
+        <qualifiedname>themis::cdc::TenantStats::quota_violations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="70" column="14" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1af0c0ef3875793c25915d632b6bafd5ec" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::TenantStats::current_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>current_buffer_size</name>
+        <qualifiedname>themis::cdc::TenantStats::current_buffer_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="73" column="12" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1afd6bdefe24200442f0aa1f8e40cf4c28" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::TenantStats::current_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>current_memory_bytes</name>
+        <qualifiedname>themis::cdc::TenantStats::current_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="74" column="12" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1a80d5bb0a592bd8e8a712fab9589edbe8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cdc::TenantStats::events_per_second</definition>
+        <argsstring></argsstring>
+        <name>events_per_second</name>
+        <qualifiedname>themis::cdc::TenantStats::events_per_second</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="77" column="12" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_stats_1a4413af58b248a908d76b6a22238595b6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cdc::TenantStats::memory_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_percent</name>
+        <qualifiedname>themis::cdc::TenantStats::memory_usage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="78" column="12" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_tenant_stats_1aee0c3e21af06e492e11b8a82d020b1c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::TenantStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::TenantStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="80" column="20" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="80" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/tenant_buffer_manager.h" line="63" column="1" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="63" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1af0c0ef3875793c25915d632b6bafd5ec" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>current_buffer_size</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1afd6bdefe24200442f0aa1f8e40cf4c28" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>current_memory_bytes</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1ac960e262085a7e37253f403090d14f9c" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>errors</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1af44cc2d6455688ad0c1f66917dceb901" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>events_flushed</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1a80d5bb0a592bd8e8a712fab9589edbe8" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>events_per_second</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1a1e54c7a7ca2285e8087e5e3864681fb7" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>events_recorded</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1a4413af58b248a908d76b6a22238595b6" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>memory_usage_percent</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1a3d07de628a85dd39b09adc19dc13f5ad" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>quota_violations</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1a8e8b7b1d68523518cb1d4df958c4f04f" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_stats_1aee0c3e21af06e492e11b8a82d020b1c0" prot="public" virt="non-virtual"><scope>themis::cdc::TenantStats</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

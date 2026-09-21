@@ -1,0 +1,475 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::Aggregator</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_aggregator_1_1_aggregation_state" prot="private">themisdb::analytics::Aggregator::AggregationState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_aggregator_1afa852884b0ed22a21bc0cba046825e1a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, AggregationState &gt;</type>
+        <definition>std::map&lt;std::string, AggregationState&gt; themisdb::analytics::Aggregator::aggregations_</definition>
+        <argsstring></argsstring>
+        <name>aggregations_</name>
+        <qualifiedname>themisdb::analytics::Aggregator::aggregations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="810" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="810" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_aggregator_1aa5faca2bdd57f88183deefb1c8d525ad" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::Aggregator::group_by_fields_</definition>
+        <argsstring></argsstring>
+        <name>group_by_fields_</name>
+        <qualifiedname>themisdb::analytics::Aggregator::group_by_fields_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="811" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="811" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_aggregator_1aef28d374e6bc9757942226942cb36403" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, AggregationState &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, AggregationState&gt; &gt; themisdb::analytics::Aggregator::grouped_aggregations_</definition>
+        <argsstring></argsstring>
+        <name>grouped_aggregations_</name>
+        <qualifiedname>themisdb::analytics::Aggregator::grouped_aggregations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="814" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="814" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_aggregator_1aafc8f7d1709fa5ad8872f9ea15b95eb1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::Aggregator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::analytics::Aggregator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="816" column="24" bodyfile="include/analytics/cep_engine.h" bodystart="816" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1a14e5dd0427088b662c2bc72cd00da68c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::Aggregator::Aggregator</definition>
+        <argsstring>()</argsstring>
+        <name>Aggregator</name>
+        <qualifiedname>themisdb::analytics::Aggregator::Aggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="752" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1a5e07b2edc420e6eb3d5f9e6041349da7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::Aggregator::~Aggregator</definition>
+        <argsstring>()</argsstring>
+        <name>~Aggregator</name>
+        <qualifiedname>themisdb::analytics::Aggregator::~Aggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="753" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1a79ed1aef6648154ad15f217f03cc76cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::Aggregator::addAggregation</definition>
+        <argsstring>(const std::string &amp;name, AggregationType type, const std::string &amp;field)</argsstring>
+        <name>addAggregation</name>
+        <qualifiedname>themisdb::analytics::Aggregator::addAggregation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7d" kindref="member">AggregationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Add Aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="761" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1622" bodyend="1629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1a4e7c86bcfae45279460c921a03599618" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::Aggregator::processEvent</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>processEvent</name>
+        <qualifiedname>themisdb::analytics::Aggregator::processEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Process <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), empty(), updateAggregation(), getGroupKey(), find(), end(), max(), lowest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="770" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1798" bodyend="1821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1af3233e6311c56d9785f119ea9d48b383" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1analytics_1_1_aggregation_result" kindref="compound">AggregationResult</ref> &gt;</type>
+        <definition>std::map&lt; std::string, AggregationResult &gt; themisdb::analytics::Aggregator::getResults</definition>
+        <argsstring>() const</argsstring>
+        <name>getResults</name>
+        <qualifiedname>themisdb::analytics::Aggregator::getResults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gkey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="772" column="14" bodyfile="src/analytics/cep_engine.cpp" bodystart="1823" bodyend="1873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1af6a198b62a4a77bc970f40e4ce782a90" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_aggregation_result" kindref="compound">AggregationResult</ref> &gt;</type>
+        <definition>std::optional&lt; AggregationResult &gt; themisdb::analytics::Aggregator::getResult</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getResult</name>
+        <qualifiedname>themisdb::analytics::Aggregator::getResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="779" column="19" bodyfile="src/analytics/cep_engine.cpp" bodystart="1875" bodyend="1882"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1abe97a7b1a7541850b2a24a9c77e4dcea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::Aggregator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::analytics::Aggregator::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), max(), lowest(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="784" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1645" bodyend="1659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1a5f5a86c9a6701555218739e8d13873df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::Aggregator::setGroupBy</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;fields)</argsstring>
+        <name>setGroupBy</name>
+        <qualifiedname>themisdb::analytics::Aggregator::setGroupBy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+<para>Set Group By. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="790" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1636" bodyend="1639"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1af6b5c135e197d4d57ba5b665c25732ff" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Aggregator::getGroupKey</definition>
+        <argsstring>(const Event &amp;event) const</argsstring>
+        <name>getGroupKey</name>
+        <qualifiedname>themisdb::analytics::Aggregator::getGroupKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Get Group Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="823" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="1661" bodyend="1671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1ad3659a21e8329b5f801070504834e44a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::Aggregator::updateAggregation</definition>
+        <argsstring>(AggregationState &amp;state, const Event &amp;event)</argsstring>
+        <name>updateAggregation</name>
+        <qualifiedname>themisdb::analytics::Aggregator::updateAggregation</qualifiedname>
+        <param>
+          <type>AggregationState &amp;</type>
+          <declname>state</declname>
+          <defname>s</defname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Update Aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), toDouble(), push_back(), insert(), fieldValueToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="829" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1679" bodyend="1717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_aggregator_1ae498a95cb142173911f474b8a7bd4097" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" kindref="member">CepFieldValue</ref></type>
+        <definition>CepFieldValue themisdb::analytics::Aggregator::computeResult</definition>
+        <argsstring>(const AggregationState &amp;state) const</argsstring>
+        <name>computeResult</name>
+        <qualifiedname>themisdb::analytics::Aggregator::computeResult</qualifiedname>
+        <param>
+          <type>const AggregationState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Compute Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="835" column="19" bodyfile="src/analytics/cep_engine.cpp" bodystart="1719" bodyend="1791"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="750" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="750" bodyend="836"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1a79ed1aef6648154ad15f217f03cc76cd" prot="public" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>addAggregation</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1afa852884b0ed22a21bc0cba046825e1a" prot="private" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>aggregations_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1a14e5dd0427088b662c2bc72cd00da68c" prot="public" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>Aggregator</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1ae498a95cb142173911f474b8a7bd4097" prot="private" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>computeResult</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1af6b5c135e197d4d57ba5b665c25732ff" prot="private" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>getGroupKey</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1af6a198b62a4a77bc970f40e4ce782a90" prot="public" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>getResult</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1af3233e6311c56d9785f119ea9d48b383" prot="public" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>getResults</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1aa5faca2bdd57f88183deefb1c8d525ad" prot="private" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>group_by_fields_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1aef28d374e6bc9757942226942cb36403" prot="private" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>grouped_aggregations_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1aafc8f7d1709fa5ad8872f9ea15b95eb1" prot="private" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1a4e7c86bcfae45279460c921a03599618" prot="public" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>processEvent</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1abe97a7b1a7541850b2a24a9c77e4dcea" prot="public" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1a5f5a86c9a6701555218739e8d13873df" prot="public" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>setGroupBy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1ad3659a21e8329b5f801070504834e44a" prot="private" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>updateAggregation</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_aggregator_1a5e07b2edc420e6eb3d5f9e6041349da7" prot="public" virt="non-virtual"><scope>themisdb::analytics::Aggregator</scope><name>~Aggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

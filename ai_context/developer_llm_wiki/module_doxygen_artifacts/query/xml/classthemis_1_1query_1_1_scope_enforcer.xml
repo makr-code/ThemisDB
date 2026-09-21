@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_scope_enforcer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::ScopeEnforcer</compoundname>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_scope_enforcer_impl" prot="public" virt="non-virtual">themis::query::ScopeEnforcerImpl</derivedcompoundref>
+    <includes refid="scope__enforcer_8h" local="no">scope_enforcer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_scope_enforcer_1a27a16973347c5782a11a43e3a9650709" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::ScopeEnforcer::~ScopeEnforcer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ScopeEnforcer</name>
+        <qualifiedname>themis::query::ScopeEnforcer::~ScopeEnforcer</qualifiedname>
+        <briefdescription>
+<para>Scope Enforcer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="48" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_scope_enforcer_1a56c083bd8842e44ce514e977d5307b9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::query::ScopeEnforcer::validateResultScope</definition>
+        <argsstring>(const std::string &amp;result_data, const QueryScope &amp;expected_scope) const =0</argsstring>
+        <name>validateResultScope</name>
+        <qualifiedname>themis::query::ScopeEnforcer::validateResultScope</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a50964d2bdaeea88871d34dbdc88f4e91">validateResultScope</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>result_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref> &amp;</type>
+          <declname>expected_scope</declname>
+        </param>
+        <briefdescription>
+<para>Validate Result Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="56" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_scope_enforcer_1a2372d3f9a46062d5a0ce93df53b3232e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref></type>
+        <definition>virtual QueryScope themis::query::ScopeEnforcer::extractResultScope</definition>
+        <argsstring>(const std::string &amp;result_data) const =0</argsstring>
+        <name>extractResultScope</name>
+        <qualifiedname>themis::query::ScopeEnforcer::extractResultScope</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_scope_enforcer_impl_1ab58abc5d5ced8309c400ad5d173b65d1">extractResultScope</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>result_data</declname>
+        </param>
+        <briefdescription>
+<para>Extract Result Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="65" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_scope_enforcer_1a824cac73f66c3af3f4c72ec336f6bb77" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::query::ScopeEnforcer::enforceAccumulatedScopeBounds</definition>
+        <argsstring>(const std::string &amp;scope_key, uint64_t new_bytes, uint64_t max_bytes_per_scope)=0</argsstring>
+        <name>enforceAccumulatedScopeBounds</name>
+        <qualifiedname>themis::query::ScopeEnforcer::enforceAccumulatedScopeBounds</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a473d0e18c3a5e5eb1b5dd4c46bce9f85">enforceAccumulatedScopeBounds</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope_key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>new_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_bytes_per_scope</declname>
+        </param>
+        <briefdescription>
+<para>Enforce Accumulated Scope Bounds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scope_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_bytes_per_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="75" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_scope_enforcer_1a9db64a5652ee7220b6d1ea678a01819d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::query::ScopeEnforcer::resetScopeAccumulation</definition>
+        <argsstring>(const std::string &amp;scope_key)=0</argsstring>
+        <name>resetScopeAccumulation</name>
+        <qualifiedname>themis::query::ScopeEnforcer::resetScopeAccumulation</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_scope_enforcer_impl_1aac0e3b0c65ef7d3ef2c208f358096ec3">resetScopeAccumulation</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope_key</declname>
+        </param>
+        <briefdescription>
+<para>Reset Scope Accumulation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scope_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="84" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_scope_enforcer_1a26937187377bc5fcef26104b4d41fb64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::query::ScopeEnforcer::getScopeAccumulatedBytes</definition>
+        <argsstring>(const std::string &amp;scope_key) const =0</argsstring>
+        <name>getScopeAccumulatedBytes</name>
+        <qualifiedname>themis::query::ScopeEnforcer::getScopeAccumulatedBytes</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a0d941897b1658b8721739d0ba46777c0">getScopeAccumulatedBytes</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope_key</declname>
+        </param>
+        <briefdescription>
+<para>Get Scope Accumulated Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scope_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="91" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_scope_enforcer_1aee8763cab99d3c9b0808df74fbc65247" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::query::ScopeEnforcer::validatePageScope</definition>
+        <argsstring>(size_t begin_offset, size_t end_offset, size_t total_size, const QueryScope &amp;expected_scope) const =0</argsstring>
+        <name>validatePageScope</name>
+        <qualifiedname>themis::query::ScopeEnforcer::validatePageScope</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_scope_enforcer_impl_1aebbd0433cadeb9dac67586a656331530">validatePageScope</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>begin_offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>end_offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_size</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref> &amp;</type>
+          <declname>expected_scope</declname>
+        </param>
+        <briefdescription>
+<para>Validate Page Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">begin_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="101" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::query::ScopeEnforcer</label>
+        <link refid="classthemis_1_1query_1_1_scope_enforcer"/>
+      </node>
+      <node id="2">
+        <label>themis::query::ScopeEnforcerImpl</label>
+        <link refid="classthemis_1_1query_1_1_scope_enforcer_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/query/scope_enforcer.h" line="42" column="1" bodyfile="include/query/scope_enforcer.h" bodystart="42" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_scope_enforcer_1a824cac73f66c3af3f4c72ec336f6bb77" prot="public" virt="pure-virtual"><scope>themis::query::ScopeEnforcer</scope><name>enforceAccumulatedScopeBounds</name></member>
+      <member refid="classthemis_1_1query_1_1_scope_enforcer_1a2372d3f9a46062d5a0ce93df53b3232e" prot="public" virt="pure-virtual"><scope>themis::query::ScopeEnforcer</scope><name>extractResultScope</name></member>
+      <member refid="classthemis_1_1query_1_1_scope_enforcer_1a26937187377bc5fcef26104b4d41fb64" prot="public" virt="pure-virtual"><scope>themis::query::ScopeEnforcer</scope><name>getScopeAccumulatedBytes</name></member>
+      <member refid="classthemis_1_1query_1_1_scope_enforcer_1a9db64a5652ee7220b6d1ea678a01819d" prot="public" virt="pure-virtual"><scope>themis::query::ScopeEnforcer</scope><name>resetScopeAccumulation</name></member>
+      <member refid="classthemis_1_1query_1_1_scope_enforcer_1aee8763cab99d3c9b0808df74fbc65247" prot="public" virt="pure-virtual"><scope>themis::query::ScopeEnforcer</scope><name>validatePageScope</name></member>
+      <member refid="classthemis_1_1query_1_1_scope_enforcer_1a56c083bd8842e44ce514e977d5307b9f" prot="public" virt="pure-virtual"><scope>themis::query::ScopeEnforcer</scope><name>validateResultScope</name></member>
+      <member refid="classthemis_1_1query_1_1_scope_enforcer_1a27a16973347c5782a11a43e3a9650709" prot="public" virt="virtual"><scope>themis::query::ScopeEnforcer</scope><name>~ScopeEnforcer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

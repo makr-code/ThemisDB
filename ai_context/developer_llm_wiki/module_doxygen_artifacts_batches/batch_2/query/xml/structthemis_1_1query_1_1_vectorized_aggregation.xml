@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_aggregation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedAggregation</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Function</name>
+        <qualifiedname>themis::query::VectorizedAggregation::Function</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756ae93f994f01c537c4e2f7d8528c3eb5e9" prot="public">
+          <name>Count</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756aa0ec87054b5e5b7847d0d8780a01a3d5" prot="public">
+          <name>Sum</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756a5c0c148daa2c67922abe6018b87a759f" prot="public">
+          <name>Avg</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756a78d811e98514cd165dda532286610fd2" prot="public">
+          <name>Min</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756a6a061313d22e51e0f25b7cd4dc065233" prot="public">
+          <name>Max</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756af276fdc4c77204edf5f9a34f35d50dca" prot="public">
+          <name>CountDistinct</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="131" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_aggregation_1a95ce7fc50d24aaa0deaf7d1d3c1c2570" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::VectorizedAggregation::result_field</definition>
+        <argsstring></argsstring>
+        <name>result_field</name>
+        <qualifiedname>themis::query::VectorizedAggregation::result_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="133" column="30" bodyfile="include/query/vectorized_execution.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_aggregation_1a007907e70e19ce5110ba0680606b9ad7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::VectorizedAggregation::input_field</definition>
+        <argsstring></argsstring>
+        <name>input_field</name>
+        <qualifiedname>themis::query::VectorizedAggregation::input_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="134" column="30" bodyfile="include/query/vectorized_execution.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_aggregation_1adc85cae782a715bac2a379115f5f4333" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756" kindref="member">Function</ref></type>
+        <definition>Function themis::query::VectorizedAggregation::function</definition>
+        <argsstring></argsstring>
+        <name>function</name>
+        <qualifiedname>themis::query::VectorizedAggregation::function</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756ae93f994f01c537c4e2f7d8528c3eb5e9" kindref="member">Function::Count</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="135" column="30" bodyfile="include/query/vectorized_execution.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_aggregation_1aa9467b68367866313bcea394ba354773" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::VectorizedAggregation::group_by</definition>
+        <argsstring></argsstring>
+        <name>group_by</name>
+        <qualifiedname>themis::query::VectorizedAggregation::group_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="136" column="17" bodyfile="include/query/vectorized_execution.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="130" column="1" bodyfile="include/query/vectorized_execution.h" bodystart="130" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756" prot="public" virt="non-virtual"><scope>themis::query::VectorizedAggregation</scope><name>Function</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_aggregation_1adc85cae782a715bac2a379115f5f4333" prot="public" virt="non-virtual"><scope>themis::query::VectorizedAggregation</scope><name>function</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_aggregation_1aa9467b68367866313bcea394ba354773" prot="public" virt="non-virtual"><scope>themis::query::VectorizedAggregation</scope><name>group_by</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_aggregation_1a007907e70e19ce5110ba0680606b9ad7" prot="public" virt="non-virtual"><scope>themis::query::VectorizedAggregation</scope><name>input_field</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_aggregation_1a95ce7fc50d24aaa0deaf7d1d3c1c2570" prot="public" virt="non-virtual"><scope>themis::query::VectorizedAggregation</scope><name>result_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

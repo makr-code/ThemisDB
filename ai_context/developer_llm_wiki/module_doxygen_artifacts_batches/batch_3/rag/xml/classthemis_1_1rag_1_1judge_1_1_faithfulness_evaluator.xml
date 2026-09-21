@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::FaithfulnessEvaluator</compoundname>
+    <includes refid="faithfulness__evaluator_8h" local="no">faithfulness_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config" prot="public">themis::rag::judge::FaithfulnessEvaluator::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl" prot="public">themis::rag::judge::FaithfulnessEvaluator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a9df4e5eecb2240f323ee187e8bda931f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::FaithfulnessEvaluator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="141" column="21" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a41da68fb00a7ad615e85b1b9dce7a163" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::FaithfulnessEvaluator::FaithfulnessEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>FaithfulnessEvaluator</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::FaithfulnessEvaluator</qualifiedname>
+        <briefdescription>
+<para>Construct evaluator with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="87" column="5" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a4dd9937643e7800394cc53d4be1c5baa" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::FaithfulnessEvaluator::FaithfulnessEvaluator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>FaithfulnessEvaluator</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::FaithfulnessEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="88" column="14" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="105" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1afd0e60624bfa0b2494dd2391173dba44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::FaithfulnessEvaluator::~FaithfulnessEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>~FaithfulnessEvaluator</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::~FaithfulnessEvaluator</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="93" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a765ee3536246c9ddd4dd807f850ec963" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result" kindref="compound">FaithfulnessResult</ref></type>
+        <definition>FaithfulnessResult themis::rag::judge::FaithfulnessEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;answer, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, const std::string &amp;query=&quot;&quot;)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Evaluate faithfulness of an answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query (optional, for context) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Faithfulness evaluation result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="102" column="24" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="279" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1ace6f2c7f3f360491567ab5a970ec5b81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref> &gt;</type>
+        <definition>std::vector&lt; Claim &gt; themis::rag::judge::FaithfulnessEvaluator::extractClaims</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>extractClaims</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::extractClaims</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Extract atomic claims from answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Claims.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of extracted claims</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), evaluateDimension(), nlohmann::json::parse(), contains(), is_array(), is_string(), size(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="113" column="17" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="133" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a0890b263d2f957f4b977dd9d121c6580" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" kindref="member">SupportLevel</ref></type>
+        <definition>SupportLevel themis::rag::judge::FaithfulnessEvaluator::checkEntailment</definition>
+        <argsstring>(const std::string &amp;claim, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents)</argsstring>
+        <name>checkEntailment</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::checkEntailment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Check if claim is entailed by documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref> to verify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Documents to check against </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Support level for the claim </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="121" column="18" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="195" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a4497250a54e576a62897a243b525446e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_citation" kindref="compound">Citation</ref> &gt;</type>
+        <definition>std::vector&lt; Citation &gt; themis::rag::judge::FaithfulnessEvaluator::verifyCitations</definition>
+        <argsstring>(const std::string &amp;answer, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, const std::vector&lt; Claim &gt; &amp;claims)</argsstring>
+        <name>verifyCitations</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::verifyCitations</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref> &gt; &amp;</type>
+          <declname>claims</declname>
+        </param>
+        <briefdescription>
+<para>Find and verify citations in answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Available documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Extracted claims </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of citations with quality scores </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="133" column="17" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="223" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Faithfulness evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates answer faithfulness through:<orderedlist>
+<listitem><para><ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref> extraction from answer</para>
+</listitem><listitem><para>Document entailment checking per claim</para>
+</listitem><listitem><para><ref refid="structthemis_1_1rag_1_1judge_1_1_citation" kindref="compound">Citation</ref> verification </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/faithfulness_evaluator.h" line="72" column="1" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="72" bodyend="142"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a0890b263d2f957f4b977dd9d121c6580" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator</scope><name>checkEntailment</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a765ee3536246c9ddd4dd807f850ec963" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1ace6f2c7f3f360491567ab5a970ec5b81" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator</scope><name>extractClaims</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a41da68fb00a7ad615e85b1b9dce7a163" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator</scope><name>FaithfulnessEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a4dd9937643e7800394cc53d4be1c5baa" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator</scope><name>FaithfulnessEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a9df4e5eecb2240f323ee187e8bda931f" prot="private" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a4497250a54e576a62897a243b525446e" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator</scope><name>verifyCitations</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1afd0e60624bfa0b2494dd2391173dba44" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator</scope><name>~FaithfulnessEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

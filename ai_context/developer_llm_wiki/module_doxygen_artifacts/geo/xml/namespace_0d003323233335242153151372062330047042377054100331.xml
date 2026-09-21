@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d003323233335242153151372062330047042377054100331" kind="namespace" language="C++">
+    <compoundname>@003323233335242153151372062330047042377054100331</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d003323233335242153151372062330047042377054100331_1a4561ddcf401b1b3e4d66769bd057ed62" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackendType</name>
+        <qualifiedname>@003323233335242153151372062330047042377054100331::BackendType</qualifiedname>
+        <enumvalue id="namespace_0d003323233335242153151372062330047042377054100331_1a4561ddcf401b1b3e4d66769bd057ed62a52f9ec21735243ad9917cda3ca077d32" prot="public">
+          <name>GPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d003323233335242153151372062330047042377054100331_1a4561ddcf401b1b3e4d66769bd057ed62a2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_contract_hardening_focused.cpp" line="109" column="1" bodyfile="tests/geo/test_geo_contract_hardening_focused.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d003323233335242153151372062330047042377054100331_1ab50859a741e9c0bc7c1f059888424bd1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JoinPredicate</name>
+        <qualifiedname>@003323233335242153151372062330047042377054100331::JoinPredicate</qualifiedname>
+        <enumvalue id="namespace_0d003323233335242153151372062330047042377054100331_1ab50859a741e9c0bc7c1f059888424bd1aac8bd90c6d4a4f2e58fd02ef1b725a10" prot="public">
+          <name>INTERSECTS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d003323233335242153151372062330047042377054100331_1ab50859a741e9c0bc7c1f059888424bd1a7c8b81e077a45b6d2c9c03d3a22c0d5b" prot="public">
+          <name>CONTAINS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_contract_hardening_focused.cpp" line="185" column="1" bodyfile="tests/geo/test_geo_contract_hardening_focused.cpp" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/geo/test_geo_contract_hardening_focused.cpp" line="67" column="1"/>
+  </compounddef>
+</doxygen>

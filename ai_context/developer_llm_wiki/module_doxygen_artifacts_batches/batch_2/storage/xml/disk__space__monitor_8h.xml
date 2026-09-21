@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="disk__space__monitor_8h" kind="file" language="C++">
+    <compoundname>disk_space_monitor.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="disk__space__monitor_8cpp" local="yes">src/storage/disk_space_monitor.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/disk_space_monitor.h</label>
+        <link refid="disk__space__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/disk_space_monitor.h</label>
+        <link refid="disk__space__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/disk_space_monitor.cpp</label>
+        <link refid="disk__space__monitor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1storage_1_1_disk_space_monitor" prot="public">themis::storage::DiskSpaceMonitor</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" prot="public">themis::storage::DiskSpaceMonitor::Config</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" prot="public">themis::storage::DiskSpaceMonitor::SpaceInfo</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats" prot="public">themis::storage::DiskSpaceMonitor::MonitorStats</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_usage_snapshot" prot="private">themis::storage::DiskSpaceMonitor::UsageSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_disk_space_guard" prot="public">themis::storage::DiskSpaceGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage_1_1disk__utils">themis::storage::disk_utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1storage_1_1_disk_space_monitor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a7d5b3704237451d414e4ba5970edc1ac" kindref="member">DiskSpaceMonitor</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1e23852820b9154316c7c06e2b7ba051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1e23852820b9154316c7c06e2b7ba051" kindref="member">NORMAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&gt;<sp/>20%<sp/>free<sp/>space</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da059e9861e0400dfbe05c98a841f3f96b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da059e9861e0400dfbe05c98a841f3f96b" kindref="member">WARNING</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10-20%<sp/>free<sp/>space</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5-10%<sp/>free<sp/>space</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1d9e8d5522fd3de1bbc21723300efd30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1d9e8d5522fd3de1bbc21723300efd30" kindref="member">EMERGENCY</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;<sp/>5%<sp/>free<sp/>space<sp/>-<sp/>stop<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thresholds<sp/>(as<sp/>percentage<sp/>of<sp/>total<sp/>space)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a49be5f5244ab433dcf24365fbc066250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a49be5f5244ab433dcf24365fbc066250" kindref="member">warning_threshold</ref><sp/>=<sp/>0.20f;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>20%<sp/>free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a752f1a78bea578543482d86ea2287ce4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a752f1a78bea578543482d86ea2287ce4" kindref="member">critical_threshold</ref><sp/>=<sp/>0.10f;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10%<sp/>free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1ae50661848d199cfea7913614aec63924" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1ae50661848d199cfea7913614aec63924" kindref="member">emergency_threshold</ref><sp/>=<sp/>0.05f;<sp/><sp/></highlight><highlight class="comment">//<sp/>5%<sp/>free<sp/>-<sp/>stop<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reserve<sp/>space<sp/>for<sp/>critical<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a1f04edb14b567436789808f7b6bbb714" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a1f04edb14b567436789808f7b6bbb714" kindref="member">reserved_bytes</ref><sp/>=<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>GB<sp/>reserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monitoring<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a1eb4e9eb32485da3e0323bcb40933f50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a1eb4e9eb32485da3e0323bcb40933f50" kindref="member">check_interval</ref>{60};<sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>every<sp/>minute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a65a2f474b158a9336859ac03d87efdd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a65a2f474b158a9336859ac03d87efdd6" kindref="member">enable_auto_monitoring</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alert<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1ae65c187a68dc29c402613488bf327541" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1ae65c187a68dc29c402613488bf327541" kindref="member">enable_alerts</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a3e0acb7e05987413bbfdea8a4141bddf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a3e0acb7e05987413bbfdea8a4141bddf" kindref="member">alert_cooldown_minutes</ref><sp/>=<sp/>15;<sp/><sp/></highlight><highlight class="comment">//<sp/>Don&apos;t<sp/>spam<sp/>alerts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Action<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1aa6118d1d8a496b368ed213127586ae42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1aa6118d1d8a496b368ed213127586ae42" kindref="member">enable_auto_gc</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>garbage<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a2ef1bc9b7cdee786795af22bb442bf6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1a2ef1bc9b7cdee786795af22bb442bf6e" kindref="member">enable_write_blocking</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Block<sp/>writes<sp/>when<sp/>critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1aa7476142c0e25e30093f6c577103e4e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config_1aa7476142c0e25e30093f6c577103e4e5" kindref="member">enable_read_only_mode</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Switch<sp/>to<sp/>read-only<sp/>when<sp/>emergency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1af768c0a6985c387f4e3b07c52c0481cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1af768c0a6985c387f4e3b07c52c0481cd" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ac9068a62bfeb39a58a138be3c27b5f04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ac9068a62bfeb39a58a138be3c27b5f04" kindref="member">total_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a93209ea67479492da8da1710e84e52d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a93209ea67479492da8da1710e84e52d5" kindref="member">used_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ad701b1d58c6dfbfe2fcba50a9254f605" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ad701b1d58c6dfbfe2fcba50a9254f605" kindref="member">free_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a209d1061790f68b6d3b97fa305a4c27a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a209d1061790f68b6d3b97fa305a4c27a" kindref="member">available_bytes</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>-<sp/>reserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a9c9fbc41c4a90b7745390c9b36d392c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a9c9fbc41c4a90b7745390c9b36d392c1" kindref="member">usage_percent</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a07898d429a342f7e92c0752731f7c4a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a07898d429a342f7e92c0752731f7c4a6" kindref="member">free_percent</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1aa94b0e26fb5a2b3a77f8514c481a74c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1aa94b0e26fb5a2b3a77f8514c481a74c2" kindref="member">level</ref><sp/>=<sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1e23852820b9154316c7c06e2b7ba051" kindref="member">SpaceLevel::NORMAL</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1aa491ba1052985d780f0237913d7a5335" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1aa491ba1052985d780f0237913d7a5335" kindref="member">writes_blocked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ae01c06347a6285c6d7cf0e230e298b69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ae01c06347a6285c6d7cf0e230e298b69" kindref="member">read_only</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a1f1bc195c8c070927f570c726423e389" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a1f1bc195c8c070927f570c726423e389" kindref="member">rocksdb_size_bytes</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>RocksDB<sp/>on-disk<sp/>SST<sp/>files<sp/>size<sp/>(set<sp/>via<sp/>setRocksDBSize)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats" kindref="compound">MonitorStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1a8aa5de76f377c49344d4b5f71d09ea19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1a8aa5de76f377c49344d4b5f71d09ea19" kindref="member">total_checks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1a639d725b74b7bfb4918a3ef4c975aa60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1a639d725b74b7bfb4918a3ef4c975aa60" kindref="member">warning_triggers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1a1c6bd03ce1f355ca581c18427a9df8e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1a1c6bd03ce1f355ca581c18427a9df8e6" kindref="member">critical_triggers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1aef99decf28f0facd63f84fc8fc87cc7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1aef99decf28f0facd63f84fc8fc87cc7d" kindref="member">emergency_triggers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1ae4f9ad483ce351864147bb6b942ba873" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1ae4f9ad483ce351864147bb6b942ba873" kindref="member">writes_blocked</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1af2a76a421c68aff108d3e2fcc369f136" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1af2a76a421c68aff108d3e2fcc369f136" kindref="member">alerts_sent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1ab0ffcf007c08ce020cfa57979148a0be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1ab0ffcf007c08ce020cfa57979148a0be" kindref="member">gc_triggers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1a63c3d46cb9f7f1f36a1099dd0d0f0124" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1a63c3d46cb9f7f1f36a1099dd0d0f0124" kindref="member">last_check</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1acf2dec89da0bf7476bf82e74e76c0c1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats_1acf2dec89da0bf7476bf82e74e76c0c1a" kindref="member">last_alert</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1storage_1_1_disk_space_monitor_1a58f6e041b9ae446047c326af49b88716" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a58f6e041b9ae446047c326af49b88716" kindref="member">AlertCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)&gt;;</highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" kindref="member">GCCallback</ref><sp/>=<sp/>std::function&lt;void()&gt;;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a7d5b3704237451d414e4ba5970edc1ac" kindref="member">DiskSpaceMonitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a7d5b3704237451d414e4ba5970edc1ac" kindref="member">DiskSpaceMonitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1af8bcd91a058e306fb44b23792dd38c99" kindref="member">~DiskSpaceMonitor</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a82015b436ed20122fc3196c383d2774f" kindref="member">startMonitoring</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1aeabbbdd3e2d6350c579f11550bfcd981" kindref="member">stopMonitoring</ref>();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1aacacfdf03f7de15f698615b388dbcced" kindref="member">checkSpace</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a0295cb540485c22c74b898be507aa310" kindref="member">canWrite</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes_to_write<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1ae5c31612f3df27ba2f07fd6dfac63d0d" kindref="member">isReadOnly</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a26e164c98096df621773c45a92f9fd28" kindref="member">getSpaceLevel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a106ab3c4d5ecc4b264fd0ca14b338128" kindref="member">getSpaceInfo</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats" kindref="compound">MonitorStats</ref><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1ae1a717c9b35554dc6817bb2103af325d" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a90936f38d6af9374db853d6f8693f366" kindref="member">setAlertCallback</ref>(<ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a58f6e041b9ae446047c326af49b88716" kindref="member">AlertCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1afa0afec5ac1e1a219d2df7b0f2d05ec4" kindref="member">setGCCallback</ref>(<ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" kindref="member">GCCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a410b76696fb18c5acf22847e0f17f468" kindref="member">triggerGC</ref>();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2789f17a004c2da160de5f23e1ca55b3" kindref="member">setReadOnlyOverride</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>read_only);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1acfe2fe831814e2a4d6e27ccf4ef70c7c" kindref="member">setRocksDBSize</ref>(uint64_t<sp/>size_bytes);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a452ca77f5a13e48473ea48b528b8f71d" kindref="member">getRecommendedAction</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1aaf47a633f366d47c49ca1a823ff7e9bd" kindref="member">estimateTimeUntilFull</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path_;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>monitoring_active_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>should_stop_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>monitor_thread_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>SpaceInfo<sp/>current_info_;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;SpaceLevel&gt;<sp/>current_level_{<ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1e23852820b9154316c7c06e2b7ba051" kindref="member">SpaceLevel::NORMAL</ref>};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>writes_blocked_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>read_only_override_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats" kindref="compound">MonitorStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a58f6e041b9ae446047c326af49b88716" kindref="member">AlertCallback</ref><sp/>alert_callback_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" kindref="member">GCCallback</ref><sp/>gc_callback_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Usage<sp/>tracking<sp/>for<sp/>trend<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">UsageSnapshot<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>timestamp;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>used_bytes;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;UsageSnapshot&gt;<sp/>usage_history_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_history_size_<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>monitoringLoop();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref><sp/>queryDiskSpace();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateSpaceLevel(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref>&amp;<sp/>info);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleSpaceLevelChange(<ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref><sp/>old_level,<sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref><sp/>new_level);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendAlert(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref>&amp;<sp/>info,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldSendAlert()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordUsage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref>&amp;<sp/>info);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>calculateUsageTrend()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Bytes<sp/>per<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1storage_1_1_disk_space_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_disk_space_guard_1aac7dd15839bc675d140b2bb8ec512600" kindref="member">DiskSpaceGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_guard_1aac7dd15839bc675d140b2bb8ec512600" kindref="member">DiskSpaceGuard</ref>(</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor" kindref="compound">DiskSpaceMonitor</ref>&amp;<sp/>monitor,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>required_bytes,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_name</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_guard_1a9479c37089df5c0c1e05aadcd2579da4" kindref="member">~DiskSpaceGuard</ref>();</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_guard_1ab5e40276dceb1eb76e38db101d6a03f9" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1storage_1_1_disk_space_guard_1af817e8288a62d6c30167e13b5ae87975" kindref="member">getError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_disk_space_monitor" kindref="compound">DiskSpaceMonitor</ref>&amp;<sp/>monitor_;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>required_bytes_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>operation_name_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid_;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error_;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286" refid="namespacethemis_1_1storage_1_1disk__utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage_1_1disk__utils" kindref="compound">disk_utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1_1disk__utils_1a78ac210e7529f3de29c25e7920aa36cd" kindref="member">getDiskSpace</ref>(</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&amp;<sp/>total_bytes,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&amp;<sp/>free_bytes,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&amp;<sp/>available_bytes</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1storage_1_1disk__utils_1ace98df33d729500f0312b577a6314f48" kindref="member">formatBytes</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1_1disk__utils_1ae634709383b5b1156307093777f7b735" kindref="member">pathExists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1storage_1_1disk__utils_1a35542dbc9c7306f4c1cd9fb6b815409a" kindref="member">getDirectory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>disk_utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/disk_space_monitor.h"/>
+  </compounddef>
+</doxygen>

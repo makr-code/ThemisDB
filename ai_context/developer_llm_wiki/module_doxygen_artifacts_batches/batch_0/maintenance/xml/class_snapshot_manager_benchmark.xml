@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_snapshot_manager_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>SnapshotManagerBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_snapshot_manager_benchmark_1ad8cb74c23e8896c53037f49d3e134ebe" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SnapshotManagerBenchmark::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>SnapshotManagerBenchmark::test_db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="67" column="17" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_snapshot_manager_benchmark_1a05612227b0220971b40047f6957c8b25" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; SnapshotManagerBenchmark::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>SnapshotManagerBenchmark::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="68" column="21" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_snapshot_manager_benchmark_1a2f59c08ccd932ab4c75acd1e0b5fcdb6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Changefeed &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; SnapshotManagerBenchmark::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>SnapshotManagerBenchmark::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="69" column="21" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_snapshot_manager_benchmark_1abbd7aadb7788a91f3cf9bdb64d1a974c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SnapshotManager &gt;</type>
+        <definition>std::unique_ptr&lt;SnapshotManager&gt; SnapshotManagerBenchmark::snapshot_manager_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_manager_</name>
+        <qualifiedname>SnapshotManagerBenchmark::snapshot_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="70" column="21" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_snapshot_manager_benchmark_1a9bb586f24c7a908714d7defc55582620" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SnapshotManagerBenchmark::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SnapshotManagerBenchmark::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="13" column="10" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="13" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_snapshot_manager_benchmark_1ace32894da10377fb7a0f814c20256f22" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SnapshotManagerBenchmark::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SnapshotManagerBenchmark::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="35" column="10" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_snapshot_manager_benchmark_1a35eccbd9d54c4cb9ad6e88f6451ee69c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SnapshotManagerBenchmark::populateTags</definition>
+        <argsstring>(int64_t num_tags)</argsstring>
+        <name>populateTags</name>
+        <qualifiedname>SnapshotManagerBenchmark::populateTags</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>num_tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="45" column="10" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_snapshot_manager_benchmark_1abe5b7a54894458b0f14f40385ede18c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SnapshotManagerBenchmark::recordEvents</definition>
+        <argsstring>(int count)</argsstring>
+        <name>recordEvents</name>
+        <qualifiedname>SnapshotManagerBenchmark::recordEvents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="53" column="10" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="53" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SnapshotManagerBenchmark</label>
+        <link refid="class_snapshot_manager_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SnapshotManagerBenchmark</label>
+        <link refid="class_snapshot_manager_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/maintenance/bench_snapshot_manager.cpp" line="11" column="1" bodyfile="benchmarks/maintenance/bench_snapshot_manager.cpp" bodystart="11" bodyend="71"/>
+    <listofallmembers>
+      <member refid="class_snapshot_manager_benchmark_1a2f59c08ccd932ab4c75acd1e0b5fcdb6" prot="protected" virt="non-virtual"><scope>SnapshotManagerBenchmark</scope><name>changefeed_</name></member>
+      <member refid="class_snapshot_manager_benchmark_1a05612227b0220971b40047f6957c8b25" prot="protected" virt="non-virtual"><scope>SnapshotManagerBenchmark</scope><name>db_</name></member>
+      <member refid="class_snapshot_manager_benchmark_1a35eccbd9d54c4cb9ad6e88f6451ee69c" prot="public" virt="non-virtual"><scope>SnapshotManagerBenchmark</scope><name>populateTags</name></member>
+      <member refid="class_snapshot_manager_benchmark_1abe5b7a54894458b0f14f40385ede18c9" prot="public" virt="non-virtual"><scope>SnapshotManagerBenchmark</scope><name>recordEvents</name></member>
+      <member refid="class_snapshot_manager_benchmark_1a9bb586f24c7a908714d7defc55582620" prot="public" virt="non-virtual"><scope>SnapshotManagerBenchmark</scope><name>SetUp</name></member>
+      <member refid="class_snapshot_manager_benchmark_1abbd7aadb7788a91f3cf9bdb64d1a974c" prot="protected" virt="non-virtual"><scope>SnapshotManagerBenchmark</scope><name>snapshot_manager_</name></member>
+      <member refid="class_snapshot_manager_benchmark_1ace32894da10377fb7a0f814c20256f22" prot="public" virt="non-virtual"><scope>SnapshotManagerBenchmark</scope><name>TearDown</name></member>
+      <member refid="class_snapshot_manager_benchmark_1ad8cb74c23e8896c53037f49d3e134ebe" prot="protected" virt="non-virtual"><scope>SnapshotManagerBenchmark</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

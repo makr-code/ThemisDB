@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ConflictResolver</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1ac95f31c5d29932de95c652e3ba55c4ca" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" kindref="compound">ProcessModelRevision</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessModelRevision&gt; themis::process::benchmark::ConflictResolver::revision_history_</definition>
+        <argsstring></argsstring>
+        <name>revision_history_</name>
+        <qualifiedname>themis::process::benchmark::ConflictResolver::revision_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="46" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1a74da968d8893a31fa2b3930882a4e6ae" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_conflict" kindref="compound">ProcessConflict</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessConflict&gt; themis::process::benchmark::ConflictResolver::resolved_conflicts_</definition>
+        <argsstring></argsstring>
+        <name>resolved_conflicts_</name>
+        <qualifiedname>themis::process::benchmark::ConflictResolver::resolved_conflicts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="47" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1ad39b284607cb91e74b608c5a6b32ca03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::ConflictResolver::ConflictResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>ConflictResolver</name>
+        <qualifiedname>themis::process::benchmark::ConflictResolver::ConflictResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1a6579b6bba6e8d9745b59db2804554ff9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ConflictResolver::resolveConflict</definition>
+        <argsstring>(const ProcessConflict &amp;conflict)</argsstring>
+        <name>resolveConflict</name>
+        <qualifiedname>themis::process::benchmark::ConflictResolver::resolveConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_conflict" kindref="compound">ProcessConflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+<para>Simulate conflict detection and resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="55" column="10" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="55" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1aa2d863c73e03ca951bdf22b24a0c9d21" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::benchmark::ConflictResolver::resolvedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>resolvedCount</name>
+        <qualifiedname>themis::process::benchmark::ConflictResolver::resolvedCount</qualifiedname>
+        <briefdescription>
+<para>Get resolution statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="88" column="12" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated conflict resolution engine. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="44" column="1" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="44" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1ad39b284607cb91e74b608c5a6b32ca03" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConflictResolver</scope><name>ConflictResolver</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1a6579b6bba6e8d9745b59db2804554ff9" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConflictResolver</scope><name>resolveConflict</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1a74da968d8893a31fa2b3930882a4e6ae" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ConflictResolver</scope><name>resolved_conflicts_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1aa2d863c73e03ca951bdf22b24a0c9d21" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConflictResolver</scope><name>resolvedCount</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver_1ac95f31c5d29932de95c652e3ba55c4ca" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ConflictResolver</scope><name>revision_history_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llama__cpp__validation__gates__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llama_cpp_validation_gates_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llama__cpp__plugin_8h" local="yes">llama_cpp/llama_cpp_plugin.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llama_cpp/llama_cpp_plugin.h</label>
+        <link refid="llama__cpp__plugin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp</label>
+        <link refid="test__llama__cpp__validation__gates__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>llm/llm_plugin_interface.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1af1520c2d2ce73a0796b97bba303e09e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; LlamaCppPlugin &gt; make_loaded</definition>
+        <argsstring>()</argsstring>
+        <name>make_loaded</name>
+        <briefdescription>
+<para>── helpers ─────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadModel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="32" column="24" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG1_ContextLength_BelowMin_UsesDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG1_ContextLength_BelowMin_UsesDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="41" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="41" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1aed517ae3a2090ad529b84d30de8de344" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG2_ContextLength_AtMinBoundary)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG2_ContextLength_AtMinBoundary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="54" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="54" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1a150ef92d683db5f5682ad0d33c1ce25e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG3_ContextLength_AtMaxBoundary)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG3_ContextLength_AtMaxBoundary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="65" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="65" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1a343c779a1697397bb01faf76df073294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG4_MaxTokensZero_IsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG4_MaxTokensZero_IsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="75" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="75" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1a9e1f2f3112952222ee4b3ef9f8a6639c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG5_MaxTokensNegative_IsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG5_MaxTokensNegative_IsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="89" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="89" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1af79c9eb38947e4e0756b3b1524c8906e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG6_MaxTokensExceedsHalfContext_NotFatal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG6_MaxTokensExceedsHalfContext_NotFatal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="101" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="101" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1ad5bda8546a9ba2185931186b2321582f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG7_TemperatureOutOfRange_NotFatal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG7_TemperatureOutOfRange_NotFatal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="113" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="113" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1a9a6d47ca8009225c298ef9fd2ee0ca69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG8_TopPOutOfRange_NotFatal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG8_TopPOutOfRange_NotFatal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="125" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="125" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__validation__gates__focused_8cpp_1a9d3accae53764c1ee4db455c533ee86c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppValidationGatesFocusedTests, VG9_EmptyPrompt_ReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppValidationGatesFocusedTests</type>
+        </param>
+        <param>
+          <type>VG9_EmptyPrompt_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" line="137" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp" bodystart="137" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group VG — Validation gate tests for the llama_cpp plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Exercises the fail-closed validation logic in <ref refid="llama__cpp__plugin__validation__gates_8cpp" kindref="compound">llama_cpp_plugin_validation_gates.cpp</ref> indirectly through the public <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> API. All tests run under THEMIS_LLAMA_CPP_STUB_MODE so no real model file is required.</para>
+<para>Covered gates: VG1-VG3 Context-length bounds enforcement via loadModel() VG4-VG6 Token-limit validation via generate() VG7-VG8 Temperature / top_p out-of-range handling VG9 Empty prompt handling </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llama__cpp__plugin_8h" kindref="compound">llama_cpp/llama_cpp_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp" kindref="compound">themis::llamacpp</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;LlamaCppPlugin&gt;<sp/>make_loaded()<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/>=<sp/>std::make_unique&lt;LlamaCppPlugin&gt;();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>p-&gt;loadModel(</highlight><highlight class="stringliteral">&quot;/stub/model.gguf&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>VG<sp/>—<sp/>Validation<sp/>Gates<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG1:<sp/>context_length<sp/>below<sp/>MIN<sp/>(128)<sp/>is<sp/>treated<sp/>as<sp/>default<sp/>(4096)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG1_ContextLength_BelowMin_UsesDefault)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg[</highlight><highlight class="stringliteral">&quot;n_ctx&quot;</highlight><highlight class="normal">]<sp/>=<sp/>10;<sp/><sp/></highlight><highlight class="comment">//<sp/>below<sp/>MIN_CONTEXT_LENGTH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/m.gguf&quot;</highlight><highlight class="normal">,<sp/>cfg));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plugin<sp/>must<sp/>not<sp/>crash;<sp/>context<sp/>window<sp/>defaults<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kindref="member">getModelInfo</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(info.has_value());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(info-&gt;context_length,<sp/>0);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG2:<sp/>context_length<sp/>at<sp/>the<sp/>valid<sp/>boundary<sp/>(128)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG2_ContextLength_AtMinBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg[</highlight><highlight class="stringliteral">&quot;context_length&quot;</highlight><highlight class="normal">]<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/m.gguf&quot;</highlight><highlight class="normal">,<sp/>cfg));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kindref="member">getModelInfo</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(info.has_value());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(info-&gt;context_length,<sp/>128);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG3:<sp/>context_length<sp/>at<sp/>max<sp/>boundary<sp/>(131072)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG3_ContextLength_AtMaxBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg[</highlight><highlight class="stringliteral">&quot;context_length&quot;</highlight><highlight class="normal">]<sp/>=<sp/>131072;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/m.gguf&quot;</highlight><highlight class="normal">,<sp/>cfg));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kindref="member">getModelInfo</ref>();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(info.has_value());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG4:<sp/>max_tokens<sp/>==<sp/>0<sp/>should<sp/>result<sp/>in<sp/>a<sp/>failed<sp/>or<sp/>empty<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG4_MaxTokensZero_IsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>success==false<sp/>or<sp/>text<sp/>is<sp/>empty<sp/>(stub<sp/>may<sp/>bypass,<sp/>but<sp/>must<sp/>not<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>key<sp/>invariant:<sp/>no<sp/>UB,<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)resp;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();<sp/><sp/></highlight><highlight class="comment">//<sp/>reaching<sp/>here<sp/>means<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG5:<sp/>negative<sp/>max_tokens<sp/>is<sp/>handled<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG5_MaxTokensNegative_IsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)resp;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG6:<sp/>very<sp/>large<sp/>max_tokens<sp/>(exceeding<sp/>50%<sp/>of<sp/>context)<sp/>is<sp/>capped<sp/>but<sp/>not<sp/>fatal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG6_MaxTokensExceedsHalfContext_NotFatal)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>100000;<sp/><sp/></highlight><highlight class="comment">//<sp/>likely<sp/>&gt;<sp/>50%<sp/>of<sp/>the<sp/>4096<sp/>default<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)resp;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG7:<sp/>temperature<sp/>out<sp/>of<sp/>[0.0,<sp/>2.0]<sp/>is<sp/>clamped,<sp/>not<sp/>fatal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG7_TemperatureOutOfRange_NotFatal)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>req.temperature<sp/>=<sp/>5.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>out<sp/>of<sp/>[0.0,<sp/>2.0]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)resp;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG8:<sp/>top_p<sp/>out<sp/>of<sp/>[0.0,<sp/>1.0]<sp/>is<sp/>clamped,<sp/>not<sp/>fatal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG8_TopPOutOfRange_NotFatal)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>req.top_p<sp/><sp/>=<sp/>1.5f;<sp/><sp/></highlight><highlight class="comment">//<sp/>out<sp/>of<sp/>[0.0,<sp/>1.0]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)resp;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VG9:<sp/>empty<sp/>prompt<sp/>results<sp/>in<sp/>a<sp/>failed<sp/>generation<sp/>(not<sp/>a<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kindref="member">TEST</ref>(LlamaCppValidationGatesFocusedTests,<sp/>VG9_EmptyPrompt_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>make_loaded();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref>&amp;<sp/>p<sp/>=<sp/>*plugin;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>stub<sp/>mode<sp/>the<sp/>plugin<sp/>may<sp/>succeed;<sp/>the<sp/>important<sp/>invariant<sp/>is<sp/>no<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)resp;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp"/>
+  </compounddef>
+</doxygen>

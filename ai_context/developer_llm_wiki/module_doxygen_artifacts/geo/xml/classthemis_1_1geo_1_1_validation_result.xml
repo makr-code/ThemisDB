@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_validation_result" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::ValidationResult</compoundname>
+    <includes refid="geo__json__geometry_8h" local="no">geo_json_geometry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_validation_result_1a888f6932b53b7bb5628d43d8908ebb88" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1geo_1_1_validation_error" kindref="compound">ValidationError</ref> &gt;</type>
+        <definition>std::vector&lt;ValidationError&gt; themis::geo::ValidationResult::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::geo::ValidationResult::errors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="95" column="17" bodyfile="include/geo/geo_json_geometry.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_validation_result_1ac5a3b3f4520ce55633a695154b0b680f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::ValidationResult::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::geo::ValidationResult::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="71" column="11" bodyfile="include/geo/geo_json_geometry.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_validation_result_1a73ac4131cbe1383cfa52af12f82b0b5d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1geo_1_1_validation_error" kindref="compound">ValidationError</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; ValidationError &gt; &amp; themis::geo::ValidationResult::errors</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::geo::ValidationResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="73" column="24" bodyfile="include/geo/geo_json_geometry.h" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_validation_result_1a11bc9e618a5c3a637bba409cdbbe744a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::ValidationResult::addError</definition>
+        <argsstring>(ValidationError e)</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::geo::ValidationResult::addError</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_validation_error" kindref="compound">ValidationError</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Add Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="82" column="10" bodyfile="include/geo/geo_json_geometry.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_validation_result_1a2cbcfa5343e8aaa48a83499b7337c868" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::ValidationResult::merge</definition>
+        <argsstring>(const ValidationResult &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::geo::ValidationResult::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="89" column="10" bodyfile="include/geo/geo_json_geometry.h" bodystart="89" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_json_geometry.h" line="69" column="1" bodyfile="include/geo/geo_json_geometry.h" bodystart="69" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_validation_result_1a11bc9e618a5c3a637bba409cdbbe744a" prot="public" virt="non-virtual"><scope>themis::geo::ValidationResult</scope><name>addError</name></member>
+      <member refid="classthemis_1_1geo_1_1_validation_result_1a73ac4131cbe1383cfa52af12f82b0b5d" prot="public" virt="non-virtual"><scope>themis::geo::ValidationResult</scope><name>errors</name></member>
+      <member refid="classthemis_1_1geo_1_1_validation_result_1a888f6932b53b7bb5628d43d8908ebb88" prot="private" virt="non-virtual"><scope>themis::geo::ValidationResult</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1geo_1_1_validation_result_1a2cbcfa5343e8aaa48a83499b7337c868" prot="public" virt="non-virtual"><scope>themis::geo::ValidationResult</scope><name>merge</name></member>
+      <member refid="classthemis_1_1geo_1_1_validation_result_1ac5a3b3f4520ce55633a695154b0b680f" prot="public" virt="non-virtual"><scope>themis::geo::ValidationResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

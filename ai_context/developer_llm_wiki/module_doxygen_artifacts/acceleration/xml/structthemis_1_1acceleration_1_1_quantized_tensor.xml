@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_quantized_tensor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::QuantizedTensor</compoundname>
+    <includes refid="quantized__backend_8h" local="no">quantized_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantized_tensor_1a876d2728f199c77f9edb6f6af11221dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int8_t &gt;</type>
+        <definition>std::vector&lt;int8_t&gt; themis::acceleration::QuantizedTensor::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::acceleration::QuantizedTensor::data</qualifiedname>
+        <briefdescription>
+<para>INT8 quantised values (INT8 path). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="41" column="17" bodyfile="include/acceleration/quantized_backend.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantized_tensor_1a1f7080546fbe43b7ad7f8473cad343b4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; themis::acceleration::QuantizedTensor::data_i32</definition>
+        <argsstring></argsstring>
+        <name>data_i32</name>
+        <qualifiedname>themis::acceleration::QuantizedTensor::data_i32</qualifiedname>
+        <briefdescription>
+<para>INT4 values packed as INT32 (8 values per element). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="42" column="17" bodyfile="include/acceleration/quantized_backend.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantized_tensor_1a1c8473c8ef2aab8d13b0ddf286f19e08" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::acceleration::QuantizedTensor::scales</definition>
+        <argsstring></argsstring>
+        <name>scales</name>
+        <qualifiedname>themis::acceleration::QuantizedTensor::scales</qualifiedname>
+        <briefdescription>
+<para>Per-channel or per-group scale factors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="43" column="17" bodyfile="include/acceleration/quantized_backend.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantized_tensor_1abc1a4dcc3f102293cffb57607c6bf0a1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int8_t &gt;</type>
+        <definition>std::vector&lt;int8_t&gt; themis::acceleration::QuantizedTensor::zero_points</definition>
+        <argsstring></argsstring>
+        <name>zero_points</name>
+        <qualifiedname>themis::acceleration::QuantizedTensor::zero_points</qualifiedname>
+        <briefdescription>
+<para>Zero-point offsets (asymmetric schemes only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="44" column="17" bodyfile="include/acceleration/quantized_backend.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantized_tensor_1a877c5e208287a397b2e22f9d3cd6e93c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::acceleration::QuantizedTensor::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::acceleration::QuantizedTensor::shape</qualifiedname>
+        <briefdescription>
+<para>Logical tensor shape. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="45" column="17" bodyfile="include/acceleration/quantized_backend.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantized_tensor_1a5b3fe0aa7eff37c071276bb3db3f6770" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2e" kindref="member">QuantizationScheme</ref></type>
+        <definition>QuantizationScheme themis::acceleration::QuantizedTensor::scheme</definition>
+        <argsstring></argsstring>
+        <name>scheme</name>
+        <qualifiedname>themis::acceleration::QuantizedTensor::scheme</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2eafb6472773f3aa5c856d5a81b8f92f55e" kindref="member">QuantizationScheme::INT8_SYMMETRIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="46" column="24" bodyfile="include/acceleration/quantized_backend.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantized_tensor_1acf34320c1ccaf4b68344a86a51b7e2c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::QuantizedTensor::original_dtype_bytes</definition>
+        <argsstring></argsstring>
+        <name>original_dtype_bytes</name>
+        <qualifiedname>themis::acceleration::QuantizedTensor::original_dtype_bytes</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Original element size: 4=float32, 2=float16. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="47" column="12" bodyfile="include/acceleration/quantized_backend.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A low-bit tensor in quantised form, ready for quantised kernels. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/quantized_backend.h" line="40" column="1" bodyfile="include/acceleration/quantized_backend.h" bodystart="40" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_quantized_tensor_1a876d2728f199c77f9edb6f6af11221dd" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizedTensor</scope><name>data</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantized_tensor_1a1f7080546fbe43b7ad7f8473cad343b4" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizedTensor</scope><name>data_i32</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantized_tensor_1acf34320c1ccaf4b68344a86a51b7e2c2" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizedTensor</scope><name>original_dtype_bytes</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantized_tensor_1a1c8473c8ef2aab8d13b0ddf286f19e08" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizedTensor</scope><name>scales</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantized_tensor_1a5b3fe0aa7eff37c071276bb3db3f6770" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizedTensor</scope><name>scheme</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantized_tensor_1a877c5e208287a397b2e22f9d3cd6e93c" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizedTensor</scope><name>shape</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantized_tensor_1abc1a4dcc3f102293cffb57607c6bf0a1" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizedTensor</scope><name>zero_points</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

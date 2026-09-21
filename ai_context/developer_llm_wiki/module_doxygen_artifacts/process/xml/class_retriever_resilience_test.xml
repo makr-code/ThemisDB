@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_retriever_resilience_test" kind="class" language="C++" prot="public">
+    <compoundname>RetrieverResilienceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="class_retriever_resilience_test_1_1_bounded_cache" prot="protected">RetrieverResilienceTest::BoundedCache</innerclass>
+    <innerclass refid="struct_retriever_resilience_test_1_1_mock_retriever" prot="protected">RetrieverResilienceTest::MockRetriever</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RetrieverResilienceTest</label>
+        <link refid="class_retriever_resilience_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RetrieverResilienceTest</label>
+        <link refid="class_retriever_resilience_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="26" column="1" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="26" bodyend="90"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

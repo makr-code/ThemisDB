@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_cmmn_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::CmmnParser</compoundname>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_cmmn_parser_1_1_cmmn_model" prot="public">themis::process::benchmark::CmmnParser::CmmnModel</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_cmmn_parser_1a0b4091aa4ea6ea45dfd4e8e8a62cba9f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_cmmn_parser_1_1_cmmn_model" kindref="compound">CmmnModel</ref></type>
+        <definition>static CmmnModel themis::process::benchmark::CmmnParser::parse</definition>
+        <argsstring>(const std::string &amp;xml_content)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::process::benchmark::CmmnParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xml_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="144" column="22" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="144" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CMMN (Case Management Model and Notation) Parser. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_parser_gates.cpp" line="135" column="1" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="135" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_cmmn_parser_1a0b4091aa4ea6ea45dfd4e8e8a62cba9f" prot="public" virt="non-virtual"><scope>themis::process::benchmark::CmmnParser</scope><name>parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

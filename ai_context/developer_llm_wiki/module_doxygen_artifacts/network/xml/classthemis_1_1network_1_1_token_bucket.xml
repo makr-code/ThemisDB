@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_token_bucket" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::TokenBucket</compoundname>
+    <includes refid="qos__manager_8h" local="no">qos_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_token_bucket_1a00515a3c9725caef6c4d9f173fe7cd83" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::TokenBucket::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::network::TokenBucket::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="117" column="24" bodyfile="include/network/qos_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_token_bucket_1a6dd73904fa1341c2a5eb6eb206e35e6a" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::TokenBucket::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::network::TokenBucket::tokens_</qualifiedname>
+        <briefdescription>
+<para>Available tokens (bytes, fractional allowed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="118" column="12" bodyfile="include/network/qos_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_token_bucket_1a4a48583555a49562c3747028b577842c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TokenBucket::rate_bps_</definition>
+        <argsstring></argsstring>
+        <name>rate_bps_</name>
+        <qualifiedname>themis::network::TokenBucket::rate_bps_</qualifiedname>
+        <briefdescription>
+<para>Bits per second sustained rate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="119" column="14" bodyfile="include/network/qos_manager.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_token_bucket_1aaf7c1bfd46f9d805a3cd35764256f9c5" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TokenBucket::burst_bytes_</definition>
+        <argsstring></argsstring>
+        <name>burst_bytes_</name>
+        <qualifiedname>themis::network::TokenBucket::burst_bytes_</qualifiedname>
+        <briefdescription>
+<para>Maximum burst size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="120" column="14" bodyfile="include/network/qos_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_token_bucket_1a0e317b07644d32805dedc380718cabdc" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::TokenBucket::last_refill_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_</name>
+        <qualifiedname>themis::network::TokenBucket::last_refill_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="121" column="43" bodyfile="include/network/qos_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_token_bucket_1a8081ceae37019da70faa033055c81a90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::TokenBucket::TokenBucket</definition>
+        <argsstring>(uint64_t rate_bps, uint64_t burst_bytes)</argsstring>
+        <name>TokenBucket</name>
+        <qualifiedname>themis::network::TokenBucket::TokenBucket</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>burst_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sustained rate in bits per second. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum burst size in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="76" column="5" bodyfile="src/network/qos_manager.cpp" bodystart="75" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_token_bucket_1acdbeff2c693234bc3f7722020d4ee890" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::TokenBucket::tryConsume</definition>
+        <argsstring>(uint64_t bytes)</argsstring>
+        <name>tryConsume</name>
+        <qualifiedname>themis::network::TokenBucket::tryConsume</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Attempt to consume <computeroutput>bytes</computeroutput> from the bucket without blocking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Try Consume.</para>
+<para><simplesect kind="return"><para>true if tokens were available, false if not enough tokens.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), refill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="82" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="107" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_token_bucket_1adce2145dbf370dedbab04e0a79f768a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::TokenBucket::consume</definition>
+        <argsstring>(uint64_t bytes, std::chrono::milliseconds timeout=std::chrono::milliseconds(1000))</argsstring>
+        <name>consume</name>
+        <qualifiedname>themis::network::TokenBucket::consume</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds(1000)</defval>
+        </param>
+        <briefdescription>
+<para>Block until <computeroutput>bytes</computeroutput> tokens are available, then consume them. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consume.</para>
+<para>The call sleeps in short intervals; the caller may provide a deadline after which the function returns false without consuming.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to consume. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if tokens consumed before timeout, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), <ref refid="classthemis_1_1network_1_1_token_bucket_1acdbeff2c693234bc3f7722020d4ee890" kindref="member">tryConsume()</ref>, count(), lock(), <ref refid="classthemis_1_1network_1_1_token_bucket_1ade0acf08de5d0e1d58d4f7e66e108c4b" kindref="member">availableBytes()</ref>, std::min(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="94" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="130" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_token_bucket_1a9347a7dfecb7e2378b8b90145a162013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::TokenBucket::reconfigure</definition>
+        <argsstring>(uint64_t rate_bps, uint64_t burst_bytes)</argsstring>
+        <name>reconfigure</name>
+        <qualifiedname>themis::network::TokenBucket::reconfigure</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>burst_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update the token bucket parameters at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reconfigure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New sustained rate in bits per second. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New maximum burst size in bytes.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="102" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="167" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_token_bucket_1ade0acf08de5d0e1d58d4f7e66e108c4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::network::TokenBucket::availableBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>availableBytes</name>
+        <qualifiedname>themis::network::TokenBucket::availableBytes</qualifiedname>
+        <briefdescription>
+<para>Current available tokens (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="105" column="12" bodyfile="src/network/qos_manager.cpp" bodystart="175" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_token_bucket_1ad7bd69919f559fa088c0da26d04573c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TokenBucket::rateBps</definition>
+        <argsstring>() const</argsstring>
+        <name>rateBps</name>
+        <qualifiedname>themis::network::TokenBucket::rateBps</qualifiedname>
+        <briefdescription>
+<para>Configured rate in bps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="108" column="14" bodyfile="src/network/qos_manager.cpp" bodystart="195" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_token_bucket_1a83d440af3be819670589a550bd1c176a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TokenBucket::burstBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>burstBytes</name>
+        <qualifiedname>themis::network::TokenBucket::burstBytes</qualifiedname>
+        <briefdescription>
+<para>Configured burst size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="111" column="14" bodyfile="src/network/qos_manager.cpp" bodystart="205" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_token_bucket_1ab7264fb2347724ae78d7a5540725d159" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::TokenBucket::refill</definition>
+        <argsstring>()</argsstring>
+        <name>refill</name>
+        <qualifiedname>themis::network::TokenBucket::refill</qualifiedname>
+        <briefdescription>
+<para>Refill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refill tokens based on elapsed time since last refill.</para>
+<para>Calls: std::chrono::steady_clock::now(), count(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="115" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="86" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Token bucket rate limiter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tokens refill at <computeroutput>rate_bps</computeroutput> bits per second up to a maximum of <computeroutput>burst_bytes</computeroutput> bytes. A call to <computeroutput>consume(bytes)</computeroutput> returns immediately if enough tokens are available, otherwise it blocks or (optionally) returns false.</para>
+<para>Thread-safe via an internal mutex.</para>
+<para>Algorithm: tokens += elapsed_seconds * rate_bps / 8 (byte-level refill) tokens = min(tokens, burst_bytes) </para>
+    </detaileddescription>
+    <location file="include/network/qos_manager.h" line="70" column="1" bodyfile="include/network/qos_manager.h" bodystart="70" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1ade0acf08de5d0e1d58d4f7e66e108c4b" prot="public" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>availableBytes</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1aaf7c1bfd46f9d805a3cd35764256f9c5" prot="private" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>burst_bytes_</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1a83d440af3be819670589a550bd1c176a" prot="public" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>burstBytes</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1adce2145dbf370dedbab04e0a79f768a5" prot="public" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>consume</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1a0e317b07644d32805dedc380718cabdc" prot="private" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>last_refill_</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1a00515a3c9725caef6c4d9f173fe7cd83" prot="private" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1a4a48583555a49562c3747028b577842c" prot="private" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>rate_bps_</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1ad7bd69919f559fa088c0da26d04573c5" prot="public" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>rateBps</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1a9347a7dfecb7e2378b8b90145a162013" prot="public" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>reconfigure</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1ab7264fb2347724ae78d7a5540725d159" prot="private" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>refill</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1a8081ceae37019da70faa033055c81a90" prot="public" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>TokenBucket</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1a6dd73904fa1341c2a5eb6eb206e35e6a" prot="private" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>tokens_</name></member>
+      <member refid="classthemis_1_1network_1_1_token_bucket_1acdbeff2c693234bc3f7722020d4ee890" prot="public" virt="non-virtual"><scope>themis::network::TokenBucket</scope><name>tryConsume</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

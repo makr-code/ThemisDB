@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_ivr_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::IvrNode</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_node_1ae52387c4ae2b035bfe6c3dd1740b8ec0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::IvrNode::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::voice::IvrNode::id</qualifiedname>
+        <briefdescription>
+<para>Unique node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="86" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_node_1ad2c445fd2fbe38cc7f00f64d6a3e3b6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::IvrNode::prompt_text</definition>
+        <argsstring></argsstring>
+        <name>prompt_text</name>
+        <qualifiedname>themis::voice::IvrNode::prompt_text</qualifiedname>
+        <briefdescription>
+<para>TTS text played to the caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="87" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_node_1aadc80d61c0afabcc698dbac22a503f79" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; char, std::string &gt;</type>
+        <definition>std::unordered_map&lt;char, std::string&gt; themis::voice::IvrNode::dtmf_routes</definition>
+        <argsstring></argsstring>
+        <name>dtmf_routes</name>
+        <qualifiedname>themis::voice::IvrNode::dtmf_routes</qualifiedname>
+        <briefdescription>
+<para>digit → next node id </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="88" column="24" bodyfile="include/voice/voice_telephony.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_node_1a20e521e9cf7a6b7985eefb10a01b98dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::IvrNode::speech_route</definition>
+        <argsstring></argsstring>
+        <name>speech_route</name>
+        <qualifiedname>themis::voice::IvrNode::speech_route</qualifiedname>
+        <briefdescription>
+<para>node id for non-DTMF speech input </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="89" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_node_1ac987f0a2f1f6a9a34936f53bc5b99677" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::IvrNode::is_terminal</definition>
+        <argsstring></argsstring>
+        <name>is_terminal</name>
+        <qualifiedname>themis::voice::IvrNode::is_terminal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if this node ends the flow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="90" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>IVR menu node for building voice-driven interaction flows. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="85" column="1" bodyfile="include/voice/voice_telephony.h" bodystart="85" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_ivr_node_1aadc80d61c0afabcc698dbac22a503f79" prot="public" virt="non-virtual"><scope>themis::voice::IvrNode</scope><name>dtmf_routes</name></member>
+      <member refid="structthemis_1_1voice_1_1_ivr_node_1ae52387c4ae2b035bfe6c3dd1740b8ec0" prot="public" virt="non-virtual"><scope>themis::voice::IvrNode</scope><name>id</name></member>
+      <member refid="structthemis_1_1voice_1_1_ivr_node_1ac987f0a2f1f6a9a34936f53bc5b99677" prot="public" virt="non-virtual"><scope>themis::voice::IvrNode</scope><name>is_terminal</name></member>
+      <member refid="structthemis_1_1voice_1_1_ivr_node_1ad2c445fd2fbe38cc7f00f64d6a3e3b6b" prot="public" virt="non-virtual"><scope>themis::voice::IvrNode</scope><name>prompt_text</name></member>
+      <member refid="structthemis_1_1voice_1_1_ivr_node_1a20e521e9cf7a6b7985eefb10a01b98dd" prot="public" virt="non-virtual"><scope>themis::voice::IvrNode</scope><name>speech_route</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

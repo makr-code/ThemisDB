@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_mock_translation_component" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::MockTranslationComponent</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_mock_translation_component_1a0d3ab6f6bee49ad984e7c2838bd14d11" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::aql::MockTranslationComponent::translate</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>translate</name>
+        <qualifiedname>themis::aql::MockTranslationComponent::translate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="72" column="18" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="72" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="70" column="1" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="70" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_mock_translation_component_1a0d3ab6f6bee49ad984e7c2838bd14d11" prot="public" virt="non-virtual"><scope>themis::aql::MockTranslationComponent</scope><name>translate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::security::PromptInjectionSanitizer</compoundname>
+    <includes refid="prompt__injection__detector_8h" local="no">prompt_injection_detector.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1_1_impl" prot="public">themis::rag::security::PromptInjectionSanitizer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a5887d1c5e306053becd11bdf0ca26f31" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::security::PromptInjectionSanitizer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="202" column="21" bodyfile="include/rag/prompt_injection_detector.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a6084349102fa6b58ba901b08bae28a2e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::security::PromptInjectionSanitizer::PromptInjectionSanitizer</definition>
+        <argsstring>(const SanitizerConfig &amp;sanitizer_config=SanitizerConfig{}, const DetectorConfig &amp;detector_config=DetectorConfig{})</argsstring>
+        <name>PromptInjectionSanitizer</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::PromptInjectionSanitizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config" kindref="compound">SanitizerConfig</ref> &amp;</type>
+          <declname>sanitizer_config</declname>
+          <defval><ref refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config" kindref="compound">SanitizerConfig</ref>{}</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1security_1_1_detector_config" kindref="compound">DetectorConfig</ref> &amp;</type>
+          <declname>detector_config</declname>
+          <defval><ref refid="structthemis_1_1rag_1_1security_1_1_detector_config" kindref="compound">DetectorConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="165" column="14" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="345" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1ada14c5fc651e83f59258a7eb2e16145c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::security::PromptInjectionSanitizer::~PromptInjectionSanitizer</definition>
+        <argsstring>()</argsstring>
+        <name>~PromptInjectionSanitizer</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::~PromptInjectionSanitizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="169" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a739b136e16bb93b1c6cdd4e2ca126bbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::security::PromptInjectionSanitizer::PromptInjectionSanitizer</definition>
+        <argsstring>(const PromptInjectionSanitizer &amp;)=delete</argsstring>
+        <name>PromptInjectionSanitizer</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::PromptInjectionSanitizer</qualifiedname>
+        <param>
+          <type>const PromptInjectionSanitizer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="171" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1aade542f5e428fc259c068633b4b47cce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a6084349102fa6b58ba901b08bae28a2e" kindref="member">PromptInjectionSanitizer</ref> &amp;</type>
+        <definition>PromptInjectionSanitizer &amp; themis::rag::security::PromptInjectionSanitizer::operator=</definition>
+        <argsstring>(const PromptInjectionSanitizer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a6084349102fa6b58ba901b08bae28a2e" kindref="member">PromptInjectionSanitizer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="172" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1ab0dd7d0090b3ba6486b747f3ed13d699" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::security::PromptInjectionSanitizer::sanitize</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>sanitize</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::sanitize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize a text string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text (may be modified in-place equivalent). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sanitized copy with injection content neutralised. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="179" column="17" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="354" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1abff7f1a3491895d673854b4ed7ac6dba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">judge::EvaluationInput</ref></type>
+        <definition>judge::EvaluationInput themis::rag::security::PromptInjectionSanitizer::sanitizeInput</definition>
+        <argsstring>(const judge::EvaluationInput &amp;input) const</argsstring>
+        <name>sanitizeInput</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::sanitizeInput</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">judge::EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize all documents in an EvaluationInput. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original evaluation input. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Copy with document contents sanitized. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="187" column="5" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="416" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a01dc9fd0ce452f7d3cb542b974a16498" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::security::PromptInjectionSanitizer::sanitize</definition>
+        <argsstring>(const std::string &amp;text, const InjectionScanResult &amp;scan) const</argsstring>
+        <name>sanitize</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::sanitize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result" kindref="compound">InjectionScanResult</ref> &amp;</type>
+          <declname>scan</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize using a pre-computed scan result (avoids double scan). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed scan result. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sanitized copy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="195" column="17" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="360" bodyend="413"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Sanitizer that neutralises injection patterns in retrieved text. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Operates on scan results produced by <ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector" kindref="compound">PromptInjectionDetector</ref> to avoid running detection twice. Can also run detection internally via the <computeroutput>sanitize(text)</computeroutput> overload.</para>
+<para>Thread-safe for concurrent <computeroutput><ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1ab0dd7d0090b3ba6486b747f3ed13d699" kindref="member">sanitize()</ref></computeroutput> calls after construction. </para>
+    </detaileddescription>
+    <location file="include/rag/prompt_injection_detector.h" line="163" column="1" bodyfile="include/rag/prompt_injection_detector.h" bodystart="163" bodyend="203"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a5887d1c5e306053becd11bdf0ca26f31" prot="private" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1aade542f5e428fc259c068633b4b47cce" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a6084349102fa6b58ba901b08bae28a2e" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer</scope><name>PromptInjectionSanitizer</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a739b136e16bb93b1c6cdd4e2ca126bbf" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer</scope><name>PromptInjectionSanitizer</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1ab0dd7d0090b3ba6486b747f3ed13d699" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer</scope><name>sanitize</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1a01dc9fd0ce452f7d3cb542b974a16498" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer</scope><name>sanitize</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1abff7f1a3491895d673854b4ed7ac6dba" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer</scope><name>sanitizeInput</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1ada14c5fc651e83f59258a7eb2e16145c" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer</scope><name>~PromptInjectionSanitizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

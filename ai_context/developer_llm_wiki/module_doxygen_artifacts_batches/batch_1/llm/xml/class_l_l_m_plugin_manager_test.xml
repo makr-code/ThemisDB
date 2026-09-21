@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_plugin_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMPluginManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_plugin_manager_test_1a3c85739dbc07e141c266aff9b49e5ad3" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref> &amp;</type>
+        <definition>LLMPluginManager&amp; LLMPluginManagerTest::manager</definition>
+        <argsstring></argsstring>
+        <name>manager</name>
+        <qualifiedname>LLMPluginManagerTest::manager</qualifiedname>
+        <initializer>= <ref refid="class_l_l_m_plugin_manager_1acd865f6941d469b6fb0ccf9cb2368311" kindref="member">LLMPluginManager::instance</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="1289" column="22" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="1289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMPluginManagerTest</label>
+        <link refid="class_l_l_m_plugin_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMPluginManagerTest</label>
+        <link refid="class_l_l_m_plugin_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>manager</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::LLMPluginManager</label>
+        <link refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_plugin.cpp" line="1287" column="1" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="1287" bodyend="1290"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_plugin_manager_test_1a3c85739dbc07e141c266aff9b49e5ad3" prot="protected" virt="non-virtual"><scope>LLMPluginManagerTest</scope><name>manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

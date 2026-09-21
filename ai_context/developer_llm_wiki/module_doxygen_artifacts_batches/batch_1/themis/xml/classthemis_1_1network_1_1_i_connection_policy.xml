@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_i_connection_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::network::IConnectionPolicy</compoundname>
+    <includes refid="iconnection__policy_8h" local="no">iconnection_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1ab6411c6781491e22f036142f57ed20e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::network::IConnectionPolicy::~IConnectionPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IConnectionPolicy</name>
+        <qualifiedname>themis::network::IConnectionPolicy::~IConnectionPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="50" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::IConnectionPolicy::IConnectionPolicy</definition>
+        <argsstring>(const IConnectionPolicy &amp;)=delete</argsstring>
+        <name>IConnectionPolicy</name>
+        <qualifiedname>themis::network::IConnectionPolicy::IConnectionPolicy</qualifiedname>
+        <param>
+          <type>const IConnectionPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a7384f9edf2f9278bff3bad5c1d322d05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref> &amp;</type>
+        <definition>IConnectionPolicy &amp; themis::network::IConnectionPolicy::operator=</definition>
+        <argsstring>(const IConnectionPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::IConnectionPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="54" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1ae6d1143e91fe7dea8bf782e71bfb965c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::network::IConnectionPolicy::canOpenStream</definition>
+        <argsstring>(uint32_t current_streams) const =0</argsstring>
+        <name>canOpenStream</name>
+        <qualifiedname>themis::network::IConnectionPolicy::canOpenStream</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>current_streams</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff opening one more HTTP/2 stream on the current connection is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not modify accounting state — call onStreamOpened() only after the stream has been accepted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_streams</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of streams currently open on this connection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when another stream may be opened. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="70" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a9be7d43bc14e43054a17333d295fa8c5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::network::IConnectionPolicy::maxHttp2StreamsPerConnection</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxHttp2StreamsPerConnection</name>
+        <qualifiedname>themis::network::IConnectionPolicy::maxHttp2StreamsPerConnection</qualifiedname>
+        <briefdescription>
+<para>Maximum concurrent HTTP/2 streams per connection; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="75" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1ace0e0bebcc1bc09c66d1d28660e24902" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::network::IConnectionPolicy::canOpenSSEConnection</definition>
+        <argsstring>() const =0</argsstring>
+        <name>canOpenSSEConnection</name>
+        <qualifiedname>themis::network::IConnectionPolicy::canOpenSSEConnection</qualifiedname>
+        <briefdescription>
+<para>Return true iff accepting one more SSE subscription is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not modify accounting state — call <ref refid="classthemis_1_1network_1_1_i_connection_policy_1a8d6f950a995e46f00aeb6d2746beffdf" kindref="member">onSSEConnectionOpened()</ref> only after the subscription has been accepted.</para>
+<para><simplesect kind="return"><para>true when another SSE connection may be opened. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="89" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a8d6f950a995e46f00aeb6d2746beffdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::network::IConnectionPolicy::onSSEConnectionOpened</definition>
+        <argsstring>()=0</argsstring>
+        <name>onSSEConnectionOpened</name>
+        <qualifiedname>themis::network::IConnectionPolicy::onSSEConnectionOpened</qualifiedname>
+        <briefdescription>
+<para>Notify the policy that an SSE connection has been opened. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates accounting state. Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="96" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1ab82273bc5b3c40bfb2258e5b7e837dfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::network::IConnectionPolicy::onSSEConnectionClosed</definition>
+        <argsstring>()=0</argsstring>
+        <name>onSSEConnectionClosed</name>
+        <qualifiedname>themis::network::IConnectionPolicy::onSSEConnectionClosed</qualifiedname>
+        <briefdescription>
+<para>Notify the policy that an SSE connection has been closed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Releases the SSE slot. Implementations must clamp to zero on mismatched calls. Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="104" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a15dc3c7ced246ac03a1af0cb522a4356" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::network::IConnectionPolicy::maxSSEConnections</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxSSEConnections</name>
+        <qualifiedname>themis::network::IConnectionPolicy::maxSSEConnections</qualifiedname>
+        <briefdescription>
+<para>Maximum total SSE connections; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="109" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a76f4f20959c6154106f243a038ec48ed" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::network::IConnectionPolicy::canAcceptConnection</definition>
+        <argsstring>() const =0</argsstring>
+        <name>canAcceptConnection</name>
+        <qualifiedname>themis::network::IConnectionPolicy::canAcceptConnection</qualifiedname>
+        <briefdescription>
+<para>Return true iff accepting one more server connection is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not modify accounting state — call <ref refid="classthemis_1_1network_1_1_i_connection_policy_1a8f9a648b972d134776640df0cf69b376" kindref="member">onConnectionAccepted()</ref> only after the connection has been admitted.</para>
+<para><simplesect kind="return"><para>true when another connection may be accepted. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="123" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a8f9a648b972d134776640df0cf69b376" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::network::IConnectionPolicy::onConnectionAccepted</definition>
+        <argsstring>()=0</argsstring>
+        <name>onConnectionAccepted</name>
+        <qualifiedname>themis::network::IConnectionPolicy::onConnectionAccepted</qualifiedname>
+        <briefdescription>
+<para>Notify the policy that a new connection has been accepted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates total-connection accounting. Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="130" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a993c0cb209d0c98696f1ad1350dd3b4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::network::IConnectionPolicy::onConnectionClosed</definition>
+        <argsstring>()=0</argsstring>
+        <name>onConnectionClosed</name>
+        <qualifiedname>themis::network::IConnectionPolicy::onConnectionClosed</qualifiedname>
+        <briefdescription>
+<para>Notify the policy that an existing connection has been closed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Releases the connection slot. Implementations must clamp to zero on mismatched calls. Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="138" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a293ce7b69531d9ec27cb439650d34a0c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::network::IConnectionPolicy::activeConnections</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeConnections</name>
+        <qualifiedname>themis::network::IConnectionPolicy::activeConnections</qualifiedname>
+        <briefdescription>
+<para>Return the number of connections currently tracked as open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="143" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1aea972092c759139d145d756eadc80d8e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::network::IConnectionPolicy::maxTotalConnections</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxTotalConnections</name>
+        <qualifiedname>themis::network::IConnectionPolicy::maxTotalConnections</qualifiedname>
+        <briefdescription>
+<para>Maximum total simultaneous server connections; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="148" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a6665365b0db204a949b891eadd2bc542" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::network::IConnectionPolicy::allowSSEEvent</definition>
+        <argsstring>()=0</argsstring>
+        <name>allowSSEEvent</name>
+        <qualifiedname>themis::network::IConnectionPolicy::allowSSEEvent</qualifiedname>
+        <briefdescription>
+<para>Return true iff emitting one more SSE event right now is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses token-bucket semantics. May consume a token — callers must not emit the event if this method returns false.</para>
+<para><simplesect kind="return"><para>true when the event emission is within the allowed rate. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="162" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a35d33ff0f959bfd5b5a3276ea7ff14c2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::network::IConnectionPolicy::maxSSEEventsPerSecond</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxSSEEventsPerSecond</name>
+        <qualifiedname>themis::network::IConnectionPolicy::maxSSEEventsPerSecond</qualifiedname>
+        <briefdescription>
+<para>Maximum SSE events emitted per second; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="167" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a5942c052a4e9986de84ec60511967eb1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::network::IConnectionPolicy::isEnforced</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isEnforced</name>
+        <qualifiedname>themis::network::IConnectionPolicy::isEnforced</qualifiedname>
+        <briefdescription>
+<para>Return true when any connection-limit enforcement is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should return false when all limits are 0 (unlimited) so that callers may bypass the admission check on hot paths. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="179" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1a7823c7094279ab28bfbd8d16cf78e14b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::IConnectionPolicy::IConnectionPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>IConnectionPolicy</name>
+        <qualifiedname>themis::network::IConnectionPolicy::IConnectionPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="182" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1aa9c48f7a84d21f9af2d0a85868dce520" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::IConnectionPolicy::IConnectionPolicy</definition>
+        <argsstring>(IConnectionPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>IConnectionPolicy</name>
+        <qualifiedname>themis::network::IConnectionPolicy::IConnectionPolicy</qualifiedname>
+        <param>
+          <type>IConnectionPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="183" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_connection_policy_1ab1e0531fa543fb63646366ab377c3382" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref> &amp;</type>
+        <definition>IConnectionPolicy &amp; themis::network::IConnectionPolicy::operator=</definition>
+        <argsstring>(IConnectionPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::IConnectionPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/iconnection_policy.h" line="184" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract server connection-limit policy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls four connection-admission axes:<itemizedlist>
+<listitem><para><bold>HTTP/2 streams</bold> — maximum concurrent streams per connection.</para>
+</listitem><listitem><para><bold>SSE connections</bold> — maximum total server-sent-event subscriptions.</para>
+</listitem><listitem><para><bold>Total connections</bold> — maximum simultaneous server connections.</para>
+</listitem><listitem><para><bold>SSE event rate</bold> — maximum events emitted per second (throttle).</para>
+</listitem></itemizedlist>
+</para>
+<para>Implementations are installed into EditionManager via <computeroutput>EditionManager::installConnectionPolicy()</computeroutput> and consulted by the protocol session layer when admitting new connections or streams. </para>
+    </detaileddescription>
+    <location file="include/themis/network/iconnection_policy.h" line="48" column="1" bodyfile="include/themis/network/iconnection_policy.h" bodystart="48" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a293ce7b69531d9ec27cb439650d34a0c" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>activeConnections</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a6665365b0db204a949b891eadd2bc542" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>allowSSEEvent</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a76f4f20959c6154106f243a038ec48ed" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>canAcceptConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1ace0e0bebcc1bc09c66d1d28660e24902" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>canOpenSSEConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1ae6d1143e91fe7dea8bf782e71bfb965c" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>canOpenStream</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" prot="public" virt="non-virtual"><scope>themis::network::IConnectionPolicy</scope><name>IConnectionPolicy</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a7823c7094279ab28bfbd8d16cf78e14b" prot="protected" virt="non-virtual"><scope>themis::network::IConnectionPolicy</scope><name>IConnectionPolicy</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1aa9c48f7a84d21f9af2d0a85868dce520" prot="protected" virt="non-virtual"><scope>themis::network::IConnectionPolicy</scope><name>IConnectionPolicy</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a5942c052a4e9986de84ec60511967eb1" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>isEnforced</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a9be7d43bc14e43054a17333d295fa8c5" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>maxHttp2StreamsPerConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a15dc3c7ced246ac03a1af0cb522a4356" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>maxSSEConnections</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a35d33ff0f959bfd5b5a3276ea7ff14c2" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>maxSSEEventsPerSecond</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1aea972092c759139d145d756eadc80d8e" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>maxTotalConnections</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a8f9a648b972d134776640df0cf69b376" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>onConnectionAccepted</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a993c0cb209d0c98696f1ad1350dd3b4a" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>onConnectionClosed</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1ab82273bc5b3c40bfb2258e5b7e837dfb" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>onSSEConnectionClosed</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a8d6f950a995e46f00aeb6d2746beffdf" prot="public" virt="pure-virtual"><scope>themis::network::IConnectionPolicy</scope><name>onSSEConnectionOpened</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1a7384f9edf2f9278bff3bad5c1d322d05" prot="public" virt="non-virtual"><scope>themis::network::IConnectionPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1ab1e0531fa543fb63646366ab377c3382" prot="protected" virt="non-virtual"><scope>themis::network::IConnectionPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_i_connection_policy_1ab6411c6781491e22f036142f57ed20e6" prot="public" virt="virtual"><scope>themis::network::IConnectionPolicy</scope><name>~IConnectionPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

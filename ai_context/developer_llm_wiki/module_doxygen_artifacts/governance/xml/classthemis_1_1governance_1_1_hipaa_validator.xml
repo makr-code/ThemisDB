@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_hipaa_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::HipaaValidator</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_validator" prot="public" virt="non-virtual">themis::governance::IComplianceValidator</basecompoundref>
+    <includes refid="compliance__validator_8h" local="no">compliance_validator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1a6a90c4c8d2a9863d486ce0b76e670537" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+        <definition>ComplianceFramework themis::governance::HipaaValidator::getFramework</definition>
+        <argsstring>() const override</argsstring>
+        <name>getFramework</name>
+        <qualifiedname>themis::governance::HipaaValidator::getFramework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1ad12bce1c3ec4734f4e2e2b370e5d66ba">getFramework</reimplements>
+        <briefdescription>
+<para>Get Framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="304" column="25" bodyfile="src/governance/compliance_validator.cpp" bodystart="489" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1ae2535ed8fedb59a35566679de5119db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>ComplianceStatus themis::governance::HipaaValidator::validateRequirement</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>validateRequirement</name>
+        <qualifiedname>themis::governance::HipaaValidator::validateRequirement</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a95688465cbfa96b03f64fe4f8f06bc2f">validateRequirement</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="306" column="22" bodyfile="src/governance/compliance_validator.cpp" bodystart="500" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1a22a81ddd3d9f20d9880ac16458e22b8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>ComplianceStatus themis::governance::HipaaValidator::validateControl</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>validateControl</name>
+        <qualifiedname>themis::governance::HipaaValidator::validateControl</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a689f41c7561c0c5efb9188943c897840">validateControl</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="310" column="22" bodyfile="src/governance/compliance_validator.cpp" bodystart="536" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1a52a1897be9bac9175afab40dcec5e374" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceEvidence &gt; themis::governance::HipaaValidator::collectEvidence</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>collectEvidence</name>
+        <qualifiedname>themis::governance::HipaaValidator::collectEvidence</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1ab512a65887aa840db5881d02379acab4">collectEvidence</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Collect Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="314" column="17" bodyfile="src/governance/compliance_validator.cpp" bodystart="561" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1a464fe9e1fbc5e07a84d8863565a637d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaValidator::checkPolicySatisfaction</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>checkPolicySatisfaction</name>
+        <qualifiedname>themis::governance::HipaaValidator::checkPolicySatisfaction</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a048d627bf3a7dcefc85fc34e204611a2">checkPolicySatisfaction</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Check Policy Satisfaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_hipaa_validator_1ae2535ed8fedb59a35566679de5119db2" kindref="member">validateRequirement()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="318" column="10" bodyfile="src/governance/compliance_validator.cpp" bodystart="590" bodyend="595"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1af5413b6c0bad25768650ef5933ccfb94" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaValidator::validatePhiEncryption</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validatePhiEncryption</name>
+        <qualifiedname>themis::governance::HipaaValidator::validatePhiEncryption</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Phi Encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="328" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1a300e54b798287baf09604e30ff2ae4bb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaValidator::validateAccessControl</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateAccessControl</name>
+        <qualifiedname>themis::governance::HipaaValidator::validateAccessControl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Access Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="334" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1a307d575be3c245893f4b79c9a9555792" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaValidator::validateAuditControls</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateAuditControls</name>
+        <qualifiedname>themis::governance::HipaaValidator::validateAuditControls</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Audit Controls. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="340" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_validator_1aa177ac5c4d4e30712fe987a40ba6d584" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaValidator::validateIntegrityControls</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateIntegrityControls</name>
+        <qualifiedname>themis::governance::HipaaValidator::validateIntegrityControls</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Integrity Controls. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="346" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::HipaaValidator</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceValidator</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_validator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::HipaaValidator</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceValidator</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_validator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/compliance_validator.h" line="302" column="1" bodyfile="include/governance/compliance_validator.h" bodystart="302" bodyend="347"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1a464fe9e1fbc5e07a84d8863565a637d5" prot="public" virt="virtual"><scope>themis::governance::HipaaValidator</scope><name>checkPolicySatisfaction</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1a52a1897be9bac9175afab40dcec5e374" prot="public" virt="virtual"><scope>themis::governance::HipaaValidator</scope><name>collectEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1a6a90c4c8d2a9863d486ce0b76e670537" prot="public" virt="virtual"><scope>themis::governance::HipaaValidator</scope><name>getFramework</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1a300e54b798287baf09604e30ff2ae4bb" prot="private" virt="non-virtual"><scope>themis::governance::HipaaValidator</scope><name>validateAccessControl</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1a307d575be3c245893f4b79c9a9555792" prot="private" virt="non-virtual"><scope>themis::governance::HipaaValidator</scope><name>validateAuditControls</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1a22a81ddd3d9f20d9880ac16458e22b8b" prot="public" virt="virtual"><scope>themis::governance::HipaaValidator</scope><name>validateControl</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1aa177ac5c4d4e30712fe987a40ba6d584" prot="private" virt="non-virtual"><scope>themis::governance::HipaaValidator</scope><name>validateIntegrityControls</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1af5413b6c0bad25768650ef5933ccfb94" prot="private" virt="non-virtual"><scope>themis::governance::HipaaValidator</scope><name>validatePhiEncryption</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_validator_1ae2535ed8fedb59a35566679de5119db2" prot="public" virt="virtual"><scope>themis::governance::HipaaValidator</scope><name>validateRequirement</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1a6acacf1b60b005c458e2ff3a7ff3979e" prot="public" virt="virtual"><scope>themis::governance::HipaaValidator</scope><name>~IComplianceValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

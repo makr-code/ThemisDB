@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__transaction__semantic__advisor__llm__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_transaction_semantic_advisor_llm_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="transaction__semantic__advisor_8h" local="yes">transaction/transaction_semantic_advisor.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>transaction/transaction_semantic_advisor.h</label>
+        <link refid="transaction__semantic__advisor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp</label>
+        <link refid="test__transaction__semantic__advisor__llm__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>llm/decision_record_yaml_processor.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorLlmFocused, TS1_DefaultConstruct_NoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorLlmFocused</type>
+        </param>
+        <param>
+          <type>TS1_DefaultConstruct_NoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" line="16" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" bodystart="16" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor__llm__focused_8cpp_1a4faa86491708ab72cbd02c6320de626f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorLlmFocused, TS2_EmptyBatch_ReturnsNoHints)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorLlmFocused</type>
+        </param>
+        <param>
+          <type>TS2_EmptyBatch_ReturnsNoHints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" line="21" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" bodystart="21" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor__llm__focused_8cpp_1a3afcba1b8d6783cc5fb88e9492d6d4ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorLlmFocused, TS3_SingleTx_NoAffinityHints)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorLlmFocused</type>
+        </param>
+        <param>
+          <type>TS3_SingleTx_NoAffinityHints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" line="28" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" bodystart="28" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor__llm__focused_8cpp_1a66598fb7fcabc8be4fd6a0be6ca9d7f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorLlmFocused, TS4_DisjointTxs_NoHints)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorLlmFocused</type>
+        </param>
+        <param>
+          <type>TS4_DisjointTxs_NoHints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" line="41" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" bodystart="41" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor__llm__focused_8cpp_1a6ecdaa6bd1fa866a9b77c12c374da67b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorLlmFocused, TS5_SharedEntityWrites_HintProduced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorLlmFocused</type>
+        </param>
+        <param>
+          <type>TS5_SharedEntityWrites_HintProduced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" line="60" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" bodystart="60" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor__llm__focused_8cpp_1a6c211a9477c1828e2561121d58a6190c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorLlmFocused, TS6_CompetingWrites_HighConflictProbability)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorLlmFocused</type>
+        </param>
+        <param>
+          <type>TS6_CompetingWrites_HighConflictProbability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" line="81" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" bodystart="81" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor__llm__focused_8cpp_1a8ab85abefd4896892ac72c06870adc5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorLlmFocused, TS7_NoConcurrentConflict_ZeroDeferral)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorLlmFocused</type>
+        </param>
+        <param>
+          <type>TS7_NoConcurrentConflict_ZeroDeferral</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" line="102" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" bodystart="102" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor__llm__focused_8cpp_1a233bb29af484a00748bc083c81f737de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorLlmFocused, TS8_SetNullProcessor_NoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorLlmFocused</type>
+        </param>
+        <param>
+          <type>TS8_SetNullProcessor_NoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" line="120" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp" bodystart="120" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group TS — <ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref> LLM-path (analyzeBatch, suggestDeferral) tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="transaction__semantic__advisor_8h" kindref="compound">transaction/transaction_semantic_advisor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">themis::transaction</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>TS1:<sp/>Default<sp/>construct<sp/>does<sp/>not<sp/>throw<sp/>────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" kindref="member">TEST</ref>(TransactionSemanticAdvisorLlmFocused,<sp/>TS1_DefaultConstruct_NoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;<sp/>});</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>TS2:<sp/>analyzeBatch<sp/>on<sp/>empty<sp/>input<sp/>returns<sp/>empty<sp/>hints<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" kindref="member">TEST</ref>(TransactionSemanticAdvisorLlmFocused,<sp/>TS2_EmptyBatch_ReturnsNoHints)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>({});</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hints.empty());</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>TS3:<sp/>Single<sp/>transaction<sp/>→<sp/>no<sp/>batch-affinity<sp/>hints<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" kindref="member">TEST</ref>(TransactionSemanticAdvisorLlmFocused,<sp/>TS3_SingleTx_NoAffinityHints)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>({tx});</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hints.empty());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>TS4:<sp/>Two<sp/>disjoint<sp/>transactions<sp/>→<sp/>no<sp/>hint<sp/>(conflict_probability<sp/>&lt;<sp/>threshold)<sp/>─</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" kindref="member">TEST</ref>(TransactionSemanticAdvisorLlmFocused,<sp/>TS4_DisjointTxs_NoHints)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx1;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;product&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx2;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;product&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;99&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>({tx1,<sp/>tx2});</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>shared<sp/>entity<sp/>→<sp/>no<sp/>affinity<sp/>group<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hints.empty());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>TS5:<sp/>Two<sp/>transactions<sp/>sharing<sp/>entity<sp/>→<sp/>hint<sp/>produced<sp/>──────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" kindref="member">TEST</ref>(TransactionSemanticAdvisorLlmFocused,<sp/>TS5_SharedEntityWrites_HintProduced)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx1;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx2;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}};<sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>entity<sp/>→<sp/>conflict</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>({tx1,<sp/>tx2});</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(hints.empty());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(hints[0].conflict_probability,<sp/>0.0);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(hints[0].conflict_probability,<sp/>1.0);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hints[0].reason.empty());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>TS6:<sp/>competing<sp/>WRITEs<sp/>on<sp/>same<sp/>entity<sp/>→<sp/>conflict_probability<sp/>&gt;<sp/>0<sp/>──────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" kindref="member">TEST</ref>(TransactionSemanticAdvisorLlmFocused,<sp/>TS6_CompetingWrites_HighConflictProbability)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" kindref="compound">TransactionSemanticAdvisor::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1acded5b1d320bc10f1aa1aa739401e5d1" kindref="member">write_conflict_probability</ref><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor(cfg);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx1;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-conflict-A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;order&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;77&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>tx1.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx2;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-conflict-B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;order&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;77&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>tx2.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>({tx1,<sp/>tx2});</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(hints.empty());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(hints[0].conflict_probability,<sp/>0.5);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>TS7:<sp/>suggestDeferral<sp/>with<sp/>no<sp/>concurrent<sp/>conflict<sp/>→<sp/>0<sp/>ms<sp/>──────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" kindref="member">TEST</ref>(TransactionSemanticAdvisorLlmFocused,<sp/>TS7_NoConcurrentConflict_ZeroDeferral)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-main&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;item&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;5&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>concurrent;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>concurrent.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tx-other&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>concurrent.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;item&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;6&quot;</highlight><highlight class="normal">}};<sp/><sp/></highlight><highlight class="comment">//<sp/>different<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>concurrent.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">TransactionContext::OperationType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deferral<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ac43204391456a9965df19e8ece532ffb" kindref="member">suggestDeferral</ref>(tx,<sp/>{concurrent});</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(deferral.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>TS8:<sp/>setDecisionRecordProcessor<sp/>with<sp/>null<sp/>does<sp/>not<sp/>crash<sp/>──────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__transaction__semantic__advisor__llm__focused_8cpp_1a6fb8fd20dcfd4436b26eb02d43966181" kindref="member">TEST</ref>(TransactionSemanticAdvisorLlmFocused,<sp/>TS8_SetNullProcessor_NoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a67759bf71e4596fffa438c879da16f12" kindref="member">setDecisionRecordProcessor</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp"/>
+  </compounddef>
+</doxygen>

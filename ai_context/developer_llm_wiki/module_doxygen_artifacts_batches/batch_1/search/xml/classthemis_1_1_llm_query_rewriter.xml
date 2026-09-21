@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_llm_query_rewriter" kind="class" language="C++" prot="public">
+    <compoundname>themis::LlmQueryRewriter</compoundname>
+    <includes refid="llm__query__rewriter_8h" local="no">llm_query_rewriter.h</includes>
+    <innerclass refid="structthemis_1_1_llm_query_rewriter_1_1_config" prot="public">themis::LlmQueryRewriter::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_llm_query_rewriter_1ad38ca583cf7c55f0cf0a14ca899b2915" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;prompt)&gt;</type>
+        <definition>using themis::LlmQueryRewriter::LlmBackend = std::function&lt;std::string(const std::string&amp; prompt)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmBackend</name>
+        <qualifiedname>themis::LlmQueryRewriter::LlmBackend</qualifiedname>
+        <briefdescription>
+<para>Callable type for the LLM backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The function receives a fully-formed prompt string and returns the LLM&apos;s raw text response. It may throw; <computeroutput><ref refid="classthemis_1_1_llm_query_rewriter_1a8d44b5c1db836cf2926b96b79d2dc73b" kindref="member">rewrite()</ref></computeroutput> catches all exceptions from it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="92" column="5" bodyfile="include/search/llm_query_rewriter.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_llm_query_rewriter_1a0512d1889ec7d1e09ede1ac2db3d28f6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_llm_query_rewriter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::LlmQueryRewriter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::LlmQueryRewriter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="163" column="12" bodyfile="include/search/llm_query_rewriter.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_llm_query_rewriter_1af5ac3f945f611465e24ffb8790b11a34" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_llm_query_rewriter_1ad38ca583cf7c55f0cf0a14ca899b2915" kindref="member">LlmBackend</ref></type>
+        <definition>LlmBackend themis::LlmQueryRewriter::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::LlmQueryRewriter::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="164" column="16" bodyfile="include/search/llm_query_rewriter.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1a5679ea18220c6230d3ce37bd9f7347e1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LlmQueryRewriter::LlmQueryRewriter</definition>
+        <argsstring>(const Config &amp;config=Config::defaults(), LlmBackend backend=nullptr)</argsstring>
+        <name>LlmQueryRewriter</name>
+        <qualifiedname>themis::LlmQueryRewriter::LlmQueryRewriter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_llm_query_rewriter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_llm_query_rewriter_1_1_config_1ab280fb5179b15b95d16b9f8953ffec3b" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_llm_query_rewriter_1ad38ca583cf7c55f0cf0a14ca899b2915" kindref="member">LlmBackend</ref></type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a rewriter with optional config and LLM backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rewriting parameters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LLM backend callable; may be nullptr / empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if num_rewrites == 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="124" column="14" bodyfile="src/search/llm_query_rewriter.cpp" bodystart="26" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1a063030e49e7696e32f3187568fae91ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LlmQueryRewriter::LlmQueryRewriter</definition>
+        <argsstring>(const LlmQueryRewriter &amp;)=delete</argsstring>
+        <name>LlmQueryRewriter</name>
+        <qualifiedname>themis::LlmQueryRewriter::LlmQueryRewriter</qualifiedname>
+        <param>
+          <type>const LlmQueryRewriter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="127" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1a272b2a8664a9a4ed532fd2971110ee09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_llm_query_rewriter_1a5679ea18220c6230d3ce37bd9f7347e1" kindref="member">LlmQueryRewriter</ref> &amp;</type>
+        <definition>LlmQueryRewriter &amp; themis::LlmQueryRewriter::operator=</definition>
+        <argsstring>(const LlmQueryRewriter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::LlmQueryRewriter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_llm_query_rewriter_1a5679ea18220c6230d3ce37bd9f7347e1" kindref="member">LlmQueryRewriter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="128" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1a2ed277ad4fe8057fcf1a21be26d9a849" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::LlmQueryRewriter::LlmQueryRewriter</definition>
+        <argsstring>(LlmQueryRewriter &amp;&amp;) noexcept=default</argsstring>
+        <name>LlmQueryRewriter</name>
+        <qualifiedname>themis::LlmQueryRewriter::LlmQueryRewriter</qualifiedname>
+        <param>
+          <type>LlmQueryRewriter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="129" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1ac9c1ab9d73914a1a84b8fdeb7cadf51e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_llm_query_rewriter_1a5679ea18220c6230d3ce37bd9f7347e1" kindref="member">LlmQueryRewriter</ref> &amp;</type>
+        <definition>LlmQueryRewriter &amp; themis::LlmQueryRewriter::operator=</definition>
+        <argsstring>(LlmQueryRewriter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::LlmQueryRewriter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_llm_query_rewriter_1a5679ea18220c6230d3ce37bd9f7347e1" kindref="member">LlmQueryRewriter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="130" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1aae5fb8c95ea9ebde00638c45707ae117" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LlmQueryRewriter::setBackend</definition>
+        <argsstring>(LlmBackend backend)</argsstring>
+        <name>setBackend</name>
+        <qualifiedname>themis::LlmQueryRewriter::setBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_llm_query_rewriter_1ad38ca583cf7c55f0cf0a14ca899b2915" kindref="member">LlmBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Replace the LLM backend at runtime (e.g. after model load). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Backend.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New backend; pass nullptr / empty to disable LLM.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="140" column="10" bodyfile="src/search/llm_query_rewriter.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1a8d44b5c1db836cf2926b96b79d2dc73b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_rewritten_query" kindref="compound">RewrittenQuery</ref></type>
+        <definition>RewrittenQuery themis::LlmQueryRewriter::rewrite</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>rewrite</name>
+        <qualifiedname>themis::LlmQueryRewriter::rewrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Rewrite a query using the LLM backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Builds a structured prompt, calls the LLM, parses numbered lines from the response, deduplicates, and limits to <computeroutput><ref refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a2f330c0dbf0c85f7c34b546a03568e59" kindref="member">Config::num_rewrites</ref></computeroutput> entries.</para>
+<para>Never throws; backend exceptions trigger the fallback path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw user query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1_rewritten_query" kindref="compound">RewrittenQuery</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="158" column="20" bodyfile="src/search/llm_query_rewriter.cpp" bodystart="56" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1aa4387f9f90431f6c987ab926493939d6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_llm_query_rewriter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::LlmQueryRewriter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::LlmQueryRewriter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="160" column="18" bodyfile="include/search/llm_query_rewriter.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1a7a5c0b9d2faff83bba4abdf62c865d6b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::LlmQueryRewriter::buildPrompt</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>buildPrompt</name>
+        <qualifiedname>themis::LlmQueryRewriter::buildPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Build the prompt that instructs the LLM to produce numbered rewrites. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="167" column="17" bodyfile="src/search/llm_query_rewriter.cpp" bodystart="126" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1a75953ff622be6b7ceb951e0099a39442" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::LlmQueryRewriter::parseRewrites</definition>
+        <argsstring>(const std::string &amp;llm_output, const std::string &amp;original) const</argsstring>
+        <name>parseRewrites</name>
+        <qualifiedname>themis::LlmQueryRewriter::parseRewrites</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>llm_output</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original</declname>
+        </param>
+        <briefdescription>
+<para>Parse numbered lines (e.g. &quot;1. some rewrite&quot;) from the LLM response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">llm_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="170" column="17" bodyfile="src/search/llm_query_rewriter.cpp" bodystart="154" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1a1a139636c7bfe623f248be41e1ce59f1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LlmQueryRewriter::applyOverlapFilter</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;rewrites, const std::string &amp;original) const</argsstring>
+        <name>applyOverlapFilter</name>
+        <qualifiedname>themis::LlmQueryRewriter::applyOverlapFilter</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>rewrites</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Filter <computeroutput>rewrites</computeroutput> in-place: discard entries whose Jaccard overlap with <computeroutput>original</computeroutput> falls below <ref refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a5d552549979e6eed07cc7c430bf16888" kindref="member">Config::min_token_overlap_ratio</ref>. Returns true if at least one rewrite survived the filter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="180" column="10" bodyfile="src/search/llm_query_rewriter.cpp" bodystart="303" bodyend="322"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_llm_query_rewriter_1aea375b54f7061690b61d616b1ba223ac" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::LlmQueryRewriter::jaccardTokenOverlap</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b)</argsstring>
+        <name>jaccardTokenOverlap</name>
+        <qualifiedname>themis::LlmQueryRewriter::jaccardTokenOverlap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Semantic output validator helpers (Gap 2) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the Jaccard overlap between the whitespace-token sets of <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput>. Returns a value in [0, 1].</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="175" column="18" bodyfile="src/search/llm_query_rewriter.cpp" bodystart="257" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LLM-based query rewriting for improved search recall. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_llm_query_rewriter" kindref="compound">LlmQueryRewriter</ref> uses an LLM to generate semantically equivalent reformulations of a user query. These alternative phrasings broaden recall by covering vocabulary and phrasing variations that synonym dictionaries cannot anticipate.</para>
+<para>The LLM backend is injected as a <computeroutput>std::function&lt;std::string(const std::string&amp;)&gt;</computeroutput> (a <emphasis>prompt → text</emphasis> callable), making the class independent of any particular LLM library and trivially testable with a mock function.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Wire<sp/>up<sp/>a<sp/>real<sp/>LLM<sp/>backend:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_llm_query_rewriter_1ad38ca583cf7c55f0cf0a14ca899b2915" kindref="member">LlmQueryRewriter::LlmBackend</ref><sp/>backend<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>my_llm.generate(prompt,<sp/>256);</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.num_rewrites<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_llm_query_rewriter_1a5679ea18220c6230d3ce37bd9f7347e1" kindref="member">LlmQueryRewriter</ref><sp/>rewriter(cfg,<sp/>backend);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rewriter.rewrite(</highlight><highlight class="stringliteral">&quot;fast<sp/>db<sp/>insert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>result.rewrites<sp/>might<sp/>contain:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>&quot;high-throughput<sp/>database<sp/>insertion&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>&quot;quick<sp/>record<sp/>insertion<sp/>in<sp/>a<sp/>database&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>&quot;rapid<sp/>data<sp/>write<sp/>performance&quot;</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Fallback behaviour</heading>
+</para>
+<para>When no backend is set, or when the backend throws or returns empty text, <computeroutput><ref refid="classthemis_1_1_llm_query_rewriter_1a8d44b5c1db836cf2926b96b79d2dc73b" kindref="member">rewrite()</ref></computeroutput> returns the original query as the sole entry in <computeroutput>rewrites</computeroutput> (when <computeroutput><ref refid="structthemis_1_1_llm_query_rewriter_1_1_config_1acee374bc7fa6b2f0c0a5dce7cc97888c" kindref="member">Config::fallback_to_original</ref> == true</computeroutput>) and sets <computeroutput>llm_used = false</computeroutput>.</para>
+<para><simplesect kind="note"><para>Thread Safety: A single instance is NOT thread-safe. Create one instance per thread or protect shared instances with a mutex.</para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: <computeroutput><ref refid="classthemis_1_1_llm_query_rewriter_1a8d44b5c1db836cf2926b96b79d2dc73b" kindref="member">rewrite()</ref></computeroutput> never propagates exceptions from the backend. All errors are caught internally and trigger the fallback path. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/llm_query_rewriter.h" line="83" column="1" bodyfile="include/search/llm_query_rewriter.h" bodystart="83" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a1a139636c7bfe623f248be41e1ce59f1" prot="private" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>applyOverlapFilter</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1af5ac3f945f611465e24ffb8790b11a34" prot="private" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a7a5c0b9d2faff83bba4abdf62c865d6b" prot="private" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>buildPrompt</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a0512d1889ec7d1e09ede1ac2db3d28f6" prot="private" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1aa4387f9f90431f6c987ab926493939d6" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1aea375b54f7061690b61d616b1ba223ac" prot="private" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>jaccardTokenOverlap</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1ad38ca583cf7c55f0cf0a14ca899b2915" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>LlmBackend</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a5679ea18220c6230d3ce37bd9f7347e1" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>LlmQueryRewriter</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a063030e49e7696e32f3187568fae91ca" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>LlmQueryRewriter</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a2ed277ad4fe8057fcf1a21be26d9a849" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>LlmQueryRewriter</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a272b2a8664a9a4ed532fd2971110ee09" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1ac9c1ab9d73914a1a84b8fdeb7cadf51e" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a75953ff622be6b7ceb951e0099a39442" prot="private" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>parseRewrites</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1a8d44b5c1db836cf2926b96b79d2dc73b" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>rewrite</name></member>
+      <member refid="classthemis_1_1_llm_query_rewriter_1aae5fb8c95ea9ebde00638c45707ae117" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter</scope><name>setBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

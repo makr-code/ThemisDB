@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot" kind="struct" language="C++" prot="private">
+    <compoundname>themis::modules::HotReloadManager::ModuleSlot</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a9b2b92a2d3f5abc28f05a2372ec6a6fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::HotReloadManager::ModuleSlot::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="340" column="22" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a591908bd682109646e59798ed333dee1" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> *</type>
+        <definition>ModuleLoader* themis::modules::HotReloadManager::ModuleSlot::loader</definition>
+        <argsstring></argsstring>
+        <name>loader</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::loader</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning ptr to the loader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="341" column="22" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a4b61bc6e0e14bc9a1c82dba0f5d049d0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::HotReloadManager::ModuleSlot::registration_id</definition>
+        <argsstring></argsstring>
+        <name>registration_id</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::registration_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monotonic id to detect rebinds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="342" column="18" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a0a2c08d7863ff110d3a8932793025e9b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::HotReloadManager::ModuleSlot::current_path</definition>
+        <argsstring></argsstring>
+        <name>current_path</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::current_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="345" column="22" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1af8e2ae1caa8e61e57f9fa06ebdb5193e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_module_version" kindref="compound">ModuleVersion</ref></type>
+        <definition>ModuleVersion themis::modules::HotReloadManager::ModuleSlot::current_version</definition>
+        <argsstring></argsstring>
+        <name>current_version</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::current_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="346" column="23" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a66f4d1a44da8924eae6ddd98bf917f44" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::HotReloadManager::ModuleSlot::has_backup</definition>
+        <argsstring></argsstring>
+        <name>has_backup</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::has_backup</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="349" column="22" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a22dfc6b4a8db8b647ef2e9e6b92ede89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::HotReloadManager::ModuleSlot::backup_path</definition>
+        <argsstring></argsstring>
+        <name>backup_path</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::backup_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="350" column="22" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a71beb8328351d06351805afb18d7e376" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_module_version" kindref="compound">ModuleVersion</ref></type>
+        <definition>ModuleVersion themis::modules::HotReloadManager::ModuleSlot::backup_version</definition>
+        <argsstring></argsstring>
+        <name>backup_version</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::backup_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="351" column="23" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a5abbc5fa2d118603a9dcca87a0554fbd" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1modules_1_1_module_sandbox" kindref="compound">ModuleSandbox</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleSandbox&gt; themis::modules::HotReloadManager::ModuleSlot::sandbox</definition>
+        <argsstring></argsstring>
+        <name>sandbox</name>
+        <qualifiedname>themis::modules::HotReloadManager::ModuleSlot::sandbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="354" column="25" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::modules::HotReloadManager::ModuleSlot</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>loader</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>backup_version</edgelabel>
+          <edgelabel>current_version</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::modules::ModuleLoader</label>
+        <link refid="classthemis_1_1modules_1_1_module_loader"/>
+      </node>
+      <node id="3">
+        <label>themis::modules::ModuleVersion</label>
+        <link refid="structthemis_1_1modules_1_1_module_version"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/base/hot_reload_manager.h" line="339" column="5" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="339" bodyend="355"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a22dfc6b4a8db8b647ef2e9e6b92ede89" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>backup_path</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a71beb8328351d06351805afb18d7e376" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>backup_version</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a0a2c08d7863ff110d3a8932793025e9b" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>current_path</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1af8e2ae1caa8e61e57f9fa06ebdb5193e" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>current_version</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a66f4d1a44da8924eae6ddd98bf917f44" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>has_backup</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a591908bd682109646e59798ed333dee1" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>loader</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a9b2b92a2d3f5abc28f05a2372ec6a6fd" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>name</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a4b61bc6e0e14bc9a1c82dba0f5d049d0" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>registration_id</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_module_slot_1a5abbc5fa2d118603a9dcca87a0554fbd" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::ModuleSlot</scope><name>sandbox</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

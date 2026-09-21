@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_llm_reranker_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LlmReranker::Config</compoundname>
+    <includes refid="llm__reranker_8h" local="no">llm_reranker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_llm_reranker_1_1_config_1abaec7937dfd9bdd24cbaf7017219869d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LlmReranker::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::LlmReranker::Config::batch_size</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum number of candidates to include in a single prompt batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="100" column="16" bodyfile="include/search/llm_reranker.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_reranker_1_1_config_1a57feeab9dafd50fd99942e3db578926a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LlmReranker::Config::llm_weight</definition>
+        <argsstring></argsstring>
+        <name>llm_weight</name>
+        <qualifiedname>themis::LlmReranker::Config::llm_weight</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Blending weight for the LLM score. final = llm_weight * llm_score + (1 - llm_weight) * initial_score </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="104" column="16" bodyfile="include/search/llm_reranker.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_reranker_1_1_config_1a292cc1165080a2492808f68c48459722" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LlmReranker::Config::max_snippet_length</definition>
+        <argsstring></argsstring>
+        <name>max_snippet_length</name>
+        <qualifiedname>themis::LlmReranker::Config::max_snippet_length</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Maximum characters of each document snippet included in the prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="107" column="16" bodyfile="include/search/llm_reranker.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_reranker_1_1_config_1a83c28cfcd2ec51b36eef2ffb6d5b6e05" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LlmReranker::Config::fallback_to_original</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_original</name>
+        <qualifiedname>themis::LlmReranker::Config::fallback_to_original</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>When true, return candidates in original order if the LLM fails. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="110" column="14" bodyfile="include/search/llm_reranker.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_reranker_1_1_config_1a5faa6021efd5824960028b3fd98f5e05" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LlmReranker::Config::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::LlmReranker::Config::max_tokens</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Recommended maximum tokens for the LLM response (hint in prompt). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="113" column="13" bodyfile="include/search/llm_reranker.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_reranker_1_1_config_1a8d534ba0e4479c1277634e5879a975f9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::LlmReranker::Config::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::LlmReranker::Config::temperature</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recommended sampling temperature for the LLM backend. Passed as a hint in the prompt; actual enforcement is backend-specific. Set to 0.0 (default) to omit the temperature hint from the prompt entirely. Typical values: 0.0 (deterministic/no hint), 0.5 (balanced), 1.0 (creative). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="119" column="15" bodyfile="include/search/llm_reranker.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_reranker_1_1_config_1a27288ae97b139962396eafce64fc74b2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LlmReranker::Config::min_score_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_score_threshold</name>
+        <qualifiedname>themis::LlmReranker::Config::min_score_threshold</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Documents with final_score below this threshold are omitted from the output. Set to 0.0 to return all candidates. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="123" column="16" bodyfile="include/search/llm_reranker.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_llm_reranker_1_1_config_1a83db049a61e70339633b96f1faf3041f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_llm_reranker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::LlmReranker::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::LlmReranker::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="124" column="23" bodyfile="include/search/llm_reranker.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/llm_reranker.h" line="98" column="5" bodyfile="include/search/llm_reranker.h" bodystart="98" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_llm_reranker_1_1_config_1abaec7937dfd9bdd24cbaf7017219869d" prot="public" virt="non-virtual"><scope>themis::LlmReranker::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1_llm_reranker_1_1_config_1a83db049a61e70339633b96f1faf3041f" prot="public" virt="non-virtual"><scope>themis::LlmReranker::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1_llm_reranker_1_1_config_1a83c28cfcd2ec51b36eef2ffb6d5b6e05" prot="public" virt="non-virtual"><scope>themis::LlmReranker::Config</scope><name>fallback_to_original</name></member>
+      <member refid="structthemis_1_1_llm_reranker_1_1_config_1a57feeab9dafd50fd99942e3db578926a" prot="public" virt="non-virtual"><scope>themis::LlmReranker::Config</scope><name>llm_weight</name></member>
+      <member refid="structthemis_1_1_llm_reranker_1_1_config_1a292cc1165080a2492808f68c48459722" prot="public" virt="non-virtual"><scope>themis::LlmReranker::Config</scope><name>max_snippet_length</name></member>
+      <member refid="structthemis_1_1_llm_reranker_1_1_config_1a5faa6021efd5824960028b3fd98f5e05" prot="public" virt="non-virtual"><scope>themis::LlmReranker::Config</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1_llm_reranker_1_1_config_1a27288ae97b139962396eafce64fc74b2" prot="public" virt="non-virtual"><scope>themis::LlmReranker::Config</scope><name>min_score_threshold</name></member>
+      <member refid="structthemis_1_1_llm_reranker_1_1_config_1a8d534ba0e4479c1277634e5879a975f9" prot="public" virt="non-virtual"><scope>themis::LlmReranker::Config</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b74c1c3f06479b830a72f02b54cb1b38" kind="dir">
+    <compoundname>src/timeseries</compoundname>
+    <innerfile refid="adaptive__flush__controller_8cpp">adaptive_flush_controller.cpp</innerfile>
+    <innerfile refid="aggregate__scheduler_8cpp">aggregate_scheduler.cpp</innerfile>
+    <innerfile refid="aggregate__scheduler__helper_8cpp">aggregate_scheduler_helper.cpp</innerfile>
+    <innerfile refid="aggregates_8cpp">aggregates.cpp</innerfile>
+    <innerfile refid="anomaly__detection_8cpp">anomaly_detection.cpp</innerfile>
+    <innerfile refid="compression__selector_8cpp">compression_selector.cpp</innerfile>
+    <innerfile refid="continuous__agg_8cpp">continuous_agg.cpp</innerfile>
+    <innerfile refid="downsampling_8cpp">downsampling.cpp</innerfile>
+    <innerfile refid="encrypted__chunk__store_8cpp">encrypted_chunk_store.cpp</innerfile>
+    <innerfile refid="gap__fill_8cpp">gap_fill.cpp</innerfile>
+    <innerfile refid="gorilla_8cpp">gorilla.cpp</innerfile>
+    <innerfile refid="gorilla__simd_8cpp">gorilla_simd.cpp</innerfile>
+    <innerfile refid="hypertable_8cpp">hypertable.cpp</innerfile>
+    <innerfile refid="prometheus__remote__write_8cpp">prometheus_remote_write.cpp</innerfile>
+    <innerfile refid="query__optimizer_8cpp">query_optimizer.cpp</innerfile>
+    <innerfile refid="retention_8cpp">retention.cpp</innerfile>
+    <innerfile refid="timeseries_8cpp">timeseries.cpp</innerfile>
+    <innerfile refid="timeseries__incident__taxonomy_8cpp">timeseries_incident_taxonomy.cpp</innerfile>
+    <innerfile refid="timeseries__metrics_8cpp">timeseries_metrics.cpp</innerfile>
+    <innerfile refid="ts__auto__buffer_8cpp">ts_auto_buffer.cpp</innerfile>
+    <innerfile refid="ts__auto__buffer__adaptive_8cpp">ts_auto_buffer_adaptive.cpp</innerfile>
+    <innerfile refid="ts__edge__case__handler_8cpp">ts_edge_case_handler.cpp</innerfile>
+    <innerfile refid="ts__encrypted__key__rotation_8cpp">ts_encrypted_key_rotation.cpp</innerfile>
+    <innerfile refid="ts__operator__diagnostics_8cpp">ts_operator_diagnostics.cpp</innerfile>
+    <innerfile refid="ts__stream__cursor_8cpp">ts_stream_cursor.cpp</innerfile>
+    <innerfile refid="tsstore_8cpp">tsstore.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/timeseries/"/>
+  </compounddef>
+</doxygen>

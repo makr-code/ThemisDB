@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_signing_service" kind="class" language="C++" prot="public">
+    <compoundname>MockSigningService</compoundname>
+    <basecompoundref refid="classthemis_1_1_signing_service" prot="public" virt="non-virtual">themis::SigningService</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_signing_service_1a04e14d1bbc4d6e65f7c8daaf0254ef07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref></type>
+        <definition>SigningResult MockSigningService::sign</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;) override</argsstring>
+        <name>sign</name>
+        <qualifiedname>MockSigningService::sign</qualifiedname>
+        <reimplements refid="classthemis_1_1_signing_service_1ab3722bd74c3acfc8665f24872b97a529">sign</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_api_handler.cpp" line="11" column="19" bodyfile="tests/security/test_pki_api_handler.cpp" bodystart="11" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_signing_service_1acba3494a8a64a869f3116a7c48c2eb12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockSigningService::verify</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;signature, const std::string &amp;) override</argsstring>
+        <name>verify</name>
+        <qualifiedname>MockSigningService::verify</qualifiedname>
+        <reimplements refid="classthemis_1_1_signing_service_1a1287bdafce5ea20430ee877cec8f273b">verify</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_api_handler.cpp" line="20" column="10" bodyfile="tests/security/test_pki_api_handler.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockSigningService</label>
+        <link refid="class_mock_signing_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningService</label>
+        <link refid="classthemis_1_1_signing_service"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockSigningService</label>
+        <link refid="class_mock_signing_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningService</label>
+        <link refid="classthemis_1_1_signing_service"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_pki_api_handler.cpp" line="9" column="1" bodyfile="tests/security/test_pki_api_handler.cpp" bodystart="9" bodyend="25"/>
+    <listofallmembers>
+      <member refid="class_mock_signing_service_1a04e14d1bbc4d6e65f7c8daaf0254ef07" prot="public" virt="virtual"><scope>MockSigningService</scope><name>sign</name></member>
+      <member refid="class_mock_signing_service_1acba3494a8a64a869f3116a7c48c2eb12" prot="public" virt="virtual"><scope>MockSigningService</scope><name>verify</name></member>
+      <member refid="classthemis_1_1_signing_service_1a05a49d840a01a4ebe2ac201a35394501" prot="public" virt="virtual"><scope>MockSigningService</scope><name>~SigningService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

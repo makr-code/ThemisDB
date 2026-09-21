@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cluster_endpoint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ClusterEndpoint</compoundname>
+    <includes refid="cross__cluster__federation_8h" local="no">cross_cluster_federation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_endpoint_1a684987c10a972c2168f819c36baa0f86" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ClusterEndpoint::cluster_id</definition>
+        <argsstring></argsstring>
+        <name>cluster_id</name>
+        <qualifiedname>themis::query::ClusterEndpoint::cluster_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for this cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="27" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_endpoint_1ab7a8c3526f18999b112f0d6680983182" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ClusterEndpoint::base_url</definition>
+        <argsstring></argsstring>
+        <name>base_url</name>
+        <qualifiedname>themis::query::ClusterEndpoint::base_url</qualifiedname>
+        <briefdescription>
+<para>HTTP base URL, e.g. &quot;http://cluster-b:8080&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="28" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_endpoint_1ae9b259dc12bcff8cd0309513084806cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ClusterEndpoint::auth_token</definition>
+        <argsstring></argsstring>
+        <name>auth_token</name>
+        <qualifiedname>themis::query::ClusterEndpoint::auth_token</qualifiedname>
+        <briefdescription>
+<para>Bearer token (empty = no auth). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="29" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_endpoint_1a2df61141dc6a30d165d8cc7c4ec6ecef" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::ClusterEndpoint::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::query::ClusterEndpoint::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Per-request timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="30" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_endpoint_1a59a8b0cf6b79e929e11e58b5c15f7667" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::ClusterEndpoint::estimated_rows_hint</definition>
+        <argsstring></argsstring>
+        <name>estimated_rows_hint</name>
+        <qualifiedname>themis::query::ClusterEndpoint::estimated_rows_hint</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="32" column="14" bodyfile="include/query/cross_cluster_federation.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_endpoint_1a19e623ac8b11778bb1d7dbf2bd3f3fe0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ClusterEndpoint::network_latency_hint_ms</definition>
+        <argsstring></argsstring>
+        <name>network_latency_hint_ms</name>
+        <qualifiedname>themis::query::ClusterEndpoint::network_latency_hint_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="34" column="12" bodyfile="include/query/cross_cluster_federation.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cross_cluster_federation.h" line="26" column="1" bodyfile="include/query/cross_cluster_federation.h" bodystart="26" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cluster_endpoint_1ae9b259dc12bcff8cd0309513084806cb" prot="public" virt="non-virtual"><scope>themis::query::ClusterEndpoint</scope><name>auth_token</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_endpoint_1ab7a8c3526f18999b112f0d6680983182" prot="public" virt="non-virtual"><scope>themis::query::ClusterEndpoint</scope><name>base_url</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_endpoint_1a684987c10a972c2168f819c36baa0f86" prot="public" virt="non-virtual"><scope>themis::query::ClusterEndpoint</scope><name>cluster_id</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_endpoint_1a59a8b0cf6b79e929e11e58b5c15f7667" prot="public" virt="non-virtual"><scope>themis::query::ClusterEndpoint</scope><name>estimated_rows_hint</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_endpoint_1a19e623ac8b11778bb1d7dbf2bd3f3fe0" prot="public" virt="non-virtual"><scope>themis::query::ClusterEndpoint</scope><name>network_latency_hint_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_endpoint_1a2df61141dc6a30d165d8cc7c4ec6ecef" prot="public" virt="non-virtual"><scope>themis::query::ClusterEndpoint</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

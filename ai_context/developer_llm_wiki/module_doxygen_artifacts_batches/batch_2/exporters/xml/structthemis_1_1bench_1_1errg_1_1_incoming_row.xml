@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1errg_1_1_incoming_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::errg::IncomingRow</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_incoming_row_1a11ff687089259f14c119611bd0135de4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::errg::IncomingRow::values[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>values</name>
+        <qualifiedname>themis::bench::errg::IncomingRow::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="150" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_incoming_row_1aa050fa3ced578035610a590a0904dcb2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::errg::IncomingRow::present[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>present</name>
+        <qualifiedname>themis::bench::errg::IncomingRow::present</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="151" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="149" column="1" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="149" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_incoming_row_1aa050fa3ced578035610a590a0904dcb2" prot="public" virt="non-virtual"><scope>themis::bench::errg::IncomingRow</scope><name>present</name></member>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_incoming_row_1a11ff687089259f14c119611bd0135de4" prot="public" virt="non-virtual"><scope>themis::bench::errg::IncomingRow</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

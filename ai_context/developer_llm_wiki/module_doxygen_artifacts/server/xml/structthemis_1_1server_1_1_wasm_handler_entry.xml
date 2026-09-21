@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_wasm_handler_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::WasmHandlerEntry</compoundname>
+    <includes refid="wasm__handler__registry_8h" local="no">wasm_handler_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1ab9e33045c17647762563ecf9165bcdc5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmHandlerEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::id</qualifiedname>
+        <briefdescription>
+<para>Unique function / handler ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="50" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1ab70f7f8634b781d1d6ce2cd23f9cdccc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmHandlerEntry::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Owning tenant (empty = global). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="51" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1afb37af0f71e3e983d940e131aa002c69" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmHandlerEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable handler name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="52" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1a9644c559f55cd25157fbaddacc6bc265" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmHandlerEntry::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::description</qualifiedname>
+        <briefdescription>
+<para>Optional description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="53" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1a143a9bb4085e20c6a2a34291173a2fd1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::server::WasmHandlerEntry::wasm_bytes</definition>
+        <argsstring></argsstring>
+        <name>wasm_bytes</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::wasm_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="55" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1ae8fc2c92112adcdcb03838cad503fc87" prot="public" static="no" mutable="no">
+        <type>themis::modules::WasmModuleInfo</type>
+        <definition>themis::modules::WasmModuleInfo themis::server::WasmHandlerEntry::module_info</definition>
+        <argsstring></argsstring>
+        <name>module_info</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::module_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="57" column="37" bodyfile="include/server/wasm_handler_registry.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1aca20e68cc636c8794ffab9fd7f440570" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_wasm_handler_config" kindref="compound">WasmHandlerConfig</ref></type>
+        <definition>WasmHandlerConfig themis::server::WasmHandlerEntry::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::config</qualifiedname>
+        <briefdescription>
+<para>Resource-limit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="59" column="23" bodyfile="include/server/wasm_handler_registry.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1aae7cfb580fdd6fe6a7ca7d9a932f7956" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmHandlerEntry::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="61" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1aece1049cec88b8ceb0fbfca1ec15d8f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmHandlerEntry::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::updated_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 last-update timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="62" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1ade7f1496d83c72f88f7ac4d9c284a443" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::WasmHandlerEntry::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::version</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="64" column="14" bodyfile="include/server/wasm_handler_registry.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_entry_1adfc359b40374103ad0cec549620a6fb7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WasmHandlerEntry::invocation_count</definition>
+        <argsstring></argsstring>
+        <name>invocation_count</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::invocation_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="66" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_wasm_handler_entry_1aa9db036ae4cd444ece2f418df462e26a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WasmHandlerEntry::WasmHandlerEntry</definition>
+        <argsstring>()=default</argsstring>
+        <name>WasmHandlerEntry</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::WasmHandlerEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_wasm_handler_entry_1a50ab38727f6e95b6b33fb7978048de04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WasmHandlerEntry::WasmHandlerEntry</definition>
+        <argsstring>(const WasmHandlerEntry &amp;)=delete</argsstring>
+        <name>WasmHandlerEntry</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::WasmHandlerEntry</qualifiedname>
+        <param>
+          <type>const WasmHandlerEntry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="70" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_wasm_handler_entry_1a2c715c0734e3de5c2bd3bc289798b776" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_wasm_handler_entry_1aa9db036ae4cd444ece2f418df462e26a" kindref="member">WasmHandlerEntry</ref> &amp;</type>
+        <definition>WasmHandlerEntry &amp; themis::server::WasmHandlerEntry::operator=</definition>
+        <argsstring>(const WasmHandlerEntry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_wasm_handler_entry_1aa9db036ae4cd444ece2f418df462e26a" kindref="member">WasmHandlerEntry</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="71" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_wasm_handler_entry_1a37a528ba398cd7f34d0841fe7853e299" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WasmHandlerEntry::WasmHandlerEntry</definition>
+        <argsstring>(WasmHandlerEntry &amp;&amp;other) noexcept</argsstring>
+        <name>WasmHandlerEntry</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::WasmHandlerEntry</qualifiedname>
+        <param>
+          <type>WasmHandlerEntry &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="72" column="5" bodyfile="include/server/wasm_handler_registry.h" bodystart="72" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_wasm_handler_entry_1a7ce4db792bbef7570257c14d9582dbd8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_wasm_handler_entry_1aa9db036ae4cd444ece2f418df462e26a" kindref="member">WasmHandlerEntry</ref> &amp;</type>
+        <definition>WasmHandlerEntry &amp; themis::server::WasmHandlerEntry::operator=</definition>
+        <argsstring>(WasmHandlerEntry &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_wasm_handler_entry_1aa9db036ae4cd444ece2f418df462e26a" kindref="member">WasmHandlerEntry</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="85" column="22" bodyfile="include/server/wasm_handler_registry.h" bodystart="85" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_wasm_handler_entry_1a5c3c4a8b70c1847fa2314dbeffcaefe5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::WasmHandlerEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::WasmHandlerEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="108" column="20" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="67" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::server::WasmHandlerConfig</label>
+        <link refid="structthemis_1_1server_1_1_wasm_handler_config"/>
+      </node>
+      <node id="1">
+        <label>themis::server::WasmHandlerEntry</label>
+        <link refid="structthemis_1_1server_1_1_wasm_handler_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/wasm_handler_registry.h" line="49" column="5" bodyfile="include/server/wasm_handler_registry.h" bodystart="49" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1aca20e68cc636c8794ffab9fd7f440570" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>config</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1aae7cfb580fdd6fe6a7ca7d9a932f7956" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1a9644c559f55cd25157fbaddacc6bc265" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>description</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1ab9e33045c17647762563ecf9165bcdc5" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>id</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1adfc359b40374103ad0cec549620a6fb7" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>invocation_count</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1ae8fc2c92112adcdcb03838cad503fc87" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>module_info</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1afb37af0f71e3e983d940e131aa002c69" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1a2c715c0734e3de5c2bd3bc289798b776" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1a7ce4db792bbef7570257c14d9582dbd8" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1ab70f7f8634b781d1d6ce2cd23f9cdccc" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1a5c3c4a8b70c1847fa2314dbeffcaefe5" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1aece1049cec88b8ceb0fbfca1ec15d8f0" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>updated_at</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1ade7f1496d83c72f88f7ac4d9c284a443" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>version</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1a143a9bb4085e20c6a2a34291173a2fd1" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>wasm_bytes</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1aa9db036ae4cd444ece2f418df462e26a" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>WasmHandlerEntry</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1a50ab38727f6e95b6b33fb7978048de04" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>WasmHandlerEntry</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_entry_1a37a528ba398cd7f34d0841fe7853e299" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerEntry</scope><name>WasmHandlerEntry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

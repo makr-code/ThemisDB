@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_neo4j_adapter_1_1_session_handle" kind="struct" language="C++" prot="private">
+    <compoundname>chimera::Neo4jAdapter::SessionHandle</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_neo4j_adapter_1_1_session_handle_1aa17f8bbd6f7f9830968ea44c61d5cc3f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::Neo4jAdapter::SessionHandle::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>chimera::Neo4jAdapter::SessionHandle::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/neo4j_adapter.hpp" line="178" column="21" bodyfile="include/chimera/neo4j_adapter.hpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_neo4j_adapter_1_1_session_handle_1a9dea7d42ec9649cac89a4189d360171b" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* chimera::Neo4jAdapter::SessionHandle::neo4j_session</definition>
+        <argsstring></argsstring>
+        <name>neo4j_session</name>
+        <qualifiedname>chimera::Neo4jAdapter::SessionHandle::neo4j_session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/neo4j_adapter.hpp" line="179" column="14" bodyfile="include/chimera/neo4j_adapter.hpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_neo4j_adapter_1_1_session_handle_1a00eb8f6e645c1708c178778c89f059e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::Neo4jAdapter::SessionHandle::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>chimera::Neo4jAdapter::SessionHandle::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/neo4j_adapter.hpp" line="180" column="21" bodyfile="include/chimera/neo4j_adapter.hpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/neo4j_adapter.hpp" line="177" column="5" bodyfile="include/chimera/neo4j_adapter.hpp" bodystart="177" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_neo4j_adapter_1_1_session_handle_1a9dea7d42ec9649cac89a4189d360171b" prot="public" virt="non-virtual"><scope>chimera::Neo4jAdapter::SessionHandle</scope><name>neo4j_session</name></member>
+      <member refid="structchimera_1_1_neo4j_adapter_1_1_session_handle_1aa17f8bbd6f7f9830968ea44c61d5cc3f" prot="public" virt="non-virtual"><scope>chimera::Neo4jAdapter::SessionHandle</scope><name>session_id</name></member>
+      <member refid="structchimera_1_1_neo4j_adapter_1_1_session_handle_1a00eb8f6e645c1708c178778c89f059e5" prot="public" virt="non-virtual"><scope>chimera::Neo4jAdapter::SessionHandle</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

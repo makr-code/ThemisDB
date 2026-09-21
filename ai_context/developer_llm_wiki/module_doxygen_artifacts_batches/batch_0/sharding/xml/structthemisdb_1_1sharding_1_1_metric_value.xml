@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_metric_value" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::MetricValue</compoundname>
+    <includes refid="operational__metrics_8h" local="no">operational_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metric_value_1a9b39b774ca27923fd2f7441a5395fb4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetricValue::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::sharding::MetricValue::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="52" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metric_value_1a24ebc723e72e3cc24be6787954b54e58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetricValue::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themisdb::sharding::MetricValue::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="53" column="17" bodyfile="include/sharding/operational_metrics.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metric_value_1a133a59850c525a89d3e1daad4699ca29" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982c" kindref="member">MetricType</ref></type>
+        <definition>MetricType themisdb::sharding::MetricValue::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::sharding::MetricValue::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="54" column="16" bodyfile="include/sharding/operational_metrics.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metric_value_1acab717933089e0e3be8d98f8233c0c53" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::MetricValue::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::sharding::MetricValue::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="55" column="12" bodyfile="include/sharding/operational_metrics.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metric_value_1a94cd218d0d39accb47ff7a2ff8776479" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themisdb::sharding::MetricValue::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themisdb::sharding::MetricValue::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="56" column="14" bodyfile="include/sharding/operational_metrics.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metric_value_1aab5e2ba09368a4d5edbd1809e325bfd7" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::MetricValue::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::MetricValue::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="57" column="43" bodyfile="include/sharding/operational_metrics.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Individual metric value. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/operational_metrics.h" line="51" column="1" bodyfile="include/sharding/operational_metrics.h" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_metric_value_1a24ebc723e72e3cc24be6787954b54e58" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetricValue</scope><name>description</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metric_value_1a94cd218d0d39accb47ff7a2ff8776479" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetricValue</scope><name>labels</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metric_value_1a9b39b774ca27923fd2f7441a5395fb4b" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetricValue</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metric_value_1aab5e2ba09368a4d5edbd1809e325bfd7" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetricValue</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metric_value_1a133a59850c525a89d3e1daad4699ca29" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetricValue</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metric_value_1acab717933089e0e3be8d98f8233c0c53" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetricValue</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

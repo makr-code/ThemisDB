@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_lo_r_a_failing_generator" kind="class" language="C++" prot="public">
+    <compoundname>LoRAFailingGenerator</compoundname>
+    <basecompoundref refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator" prot="public" virt="non-virtual">themis::imggen::InMemorySDGenerator</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_lo_r_a_failing_generator_1aee8d8085ada739dec04ab6c0aafa5b87" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool LoRAFailingGenerator::applyLoRA</definition>
+        <argsstring>(const std::string &amp;, float, std::string &amp;error_out) override</argsstring>
+        <name>applyLoRA</name>
+        <qualifiedname>LoRAFailingGenerator::applyLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad5537399173326f479e9e4ceabc09d32">applyLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Optionally apply a LoRA adapter for subsequent generation calls. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation is a no-op that succeeds for generators that do not support LoRA updates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to LoRA adapter (empty means clear LoRA state). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter scale factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detailed error text on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on validation/application failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="49" column="10" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lo ra failing generator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LoRAFailingGenerator</label>
+        <link refid="class_lo_r_a_failing_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+      <node id="2">
+        <label>themis::imggen::InMemorySDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LoRAFailingGenerator</label>
+        <link refid="class_lo_r_a_failing_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+      <node id="2">
+        <label>themis::imggen::InMemorySDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="47" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="47" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_lo_r_a_failing_generator_1aee8d8085ada739dec04ab6c0aafa5b87" prot="public" virt="virtual"><scope>LoRAFailingGenerator</scope><name>applyLoRA</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa0dc65de7f562c9c9a5141e3a3061d8" prot="public" virt="virtual"><scope>LoRAFailingGenerator</scope><name>generate</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa7c67a8c5bd8573ecefaff6d37ad46e8" prot="public" virt="virtual"><scope>LoRAFailingGenerator</scope><name>generateImg2Img</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1abb5ca2e27fb8b3338a2d933cd6da04dc" prot="public" virt="virtual"><scope>LoRAFailingGenerator</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a6c46912421ba42f6a45faf8948098c3e" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>img2imgCalled</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a12322edbbe1257e39a1222747df5aa34" prot="public" virt="virtual"><scope>LoRAFailingGenerator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa5aea1f60935cfe3f8372479cc3b3c63" prot="public" virt="virtual"><scope>LoRAFailingGenerator</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a7aae0a58a24f5b0ad96bb2a25d14e50c" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastAppliedLoraPath</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aeaf88bc264287ccbc0c969e8eab3fd77" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastAppliedLoraScale</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a16f963cd31a991c747e55d5fc99a3789" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastControlHeight</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a3c590d331e87cb4ee6ecc4e9999c97d1" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastControlModelPath</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a4fdab95c4e75f338adca47d14661e0c9" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastControlStrength</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a63049e5dad30d742388488dd10a2acd9" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastControlWidth</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1adb49917eeff1582f1568c8871e0f528b" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastImg2ImgInputHeight</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a19a829bc52aa09fd9187faea354a9859" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastImg2ImgInputWidth</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ac890c79d882b577051ed1464605cb653" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastImg2ImgStrength</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a80e7541f3c68e66c85f1c4092db67d69" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastLoraAdapterPath</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad9493686e460da74c76f40e1d2d410f7" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>lastLoraScale</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a887bc4ec27621c306141f9ddf26a573d" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>setApplyLoraResult</name></member>
+      <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a24995183683a0a58f919782f5b5b2cc5" prot="public" virt="non-virtual"><scope>LoRAFailingGenerator</scope><name>setNextPixels</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a1cac8c129aba6caccfa55ea79695d8f0" prot="public" virt="virtual"><scope>LoRAFailingGenerator</scope><name>~ISDGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

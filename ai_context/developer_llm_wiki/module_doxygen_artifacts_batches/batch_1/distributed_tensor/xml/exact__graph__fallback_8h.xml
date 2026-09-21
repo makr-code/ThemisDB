@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="exact__graph__fallback_8h" kind="file" language="C++">
+    <compoundname>exact_graph_fallback.h</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="yes">artifact_manifest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="exact__graph__fallback_8cc" local="yes">src/distributed_tensor/src/exact_graph_fallback.cc</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>artifact_manifest.h</label>
+        <link refid="src_2distributed__tensor_2include_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/include/exact_graph_fallback.h</label>
+        <link refid="exact__graph__fallback_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/exact_graph_fallback.h</label>
+        <link refid="exact__graph__fallback_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/src/exact_graph_fallback.cc</label>
+        <link refid="exact__graph__fallback_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy" prot="public">themis::distributed_tensor::ExactGraphFallbackPolicy</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics" prot="public">themis::distributed_tensor::ExactGraphFallbackPolicy::FallbackMetrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Exact graph fallback policy and integration for tensor artifacts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>ThemisDB EPIC 3 Implementation Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-03</para>
+</simplesect>
+This header defines policies for fallback to exact graph state when tensor artifacts are stale, invalid, or don&apos;t meet query accuracy requirements.</para>
+<sect1 id="exact__graph__fallback_8h_1autotoc_md8_1s1"><sect2 id="exact__graph__fallback_8h_1autotoc_md8">
+<title>Design Philosophy</title><para>The exact graph is always authoritative. Tensor artifacts are advisory-only. Fallback occurs when:<itemizedlist>
+<listitem><para>Artifact is not in ACTIVE state</para>
+</listitem><listitem><para>Advisory-only semantics mean artifact cannot guarantee correctness</para>
+</listitem><listitem><para>Query accuracy requirements cannot be met by artifact</para>
+</listitem><listitem><para>Residual is too high for the query&apos;s tolerance </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="src_2distributed__tensor_2include_2artifact__manifest_8h" kindref="compound">artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" kindref="member">ExactGraphFallbackPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" kindref="member">ExactGraphFallbackPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1afd5cf244c1fca83f352d3d2528b2d1cd" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1afd5cf244c1fca83f352d3d2528b2d1cd" kindref="member">~ExactGraphFallbackPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copy/move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aee7f3c954ff288c6776c741f461615a6" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aee7f3c954ff288c6776c741f461615a6" kindref="member">ExactGraphFallbackPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" kindref="member">ExactGraphFallbackPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a6ba4fc196304e540834df762d999957d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" kindref="member">ExactGraphFallbackPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a6ba4fc196304e540834df762d999957d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" kindref="member">ExactGraphFallbackPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a535873ea41f8c3c318cc81f69b0d26e5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a535873ea41f8c3c318cc81f69b0d26e5" kindref="member">ExactGraphFallbackPolicy</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" kindref="member">ExactGraphFallbackPolicy</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a62748d8bde356622c79eeb6632a2e423" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" kindref="member">ExactGraphFallbackPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a62748d8bde356622c79eeb6632a2e423" kindref="member">operator=</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1aae4ab2f0915957e8fdcdb5702c273259" kindref="member">ExactGraphFallbackPolicy</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1ae6cceb81befc150d1ae4fb55b56abfca" kindref="member">canUseArtifact</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>query_residual_tolerance,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>now_unix_sec)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a59b8b7259f9329bd0b6abb53898aac3b" kindref="member">requiresFallbackForState</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a7cb1f00b3d39ca6378d7c2ee3582c8d8" kindref="member">requiresFallbackForSemantics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>query_requires_truth)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a979279632732dfa552d29466c3840add" kindref="member">requiresFallbackForResidual</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>query_residual_tolerance)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a8d5763ee1269533880bb5dd146e83075" kindref="member">requiresFallbackForFreshness</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>now_unix_sec,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>query_max_age_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics" kindref="compound">FallbackMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1ab93dd1723153f0b2a8212fcd9f0eb50f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1ab93dd1723153f0b2a8212fcd9f0eb50f" kindref="member">total_fallback_decisions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1ac4842586a595a58b14065a33ef337bbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1ac4842586a595a58b14065a33ef337bbe" kindref="member">fallback_due_to_state</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a84c020d0cc76a86b24d5b84341cbda7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a84c020d0cc76a86b24d5b84341cbda7e" kindref="member">fallback_due_to_semantics</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a384e4e0a390285f54d7550fde7ee38ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a384e4e0a390285f54d7550fde7ee38ab" kindref="member">fallback_due_to_residual</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a1be99f487c7a08184fb96e587e229d0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a1be99f487c7a08184fb96e587e229d0a" kindref="member">fallback_due_to_freshness</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a828f817f9884a4e739762b0907170839" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics_1a828f817f9884a4e739762b0907170839" kindref="member">artifacts_used_successfully</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics" kindref="compound">FallbackMetrics</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a96e573231ba3b0a3bd6af04563d1d271" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a5fea3ca6ddc5ed36c94b069f39074e36" kindref="member">recordFallback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a05a7a74eaa51f333511b80bd063ed72a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1_1_fallback_metrics" kindref="compound">FallbackMetrics</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy_1a05a7a74eaa51f333511b80bd063ed72a" kindref="member">metrics_</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/exact_graph_fallback.h"/>
+  </compounddef>
+</doxygen>

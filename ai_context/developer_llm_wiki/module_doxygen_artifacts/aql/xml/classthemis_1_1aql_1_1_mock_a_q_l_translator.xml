@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_mock_a_q_l_translator" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::MockAQLTranslator</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_mock_a_q_l_translator_1a48b1060dfe4b5d1eb8c441d492ae725c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_a_q_l_translation_result" kindref="compound">AQLTranslationResult</ref></type>
+        <definition>AQLTranslationResult themis::aql::MockAQLTranslator::translateNLToAQL</definition>
+        <argsstring>(const std::string &amp;nl_query)</argsstring>
+        <name>translateNLToAQL</name>
+        <qualifiedname>themis::aql::MockAQLTranslator::translateNLToAQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="95" column="26" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="95" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="93" column="1" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="93" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_mock_a_q_l_translator_1a48b1060dfe4b5d1eb8c441d492ae725c" prot="public" virt="non-virtual"><scope>themis::aql::MockAQLTranslator</scope><name>translateNLToAQL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

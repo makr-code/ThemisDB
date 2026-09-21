@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_m_t_l_s_claims" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::MTLSClaims</compoundname>
+    <includes refid="mtls__authenticator_8h" local="no">mtls_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1af088acb6cc674152071ae1ef0785a4f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSClaims::principal</definition>
+        <argsstring></argsstring>
+        <name>principal</name>
+        <qualifiedname>themis::auth::MTLSClaims::principal</qualifiedname>
+        <briefdescription>
+<para>Resolved principal (Common Name or SAN email). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="29" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1ac5b691915666a32784af8baffae8ef77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSClaims::subject_dn</definition>
+        <argsstring></argsstring>
+        <name>subject_dn</name>
+        <qualifiedname>themis::auth::MTLSClaims::subject_dn</qualifiedname>
+        <briefdescription>
+<para>Full Subject Distinguished Name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="30" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1a304d0809c4d16c24fd5fd4c05ea7b084" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSClaims::issuer_dn</definition>
+        <argsstring></argsstring>
+        <name>issuer_dn</name>
+        <qualifiedname>themis::auth::MTLSClaims::issuer_dn</qualifiedname>
+        <briefdescription>
+<para>Full Issuer Distinguished Name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="31" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1a9a1a7df7964cab87f6f07b5f48dee786" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSClaims::serial_number</definition>
+        <argsstring></argsstring>
+        <name>serial_number</name>
+        <qualifiedname>themis::auth::MTLSClaims::serial_number</qualifiedname>
+        <briefdescription>
+<para>Certificate serial number (hex). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="32" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1a973365a5ccf617e969984079a428dd49" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MTLSClaims::fingerprint_sha256</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_sha256</name>
+        <qualifiedname>themis::auth::MTLSClaims::fingerprint_sha256</qualifiedname>
+        <briefdescription>
+<para>SHA-256 fingerprint of DER-encoded cert (hex). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="33" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1ae77023af519df480c9b5b35cd47547d4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::MTLSClaims::san_dns_names</definition>
+        <argsstring></argsstring>
+        <name>san_dns_names</name>
+        <qualifiedname>themis::auth::MTLSClaims::san_dns_names</qualifiedname>
+        <briefdescription>
+<para>Subject Alternative Names – DNS entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="34" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1ac2696aa7e28847dee3a24cbee24ea5d5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::MTLSClaims::san_ip_addresses</definition>
+        <argsstring></argsstring>
+        <name>san_ip_addresses</name>
+        <qualifiedname>themis::auth::MTLSClaims::san_ip_addresses</qualifiedname>
+        <briefdescription>
+<para>Subject Alternative Names – IP entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="35" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1a588a0c2ce57739497603ec9591aa4482" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::MTLSClaims::san_email_addresses</definition>
+        <argsstring></argsstring>
+        <name>san_email_addresses</name>
+        <qualifiedname>themis::auth::MTLSClaims::san_email_addresses</qualifiedname>
+        <briefdescription>
+<para>Subject Alternative Names – email entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="36" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1aed7bf19daf67ee682e50dcc895a28dca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::MTLSClaims::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::auth::MTLSClaims::roles</qualifiedname>
+        <briefdescription>
+<para>Optional roles mapped from the certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="37" column="17" bodyfile="include/auth/mtls_authenticator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1ac3b7db9b28cd8560f5e4aee9431d1615" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::MTLSClaims::not_before</definition>
+        <argsstring></argsstring>
+        <name>not_before</name>
+        <qualifiedname>themis::auth::MTLSClaims::not_before</qualifiedname>
+        <briefdescription>
+<para>Certificate validity start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="38" column="43" bodyfile="include/auth/mtls_authenticator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1a6ffea1395cce352cd04aac1aa56d221d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::MTLSClaims::not_after</definition>
+        <argsstring></argsstring>
+        <name>not_after</name>
+        <qualifiedname>themis::auth::MTLSClaims::not_after</qualifiedname>
+        <briefdescription>
+<para>Certificate validity end. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="39" column="43" bodyfile="include/auth/mtls_authenticator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_m_t_l_s_claims_1aa00806b595ae80dd3b00bf9f9b3de238" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::MTLSClaims::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::auth::MTLSClaims::isExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mtls_authenticator.h" line="41" column="10" bodyfile="include/auth/mtls_authenticator.h" bodystart="41" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/mtls_authenticator.h" line="28" column="1" bodyfile="include/auth/mtls_authenticator.h" bodystart="28" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1a973365a5ccf617e969984079a428dd49" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>fingerprint_sha256</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1aa00806b595ae80dd3b00bf9f9b3de238" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1a304d0809c4d16c24fd5fd4c05ea7b084" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>issuer_dn</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1a6ffea1395cce352cd04aac1aa56d221d" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>not_after</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1ac3b7db9b28cd8560f5e4aee9431d1615" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>not_before</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1af088acb6cc674152071ae1ef0785a4f7" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>principal</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1aed7bf19daf67ee682e50dcc895a28dca" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>roles</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1ae77023af519df480c9b5b35cd47547d4" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>san_dns_names</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1a588a0c2ce57739497603ec9591aa4482" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>san_email_addresses</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1ac2696aa7e28847dee3a24cbee24ea5d5" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>san_ip_addresses</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1a9a1a7df7964cab87f6f07b5f48dee786" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>serial_number</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_claims_1ac5b691915666a32784af8baffae8ef77" prot="public" virt="non-virtual"><scope>themis::auth::MTLSClaims</scope><name>subject_dn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_type_filtering_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphTypeFilteringTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_type_filtering_test_1a166c0cb45b4e9ce528b9a1f495e07566" prot="protected" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string GraphTypeFilteringTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GraphTypeFilteringTest::test_db_path_</qualifiedname>
+        <initializer>= &quot;./__test_graph_type_filtering__&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="46" column="23" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; GraphTypeFilteringTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphTypeFilteringTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="47" column="21" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_type_filtering_test_1a332d78713ec0f9302c28815788190fc0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; GraphTypeFilteringTest::graphIdx_</definition>
+        <argsstring></argsstring>
+        <name>graphIdx_</name>
+        <qualifiedname>GraphTypeFilteringTest::graphIdx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="48" column="21" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_type_filtering_test_1a445376ed99f4d030484bffe4d1140c63" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PropertyGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;PropertyGraphManager&gt; GraphTypeFilteringTest::pgm_</definition>
+        <argsstring></argsstring>
+        <name>pgm_</name>
+        <qualifiedname>GraphTypeFilteringTest::pgm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="49" column="21" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_type_filtering_test_1a38bdcfcd114c870fb350b027dbc59bfa" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; GraphTypeFilteringTest::secIdx_</definition>
+        <argsstring></argsstring>
+        <name>secIdx_</name>
+        <qualifiedname>GraphTypeFilteringTest::secIdx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="50" column="21" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_type_filtering_test_1a1b424ccd18cdc6f572cfe2ff769217d1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::unique_ptr&lt;QueryEngine&gt; GraphTypeFilteringTest::queryEngine_</definition>
+        <argsstring></argsstring>
+        <name>queryEngine_</name>
+        <qualifiedname>GraphTypeFilteringTest::queryEngine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="51" column="21" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_type_filtering_test_1abdefde00c26f19cbbfd0b86c83051534" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphTypeFilteringTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphTypeFilteringTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="15" column="10" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="15" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_type_filtering_test_1ad6b2d73893cbfebe4cc639eb7697b45e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphTypeFilteringTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphTypeFilteringTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="37" column="10" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="37" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphTypeFilteringTest</label>
+        <link refid="class_graph_type_filtering_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphTypeFilteringTest</label>
+        <link refid="class_graph_type_filtering_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_type_filtering.cpp" line="13" column="1" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="13" bodyend="52"/>
+    <listofallmembers>
+      <member refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" prot="protected" virt="non-virtual"><scope>GraphTypeFilteringTest</scope><name>db_</name></member>
+      <member refid="class_graph_type_filtering_test_1a332d78713ec0f9302c28815788190fc0" prot="protected" virt="non-virtual"><scope>GraphTypeFilteringTest</scope><name>graphIdx_</name></member>
+      <member refid="class_graph_type_filtering_test_1a445376ed99f4d030484bffe4d1140c63" prot="protected" virt="non-virtual"><scope>GraphTypeFilteringTest</scope><name>pgm_</name></member>
+      <member refid="class_graph_type_filtering_test_1a1b424ccd18cdc6f572cfe2ff769217d1" prot="protected" virt="non-virtual"><scope>GraphTypeFilteringTest</scope><name>queryEngine_</name></member>
+      <member refid="class_graph_type_filtering_test_1a38bdcfcd114c870fb350b027dbc59bfa" prot="protected" virt="non-virtual"><scope>GraphTypeFilteringTest</scope><name>secIdx_</name></member>
+      <member refid="class_graph_type_filtering_test_1abdefde00c26f19cbbfd0b86c83051534" prot="protected" virt="non-virtual"><scope>GraphTypeFilteringTest</scope><name>SetUp</name></member>
+      <member refid="class_graph_type_filtering_test_1ad6b2d73893cbfebe4cc639eb7697b45e" prot="protected" virt="non-virtual"><scope>GraphTypeFilteringTest</scope><name>TearDown</name></member>
+      <member refid="class_graph_type_filtering_test_1a166c0cb45b4e9ce528b9a1f495e07566" prot="protected" virt="non-virtual"><scope>GraphTypeFilteringTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

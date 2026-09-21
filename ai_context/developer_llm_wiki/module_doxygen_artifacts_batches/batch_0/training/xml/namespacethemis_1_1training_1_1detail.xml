@@ -1,0 +1,983 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1training_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::training::detail</compoundname>
+    <innerclass refid="structthemis_1_1training_1_1detail_1_1_table_block" prot="public">themis::training::detail::TableBlock</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a36d621ad8ac47ca4e4d333c8765a584f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; themis::training::detail::kaimingUniform</definition>
+        <argsstring>(size_t size, size_t fan_in, uint32_t seed)</argsstring>
+        <name>kaimingUniform</name>
+        <qualifiedname>themis::training::detail::kaimingUniform</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>fan_in</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>Kaiming Uniform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fan_in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: w(), gen(), std::sqrt(), dist(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="40" column="20" bodyfile="src/training/lora_adapter.cpp" bodystart="40" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a33eb9d5373c068bc7f893b47e985731c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::training::detail::seedFromName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>seedFromName</name>
+        <qualifiedname>themis::training::detail::seedFromName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Seed From Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements seedFromName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="60" column="17" bodyfile="src/training/lora_adapter.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a81f2b40a1d759f714456e1ccda55ae78" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; themis::training::detail::matmul</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;A, size_t M, size_t K, const std::vector&lt; float &gt; &amp;B, size_t N)</argsstring>
+        <name>matmul</name>
+        <qualifiedname>themis::training::detail::matmul</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>N</declname>
+        </param>
+        <briefdescription>
+<para>Matmul. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: assert(), size(), C(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="79" column="20" bodyfile="src/training/lora_adapter.cpp" bodystart="79" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a74523182a1d2affad50e6f9ff779e59c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::training::detail::sanitizeTrainingText</definition>
+        <argsstring>(const std::string &amp;input, std::string &amp;sanitized, std::string *blocked_rule, std::string *blocked_reason)</argsstring>
+        <name>sanitizeTrainingText</name>
+        <qualifiedname>themis::training::detail::sanitizeTrainingText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>sanitized</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>blocked_rule</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>blocked_reason</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Training Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">sanitized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">blocked_rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">blocked_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="50" column="13" bodyfile="src/training/lora_data_selection.cpp" bodystart="50" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1af0b017b0c9e4180337b7a0c13527a3de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::training::detail::approximateTokenCount</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>approximateTokenCount</name>
+        <qualifiedname>themis::training::detail::approximateTokenCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Approximate token count: split on whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="69" column="15" bodyfile="src/training/lora_data_selection.cpp" bodystart="69" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a31deaf8e0119d315c9d703f61b13e2e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::training::detail::detectLanguage</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>themis::training::detail::detectLanguage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Very lightweight language detection based on common German stop words. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Returns &quot;de&quot; if text contains enough German indicators, else &quot;other&quot;. Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="89" column="20" bodyfile="src/training/lora_data_selection.cpp" bodystart="89" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a3a79cb62b04000d83544b54b6698f3be" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::detail::computeToxicity</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>computeToxicity</name>
+        <qualifiedname>themis::training::detail::computeToxicity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Heuristic toxicity score: counts hostile/offensive term occurrences and maps to [0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+.1]. Returns 0 for benign text. Calls: std::transform(), begin(), end(), find(), size(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="115" column="15" bodyfile="src/training/lora_data_selection.cpp" bodystart="115" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a64dcb78cfe74e23e48b46f0647101a65" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::training::detail::containsPII</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>containsPII</name>
+        <qualifiedname>themis::training::detail::containsPII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Heuristic PII check: returns true if text appears to contain PII. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="142" column="13" bodyfile="src/training/lora_data_selection.cpp" bodystart="142" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a437de3a0c926b6596b6b1972935e01de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::training::detail::fnv1a</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>fnv1a</name>
+        <qualifiedname>themis::training::detail::fnv1a</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Compute a lightweight FNV-1a hash of a string (for MinHash shingle hashing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements fnv1a without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="163" column="17" bodyfile="src/training/lora_data_selection.cpp" bodystart="163" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a967a497a49285d869604187d05504a28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>static std::vector&lt; uint32_t &gt; themis::training::detail::buildMinHash</definition>
+        <argsstring>(const std::string &amp;text, size_t num_perm)</argsstring>
+        <name>buildMinHash</name>
+        <qualifiedname>themis::training::detail::buildMinHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_perm</declname>
+        </param>
+        <briefdescription>
+<para>Build a MinHash signature (one value per permutation) using word 3-shingles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_perm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), push_back(), size(), insert(), empty(), signature(), fnv1a(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="179" column="20" bodyfile="src/training/lora_data_selection.cpp" bodystart="179" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a170841ac98a7d7babe5f6c7ae760668c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::detail::jaccardEstimate</definition>
+        <argsstring>(const std::vector&lt; uint32_t &gt; &amp;a, const std::vector&lt; uint32_t &gt; &amp;b)</argsstring>
+        <name>jaccardEstimate</name>
+        <qualifiedname>themis::training::detail::jaccardEstimate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Jaccard similarity from two MinHash signatures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="227" column="15" bodyfile="src/training/lora_data_selection.cpp" bodystart="227" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a966061243ac67d8d9c477042185968e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::detail::computeTTR</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>computeTTR</name>
+        <qualifiedname>themis::training::detail::computeTTR</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute type-token ratio (TTR) as diversity score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::transform(), begin(), end(), insert(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="247" column="15" bodyfile="src/training/lora_data_selection.cpp" bodystart="247" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a2582e45d4c0a8f9533d31ada164d04fb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::detail::computeDomainRelevance</definition>
+        <argsstring>(const std::string &amp;text, const DomainKeywords &amp;domain_keywords, const std::string &amp;domain_hint=&quot;&quot;)</argsstring>
+        <name>computeDomainRelevance</name>
+        <qualifiedname>themis::training::detail::computeDomainRelevance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1training_1ad0b32d75029f481835ef8aad6f89f69a" kindref="member">DomainKeywords</ref> &amp;</type>
+          <declname>domain_keywords</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain_hint</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="267" column="15" bodyfile="src/training/lora_data_selection.cpp" bodystart="267" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a09732971fa711847c3e97a654d0f87e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::detail::computePerplexityScore</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>computePerplexityScore</name>
+        <qualifiedname>themis::training::detail::computePerplexityScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Pseudo-perplexity estimate from token count and character entropy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::log2(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="323" column="15" bodyfile="src/training/lora_data_selection.cpp" bodystart="323" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a1d40df1e3ccdb4cf72213023fd24dfb5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::training::detail::hashConfig</definition>
+        <argsstring>(const LoRADataSelectionConfig &amp;cfg)</argsstring>
+        <name>hashConfig</name>
+        <qualifiedname>themis::training::detail::hashConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Build a compact FNV hash string for the config (provenance fingerprint). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fnv1a(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="352" column="20" bodyfile="src/training/lora_data_selection.cpp" bodystart="352" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a8034f4a99b35bdcb5c1ebd9e89361ec8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::training::detail::appendAuditJSONL</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;jsonl_line)</argsstring>
+        <name>appendAuditJSONL</name>
+        <qualifiedname>themis::training::detail::appendAuditJSONL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jsonl_line</declname>
+        </param>
+        <briefdescription>
+<para>Append Audit JSONL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jsonl_line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), rfind(), std::filesystem::create_directories(), std::filesystem::path(), parent_path(), lk(), ofs(), is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="369" column="13" bodyfile="src/training/lora_data_selection.cpp" bodystart="369" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a01c56b41d20a0bcbcb8706d00ddf674c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::training::detail::sanitizeTrainingPromptSurface</definition>
+        <argsstring>(const std::string &amp;input, std::string &amp;sanitized, std::string *blocked_rule, std::string *blocked_reason)</argsstring>
+        <name>sanitizeTrainingPromptSurface</name>
+        <qualifiedname>themis::training::detail::sanitizeTrainingPromptSurface</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>sanitized</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>blocked_rule</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>blocked_reason</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Training Prompt Surface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">sanitized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">blocked_rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">blocked_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="43" column="13" bodyfile="src/training/modality_parser.cpp" bodystart="43" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a722f45d42bdc922d346d95d7212c9d8a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::training::detail::countChar</definition>
+        <argsstring>(const std::string &amp;s, char c) noexcept</argsstring>
+        <name>countChar</name>
+        <qualifiedname>themis::training::detail::countChar</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="57" column="15" bodyfile="src/training/modality_parser.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a4a7d661123de2b3710a4e1df74d64e4c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::training::detail::splitLines</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>splitLines</name>
+        <qualifiedname>themis::training::detail::splitLines</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Split a string by a delimiter character. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stream(), std::getline(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="73" column="20" bodyfile="src/training/modality_parser.cpp" bodystart="73" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1ab35f6286dea9e1443851f59707f8040e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::training::detail::isPipeTableRow</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>isPipeTableRow</name>
+        <qualifiedname>themis::training::detail::isPipeTableRow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the line looks like part of a pipe-delimited table row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis::utils::trim(), empty(), front(), back(), countChar(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="92" column="13" bodyfile="src/training/modality_parser.cpp" bodystart="92" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a1573d77b2a841cd1cf07c4fac46f168f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::training::detail::isTableSeparator</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>isTableSeparator</name>
+        <qualifiedname>themis::training::detail::isTableSeparator</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the line consists primarily of dashes (table separator). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis::utils::trim(), empty(), countChar(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="106" column="13" bodyfile="src/training/modality_parser.cpp" bodystart="106" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a199face23f06261ab0ffdeecadb97b24" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::training::detail::isAlignedTableRow</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>isAlignedTableRow</name>
+        <qualifiedname>themis::training::detail::isAlignedTableRow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a line looks like a whitespace-aligned table line: multiple consecutive-space runs of ≥3 characters separating words. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="125" column="13" bodyfile="src/training/modality_parser.cpp" bodystart="125" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a039dd7456d11f60d69178c302fd8e5c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::regex</type>
+        <definition>static const std::regex themis::training::detail::RE_STATUTORY</definition>
+        <argsstring>(R&quot;((?:(?:§§?|\xC2\xA7(?:\xC2\xA7)?|\xA7\xA7?)\s*\d+(?:\s*Abs\.\s*\d+)?(?:\s+(?:BGB|HGB|StGB|ZPO|GG|VwGO|AO|UStG|InsO|GmbHG|AktG|WpHG|KWG|SGB|UrhG|BRAO|BBodSchG|TKG|TMG|GDPR|DSGVO|MarkenG|PatG|[A-Z]{2,10}))?)|(?:Art\.\s*\d+(?:\s*Abs\.\s*\d+)?\s+[A-Z]{2,10}))&quot;, std::regex_constants::optimize|std::regex_constants::ECMAScript)</argsstring>
+        <name>RE_STATUTORY</name>
+        <qualifiedname>themis::training::detail::RE_STATUTORY</qualifiedname>
+        <param>
+          <type>R&quot;((?:(?:§§?|\xC2\xA7(?:\xC2\xA7)?|\xA7\xA7?)\s*\d+(?:\s*Abs\.\s*\d+)?(?:\s+(?:BGB|HGB|StGB|ZPO|GG|VwGO|AO|UStG|InsO|GmbHG|AktG|WpHG|KWG|SGB|UrhG|BRAO|BBodSchG|TKG|TMG|GDPR|DSGVO|MarkenG|PatG|[A-Z]{2,10}))?)|(?:Art\.\s*\d+(?:\s*Abs\.\s*\d+)?\s+[A-Z]{2,10}))&quot;</type>
+        </param>
+        <param>
+          <type>std::regex_constants::optimize|std::regex_constants::ECMAScript</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="156" column="25" declfile="src/training/modality_parser.cpp" declline="156" declcolumn="25"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a29eb3b434b442e765240118b81576c28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::regex</type>
+        <definition>static const std::regex themis::training::detail::RE_COURT_DECISION</definition>
+        <argsstring>(R&quot;((?:BGH|BVerwG|BAG|BSG|BFH|BVerfG|OLG|LG|AG|VG|OVG|VGH|LAG|FG|FGH|LSG|SGG?)\b[,\s]*(?:Urt\.|Beschl\.|Bes\.|Beschluss|Urteil)?[,\s]*(?:v\.|vom)?\s*\d{1,2}\.\d{1,2}\.\d{2,4}[,\s–-]+[A-Z0-9 /]+)&quot;, std::regex_constants::optimize|std::regex_constants::ECMAScript)</argsstring>
+        <name>RE_COURT_DECISION</name>
+        <qualifiedname>themis::training::detail::RE_COURT_DECISION</qualifiedname>
+        <param>
+          <type>R&quot;((?:BGH|BVerwG|BAG|BSG|BFH|BVerfG|OLG|LG|AG|VG|OVG|VGH|LAG|FG|FGH|LSG|SGG?)\b[,\s]*(?:Urt\.|Beschl\.|Bes\.|Beschluss|Urteil)?[,\s]*(?:v\.|vom)?\s*\d{1,2}\.\d{1,2}\.\d{2,4}[,\s–-]+[A-Z0-9 /]+)&quot;</type>
+        </param>
+        <param>
+          <type>std::regex_constants::optimize|std::regex_constants::ECMAScript</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="165" column="25" declfile="src/training/modality_parser.cpp" declline="165" declcolumn="25"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1ad0149e2da14dc7dc0936d0a08d150f32" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::regex</type>
+        <definition>static const std::regex themis::training::detail::RE_EU_CITATION</definition>
+        <argsstring>(R&quot;((?:EuGH|EuG|EGMR|ECtHR)\b[,\s]*(?:Rs\.\s*)?[CT]-?\d+/\d{2,4})&quot;, std::regex_constants::optimize|std::regex_constants::ECMAScript)</argsstring>
+        <name>RE_EU_CITATION</name>
+        <qualifiedname>themis::training::detail::RE_EU_CITATION</qualifiedname>
+        <param>
+          <type>R&quot;((?:EuGH|EuG|EGMR|ECtHR)\b[,\s]*(?:Rs\.\s*)?[CT]-?\d+/\d{2,4})&quot;</type>
+        </param>
+        <param>
+          <type>std::regex_constants::optimize|std::regex_constants::ECMAScript</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="171" column="25" declfile="src/training/modality_parser.cpp" declline="171" declcolumn="25"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a0c95bd43dcd86e03c7fa06eea6c389f9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::training::detail::splitSentences</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>splitSentences</name>
+        <qualifiedname>themis::training::detail::splitSentences</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Split text into sentences using common German legal sentence boundaries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Avoids splitting on abbreviations (&quot;Abs.&quot;, &quot;Nr.&quot;, &quot;Art.&quot;, numbers). Calls: empty(), RE_ABBREV(), reserve(), size(), std::isupper(), themis::utils::trim(), std::regex_search(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="185" column="20" bodyfile="src/training/modality_parser.cpp" bodystart="185" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1detail_1a3b26fe8e0f53c855158b2ce69f1f8003" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1detail_1_1_table_block" kindref="compound">TableBlock</ref> &gt;</type>
+        <definition>static std::vector&lt; TableBlock &gt; themis::training::detail::detectTableBlocks</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;lines)</argsstring>
+        <name>detectTableBlocks</name>
+        <qualifiedname>themis::training::detail::detectTableBlocks</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>lines</declname>
+        </param>
+        <briefdescription>
+<para>Detect Table Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lines</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="254" column="20" bodyfile="src/training/modality_parser.cpp" bodystart="254" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/lora_adapter.cpp" line="30" column="1"/>
+  </compounddef>
+</doxygen>

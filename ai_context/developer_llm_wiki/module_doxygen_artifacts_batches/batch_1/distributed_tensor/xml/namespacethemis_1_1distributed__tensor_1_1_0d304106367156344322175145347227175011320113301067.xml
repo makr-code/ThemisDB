@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1distributed__tensor_1_1_0d304106367156344322175145347227175011320113301067" kind="namespace" language="C++">
+    <compoundname>themis::distributed_tensor::@304106367156344322175145347227175011320113301067</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/src/snapshot_update_worker.cc" line="16" column="1"/>
+  </compounddef>
+</doxygen>

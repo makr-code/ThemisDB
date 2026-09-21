@@ -1,0 +1,785 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::RateLimiter</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics" prot="public">themis::server::RateLimiter::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiter_1_1_adaptive_entry" prot="private">themis::server::RateLimiter::AdaptiveEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1acd3fc4fed1243ebcd13aadc42d28dbf0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_rate_limit_config" kindref="compound">RateLimitConfig</ref></type>
+        <definition>RateLimitConfig themis::server::RateLimiter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::RateLimiter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="194" column="21" bodyfile="include/server/rate_limiter.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1adc75e277e0c3af2e84daa1e11d792819" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_token_bucket" kindref="compound">TokenBucket</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;TokenBucket&gt; &gt; themis::server::RateLimiter::ip_buckets_</definition>
+        <argsstring></argsstring>
+        <name>ip_buckets_</name>
+        <qualifiedname>themis::server::RateLimiter::ip_buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="197" column="24" bodyfile="include/server/rate_limiter.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a72901951189b1af22061e5944f64e0b5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::chrono::steady_clock::time_point &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::chrono::steady_clock::time_point&gt; themis::server::RateLimiter::ip_last_access_</definition>
+        <argsstring></argsstring>
+        <name>ip_last_access_</name>
+        <qualifiedname>themis::server::RateLimiter::ip_last_access_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="198" column="24" bodyfile="include/server/rate_limiter.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a2b0fd23cd3779007f21688b905c5c9b9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_token_bucket" kindref="compound">TokenBucket</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;TokenBucket&gt; &gt; themis::server::RateLimiter::user_buckets_</definition>
+        <argsstring></argsstring>
+        <name>user_buckets_</name>
+        <qualifiedname>themis::server::RateLimiter::user_buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="201" column="24" bodyfile="include/server/rate_limiter.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a5a9e373a1144d65d797390055be0e584" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::chrono::steady_clock::time_point &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::chrono::steady_clock::time_point&gt; themis::server::RateLimiter::user_last_access_</definition>
+        <argsstring></argsstring>
+        <name>user_last_access_</name>
+        <qualifiedname>themis::server::RateLimiter::user_last_access_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="202" column="24" bodyfile="include/server/rate_limiter.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1acbfb998c56f1ce7d5d8ebaf9e83754db" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::server::RateLimiter::blacklisted_ips_</definition>
+        <argsstring></argsstring>
+        <name>blacklisted_ips_</name>
+        <qualifiedname>themis::server::RateLimiter::blacklisted_ips_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="205" column="24" bodyfile="include/server/rate_limiter.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a44c9a8a40c465332e03de1770c47be0f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, AdaptiveEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AdaptiveEntry&gt; themis::server::RateLimiter::adaptive_state_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_state_</name>
+        <qualifiedname>themis::server::RateLimiter::adaptive_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="215" column="24" bodyfile="include/server/rate_limiter.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a89e29850eb5c765e41e2f9ae317ec65f" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::RateLimiter::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themis::server::RateLimiter::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="225" column="31" bodyfile="include/server/rate_limiter.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a05c58e33d571a78c8b5c6ad9391388d2" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1a40373827a675d7a508c2ac314a0d4a8a" kindref="member">AnomalyCallback</ref></type>
+        <definition>AnomalyCallback themis::server::RateLimiter::anomaly_callback_</definition>
+        <argsstring></argsstring>
+        <name>anomaly_callback_</name>
+        <qualifiedname>themis::server::RateLimiter::anomaly_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="226" column="21" bodyfile="include/server/rate_limiter.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a6b03826f9f110ad978a49328138d7842" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::server::RateLimiter::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::server::RateLimiter::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="236" column="24" bodyfile="include/server/rate_limiter.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a3d8c5bb4e465b07e5808f0ba9092b8d4" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::RateLimiter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::server::RateLimiter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="238" column="31" bodyfile="include/server/rate_limiter.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1a4e756ac061b379a96411b4a68d529cb3" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::RateLimiter::last_cleanup_</definition>
+        <argsstring></argsstring>
+        <name>last_cleanup_</name>
+        <qualifiedname>themis::server::RateLimiter::last_cleanup_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="242" column="43" bodyfile="include/server/rate_limiter.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiter_1acd0a45b13aca9957a453e407fd2a63cb" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::RateLimiter::CLEANUP_INTERVAL_SECONDS</definition>
+        <argsstring></argsstring>
+        <name>CLEANUP_INTERVAL_SECONDS</name>
+        <qualifiedname>themis::server::RateLimiter::CLEANUP_INTERVAL_SECONDS</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="241" column="31" bodyfile="include/server/rate_limiter.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a6fc0662d5a2f72fbfd4a4bfee778718b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RateLimiter::RateLimiter</definition>
+        <argsstring>(const RateLimitConfig &amp;config=RateLimitConfig())</argsstring>
+        <name>RateLimiter</name>
+        <qualifiedname>themis::server::RateLimiter::RateLimiter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_rate_limit_config" kindref="compound">RateLimitConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1server_1_1_rate_limit_config" kindref="compound">RateLimitConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="112" column="14" bodyfile="src/server/rate_limiter.cpp" bodystart="104" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a432cc3642157018cf3922916425ee135" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimiter::allowRequest</definition>
+        <argsstring>(const std::string &amp;ip, const std::string &amp;user_id=&quot;&quot;)</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::server::RateLimiter::allowRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Allow <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), THEMIS_WARN(), <ref refid="classthemis_1_1server_1_1_rate_limiter_1a9fd2b828f68772b72b1df96179b7e8d8" kindref="member">isWhitelisted()</ref>, empty(), std::chrono::steady_clock::now(), clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="114" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="271" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1af028b8cb12e087ef09be98626f9ac9b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::RateLimiter::getRetryAfter</definition>
+        <argsstring>(const std::string &amp;ip, const std::string &amp;user_id=&quot;&quot;) const</argsstring>
+        <name>getRetryAfter</name>
+        <qualifiedname>themis::server::RateLimiter::getRetryAfter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="116" column="14" bodyfile="src/server/rate_limiter.cpp" bodystart="361" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a9fd2b828f68772b72b1df96179b7e8d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimiter::isWhitelisted</definition>
+        <argsstring>(const std::string &amp;ip) const</argsstring>
+        <name>isWhitelisted</name>
+        <qualifiedname>themis::server::RateLimiter::isWhitelisted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Is Whitelisted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="123" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a4c794218aff33a26db9956866832f881" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimiter::setAnomalyCallback</definition>
+        <argsstring>(AnomalyCallback callback)</argsstring>
+        <name>setAnomalyCallback</name>
+        <qualifiedname>themis::server::RateLimiter::setAnomalyCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1a40373827a675d7a508c2ac314a0d4a8a" kindref="member">AnomalyCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set Anomaly Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="129" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1acbc157555ce99a8a96a0ee8ceba2c9a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimiter::blacklistIP</definition>
+        <argsstring>(const std::string &amp;ip)</argsstring>
+        <name>blacklistIP</name>
+        <qualifiedname>themis::server::RateLimiter::blacklistIP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Blacklist IP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(), THEMIS_WARN(), fireAnomaly(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="135" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a400f79e0a092e2807b6849064bc21b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimiter::unblacklistIP</definition>
+        <argsstring>(const std::string &amp;ip)</argsstring>
+        <name>unblacklistIP</name>
+        <qualifiedname>themis::server::RateLimiter::unblacklistIP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Unblacklist IP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="141" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="166" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a1de123c768949f8ffaad4839368f38fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimiter::isBlacklisted</definition>
+        <argsstring>(const std::string &amp;ip) const</argsstring>
+        <name>isBlacklisted</name>
+        <qualifiedname>themis::server::RateLimiter::isBlacklisted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Is Blacklisted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="148" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="172" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a3c35285cd3b0fe1e7c0dce566aa6495a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimiter::isAdaptivelyThrottled</definition>
+        <argsstring>(const std::string &amp;ip) const</argsstring>
+        <name>isAdaptivelyThrottled</name>
+        <qualifiedname>themis::server::RateLimiter::isAdaptivelyThrottled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Is Adaptively Throttled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="155" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="182" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a733ed22c4f339136cc2b8c39e4f8bab6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimiter::updateConfig</definition>
+        <argsstring>(const RateLimitConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::server::RateLimiter::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_rate_limit_config" kindref="compound">RateLimitConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="161" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="396" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1aba782b03acef84839a04c65dfdf29b91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>RateLimiter::Statistics themis::server::RateLimiter::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::server::RateLimiter::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="176" column="16" bodyfile="src/server/rate_limiter.cpp" bodystart="404" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1acf087ebcf400ab7f74be187b3138bd4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimiter::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::server::RateLimiter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(), Statistics(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="181" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="433" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1ac11fa304018510983ed2cedb561b8ff1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimiter::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::server::RateLimiter::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), begin(), end(), count(), erase(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="186" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="452" bodyend="489"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a3655732c1b3e4fa49c8c2310be40ba0a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_token_bucket" kindref="compound">TokenBucket</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; TokenBucket &gt; themis::server::RateLimiter::getOrCreateBucket</definition>
+        <argsstring>(const std::string &amp;key, std::unordered_map&lt; std::string, std::shared_ptr&lt; TokenBucket &gt; &gt; &amp;buckets)</argsstring>
+        <name>getOrCreateBucket</name>
+        <qualifiedname>themis::server::RateLimiter::getOrCreateBucket</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_token_bucket" kindref="compound">TokenBucket</ref> &gt; &gt; &amp;</type>
+          <declname>buckets</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="189" column="21" bodyfile="src/server/rate_limiter.cpp" bodystart="236" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a303bef11970cc7e763ea793cbb79417c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimiter::recordRejectionForAdaptive</definition>
+        <argsstring>(const std::string &amp;ip)</argsstring>
+        <name>recordRejectionForAdaptive</name>
+        <qualifiedname>themis::server::RateLimiter::recordRejectionForAdaptive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Record Rejection For Adaptive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), std::chrono::seconds(), erase(), std::remove_if(), begin(), end(), push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="221" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="204" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiter_1a10a2bb7be43faceab86372fc7c420727" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimiter::fireAnomaly</definition>
+        <argsstring>(AnomalyEvent::Type type, const std::string &amp;ip, const std::string &amp;detail) const</argsstring>
+        <name>fireAnomaly</name>
+        <qualifiedname>themis::server::RateLimiter::fireAnomaly</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_anomaly_event_1aa2a4aeb685a97e8eecd0d1896178fada" kindref="member">AnomalyEvent::Type</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Fire Anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="233" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="127" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter.h" line="110" column="1" bodyfile="include/server/rate_limiter.h" bodystart="110" bodyend="243"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a44c9a8a40c465332e03de1770c47be0f" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>adaptive_state_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a432cc3642157018cf3922916425ee135" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a05c58e33d571a78c8b5c6ad9391388d2" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>anomaly_callback_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1acbfb998c56f1ce7d5d8ebaf9e83754db" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>blacklisted_ips_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1acbc157555ce99a8a96a0ee8ceba2c9a8" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>blacklistIP</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a89e29850eb5c765e41e2f9ae317ec65f" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>callback_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1ac11fa304018510983ed2cedb561b8ff1" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1acd0a45b13aca9957a453e407fd2a63cb" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>CLEANUP_INTERVAL_SECONDS</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1acd3fc4fed1243ebcd13aadc42d28dbf0" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a10a2bb7be43faceab86372fc7c420727" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>fireAnomaly</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a3655732c1b3e4fa49c8c2310be40ba0a" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>getOrCreateBucket</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1af028b8cb12e087ef09be98626f9ac9b3" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>getRetryAfter</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1aba782b03acef84839a04c65dfdf29b91" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1adc75e277e0c3af2e84daa1e11d792819" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>ip_buckets_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a72901951189b1af22061e5944f64e0b5" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>ip_last_access_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a3c35285cd3b0fe1e7c0dce566aa6495a" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>isAdaptivelyThrottled</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a1de123c768949f8ffaad4839368f38fd" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>isBlacklisted</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a9fd2b828f68772b72b1df96179b7e8d8" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>isWhitelisted</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a4e756ac061b379a96411b4a68d529cb3" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>last_cleanup_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a3d8c5bb4e465b07e5808f0ba9092b8d4" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a6fc0662d5a2f72fbfd4a4bfee778718b" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>RateLimiter</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a303bef11970cc7e763ea793cbb79417c" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>recordRejectionForAdaptive</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1acf087ebcf400ab7f74be187b3138bd4d" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a4c794218aff33a26db9956866832f881" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>setAnomalyCallback</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a6b03826f9f110ad978a49328138d7842" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a400f79e0a092e2807b6849064bc21b21" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>unblacklistIP</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a733ed22c4f339136cc2b8c39e4f8bab6" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a2b0fd23cd3779007f21688b905c5c9b9" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>user_buckets_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiter_1a5a9e373a1144d65d797390055be0e584" prot="private" virt="non-virtual"><scope>themis::server::RateLimiter</scope><name>user_last_access_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

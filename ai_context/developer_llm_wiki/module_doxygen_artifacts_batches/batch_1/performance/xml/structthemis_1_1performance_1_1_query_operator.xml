@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_query_operator" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::QueryOperator</compoundname>
+    <includes refid="hardware__accelerator_8h" local="no">hardware_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a105e34fdbfb7ddcf53178ac54b7c75a9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520" kindref="member">OperatorType</ref></type>
+        <definition>OperatorType themis::performance::QueryOperator::op_type</definition>
+        <argsstring></argsstring>
+        <name>op_type</name>
+        <qualifiedname>themis::performance::QueryOperator::op_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">OperatorType::Unknown</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="62" column="18" bodyfile="include/performance/hardware_accelerator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1aa42f56080ba0e1e2a00dcd60c3012ce8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1performance_1ad0b29cf012eb42840266ee9e49d1265b" kindref="member">Row</ref> &gt;</type>
+        <definition>std::vector&lt;Row&gt; themis::performance::QueryOperator::left_rows</definition>
+        <argsstring></argsstring>
+        <name>left_rows</name>
+        <qualifiedname>themis::performance::QueryOperator::left_rows</qualifiedname>
+        <briefdescription>
+<para>Left input relation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="65" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a333167da370aeec0f197fcfcac0a23d4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1performance_1ad0b29cf012eb42840266ee9e49d1265b" kindref="member">Row</ref> &gt;</type>
+        <definition>std::vector&lt;Row&gt; themis::performance::QueryOperator::right_rows</definition>
+        <argsstring></argsstring>
+        <name>right_rows</name>
+        <qualifiedname>themis::performance::QueryOperator::right_rows</qualifiedname>
+        <briefdescription>
+<para>Right input relation (join only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="66" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a8c87f56cf5a147301ec5766695eec045" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::QueryOperator::left_key_col</definition>
+        <argsstring></argsstring>
+        <name>left_key_col</name>
+        <qualifiedname>themis::performance::QueryOperator::left_key_col</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Column index of the join key in left. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="67" column="12" bodyfile="include/performance/hardware_accelerator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1ab0542f9f030c04c3fad56ec07e5773c0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::QueryOperator::right_key_col</definition>
+        <argsstring></argsstring>
+        <name>right_key_col</name>
+        <qualifiedname>themis::performance::QueryOperator::right_key_col</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Column index of the join key in right. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="68" column="12" bodyfile="include/performance/hardware_accelerator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1aa45a9c43c1ad3debd8438f097d1ffff8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1performance_1ad0b29cf012eb42840266ee9e49d1265b" kindref="member">Row</ref> &gt;</type>
+        <definition>std::vector&lt;Row&gt; themis::performance::QueryOperator::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::performance::QueryOperator::rows</qualifiedname>
+        <briefdescription>
+<para>Input rows for filter / aggregate / sort. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="71" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a989569ea6476e53c2b40f7c4e9b9ad16" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::QueryOperator::agg_col</definition>
+        <argsstring></argsstring>
+        <name>agg_col</name>
+        <qualifiedname>themis::performance::QueryOperator::agg_col</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Column index for aggregation / sort. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="72" column="22" bodyfile="include/performance/hardware_accelerator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a00572fed6727a6d4dadfae9a1a7cfd03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::QueryOperator::agg_fn</definition>
+        <argsstring></argsstring>
+        <name>agg_fn</name>
+        <qualifiedname>themis::performance::QueryOperator::agg_fn</qualifiedname>
+        <briefdescription>
+<para>&quot;SUM&quot;, &quot;COUNT&quot;, &quot;MIN&quot;, &quot;MAX&quot;, &quot;AVG&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="73" column="22" bodyfile="include/performance/hardware_accelerator.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1ad1b72c071819278fec1f4ced9b0d5b84" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::QueryOperator::filter_col</definition>
+        <argsstring></argsstring>
+        <name>filter_col</name>
+        <qualifiedname>themis::performance::QueryOperator::filter_col</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1performance_1_1_predicate" kindref="compound">Predicate</ref>: keep rows where rows[i][filter_col] OP filter_value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="76" column="14" bodyfile="include/performance/hardware_accelerator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a82d74b2a3fe2b706dcf2b23f5ff9c0c7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::QueryOperator::filter_value</definition>
+        <argsstring></argsstring>
+        <name>filter_value</name>
+        <qualifiedname>themis::performance::QueryOperator::filter_value</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="77" column="14" bodyfile="include/performance/hardware_accelerator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a3222bdc7952842345f547b85adf1a688" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::QueryOperator::filter_op</definition>
+        <argsstring></argsstring>
+        <name>filter_op</name>
+        <qualifiedname>themis::performance::QueryOperator::filter_op</qualifiedname>
+        <initializer>= &quot;==&quot;</initializer>
+        <briefdescription>
+<para>Comparison operator encoded as a string: &quot;&lt;&quot;, &quot;&lt;=&quot;, &quot;&gt;&quot;, &quot;&gt;=&quot;, &quot;==&quot;, &quot;!=&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="79" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1ada1e473549097de540f32a25c75a53eb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::performance::QueryOperator::string_rows</definition>
+        <argsstring></argsstring>
+        <name>string_rows</name>
+        <qualifiedname>themis::performance::QueryOperator::string_rows</qualifiedname>
+        <briefdescription>
+<para>Input strings for pattern match. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="82" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a96eab0192f84583fd7e89d0f1cdec8b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::QueryOperator::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::performance::QueryOperator::pattern</qualifiedname>
+        <briefdescription>
+<para>Pattern (prefix / suffix / contains). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="83" column="30" bodyfile="include/performance/hardware_accelerator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_operator_1a3d03c78c2acb7607561597e682c267b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::QueryOperator::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::performance::QueryOperator::label</qualifiedname>
+        <briefdescription>
+<para>Human-readable label for debugging / profiling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="86" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight descriptor of a relational operator to be accelerated. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers populate the relevant fields for their operator type and pass this struct to <ref refid="classthemis_1_1performance_1_1_hardware_accelerator_1a654590c19527460ff109ef96b7316ce6" kindref="member">HardwareAccelerator::execute()</ref>. </para>
+    </detaileddescription>
+    <location file="include/performance/hardware_accelerator.h" line="61" column="1" bodyfile="include/performance/hardware_accelerator.h" bodystart="61" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a989569ea6476e53c2b40f7c4e9b9ad16" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>agg_col</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a00572fed6727a6d4dadfae9a1a7cfd03" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>agg_fn</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1ad1b72c071819278fec1f4ced9b0d5b84" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>filter_col</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a3222bdc7952842345f547b85adf1a688" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>filter_op</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a82d74b2a3fe2b706dcf2b23f5ff9c0c7" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>filter_value</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a3d03c78c2acb7607561597e682c267b2" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>label</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a8c87f56cf5a147301ec5766695eec045" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>left_key_col</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1aa42f56080ba0e1e2a00dcd60c3012ce8" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>left_rows</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a105e34fdbfb7ddcf53178ac54b7c75a9" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>op_type</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a96eab0192f84583fd7e89d0f1cdec8b6" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1ab0542f9f030c04c3fad56ec07e5773c0" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>right_key_col</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1a333167da370aeec0f197fcfcac0a23d4" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>right_rows</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1aa45a9c43c1ad3debd8438f097d1ffff8" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>rows</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_operator_1ada1e473549097de540f32a25c75a53eb" prot="public" virt="non-virtual"><scope>themis::performance::QueryOperator</scope><name>string_rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

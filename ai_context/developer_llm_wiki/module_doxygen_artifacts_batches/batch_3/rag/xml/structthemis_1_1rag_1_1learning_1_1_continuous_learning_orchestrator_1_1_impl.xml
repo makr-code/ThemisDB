@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ContinuousLearningOrchestrator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1aabc2d64f7cf6779203be182ae360bb16" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config" kindref="compound">ContinuousLearningConfig</ref></type>
+        <definition>ContinuousLearningConfig themis::rag::learning::ContinuousLearningOrchestrator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="149" column="30" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ae57276e2e1b710158016830838e95be8" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1learning_1_1_component_info" kindref="compound">ComponentInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ComponentInfo&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::lora_adapters</definition>
+        <argsstring></argsstring>
+        <name>lora_adapters</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::lora_adapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="152" column="24" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ad3be44917b5a736eec6df2c302caeb74" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1learning_1_1_component_info" kindref="compound">ComponentInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ComponentInfo&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::retrieval_systems</definition>
+        <argsstring></argsstring>
+        <name>retrieval_systems</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::retrieval_systems</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="153" column="24" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ae8bb2d4742a334d4e84eb35be5bb7128" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1learning_1_1_component_info" kindref="compound">ComponentInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ComponentInfo&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::prompt_systems</definition>
+        <argsstring></argsstring>
+        <name>prompt_systems</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::prompt_systems</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="154" column="24" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a77f7c8671a805a6f379f0b765b420515" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1learning_1_1_component_info" kindref="compound">ComponentInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ComponentInfo&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::gap_detectors</definition>
+        <argsstring></argsstring>
+        <name>gap_detectors</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::gap_detectors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="155" column="24" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ade169610b1ca668fcb71494edc9b5a47" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_interaction" kindref="compound">Interaction</ref> &gt;</type>
+        <definition>std::vector&lt;Interaction&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::interactions</definition>
+        <argsstring></argsstring>
+        <name>interactions</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::interactions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="158" column="17" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a9559e637e4d850c8693717af8045df57" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats" kindref="compound">LearningStats</ref></type>
+        <definition>LearningStats themis::rag::learning::ContinuousLearningOrchestrator::Impl::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="161" column="19" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ae0aa669821bdc1d0f316b5d64aa0d602" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot" kindref="compound">PerformanceSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt;PerformanceSnapshot&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::performance_history</definition>
+        <argsstring></argsstring>
+        <name>performance_history</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::performance_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="162" column="17" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a7e10aa36b9c14b5e370df59416070387" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework" kindref="compound">ABTestingFramework</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ABTestingFramework&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::ab_framework</definition>
+        <argsstring></argsstring>
+        <name>ab_framework</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::ab_framework</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="165" column="21" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1afc3e5f53e897f0b6d7564cead06787a2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::learning_loop_active</definition>
+        <argsstring></argsstring>
+        <name>learning_loop_active</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::learning_loop_active</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="168" column="17" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a41b83fcfe0321d956d3a66fb0173bf1e" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::learning_thread</definition>
+        <argsstring></argsstring>
+        <name>learning_thread</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::learning_thread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="169" column="21" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ab49966231808d57a8b9971e0244e99e3" prot="public" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::rag::learning::ContinuousLearningOrchestrator::Impl::learning_loop_cv</definition>
+        <argsstring></argsstring>
+        <name>learning_loop_cv</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::learning_loop_cv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="170" column="29" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a12a65cdd02947442c07f739006548b86" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::learning::ContinuousLearningOrchestrator::Impl::learning_loop_mutex</definition>
+        <argsstring></argsstring>
+        <name>learning_loop_mutex</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::learning_loop_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="171" column="16" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a1b84b6fb94aeb3b5c36f4bede09fb3cb" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::learning::ContinuousLearningOrchestrator::Impl::lifecycle_mutex</definition>
+        <argsstring></argsstring>
+        <name>lifecycle_mutex</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::lifecycle_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="172" column="16" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a26bd35b1853d88ac0be8e43806f9ec53" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::learning::ContinuousLearningOrchestrator::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="175" column="24" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a2ec0e9c8a242229184598b50c8d512de" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::training::DataSelectionPipeline &gt;</type>
+        <definition>std::unique_ptr&lt;themis::training::DataSelectionPipeline&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::data_selector</definition>
+        <argsstring></argsstring>
+        <name>data_selector</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::data_selector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="178" column="22" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a136604fe7377373a2e35a645e1bb5074" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::training::SelfImprovementModule &gt;</type>
+        <definition>std::unique_ptr&lt;themis::training::SelfImprovementModule&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::si_module</definition>
+        <argsstring></argsstring>
+        <name>si_module</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::si_module</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="179" column="22" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a1dc9e427056c173a4ee02e8e53720b48" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::learning::ContinuousLearningOrchestrator::Impl::last_selection_time</definition>
+        <argsstring></argsstring>
+        <name>last_selection_time</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::last_selection_time</qualifiedname>
+        <initializer>                                                      =
+std::chrono::system_clock::time_point::min()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="180" column="43" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ae7c452068289e0284d5e8277fd036d42" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params" kindref="compound">RetrievalParams</ref></type>
+        <definition>RetrievalParams themis::rag::learning::ContinuousLearningOrchestrator::Impl::current_retrieval_params</definition>
+        <argsstring></argsstring>
+        <name>current_retrieval_params</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::current_retrieval_params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="184" column="21" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1af5573fc6a45dc229c6b8476c1c18c8a3" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref></type>
+        <definition>LoopPhase themis::rag::learning::ContinuousLearningOrchestrator::Impl::active_loop</definition>
+        <argsstring></argsstring>
+        <name>active_loop</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::active_loop</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">LoopPhase::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="187" column="15" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a655dc4246402f0529794192f2e3bba68" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::function&lt; void(<ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref>, const <ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref> &amp;)&gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::function&lt;void(LoopPhase, const LoopResult&amp;)&gt; &gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::loop_handlers</definition>
+        <argsstring></argsstring>
+        <name>loop_handlers</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::loop_handlers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="188" column="24" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a215717289ba0d355888229be8340720a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome" kindref="compound">QueryExecutionOutcome</ref></type>
+        <definition>QueryExecutionOutcome themis::rag::learning::ContinuousLearningOrchestrator::Impl::last_loop1_outcome</definition>
+        <argsstring></argsstring>
+        <name>last_loop1_outcome</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::last_loop1_outcome</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="191" column="27" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a4f3bc887203c6d7eff9d9532de863f36" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::unordered_map&lt;int, std::chrono::system_clock::time_point&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::loop_last_trigger</definition>
+        <argsstring></argsstring>
+        <name>loop_last_trigger</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::loop_last_trigger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="192" column="24" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a5de8b72fce227fb14d47348d92bb65a7" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::rag::learning::ContinuousLearningOrchestrator::Impl::loop_cooldown_secs</definition>
+        <argsstring></argsstring>
+        <name>loop_cooldown_secs</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::loop_cooldown_secs</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="193" column="26" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1afb209c1b137937b6c6aca085c0a00b4d" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kindref="compound">LoopResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int, LoopResult&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::last_loop_results</definition>
+        <argsstring></argsstring>
+        <name>last_loop_results</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::last_loop_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="194" column="24" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ab652af35dd85071971d4bf905ec50d7a" prot="public" static="no" mutable="no">
+        <type>std::function&lt; double()&gt;</type>
+        <definition>std::function&lt;double()&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::hnsw_miss_rate_provider</definition>
+        <argsstring></argsstring>
+        <name>hnsw_miss_rate_provider</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::hnsw_miss_rate_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="197" column="19" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a7b0767f8e72d1a68f2c10996ae3bfd5c" prot="public" static="no" mutable="no">
+        <type>std::function&lt; double()&gt;</type>
+        <definition>std::function&lt;double()&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::workload_drift_provider</definition>
+        <argsstring></argsstring>
+        <name>workload_drift_provider</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::workload_drift_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="198" column="19" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a197a5e121dc1952e2bc98a7a0880adde" prot="public" static="no" mutable="no">
+        <type>std::function&lt; size_t()&gt;</type>
+        <definition>std::function&lt;size_t()&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::feedback_entry_count_provider</definition>
+        <argsstring></argsstring>
+        <name>feedback_entry_count_provider</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::feedback_entry_count_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="199" column="19" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a4f55c390969dd48024bcf96a6e87a994" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::distributed_knowledge::ILoRAFederationCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt;themis::distributed_knowledge::ILoRAFederationCoordinator&gt; themis::rag::learning::ContinuousLearningOrchestrator::Impl::federation_coordinator_</definition>
+        <argsstring></argsstring>
+        <name>federation_coordinator_</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::federation_coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="203" column="9" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a049b51748ddef5f4d8a61dac83252af7" prot="public" static="no" mutable="no">
+        <type>themis::training::IncrementalLoRATrainer *</type>
+        <definition>themis::training::IncrementalLoRATrainer* themis::rag::learning::ContinuousLearningOrchestrator::Impl::trainer_for_federation_</definition>
+        <argsstring></argsstring>
+        <name>trainer_for_federation_</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::Impl::trainer_for_federation_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="204" column="46" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="204" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::learning::ContinuousLearningConfig</label>
+        <link refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::learning::ContinuousLearningOrchestrator::Impl</label>
+        <link refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>current_retrieval_params</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>last_loop1_outcome</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome</label>
+        <link refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome"/>
+      </node>
+      <node id="3">
+        <label>themis::rag::learning::LearningStats</label>
+        <link refid="structthemis_1_1rag_1_1learning_1_1_learning_stats"/>
+      </node>
+      <node id="4">
+        <label>themis::rag::learning::RetrievalParams</label>
+        <link refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/continuous_learning_orchestrator.cpp" line="148" column="1" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="148" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a7e10aa36b9c14b5e370df59416070387" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>ab_framework</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1af5573fc6a45dc229c6b8476c1c18c8a3" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>active_loop</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1aabc2d64f7cf6779203be182ae360bb16" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ae7c452068289e0284d5e8277fd036d42" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>current_retrieval_params</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a2ec0e9c8a242229184598b50c8d512de" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>data_selector</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a4f55c390969dd48024bcf96a6e87a994" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>federation_coordinator_</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a197a5e121dc1952e2bc98a7a0880adde" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>feedback_entry_count_provider</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a77f7c8671a805a6f379f0b765b420515" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>gap_detectors</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ab652af35dd85071971d4bf905ec50d7a" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>hnsw_miss_rate_provider</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ade169610b1ca668fcb71494edc9b5a47" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>interactions</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a215717289ba0d355888229be8340720a" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>last_loop1_outcome</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1afb209c1b137937b6c6aca085c0a00b4d" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>last_loop_results</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a1dc9e427056c173a4ee02e8e53720b48" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>last_selection_time</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1afc3e5f53e897f0b6d7564cead06787a2" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>learning_loop_active</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ab49966231808d57a8b9971e0244e99e3" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>learning_loop_cv</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a12a65cdd02947442c07f739006548b86" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>learning_loop_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a41b83fcfe0321d956d3a66fb0173bf1e" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>learning_thread</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a1b84b6fb94aeb3b5c36f4bede09fb3cb" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>lifecycle_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a5de8b72fce227fb14d47348d92bb65a7" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>loop_cooldown_secs</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a655dc4246402f0529794192f2e3bba68" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>loop_handlers</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a4f3bc887203c6d7eff9d9532de863f36" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>loop_last_trigger</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ae57276e2e1b710158016830838e95be8" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>lora_adapters</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a26bd35b1853d88ac0be8e43806f9ec53" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ae0aa669821bdc1d0f316b5d64aa0d602" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>performance_history</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ae8bb2d4742a334d4e84eb35be5bb7128" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>prompt_systems</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1ad3be44917b5a736eec6df2c302caeb74" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>retrieval_systems</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a136604fe7377373a2e35a645e1bb5074" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>si_module</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a9559e637e4d850c8693717af8045df57" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>stats</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a049b51748ddef5f4d8a61dac83252af7" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>trainer_for_federation_</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_impl_1a7b0767f8e72d1a68f2c10996ae3bfd5c" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::Impl</scope><name>workload_drift_provider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1optimizations_1_1_cache_aware_striping" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::CacheAwareStriping</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_cache_aware_striping_1a7568a70f4b7dcd2c9358b0c1534d02d8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themisdb::sharding::optimizations::CacheAwareStriping::getOptimalStripeSize</definition>
+        <argsstring>(size_t document_size, size_t num_shards)</argsstring>
+        <name>getOptimalStripeSize</name>
+        <qualifiedname>themisdb::sharding::optimizations::CacheAwareStriping::getOptimalStripeSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>document_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize stripe size based on cache characteristics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="355" column="19" bodyfile="include/sharding/raid_optimizations.h" bodystart="355" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cache-Aware Striping. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="350" column="1" bodyfile="include/sharding/raid_optimizations.h" bodystart="350" bodyend="375"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_cache_aware_striping_1a7568a70f4b7dcd2c9358b0c1534d02d8" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::CacheAwareStriping</scope><name>getOptimalStripeSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

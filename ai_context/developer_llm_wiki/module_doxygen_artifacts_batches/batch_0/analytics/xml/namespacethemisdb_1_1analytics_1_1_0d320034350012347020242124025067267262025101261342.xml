@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1analytics_1_1_0d320034350012347020242124025067267262025101261342" kind="namespace" language="C++">
+    <compoundname>themisdb::analytics::@320034350012347020242124025067267262025101261342</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/arrow_flight.cpp" line="82" column="1"/>
+  </compounddef>
+</doxygen>

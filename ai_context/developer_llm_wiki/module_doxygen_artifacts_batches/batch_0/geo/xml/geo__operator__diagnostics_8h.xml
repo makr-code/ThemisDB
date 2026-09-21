@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geo__operator__diagnostics_8h" kind="file" language="C++">
+    <compoundname>geo_operator_diagnostics.h</compoundname>
+    <includes refid="geo__api__contract_8h" local="yes">geo/geo_api_contract.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="geo__operator__diagnostics_8cpp" local="yes">src/geo/geo_operator_diagnostics.cpp</includedby>
+    <includedby refid="test__geo__q4__hardening__focused_8cpp" local="yes">tests/geo/test_geo_q4_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>geo/geo_api_contract.h</label>
+        <link refid="geo__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/geo/geo_operator_diagnostics.h</label>
+        <link refid="geo__operator__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/geo/geo_operator_diagnostics.h</label>
+        <link refid="geo__operator__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/geo/geo_operator_diagnostics.cpp</label>
+        <link refid="geo__operator__diagnostics_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/geo/test_geo_q4_hardening_focused.cpp</label>
+        <link refid="test__geo__q4__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_incident" prot="public">themis::geo::GeoIncident</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_geo_operator_diagnostics" prot="public">themis::geo::GeoOperatorDiagnostics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Operator-facing diagnostics for the ThemisDB geo module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides structured incident reporting for:<itemizedlist>
+<listitem><para>Backend fallback events (GPU → CPU transitions)</para>
+</listitem><listitem><para>Capability drift detection (cross-backend parity failures)</para>
+</listitem><listitem><para>Geometry validation failures with remediation hints</para>
+</listitem><listitem><para>Spatial join and raster edge-case anomalies</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="geo__operator__diagnostics_8h_1autotoc_md3_1s1"><sect2 id="geo__operator__diagnostics_8h_1autotoc_md3">
+<title>Design</title><para>GeoOperatorDiagnostics aggregates incidents emitted by GeoEdgeCaseHandler and other geo sub-systems. Operators can query the diagnostics registry for recent incidents and remediation guidance.</para>
+<para>Each incident has:<itemizedlist>
+<listitem><para>A unique incident ID (e.g. &quot;GEO-ECH-FALLBACK&quot;)</para>
+</listitem><listitem><para>A severity level (INFO, WARNING, ERROR, CRITICAL)</para>
+</listitem><listitem><para>A human-readable description</para>
+</listitem><listitem><para>A remediation hint</para>
+</listitem><listitem><para>A timestamp (nanoseconds since epoch)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="geo__operator__diagnostics_8h_1autotoc_md4_1s1"><sect2 id="geo__operator__diagnostics_8h_1autotoc_md4">
+<title>Thread Safety</title><para>All public methods are thread-safe via a shared mutex.</para>
+<para><simplesect kind="see"><para><ref refid="geo__edge__case__handler_8h" kindref="compound">include/geo/geo_edge_case_handler.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/geo/ROADMAP.md — Phase 2/3 Q4 2026 </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__api__contract_8h" kindref="compound">geo/geo_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Severity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" kindref="member">GeoIncidentSeverity</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a551b723eafd6a31d444fcb2f5920fbd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">INFO</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a059e9861e0400dfbe05c98a841f3f96b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a059e9861e0400dfbe05c98a841f3f96b" kindref="member">WARNING</ref><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6abb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1geo_1a64870c581ef27ffdc981b1677e17859b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1geo_1a64870c581ef27ffdc981b1677e17859b" kindref="member">severityName</ref>(<ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" kindref="member">GeoIncidentSeverity</ref><sp/>s)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(s)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">GeoIncidentSeverity::INFO</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;INFO&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a059e9861e0400dfbe05c98a841f3f96b" kindref="member">GeoIncidentSeverity::WARNING</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;WARNING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">GeoIncidentSeverity::ERROR</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">GeoIncidentSeverity::CRITICAL</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CRITICAL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>GeoIncident</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1geo_1_1_geo_incident" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_incident" kindref="compound">GeoIncident</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1geo_1_1_geo_incident_1a0a76b43dd5360cb2aed84292e61ab670" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_incident_1a0a76b43dd5360cb2aed84292e61ab670" kindref="member">incident_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1geo_1_1_geo_incident_1ad8711629df5a3ebfbf4b673da3f85050" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" kindref="member">GeoIncidentSeverity</ref><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_incident_1ad8711629df5a3ebfbf4b673da3f85050" kindref="member">severity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1geo_1_1_geo_incident_1a1ae8707b80de229a40de3cfc9ab452a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_incident_1a1ae8707b80de229a40de3cfc9ab452a7" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1geo_1_1_geo_incident_1ad7362811f362bf0881598d49544f0c6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_incident_1ad7362811f362bf0881598d49544f0c6b" kindref="member">remediation</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1geo_1_1_geo_incident_1ad2ddb54b60302ae7129917e0fd226b38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_incident_1ad2ddb54b60302ae7129917e0fd226b38" kindref="member">timestamp_ns</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1geo_1_1_geo_incident_1a2ea0159c8342c6ed7b46945ccc5e1bdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;GeoErrorCode&gt;<sp/><ref refid="structthemis_1_1geo_1_1_geo_incident_1a2ea0159c8342c6ed7b46945ccc5e1bdb" kindref="member">error_code</ref>;<sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>GeoOperatorDiagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1geo_1_1_geo_operator_diagnostics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" kindref="member">GeoOperatorDiagnostics</ref><sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a1ef2508d591d20e97d3999ecb73187fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a1ef2508d591d20e97d3999ecb73187fe" kindref="member">kMaxIncidents</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" kindref="member">GeoOperatorDiagnostics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a08864760bf454025749cd1168b927d46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a08864760bf454025749cd1168b927d46" kindref="member">GeoOperatorDiagnostics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" kindref="member">GeoOperatorDiagnostics</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1afc24db691f34c1594867665b6333174e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" kindref="member">GeoOperatorDiagnostics</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1afc24db691f34c1594867665b6333174e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" kindref="member">GeoOperatorDiagnostics</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a843aed9e35fbe97b00cad2d4d32d13e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a843aed9e35fbe97b00cad2d4d32d13e2" kindref="member">GeoOperatorDiagnostics</ref>(<ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" kindref="member">GeoOperatorDiagnostics</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a2c5136ba447454556b3fe323f36fc8fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" kindref="member">GeoOperatorDiagnostics</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a8e83504a720abd65a77043a150d45a07" kindref="member">GeoOperatorDiagnostics</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>3.1<sp/><sp/>Recording</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1acc587ca17122ecb06e741a04374ec019" kindref="member">recordIncident</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/>incident_id,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" kindref="member">GeoIncidentSeverity</ref><sp/>severity,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/>description,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/>remediation,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref>&gt;<sp/>error_code<sp/>=<sp/>std::nullopt)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a9375b053b1486e30d6a90c542d960c14" kindref="member">recordFromCallback</ref>(std::string_view<sp/>incident_id,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>description)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>3.2<sp/><sp/>Querying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_incident" kindref="compound">GeoIncident</ref>&gt;<sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a4499cbbb73d3243c1fdbd710b0640977" kindref="member">recentIncidents</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_count<sp/>=<sp/>0)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_incident" kindref="compound">GeoIncident</ref>&gt;<sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1acacab9782df47718e32649938f217f45" kindref="member">incidentsBySeverity</ref>(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" kindref="member">GeoIncidentSeverity</ref><sp/>min_severity)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1af60aa12f3049f08db6d4a00172c022c3" kindref="member">countBySeverity</ref>(</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" kindref="member">GeoIncidentSeverity</ref><sp/>severity)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1ae996d4083464d82935823581d83f3c5c" kindref="member">hasCriticalIncidents</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a75d21a5ced68f1733834686dd27beffd" kindref="member">totalIncidentCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>3.3<sp/><sp/>Export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1ae41622526a57a1c1ddb4a3d3afa9c3e3" kindref="member">formatSummary</ref>(std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_count<sp/>=<sp/>10)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_operator_diagnostics_1a100eaa1dd7ab6a9bba7f2647942a9f92" kindref="member">clearIncidents</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_incident" kindref="compound">GeoIncident</ref>&gt;<sp/><sp/><sp/><sp/>incidents_;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_count_{0};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>int64_t<sp/>nowNs()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="namespacethemis_1_1geo_1aaf45b72d3344ee120318e6b2a11305a6" kindref="member">GeoIncidentSeverity</ref><sp/>severityFromId(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>remediationForId(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/geo_operator_diagnostics.h"/>
+  </compounddef>
+</doxygen>

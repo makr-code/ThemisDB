@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1attention_1_1cuda" kind="namespace" language="C++">
+    <compoundname>themis::llm::attention::cuda</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a" prot="public">themis::llm::attention::cuda::FlashAttentionCUDA</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/cuda/flash_attention_cuda.h" line="25" column="1"/>
+  </compounddef>
+</doxygen>

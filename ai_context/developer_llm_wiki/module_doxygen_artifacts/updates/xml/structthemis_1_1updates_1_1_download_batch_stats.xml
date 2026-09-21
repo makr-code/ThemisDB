@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_download_batch_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::DownloadBatchStats</compoundname>
+    <includes refid="parallel__downloader_8h" local="no">parallel_downloader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_batch_stats_1a73d45bdd3e128fa13c95c71ff5ee0ccd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::DownloadBatchStats::total_tasks</definition>
+        <argsstring></argsstring>
+        <name>total_tasks</name>
+        <qualifiedname>themis::updates::DownloadBatchStats::total_tasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="95" column="14" bodyfile="include/updates/parallel_downloader.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_batch_stats_1aba25d29818ad71f230e2534dcd3d4aaf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::DownloadBatchStats::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::updates::DownloadBatchStats::succeeded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="96" column="14" bodyfile="include/updates/parallel_downloader.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_batch_stats_1a5e6ed241f0ab753c2feb02b785a32f85" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::DownloadBatchStats::failed</definition>
+        <argsstring></argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::updates::DownloadBatchStats::failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="97" column="14" bodyfile="include/updates/parallel_downloader.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_batch_stats_1a6f533e80f095a4ea5d80ce76d820a183" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::DownloadBatchStats::resumed</definition>
+        <argsstring></argsstring>
+        <name>resumed</name>
+        <qualifiedname>themis::updates::DownloadBatchStats::resumed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="98" column="14" bodyfile="include/updates/parallel_downloader.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_batch_stats_1ac999f282461002acdaed706ff3a8938c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::DownloadBatchStats::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::updates::DownloadBatchStats::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="99" column="14" bodyfile="include/updates/parallel_downloader.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_batch_stats_1a55b71a10d0e509a1f86fc4b00269dd8a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::updates::DownloadBatchStats::wall_time</definition>
+        <argsstring></argsstring>
+        <name>wall_time</name>
+        <qualifiedname>themis::updates::DownloadBatchStats::wall_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="100" column="31" bodyfile="include/updates/parallel_downloader.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate statistics produced by a downloadAll() call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/parallel_downloader.h" line="94" column="1" bodyfile="include/updates/parallel_downloader.h" bodystart="94" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_download_batch_stats_1a5e6ed241f0ab753c2feb02b785a32f85" prot="public" virt="non-virtual"><scope>themis::updates::DownloadBatchStats</scope><name>failed</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_batch_stats_1a6f533e80f095a4ea5d80ce76d820a183" prot="public" virt="non-virtual"><scope>themis::updates::DownloadBatchStats</scope><name>resumed</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_batch_stats_1aba25d29818ad71f230e2534dcd3d4aaf" prot="public" virt="non-virtual"><scope>themis::updates::DownloadBatchStats</scope><name>succeeded</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_batch_stats_1ac999f282461002acdaed706ff3a8938c" prot="public" virt="non-virtual"><scope>themis::updates::DownloadBatchStats</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_batch_stats_1a73d45bdd3e128fa13c95c71ff5ee0ccd" prot="public" virt="non-virtual"><scope>themis::updates::DownloadBatchStats</scope><name>total_tasks</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_batch_stats_1a55b71a10d0e509a1f86fc4b00269dd8a" prot="public" virt="non-virtual"><scope>themis::updates::DownloadBatchStats</scope><name>wall_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

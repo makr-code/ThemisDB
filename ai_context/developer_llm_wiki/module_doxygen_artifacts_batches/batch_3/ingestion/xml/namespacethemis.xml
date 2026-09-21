@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementation: IngestionQualityJudge and ReIngestionController</para>
+<para>LLM prompts follow a fixed structure so that the score parser is robust:</para>
+<para>SCORE: &lt;float 0.0–1.0&gt; RATIONALE: &lt;one sentence&gt; MISSING: (optional bullet list)<itemizedlist>
+<listitem><para>item 1</para>
+</listitem><listitem><para>item 2 UNGROUNDED: (optional bullet list)</para>
+</listitem><listitem><para>claim 1 HINTS: (optional bullet list)</para>
+</listitem><listitem><para>suggestion</para>
+</listitem></itemizedlist>
+</para>
+<para>This format is enforced in the system part of each prompt. </para>
+    </detaileddescription>
+    <location file="include/ingestion/adaptive_rate_limiter.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

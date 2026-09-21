@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_listener_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ListenerRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_listener_registry_1a9b9a80437f8f84fab15b2be8b69c074d" prot="private" static="no" mutable="yes">
+        <type>mutex</type>
+        <definition>mutex themis::observability::ListenerRegistry::registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>registry_mutex_</name>
+        <qualifiedname>themis::observability::ListenerRegistry::registry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="247" column="19" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_listener_registry_1aa08040a75135477c46d25ab7637ab5f1" prot="private" static="no" mutable="no">
+        <type>map&lt; string, shared_ptr&lt; <ref refid="structthemis_1_1observability_1_1_listener_callback" kindref="compound">ListenerCallback</ref> &gt; &gt;</type>
+        <definition>map&lt;string, shared_ptr&lt;ListenerCallback&gt; &gt; themis::observability::ListenerRegistry::listeners_</definition>
+        <argsstring></argsstring>
+        <name>listeners_</name>
+        <qualifiedname>themis::observability::ListenerRegistry::listeners_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="248" column="9" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_listener_registry_1aae3bc264c2a87543c1fb633a674c61dc" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::ListenerRegistry::next_listener_id_</definition>
+        <argsstring></argsstring>
+        <name>next_listener_id_</name>
+        <qualifiedname>themis::observability::ListenerRegistry::next_listener_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="249" column="14" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="249" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_listener_registry_1a2a492c7d234daf5de7bc8ae8b2363549" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>string</type>
+        <definition>string themis::observability::ListenerRegistry::addListener</definition>
+        <argsstring>()</argsstring>
+        <name>addListener</name>
+        <qualifiedname>themis::observability::ListenerRegistry::addListener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a listener </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="173" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="173" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_listener_registry_1a9e702c8b219ea6495342e0ea327180c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::ListenerRegistry::removeListener</definition>
+        <argsstring>(const string &amp;listener_id)</argsstring>
+        <name>removeListener</name>
+        <qualifiedname>themis::observability::ListenerRegistry::removeListener</qualifiedname>
+        <param>
+          <type>const string &amp;</type>
+          <declname>listener_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a listener </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="186" column="10" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="186" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_listener_registry_1a2c7d3ac4e9b57c45f5cd86bfabd8062b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::ListenerRegistry::notifyAllListeners</definition>
+        <argsstring>()</argsstring>
+        <name>notifyAllListeners</name>
+        <qualifiedname>themis::observability::ListenerRegistry::notifyAllListeners</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify all listeners </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="201" column="14" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="201" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_listener_registry_1aa12296897041ed0674fef29ce2e275e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ListenerRegistry::getListenerCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getListenerCount</name>
+        <qualifiedname>themis::observability::ListenerRegistry::getListenerCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get listener count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="227" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="227" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_listener_registry_1a82792a4887b8e10f2149be6f454003b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::ListenerRegistry::getTotalInvocations</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalInvocations</name>
+        <qualifiedname>themis::observability::ListenerRegistry::getTotalInvocations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get total callback invocations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="235" column="14" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="235" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Listener registry for concurrent listeners. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="168" column="1" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="168" bodyend="250"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_listener_registry_1a2a492c7d234daf5de7bc8ae8b2363549" prot="public" virt="non-virtual"><scope>themis::observability::ListenerRegistry</scope><name>addListener</name></member>
+      <member refid="classthemis_1_1observability_1_1_listener_registry_1aa12296897041ed0674fef29ce2e275e8" prot="public" virt="non-virtual"><scope>themis::observability::ListenerRegistry</scope><name>getListenerCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_listener_registry_1a82792a4887b8e10f2149be6f454003b2" prot="public" virt="non-virtual"><scope>themis::observability::ListenerRegistry</scope><name>getTotalInvocations</name></member>
+      <member refid="classthemis_1_1observability_1_1_listener_registry_1aa08040a75135477c46d25ab7637ab5f1" prot="private" virt="non-virtual"><scope>themis::observability::ListenerRegistry</scope><name>listeners_</name></member>
+      <member refid="classthemis_1_1observability_1_1_listener_registry_1aae3bc264c2a87543c1fb633a674c61dc" prot="private" virt="non-virtual"><scope>themis::observability::ListenerRegistry</scope><name>next_listener_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_listener_registry_1a2c7d3ac4e9b57c45f5cd86bfabd8062b" prot="public" virt="non-virtual"><scope>themis::observability::ListenerRegistry</scope><name>notifyAllListeners</name></member>
+      <member refid="classthemis_1_1observability_1_1_listener_registry_1a9b9a80437f8f84fab15b2be8b69c074d" prot="private" virt="non-virtual"><scope>themis::observability::ListenerRegistry</scope><name>registry_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_listener_registry_1a9e702c8b219ea6495342e0ea327180c0" prot="public" virt="non-virtual"><scope>themis::observability::ListenerRegistry</scope><name>removeListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="timeseries__api__contract_8h" kind="file" language="C++">
+    <compoundname>timeseries_api_contract.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">climits</includes>
+    <includedby refid="bench__timeseries__release__gates_8cpp" local="yes">benchmarks/timeseries/bench_timeseries_release_gates.cpp</includedby>
+    <includedby refid="ts__edge__case__handler_8h" local="yes">include/timeseries/ts_edge_case_handler.h</includedby>
+    <includedby refid="ts__operator__diagnostics_8h" local="yes">include/timeseries/ts_operator_diagnostics.h</includedby>
+    <includedby refid="test__timeseries__contract__hardening__focused_8cpp" local="yes">tests/timeseries/test_timeseries_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__timeseries__error__path__phase3_8cpp" local="yes">tests/timeseries/test_timeseries_error_path_phase3.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/timeseries/timeseries_api_contract.h</label>
+        <link refid="timeseries__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>climits</label>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/timeseries/bench_timeseries_release_gates.cpp</label>
+        <link refid="bench__timeseries__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/timeseries/timeseries_api_contract.h</label>
+        <link refid="timeseries__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/timeseries/ts_edge_case_handler.h</label>
+        <link refid="ts__edge__case__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/timeseries/ts_operator_diagnostics.h</label>
+        <link refid="ts__operator__diagnostics_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/timeseries/ts_edge_case_handler.cpp</label>
+        <link refid="ts__edge__case__handler_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/timeseries/ts_operator_diagnostics.cpp</label>
+        <link refid="ts__operator__diagnostics_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/timeseries/test_timeseries_contract_hardening_focused.cpp</label>
+        <link refid="test__timeseries__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/timeseries/test_timeseries_error_path_phase3.cpp</label>
+        <link refid="test__timeseries__error__path__phase3_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/timeseries/test_timeseries_q4_hardening_focused.cpp</label>
+        <link refid="test__timeseries__q4__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1timeseries">themis::timeseries</innernamespace>
+    <briefdescription>
+<para>Frozen timeseries runtime contract semantics for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the timeseries module covering write ordering, range-query semantics, downsampling determinism, Gorilla compression fidelity, and retention policy enforcement.</para>
+<sect1 id="timeseries__api__contract_8h_1autotoc_md19_1s1"><sect2 id="timeseries__api__contract_8h_1autotoc_md19">
+<title>Contract Scope</title><para>The contracts below are binding for all components in the ThemisDB timeseries pipeline:<itemizedlist>
+<listitem><para>Ingest path (TSStore write, hypertable routing)</para>
+</listitem><listitem><para>Range-query engine (inclusive bounds, retention awareness)</para>
+</listitem><listitem><para>Downsampling engine (deterministic output count)</para>
+</listitem><listitem><para>Gorilla compression codec (lossless IEEE 754 round-trip)</para>
+</listitem><listitem><para>Retention engine (policy-driven expiry, no early removal)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="timeseries__api__contract_8h_1autotoc_md20_1s1"><sect2 id="timeseries__api__contract_8h_1autotoc_md20">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/timeseries/ROADMAP.md — Phase 1 contract item </para>
+</simplesect>
+<simplesect kind="see"><para>include/timeseries/ROADMAP.md — Phase 6 documentation item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;climits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1timeseries" kindref="compound">timeseries</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Write<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timestamp<sp/>monotonicity:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Within<sp/>a<sp/>named<sp/>series,<sp/>timestamps<sp/>MUST<sp/>be<sp/>strictly<sp/>monotonically<sp/>increasing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>(each<sp/>new<sp/>point&apos;s<sp/>timestamp<sp/>&gt;<sp/>the<sp/>previous<sp/>point&apos;s<sp/>timestamp).<sp/><sp/>An<sp/>attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>to<sp/>insert<sp/>a<sp/>point<sp/>with<sp/>timestamp<sp/>≤<sp/>the<sp/>series<sp/>tail<sp/>returns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TIMESTAMP_OUT_OF_ORDER<sp/>unless<sp/>the<sp/>caller<sp/>uses<sp/>the<sp/>explicit<sp/>out-of-order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>insert<sp/>API<sp/>(which<sp/>may<sp/>incur<sp/>a<sp/>re-sort<sp/>cost).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Null<sp/>timestamp:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>null<sp/>or<sp/>zero<sp/>timestamp<sp/>value<sp/>is<sp/>rejected<sp/>with<sp/>TIMESTAMP_OUT_OF_ORDER.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Every<sp/>data<sp/>point<sp/>must<sp/>carry<sp/>a<sp/>positive,<sp/>non-zero<sp/>Unix<sp/>nanosecond<sp/>timestamp.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1timeseries_1a24f05a14b8ab9b0c51f0f3276f085ff2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1timeseries_1a24f05a14b8ab9b0c51f0f3276f085ff2" kindref="member">kMinPointTimestampNs</ref><sp/>=<sp/>1LL;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1timeseries_1acc73d7fe2e379db5cb708b47c7ca24b6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1timeseries_1acc73d7fe2e379db5cb708b47c7ca24b6" kindref="member">kMaxPointTimestampNs</ref><sp/>=<sp/>INT64_MAX;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1timeseries_1a97a8d300a1f590fb00255b777c528ad8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1timeseries_1a97a8d300a1f590fb00255b777c528ad8" kindref="member">kMaxOutOfOrderBuffer</ref><sp/>=<sp/>10&apos;000u;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Range-query<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inclusive<sp/>bounds:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>range<sp/>query<sp/>for<sp/>[start,<sp/>end]<sp/>returns<sp/>ALL<sp/>data<sp/>points<sp/>P<sp/>such<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>start<sp/>≤<sp/>P.timestamp<sp/>≤<sp/>end.<sp/><sp/>The<sp/>bounds<sp/>are<sp/>inclusive<sp/>on<sp/>both<sp/>sides.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Empty<sp/>result:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>query<sp/>for<sp/>a<sp/>range<sp/>that<sp/>contains<sp/>no<sp/>points<sp/>returns<sp/>an<sp/>empty<sp/>result<sp/>set,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>NOT<sp/>an<sp/>error.<sp/><sp/>SERIES_NOT_FOUND<sp/>is<sp/>returned<sp/>only<sp/>when<sp/>the<sp/>named<sp/>series</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>does<sp/>not<sp/>exist.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retention<sp/>boundary:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Points<sp/>whose<sp/>timestamp<sp/>is<sp/>before<sp/>the<sp/>active<sp/>retention<sp/>boundary<sp/>MAY<sp/>have</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>been<sp/>removed<sp/>by<sp/>the<sp/>retention<sp/>engine.<sp/><sp/>A<sp/>range<sp/>query<sp/>that<sp/>spans<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>retention<sp/>boundary<sp/>returns<sp/>only<sp/>the<sp/>points<sp/>still<sp/>present;<sp/>it<sp/>does<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>raise<sp/>an<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Downsampling<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Determinism:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>For<sp/>a<sp/>given<sp/>input<sp/>series<sp/>(same<sp/>points,<sp/>same<sp/>order)<sp/>and<sp/>a<sp/>given<sp/>resolution,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>the<sp/>downsampler<sp/>MUST<sp/>produce<sp/>the<sp/>same<sp/>number<sp/>of<sp/>output<sp/>buckets<sp/>and<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>aggregate<sp/>values.<sp/><sp/>Non-deterministic<sp/>downsampling<sp/>is<sp/>a<sp/>contract<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Empty<sp/>input:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Downsampling<sp/>an<sp/>empty<sp/>input<sp/>series<sp/>returns<sp/>an<sp/>empty<sp/>output,<sp/>not<sp/>an<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Single-point<sp/>passthrough:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>series<sp/>with<sp/>exactly<sp/>one<sp/>point,<sp/>regardless<sp/>of<sp/>resolution,<sp/>returns<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>single<sp/>point<sp/>unchanged.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Resolution<sp/>validity:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>resolution<sp/>of<sp/>0<sp/>or<sp/>negative<sp/>causes<sp/>DOWNSAMPLING_RESOLUTION_INVALID.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1_1timeseries_1a96a9a67a9240f9a182f49d0112000051" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1timeseries_1a96a9a67a9240f9a182f49d0112000051" kindref="member">kMinDownsamplingResolutionNs</ref><sp/>=<sp/>1&apos;000LL;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Gorilla<sp/>compression<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lossless<sp/>round-trip:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>encode(v)<sp/>followed<sp/>by<sp/>decode()<sp/>MUST<sp/>reproduce<sp/>the<sp/>exact<sp/>IEEE<sp/>754<sp/>binary64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>representation<sp/>of<sp/>v<sp/>for<sp/>any<sp/>finite<sp/>or<sp/>non-finite<sp/>double<sp/>value,<sp/>including</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>positive/negative<sp/>zero,<sp/>subnormals,<sp/>NaN<sp/>(any<sp/>payload),<sp/>and<sp/>±Inf.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NaN<sp/>preservation:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>NaN<sp/>values<sp/>are<sp/>encoded<sp/>and<sp/>decoded<sp/>with<sp/>the<sp/>same<sp/>bit<sp/>pattern<sp/>(NaN<sp/>payload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>preserved).<sp/><sp/>Silent<sp/>NaN<sp/>canonicalization<sp/>is<sp/>prohibited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inf<sp/>preservation:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>±Inf<sp/>values<sp/>are<sp/>encoded<sp/>and<sp/>decoded<sp/>identically.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Retention<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Policy-driven<sp/>expiry:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Data<sp/>points<sp/>are<sp/>eligible<sp/>for<sp/>removal<sp/>only<sp/>after<sp/>their<sp/>timestamp<sp/>is<sp/>older</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>than<sp/>the<sp/>configured<sp/>retention<sp/>boundary<sp/>(now<sp/>−<sp/>retention_duration).<sp/><sp/>No</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>point<sp/>is<sp/>removed<sp/>before<sp/>that<sp/>boundary<sp/>regardless<sp/>of<sp/>storage<sp/>pressure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>No<sp/>premature<sp/>removal:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>point<sp/>whose<sp/>timestamp<sp/>is<sp/>within<sp/>the<sp/>retention<sp/>window<sp/>MUST<sp/>be<sp/>readable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>until<sp/>the<sp/>retention<sp/>engine&apos;s<sp/>next<sp/>scheduled<sp/>GC<sp/>pass<sp/>moves<sp/>it<sp/>outside<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>window.<sp/><sp/>Synchronous<sp/>write-path<sp/>removal<sp/>is<sp/>prohibited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>1-2:<sp/>Base<sp/>error<sp/>codes<sp/>──</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a096596073371717c3052230d1aaf459f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a096596073371717c3052230d1aaf459f" kindref="member">TIMESTAMP_OUT_OF_ORDER</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>400,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a5d72348b23339860f2175fd6656aec27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a5d72348b23339860f2175fd6656aec27" kindref="member">SERIES_NOT_FOUND</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>401,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a9c4fd5af7d236e9a899fd6b42e3de4a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a9c4fd5af7d236e9a899fd6b42e3de4a8" kindref="member">RETENTION_EXPIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>402,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a2b80bd0816ebdf43c510804dcab7183e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a2b80bd0816ebdf43c510804dcab7183e" kindref="member">COMPRESSION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>403,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ab15e17b5da1d08bfcd3b8f331474c8ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ab15e17b5da1d08bfcd3b8f331474c8ce" kindref="member">DOWNSAMPLING_RESOLUTION_INVALID</ref><sp/>=<sp/>404,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217abc56602da5a8282afc0f0432435db4c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217abc56602da5a8282afc0f0432435db4c6" kindref="member">QUOTA_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>405,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>3:<sp/>Ingest<sp/>incident<sp/>codes<sp/>──</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0caa76e6254f1575803033b5738d42bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0caa76e6254f1575803033b5738d42bd" kindref="member">BUFFER_PRESSURE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>411,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ad53c9f7d5b985bba6cb80cdf8ae665e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ad53c9f7d5b985bba6cb80cdf8ae665e4" kindref="member">BUFFER_OVERFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>412,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8d0f0173ad13d105203dea5980e56b17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8d0f0173ad13d105203dea5980e56b17" kindref="member">FLUSH_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>413,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>3:<sp/>Query<sp/>incident<sp/>codes<sp/>──</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a800b647aaaed27a51a7f4aaac63c09e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a800b647aaaed27a51a7f4aaac63c09e6" kindref="member">RANGE_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>421,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0e37b0e1d53bd8ff19b39d596c3c428f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0e37b0e1d53bd8ff19b39d596c3c428f" kindref="member">QUERY_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>423,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a31669af116fdb6061e768c972ccaa593" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a31669af116fdb6061e768c972ccaa593" kindref="member">RETENTION_BOUNDARY_CROSSED</ref><sp/><sp/><sp/><sp/>=<sp/>422,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>3:<sp/>Lifecycle<sp/>incident<sp/>codes<sp/>──</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a771c6e6e6893bb7c57e063c6259ab1f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a771c6e6e6893bb7c57e063c6259ab1f6" kindref="member">RETENTION_POLICY_VIOLATION</ref><sp/><sp/><sp/><sp/>=<sp/>431,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217af16180e4ffad239262a0460106ddd24a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217af16180e4ffad239262a0460106ddd24a" kindref="member">DELETION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>432,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a82c686b38135c5a135bd5d93068e8faa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a82c686b38135c5a135bd5d93068e8faa" kindref="member">ENCRYPTION_ROTATION_FAILURE</ref><sp/><sp/><sp/>=<sp/>433,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a1b86c0c7c9029f73f80ce69748af25d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a1b86c0c7c9029f73f80ce69748af25d0" kindref="member">ENCRYPTION_KEY_NOT_FOUND</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>434,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" kindref="member">ENCRYPTION_STATE_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>435,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>3:<sp/>Integration<sp/>incident<sp/>codes<sp/>──</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">REMOTE_WRITE_VALIDATION_ERROR</ref><sp/>=<sp/>443,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a06755377f9467c2c8e4cb35fee81dc89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a06755377f9467c2c8e4cb35fee81dc89" kindref="member">REMOTE_WRITE_RETRIES_EXHAUSTED</ref><sp/>=<sp/>444,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>499,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="namespacethemis_1_1timeseries_1adec2a22a06472c5b0305c4b137d43cbe" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1adec2a22a06472c5b0305c4b137d43cbe" kindref="member">isHardTimeseriesError</ref>(<ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a096596073371717c3052230d1aaf459f" kindref="member">TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER</ref></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a2b80bd0816ebdf43c510804dcab7183e" kindref="member">TimeseriesErrorCode::COMPRESSION_FAILED</ref></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ab15e17b5da1d08bfcd3b8f331474c8ce" kindref="member">TimeseriesErrorCode::DOWNSAMPLING_RESOLUTION_INVALID</ref></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a800b647aaaed27a51a7f4aaac63c09e6" kindref="member">TimeseriesErrorCode::RANGE_INVALID</ref></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a1b86c0c7c9029f73f80ce69748af25d0" kindref="member">TimeseriesErrorCode::ENCRYPTION_KEY_NOT_FOUND</ref></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" kindref="member">TimeseriesErrorCode::ENCRYPTION_STATE_INVALID</ref></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ae8c0c70879b5895c615677261d64a1ee" kindref="member">TimeseriesErrorCode::INTERNAL_ERROR</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="namespacethemis_1_1timeseries_1aaed43183e6b9355c0d199cdc638f2dd9" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1aaed43183e6b9355c0d199cdc638f2dd9" kindref="member">isLifecycleError</ref>(<ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a5d72348b23339860f2175fd6656aec27" kindref="member">TimeseriesErrorCode::SERIES_NOT_FOUND</ref></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a9c4fd5af7d236e9a899fd6b42e3de4a8" kindref="member">TimeseriesErrorCode::RETENTION_EXPIRED</ref></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a31669af116fdb6061e768c972ccaa593" kindref="member">TimeseriesErrorCode::RETENTION_BOUNDARY_CROSSED</ref>;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="namespacethemis_1_1timeseries_1ad4655fe0b53407cc9ce0e0c085c8d059" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1ad4655fe0b53407cc9ce0e0c085c8d059" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0caa76e6254f1575803033b5738d42bd" kindref="member">TimeseriesErrorCode::BUFFER_PRESSURE</ref></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ad53c9f7d5b985bba6cb80cdf8ae665e4" kindref="member">TimeseriesErrorCode::BUFFER_OVERFLOW</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="namespacethemis_1_1timeseries_1a06c3e4d8e7339725a50c13fd03ed93f7" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a06c3e4d8e7339725a50c13fd03ed93f7" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0caa76e6254f1575803033b5738d42bd" kindref="member">TimeseriesErrorCode::BUFFER_PRESSURE</ref></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ad53c9f7d5b985bba6cb80cdf8ae665e4" kindref="member">TimeseriesErrorCode::BUFFER_OVERFLOW</ref></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8d0f0173ad13d105203dea5980e56b17" kindref="member">TimeseriesErrorCode::FLUSH_TIMEOUT</ref></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0e37b0e1d53bd8ff19b39d596c3c428f" kindref="member">TimeseriesErrorCode::QUERY_TIMEOUT</ref></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a06755377f9467c2c8e4cb35fee81dc89" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_RETRIES_EXHAUSTED</ref>;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Resource<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="namespacethemis_1_1timeseries_1aff4ed93a91380e9aaed21c32a2b666ea" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1timeseries_1aff4ed93a91380e9aaed21c32a2b666ea" kindref="member">kMaxSeriesPerStore</ref><sp/>=<sp/>10&apos;000&apos;000u;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="namespacethemis_1_1timeseries_1a101fc0bf89e6392db39254bde9ad2e64" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1timeseries_1a101fc0bf89e6392db39254bde9ad2e64" kindref="member">kMaxWriteBatchSize</ref><sp/>=<sp/>100&apos;000u;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284" refid="namespacethemis_1_1timeseries_1ab7f8781562585760e4c2ac545922f25f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1timeseries_1ab7f8781562585760e4c2ac545922f25f" kindref="member">kDefaultRetentionSeconds</ref><sp/>=<sp/>30LL<sp/>*<sp/>24<sp/>*<sp/>3600;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>timeseries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/timeseries/timeseries_api_contract.h"/>
+  </compounddef>
+</doxygen>

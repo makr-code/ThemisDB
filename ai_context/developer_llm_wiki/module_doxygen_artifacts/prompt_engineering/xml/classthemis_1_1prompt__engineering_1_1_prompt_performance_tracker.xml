@@ -1,0 +1,680 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptPerformanceTracker</compoundname>
+    <includes refid="prompt__performance__tracker_8h" local="no">prompt_performance_tracker.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1acd449db2bed4c32f9c60e227fc7c42f3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::PromptPerformanceTracker::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="146" column="24" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a488a02ec3a596f865e7fb9a6396c6caa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics" kindref="compound">PromptMetrics</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PromptMetrics&gt; themis::prompt_engineering::PromptPerformanceTracker::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="147" column="24" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a91e5167a8c26c50f0df99dbc47cca611" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::prompt_engineering::PromptPerformanceTracker::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::db_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="150" column="20" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a8febb0939434e37f57a1f842c8fe6ef5" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::prompt_engineering::PromptPerformanceTracker::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::cf_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="151" column="33" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a1f72106d380378e13855b2cca9e4e7cf" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::prompt_engineering::PromptPerformanceTracker::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;prompt_metrics:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="153" column="33" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1ade311bec07fa69cb740d23b76b267918" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptPerformanceTracker::PromptPerformanceTracker</definition>
+        <argsstring>()</argsstring>
+        <name>PromptPerformanceTracker</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::PromptPerformanceTracker</qualifiedname>
+        <briefdescription>
+<para>Constructor for in-memory tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a20505fba6debb20d66f05a1f21508d01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptPerformanceTracker::PromptPerformanceTracker</definition>
+        <argsstring>(RocksDBWrapper *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>PromptPerformanceTracker</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::PromptPerformanceTracker</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructor with RocksDB persistence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column family handle (optional, uses default if null) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="76" column="5" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1abbf69224c299ca29f096aadb7ccd17ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptPerformanceTracker::recordExecution</definition>
+        <argsstring>(const std::string &amp;prompt_id, bool success, double latency_ms, double user_feedback=0.0)</argsstring>
+        <name>recordExecution</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::recordExecution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>user_feedback</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Record a prompt execution result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Execution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether execution succeeded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Execution latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional user feedback score (0.0-1.0)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::chrono::system_clock::now(), emplace(), THEMIS_DEBUG(), updateAverages(), persist(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="85" column="10" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="94" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a1a47333ec29abae2e0c4597446dff260" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics" kindref="compound">PromptMetrics</ref> &gt;</type>
+        <definition>std::optional&lt; PromptMetrics &gt; themis::prompt_engineering::PromptPerformanceTracker::getMetrics</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::getMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Get metrics for a specific prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Metrics if found, nullopt otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="97" column="19" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="131" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1aa9f3f2177bc392a6b74589b0738a291c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics" kindref="compound">PromptMetrics</ref> &gt;</type>
+        <definition>std::vector&lt; PromptMetrics &gt; themis::prompt_engineering::PromptPerformanceTracker::getAllMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllMetrics</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::getAllMetrics</qualifiedname>
+        <briefdescription>
+<para>Get all tracked prompt metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of all prompt metrics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="103" column="17" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="147" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1adec025ccc2179ca9f9e7bc46d18969ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::PromptPerformanceTracker::getLowPerformingPrompts</definition>
+        <argsstring>(double threshold=0.7, size_t min_executions=10) const</argsstring>
+        <name>getLowPerformingPrompts</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::getLowPerformingPrompts</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+          <defval>0.7</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>min_executions</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Identify low-performing prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum acceptable success rate (default 0.7) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_executions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum executions required for consideration (default 10) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of prompt IDs with success rate below threshold </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="111" column="17" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="166" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1afc016cb03a19affdc7790dbf28efd601" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, double &gt; &gt; themis::prompt_engineering::PromptPerformanceTracker::getTopPerformingPrompts</definition>
+        <argsstring>(size_t count=10, size_t min_executions=10) const</argsstring>
+        <name>getTopPerformingPrompts</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::getTopPerformingPrompts</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>min_executions</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Get top performing prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of top prompts to return </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_executions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum executions required for consideration (default 10) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of top performing prompt IDs with their success rates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="122" column="17" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="192" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a6d04b05e6de843b0e4ff0c94b2e3cf2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptPerformanceTracker::resetMetrics</definition>
+        <argsstring>(const std::string &amp;prompt_id)</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::resetMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Reset metrics for a specific prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if metrics were reset, false if prompt not found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(), std::string(), del(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="132" column="10" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="229" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a92b62beb33edc83645138f3421ecfc09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptPerformanceTracker::clearAllMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>clearAllMetrics</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::clearAllMetrics</qualifiedname>
+        <briefdescription>
+<para>Clear all metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear All Metrics.</para>
+<para>Calls: lock(), clear(), scanPrefix(), del(), std::string(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="137" column="10" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="253" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1ad7801c76129e346193cfc77b75e513fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptPerformanceTracker::getSummaryStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getSummaryStatistics</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::getSummaryStatistics</qualifiedname>
+        <briefdescription>
+<para>Get summary statistics across all prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with aggregate statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="143" column="20" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="270" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a5a17c6abdc6112382c8b49f076e5f899" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptPerformanceTracker::persist</definition>
+        <argsstring>(const std::string &amp;prompt_id, const PromptMetrics &amp;metrics)</argsstring>
+        <name>persist</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::persist</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics" kindref="compound">PromptMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Persist metrics to RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="158" column="10" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="327" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1ad50d3907de72a45f66dcdc3d01bd724f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptPerformanceTracker::loadFromDB</definition>
+        <argsstring>()</argsstring>
+        <name>loadFromDB</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::loadFromDB</qualifiedname>
+        <briefdescription>
+<para>Load metrics from RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From DB.</para>
+<para>Calls: scanPrefix(), nlohmann::json::parse(), std::string(), <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a2a1594c212c3ca98a79bf35feb23d1ec" kindref="member">PromptMetrics::fromJson()</ref>, THEMIS_WARN(), what(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="163" column="10" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="345" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a35eff5c93af4923ecf162bf42643077f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptPerformanceTracker::updateAverages</definition>
+        <argsstring>(PromptMetrics &amp;metrics, bool success, double latency_ms, double user_feedback)</argsstring>
+        <name>updateAverages</name>
+        <qualifiedname>themis::prompt_engineering::PromptPerformanceTracker::updateAverages</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics" kindref="compound">PromptMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>user_feedback</declname>
+        </param>
+        <briefdescription>
+<para>Update running averages incrementally. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Averages.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="168" column="10" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="376" bodyend="406"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance tracker for prompt templates. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks and aggregates performance metrics for prompts:<itemizedlist>
+<listitem><para>Records execution results (success/failure, latency)</para>
+</listitem><listitem><para>Collects user feedback</para>
+</listitem><listitem><para>Identifies low-performing prompts</para>
+</listitem><listitem><para>Provides data for optimization decisions</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe for concurrent metric recording. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_performance_tracker.h" line="64" column="1" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="64" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a8febb0939434e37f57a1f842c8fe6ef5" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a92b62beb33edc83645138f3421ecfc09" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>clearAllMetrics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a91e5167a8c26c50f0df99dbc47cca611" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>db_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1aa9f3f2177bc392a6b74589b0738a291c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>getAllMetrics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1adec025ccc2179ca9f9e7bc46d18969ab" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>getLowPerformingPrompts</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a1a47333ec29abae2e0c4597446dff260" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1ad7801c76129e346193cfc77b75e513fa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>getSummaryStatistics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1afc016cb03a19affdc7790dbf28efd601" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>getTopPerformingPrompts</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a1f72106d380378e13855b2cca9e4e7cf" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1ad50d3907de72a45f66dcdc3d01bd724f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>loadFromDB</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a488a02ec3a596f865e7fb9a6396c6caa" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1acd449db2bed4c32f9c60e227fc7c42f3" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a5a17c6abdc6112382c8b49f076e5f899" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>persist</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1ade311bec07fa69cb740d23b76b267918" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>PromptPerformanceTracker</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a20505fba6debb20d66f05a1f21508d01" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>PromptPerformanceTracker</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1abbf69224c299ca29f096aadb7ccd17ad" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>recordExecution</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a6d04b05e6de843b0e4ff0c94b2e3cf2d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker_1a35eff5c93af4923ecf162bf42643077f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptPerformanceTracker</scope><name>updateAverages</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

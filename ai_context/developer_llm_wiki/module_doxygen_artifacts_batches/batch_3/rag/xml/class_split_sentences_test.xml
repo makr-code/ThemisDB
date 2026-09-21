@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_split_sentences_test" kind="class" language="C++" prot="public">
+    <compoundname>SplitSentencesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_split_sentences_test_1a8943d6b436bfd27cc614d59b1e77981e" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref></type>
+        <definition>CitationHighlighter SplitSentencesTest::highlighter_</definition>
+        <argsstring></argsstring>
+        <name>highlighter_</name>
+        <qualifiedname>SplitSentencesTest::highlighter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="95" column="25" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SplitSentencesTest</label>
+        <link refid="class_split_sentences_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SplitSentencesTest</label>
+        <link refid="class_split_sentences_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>highlighter_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::CitationHighlighter</label>
+        <link refid="classthemis_1_1rag_1_1_citation_highlighter"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_citation_highlighter.cpp" line="93" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="93" bodyend="96"/>
+    <listofallmembers>
+      <member refid="class_split_sentences_test_1a8943d6b436bfd27cc614d59b1e77981e" prot="protected" virt="non-virtual"><scope>SplitSentencesTest</scope><name>highlighter_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

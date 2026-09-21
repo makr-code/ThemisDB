@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DistributionReceipt</compoundname>
+    <includes refid="lora__package__provenance_8h" local="no">lora_package_provenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1afa8b124323ead5cf8b1411a1667aa28f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::receipt_id</definition>
+        <argsstring></argsstring>
+        <name>receipt_id</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::receipt_id</qualifiedname>
+        <briefdescription>
+<para>Unique receipt identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="160" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a38eb15130023d9ecf349f08146246026" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::event_type</qualifiedname>
+        <briefdescription>
+<para>Kind of distribution event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="161" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a191d2408a2b8dbd72d8fd8e71a68e94d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::artifact_id</qualifiedname>
+        <briefdescription>
+<para>package_id or product_id of the artifact </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="162" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a409601549e35cea02e80e44e4a30037e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::artifact_hash</definition>
+        <argsstring></argsstring>
+        <name>artifact_hash</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::artifact_hash</qualifiedname>
+        <briefdescription>
+<para>Hash of the artifact at distribution time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="163" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a9744e9ac1b1da555bed48389331f2b2f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::recipient_id</definition>
+        <argsstring></argsstring>
+        <name>recipient_id</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::recipient_id</qualifiedname>
+        <briefdescription>
+<para>Target node, endpoint, or shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="164" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a64936a33d3329d78423eb558b6430c36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::distribution_timestamp</definition>
+        <argsstring></argsstring>
+        <name>distribution_timestamp</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::distribution_timestamp</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="165" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1ab23e7233b369ae50ffe81ab2be41f78b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::operator_signature</definition>
+        <argsstring></argsstring>
+        <name>operator_signature</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::operator_signature</qualifiedname>
+        <briefdescription>
+<para>Optional operator signature over the receipt fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="166" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a025273d2b77a074a8813967839f65c25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::parent_receipt_hash</definition>
+        <argsstring></argsstring>
+        <name>parent_receipt_hash</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::parent_receipt_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of previous receipt; for the first receipt in a chain this is sha256(artifact_id) (the chain&apos;s genesis seed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="167" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a9b9f0e5f97d4a0f8470ca12f19de5fc6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::receipt_hash</definition>
+        <argsstring></argsstring>
+        <name>receipt_hash</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::receipt_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of this receipt&apos;s canonical form (set by ledger). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="168" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1ad1cffce94d57a5e37a2bc838e26191b8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::DistributionReceipt::extra_metadata</definition>
+        <argsstring></argsstring>
+        <name>extra_metadata</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::extra_metadata</qualifiedname>
+        <briefdescription>
+<para>Application-specific extensions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="169" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a225a6ff7610d4573016b6ad11e2ab54d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::DistributionReceipt::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="175" column="11" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="258" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a594f46d1e914c2a9188aa1e47476f8ec" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributionReceipt::computeContentHash</definition>
+        <argsstring>() const</argsstring>
+        <name>computeContentHash</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::computeContentHash</qualifiedname>
+        <briefdescription>
+<para>Compute the canonical SHA-256 hash of all content fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers: event_type, artifact_id, artifact_hash, recipient_id, distribution_timestamp, operator_signature, parent_receipt_hash, and the serialised extra_metadata.</para>
+<para><simplesect kind="return"><para>64-character lowercase hex string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="193" column="18" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="290" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1acdaabf1c6f75ef4010b8d0c012fdfdeb" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref></type>
+        <definition>DistributionReceipt themis::llm::lora::DistributionReceipt::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::DistributionReceipt::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source JSON object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="182" column="33" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="273" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable receipt for a single distribution event. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each time an artifact (<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> or <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref>) is distributed, exported, or placed on a shard, a <ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref> is generated. Receipts are linked in a tamper-evident chain via parent_receipt_hash.</para>
+<para>Supported event types: &quot;deploy&quot;, &quot;export&quot;, &quot;shard_distribute&quot;, &quot;federated_sync&quot;, &quot;checkpoint_transfer&quot;.</para>
+<para><simplesect kind="note"><para>receipt_hash covers all content fields and links (excluding receipt_hash itself). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_package_provenance.h" line="159" column="1" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="159" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a409601549e35cea02e80e44e4a30037e" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>artifact_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a191d2408a2b8dbd72d8fd8e71a68e94d" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a594f46d1e914c2a9188aa1e47476f8ec" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>computeContentHash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a64936a33d3329d78423eb558b6430c36" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>distribution_timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a38eb15130023d9ecf349f08146246026" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1ad1cffce94d57a5e37a2bc838e26191b8" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>extra_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1acdaabf1c6f75ef4010b8d0c012fdfdeb" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1ab23e7233b369ae50ffe81ab2be41f78b" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>operator_signature</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a025273d2b77a074a8813967839f65c25" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>parent_receipt_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a9b9f0e5f97d4a0f8470ca12f19de5fc6" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>receipt_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1afa8b124323ead5cf8b1411a1667aa28f" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>receipt_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a9744e9ac1b1da555bed48389331f2b2f" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>recipient_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt_1a225a6ff7610d4573016b6ad11e2ab54d" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributionReceipt</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

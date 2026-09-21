@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_i_confidence_calibrator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::training::IConfidenceCalibrator</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_confidence_calibrator_1a89d6e26510bf7d590bd066eb5a8c5709" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::training::IConfidenceCalibrator::~IConfidenceCalibrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IConfidenceCalibrator</name>
+        <qualifiedname>themis::training::IConfidenceCalibrator::~IConfidenceCalibrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="366" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_confidence_calibrator_1a7478cd7bf652bb090ba4bdf70b59fddb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1training_1_1_calibrator_output" kindref="compound">CalibratorOutput</ref> &gt;</type>
+        <definition>virtual std::future&lt; CalibratorOutput &gt; themis::training::IConfidenceCalibrator::calibrate</definition>
+        <argsstring>(const CalibrationDataset &amp;dataset)=0</argsstring>
+        <name>calibrate</name>
+        <qualifiedname>themis::training::IConfidenceCalibrator::calibrate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_calibration_dataset" kindref="compound">CalibrationDataset</ref> &amp;</type>
+          <declname>dataset</declname>
+        </param>
+        <briefdescription>
+<para>Asynchronously compute calibrated thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Labelled (confidence, correct) pairs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future resolving to the calibration output. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="373" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_confidence_calibrator_1a8e6a0cfeaa92af8a762b0d6867839896" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="namespacethemis_1_1training_1a1382c6c1121dc979a2b83a6268069d11" kindref="member">ThresholdMap</ref> &amp;</type>
+        <definition>virtual const ThresholdMap &amp; themis::training::IConfidenceCalibrator::currentThresholds</definition>
+        <argsstring>() const =0</argsstring>
+        <name>currentThresholds</name>
+        <qualifiedname>themis::training::IConfidenceCalibrator::currentThresholds</qualifiedname>
+        <briefdescription>
+<para>Return the currently active threshold map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="379" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_confidence_calibrator_1a291e52386d4db87459f0f2ff7d1aab5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::training::IConfidenceCalibrator::applyThresholds</definition>
+        <argsstring>(const ThresholdMap &amp;thresholds)=0</argsstring>
+        <name>applyThresholds</name>
+        <qualifiedname>themis::training::IConfidenceCalibrator::applyThresholds</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1training_1a1382c6c1121dc979a2b83a6268069d11" kindref="member">ThresholdMap</ref> &amp;</type>
+          <declname>thresholds</declname>
+        </param>
+        <briefdescription>
+<para>Replace the active threshold map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>thresholds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New per-category thresholds to apply. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="385" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_confidence_calibrator_1a34c4ac569e6cf0e23d46f1cef8f11c4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::training::IConfidenceCalibrator::resetToDefaults</definition>
+        <argsstring>()=0</argsstring>
+        <name>resetToDefaults</name>
+        <qualifiedname>themis::training::IConfidenceCalibrator::resetToDefaults</qualifiedname>
+        <briefdescription>
+<para>Reset all thresholds to their factory defaults (0.5 per category). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="390" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Threshold-only confidence calibration interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Design constraints:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a7478cd7bf652bb090ba4bdf70b59fddb" kindref="member">calibrate()</ref> operates exclusively on threshold scalars.</para>
+</listitem><listitem><para>It must never access gradient state, weight tensors, or optimizer state.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a291e52386d4db87459f0f2ff7d1aab5b" kindref="member">applyThresholds()</ref> updates only the internal threshold store.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a34c4ac569e6cf0e23d46f1cef8f11c4f" kindref="member">resetToDefaults()</ref> restores factory thresholds without touching any model.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1training_1_1_confidence_calibrator" kindref="compound">ConfidenceCalibrator</ref> (concrete implementation) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="364" column="1" bodyfile="include/training/training_interfaces.h" bodystart="364" bodyend="391"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a291e52386d4db87459f0f2ff7d1aab5b" prot="public" virt="pure-virtual"><scope>themis::training::IConfidenceCalibrator</scope><name>applyThresholds</name></member>
+      <member refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a7478cd7bf652bb090ba4bdf70b59fddb" prot="public" virt="pure-virtual"><scope>themis::training::IConfidenceCalibrator</scope><name>calibrate</name></member>
+      <member refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a8e6a0cfeaa92af8a762b0d6867839896" prot="public" virt="pure-virtual"><scope>themis::training::IConfidenceCalibrator</scope><name>currentThresholds</name></member>
+      <member refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a34c4ac569e6cf0e23d46f1cef8f11c4f" prot="public" virt="pure-virtual"><scope>themis::training::IConfidenceCalibrator</scope><name>resetToDefaults</name></member>
+      <member refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a89d6e26510bf7d590bd066eb5a8c5709" prot="public" virt="virtual"><scope>themis::training::IConfidenceCalibrator</scope><name>~IConfidenceCalibrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

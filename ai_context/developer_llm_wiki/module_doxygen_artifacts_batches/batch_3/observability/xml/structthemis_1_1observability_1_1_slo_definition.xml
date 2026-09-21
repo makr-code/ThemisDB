@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_slo_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SloDefinition</compoundname>
+    <includes refid="slo__reporter_8h" local="no">slo_reporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_definition_1a6f5d2a0810de1cf15adaf5d33a89627e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SloDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::SloDefinition::name</qualifiedname>
+        <briefdescription>
+<para>Unique SLO name (e.g. <computeroutput>"query_availability"</computeroutput>, <computeroutput>"write_latency_p99"</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="87" column="17" bodyfile="include/observability/slo_reporter.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_definition_1a3d6fe181c4189b9037110e6daf774a0d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SloDefinition::objective</definition>
+        <argsstring></argsstring>
+        <name>objective</name>
+        <qualifiedname>themis::observability::SloDefinition::objective</qualifiedname>
+        <initializer>{0.999}</initializer>
+        <briefdescription>
+<para>The SLO target expressed as a fraction in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For an availability SLO of 99.9 % this is 0.999. The error budget is <computeroutput>1 - <ref refid="structthemis_1_1observability_1_1_slo_definition_1a3d6fe181c4189b9037110e6daf774a0d" kindref="member">objective</ref></computeroutput> (e.g. 0.001 for 99.9 %). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="95" column="12" bodyfile="include/observability/slo_reporter.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_definition_1aaab41174117a42d0bf3155aa4061ac68" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::SloDefinition::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themis::observability::SloDefinition::window</qualifiedname>
+        <initializer>{std::chrono::hours(24)}</initializer>
+        <briefdescription>
+<para>Rolling evaluation window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requests older than <computeroutput>window</computeroutput> are expired from the sliding buffer. Default: 24 hours (a common SLO compliance window). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="103" column="26" bodyfile="include/observability/slo_reporter.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Definition of a single Service Level Objective (SLO). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>An SLO specifies a target reliability level for a named service indicator. The <ref refid="classthemis_1_1observability_1_1_slo_reporter" kindref="compound">SloReporter</ref> measures actual reliability against this target and tracks how fast the error budget is being consumed.</para>
+<para><heading level="3">Example</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">SloDefinition<sp/>slo;</highlight></codeline>
+<codeline><highlight class="normal">slo.name<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;query_availability&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">slo.objective<sp/>=<sp/>0.999;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>99.9<sp/>%<sp/>→<sp/>error<sp/>budget<sp/>=<sp/>0.1<sp/>%</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">slo.window<sp/><sp/><sp/><sp/>=<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline><highlight class="normal">reporter.registerSlo(slo);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/observability/slo_reporter.h" line="85" column="1" bodyfile="include/observability/slo_reporter.h" bodystart="85" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_slo_definition_1a6f5d2a0810de1cf15adaf5d33a89627e" prot="public" virt="non-virtual"><scope>themis::observability::SloDefinition</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_definition_1a3d6fe181c4189b9037110e6daf774a0d" prot="public" virt="non-virtual"><scope>themis::observability::SloDefinition</scope><name>objective</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_definition_1aaab41174117a42d0bf3155aa4061ac68" prot="public" virt="non-virtual"><scope>themis::observability::SloDefinition</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RAGJudgeFactory</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a5fae63f9f5649bccb720fecbf6bdbfbd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RAGJudge &gt; themis::rag::judge::RAGJudgeFactory::createFast</definition>
+        <argsstring>()</argsstring>
+        <name>createFast</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeFactory::createFast</qualifiedname>
+        <briefdescription>
+<para>Create a fast judge (single-dimension check). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Fast.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createFast without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="528" column="28" bodyfile="src/rag/rag_judge.cpp" bodystart="1907" bodyend="1913"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a3d662b2efc82b42c6ccbfed391baf5a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RAGJudge &gt; themis::rag::judge::RAGJudgeFactory::createBalanced</definition>
+        <argsstring>()</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeFactory::createBalanced</qualifiedname>
+        <briefdescription>
+<para>Create a balanced judge (multi-dimension). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Balanced.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createBalanced without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="533" column="28" bodyfile="src/rag/rag_judge.cpp" bodystart="1920" bodyend="1924"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a4a40478d3a73b8e2291c91d2511c2225" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RAGJudge &gt; themis::rag::judge::RAGJudgeFactory::createThorough</definition>
+        <argsstring>()</argsstring>
+        <name>createThorough</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeFactory::createThorough</qualifiedname>
+        <briefdescription>
+<para>Create a thorough judge (full evaluation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Thorough.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createThorough without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="538" column="28" bodyfile="src/rag/rag_judge.cpp" bodystart="1931" bodyend="1938"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a5eae45828deb6d1f414f2a8b561f93df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RAGJudge &gt; themis::rag::judge::RAGJudgeFactory::create</definition>
+        <argsstring>(const RAGJudgeConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeFactory::create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create a custom configured judge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="543" column="28" bodyfile="src/rag/rag_judge.cpp" bodystart="1946" bodyend="1948"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a57d3031439b39129347d8fe8c12be5ee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble" kindref="compound">JudgeEnsemble</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; JudgeEnsemble &gt; themis::rag::judge::RAGJudgeFactory::createEnsemble</definition>
+        <argsstring>(size_t count=3, VotingStrategy strategy=VotingStrategy::WEIGHTED_AVERAGE)</argsstring>
+        <name>createEnsemble</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeFactory::createEnsemble</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677" kindref="member">VotingStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677a4f51d375a57ade6658e035f335229505" kindref="member">VotingStrategy::WEIGHTED_AVERAGE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Create an ensemble of judges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Ensemble.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of judges in ensemble </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Voting strategy</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="550" column="28" bodyfile="src/rag/rag_judge.cpp" bodystart="1957" bodyend="1966"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for creating judges with different configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="523" column="1" bodyfile="include/rag/rag_judge.h" bodystart="523" bodyend="554"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a5eae45828deb6d1f414f2a8b561f93df" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a3d662b2efc82b42c6ccbfed391baf5a4" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a57d3031439b39129347d8fe8c12be5ee" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeFactory</scope><name>createEnsemble</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a5fae63f9f5649bccb720fecbf6bdbfbd" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeFactory</scope><name>createFast</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory_1a4a40478d3a73b8e2291c91d2511c2225" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeFactory</scope><name>createThorough</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

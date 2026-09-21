@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1wire_1_1_v2_setting" kind="struct" language="C++" prot="public">
+    <compoundname>themis::wire::V2Setting</compoundname>
+    <includes refid="wire__protocol__v2_8hpp" local="no">wire_protocol_v2.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_setting_1ab7563ee7d118c918b349f2785f609211" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1wire_1a5f0d9255c94a6daf07be567c402d37d9" kindref="member">V2SettingId</ref></type>
+        <definition>V2SettingId themis::wire::V2Setting::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::wire::V2Setting::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="127" column="17" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_setting_1aa932c98a7482f6385c0dc8d262e3ad42" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2Setting::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::wire::V2Setting::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="128" column="17" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/network/wire_protocol_v2.hpp" line="126" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="126" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1wire_1_1_v2_setting_1ab7563ee7d118c918b349f2785f609211" prot="public" virt="non-virtual"><scope>themis::wire::V2Setting</scope><name>id</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_setting_1aa932c98a7482f6385c0dc8d262e3ad42" prot="public" virt="non-virtual"><scope>themis::wire::V2Setting</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

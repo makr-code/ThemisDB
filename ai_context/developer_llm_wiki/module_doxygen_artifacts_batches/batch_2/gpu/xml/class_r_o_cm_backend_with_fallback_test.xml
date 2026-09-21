@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_r_o_cm_backend_with_fallback_test" kind="class" language="C++" prot="public">
+    <compoundname>ROCmBackendWithFallbackTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_r_o_cm_backend_with_fallback_test_1a0808ed46b4f780ff9275462e03d37155" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; ROCmBackendWithFallbackTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>ROCmBackendWithFallbackTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="220" column="19" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_r_o_cm_backend_with_fallback_test_1ab4c9a325006f5a4a5e017da16f32abca" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ROCmBackendWithFallbackTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ROCmBackendWithFallbackTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="222" column="8" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="222" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ROCmBackendWithFallbackTest</label>
+        <link refid="class_r_o_cm_backend_with_fallback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ROCmBackendWithFallbackTest</label>
+        <link refid="class_r_o_cm_backend_with_fallback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="218" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="218" bodyend="225"/>
+    <listofallmembers>
+      <member refid="class_r_o_cm_backend_with_fallback_test_1a0808ed46b4f780ff9275462e03d37155" prot="protected" virt="non-virtual"><scope>ROCmBackendWithFallbackTest</scope><name>handler</name></member>
+      <member refid="class_r_o_cm_backend_with_fallback_test_1ab4c9a325006f5a4a5e017da16f32abca" prot="protected" virt="non-virtual"><scope>ROCmBackendWithFallbackTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

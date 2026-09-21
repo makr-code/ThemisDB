@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_config_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpConfigTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_config_test_1ac52e13807ec03a0ad185730764edae28" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpConfigTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpConfigTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="75" column="21" bodyfile="tests/network/test_http_config.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_config_test_1ae42bf45a1f4f5bc16901aa20e3cfc06f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpConfigTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpConfigTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="76" column="21" bodyfile="tests/network/test_http_config.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_config_test_1a094b6b0fc0c89fbb493b66f196653c38" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpConfigTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpConfigTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="77" column="21" bodyfile="tests/network/test_http_config.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_config_test_1a2c10253036e4f24738b45b2459b8b3f5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpConfigTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpConfigTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="78" column="21" bodyfile="tests/network/test_http_config.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_config_test_1a9773e66860d4be83301d3d978ad17800" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpConfigTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpConfigTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="79" column="21" bodyfile="tests/network/test_http_config.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_config_test_1a9330e71a7bd6ac17a4746a7b59123c53" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpConfigTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpConfigTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="80" column="21" bodyfile="tests/network/test_http_config.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_config_test_1a11efff16b9ce760b6775b2c3cc7ab9bf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpConfigTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpConfigTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="24" column="10" bodyfile="tests/network/test_http_config.cpp" bodystart="24" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_config_test_1a3a7475292eea5e28cf890edac4cfa178" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpConfigTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpConfigTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="41" column="10" bodyfile="tests/network/test_http_config.cpp" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_config_test_1a007332c726dd89cf2fad10d2832d7c39" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpConfigTest::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>post</name>
+        <qualifiedname>HttpConfigTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="47" column="20" bodyfile="tests/network/test_http_config.cpp" bodystart="47" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_config_test_1ab73011c38b0c5e354cf51af9772c8319" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpConfigTest::get</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>get</name>
+        <qualifiedname>HttpConfigTest::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_config.cpp" line="61" column="20" bodyfile="tests/network/test_http_config.cpp" bodystart="61" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpConfigTest</label>
+        <link refid="class_http_config_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpConfigTest</label>
+        <link refid="class_http_config_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_config.cpp" line="22" column="1" bodyfile="tests/network/test_http_config.cpp" bodystart="22" bodyend="81"/>
+    <listofallmembers>
+      <member refid="class_http_config_test_1ab73011c38b0c5e354cf51af9772c8319" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>get</name></member>
+      <member refid="class_http_config_test_1a2c10253036e4f24738b45b2459b8b3f5" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_config_test_1a007332c726dd89cf2fad10d2832d7c39" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>post</name></member>
+      <member refid="class_http_config_test_1a094b6b0fc0c89fbb493b66f196653c38" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_config_test_1ac52e13807ec03a0ad185730764edae28" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>server_</name></member>
+      <member refid="class_http_config_test_1a11efff16b9ce760b6775b2c3cc7ab9bf" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>SetUp</name></member>
+      <member refid="class_http_config_test_1ae42bf45a1f4f5bc16901aa20e3cfc06f" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>storage_</name></member>
+      <member refid="class_http_config_test_1a3a7475292eea5e28cf890edac4cfa178" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>TearDown</name></member>
+      <member refid="class_http_config_test_1a9330e71a7bd6ac17a4746a7b59123c53" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_config_test_1a9773e66860d4be83301d3d978ad17800" prot="protected" virt="non-virtual"><scope>HttpConfigTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

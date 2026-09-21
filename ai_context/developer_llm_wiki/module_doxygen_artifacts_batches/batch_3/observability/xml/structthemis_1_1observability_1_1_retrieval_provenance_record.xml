@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_retrieval_provenance_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::RetrievalProvenanceRecord</compoundname>
+    <includes refid="retrieval__provenance_8h" local="no">retrieval_provenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a2e08654e34a0da53c5cce989e16f1e13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="35" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1aee8ab473dbd0bf5cef80487cd5f92fc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::confidence_policy_version</definition>
+        <argsstring></argsstring>
+        <name>confidence_policy_version</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::confidence_policy_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="36" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a8dc6e01eebfb019ad4a15aea69bcf89d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::trigger_reason_code</definition>
+        <argsstring></argsstring>
+        <name>trigger_reason_code</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::trigger_reason_code</qualifiedname>
+        <briefdescription>
+<para>e.g. TENSOR_RAG_TRIGGER_FLARE </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="39" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a46ab3b829bc8a98c87b47ead8bf2e42d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::RetrievalProvenanceRecord::flare_fired</definition>
+        <argsstring></argsstring>
+        <name>flare_fired</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::flare_fired</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="40" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a801f814d84bf47a0c678d474b13b30ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::RetrievalProvenanceRecord::targ_fired</definition>
+        <argsstring></argsstring>
+        <name>targ_fired</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::targ_fired</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="41" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1aef20c629bfc6de2990e18c572acf9bec" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::RetrievalProvenanceRecord::tensor_candidate_count</definition>
+        <argsstring></argsstring>
+        <name>tensor_candidate_count</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::tensor_candidate_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="44" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a732a267ca98859b5bfcd562869ad80ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::tensor_routing_reason</definition>
+        <argsstring></argsstring>
+        <name>tensor_routing_reason</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::tensor_routing_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="45" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a1c5219ff5e8f2534daaac60b4e12e5b0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::RetrievalProvenanceRecord::graph_evidence_count</definition>
+        <argsstring></argsstring>
+        <name>graph_evidence_count</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::graph_evidence_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="48" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1ac2a2b167f9366869b0b61684d5843609" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::graph_routing_reason_code</definition>
+        <argsstring></argsstring>
+        <name>graph_routing_reason_code</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::graph_routing_reason_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="49" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6fd03efa76d1e3e4982d60635870d20a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::RetrievalProvenanceRecord::final_resolved</definition>
+        <argsstring></argsstring>
+        <name>final_resolved</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::final_resolved</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="52" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6cdb89aa212f126ca50322932f3d9e2a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::final_package_id</definition>
+        <argsstring></argsstring>
+        <name>final_package_id</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::final_package_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="53" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a425ed24e742511e816d971808e0ad7db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::final_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>final_adapter_id</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::final_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="54" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1a488153a4328aaec1225092ce177f0fae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::final_routing_reason_code</definition>
+        <argsstring></argsstring>
+        <name>final_routing_reason_code</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::final_routing_reason_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="55" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1aa75ecd284361da5eac020ca105e26546" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::fallback_mode</definition>
+        <argsstring></argsstring>
+        <name>fallback_mode</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::fallback_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="58" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1af30fc1d1aa224ea1680dcd1a9b14262d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RetrievalProvenanceRecord::fallback_reason_code</definition>
+        <argsstring></argsstring>
+        <name>fallback_reason_code</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::fallback_reason_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="59" column="17" bodyfile="include/observability/retrieval_provenance.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_retrieval_provenance_record_1adb2d1ac6f75d2a652e77489b217e08e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::RetrievalProvenanceRecord::chain_complete</definition>
+        <argsstring></argsstring>
+        <name>chain_complete</name>
+        <qualifiedname>themis::observability::RetrievalProvenanceRecord::chain_complete</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when at least one gate triggered and every wired stage produced a result without a fail-closed fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/retrieval_provenance.h" line="65" column="10" bodyfile="include/observability/retrieval_provenance.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compact provenance record for one retrieval decision chain. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/retrieval_provenance.h" line="33" column="1" bodyfile="include/observability/retrieval_provenance.h" bodystart="33" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1adb2d1ac6f75d2a652e77489b217e08e8" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>chain_complete</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aee8ab473dbd0bf5cef80487cd5f92fc9" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>confidence_policy_version</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a2e08654e34a0da53c5cce989e16f1e13" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aa75ecd284361da5eac020ca105e26546" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>fallback_mode</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1af30fc1d1aa224ea1680dcd1a9b14262d" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>fallback_reason_code</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a425ed24e742511e816d971808e0ad7db" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>final_adapter_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6cdb89aa212f126ca50322932f3d9e2a" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>final_package_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6fd03efa76d1e3e4982d60635870d20a" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>final_resolved</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a488153a4328aaec1225092ce177f0fae" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>final_routing_reason_code</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a46ab3b829bc8a98c87b47ead8bf2e42d" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>flare_fired</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a1c5219ff5e8f2534daaac60b4e12e5b0" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>graph_evidence_count</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1ac2a2b167f9366869b0b61684d5843609" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>graph_routing_reason_code</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a801f814d84bf47a0c678d474b13b30ee" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>targ_fired</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aef20c629bfc6de2990e18c572acf9bec" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>tensor_candidate_count</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a732a267ca98859b5bfcd562869ad80ee" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>tensor_routing_reason</name></member>
+      <member refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a8dc6e01eebfb019ad4a15aea69bcf89d" prot="public" virt="non-virtual"><scope>themis::observability::RetrievalProvenanceRecord</scope><name>trigger_reason_code</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

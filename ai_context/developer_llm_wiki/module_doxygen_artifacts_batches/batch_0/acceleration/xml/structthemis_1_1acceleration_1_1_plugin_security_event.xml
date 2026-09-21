@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_plugin_security_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::PluginSecurityEvent</compoundname>
+    <includes refid="plugin__security_8h" local="no">plugin_security.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EventType</name>
+        <qualifiedname>themis::acceleration::PluginSecurityEvent::EventType</qualifiedname>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84a2b37ca3243ad9ba7c636219134050387" prot="public">
+          <name>PLUGIN_LOADED</name>
+          <briefdescription>
+<para>Plugin successfully loaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84a37a01de13cfbf0969f84c51bf083a078" prot="public">
+          <name>PLUGIN_LOAD_FAILED</name>
+          <briefdescription>
+<para>Plugin load operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84a7916a786132a368f548aa68773c435ce" prot="public">
+          <name>SIGNATURE_VERIFIED</name>
+          <briefdescription>
+<para>Digital signature verification succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84a1118268b6de447759048435aba947f80" prot="public">
+          <name>SIGNATURE_VERIFICATION_FAILED</name>
+          <briefdescription>
+<para>Signature verification failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84ac93ebf8fbedbcb375e9368dcfde5e59d" prot="public">
+          <name>HASH_MISMATCH</name>
+          <briefdescription>
+<para>File hash does not match expected value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84adfed2f41a09f71d0705289cad9f862ff" prot="public">
+          <name>BLACKLISTED</name>
+          <briefdescription>
+<para>Plugin found on security blacklist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84ae70c04a1c91f07347af2edf646943ffd" prot="public">
+          <name>UNTRUSTED_ISSUER</name>
+          <briefdescription>
+<para>Certificate issuer not in trusted list. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84ad6f1630c8a87c1b2c152132ae04648b5" prot="public">
+          <name>CERTIFICATE_EXPIRED</name>
+          <briefdescription>
+<para>Plugin certificate has expired. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84a5842db91f5afd5fc198e4b36cd92e82f" prot="public">
+          <name>CERTIFICATE_REVOKED</name>
+          <briefdescription>
+<para>Plugin certificate is revoked. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84a169cb04bda558347b02294770e4b9e0c" prot="public">
+          <name>POLICY_VIOLATION</name>
+          <briefdescription>
+<para>Security policy constraint violated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84ab0db86aea679861d1a77a9cb82f3e947" prot="public">
+          <name>PLUGIN_UNLOADED</name>
+          <briefdescription>
+<para>Plugin successfully unloaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="388" column="5" bodyfile="include/acceleration/plugin_security.h" bodystart="388" bodyend="400"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_event_1af8da2da278f88838e77041cc945738f8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84" kindref="member">EventType</ref></type>
+        <definition>EventType themis::acceleration::PluginSecurityEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::PluginSecurityEvent::type</qualifiedname>
+        <briefdescription>
+<para>Type of security event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="402" column="15" bodyfile="include/acceleration/plugin_security.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_event_1a14918ee2da6a394d3815c0f24769cd20" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSecurityEvent::pluginPath</definition>
+        <argsstring></argsstring>
+        <name>pluginPath</name>
+        <qualifiedname>themis::acceleration::PluginSecurityEvent::pluginPath</qualifiedname>
+        <briefdescription>
+<para>Path to the plugin file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="403" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_event_1a5db66fb89b398ab4a291bd24aaa739bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSecurityEvent::pluginHash</definition>
+        <argsstring></argsstring>
+        <name>pluginHash</name>
+        <qualifiedname>themis::acceleration::PluginSecurityEvent::pluginHash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hash of the plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="404" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_event_1ae15266fea6abe078c441e85066c0ba70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSecurityEvent::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::acceleration::PluginSecurityEvent::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable event description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="405" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_event_1a311164d8bd9e42acc248028749646971" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::PluginSecurityEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::acceleration::PluginSecurityEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>Unix timestamp of event occurrence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="406" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_event_1a95d1e57bab7691b6fdf53e6985261e4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSecurityEvent::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::acceleration::PluginSecurityEvent::severity</qualifiedname>
+        <briefdescription>
+<para>Event severity level: &quot;INFO&quot;, &quot;WARNING&quot;, &quot;ERROR&quot;, &quot;CRITICAL&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="407" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/plugin_security.h" line="387" column="1" bodyfile="include/acceleration/plugin_security.h" bodystart="387" bodyend="408"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_event_1ae22d98528dde06da49180435d2546d84" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityEvent</scope><name>EventType</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_event_1ae15266fea6abe078c441e85066c0ba70" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityEvent</scope><name>message</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_event_1a5db66fb89b398ab4a291bd24aaa739bf" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityEvent</scope><name>pluginHash</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_event_1a14918ee2da6a394d3815c0f24769cd20" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityEvent</scope><name>pluginPath</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_event_1a95d1e57bab7691b6fdf53e6985261e4b" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityEvent</scope><name>severity</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_event_1a311164d8bd9e42acc248028749646971" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_event_1af8da2da278f88838e77041cc945738f8" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

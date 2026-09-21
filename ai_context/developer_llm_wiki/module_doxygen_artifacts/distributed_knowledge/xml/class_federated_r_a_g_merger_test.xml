@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_federated_r_a_g_merger_test" kind="class" language="C++" prot="public">
+    <compoundname>FederatedRAGMergerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_federated_r_a_g_merger_test_1a22a27c56e77d3da6d08ce73e81c66443" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref></type>
+        <definition>FederatedRAGMergerConfig FederatedRAGMergerTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>FederatedRAGMergerTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="39" column="30" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_federated_r_a_g_merger_test_1a5a60d635e254c92d4f146c1efea4defe" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FederatedRAGMergerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FederatedRAGMergerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="33" column="10" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="33" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_federated_r_a_g_merger_test_1a548809f8bc3ab5996e5ae0a0e395e931" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref></type>
+        <definition>static ShardRetrievalResult FederatedRAGMergerTest::makeShardResult</definition>
+        <argsstring>(const std::string &amp;shard_id, size_t n_docs, bool ok=true)</argsstring>
+        <name>makeShardResult</name>
+        <qualifiedname>FederatedRAGMergerTest::makeShardResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n_docs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ok</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref> with n documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="42" column="33" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="42" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FederatedRAGMergerTest</label>
+        <link refid="class_federated_r_a_g_merger_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FederatedRAGMergerTest</label>
+        <link refid="class_federated_r_a_g_merger_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::distributed_knowledge::FederatedRAGMergerConfig</label>
+        <link refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="31" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="31" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_federated_r_a_g_merger_test_1a22a27c56e77d3da6d08ce73e81c66443" prot="protected" virt="non-virtual"><scope>FederatedRAGMergerTest</scope><name>cfg_</name></member>
+      <member refid="class_federated_r_a_g_merger_test_1a548809f8bc3ab5996e5ae0a0e395e931" prot="protected" virt="non-virtual"><scope>FederatedRAGMergerTest</scope><name>makeShardResult</name></member>
+      <member refid="class_federated_r_a_g_merger_test_1a5a60d635e254c92d4f146c1efea4defe" prot="protected" virt="non-virtual"><scope>FederatedRAGMergerTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

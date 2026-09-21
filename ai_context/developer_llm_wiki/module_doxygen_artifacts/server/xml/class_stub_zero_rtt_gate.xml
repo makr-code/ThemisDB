@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_zero_rtt_gate" kind="class" language="C++" prot="public">
+    <compoundname>StubZeroRttGate</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_zero_rtt_gate_1aebd0de814c37a6ceb51821f535194512" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubZeroRttGate::acceptEarlyData</definition>
+        <argsstring>(const FakeSessionToken &amp;tok) const noexcept</argsstring>
+        <name>acceptEarlyData</name>
+        <qualifiedname>StubZeroRttGate::acceptEarlyData</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_fake_session_token" kindref="compound">FakeSessionToken</ref> &amp;</type>
+          <declname>tok</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if early data should be accepted for this token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="111" column="11" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Stub 0-RTT gate that enforces the security contract:<itemizedlist>
+<listitem><para>valid token → early data accepted</para>
+</listitem><listitem><para>invalid/mismatched token → rejected</para>
+</listitem><listitem><para>replayed token → rejected </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="tests/server/test_server_http3_stress_focused.cpp" line="108" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="108" bodyend="116"/>
+    <listofallmembers>
+      <member refid="class_stub_zero_rtt_gate_1aebd0de814c37a6ceb51821f535194512" prot="public" virt="non-virtual"><scope>StubZeroRttGate</scope><name>acceptEarlyData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

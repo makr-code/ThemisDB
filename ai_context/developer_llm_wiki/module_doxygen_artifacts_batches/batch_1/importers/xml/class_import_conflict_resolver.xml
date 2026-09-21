@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_import_conflict_resolver" kind="class" language="C++" prot="public">
+    <compoundname>ImportConflictResolver</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_import_conflict_resolver_1af92291191cba9b5352b711bda649232e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, json &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, json&gt; &gt; ImportConflictResolver::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>ImportConflictResolver::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="155" column="2" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_import_conflict_resolver_1a87bbba49b4c63f82bb96dc65538f1f16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ImportConflictResolver::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>ImportConflictResolver::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="75" column="10" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_import_conflict_resolver_1a5131f503027fdb553ce617f3232cb963" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>json</type>
+        <definition>json ImportConflictResolver::resolve</definition>
+        <argsstring>(const json &amp;entity, const std::string &amp;table_name, const std::string &amp;conflict_key, ConflictStrategy strategy, int merge_depth, const std::vector&lt; std::string &gt; &amp;protected_fields, bool &amp;conflict_detected)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>ImportConflictResolver::resolve</qualifiedname>
+        <param>
+          <type>const json &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>conflict_key</declname>
+        </param>
+        <param>
+          <type><ref refid="test__importer__conflict__resolver_8cpp_1a47dda21acd080b724f0a813ebb0b74eb" kindref="member">ConflictStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>merge_depth</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>protected_fields</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>conflict_detected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="94" column="10" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="94" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_import_conflict_resolver_1af2c74ef1a32a356ec5ca8c5b3b6861a9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string ImportConflictResolver::computeKey</definition>
+        <argsstring>(const json &amp;entity, const std::vector&lt; std::string &gt; &amp;key_columns)</argsstring>
+        <name>computeKey</name>
+        <qualifiedname>ImportConflictResolver::computeKey</qualifiedname>
+        <param>
+          <type>const json &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>key_columns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="77" column="24" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="77" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_import_conflict_resolver_1a60d76ccc7705474d65130430b4aa5007" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>json</type>
+        <definition>static json ImportConflictResolver::mergeEntities</definition>
+        <argsstring>(const json &amp;existing, const json &amp;incoming, int depth, const std::vector&lt; std::string &gt; &amp;protected_fields)</argsstring>
+        <name>mergeEntities</name>
+        <qualifiedname>ImportConflictResolver::mergeEntities</qualifiedname>
+        <param>
+          <type>const json &amp;</type>
+          <declname>existing</declname>
+        </param>
+        <param>
+          <type>const json &amp;</type>
+          <declname>incoming</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>protected_fields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="127" column="17" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="127" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/test_importer_conflict_resolver.cpp" line="73" column="1" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="73" bodyend="156"/>
+    <listofallmembers>
+      <member refid="class_import_conflict_resolver_1af2c74ef1a32a356ec5ca8c5b3b6861a9" prot="public" virt="non-virtual"><scope>ImportConflictResolver</scope><name>computeKey</name></member>
+      <member refid="class_import_conflict_resolver_1a60d76ccc7705474d65130430b4aa5007" prot="public" virt="non-virtual"><scope>ImportConflictResolver</scope><name>mergeEntities</name></member>
+      <member refid="class_import_conflict_resolver_1af92291191cba9b5352b711bda649232e" prot="private" virt="non-virtual"><scope>ImportConflictResolver</scope><name>registry_</name></member>
+      <member refid="class_import_conflict_resolver_1a87bbba49b4c63f82bb96dc65538f1f16" prot="public" virt="non-virtual"><scope>ImportConflictResolver</scope><name>reset</name></member>
+      <member refid="class_import_conflict_resolver_1a5131f503027fdb553ce617f3232cb963" prot="public" virt="non-virtual"><scope>ImportConflictResolver</scope><name>resolve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

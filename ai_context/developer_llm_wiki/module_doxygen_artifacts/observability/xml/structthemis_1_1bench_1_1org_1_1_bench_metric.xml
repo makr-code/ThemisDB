@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1org_1_1_bench_metric" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::org::BenchMetric</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_metric_1a795ecadd2ecac42ddbbe205a4a11ac7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::org::BenchMetric::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::bench::org::BenchMetric::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="175" column="24" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_metric_1a8c14383b49e5b8332fe00528ee0b5df2" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::org::BenchMetric::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::bench::org::BenchMetric::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="176" column="24" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="176" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="174" column="1" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="174" bodyend="177"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_metric_1a795ecadd2ecac42ddbbe205a4a11ac7d" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchMetric</scope><name>name</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_metric_1a8c14383b49e5b8332fe00528ee0b5df2" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchMetric</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

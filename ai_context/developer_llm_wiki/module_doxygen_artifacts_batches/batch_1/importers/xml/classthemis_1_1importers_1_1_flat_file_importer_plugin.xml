@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_flat_file_importer_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::FlatFileImporterPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">plugins::IThemisPlugin</basecompoundref>
+    <includes refid="flatfile__importer_8h" local="no">flatfile_importer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a64eaa45097c3b80ebc877e6aabb0c304" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_flat_file_importer" kindref="compound">FlatFileImporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FlatFileImporter&gt; themis::importers::FlatFileImporterPlugin::importer_</definition>
+        <argsstring></argsstring>
+        <name>importer_</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::importer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="234" column="21" bodyfile="include/importers/flatfile_importer.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a55b03cbf0943a94d41d125677fb05d06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::FlatFileImporterPlugin::FlatFileImporterPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>FlatFileImporterPlugin</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::FlatFileImporterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="219" column="5" bodyfile="src/importers/flatfile_importer.cpp" bodystart="1695" bodyend="1696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a3249b454b62a24be2484515603c41fb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::FlatFileImporterPlugin::~FlatFileImporterPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~FlatFileImporterPlugin</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::~FlatFileImporterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="220" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a3edec388548202115c991c37139b2439" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::FlatFileImporterPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="223" column="16" bodyfile="include/importers/flatfile_importer.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a0090cab558414f99357154bb4915ac73" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::FlatFileImporterPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="224" column="16" bodyfile="include/importers/flatfile_importer.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a571fc0e668196e113a112e839baf1b9d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginType</type>
+        <definition>plugins::PluginType themis::importers::FlatFileImporterPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="225" column="25" bodyfile="include/importers/flatfile_importer.h" bodystart="225" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a668199332a6e23719f4f769a18f135a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::importers::FlatFileImporterPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="228" column="33" bodyfile="src/importers/flatfile_importer.cpp" bodystart="1698" bodyend="1704"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1ae5067fcff823c6258ed7909af956b820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::FlatFileImporterPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="229" column="10" bodyfile="src/importers/flatfile_importer.cpp" bodystart="1712" bodyend="1717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a35d70879bc2ee60b5b14ee4f903f7843" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::FlatFileImporterPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cancel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="230" column="10" bodyfile="src/importers/flatfile_importer.cpp" bodystart="1723" bodyend="1727"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_flat_file_importer_plugin_1adaa41c985aa13ecdaa4d640ee178d65a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::importers::FlatFileImporterPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::importers::FlatFileImporterPlugin::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/flatfile_importer.h" line="231" column="10" bodyfile="include/importers/flatfile_importer.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::FlatFileImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_flat_file_importer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::FlatFileImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_flat_file_importer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/flatfile_importer.h" line="217" column="1" bodyfile="include/importers/flatfile_importer.h" bodystart="217" bodyend="235"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a55b03cbf0943a94d41d125677fb05d06" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>FlatFileImporterPlugin</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a668199332a6e23719f4f769a18f135a1" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1adaa41c985aa13ecdaa4d640ee178d65a" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a3edec388548202115c991c37139b2439" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a571fc0e668196e113a112e839baf1b9d" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a0090cab558414f99357154bb4915ac73" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a64eaa45097c3b80ebc877e6aabb0c304" prot="private" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>importer_</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1ae5067fcff823c6258ed7909af956b820" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a35d70879bc2ee60b5b14ee4f903f7843" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1importers_1_1_flat_file_importer_plugin_1a3249b454b62a24be2484515603c41fb1" prot="public" virt="non-virtual"><scope>themis::importers::FlatFileImporterPlugin</scope><name>~FlatFileImporterPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,870 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1tests" kind="namespace" language="C++">
+    <compoundname>themis::aql::tests</compoundname>
+    <innerclass refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor" prot="public">themis::aql::tests::BenchmarkHistoryCompressor</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1tests_1_1_benchmark_l_l_m_a_q_l_handler" prot="public">themis::aql::tests::BenchmarkLLMAQLHandler</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" prot="public">themis::aql::tests::EpisodicCompressionTest</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor" prot="public">themis::aql::tests::MockHistoryCompressor</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler" prot="public">themis::aql::tests::MockLLMAQLHandler</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" prot="public">themis::aql::tests::P2D05RuntimeIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" prot="public">themis::aql::tests::P2D06BenchmarkFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a2db038b2b0ddb53b58c5d5271ae3a422" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, AvailabilityCheck)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>AvailabilityCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="71" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1aa73c9db300092e4e59d66a1b53e87ac3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, AvailabilityReflectsLLMClientReadiness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>AvailabilityReflectsLLMClientReadiness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="75" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="75" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a0a404132341e51584a26fdfc216ec4fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, BasicCompressionRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>BasicCompressionRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="84" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="84" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a0af51122a851560496ea4f8668e14b18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, SemanticSimilarityPreservation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>SemanticSimilarityPreservation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="97" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="97" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a1fe645f41c2b9f324f743468aac926a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, TokenBudgetRespected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>TokenBudgetRespected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="107" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="107" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a3aee238f9a04d3acd1f39718a5c0c093" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, SystemMessagePreserved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>SystemMessagePreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="118" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a6994fbed887a18878750858b04594908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, InvalidInputHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidInputHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="128" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a4fb6c75a89d7e2b2ce37e0e05a361017" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, InvalidParametersThrow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidParametersThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="136" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="136" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a43dbbc8960f9fc21260e34d2dc8ba3a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, CompressionRatio)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>CompressionRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="152" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="152" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a4c01d615859a3ed67473852e61cff029" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, ConsistentEpisodeIds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>ConsistentEpisodeIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="164" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="164" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a3fefc24d7c04b38ac0dba73bce5ebe65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, TimestampRecorded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>TimestampRecorded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="176" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="176" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1ad727e69a8d1bb695bc1f0aada09bae05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, SelectedIndicesTracked)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>SelectedIndicesTracked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="189" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="189" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a16ba6d3f1062b0dd6daf1ab82e0b20b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, StatisticsTracking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>StatisticsTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="209" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="209" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a92831005d5776c956cdea2408b1efc4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, LargeBudgetNoCompression)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>LargeBudgetNoCompression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="220" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="220" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1ae4cf2e79e902fc27630cb42848bcd6f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, SmallBudgetCompression)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>SmallBudgetCompression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="233" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="233" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a858b2e228cc45ecf012e44b80bd43013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(EpisodicCompressionTest, P2GATE03SemanticSimilarity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_episodic_compression_test" kindref="compound">EpisodicCompressionTest</ref></type>
+        </param>
+        <param>
+          <type>P2GATE03SemanticSimilarity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="248" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="248" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1aa9958ff286886f6afd69a83b3876cd5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, CompressorInjectionViaConstructor)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CompressorInjectionViaConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="103" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="103" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1ac8bfee81560c1be06976fc42523ad81b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, CompressorSetterGetter)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CompressorSetterGetter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="114" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="114" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1adbb35589ef31bdaf2e9eb346376470d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, CompressionTriggeredOnThreshold)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CompressionTriggeredOnThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="123" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="123" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a170bfea5c0d5b64a6a0e38e8f40066bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, CompressionDisabledByConfig)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CompressionDisabledByConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="149" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="149" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a4f043e5e4221ba1a7d7b653a46793d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, CompressionGracefulFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CompressionGracefulFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="166" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="166" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a2482f93945ea71cedd50aff513c7f0f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, HistoryPreservationAfterCompression)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryPreservationAfterCompression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="184" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="184" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a9a50bc923e9aba935d746c5a2a199fa0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, StateStoreInitialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StateStoreInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="208" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="208" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1afeb698efe1a1dd2fcd14b2618d0235f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, StateStoreCheckpointRecover)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StateStoreCheckpointRecover</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="219" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="219" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1af31d701030833436640d4ac0f06837b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, StateStoreStatistics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StateStoreStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="235" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="235" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a05fa3952b3d85f043ae46714c89f1ec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, StateStoreCompaction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StateStoreCompaction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="243" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="243" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a865b604dd05aaf21406fc534db25cd00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, StateStoreInvalidation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StateStoreInvalidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="251" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="251" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1acdc362466c5fb3dd8f07b721eef0664e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, ConcurrentCompressionCalls)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentCompressionCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="263" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="263" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1ac5832de5498bea53d2fe2bbd5734397e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, CompressorSwapDuringOperation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CompressorSwapDuringOperation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="282" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="282" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a325ca47c3a2b013de2250ebf5454713f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, EmptyHistoryCompression)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyHistoryCompression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="303" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="303" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a5613a7e90795137a1d092d2e0900bb4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, NullCompressorHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>NullCompressorHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="317" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="317" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1ae97f7384e67fb5dd1092f2e665d3e093" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D05RuntimeIntegrationTest, HighTokenCountThreshold)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d05_runtime_integration_test" kindref="compound">P2D05RuntimeIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>HighTokenCountThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="333" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="333" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a3613c70aed097ad3e1610b6e68859ee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, CompressionIntegrationBasic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>CompressionIntegrationBasic</type>
+        </param>
+        <briefdescription>
+<para>Verify compression integration exists and is callable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="197" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="197" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a510dddc3d64bf088c9dca271b08f96ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, SemanticSimilarityGatePASSES)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>SemanticSimilarityGatePASSES</type>
+        </param>
+        <briefdescription>
+<para>Test P2-GATE-03: Semantic similarity must be ≥0.85. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="211" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="211" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1aeee3b64ce9929936456c5d51be4d3889" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, TokenReductionGatePASSES)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>TokenReductionGatePASSES</type>
+        </param>
+        <briefdescription>
+<para>Test P2-GATE-05: Token reduction must be ≥30%. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="223" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="223" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1abafb36f3326f56e60af6c95e450288e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, CompressionWithVariableBudgets)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>CompressionWithVariableBudgets</type>
+        </param>
+        <briefdescription>
+<para>Test compression with different token budgets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="240" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="240" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a68761dfc0c1ab67c64e18cd862285c10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, MultipleCompressionCalls)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>MultipleCompressionCalls</type>
+        </param>
+        <briefdescription>
+<para>Test multiple compression calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="253" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="253" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1aeb6b7db590dc02aee85b4555858e107a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, CompressionEmptyHistoryReturnsNull)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>CompressionEmptyHistoryReturnsNull</type>
+        </param>
+        <briefdescription>
+<para>Test edge case: empty history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="264" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="264" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a8ae3a77e49a3990dd6ab48ac6d8264fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, CompressionSingleMessageHandled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>CompressionSingleMessageHandled</type>
+        </param>
+        <briefdescription>
+<para>Test edge case: single message in history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="273" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="273" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a1217be70a8ec262b8b94fea4d8cba7c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, CompressionLatencyBenchmark)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>CompressionLatencyBenchmark</type>
+        </param>
+        <briefdescription>
+<para>Latency benchmark for compression (targets ≤500ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="287" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="287" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a2a95823f9c9573695bd848b3cbece265" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, ConcurrentCompressionCalls)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentCompressionCalls</type>
+        </param>
+        <briefdescription>
+<para>Multi-threaded concurrent compression stress test. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="316" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="316" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1tests_1a0c9515a4ef6bd1dd5ba421a685acf8ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::TEST_F</definition>
+        <argsstring>(P2D06BenchmarkFixture, CompressionStatisticsCollection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1tests_1_1_p2_d06_benchmark_fixture" kindref="compound">P2D06BenchmarkFixture</ref></type>
+        </param>
+        <param>
+          <type>CompressionStatisticsCollection</type>
+        </param>
+        <briefdescription>
+<para>Verify compression statistics collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="348" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="348" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_episodic_compaction.cpp" line="20" column="1"/>
+  </compounddef>
+</doxygen>

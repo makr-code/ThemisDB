@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_field_encryption" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IFieldEncryption</compoundname>
+    <includes refid="security__interface_8h" local="no">security_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_field_encryption_1a185cf477bd918d003812ac2831ff8d59" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IFieldEncryption::~IFieldEncryption</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFieldEncryption</name>
+        <qualifiedname>themis::IFieldEncryption::~IFieldEncryption</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="29" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_field_encryption_1a63fdd23e108699a976445ce490758664" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::IFieldEncryption::encrypt_field</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; uint8_t &gt; &amp;plaintext)=0</argsstring>
+        <name>encrypt_field</name>
+        <qualifiedname>themis::IFieldEncryption::encrypt_field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt a field value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field being encrypted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The plaintext data to encrypt </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Encrypted data as byte vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="38" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_field_encryption_1aa475545ab57de8321e987246bb6660ae" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::IFieldEncryption::decrypt_field</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; uint8_t &gt; &amp;ciphertext)=0</argsstring>
+        <name>decrypt_field</name>
+        <qualifiedname>themis::IFieldEncryption::decrypt_field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt a field value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field being decrypted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ciphertext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The encrypted data to decrypt </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decrypted plaintext as byte vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="49" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_field_encryption_1a6b64f5eb77c93990b78deb29631e5bca" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::IFieldEncryption::should_encrypt</definition>
+        <argsstring>(const std::string &amp;field_name) const =0</argsstring>
+        <name>should_encrypt</name>
+        <qualifiedname>themis::IFieldEncryption::should_encrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if a field should be encrypted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if field should be encrypted, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="59" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for field-level encryption. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides abstract interface for encrypting and decrypting individual fields without depending on concrete encryption implementations. </para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/security_interface.h" line="27" column="1" bodyfile="include/themis/base/interfaces/security_interface.h" bodystart="27" bodyend="60"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_field_encryption_1aa475545ab57de8321e987246bb6660ae" prot="public" virt="pure-virtual"><scope>themis::IFieldEncryption</scope><name>decrypt_field</name></member>
+      <member refid="classthemis_1_1_i_field_encryption_1a63fdd23e108699a976445ce490758664" prot="public" virt="pure-virtual"><scope>themis::IFieldEncryption</scope><name>encrypt_field</name></member>
+      <member refid="classthemis_1_1_i_field_encryption_1a6b64f5eb77c93990b78deb29631e5bca" prot="public" virt="pure-virtual"><scope>themis::IFieldEncryption</scope><name>should_encrypt</name></member>
+      <member refid="classthemis_1_1_i_field_encryption_1a185cf477bd918d003812ac2831ff8d59" prot="public" virt="virtual"><scope>themis::IFieldEncryption</scope><name>~IFieldEncryption</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

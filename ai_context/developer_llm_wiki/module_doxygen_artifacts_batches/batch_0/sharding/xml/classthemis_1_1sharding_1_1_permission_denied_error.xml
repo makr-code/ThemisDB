@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_permission_denied_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::PermissionDeniedError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_permission_denied_error_1a77992fdc3089402586a4b99eb96b63e3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::PermissionDeniedError::PermissionDeniedError</definition>
+        <argsstring>(const std::string &amp;what)</argsstring>
+        <name>PermissionDeniedError</name>
+        <qualifiedname>themis::sharding::PermissionDeniedError::PermissionDeniedError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>what</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="57" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="57" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Thrown when an operation requires a cluster-admin capability token that is absent or invalid in the supplied <ref refid="structthemis_1_1sharding_1_1_admin_context" kindref="compound">AdminContext</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::PermissionDeniedError</label>
+        <link refid="classthemis_1_1sharding_1_1_permission_denied_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::PermissionDeniedError</label>
+        <link refid="classthemis_1_1sharding_1_1_permission_denied_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/sharding_interfaces.h" line="55" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="55" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_permission_denied_error_1a77992fdc3089402586a4b99eb96b63e3" prot="public" virt="non-virtual"><scope>themis::sharding::PermissionDeniedError</scope><name>PermissionDeniedError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_bescheid_extractor" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::BescheidExtractor</compoundname>
+    <includes refid="legal__domain_8h" local="no">legal_domain.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bescheid_extractor_1a63fb914a3e59e07dd41cc7ebf36d6040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::BescheidExtractor::BescheidExtractor</definition>
+        <argsstring>()=default</argsstring>
+        <name>BescheidExtractor</name>
+        <qualifiedname>themis::ingestion::BescheidExtractor::BescheidExtractor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="249" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bescheid_extractor_1ac2be06300d850814ea3984e2cf31eb39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity" kindref="compound">BescheidEntity</ref></type>
+        <definition>BescheidEntity themis::ingestion::BescheidExtractor::extract</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::ingestion::BescheidExtractor::extract</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract structured fields from a Bescheid document text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full plain text of the administrative decision. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted fields; use <computeroutput><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a988c3f0ba4220cd2f179695bcdd153ec" kindref="member">BescheidEntity::empty()</ref></computeroutput> to detect documents that don&apos;t look like a Bescheid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="258" column="20" bodyfile="src/ingestion/legal_domain.cpp" bodystart="620" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bescheid_extractor_1aa8eb9f0f7cf486a6b44fcbd0f8244dc0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></type>
+        <definition>BaseEntity themis::ingestion::BescheidExtractor::toEntity</definition>
+        <argsstring>(const BescheidEntity &amp;bescheid, const std::string &amp;source_doc) const</argsstring>
+        <name>toEntity</name>
+        <qualifiedname>themis::ingestion::BescheidExtractor::toEntity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_bescheid_entity" kindref="compound">BescheidEntity</ref> &amp;</type>
+          <declname>bescheid</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_doc</declname>
+        </param>
+        <briefdescription>
+<para>Convert a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity" kindref="compound">BescheidEntity</ref></computeroutput> to a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></computeroutput> for the graph store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The canonical ID is <computeroutput>bescheid:&lt;aktenzeichen&gt;</computeroutput> when aktenzeichen is non-empty, else <computeroutput>bescheid:&lt;hash&gt;</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="266" column="16" bodyfile="src/ingestion/legal_domain.cpp" bodystart="690" bodyend="719"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extracts structured fields from an administrative decision text. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Recognises German patterns such as:<itemizedlist>
+<listitem><para>&quot;Aktenzeichen:&quot; / &quot;Az.:&quot; / &quot;Geschäftszeichen:&quot;</para>
+</listitem><listitem><para>&quot;Antragsteller:&quot; / &quot;Antragstellerin:&quot;</para>
+</listitem><listitem><para>&quot;Datum:&quot; / &quot;Bescheid vom&quot;</para>
+</listitem><listitem><para>&quot;Auflage [N]:&quot; / numbered list under &quot;Auflagen&quot; section header</para>
+</listitem><listitem><para>&quot;Nebenbestimmung:&quot; </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/ingestion/legal_domain.h" line="247" column="1" bodyfile="include/ingestion/legal_domain.h" bodystart="247" bodyend="268"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_bescheid_extractor_1a63fb914a3e59e07dd41cc7ebf36d6040" prot="public" virt="non-virtual"><scope>themis::ingestion::BescheidExtractor</scope><name>BescheidExtractor</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bescheid_extractor_1ac2be06300d850814ea3984e2cf31eb39" prot="public" virt="non-virtual"><scope>themis::ingestion::BescheidExtractor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bescheid_extractor_1aa8eb9f0f7cf486a6b44fcbd0f8244dc0" prot="public" virt="non-virtual"><scope>themis::ingestion::BescheidExtractor</scope><name>toEntity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

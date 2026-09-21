@@ -1,0 +1,440 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__config__hardening__resolver__validator_8cpp" kind="file" language="C++">
+    <compoundname>test_config_hardening_resolver_validator.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includes refid="config__contract_8h" local="yes">config/config_contract.h</includes>
+    <includes refid="config__errors_8h" local="yes">config/config_errors.h</includes>
+    <includes refid="config__path__resolver_8h" local="yes">config/config_path_resolver.h</includes>
+    <includes refid="config__schema__validator_8h" local="yes">config/config_schema_validator.h</includes>
+    <incdepgraph>
+      <node id="19">
+        <label>config/config_audit_log.h</label>
+        <link refid="config__audit__log_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>config/config_contract.h</label>
+        <link refid="config__contract_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>config/config_errors.h</label>
+        <link refid="config__errors_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>config/config_path_resolver.h</label>
+        <link refid="config__path__resolver_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>config/config_schema_validator.h</label>
+        <link refid="config__schema__validator_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>config/lru_cache.h</label>
+        <link refid="lru__cache_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>config/path_mapping_metadata.h</label>
+        <link refid="path__mapping__metadata_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/config/test_config_hardening_resolver_validator.cpp</label>
+        <link refid="test__config__hardening__resolver__validator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>csignal</label>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="20">
+        <label>deque</label>
+      </node>
+      <node id="14">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="24">
+        <label>list</label>
+      </node>
+      <node id="13">
+        <label>map</label>
+      </node>
+      <node id="18">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="10">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" prot="public">themis::config::test::ConfigResolverHardeningTest</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" prot="public">themis::config::test::ConfigValidatorHardeningTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config">themis::config</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config_1_1test">themis::config::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 hardening tests for resolver/validator edge cases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This test suite validates edge-case behavior and fail-closed semantics for:<itemizedlist>
+<listitem><para>CFG-01..CFG-08: Resolver edge cases (missing paths, invalid paths, circular fallbacks, oversized paths)</para>
+</listitem><listitem><para>CFG-09..CFG-16: Validator edge cases (malformed schemas, oversized values, deep nesting, circular $refs)</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests verify that the config module adheres to the fail-closed contract defined in <ref refid="config__contract_8h" kindref="compound">include/config/config_contract.h</ref> § 4 (Resolver fail-closed contract). </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__contract_8h" kindref="compound">config/config_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__errors_8h" kindref="compound">config/config_errors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__path__resolver_8h" kindref="compound">config/config_path_resolver.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__schema__validator_8h" kindref="compound">config/config_schema_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CFG-01..CFG-08:<sp/>Resolver<sp/>Edge<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" kindref="compound">ConfigResolverHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test_1ab8bf1d19eda0c35a8165605679c39ece" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>spdlog::set_level(spdlog::level::debug);<sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test_1a2331551239ad453ea0b2811b5aaa32e0" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>spdlog::set_level(spdlog::level::info);<sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" kindref="compound">ConfigResolverHardeningTest</ref>,<sp/>CFG01_RejectOversizedPath)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>a<sp/>path<sp/>exceeding<sp/>kMaxConfigPathBytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>oversized_path(<ref refid="namespacethemis_1_1config_1afcf605977d48a86c5d0c3512f85d8129" kindref="member">kMaxConfigPathBytes</ref><sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolver<sp/>must<sp/>reject<sp/>without<sp/>attempting<sp/>filesystem<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(oversized_path);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Resolver<sp/>should<sp/>reject<sp/>oversized<sp/>path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigResolverHardeningTest,<sp/>CFG02_MissingPathNoFallback)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>missing_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/path/to/config.yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolver<sp/>must<sp/>not<sp/>throw;<sp/>result<sp/>is<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(missing_path);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>path<sp/>should<sp/>return<sp/>no<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigResolverHardeningTest,<sp/>CFG03_EmptyPath)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>empty_path<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>path<sp/>must<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(empty_path);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Empty<sp/>path<sp/>should<sp/>return<sp/>no<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" kindref="compound">ConfigResolverHardeningTest</ref>,<sp/>CFG04_PreventDirectoryTraversal)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>traversal_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/etc/../etc/passwd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolver<sp/>must<sp/>either<sp/>reject<sp/>or<sp/>resolve<sp/>safely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(traversal_path);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Safe<sp/>behavior:<sp/>either<sp/>rejection<sp/>or<sp/>normalization<sp/>without<sp/>unresolved<sp/>&quot;..&quot;<sp/>segments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;find(</highlight><highlight class="stringliteral">&quot;..&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;If<sp/>resolved,<sp/>path<sp/>should<sp/>not<sp/>contain<sp/>unresolved<sp/>..<sp/>segments&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" kindref="compound">ConfigResolverHardeningTest</ref>,<sp/>CFG05_NullBytesInPath)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>a<sp/>string<sp/>with<sp/>an<sp/>embedded<sp/>NUL<sp/>byte<sp/>by<sp/>explicit<sp/>concatenation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path_with_null<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;/config/file&quot;</highlight><highlight class="normal">,<sp/>12)<sp/>+<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal"><sp/>+<sp/>std::string(</highlight><highlight class="stringliteral">&quot;null.yaml&quot;</highlight><highlight class="normal">,<sp/>9);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(path_with_null.size(),<sp/>22u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Path<sp/>must<sp/>contain<sp/>embedded<sp/>NUL<sp/>byte&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolver<sp/>must<sp/>handle<sp/>safely<sp/>—<sp/>it<sp/>should<sp/>either<sp/>reject<sp/>or<sp/>truncate<sp/>at<sp/>the<sp/>NUL<sp/>byte</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(path_with_null);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>it<sp/>resolves<sp/>or<sp/>not,<sp/>the<sp/>result<sp/>must<sp/>not<sp/>contain<sp/>the<sp/>NUL<sp/>byte</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;find(</highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Resolved<sp/>path<sp/>must<sp/>not<sp/>propagate<sp/>embedded<sp/>NUL<sp/>bytes&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>crash<sp/>or<sp/>undefined<sp/>behavior<sp/>is<sp/>the<sp/>primary<sp/>contract<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" kindref="compound">ConfigResolverHardeningTest</ref>,<sp/>CFG06_AbsoluteVsRelativePaths)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>absolute<sp/>and<sp/>relative<sp/>paths<sp/>should<sp/>be<sp/>handled<sp/>consistently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>abs_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/absolute/path/config.yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>rel_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./relative/path/config.yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>abs_result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(abs_path);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rel_result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(rel_path);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>should<sp/>return<sp/>consistently<sp/>(either<sp/>both<sp/>empty<sp/>or<sp/>both<sp/>resolved)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>crash<sp/>or<sp/>mixed<sp/>behavior<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" kindref="compound">ConfigResolverHardeningTest</ref>,<sp/>CFG07_SpecialCharactersInPath)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>special_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/config/my<sp/>file<sp/>(1)<sp/>[v2].yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolver<sp/>should<sp/>handle<sp/>safely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(special_path);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value()<sp/>||<sp/>!result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>crash<sp/>expected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_resolver_hardening_test" kindref="compound">ConfigResolverHardeningTest</ref>,<sp/>CFG08_BoundedFallbackAttempts)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>path<sp/>that<sp/>would<sp/>trigger<sp/>all<sp/>fallback<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/config/fallback_test.yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolver<sp/>must<sp/>complete<sp/>without<sp/>excessive<sp/>retries/loops</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(path);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value()<sp/>||<sp/>!result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Bounded<sp/>resolution<sp/>expected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CFG-09..CFG-16:<sp/>Validator<sp/>Edge<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" kindref="compound">ConfigValidatorHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test_1a1ec4de8e6f3c2ebe9ab8378bdfb1ef51" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>spdlog::set_level(spdlog::level::debug);<sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test_1a6ceb093939109b3cd33d781fba24f410" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>spdlog::set_level(spdlog::level::info);<sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" kindref="compound">ConfigValidatorHardeningTest</ref>,<sp/>CFG09_RejectOversizedConfigFile)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>checks<sp/>behavior<sp/>with<sp/>oversized<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>practice,<sp/>this<sp/>would<sp/>be<sp/>tested<sp/>by<sp/>file<sp/>I/O<sp/>interception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1config_1a5052fc3e6905a461be80ef6dc5632d0b" kindref="member">kMaxConfigFileSizeBytes</ref>,<sp/>100ULL<sp/>*<sp/>1024<sp/>*<sp/>1024)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Config<sp/>file<sp/>size<sp/>limit<sp/>must<sp/>be<sp/>exactly<sp/>100<sp/>MiB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigValidatorHardeningTest,<sp/>CFG10_RejectOversizedSchema)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1config_1a8c013bb58ba4c735d05360799227ef93" kindref="member">kMaxSchemaSizeBytes</ref>,<sp/>10ULL<sp/>*<sp/>1024<sp/>*<sp/>1024)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Schema<sp/>size<sp/>limit<sp/>must<sp/>be<sp/>exactly<sp/>10<sp/>MiB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigValidatorHardeningTest,<sp/>CFG11_CircularSchemaReferences)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>schema<sp/>with<sp/>circular<sp/>$ref<sp/>rooted<sp/>at<sp/>the<sp/>document<sp/>level<sp/>to<sp/>exercise<sp/>cycle<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>schema<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;definitions&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;$ref&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;#/definitions/B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;definitions&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;$ref&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;#/definitions/A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;$ref&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;#/definitions/A&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>root-level<sp/>reference<sp/>triggers<sp/>traversal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config" kindref="compound">config</ref>[</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>must<sp/>complete<sp/>(not<sp/>hang)<sp/>—<sp/>circular<sp/>$ref<sp/>cycle<sp/>detection<sp/>is<sp/>enforced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_schema_validator_1a87481cdce73c7b00049f731a296c908a" kindref="member">ConfigSchemaValidator::validateFromString</ref>(<ref refid="namespacethemis_1_1config" kindref="compound">config</ref>.dump(),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circular<sp/>refs<sp/>are<sp/>detected;<sp/>validation<sp/>completes<sp/>and<sp/>errors<sp/>are<sp/>reported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.errors.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circular<sp/>$ref<sp/>should<sp/>produce<sp/>a<sp/>validation<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(ConfigValidatorHardeningTest,<sp/>CFG12_MaxNestingDepth)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>deeply<sp/>nested<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>config<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref>*<sp/>current<sp/>=<sp/>&amp;config;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="namespacethemis_1_1config_1a6d361ec4bff90d20a3b2b713442112f5" kindref="member">kMaxConfigNestingDepth</ref><sp/>+<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*current)[</highlight><highlight class="stringliteral">&quot;nested&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current<sp/>=<sp/>&amp;(*current)[</highlight><highlight class="stringliteral">&quot;nested&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>schema<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;object&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>must<sp/>handle<sp/>without<sp/>crashing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_schema_validator_1a87481cdce73c7b00049f731a296c908a" kindref="member">ConfigSchemaValidator::validateFromString</ref>(config.dump(),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" kindref="compound">ConfigValidatorHardeningTest</ref>,<sp/>CFG13_MaxTopLevelKeys)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>config<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>more<sp/>than<sp/>kMaxConfigTopLevelKeys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="namespacethemis_1_1config_1a020cf48973c1151d3567c29ef81b672a" kindref="member">kMaxConfigTopLevelKeys</ref><sp/>+<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config[</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>schema<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;object&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;additionalProperties&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>should<sp/>handle<sp/>without<sp/>memory<sp/>exhaustion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_schema_validator_1a87481cdce73c7b00049f731a296c908a" kindref="member">ConfigSchemaValidator::validateFromString</ref>(config.dump(),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" kindref="compound">ConfigValidatorHardeningTest</ref>,<sp/>CFG14_MalformedJsonHandling)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>malformed_schema<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>malformed_schema[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;invalid_type_that_does_not_exist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>config<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>config[</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">]<sp/>=<sp/>123;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>must<sp/>handle<sp/>gracefully<sp/>and<sp/>report<sp/>a<sp/>validation<sp/>error<sp/>for<sp/>the<sp/>unknown<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_schema_validator_1a87481cdce73c7b00049f731a296c908a" kindref="member">ConfigSchemaValidator::validateFromString</ref>(config.dump(),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>malformed_schema);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>schema<sp/>type<sp/>should<sp/>produce<sp/>a<sp/>validation<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" kindref="compound">ConfigValidatorHardeningTest</ref>,<sp/>CFG15_MaxValueSize)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>config<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>config[</highlight><highlight class="stringliteral">&quot;oversized_field&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(<ref refid="namespacethemis_1_1config_1a67b3b3e42e52ede28935184967b766e0" kindref="member">kMaxConfigValueBytes</ref><sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>schema<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;object&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;oversized_field&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;oversized_field&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;oversized_field&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;maxLength&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="namespacethemis_1_1config_1a67b3b3e42e52ede28935184967b766e0" kindref="member">kMaxConfigValueBytes</ref>;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>should<sp/>flag<sp/>oversized<sp/>value<sp/>as<sp/>a<sp/>validation<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_schema_validator_1a87481cdce73c7b00049f731a296c908a" kindref="member">ConfigSchemaValidator::validateFromString</ref>(config.dump(),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Value<sp/>exceeding<sp/>maxLength<sp/>should<sp/>fail<sp/>validation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1test_1a927dfafc8ddc799a7d17acd2a5ef7da0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" kindref="compound">ConfigValidatorHardeningTest</ref>,<sp/>CFG16_ExternalRefPrevention)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>config<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>config[</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1test_1ac3741cca24d77ac975990830efc3a214" kindref="member">json</ref><sp/>schema<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>schema[</highlight><highlight class="stringliteral">&quot;$ref&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://external.com/schema.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>must<sp/>not<sp/>attempt<sp/>to<sp/>resolve<sp/>external<sp/>URL<sp/>(SSRF<sp/>prevention)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>External<sp/>$ref<sp/>is<sp/>silently<sp/>ignored<sp/>or<sp/>produces<sp/>an<sp/>error<sp/>—<sp/>but<sp/>no<sp/>network<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_schema_validator_1a87481cdce73c7b00049f731a296c908a" kindref="member">ConfigSchemaValidator::validateFromString</ref>(config.dump(),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>hang<sp/>or<sp/>make<sp/>a<sp/>network<sp/>call;<sp/>complete<sp/>with<sp/>error<sp/>or<sp/>pass<sp/>(external<sp/>ref<sp/>skipped)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/config/test_config_hardening_resolver_validator.cpp"/>
+  </compounddef>
+</doxygen>

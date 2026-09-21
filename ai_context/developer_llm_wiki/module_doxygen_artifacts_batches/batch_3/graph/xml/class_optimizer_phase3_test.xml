@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_optimizer_phase3_test" kind="class" language="C++" prot="public">
+    <compoundname>OptimizerPhase3Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_optimizer_phase3_test_1a2cc22d8f0c46d6b3a610ef3d0c1ad91a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OptimizerPhase3Test::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>OptimizerPhase3Test::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="68" column="17" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_optimizer_phase3_test_1aecaee47396d31ef7be1ed888d87d95bf" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; OptimizerPhase3Test::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>OptimizerPhase3Test::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="69" column="26" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_optimizer_phase3_test_1a9eca7d2f7ba87d3c131a376f1c51c1c3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; OptimizerPhase3Test::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>OptimizerPhase3Test::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="70" column="23" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_optimizer_phase3_test_1aa8f6e1478f77e408274fc78801262890" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">GraphQueryOptimizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GraphQueryOptimizer&gt; OptimizerPhase3Test::opt_</definition>
+        <argsstring></argsstring>
+        <name>opt_</name>
+        <qualifiedname>OptimizerPhase3Test::opt_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="71" column="21" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_optimizer_phase3_test_1a64b594ecd2f824433ea16ccba91e9d86" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OptimizerPhase3Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OptimizerPhase3Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="21" column="10" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="21" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_optimizer_phase3_test_1a23fb2d04e54d50b19843a406c3172891" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OptimizerPhase3Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OptimizerPhase3Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="44" column="10" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_optimizer_phase3_test_1ad409829010f557e9ad017c7856e6be5a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OptimizerPhase3Test::buildGraph</definition>
+        <argsstring>()</argsstring>
+        <name>buildGraph</name>
+        <qualifiedname>OptimizerPhase3Test::buildGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="52" column="10" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="52" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OptimizerPhase3Test</label>
+        <link refid="class_optimizer_phase3_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OptimizerPhase3Test</label>
+        <link refid="class_optimizer_phase3_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="19" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="19" bodyend="72"/>
+    <listofallmembers>
+      <member refid="class_optimizer_phase3_test_1ad409829010f557e9ad017c7856e6be5a" prot="protected" virt="non-virtual"><scope>OptimizerPhase3Test</scope><name>buildGraph</name></member>
+      <member refid="class_optimizer_phase3_test_1aecaee47396d31ef7be1ed888d87d95bf" prot="protected" virt="non-virtual"><scope>OptimizerPhase3Test</scope><name>db_</name></member>
+      <member refid="class_optimizer_phase3_test_1a9eca7d2f7ba87d3c131a376f1c51c1c3" prot="protected" virt="non-virtual"><scope>OptimizerPhase3Test</scope><name>mgr_</name></member>
+      <member refid="class_optimizer_phase3_test_1aa8f6e1478f77e408274fc78801262890" prot="protected" virt="non-virtual"><scope>OptimizerPhase3Test</scope><name>opt_</name></member>
+      <member refid="class_optimizer_phase3_test_1a64b594ecd2f824433ea16ccba91e9d86" prot="protected" virt="non-virtual"><scope>OptimizerPhase3Test</scope><name>SetUp</name></member>
+      <member refid="class_optimizer_phase3_test_1a23fb2d04e54d50b19843a406c3172891" prot="protected" virt="non-virtual"><scope>OptimizerPhase3Test</scope><name>TearDown</name></member>
+      <member refid="class_optimizer_phase3_test_1a2cc22d8f0c46d6b3a610ef3d0c1ad91a" prot="protected" virt="non-virtual"><scope>OptimizerPhase3Test</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

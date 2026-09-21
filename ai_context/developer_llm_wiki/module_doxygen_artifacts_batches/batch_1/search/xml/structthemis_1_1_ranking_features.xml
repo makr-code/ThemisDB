@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_ranking_features" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RankingFeatures</compoundname>
+    <includes refid="learning__to__rank_8h" local="no">learning_to_rank.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_ranking_features_1a38c405a531c95f179b02f2d62549f29f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RankingFeatures::bm25_score</definition>
+        <argsstring></argsstring>
+        <name>bm25_score</name>
+        <qualifiedname>themis::RankingFeatures::bm25_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>BM25 fulltext relevance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="25" column="12" bodyfile="include/search/learning_to_rank.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_ranking_features_1acd7f8c6f9bde6479587cde2432089165" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RankingFeatures::vector_score</definition>
+        <argsstring></argsstring>
+        <name>vector_score</name>
+        <qualifiedname>themis::RankingFeatures::vector_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Normalized vector-similarity score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="26" column="12" bodyfile="include/search/learning_to_rank.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_ranking_features_1a8b5f98d88716b6eaac48fe4dfe2a5503" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RankingFeatures::rrf_score</definition>
+        <argsstring></argsstring>
+        <name>rrf_score</name>
+        <qualifiedname>themis::RankingFeatures::rrf_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Reciprocal Rank Fusion score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="27" column="12" bodyfile="include/search/learning_to_rank.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_ranking_features_1ac610ce1c57602d77f8c17f7d7540825a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RankingFeatures::recency</definition>
+        <argsstring></argsstring>
+        <name>recency</name>
+        <qualifiedname>themis::RankingFeatures::recency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Document recency (0 = oldest, 1 = newest). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="28" column="12" bodyfile="include/search/learning_to_rank.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_ranking_features_1a2d23df90a64518800e0722b80e32600f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RankingFeatures::click_count</definition>
+        <argsstring></argsstring>
+        <name>click_count</name>
+        <qualifiedname>themis::RankingFeatures::click_count</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Historical click frequency (normalized). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="29" column="12" bodyfile="include/search/learning_to_rank.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_ranking_features_1a13f6301feb9ead4d12e1e35ed2639cbb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RankingFeatures::popularity</definition>
+        <argsstring></argsstring>
+        <name>popularity</name>
+        <qualifiedname>themis::RankingFeatures::popularity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Query-document co-occurrence popularity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="30" column="12" bodyfile="include/search/learning_to_rank.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Feature vector associated with a candidate result during ranking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/learning_to_rank.h" line="24" column="1" bodyfile="include/search/learning_to_rank.h" bodystart="24" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_ranking_features_1a38c405a531c95f179b02f2d62549f29f" prot="public" virt="non-virtual"><scope>themis::RankingFeatures</scope><name>bm25_score</name></member>
+      <member refid="structthemis_1_1_ranking_features_1a2d23df90a64518800e0722b80e32600f" prot="public" virt="non-virtual"><scope>themis::RankingFeatures</scope><name>click_count</name></member>
+      <member refid="structthemis_1_1_ranking_features_1a13f6301feb9ead4d12e1e35ed2639cbb" prot="public" virt="non-virtual"><scope>themis::RankingFeatures</scope><name>popularity</name></member>
+      <member refid="structthemis_1_1_ranking_features_1ac610ce1c57602d77f8c17f7d7540825a" prot="public" virt="non-virtual"><scope>themis::RankingFeatures</scope><name>recency</name></member>
+      <member refid="structthemis_1_1_ranking_features_1a8b5f98d88716b6eaac48fe4dfe2a5503" prot="public" virt="non-virtual"><scope>themis::RankingFeatures</scope><name>rrf_score</name></member>
+      <member refid="structthemis_1_1_ranking_features_1acd7f8c6f9bde6479587cde2432089165" prot="public" virt="non-virtual"><scope>themis::RankingFeatures</scope><name>vector_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

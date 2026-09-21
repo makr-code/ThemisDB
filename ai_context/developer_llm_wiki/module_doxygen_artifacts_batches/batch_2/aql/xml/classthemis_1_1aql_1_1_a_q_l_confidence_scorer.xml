@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLConfidenceScorer</compoundname>
+    <includes refid="aql__confidence__scorer_8h" local="no">aql_confidence_scorer.h</includes>
+    <innerclass refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" prot="public">themis::aql::AQLConfidenceScorer::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a524ff5808c78780c41945d9e0be50004" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::aql::AQLConfidenceScorer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="74" column="12" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a8f228f676c7f4b11eaa02608e07de4ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLConfidenceScorer::AQLConfidenceScorer</definition>
+        <argsstring>()=default</argsstring>
+        <name>AQLConfidenceScorer</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::AQLConfidenceScorer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a48872fca37a0dea28576b388a1ca15bc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLConfidenceScorer::AQLConfidenceScorer</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>AQLConfidenceScorer</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::AQLConfidenceScorer</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="61" column="14" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_score" kindref="compound">AQLConfidenceScore</ref></type>
+        <definition>AQLConfidenceScore themis::aql::AQLConfidenceScorer::score</definition>
+        <argsstring>(const std::string &amp;aql_query, const std::string &amp;nl_query=&quot;&quot;, const std::string &amp;schema_context=&quot;&quot;) const</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::score</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="63" column="24" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="26" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a7684d35500799f27f84dc886bd73f4db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLConfidenceScorer::calibrate</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, float &gt; &gt; &amp;labelled_pairs)</argsstring>
+        <name>calibrate</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::calibrate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, float &gt; &gt; &amp;</type>
+          <declname>labelled_pairs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="69" column="10" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="218" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::aql::AQLConfidenceScorer::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="71" column="18" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1ad629533dd4fb64c8eb14e57ec5544e61" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::aql::AQLConfidenceScorer::scoreStructure</definition>
+        <argsstring>(const std::string &amp;aql_lower) const</argsstring>
+        <name>scoreStructure</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::scoreStructure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_lower</declname>
+        </param>
+        <briefdescription>
+<para>Score Structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="81" column="11" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="64" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a61406a1f2cc957801f45118ccf5b1c82" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::aql::AQLConfidenceScorer::scoreCompleteness</definition>
+        <argsstring>(const std::string &amp;aql_lower) const</argsstring>
+        <name>scoreCompleteness</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::scoreCompleteness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_lower</declname>
+        </param>
+        <briefdescription>
+<para>Score Completeness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="88" column="11" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="84" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a486db95502e790c1d6fdfe32f23feb03" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::aql::AQLConfidenceScorer::scoreSchemaMatch</definition>
+        <argsstring>(const std::string &amp;aql_lower, const std::string &amp;schema_context) const</argsstring>
+        <name>scoreSchemaMatch</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::scoreSchemaMatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_lower</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+        </param>
+        <briefdescription>
+<para>Score Schema Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="96" column="11" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="97" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a405e094d928ca6c3c769db160c6bd5dc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::aql::AQLConfidenceScorer::extractCollections</definition>
+        <argsstring>(const std::string &amp;schema_context) const</argsstring>
+        <name>extractCollections</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::extractCollections</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+        </param>
+        <briefdescription>
+<para>Extract Collections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Heuristic: lines of the form &quot; - &lt;identifier&gt;:&quot; (common schema notation) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="106" column="17" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="123" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a1dc6a33311e3d6fa30042dc10acb850b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLConfidenceScorer::containsFOR</definition>
+        <argsstring>(const std::string &amp;aql_lower)</argsstring>
+        <name>containsFOR</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::containsFOR</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_lower</declname>
+        </param>
+        <briefdescription>
+<para>Contains FOR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="115" column="17" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="184" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a2469323b8ba4d45cb0c3e691abfc6c83" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLConfidenceScorer::containsKeyword</definition>
+        <argsstring>(const std::string &amp;aql_lower, const std::string &amp;keyword)</argsstring>
+        <name>containsKeyword</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::containsKeyword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_lower</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Contains Keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::isalnum(), find(), isWordChar(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="123" column="17" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="200" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a96340f048187adadf1a92d26e594cbee" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLConfidenceScorer::toLower</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>toLower</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::toLower</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>To Lower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="130" column="24" bodyfile="src/aql/aql_confidence_scorer.cpp" bodystart="170" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_confidence_scorer.h" line="35" column="1" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="35" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a8f228f676c7f4b11eaa02608e07de4ff" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>AQLConfidenceScorer</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a48872fca37a0dea28576b388a1ca15bc" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>AQLConfidenceScorer</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a7684d35500799f27f84dc886bd73f4db" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>calibrate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a46f01f6520b490d21c4e8eb10f998230" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>config</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a524ff5808c78780c41945d9e0be50004" prot="private" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a1dc6a33311e3d6fa30042dc10acb850b" prot="private" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>containsFOR</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a2469323b8ba4d45cb0c3e691abfc6c83" prot="private" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>containsKeyword</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a405e094d928ca6c3c769db160c6bd5dc" prot="private" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>extractCollections</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a5d3a3c26cd21aed7092e5ca761b29ff9" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>score</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a61406a1f2cc957801f45118ccf5b1c82" prot="private" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>scoreCompleteness</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a486db95502e790c1d6fdfe32f23feb03" prot="private" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>scoreSchemaMatch</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1ad629533dd4fb64c8eb14e57ec5544e61" prot="private" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>scoreStructure</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_confidence_scorer_1a96340f048187adadf1a92d26e594cbee" prot="private" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer</scope><name>toLower</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

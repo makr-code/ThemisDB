@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockCollectionSchema</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema_1ae3648412439f2eb7b544843637bbc57e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockCollectionSchema::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themis::aql::testing::MockCollectionSchema::collection_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="42" column="17" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema_1aad85f0d9a8d3351deeff4919bb8855d3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_field_def" kindref="compound">MockFieldDef</ref> &gt;</type>
+        <definition>std::vector&lt;MockFieldDef&gt; themis::aql::testing::MockCollectionSchema::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::aql::testing::MockCollectionSchema::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="43" column="17" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema_1ace93e1b98c2b641890e56bcd01016bde" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::MockCollectionSchema::exists</definition>
+        <argsstring></argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::aql::testing::MockCollectionSchema::exists</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="44" column="10" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="41" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="41" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema_1ae3648412439f2eb7b544843637bbc57e" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCollectionSchema</scope><name>collection_name</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema_1ace93e1b98c2b641890e56bcd01016bde" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCollectionSchema</scope><name>exists</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema_1aad85f0d9a8d3351deeff4919bb8855d3" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCollectionSchema</scope><name>fields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

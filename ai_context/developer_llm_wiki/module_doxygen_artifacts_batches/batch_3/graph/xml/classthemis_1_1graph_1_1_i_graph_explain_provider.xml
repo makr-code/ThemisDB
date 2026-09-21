@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_i_graph_explain_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::graph::IGraphExplainProvider</compoundname>
+    <includes refid="explain__plan_8h" local="no">explain_plan.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_explain_provider_1a1f36c3b03fb5363a9d6692a386612ea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::graph::IGraphExplainProvider::~IGraphExplainProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGraphExplainProvider</name>
+        <qualifiedname>themis::graph::IGraphExplainProvider::~IGraphExplainProvider</qualifiedname>
+        <briefdescription>
+<para>IGraph Explain Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="90" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_explain_provider_1adf67956e30af650e0db2148476785c1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_explain_plan" kindref="compound">GraphExplainPlan</ref></type>
+        <definition>virtual GraphExplainPlan themis::graph::IGraphExplainProvider::explain</definition>
+        <argsstring>(const std::string &amp;query, const std::map&lt; std::string, std::string &gt; &amp;params={})=0</argsstring>
+        <name>explain</name>
+        <qualifiedname>themis::graph::IGraphExplainProvider::explain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="92" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_explain_provider_1a5d57bb9529c546cc3129261db98c2723" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_explain_plan" kindref="compound">GraphExplainPlan</ref></type>
+        <definition>virtual GraphExplainPlan themis::graph::IGraphExplainProvider::explainAnalyze</definition>
+        <argsstring>(const std::string &amp;query, const std::map&lt; std::string, std::string &gt; &amp;params={})=0</argsstring>
+        <name>explainAnalyze</name>
+        <qualifiedname>themis::graph::IGraphExplainProvider::explainAnalyze</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="96" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/explain_plan.h" line="84" column="1" bodyfile="include/graph/explain_plan.h" bodystart="84" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1adf67956e30af650e0db2148476785c1d" prot="public" virt="pure-virtual"><scope>themis::graph::IGraphExplainProvider</scope><name>explain</name></member>
+      <member refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1a5d57bb9529c546cc3129261db98c2723" prot="public" virt="pure-virtual"><scope>themis::graph::IGraphExplainProvider</scope><name>explainAnalyze</name></member>
+      <member refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1a1f36c3b03fb5363a9d6692a386612ea3" prot="public" virt="virtual"><scope>themis::graph::IGraphExplainProvider</scope><name>~IGraphExplainProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

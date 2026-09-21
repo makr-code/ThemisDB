@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block" kind="struct" language="C++" prot="private">
+    <compoundname>themis::gpu::GPUMemoryPool::Block</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1a57ba919b5f365b80e2747849ea6226f8" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::GPUMemoryPool::Block::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Block::ptr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="103" column="14" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1a761e43b69e3043b05d7c326725dc5c39" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::Block::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Block::size</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="104" column="16" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1ada1d7eb84a02ced435488154341e6872" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryPool::Block::in_use</definition>
+        <argsstring></argsstring>
+        <name>in_use</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Block::in_use</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="105" column="14" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1a6adb7bfbc5ccd0e0907461f033a07353" prot="public" static="no" mutable="no">
+        <type>Block *</type>
+        <definition>Block* themis::gpu::GPUMemoryPool::Block::next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Block::next</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="106" column="15" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1a6bdedbd0e010021ca4b119edb8b918d1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::gpu::GPUMemoryPool::Block::allocation_id</definition>
+        <argsstring></argsstring>
+        <name>allocation_id</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Block::allocation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="107" column="17" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::gpu::GPUMemoryPool::Block</label>
+        <childnode refid="1" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/gpu/gpu_memory_pool_safety.h" line="102" column="5" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="102" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1a6bdedbd0e010021ca4b119edb8b918d1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Block</scope><name>allocation_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1ada1d7eb84a02ced435488154341e6872" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Block</scope><name>in_use</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1a6adb7bfbc5ccd0e0907461f033a07353" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Block</scope><name>next</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1a57ba919b5f365b80e2747849ea6226f8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Block</scope><name>ptr</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block_1a761e43b69e3043b05d7c326725dc5c39" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Block</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,461 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_buffer_a_p_i_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::BufferAPIHandler</compoundname>
+    <includes refid="buffer__api__handler_8h" local="no">buffer_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a1d0cd306683f31742cfc1edd078f632e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TSStore &gt;</type>
+        <definition>std::shared_ptr&lt;TSStore&gt; themis::server::BufferAPIHandler::tsstore_</definition>
+        <argsstring></argsstring>
+        <name>tsstore_</name>
+        <qualifiedname>themis::server::BufferAPIHandler::tsstore_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="97" column="21" bodyfile="include/server/buffer_api_handler.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1ad17cf7222d298634634b7d61da406860" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::server::BufferAPIHandler::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::server::BufferAPIHandler::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="98" column="21" bodyfile="include/server/buffer_api_handler.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a1123cb0fc97538e54d175345862b44e2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; PropertyGraphManager &gt;</type>
+        <definition>std::shared_ptr&lt;PropertyGraphManager&gt; themis::server::BufferAPIHandler::graph_manager_</definition>
+        <argsstring></argsstring>
+        <name>graph_manager_</name>
+        <qualifiedname>themis::server::BufferAPIHandler::graph_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="99" column="21" bodyfile="include/server/buffer_api_handler.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1aa66890dec8bf2051341db1ab833a7754" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; TSAutoBuffer &gt;</type>
+        <definition>std::unique_ptr&lt;TSAutoBuffer&gt; themis::server::BufferAPIHandler::ts_buffer_</definition>
+        <argsstring></argsstring>
+        <name>ts_buffer_</name>
+        <qualifiedname>themis::server::BufferAPIHandler::ts_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="102" column="21" bodyfile="include/server/buffer_api_handler.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a2f04ed574c0ee68de9e3b75c2e04fbf8" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorAutoBuffer &gt;</type>
+        <definition>std::unique_ptr&lt;VectorAutoBuffer&gt; themis::server::BufferAPIHandler::vector_buffer_</definition>
+        <argsstring></argsstring>
+        <name>vector_buffer_</name>
+        <qualifiedname>themis::server::BufferAPIHandler::vector_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="103" column="21" bodyfile="include/server/buffer_api_handler.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1af6f8f21de3467391b427ea5fd19faeda" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphAutoBuffer &gt;</type>
+        <definition>std::unique_ptr&lt;GraphAutoBuffer&gt; themis::server::BufferAPIHandler::graph_buffer_</definition>
+        <argsstring></argsstring>
+        <name>graph_buffer_</name>
+        <qualifiedname>themis::server::BufferAPIHandler::graph_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="104" column="21" bodyfile="include/server/buffer_api_handler.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a6502bab4ee6d94e711fc668e012457d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::BufferAPIHandler::BufferAPIHandler</definition>
+        <argsstring>(std::shared_ptr&lt; TSStore &gt; tsstore=nullptr, std::shared_ptr&lt; VectorIndexManager &gt; vector_index=nullptr, std::shared_ptr&lt; PropertyGraphManager &gt; graph_manager=nullptr)</argsstring>
+        <name>BufferAPIHandler</name>
+        <qualifiedname>themis::server::BufferAPIHandler::BufferAPIHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; TSStore &gt;</type>
+          <declname>tsstore</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; PropertyGraphManager &gt;</type>
+          <declname>graph_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="37" column="5" bodyfile="src/server/buffer_api_handler.cpp" bodystart="24" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a12e7dde82c4b98cfa8d9206badae5bfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::BufferAPIHandler::~BufferAPIHandler</definition>
+        <argsstring>()</argsstring>
+        <name>~BufferAPIHandler</name>
+        <qualifiedname>themis::server::BufferAPIHandler::~BufferAPIHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="43" column="5" bodyfile="src/server/buffer_api_handler.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1aa211333d588f86e2f7a9b2ded9c46500" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::BufferAPIHandler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::server::BufferAPIHandler::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="48" column="10" bodyfile="src/server/buffer_api_handler.cpp" bodystart="84" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a58539852796a4de2bdfbf976ed7a6cf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::BufferAPIHandler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::server::BufferAPIHandler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="53" column="10" bodyfile="src/server/buffer_api_handler.cpp" bodystart="103" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a34125307f12032547ad8b6ed9624f8bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BufferAPIHandler::handleTSPutBuffered</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTSPutBuffered</name>
+        <qualifiedname>themis::server::BufferAPIHandler::handleTSPutBuffered</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle TSPut Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="60" column="20" bodyfile="src/server/buffer_api_handler.cpp" bodystart="123" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a6ea2db2cc51ecf493dcbbf0ebedad487" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BufferAPIHandler::handleVectorAddBuffered</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleVectorAddBuffered</name>
+        <qualifiedname>themis::server::BufferAPIHandler::handleVectorAddBuffered</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Vector Add Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="68" column="20" bodyfile="src/server/buffer_api_handler.cpp" bodystart="191" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a8df64164894db2fbff664f5b26ec4a93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BufferAPIHandler::handleGraphAddBuffered</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGraphAddBuffered</name>
+        <qualifiedname>themis::server::BufferAPIHandler::handleGraphAddBuffered</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Graph Add Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="76" column="20" bodyfile="src/server/buffer_api_handler.cpp" bodystart="257" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a940fd4a03af6c4594dccddf15b59aea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BufferAPIHandler::handleBufferStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBufferStats</name>
+        <qualifiedname>themis::server::BufferAPIHandler::handleBufferStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Buffer Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="84" column="20" bodyfile="src/server/buffer_api_handler.cpp" bodystart="337" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1ae73f1672de391ccd388718e93e8243f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BufferAPIHandler::handleBufferFlush</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBufferFlush</name>
+        <qualifiedname>themis::server::BufferAPIHandler::handleBufferFlush</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Buffer Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="92" column="20" bodyfile="src/server/buffer_api_handler.cpp" bodystart="400" bodyend="449"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a4000358108ecc7752f14d18fb2bb50bb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BufferAPIHandler::makeResponse</definition>
+        <argsstring>(http::status status, const json &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::BufferAPIHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="114" column="20" bodyfile="src/server/buffer_api_handler.cpp" bodystart="458" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a2c27aeb2d4c3946a727d143dddd38d40" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BufferAPIHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::BufferAPIHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_api_handler.h" line="126" column="20" bodyfile="src/server/buffer_api_handler.cpp" bodystart="479" bodyend="489"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/buffer_api_handler.h" line="35" column="1" bodyfile="include/server/buffer_api_handler.h" bodystart="35" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a6502bab4ee6d94e711fc668e012457d6" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>BufferAPIHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1af6f8f21de3467391b427ea5fd19faeda" prot="private" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>graph_buffer_</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a1123cb0fc97538e54d175345862b44e2" prot="private" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>graph_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1ae73f1672de391ccd388718e93e8243f7" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>handleBufferFlush</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a940fd4a03af6c4594dccddf15b59aea1" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>handleBufferStats</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a8df64164894db2fbff664f5b26ec4a93" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>handleGraphAddBuffered</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a34125307f12032547ad8b6ed9624f8bc" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>handleTSPutBuffered</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a6ea2db2cc51ecf493dcbbf0ebedad487" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>handleVectorAddBuffered</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a2c27aeb2d4c3946a727d143dddd38d40" prot="private" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a4000358108ecc7752f14d18fb2bb50bb" prot="private" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1aa211333d588f86e2f7a9b2ded9c46500" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>start</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a58539852796a4de2bdfbf976ed7a6cf4" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>stop</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1aa66890dec8bf2051341db1ab833a7754" prot="private" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>ts_buffer_</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a1d0cd306683f31742cfc1edd078f632e" prot="private" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>tsstore_</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a2f04ed574c0ee68de9e3b75c2e04fbf8" prot="private" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>vector_buffer_</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1ad17cf7222d298634634b7d61da406860" prot="private" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_buffer_a_p_i_handler_1a12e7dde82c4b98cfa8d9206badae5bfb" prot="public" virt="non-virtual"><scope>themis::server::BufferAPIHandler</scope><name>~BufferAPIHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

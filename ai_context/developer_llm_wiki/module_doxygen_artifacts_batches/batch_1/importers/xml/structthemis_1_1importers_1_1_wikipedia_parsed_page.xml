@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_parsed_page" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaParsedPage</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_parsed_page_1ae3d285b33b54d543fe5594188844e540" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref></type>
+        <definition>WikipediaPageRecord themis::importers::WikipediaParsedPage::page</definition>
+        <argsstring></argsstring>
+        <name>page</name>
+        <qualifiedname>themis::importers::WikipediaParsedPage::page</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="259" column="25" bodyfile="include/importers/wikipedia_types.hpp" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_parsed_page_1a1fd58207ea0929c052e2fc7492c4c7a8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref></type>
+        <definition>WikipediaRevisionRecord themis::importers::WikipediaParsedPage::revision</definition>
+        <argsstring></argsstring>
+        <name>revision</name>
+        <qualifiedname>themis::importers::WikipediaParsedPage::revision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="260" column="29" bodyfile="include/importers/wikipedia_types.hpp" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_parsed_page_1a7c18a950524bdc29953fced319626474" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaParsedPage::raw_xml</definition>
+        <argsstring></argsstring>
+        <name>raw_xml</name>
+        <qualifiedname>themis::importers::WikipediaParsedPage::raw_xml</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="261" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parsed page payload handed from the streaming reader to the pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::WikipediaPageRecord</label>
+        <link refid="structthemis_1_1importers_1_1_wikipedia_page_record"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::WikipediaParsedPage</label>
+        <link refid="structthemis_1_1importers_1_1_wikipedia_parsed_page"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>page</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>revision</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::importers::WikipediaRevisionRecord</label>
+        <link refid="structthemis_1_1importers_1_1_wikipedia_revision_record"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/wikipedia_types.hpp" line="258" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="258" bodyend="262"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_parsed_page_1ae3d285b33b54d543fe5594188844e540" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaParsedPage</scope><name>page</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_parsed_page_1a7c18a950524bdc29953fced319626474" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaParsedPage</scope><name>raw_xml</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_parsed_page_1a1fd58207ea0929c052e2fc7492c4c7a8" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaParsedPage</scope><name>revision</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

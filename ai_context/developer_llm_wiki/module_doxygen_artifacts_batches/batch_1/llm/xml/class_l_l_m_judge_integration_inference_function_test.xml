@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_judge_integration_inference_function_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMJudgeIntegrationInferenceFunctionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_judge_integration_inference_function_test_1a7079827cd4783ec5b151617d65c3c003" prot="protected" static="no" mutable="no">
+        <type>PromptTemplateManager</type>
+        <definition>PromptTemplateManager LLMJudgeIntegrationInferenceFunctionTest::template_manager</definition>
+        <argsstring></argsstring>
+        <name>template_manager</name>
+        <qualifiedname>LLMJudgeIntegrationInferenceFunctionTest::template_manager</qualifiedname>
+        <initializer>= makeTemplateManager()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="161" column="27" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_l_m_judge_integration_inference_function_test_1add79da39059677bac885e9e9829420bb" prot="protected" static="no" mutable="no">
+        <type>EvaluationInput</type>
+        <definition>EvaluationInput LLMJudgeIntegrationInferenceFunctionTest::sample_input</definition>
+        <argsstring></argsstring>
+        <name>sample_input</name>
+        <qualifiedname>LLMJudgeIntegrationInferenceFunctionTest::sample_input</qualifiedname>
+        <initializer>= makeSampleInput()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="162" column="21" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMJudgeIntegrationInferenceFunctionTest</label>
+        <link refid="class_l_l_m_judge_integration_inference_function_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMJudgeIntegrationInferenceFunctionTest</label>
+        <link refid="class_l_l_m_judge_integration_inference_function_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_judge_integration.cpp" line="159" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="159" bodyend="163"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_judge_integration_inference_function_test_1add79da39059677bac885e9e9829420bb" prot="protected" virt="non-virtual"><scope>LLMJudgeIntegrationInferenceFunctionTest</scope><name>sample_input</name></member>
+      <member refid="class_l_l_m_judge_integration_inference_function_test_1a7079827cd4783ec5b151617d65c3c003" prot="protected" virt="non-virtual"><scope>LLMJudgeIntegrationInferenceFunctionTest</scope><name>template_manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

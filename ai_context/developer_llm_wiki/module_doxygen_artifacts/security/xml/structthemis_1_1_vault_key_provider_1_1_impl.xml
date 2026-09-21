@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vault_key_provider_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VaultKeyProvider::Impl</compoundname>
+    <innerclass refid="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry" prot="public">themis::VaultKeyProvider::Impl::CacheEntry</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1a159391efbf2e98d83f5763758b18338a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_vault_key_provider_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::VaultKeyProvider::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="234" column="12" bodyfile="src/security/vault_key_provider.cpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1a90481f0d26053abf14546bc4c72fc30c" prot="public" static="no" mutable="no">
+        <type>CURL *</type>
+        <definition>CURL* themis::VaultKeyProvider::Impl::curl</definition>
+        <argsstring></argsstring>
+        <name>curl</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::curl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="235" column="10" bodyfile="src/security/vault_key_provider.cpp" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1a44289a247a68c67e263fa4d03e21469d" prot="public" static="no" mutable="no">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themis::VaultKeyProvider::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="236" column="22" bodyfile="src/security/vault_key_provider.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1a6e88e38cd28aacaff1e33090dda018b6" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CacheEntry&gt; themis::VaultKeyProvider::Impl::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="244" column="14" bodyfile="src/security/vault_key_provider.cpp" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1a98b25737013ee0175d337bac9401e303" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VaultKeyProvider::Impl::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="247" column="12" bodyfile="src/security/vault_key_provider.cpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1ac3415a8c6dc912acb82c492fb1cf7e44" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VaultKeyProvider::Impl::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="248" column="12" bodyfile="src/security/vault_key_provider.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1a84a222f7f950a8b0f9c64997b9a592f3" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;, const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;, const std::string&amp;, const std::string&amp;)&gt; themis::VaultKeyProvider::Impl::test_request_override</definition>
+        <argsstring></argsstring>
+        <name>test_request_override</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::test_request_override</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="250" column="19" bodyfile="src/security/vault_key_provider.cpp" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_vault_key_provider_1_1_impl_1a588a31251099af7dee9658a34663d71c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VaultKeyProvider::Impl::Impl</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_vault_key_provider_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="252" column="5" bodyfile="src/security/vault_key_provider.cpp" bodystart="252" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vault_key_provider_1_1_impl_1aaebbeeec18f9fb9b9f41d784a6e69e9a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VaultKeyProvider::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="267" column="5" bodyfile="src/security/vault_key_provider.cpp" bodystart="267" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vault_key_provider_1_1_impl_1ac96ade3cd914149c02caec3c19ae693c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::Impl::performRequest</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;method, const std::string &amp;body=&quot;&quot;)</argsstring>
+        <name>performRequest</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::performRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Headers. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="274" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="274" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vault_key_provider_1_1_impl_1aa24ca3910dae586284f6d43891606c25" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VaultKeyProvider::Impl::evictExpiredCache</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpiredCache</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::evictExpiredCache</qualifiedname>
+        <briefdescription>
+<para>Evict Expired Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="382" column="10" bodyfile="src/security/vault_key_provider.cpp" bodystart="382" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vault_key_provider_1_1_impl_1ab4270f40adff225d27f246e58d07d5f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VaultKeyProvider::Impl::evictLRU</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::evictLRU</qualifiedname>
+        <briefdescription>
+<para>Evict LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="400" column="10" bodyfile="src/security/vault_key_provider.cpp" bodystart="400" bodyend="413"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/vault_key_provider.cpp" line="233" column="1" bodyfile="src/security/vault_key_provider.cpp" bodystart="233" bodyend="414"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1a6e88e38cd28aacaff1e33090dda018b6" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>cache</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1ac3415a8c6dc912acb82c492fb1cf7e44" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1a159391efbf2e98d83f5763758b18338a" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1a90481f0d26053abf14546bc4c72fc30c" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>curl</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1aa24ca3910dae586284f6d43891606c25" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>evictExpiredCache</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1ab4270f40adff225d27f246e58d07d5f6" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>evictLRU</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1a588a31251099af7dee9658a34663d71c" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1a44289a247a68c67e263fa4d03e21469d" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1ac96ade3cd914149c02caec3c19ae693c" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>performRequest</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1a84a222f7f950a8b0f9c64997b9a592f3" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>test_request_override</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1a98b25737013ee0175d337bac9401e303" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1aaebbeeec18f9fb9b9f41d784a6e69e9a" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

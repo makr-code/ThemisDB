@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_vector_tile_feature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::VectorTileFeature</compoundname>
+    <includes refid="tile__server_8h" local="no">tile_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_vector_tile_feature_1ac1eaf2fb93b50e3836037a834e7f369f" prot="public" static="no" mutable="no">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::VectorTileFeature::geometry</definition>
+        <argsstring></argsstring>
+        <name>geometry</name>
+        <qualifiedname>themis::geo::VectorTileFeature::geometry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/tile_server.h" line="46" column="18" bodyfile="include/geo/tile_server.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_vector_tile_feature_1a839efeb05e759927262aa240f26b79b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::VectorTileFeature::properties_json</definition>
+        <argsstring></argsstring>
+        <name>properties_json</name>
+        <qualifiedname>themis::geo::VectorTileFeature::properties_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/tile_server.h" line="48" column="17" bodyfile="include/geo/tile_server.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/tile_server.h" line="45" column="1" bodyfile="include/geo/tile_server.h" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_vector_tile_feature_1ac1eaf2fb93b50e3836037a834e7f369f" prot="public" virt="non-virtual"><scope>themis::geo::VectorTileFeature</scope><name>geometry</name></member>
+      <member refid="structthemis_1_1geo_1_1_vector_tile_feature_1a839efeb05e759927262aa240f26b79b6" prot="public" virt="non-virtual"><scope>themis::geo::VectorTileFeature</scope><name>properties_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

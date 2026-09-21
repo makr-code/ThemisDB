@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::testing::ValidationHardeningTestClass</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base" prot="public" virt="non-virtual">themis::prompt_engineering::testing::AdversarialPromptTestBase</basecompoundref>
+    <briefdescription>
+<para>Integration tests for enhanced template validation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::testing::AdversarialPromptTestBase</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::testing::ValidationHardeningTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="5">
+        <label>themis::prompt_engineering::PromptInjectionDetector</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector"/>
+      </node>
+      <node id="4">
+        <label>themis::prompt_engineering::PromptManager</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_manager"/>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::testing::AdversarialPromptTestBase</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>manager_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>detector_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::testing::ValidationHardeningTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="389" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="389" bodyend="390"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1add7b9b2c5ebe1420c27668c5e5e95f06" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::ValidationHardeningTestClass</scope><name>AdversarialPromptTestBase</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a4f70f9d1b844f207c739475bfd9b5a8d" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::ValidationHardeningTestClass</scope><name>assertPayloadBenign</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1af16acd752ce06d6e677ba5a02c0f34cf" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::ValidationHardeningTestClass</scope><name>assertPayloadDetected</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a399475a4ed74d00891eee56db952ee09" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::ValidationHardeningTestClass</scope><name>detector_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a6dfa9bf4194d883991fe54184e84cb5c" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::ValidationHardeningTestClass</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a40d775ee6ac38129c82dc1c6e78f2c76" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::ValidationHardeningTestClass</scope><name>validateTemplate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

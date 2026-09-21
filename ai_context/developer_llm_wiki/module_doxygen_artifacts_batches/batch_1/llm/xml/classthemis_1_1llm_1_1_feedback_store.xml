@@ -1,0 +1,1117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_feedback_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::FeedbackStore</compoundname>
+    <includes refid="feedback__store_8h" local="no">feedback_store.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" prot="public">themis::llm::FeedbackStore::FeedbackEntry</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options" prot="public">themis::llm::FeedbackStore::ListOptions</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats" prot="public">themis::llm::FeedbackStore::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_feedback_store_1ad509d4bbc04c8c859862fa30570b633c" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;()&gt;</type>
+        <definition>using themis::llm::FeedbackStore::SpamKeywordsProviderFn = std::function&lt;std::vector&lt;std::string&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>SpamKeywordsProviderFn</name>
+        <qualifiedname>themis::llm::FeedbackStore::SpamKeywordsProviderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="54" column="5" bodyfile="include/llm/feedback_store.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_feedback_store_1a7a728b0d440584bbbafd39710369f1d2" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::llm::FeedbackStore::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::llm::FeedbackStore::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="265" column="28" bodyfile="include/llm/feedback_store.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_feedback_store_1a5a050b3a80661595b8a66f77fc91f28f" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::llm::FeedbackStore::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::llm::FeedbackStore::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="266" column="33" bodyfile="include/llm/feedback_store.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_feedback_store_1a67a89b264c8c7946a0f2dfcc3143c412" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_feedback_plugin" kindref="compound">IFeedbackPlugin</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IFeedbackPlugin&gt; themis::llm::FeedbackStore::validation_plugin_</definition>
+        <argsstring></argsstring>
+        <name>validation_plugin_</name>
+        <qualifiedname>themis::llm::FeedbackStore::validation_plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="267" column="21" bodyfile="include/llm/feedback_store.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_feedback_store_1a5aad5e23419e76d402e7948dcd071f7d" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::llm::FeedbackStore::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::llm::FeedbackStore::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;help_feedback:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="269" column="33" bodyfile="include/llm/feedback_store.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_feedback_store_1ad05b99b61a7c3829bcd4d7af3529405c" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::llm::FeedbackStore::GRAPH_EDGE_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>GRAPH_EDGE_PREFIX</name>
+        <qualifiedname>themis::llm::FeedbackStore::GRAPH_EDGE_PREFIX</qualifiedname>
+        <initializer>= &quot;feedback_graph_edge:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="270" column="33" bodyfile="include/llm/feedback_store.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1ac2a04aa0cab5f3807fd5693340cc586e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::FeedbackStore::FeedbackStore</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>FeedbackStore</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackStore</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="111" column="14" bodyfile="src/llm/feedback_store.cpp" bodystart="180" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a9ad940b8277c4d8b6913e3d1acaea1d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::FeedbackStore::~FeedbackStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FeedbackStore</name>
+        <qualifiedname>themis::llm::FeedbackStore::~FeedbackStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="114" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1af35f182b416eb1e32a228c7f5bb433ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FeedbackStore::setValidationPlugin</definition>
+        <argsstring>(std::shared_ptr&lt; IFeedbackPlugin &gt; plugin)</argsstring>
+        <name>setValidationPlugin</name>
+        <qualifiedname>themis::llm::FeedbackStore::setValidationPlugin</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_feedback_plugin" kindref="compound">IFeedbackPlugin</ref> &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Set Validation Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), getName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="120" column="10" bodyfile="src/llm/feedback_store.cpp" bodystart="193" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1ac10229e67b6403531ea8f1b2a91e505c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_feedback_plugin" kindref="compound">IFeedbackPlugin</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IFeedbackPlugin &gt; themis::llm::FeedbackStore::getValidationPlugin</definition>
+        <argsstring>() const</argsstring>
+        <name>getValidationPlugin</name>
+        <qualifiedname>themis::llm::FeedbackStore::getValidationPlugin</qualifiedname>
+        <briefdescription>
+<para>Get Validation Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="126" column="21" bodyfile="src/llm/feedback_store.cpp" bodystart="202" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a4373653243d79d3ccac80ba741ce90b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref></type>
+        <definition>FeedbackStore::FeedbackEntry themis::llm::FeedbackStore::createFeedback</definition>
+        <argsstring>(FeedbackEntry feedback)</argsstring>
+        <name>createFeedback</name>
+        <qualifiedname>themis::llm::FeedbackStore::createFeedback</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref></type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+<para>Create Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), generateId(), std::chrono::system_clock::now(), time_since_epoch(), count(), applyPluginValidation(), toJson(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="144" column="19" bodyfile="src/llm/feedback_store.cpp" bodystart="261" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a5405bf498357a4ed8323db4c165dc4da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::optional&lt; FeedbackStore::FeedbackEntry &gt; themis::llm::FeedbackStore::getFeedback</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>getFeedback</name>
+        <qualifiedname>themis::llm::FeedbackStore::getFeedback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Get Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="151" column="19" bodyfile="src/llm/feedback_store.cpp" bodystart="305" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a04bb0a06f220ad815df248a389086bd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::vector&lt; FeedbackStore::FeedbackEntry &gt; themis::llm::FeedbackStore::listFeedback</definition>
+        <argsstring>() const</argsstring>
+        <name>listFeedback</name>
+        <qualifiedname>themis::llm::FeedbackStore::listFeedback</qualifiedname>
+        <briefdescription>
+<para>List Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="157" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="336" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a3124a727b78d97f86f609476a2ab3421" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::vector&lt; FeedbackStore::FeedbackEntry &gt; themis::llm::FeedbackStore::listFeedback</definition>
+        <argsstring>(const ListOptions &amp;options) const</argsstring>
+        <name>listFeedback</name>
+        <qualifiedname>themis::llm::FeedbackStore::listFeedback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options" kindref="compound">ListOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>List Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="163" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="340" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1ab41ad8d72cf014b3d754f98b1dd1f550" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>FeedbackStore::Stats themis::llm::FeedbackStore::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::FeedbackStore::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="169" column="11" bodyfile="src/llm/feedback_store.cpp" bodystart="424" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a37c1b6ea99965c366206a2b5036ac984" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FeedbackStore::deleteFeedback</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>deleteFeedback</name>
+        <qualifiedname>themis::llm::FeedbackStore::deleteFeedback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), <ref refid="classthemis_1_1llm_1_1_feedback_store_1a5405bf498357a4ed8323db4c165dc4da" kindref="member">getFeedback()</ref>, Delete(), ok(), THEMIS_ERROR(), ToString(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="176" column="10" bodyfile="src/llm/feedback_store.cpp" bodystart="508" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1acadb6c6ceb0cf122d7669997fb395a96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FeedbackStore::updateValidationStatus</definition>
+        <argsstring>(const std::string &amp;id, ValidationStatus status)</argsstring>
+        <name>updateValidationStatus</name>
+        <qualifiedname>themis::llm::FeedbackStore::updateValidationStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a154e8e11e190ff2a2ea67005dac56c9e" kindref="member">ValidationStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Update Validation Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_feedback_store_1a5405bf498357a4ed8323db4c165dc4da" kindref="member">getFeedback()</ref>, <ref refid="classthemis_1_1llm_1_1_feedback_store_1a4373653243d79d3ccac80ba741ce90b2" kindref="member">createFeedback()</ref>, THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="184" column="10" bodyfile="src/llm/feedback_store.cpp" bodystart="542" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a42144259853cdf90bfc2cad16698cfca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FeedbackStore::markUsedForTraining</definition>
+        <argsstring>(const std::string &amp;id, int batch_id)</argsstring>
+        <name>markUsedForTraining</name>
+        <qualifiedname>themis::llm::FeedbackStore::markUsedForTraining</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+<para>Mark Used For Training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_feedback_store_1a5405bf498357a4ed8323db4c165dc4da" kindref="member">getFeedback()</ref>, <ref refid="classthemis_1_1llm_1_1_feedback_store_1a4373653243d79d3ccac80ba741ce90b2" kindref="member">createFeedback()</ref>, THEMIS_DEBUG(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="192" column="10" bodyfile="src/llm/feedback_store.cpp" bodystart="566" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1add1fba9844f1e6e12bf7004874c9eccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FeedbackStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::llm::FeedbackStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(), NewIterator(), THEMIS_ERROR(), Seek(), Valid(), key(), ToString(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="215" column="10" bodyfile="src/llm/feedback_store.cpp" bodystart="589" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a304140912ff628c4bdeb4fd91af77848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FeedbackStore::createAdapterLink</definition>
+        <argsstring>(const std::string &amp;feedback_id, const std::string &amp;adapter_id, const nlohmann::json &amp;metadata=nlohmann::json::object())</argsstring>
+        <name>createAdapterLink</name>
+        <qualifiedname>themis::llm::FeedbackStore::createAdapterLink</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>metadata</declname>
+          <defval>nlohmann::json::object()</defval>
+        </param>
+        <briefdescription>
+<para>===== Graph Link Methods ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the feedback. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_feedback_store_1a5405bf498357a4ed8323db4c165dc4da" kindref="member">getFeedback()</ref>, THEMIS_ERROR(), std::chrono::system_clock::now(), makeGraphEdgeKey(), toJSON(), dump(), Put(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="219" column="10" bodyfile="src/llm/feedback_store.cpp" bodystart="820" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1aa42272f9d530207106985b2f80e3984b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::vector&lt; FeedbackStore::FeedbackEntry &gt; themis::llm::FeedbackStore::getFeedbackForAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const ListOptions &amp;options) const</argsstring>
+        <name>getFeedbackForAdapter</name>
+        <qualifiedname>themis::llm::FeedbackStore::getFeedbackForAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_list_options" kindref="compound">ListOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Get Feedback For Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="230" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="863" bodyend="945"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1ac9776457d3179300515f7f673e2dfb39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::vector&lt; FeedbackStore::FeedbackEntry &gt; themis::llm::FeedbackStore::getFeedbackForAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getFeedbackForAdapter</name>
+        <qualifiedname>themis::llm::FeedbackStore::getFeedbackForAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Feedback For Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="238" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="947" bodyend="950"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a088cc3febf491c8d9581963f065bf2ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::FeedbackStore::getLinkedAdapters</definition>
+        <argsstring>(const std::string &amp;feedback_id) const</argsstring>
+        <name>getLinkedAdapters</name>
+        <qualifiedname>themis::llm::FeedbackStore::getLinkedAdapters</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Linked Adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the feedback. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="246" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="952" bodyend="994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1af17b9d8f46c16b13cb932e741f4857e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FeedbackStore::isLinkedToAdapter</definition>
+        <argsstring>(const std::string &amp;feedback_id, const std::string &amp;adapter_id) const</argsstring>
+        <name>isLinkedToAdapter</name>
+        <qualifiedname>themis::llm::FeedbackStore::isLinkedToAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Linked To Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the feedback. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="254" column="10" bodyfile="src/llm/feedback_store.cpp" bodystart="996" bodyend="1013"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a2cf8450098174ce3ef5273f2c78aca3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FeedbackStore::setSpamKeywordsProvider</definition>
+        <argsstring>(SpamKeywordsProviderFn provider)</argsstring>
+        <name>setSpamKeywordsProvider</name>
+        <qualifiedname>themis::llm::FeedbackStore::setSpamKeywordsProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_feedback_store_1ad509d4bbc04c8c859862fa30570b633c" kindref="member">SpamKeywordsProviderFn</ref></type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Set Spam Keywords Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="132" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="211" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a967050d9f55d6a3e2efd9546e8aa303b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FeedbackStore::clearSpamKeywordsProvider</definition>
+        <argsstring>()</argsstring>
+        <name>clearSpamKeywordsProvider</name>
+        <qualifiedname>themis::llm::FeedbackStore::clearSpamKeywordsProvider</qualifiedname>
+        <briefdescription>
+<para>Clear Spam Keywords Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="137" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="220" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a661f043f1a5b94bea1a222dbfaa238c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a154e8e11e190ff2a2ea67005dac56c9e" kindref="member">ValidationStatus</ref></type>
+        <definition>ValidationStatus themis::llm::FeedbackStore::validateFeedback</definition>
+        <argsstring>(const FeedbackEntry &amp;feedback)</argsstring>
+        <name>validateFeedback</name>
+        <qualifiedname>themis::llm::FeedbackStore::validateFeedback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+<para>Validate Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isLikelySpam(), empty(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="199" column="29" bodyfile="src/llm/feedback_store.cpp" bodystart="726" bodyend="754"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a3398b8baae441af64124154aa0af1cc3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::llm::FeedbackStore::setSpamKeywordsProviderFn</definition>
+        <argsstring>(SpamKeywordsProviderFn fn)</argsstring>
+        <name>setSpamKeywordsProviderFn</name>
+        <qualifiedname>themis::llm::FeedbackStore::setSpamKeywordsProviderFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_feedback_store_1ad509d4bbc04c8c859862fa30570b633c" kindref="member">SpamKeywordsProviderFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Spam Keywords Provider Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="205" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1ac233cf1046531818a28cdee6ac1fd20d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::llm::FeedbackStore::clearSpamKeywordsProviderFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearSpamKeywordsProviderFn</name>
+        <qualifiedname>themis::llm::FeedbackStore::clearSpamKeywordsProviderFn</qualifiedname>
+        <briefdescription>
+<para>Clear Spam Keywords Provider Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="210" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1ad00d4dfa5eb473ad1b39f83396cacd09" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::FeedbackStore::getSpamKeywords</definition>
+        <argsstring>()</argsstring>
+        <name>getSpamKeywords</name>
+        <qualifiedname>themis::llm::FeedbackStore::getSpamKeywords</qualifiedname>
+        <briefdescription>
+<para>Get Spam Keywords. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Validation Logic =====</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), provider(), empty(), erase(), std::remove_if(), begin(), end(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="262" column="24" bodyfile="src/llm/feedback_store.cpp" bodystart="640" bodyend="676"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1aa77e1641db4d49bbfb2aa217011138eb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::makeKey</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::llm::FeedbackStore::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="277" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a69e4387d2574ef6a0f9b595c8c781ba8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::makeGraphEdgeKey</definition>
+        <argsstring>(const std::string &amp;feedback_id, const std::string &amp;adapter_id) const</argsstring>
+        <name>makeGraphEdgeKey</name>
+        <qualifiedname>themis::llm::FeedbackStore::makeGraphEdgeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Make Graph Edge Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the feedback. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="284" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="230" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a1519cb8658b79dd54b7298e020b5eb61" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::generateId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::llm::FeedbackStore::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="290" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="236" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1adc9fb56bfb37c2649a571655b0167ac8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a154e8e11e190ff2a2ea67005dac56c9e" kindref="member">ValidationStatus</ref></type>
+        <definition>ValidationStatus themis::llm::FeedbackStore::applyPluginValidation</definition>
+        <argsstring>(FeedbackEntry &amp;feedback)</argsstring>
+        <name>applyPluginValidation</name>
+        <qualifiedname>themis::llm::FeedbackStore::applyPluginValidation</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Apply plugin validation if available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Plugin Integration =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_feedback_store_1a661f043f1a5b94bea1a222dbfaa238c0" kindref="member">validateFeedback()</ref>, validate(), has_value(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="304" column="22" bodyfile="src/llm/feedback_store.cpp" bodystart="763" bodyend="809"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_feedback_store_1a3d6b24af707a4cc40ce5bb881af0f801" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FeedbackStore::isLikelySpam</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>isLikelySpam</name>
+        <qualifiedname>themis::llm::FeedbackStore::isLikelySpam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Spam detection configuration (deprecated, use plugin instead). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Likely Spam.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), length(), repeat_pattern(), std::regex_search(), <ref refid="classthemis_1_1llm_1_1_feedback_store_1ad00d4dfa5eb473ad1b39f83396cacd09" kindref="member">getSpamKeywords()</ref>, std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="297" column="17" bodyfile="src/llm/feedback_store.cpp" bodystart="684" bodyend="718"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/feedback_store.h" line="52" column="1" bodyfile="include/llm/feedback_store.h" bodystart="52" bodyend="305"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1adc9fb56bfb37c2649a571655b0167ac8" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>applyPluginValidation</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a5a050b3a80661595b8a66f77fc91f28f" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1add1fba9844f1e6e12bf7004874c9eccb" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a967050d9f55d6a3e2efd9546e8aa303b" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>clearSpamKeywordsProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1ac233cf1046531818a28cdee6ac1fd20d" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>clearSpamKeywordsProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a304140912ff628c4bdeb4fd91af77848" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>createAdapterLink</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a4373653243d79d3ccac80ba741ce90b2" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>createFeedback</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a7a728b0d440584bbbafd39710369f1d2" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a37c1b6ea99965c366206a2b5036ac984" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>deleteFeedback</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1ac2a04aa0cab5f3807fd5693340cc586e" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>FeedbackStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a1519cb8658b79dd54b7298e020b5eb61" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a5405bf498357a4ed8323db4c165dc4da" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>getFeedback</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1aa42272f9d530207106985b2f80e3984b" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>getFeedbackForAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1ac9776457d3179300515f7f673e2dfb39" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>getFeedbackForAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a088cc3febf491c8d9581963f065bf2ae" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>getLinkedAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1ad00d4dfa5eb473ad1b39f83396cacd09" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>getSpamKeywords</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1ab41ad8d72cf014b3d754f98b1dd1f550" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1ac10229e67b6403531ea8f1b2a91e505c" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>getValidationPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1ad05b99b61a7c3829bcd4d7af3529405c" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>GRAPH_EDGE_PREFIX</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a3d6b24af707a4cc40ce5bb881af0f801" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>isLikelySpam</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1af17b9d8f46c16b13cb932e741f4857e2" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>isLinkedToAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a5aad5e23419e76d402e7948dcd071f7d" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a04bb0a06f220ad815df248a389086bd8" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>listFeedback</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a3124a727b78d97f86f609476a2ab3421" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>listFeedback</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a69e4387d2574ef6a0f9b595c8c781ba8" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>makeGraphEdgeKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1aa77e1641db4d49bbfb2aa217011138eb" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a42144259853cdf90bfc2cad16698cfca" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>markUsedForTraining</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a2cf8450098174ce3ef5273f2c78aca3e" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>setSpamKeywordsProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a3398b8baae441af64124154aa0af1cc3" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>setSpamKeywordsProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1af35f182b416eb1e32a228c7f5bb433ed" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>setValidationPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1ad509d4bbc04c8c859862fa30570b633c" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>SpamKeywordsProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1acadb6c6ceb0cf122d7669997fb395a96" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>updateValidationStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a661f043f1a5b94bea1a222dbfaa238c0" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>validateFeedback</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a67a89b264c8c7946a0f2dfcc3143c412" prot="private" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>validation_plugin_</name></member>
+      <member refid="classthemis_1_1llm_1_1_feedback_store_1a9ad940b8277c4d8b6913e3d1acaea1d3" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore</scope><name>~FeedbackStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

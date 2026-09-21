@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_multi_model_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::MultiModelResult</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_result_1af023a8749a892fd6e49a4f7d16665cfb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref></type>
+        <definition>ProcessToken themis::ProcessGraphManager::MultiModelResult::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelResult::token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="915" column="22" bodyfile="include/index/process_graph.h" bodystart="915" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_result_1a38a40a688c16c6480c805a63ff48080c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ProcessGraphManager::MultiModelResult::selected_fields</definition>
+        <argsstring></argsstring>
+        <name>selected_fields</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelResult::selected_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="916" column="24" bodyfile="include/index/process_graph.h" bodystart="916" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_result_1a045c1a54f034a02b225646ab0cda18a3" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::ProcessGraphManager::MultiModelResult::similarity_score</definition>
+        <argsstring></argsstring>
+        <name>similarity_score</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelResult::similarity_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="917" column="23" bodyfile="include/index/process_graph.h" bodystart="917" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_result_1a159ee7baaf5e9730dd958b5ddf9ad7d9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::ProcessGraphManager::MultiModelResult::distance_km</definition>
+        <argsstring></argsstring>
+        <name>distance_km</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelResult::distance_km</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="918" column="23" bodyfile="include/index/process_graph.h" bodystart="918" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ProcessGraphManager::MultiModelResult</label>
+        <link refid="structthemis_1_1_process_graph_manager_1_1_multi_model_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>token</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ProcessToken</label>
+        <link refid="structthemis_1_1_process_token"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/process_graph.h" line="914" column="5" bodyfile="include/index/process_graph.h" bodystart="914" bodyend="919"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_result_1a159ee7baaf5e9730dd958b5ddf9ad7d9" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelResult</scope><name>distance_km</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_result_1a38a40a688c16c6480c805a63ff48080c" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelResult</scope><name>selected_fields</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_result_1a045c1a54f034a02b225646ab0cda18a3" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelResult</scope><name>similarity_score</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_result_1af023a8749a892fd6e49a4f7d16665cfb" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelResult</scope><name>token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_ann_index" kind="class" language="C++" prot="public">
+    <compoundname>StubAnnIndex</compoundname>
+    <basecompoundref refid="classthemis_1_1index_1_1_i_ann_index" prot="public" virt="non-virtual">themis::index::IAnnIndex</basecompoundref>
+    <innerclass refid="struct_stub_ann_index_1_1_entry" prot="public">StubAnnIndex::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_ann_index_1a5dc174200beb4a066779000af8d545aa" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_stub_ann_index_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::vector&lt;Entry&gt; StubAnnIndex::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>StubAnnIndex::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="65" column="17" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_ann_index_1a92ccb3f504c68eb3c30c0bade91cdad4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubAnnIndex::StubAnnIndex</definition>
+        <argsstring>(std::vector&lt; Entry &gt; data)</argsstring>
+        <name>StubAnnIndex</name>
+        <qualifiedname>StubAnnIndex::StubAnnIndex</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_stub_ann_index_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="40" column="14" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_ann_index_1a1e6c53bd5175a337e90c651a29ebed51" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubAnnIndex::build</definition>
+        <argsstring>(const float *, const int64_t *, size_t, size_t) override</argsstring>
+        <name>build</name>
+        <qualifiedname>StubAnnIndex::build</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a08ee17d6a1ff89a68b672568bf2f29c2">build</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>const int64_t *</type>
+          <declname>ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="42" column="10" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_ann_index_1a19b59faba4312d45c6170ead81e56bc8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubAnnIndex::add</definition>
+        <argsstring>(int64_t, const float *, size_t) override</argsstring>
+        <name>add</name>
+        <qualifiedname>StubAnnIndex::add</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a4cfa5afd89bd1ab7baf49fb694574c8f">add</reimplements>
+        <param>
+          <type>int64_t</type>
+        </param>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="46" column="11" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_ann_index_1aa8fa52288efba1f4e4cfba8abaf97af4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnnSearchResult &gt; StubAnnIndex::search</definition>
+        <argsstring>(const float *, size_t, int k) const override</argsstring>
+        <name>search</name>
+        <qualifiedname>StubAnnIndex::search</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a66af8daad73bd7ff73dea815e4ad85f7">search</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="50" column="17" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="50" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_ann_index_1a709a5411a5d4360e493aefd24e4a50b1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubAnnIndex::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>StubAnnIndex::size</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a1dcbf3570258251ecde3b3fbc91ee7b4">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="62" column="18" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal <ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref> stub that returns a fixed ordered result list. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StubAnnIndex</label>
+        <link refid="class_stub_ann_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::index::IAnnIndex</label>
+        <link refid="classthemis_1_1index_1_1_i_ann_index"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StubAnnIndex</label>
+        <link refid="class_stub_ann_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::index::IAnnIndex</label>
+        <link refid="classthemis_1_1index_1_1_i_ann_index"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_ann_frontdoor.cpp" line="36" column="1" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="36" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_stub_ann_index_1a19b59faba4312d45c6170ead81e56bc8" prot="public" virt="virtual"><scope>StubAnnIndex</scope><name>add</name></member>
+      <member refid="class_stub_ann_index_1a1e6c53bd5175a337e90c651a29ebed51" prot="public" virt="virtual"><scope>StubAnnIndex</scope><name>build</name></member>
+      <member refid="class_stub_ann_index_1a5dc174200beb4a066779000af8d545aa" prot="private" virt="non-virtual"><scope>StubAnnIndex</scope><name>data_</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a4e2c38210a05670457d233117d0b668d" prot="public" virt="virtual"><scope>StubAnnIndex</scope><name>load</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a3414fa6ccd0f02eafa7e71cf8670898f" prot="public" virt="virtual"><scope>StubAnnIndex</scope><name>save</name></member>
+      <member refid="class_stub_ann_index_1aa8fa52288efba1f4e4cfba8abaf97af4" prot="public" virt="virtual"><scope>StubAnnIndex</scope><name>search</name></member>
+      <member refid="class_stub_ann_index_1a709a5411a5d4360e493aefd24e4a50b1" prot="public" virt="virtual"><scope>StubAnnIndex</scope><name>size</name></member>
+      <member refid="class_stub_ann_index_1a92ccb3f504c68eb3c30c0bade91cdad4" prot="public" virt="non-virtual"><scope>StubAnnIndex</scope><name>StubAnnIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a6be55350cefa2fb417b5c25f3a37d320" prot="public" virt="virtual"><scope>StubAnnIndex</scope><name>~IAnnIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_federated_blob_write_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::FederatedBlobWritePlan</compoundname>
+    <includes refid="federated__blob__router_8h" local="no">federated_blob_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_federated_blob_write_plan_1ad45dce897067fc7a2d39000897e181b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::FederatedBlobWritePlan::primary_region</definition>
+        <argsstring></argsstring>
+        <name>primary_region</name>
+        <qualifiedname>themis::storage::FederatedBlobWritePlan::primary_region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/federated_blob_router.h" line="41" column="47" bodyfile="include/storage/federated_blob_router.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_federated_blob_write_plan_1a8f21a075fc33f5e905b631b3cd1a2267" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_federated_blob_replica_target" kindref="compound">FederatedBlobReplicaTarget</ref> &gt;</type>
+        <definition>std::vector&lt;FederatedBlobReplicaTarget&gt; themis::storage::FederatedBlobWritePlan::replica_targets</definition>
+        <argsstring></argsstring>
+        <name>replica_targets</name>
+        <qualifiedname>themis::storage::FederatedBlobWritePlan::replica_targets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/federated_blob_router.h" line="42" column="19" bodyfile="include/storage/federated_blob_router.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Write plan describing how a blob should be placed across regions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>primary_region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Region that receives the canonical primary write. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replica_targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional regions that receive synchronous copies. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/storage/federated_blob_router.h" line="40" column="1" bodyfile="include/storage/federated_blob_router.h" bodystart="40" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_federated_blob_write_plan_1ad45dce897067fc7a2d39000897e181b0" prot="public" virt="non-virtual"><scope>themis::storage::FederatedBlobWritePlan</scope><name>primary_region</name></member>
+      <member refid="structthemis_1_1storage_1_1_federated_blob_write_plan_1a8f21a075fc33f5e905b631b3cd1a2267" prot="public" virt="non-virtual"><scope>themis::storage::FederatedBlobWritePlan</scope><name>replica_targets</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

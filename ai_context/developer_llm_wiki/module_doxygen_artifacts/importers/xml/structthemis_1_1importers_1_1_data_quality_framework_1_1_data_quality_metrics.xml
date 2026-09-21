@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::DataQualityFramework::DataQualityMetrics</compoundname>
+    <includes refid="data__quality_8h" local="no">data_quality.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a95d248fe5d4fa46901b7e3bd0a4774e7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::DataQualityFramework::DataQualityMetrics::completeness</definition>
+        <argsstring></argsstring>
+        <name>completeness</name>
+        <qualifiedname>themis::importers::DataQualityFramework::DataQualityMetrics::completeness</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of non-null values [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/data_quality.h" line="48" column="16" bodyfile="include/importers/data_quality.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a5ecc4078802798ac99bc0fad26ae47f1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::DataQualityFramework::DataQualityMetrics::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::importers::DataQualityFramework::DataQualityMetrics::accuracy</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Pattern / format conformance [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/data_quality.h" line="49" column="16" bodyfile="include/importers/data_quality.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a4c2321044e700e95d1ece1f2c0e78a4e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::DataQualityFramework::DataQualityMetrics::consistency</definition>
+        <argsstring></argsstring>
+        <name>consistency</name>
+        <qualifiedname>themis::importers::DataQualityFramework::DataQualityMetrics::consistency</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Referential integrity score [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/data_quality.h" line="50" column="16" bodyfile="include/importers/data_quality.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1ad6b45f355473497bcced1a2fcd20f162" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::DataQualityFramework::DataQualityMetrics::validity</definition>
+        <argsstring></argsstring>
+        <name>validity</name>
+        <qualifiedname>themis::importers::DataQualityFramework::DataQualityMetrics::validity</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Type conformance [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/data_quality.h" line="51" column="16" bodyfile="include/importers/data_quality.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a3c1df3e810eafad212b4d0491d1776b7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::DataQualityFramework::DataQualityMetrics::timeliness</definition>
+        <argsstring></argsstring>
+        <name>timeliness</name>
+        <qualifiedname>themis::importers::DataQualityFramework::DataQualityMetrics::timeliness</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Recency score [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/data_quality.h" line="52" column="16" bodyfile="include/importers/data_quality.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1afe17dcf181eecc176a073d2babba7b60" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::DataQualityFramework::DataQualityMetrics::uniqueness</definition>
+        <argsstring></argsstring>
+        <name>uniqueness</name>
+        <qualifiedname>themis::importers::DataQualityFramework::DataQualityMetrics::uniqueness</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>1 – duplicate_rate [0,1] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/data_quality.h" line="53" column="16" bodyfile="include/importers/data_quality.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1aa0aabd212c8bee2b9054c19bac47d4c8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::DataQualityFramework::DataQualityMetrics::overall_quality_score</definition>
+        <argsstring></argsstring>
+        <name>overall_quality_score</name>
+        <qualifiedname>themis::importers::DataQualityFramework::DataQualityMetrics::overall_quality_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Weighted average [0,100]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/data_quality.h" line="54" column="16" bodyfile="include/importers/data_quality.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a1cb659a24037ab83895bda13cee0a5b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::DataQualityFramework::DataQualityMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::DataQualityFramework::DataQualityMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/data_quality.h" line="60" column="14" bodyfile="src/importers/data_quality.cpp" bodystart="28" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/data_quality.h" line="47" column="5" bodyfile="include/importers/data_quality.h" bodystart="47" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a5ecc4078802798ac99bc0fad26ae47f1" prot="public" virt="non-virtual"><scope>themis::importers::DataQualityFramework::DataQualityMetrics</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a95d248fe5d4fa46901b7e3bd0a4774e7" prot="public" virt="non-virtual"><scope>themis::importers::DataQualityFramework::DataQualityMetrics</scope><name>completeness</name></member>
+      <member refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a4c2321044e700e95d1ece1f2c0e78a4e" prot="public" virt="non-virtual"><scope>themis::importers::DataQualityFramework::DataQualityMetrics</scope><name>consistency</name></member>
+      <member refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1aa0aabd212c8bee2b9054c19bac47d4c8" prot="public" virt="non-virtual"><scope>themis::importers::DataQualityFramework::DataQualityMetrics</scope><name>overall_quality_score</name></member>
+      <member refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a3c1df3e810eafad212b4d0491d1776b7" prot="public" virt="non-virtual"><scope>themis::importers::DataQualityFramework::DataQualityMetrics</scope><name>timeliness</name></member>
+      <member refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1a1cb659a24037ab83895bda13cee0a5b1" prot="public" virt="non-virtual"><scope>themis::importers::DataQualityFramework::DataQualityMetrics</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1afe17dcf181eecc176a073d2babba7b60" prot="public" virt="non-virtual"><scope>themis::importers::DataQualityFramework::DataQualityMetrics</scope><name>uniqueness</name></member>
+      <member refid="structthemis_1_1importers_1_1_data_quality_framework_1_1_data_quality_metrics_1ad6b45f355473497bcced1a2fcd20f162" prot="public" virt="non-virtual"><scope>themis::importers::DataQualityFramework::DataQualityMetrics</scope><name>validity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

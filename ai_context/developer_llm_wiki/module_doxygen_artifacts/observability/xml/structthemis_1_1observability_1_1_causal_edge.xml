@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_causal_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::CausalEdge</compoundname>
+    <includes refid="root__cause__analyzer_8h" local="no">root_cause_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_causal_edge_1ac45deb08e7fa00ceda2e76cc1148a828" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::CausalEdge::from_metric</definition>
+        <argsstring></argsstring>
+        <name>from_metric</name>
+        <qualifiedname>themis::observability::CausalEdge::from_metric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="119" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_causal_edge_1a955b147147df7999773ad12fa54c3ccc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::CausalEdge::to_metric</definition>
+        <argsstring></argsstring>
+        <name>to_metric</name>
+        <qualifiedname>themis::observability::CausalEdge::to_metric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="120" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_causal_edge_1af5db97f00b84584412e7a252bd308db1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::CausalEdge::strength</definition>
+        <argsstring></argsstring>
+        <name>strength</name>
+        <qualifiedname>themis::observability::CausalEdge::strength</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Estimated causal strength in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="122" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_causal_edge_1ad3b76dd5a92dc1fc4a1677d516d5d7d0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::CausalEdge::lag_seconds</definition>
+        <argsstring></argsstring>
+        <name>lag_seconds</name>
+        <qualifiedname>themis::observability::CausalEdge::lag_seconds</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Estimated lag in seconds from cause to effect. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="124" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A directed edge in the causal graph. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/root_cause_analyzer.h" line="118" column="1" bodyfile="include/observability/root_cause_analyzer.h" bodystart="118" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_causal_edge_1ac45deb08e7fa00ceda2e76cc1148a828" prot="public" virt="non-virtual"><scope>themis::observability::CausalEdge</scope><name>from_metric</name></member>
+      <member refid="structthemis_1_1observability_1_1_causal_edge_1ad3b76dd5a92dc1fc4a1677d516d5d7d0" prot="public" virt="non-virtual"><scope>themis::observability::CausalEdge</scope><name>lag_seconds</name></member>
+      <member refid="structthemis_1_1observability_1_1_causal_edge_1af5db97f00b84584412e7a252bd308db1" prot="public" virt="non-virtual"><scope>themis::observability::CausalEdge</scope><name>strength</name></member>
+      <member refid="structthemis_1_1observability_1_1_causal_edge_1a955b147147df7999773ad12fa54c3ccc" prot="public" virt="non-virtual"><scope>themis::observability::CausalEdge</scope><name>to_metric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

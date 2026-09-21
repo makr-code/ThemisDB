@@ -1,0 +1,1508 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__audio__processor_8cpp" kind="file" language="C++">
+    <compoundname>test_content_audio_processor.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="audio__processor_8h" local="yes">content/audio_processor.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstring</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>content/audio_processor.h</label>
+        <link refid="audio__processor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>content_plugin_interface.h</label>
+        <link refid="content__plugin__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>content/stt_processor.h</label>
+        <link refid="stt__processor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_audio_processor.cpp</label>
+        <link refid="test__content__audio__processor_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>cstring</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_audio_processor_test" prot="public">AudioProcessorTest</innerclass>
+    <innerclass refid="class_audio_processor_transcription_test" prot="public">AudioProcessorTranscriptionTest</innerclass>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="test__content__audio__processor_8cpp_1ae90756a78b2e85be70271d242b096a1c" prot="public" static="no">
+        <name>THEMIS_PLUGIN_EXPORTS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="20" column="10" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1accbe6d08dbff719edecde14123282219" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void writeLE16</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, size_t offset, uint16_t val)</argsstring>
+        <name>writeLE16</name>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="33" column="13" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a4b97b04bbd8d479c273021989f8049bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void writeLE32</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, size_t offset, uint32_t val)</argsstring>
+        <name>writeLE32</name>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="38" column="13" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="38" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1ae2ae261ec481d6e2484c3ac0e768e989" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void writeBE32</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, size_t offset, uint32_t val)</argsstring>
+        <name>writeBE32</name>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="45" column="14" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1af49948d8eb2eb4c09dd922c6c6f62d69" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; buildWavBlob</definition>
+        <argsstring>(uint32_t sample_rate, uint16_t num_channels, uint16_t bits_per_sample, uint32_t duration_ms)</argsstring>
+        <name>buildWavBlob</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>num_channels</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>bits_per_sample</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build a minimal valid WAV blob with the given PCM parameters. The data chunk is padded with silence to produce the requested duration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="56" column="20" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="56" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a12c567af7edb9faf31de962e83b17cdb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; buildFlacBlob</definition>
+        <argsstring>(uint32_t sample_rate, uint8_t channels, uint8_t bits_per_sample, uint64_t total_samples)</argsstring>
+        <name>buildFlacBlob</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>channels</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>bits_per_sample</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>total_samples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build a minimal FLAC blob for the given parameters. Contains only the fLaC marker + STREAMINFO metadata block. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="98" column="20" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="98" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1af3225775f52448161b41b80d75c495d1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; buildMp3FrameBlob</definition>
+        <argsstring>(int bitrate_kbps, int sample_rate, bool stereo)</argsstring>
+        <name>buildMp3FrameBlob</name>
+        <param>
+          <type>int</type>
+          <declname>bitrate_kbps</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>stereo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build a minimal MP3 MPEG1 Layer3 sync frame header blob (no ID3 prefix). Produces a 4-byte sync + filler. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="156" column="20" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="156" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a1b6b43283d54bff1a8e5470f0763a1e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; buildId3v2Tag</definition>
+        <argsstring>(const std::string &amp;frame_id, const std::string &amp;value)</argsstring>
+        <name>buildId3v2Tag</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>frame_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build a minimal ID3v2.3 tag blob with a single text frame. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="192" column="20" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="192" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Wav_ExtractsSampleRateAndChannels)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Wav_ExtractsSampleRateAndChannels</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="252" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="252" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a3b949a4bf41e94a406f790eb900faa30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Wav_ExtractsDuration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Wav_ExtractsDuration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="263" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="263" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1ad6b3121e549dd476d650a8f178bd639b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Wav_MonoChannel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Wav_MonoChannel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="273" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="273" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1aa8992ce7fe31397e7d6424488622af33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Wav_StereoChannelLayout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Wav_StereoChannelLayout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="283" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="283" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1ad7f49568c37e97784c09629496adc99c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Wav_BitrateDerivedFromFormat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Wav_BitrateDerivedFromFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="290" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="290" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a6e495a6bf5316c848a98073abdab76f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Flac_ExtractsSampleRateAndChannels)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Flac_ExtractsSampleRateAndChannels</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="304" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="304" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a7f3669eded379fae53e755e56c5ab0a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Flac_ExtractsDuration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Flac_ExtractsDuration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="316" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="316" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a96bf5dd1098aa88ee857e408b9c37717" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Flac_HiResSampleRate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Flac_HiResSampleRate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="325" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="325" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1afa1b7719ef4f73ce96f2775b6a10cfb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Mp3_ExtractsBitrateAndSampleRate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Mp3_ExtractsBitrateAndSampleRate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="337" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="337" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a5e09be5b0e492314993d619127dba89f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Mp3_MonoChannel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Mp3_MonoChannel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="349" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="349" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a43144d4d5894ec5d156157d9e2fa0525" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Mp3_320kbps)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Mp3_320kbps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="358" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="358" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a54ef2c725bf3db9ded4f279fef12758e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Id3v2_ExtractsTitleTag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Id3v2_ExtractsTitleTag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="370" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="370" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a8d1bd306c088ed3e10538fe6a724171d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Id3v2_ExtractsArtistTag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Id3v2_ExtractsArtistTag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="384" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="384" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1aff6cf7121e8c1f5ab7cef0bf37ffdf81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Id3v2_ExtractsAlbumTag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Id3v2_ExtractsAlbumTag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="396" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="396" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1ac36f88b8a001c7e6e76cf72053e4f6a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Ogg_DetectsContainerFormat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Ogg_DetectsContainerFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="412" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="412" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a0fd999497dbfd83b063a604ff3a40b43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, EmptyBlob_ReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyBlob_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="452" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="452" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a9cd64254c7812298deaf5070730d636f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, TooShortBlob_NoSegfault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>TooShortBlob_NoSegfault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="458" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="458" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1aa1b24d1bd3ff658ba4d105628ca961d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, UnknownFormat_SucceedsWithNoMediaData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>UnknownFormat_SucceedsWithNoMediaData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="465" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="465" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1aabd1bb3e525c0da036c9aa9330be321e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, CanProcess_SupportedMimeTypes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>CanProcess_SupportedMimeTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="477" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="477" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a3c28b5a9cd5ecb999d0ad0b893a22d13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, CanProcess_UnsupportedMimeType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>CanProcess_UnsupportedMimeType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="488" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="488" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a5088470cf1fccd503ba0d640ff0fe8e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, GetInfo_HasCorrectName)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>GetInfo_HasCorrectName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="494" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="494" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a2e8904f18f2d9466d7043a3a3824a60a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, QualityClass_HiRes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>QualityClass_HiRes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="504" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="504" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a2fafacd509b7ad4a2aa879cbfaab4a57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, QualityClass_CdQuality)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>QualityClass_CdQuality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="511" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="511" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a4a5424cdb538a4d9e933402c36503436" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, QualityClass_Standard)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>QualityClass_Standard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="518" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="518" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a4c0915e6275dc63ffa8be028967d2dcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Statistics_HealthCheckAfterInit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Statistics_HealthCheckAfterInit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="529" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="529" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a996467d43adf0a2cc2b6cbf0d4920a11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTest, Statistics_FileCountIncrementsOnSuccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref></type>
+        </param>
+        <param>
+          <type>Statistics_FileCountIncrementsOnSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="533" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="533" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a58398da387b9cbc279004aa010c50463" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTranscriptionTest, Transcription_ExtractReturnsText_WhenEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref></type>
+        </param>
+        <param>
+          <type>Transcription_ExtractReturnsText_WhenEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="567" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="567" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1aca3477c403d9a7619fcf4e487a74568f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTranscriptionTest, Transcription_StatisticsCountIncrement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref></type>
+        </param>
+        <param>
+          <type>Transcription_StatisticsCountIncrement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="580" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="580" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1ad5f365957fc375eb556a46648054d514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTranscriptionTest, Transcription_MetadataPopulated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref></type>
+        </param>
+        <param>
+          <type>Transcription_MetadataPopulated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="591" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="591" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1a448c8caa23c8266ef690e70ffac8d440" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AudioProcessorTranscriptionTest, Transcription_ShutdownAndReinitialize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref></type>
+        </param>
+        <param>
+          <type>Transcription_ShutdownAndReinitialize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="609" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="609" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__audio__processor_8cpp_1adbba6287bc9f5ed76162d665e272ff54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AudioProcessorNoTranscriptionTest, Transcription_DisabledByDefault_NoText)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AudioProcessorNoTranscriptionTest</type>
+        </param>
+        <param>
+          <type>Transcription_DisabledByDefault_NoText</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="620" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="620" bodyend="632"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1content_1_1_audio_processor" kindref="compound">AudioProcessor</ref> metadata extraction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>WAV header parsing (sample rate, channels, bit depth, duration)</para>
+</listitem><listitem><para>FLAC STREAMINFO block parsing (sample rate, channels, total samples, duration)</para>
+</listitem><listitem><para>MP3 MPEG frame header parsing (bitrate, sample rate, channels)</para>
+</listitem><listitem><para>Ogg Vorbis identification header parsing (sample rate, channels, bitrate)</para>
+</listitem><listitem><para>ID3v2 tag parsing (title, artist, album, year, genre, track)</para>
+</listitem><listitem><para>Vorbis comment parsing (FLAC metadata tags)</para>
+</listitem><listitem><para>Error handling (empty blob, too-short blob, unknown format)</para>
+</listitem><listitem><para>Channel layout and quality classification </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_PLUGIN_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="audio__processor_8h" kindref="compound">content/audio_processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>utilities<sp/>for<sp/>constructing<sp/>synthetic<sp/>audio<sp/>blobs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeLE16(std::vector&lt;uint8_t&gt;&amp;<sp/>buf,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,<sp/>uint16_t<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset]<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(val<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset<sp/>+<sp/>1]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((val<sp/>&gt;&gt;<sp/>8)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeLE32(std::vector&lt;uint8_t&gt;&amp;<sp/>buf,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,<sp/>uint32_t<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset]<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(val<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset<sp/>+<sp/>1]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((val<sp/>&gt;&gt;<sp/>8)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset<sp/>+<sp/>2]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((val<sp/>&gt;&gt;<sp/>16)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset<sp/>+<sp/>3]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((val<sp/>&gt;&gt;<sp/>24)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeBE32(std::vector&lt;uint8_t&gt;&amp;<sp/>buf,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,<sp/>uint32_t<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset]<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((val<sp/>&gt;&gt;<sp/>24)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset<sp/>+<sp/>1]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((val<sp/>&gt;&gt;<sp/>16)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset<sp/>+<sp/>2]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((val<sp/>&gt;&gt;<sp/>8)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[offset<sp/>+<sp/>3]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(val<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>buildWavBlob(</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>sample_rate,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>num_channels,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>bits_per_sample,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>duration_ms)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>byte_rate<sp/><sp/><sp/>=<sp/>sample_rate<sp/>*<sp/>num_channels<sp/>*<sp/>bits_per_sample<sp/>/<sp/>8;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>block_align<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_channels<sp/>*<sp/>bits_per_sample<sp/>/<sp/>8);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>data_size<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(byte_rate)<sp/>*<sp/>duration_ms<sp/>/<sp/>1000</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>riff_size<sp/><sp/><sp/>=<sp/>36<sp/>+<sp/>data_size;<sp/></highlight><highlight class="comment">//<sp/>4(WAVE)<sp/>+<sp/>24(fmt)<sp/>+<sp/>8(data<sp/>hdr)<sp/>+<sp/>data_size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>buf(44<sp/>+<sp/>data_size,<sp/>0x00);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RIFF<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[0]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;R&apos;</highlight><highlight class="normal">;<sp/>buf[1]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;I&apos;</highlight><highlight class="normal">;<sp/>buf[2]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">;<sp/>buf[3]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE32(buf,<sp/>4,<sp/>riff_size);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[8]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;W&apos;</highlight><highlight class="normal">;<sp/>buf[9]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">;<sp/>buf[10]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;V&apos;</highlight><highlight class="normal">;<sp/>buf[11]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;E&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fmt<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[12]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;f&apos;</highlight><highlight class="normal">;<sp/>buf[13]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;m&apos;</highlight><highlight class="normal">;<sp/>buf[14]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;t&apos;</highlight><highlight class="normal">;<sp/>buf[15]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;<sp/>&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE32(buf,<sp/>16,<sp/>16);<sp/></highlight><highlight class="comment">//<sp/>PCM<sp/>chunk<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE16(buf,<sp/>20,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>PCM<sp/>audio<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE16(buf,<sp/>22,<sp/>num_channels);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE32(buf,<sp/>24,<sp/>sample_rate);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE32(buf,<sp/>28,<sp/>byte_rate);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE16(buf,<sp/>32,<sp/>block_align);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE16(buf,<sp/>34,<sp/>bits_per_sample);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>data<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[36]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;d&apos;</highlight><highlight class="normal">;<sp/>buf[37]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">;<sp/>buf[38]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;t&apos;</highlight><highlight class="normal">;<sp/>buf[39]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>writeLE32(buf,<sp/>40,<sp/>data_size);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>audio<sp/>data<sp/>is<sp/>all<sp/>zeros<sp/>(silence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>buf;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>buildFlacBlob(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>sample_rate,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><sp/>channels,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><sp/>bits_per_sample,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_samples)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>buf(42,<sp/>0x00);<sp/></highlight><highlight class="comment">//<sp/>4<sp/>marker<sp/>+<sp/>4<sp/>block<sp/>hdr<sp/>+<sp/>34<sp/>STREAMINFO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fLaC<sp/>marker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[0]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;f&apos;</highlight><highlight class="normal">;<sp/>buf[1]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;L&apos;</highlight><highlight class="normal">;<sp/>buf[2]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">;<sp/>buf[3]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;C&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>metadata<sp/>block<sp/>header:<sp/>last-block=1,<sp/>type=0<sp/>(STREAMINFO),<sp/>length=34</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[4]<sp/>=<sp/>0x80;<sp/></highlight><highlight class="comment">//<sp/>last<sp/>block<sp/>+<sp/>type<sp/>STREAMINFO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[5]<sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[6]<sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[7]<sp/>=<sp/>34;<sp/></highlight><highlight class="comment">//<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>STREAMINFO<sp/>block<sp/>at<sp/>offset<sp/>8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bytes<sp/>0-1:<sp/>min_block_size<sp/>=<sp/>4096</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[8]<sp/><sp/>=<sp/>0x10;<sp/>buf[9]<sp/><sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bytes<sp/>2-3:<sp/>max_block_size<sp/>=<sp/>4096</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[10]<sp/>=<sp/>0x10;<sp/>buf[11]<sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bytes<sp/>4-6:<sp/>min_frame_size<sp/>=<sp/>0<sp/>(unknown)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[12]<sp/>=<sp/>0x00;<sp/>buf[13]<sp/>=<sp/>0x00;<sp/>buf[14]<sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bytes<sp/>7-9:<sp/>max_frame_size<sp/>=<sp/>0<sp/>(unknown)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[15]<sp/>=<sp/>0x00;<sp/>buf[16]<sp/>=<sp/>0x00;<sp/>buf[17]<sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bytes<sp/>10-17:<sp/>sample_rate(20b)<sp/>|<sp/>channels-1(3b)<sp/>|<sp/>bps-1(5b)<sp/>|<sp/>total_samples(36b)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pack<sp/>into<sp/>8<sp/>bytes<sp/>(64<sp/>bits):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>bits<sp/>63-44:<sp/>sample_rate<sp/>(20<sp/>bits)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>bits<sp/>43-41:<sp/>channels<sp/>-<sp/>1<sp/>(3<sp/>bits)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>bits<sp/>40-36:<sp/>bps<sp/>-<sp/>1<sp/>(5<sp/>bits)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>bits<sp/>35-0<sp/>:<sp/>total_samples<sp/>(36<sp/>bits)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>packed<sp/>=</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((uint64_t)(sample_rate<sp/>&amp;<sp/>0xFFFFF)<sp/>&lt;&lt;<sp/>44)<sp/>|</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((uint64_t)((channels<sp/>-<sp/>1)<sp/>&amp;<sp/>0x07)<sp/>&lt;&lt;<sp/>41)<sp/>|</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((uint64_t)((bits_per_sample<sp/>-<sp/>1)<sp/>&amp;<sp/>0x1F)<sp/>&lt;&lt;<sp/>36)<sp/>|</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(total_samples<sp/>&amp;<sp/>0xFFFFFFFFFULL);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[18]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((packed<sp/>&gt;&gt;<sp/>56)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[19]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((packed<sp/>&gt;&gt;<sp/>48)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[20]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((packed<sp/>&gt;&gt;<sp/>40)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[21]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((packed<sp/>&gt;&gt;<sp/>32)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[22]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((packed<sp/>&gt;&gt;<sp/>24)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[23]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((packed<sp/>&gt;&gt;<sp/>16)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[24]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((packed<sp/>&gt;&gt;<sp/>8)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[25]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(packed<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remaining<sp/>16<sp/>bytes:<sp/>MD5<sp/>signature<sp/>(zeroed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>buf;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>buildMp3FrameBlob(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>bitrate_kbps,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sample_rate,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>stereo)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bitrate<sp/>index<sp/>table<sp/>for<sp/>MPEG1<sp/>Layer3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>br_table[16]<sp/>=<sp/>{0,32,40,48,56,64,80,96,112,128,160,192,224,256,320,0};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sample<sp/>rate<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sr_idx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sample_rate<sp/>==<sp/>48000)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sr_idx<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sample_rate<sp/>==<sp/>32000)<sp/>sr_idx<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>br_idx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>15;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(br_table[i]<sp/>==<sp/>bitrate_kbps)<sp/>{<sp/>br_idx<sp/>=<sp/>i;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>byte<sp/>0:<sp/>0xFF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>byte<sp/>1:<sp/>0xFB<sp/>=<sp/>1111<sp/>1011<sp/>→<sp/>sync(11)<sp/>+<sp/>MPEG1(11)<sp/>+<sp/>Layer3(01)<sp/>+<sp/>no-CRC(1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>b1<sp/>=<sp/>0xFB;<sp/></highlight><highlight class="comment">//<sp/>MPEG1<sp/>Layer3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>b2<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(br_idx<sp/>&lt;&lt;<sp/>4)<sp/>|<sp/>(sr_idx<sp/>&lt;&lt;<sp/>2)<sp/>|<sp/>0x00<sp/></highlight><highlight class="comment">//<sp/>no<sp/>padding,<sp/>private=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>b3<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(stereo<sp/>?<sp/>0x00<sp/>:<sp/>0xC0)<sp/></highlight><highlight class="comment">//<sp/>0x00=Stereo,<sp/>0xC0=Mono</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>buf(256,<sp/>0x00);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[0]<sp/>=<sp/>0xFF;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[1]<sp/>=<sp/>b1;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[2]<sp/>=<sp/>b2;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[3]<sp/>=<sp/>b3;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>buf;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>buildId3v2Tag(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>frame_id,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Frame:<sp/>4(ID)<sp/>+<sp/>4(size<sp/>BE)<sp/>+<sp/>2(flags)<sp/>+<sp/>1(encoding)<sp/>+<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>frame_data_size<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1<sp/>+<sp/>value.size());<sp/></highlight><highlight class="comment">//<sp/>encoding<sp/>byte<sp/>+<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>frame_total<sp/>=<sp/>10<sp/>+<sp/>frame_data_size;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tag<sp/>size<sp/>(syncsafe)<sp/>=<sp/>frame_total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>tag_size<sp/>=<sp/>frame_total;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>ss0<sp/>=<sp/>(tag_size<sp/>&gt;&gt;<sp/>21)<sp/>&amp;<sp/>0x7F;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>ss1<sp/>=<sp/>(tag_size<sp/>&gt;&gt;<sp/>14)<sp/>&amp;<sp/>0x7F;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>ss2<sp/>=<sp/>(tag_size<sp/>&gt;&gt;<sp/>7)<sp/><sp/>&amp;<sp/>0x7F;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>ss3<sp/>=<sp/>tag_size<sp/>&amp;<sp/>0x7F;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>buf;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ID3v2<sp/>header<sp/>(10<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(</highlight><highlight class="charliteral">&apos;I&apos;</highlight><highlight class="normal">);<sp/>buf.push_back(</highlight><highlight class="charliteral">&apos;D&apos;</highlight><highlight class="normal">);<sp/>buf.push_back(</highlight><highlight class="charliteral">&apos;3&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(3);<sp/>buf.push_back(0);<sp/></highlight><highlight class="comment">//<sp/>version<sp/>2.3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(0);<sp/></highlight><highlight class="comment">//<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(ss0);<sp/>buf.push_back(ss1);<sp/>buf.push_back(ss2);<sp/>buf.push_back(ss3);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Frame<sp/>header<sp/>(10<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>frame_id)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>buf.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(c));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Frame<sp/>size<sp/>BE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back((frame_data_size<sp/>&gt;&gt;<sp/>24)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back((frame_data_size<sp/>&gt;&gt;<sp/>16)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back((frame_data_size<sp/>&gt;&gt;<sp/>8)<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(frame_data_size<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(0);<sp/>buf.push_back(0);<sp/></highlight><highlight class="comment">//<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Frame<sp/>data:<sp/>encoding<sp/>(UTF-8<sp/>=<sp/>3)<sp/>+<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(3);<sp/></highlight><highlight class="comment">//<sp/>UTF-8<sp/>encoding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>buf.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(c));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>buf;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="class_audio_processor_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_audio_processor" kindref="compound">AudioProcessor</ref><sp/><ref refid="class_audio_processor_test_1a3df9a22124ebf42f0aa9508f3c3b8206" kindref="member">processor</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_audio_processor_test_1a67de553dde9bf60598a7efee50354c5d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_audio_processor_test_1a3df9a22124ebf42f0aa9508f3c3b8206" kindref="member">processor</ref>.initialize(config));</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WAV<sp/>metadata<sp/>extraction<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Wav_ExtractsSampleRateAndChannels)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(44100,<sp/>2,<sp/>16,<sp/>1000);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;sample_rate,<sp/>44100);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;channels,<sp/>2);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;container_format,<sp/></highlight><highlight class="stringliteral">&quot;wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;audio_codec,<sp/></highlight><highlight class="stringliteral">&quot;pcm&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Wav_ExtractsDuration)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>seconds<sp/>of<sp/>44100<sp/>Hz<sp/>stereo<sp/>16-bit<sp/>PCM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(44100,<sp/>2,<sp/>16,<sp/>2000);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Duration<sp/>should<sp/>be<sp/>approximately<sp/>2000<sp/>ms<sp/>(allow<sp/>±10<sp/>ms<sp/>rounding)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(result.media-&gt;duration_ms),<sp/>2000.0,<sp/>10.0);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Wav_MonoChannel)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(22050,<sp/>1,<sp/>16,<sp/>500);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;channels,<sp/>1);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;sample_rate,<sp/>22050);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;channel_layout&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;mono&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Wav_StereoChannelLayout)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(44100,<sp/>2,<sp/>16,<sp/>1000);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;channel_layout&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;stereo&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Wav_BitrateDerivedFromFormat)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>44100<sp/>Hz<sp/>stereo<sp/>16-bit:<sp/>byte_rate<sp/>=<sp/>44100*2*2<sp/>=<sp/>176400<sp/>B/s<sp/>=<sp/>1411.2<sp/>kbps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(44100,<sp/>2,<sp/>16,<sp/>1000);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bitrate<sp/>=<sp/>sample_rate<sp/>*<sp/>channels<sp/>*<sp/>bits_per_sample<sp/>/<sp/>1000<sp/>=<sp/>1411<sp/>kbps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.media-&gt;bitrate_kbps,<sp/>0);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FLAC<sp/>metadata<sp/>extraction<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Flac_ExtractsSampleRateAndChannels)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>44100<sp/>Hz,<sp/>2<sp/>channels,<sp/>16<sp/>bps,<sp/>44100<sp/>samples<sp/>=<sp/>1<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildFlacBlob(44100,<sp/>2,<sp/>16,<sp/>44100);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/flac&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;sample_rate,<sp/>44100);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;channels,<sp/>2);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;container_format,<sp/></highlight><highlight class="stringliteral">&quot;flac&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;audio_codec,<sp/></highlight><highlight class="stringliteral">&quot;flac&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Flac_ExtractsDuration)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>48000<sp/>Hz,<sp/>1<sp/>channel,<sp/>24<sp/>bps,<sp/>96000<sp/>samples<sp/>=<sp/>2<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildFlacBlob(48000,<sp/>1,<sp/>24,<sp/>96000);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/flac&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(result.media-&gt;duration_ms),<sp/>2000.0,<sp/>5.0);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Flac_HiResSampleRate)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>96000<sp/>Hz<sp/>qualifies<sp/>as<sp/>Hi-Res</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildFlacBlob(96000,<sp/>2,<sp/>24,<sp/>192000);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/flac&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;quality_class&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Hi-Res&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MP3<sp/>metadata<sp/>extraction<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Mp3_ExtractsBitrateAndSampleRate)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildMp3FrameBlob(128,<sp/>44100,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;sample_rate,<sp/>44100);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;bitrate_kbps,<sp/>128);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;channels,<sp/>2);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;container_format,<sp/></highlight><highlight class="stringliteral">&quot;mp3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;audio_codec,<sp/></highlight><highlight class="stringliteral">&quot;mp3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Mp3_MonoChannel)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildMp3FrameBlob(64,<sp/>44100,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;channels,<sp/>1);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;channel_layout&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;mono&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Mp3_320kbps)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildMp3FrameBlob(320,<sp/>44100,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;bitrate_kbps,<sp/>320);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ID3v2<sp/>tag<sp/>extraction<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Id3v2_ExtractsTitleTag)<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>an<sp/>ID3v2<sp/>blob<sp/>with<sp/>TIT2<sp/>(title)<sp/>frame<sp/>+<sp/>MP3<sp/>sync<sp/>frame</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id3<sp/>=<sp/>buildId3v2Tag(</highlight><highlight class="stringliteral">&quot;TIT2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Track&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mp3<sp/><sp/>=<sp/>buildMp3FrameBlob(128,<sp/>44100,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Concatenate<sp/>id3<sp/>+<sp/>mp3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>blob<sp/>=<sp/>id3;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>blob.insert(blob.end(),<sp/>mp3.begin(),<sp/>mp3.end());</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.metadata.contains(</highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;title&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Track&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Id3v2_ExtractsArtistTag)<sp/>{</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id3<sp/>=<sp/>buildId3v2Tag(</highlight><highlight class="stringliteral">&quot;TPE1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Artist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mp3<sp/><sp/>=<sp/>buildMp3FrameBlob(128,<sp/>44100,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>blob<sp/>=<sp/>id3;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>blob.insert(blob.end(),<sp/>mp3.begin(),<sp/>mp3.end());</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.metadata.contains(</highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;artist&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Artist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Id3v2_ExtractsAlbumTag)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id3<sp/>=<sp/>buildId3v2Tag(</highlight><highlight class="stringliteral">&quot;TALB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Album&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mp3<sp/><sp/>=<sp/>buildMp3FrameBlob(128,<sp/>44100,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>blob<sp/>=<sp/>id3;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>blob.insert(blob.end(),<sp/>mp3.begin(),<sp/>mp3.end());</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.metadata.contains(</highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;album&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Album&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ogg<sp/>Vorbis<sp/>metadata<sp/>extraction<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Ogg_DetectsContainerFormat)<sp/>{</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>a<sp/>minimal<sp/>Ogg<sp/>blob<sp/>with<sp/>Vorbis<sp/>identification<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ogg<sp/>page<sp/>header<sp/>(bytes<sp/>0-26)<sp/>+<sp/>segment<sp/>table<sp/>(byte<sp/>27)<sp/>+<sp/>Vorbis<sp/>ID<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>blob(128,<sp/>0x00);</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[0]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;O&apos;</highlight><highlight class="normal">;<sp/>blob[1]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;g&apos;</highlight><highlight class="normal">;<sp/>blob[2]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;g&apos;</highlight><highlight class="normal">;<sp/>blob[3]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;S&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>byte<sp/>4:<sp/>version=0,<sp/>byte<sp/>5:<sp/>header_type=2<sp/>(beginning<sp/>of<sp/>stream)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bytes<sp/>6-13:<sp/>granule_pos=0,<sp/>bytes<sp/>14-17:<sp/>serial=1,<sp/>bytes<sp/>18-21:<sp/>seq=0,<sp/>bytes<sp/>22-25:<sp/>crc=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Byte<sp/>26:<sp/>page_segments<sp/>=<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[26]<sp/>=<sp/>1;<sp/><sp/></highlight><highlight class="comment">//<sp/>num_segments<sp/>=<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[27]<sp/>=<sp/>30;<sp/></highlight><highlight class="comment">//<sp/>segment_table[0]<sp/>=<sp/>30<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vorbis<sp/>ID<sp/>header<sp/>starts<sp/>at<sp/>offset<sp/>28<sp/>(=<sp/>27<sp/>+<sp/>1<sp/>segment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vid<sp/>=<sp/>28;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[vid]<sp/><sp/><sp/>=<sp/>0x01;<sp/></highlight><highlight class="comment">//<sp/>packet_type<sp/>=<sp/>identification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[vid+1]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;v&apos;</highlight><highlight class="normal">;<sp/>blob[vid+2]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;o&apos;</highlight><highlight class="normal">;<sp/>blob[vid+3]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;r&apos;</highlight><highlight class="normal">;<sp/>blob[vid+4]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[vid+5]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;i&apos;</highlight><highlight class="normal">;<sp/>blob[vid+6]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;s&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>vorbis_version<sp/>=<sp/>0<sp/>(4<sp/>bytes<sp/>LE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[vid+7]<sp/>=<sp/>0x00;<sp/>blob[vid+8]<sp/>=<sp/>0x00;<sp/>blob[vid+9]<sp/>=<sp/>0x00;<sp/>blob[vid+10]<sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>audio_channels<sp/>=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[vid+11]<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>audio_sample_rate<sp/>=<sp/>44100<sp/>=<sp/>0x0000AC44<sp/>(LE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[vid+12]<sp/>=<sp/>0x44;<sp/>blob[vid+13]<sp/>=<sp/>0xAC;<sp/>blob[vid+14]<sp/>=<sp/>0x00;<sp/>blob[vid+15]<sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bitrate_maximum<sp/>=<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[vid+16]<sp/>=<sp/>0;<sp/>blob[vid+17]<sp/>=<sp/>0;<sp/>blob[vid+18]<sp/>=<sp/>0;<sp/>blob[vid+19]<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bitrate_nominal<sp/>=<sp/>128000<sp/>=<sp/>0x0001F400<sp/>(LE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>blob[vid+20]<sp/>=<sp/>0x00;<sp/>blob[vid+21]<sp/>=<sp/>0xF4;<sp/>blob[vid+22]<sp/>=<sp/>0x01;<sp/>blob[vid+23]<sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/ogg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.media.has_value());</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;container_format,<sp/></highlight><highlight class="stringliteral">&quot;ogg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;audio_codec,<sp/></highlight><highlight class="stringliteral">&quot;vorbis&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;channels,<sp/>2);</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;sample_rate,<sp/>44100);</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.media-&gt;bitrate_kbps,<sp/>128);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>handling<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>EmptyBlob_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>empty;</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(empty,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="456"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>TooShortBlob_NoSegfault)<sp/>{</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>tiny<sp/>=<sp/>{0x52,<sp/>0x49,<sp/>0x46,<sp/>0x46};<sp/></highlight><highlight class="comment">//<sp/>&quot;RIFF&quot;<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(tiny,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>crash;<sp/>may<sp/>succeed<sp/>or<sp/>fail<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_FATAL_FAILURE(processor.extract(tiny,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="463"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>UnknownFormat_SucceedsWithNoMediaData)<sp/>{</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>blob(64,<sp/>0xAB);<sp/></highlight><highlight class="comment">//<sp/>arbitrary<sp/>unknown<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>extract()<sp/>should<sp/>return<sp/>success=true<sp/>even<sp/>if<sp/>format<sp/>is<sp/>unrecognised<sp/>(no<sp/>metadata)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>return<sp/>success=false;<sp/>what<sp/>matters<sp/>is<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_FATAL_FAILURE(processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="471"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CanProcess<sp/>/<sp/>plugin<sp/>info<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>CanProcess_SupportedMimeTypes)<sp/>{</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;audio/mpeg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;audio/flac&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;audio/ogg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;audio/aac&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;audio/mp4&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;audio/webm&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;audio/x-m4a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="486"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>CanProcess_UnsupportedMimeType)<sp/>{</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;video/mp4&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(processor.canProcess(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="492"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>GetInfo_HasCorrectName)<sp/>{</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>processor.getInfo();</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info.name,<sp/></highlight><highlight class="stringliteral">&quot;audio-processor&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info.supports_streaming,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Quality<sp/>classification<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>QualityClass_HiRes)<sp/>{</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildFlacBlob(96000,<sp/>2,<sp/>24,<sp/>192000);</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/flac&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;quality_class&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Hi-Res&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>QualityClass_CdQuality)<sp/>{</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(44100,<sp/>2,<sp/>16,<sp/>1000);</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;quality_class&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;CD<sp/>Quality&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="516"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>QualityClass_Standard)<sp/>{</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(22050,<sp/>1,<sp/>8,<sp/>1000);</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;quality_class&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Standard&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="523"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Statistics<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"></highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Statistics_HealthCheckAfterInit)<sp/>{</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.healthCheck());</highlight></codeline>
+<codeline lineno="531"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_test" kindref="compound">AudioProcessorTest</ref>,<sp/>Statistics_FileCountIncrementsOnSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(44100,<sp/>2,<sp/>16,<sp/>100);</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats_before<sp/>=<sp/>processor.getStatistics();</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats_after<sp/>=<sp/>processor.getStatistics();</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats_after[</highlight><highlight class="stringliteral">&quot;audio_files_processed&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;(),</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_before[</highlight><highlight class="stringliteral">&quot;audio_files_processed&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;());</highlight></codeline>
+<codeline lineno="540"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Transcription<sp/>/<sp/>STT<sp/>integration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight></codeline>
+<codeline lineno="553" refid="class_audio_processor_transcription_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_audio_processor" kindref="compound">AudioProcessor</ref><sp/><ref refid="class_audio_processor_transcription_test_1ae445b1122835919e656198e9f11ce985" kindref="member">processor</ref>;</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_audio_processor_transcription_test_1a508e9bd29a03fbe4da1136c5b8401dab" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>settings;</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>settings[</highlight><highlight class="stringliteral">&quot;transcription&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;enabled&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>settings[</highlight><highlight class="stringliteral">&quot;transcription&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;base&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>settings[</highlight><highlight class="stringliteral">&quot;transcription&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;language&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref><sp/>config(settings);</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_audio_processor_transcription_test_1ae445b1122835919e656198e9f11ce985" kindref="member">processor</ref>.initialize(config));</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="565"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref>,<sp/>Transcription_ExtractReturnsText_WhenEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>transcription<sp/>is<sp/>enabled,<sp/>extracting<sp/>with<sp/>extract_text=true<sp/>should</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>populate<sp/>result.text<sp/>(even<sp/>the<sp/>placeholder<sp/>text<sp/>without<sp/>Whisper).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(16000,<sp/>1,<sp/>16,<sp/>500);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="structthemis_1_1content_1_1_extraction_options_1ade0b957e663efbff602d65ec9e8c50cb" kindref="member">extract_text</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">,<sp/>opts);</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>text<sp/>may<sp/>be<sp/>the<sp/>Whisper<sp/>placeholder<sp/>or<sp/>actual<sp/>transcription;<sp/>either</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>way<sp/>it<sp/>must<sp/>be<sp/>a<sp/>non-empty<sp/>string<sp/>when<sp/>transcription<sp/>is<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.text.empty());</highlight></codeline>
+<codeline lineno="578"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref>,<sp/>Transcription_StatisticsCountIncrement)<sp/>{</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(16000,<sp/>1,<sp/>16,<sp/>200);</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="structthemis_1_1content_1_1_extraction_options_1ade0b957e663efbff602d65ec9e8c50cb" kindref="member">extract_text</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats_before<sp/>=<sp/>processor.getStatistics();</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">,<sp/>opts);</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats_after<sp/>=<sp/>processor.getStatistics();</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats_after[</highlight><highlight class="stringliteral">&quot;transcriptions_performed&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;(),</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_before[</highlight><highlight class="stringliteral">&quot;transcriptions_performed&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;());</highlight></codeline>
+<codeline lineno="589"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"></highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref>,<sp/>Transcription_MetadataPopulated)<sp/>{</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transcription<sp/>metadata<sp/>(language,<sp/>confidence,<sp/>segments)<sp/>must<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>present<sp/>in<sp/>result.metadata[&quot;transcription&quot;]<sp/>after<sp/>a<sp/>successful<sp/>extract.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(16000,<sp/>1,<sp/>16,<sp/>500);</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="structthemis_1_1content_1_1_extraction_options_1ade0b957e663efbff602d65ec9e8c50cb" kindref="member">extract_text</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.extract(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">,<sp/>opts);</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.metadata.contains(</highlight><highlight class="stringliteral">&quot;transcription&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>tmeta<sp/>=<sp/>result.metadata[</highlight><highlight class="stringliteral">&quot;transcription&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tmeta.contains(</highlight><highlight class="stringliteral">&quot;language&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tmeta.contains(</highlight><highlight class="stringliteral">&quot;confidence&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tmeta.contains(</highlight><highlight class="stringliteral">&quot;audio_duration_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tmeta.contains(</highlight><highlight class="stringliteral">&quot;segment_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tmeta.contains(</highlight><highlight class="stringliteral">&quot;segments&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tmeta[</highlight><highlight class="stringliteral">&quot;segments&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="607"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"></highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1a78db3993bc903ed1e8589a2b8a7dd9d4" kindref="member">TEST_F</ref>(<ref refid="class_audio_processor_transcription_test" kindref="compound">AudioProcessorTranscriptionTest</ref>,<sp/>Transcription_ShutdownAndReinitialize)<sp/>{</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/>processor.shutdown();</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(processor.healthCheck());</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"></highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>settings;</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/>settings[</highlight><highlight class="stringliteral">&quot;transcription&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;enabled&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref><sp/>config(settings);</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(processor.initialize(config));</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(processor.healthCheck());</highlight></codeline>
+<codeline lineno="618"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"></highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><ref refid="test__content__audio__processor_8cpp_1adbba6287bc9f5ed76162d665e272ff54" kindref="member">TEST</ref>(AudioProcessorNoTranscriptionTest,<sp/>Transcription_DisabledByDefault_NoText)<sp/>{</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_audio_processor" kindref="compound">AudioProcessor</ref><sp/>proc;</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref><sp/>config;<sp/><sp/></highlight><highlight class="comment">//<sp/>default:<sp/>transcription.enabled<sp/>=<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="623"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(proc.<ref refid="classthemis_1_1content_1_1_audio_processor_1ac8b5a6a1f9a8a646f1237317a4a70426" kindref="member">initialize</ref>(config));</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"></highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>buildWavBlob(44100,<sp/>2,<sp/>16,<sp/>500);</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="structthemis_1_1content_1_1_extraction_options_1ade0b957e663efbff602d65ec9e8c50cb" kindref="member">extract_text</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>proc.<ref refid="classthemis_1_1content_1_1_audio_processor_1a1a3ab7526d58512f61574e69d87bc8bf" kindref="member">extract</ref>(blob,<sp/></highlight><highlight class="stringliteral">&quot;audio/wav&quot;</highlight><highlight class="normal">,<sp/>opts);</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>STT<sp/>processor<sp/>-&gt;<sp/>transcribe()<sp/>returns<sp/>&quot;&quot;<sp/>-&gt;<sp/>result.text<sp/>is<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.text.empty());</highlight></codeline>
+<codeline lineno="632"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_audio_processor.cpp"/>
+  </compounddef>
+</doxygen>

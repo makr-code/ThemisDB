@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::distributed::DistributedEvaluatorFactory</compoundname>
+    <includes refid="distributed__rag__evaluator_8h" local="no">distributed_rag_evaluator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory_1a79fc185de1f6d5a7cb6648b4d0e75c68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator" kindref="compound">DistributedRAGEvaluator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DistributedRAGEvaluator &gt; themis::rag::distributed::DistributedEvaluatorFactory::createHomogeneous</definition>
+        <argsstring>(size_t judge_count, judge::EvaluationMode mode=judge::EvaluationMode::BALANCED, AggregationStrategy aggregation=AggregationStrategy::MEAN)</argsstring>
+        <name>createHomogeneous</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluatorFactory::createHomogeneous</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>judge_count</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516" kindref="member">judge::EvaluationMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516a0cb4635d100151dcaac6f91db856c402" kindref="member">judge::EvaluationMode::BALANCED</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref></type>
+          <declname>aggregation</declname>
+          <defval><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a4ea6d1161ea24d7599365f574aff6610" kindref="member">AggregationStrategy::MEAN</ref></defval>
+        </param>
+        <briefdescription>
+<para>Create an evaluator with N identical judges running in parallel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>judge_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of parallel judge workers (&gt;= 1). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation mode forwarded to each RAGJudge. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aggregation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How to combine the N results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="198" column="28" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="421" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory_1a98db4fb804177df4b509f8d02620612c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator" kindref="compound">DistributedRAGEvaluator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DistributedRAGEvaluator &gt; themis::rag::distributed::DistributedEvaluatorFactory::createFastThorough</definition>
+        <argsstring>()</argsstring>
+        <name>createFastThorough</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluatorFactory::createFastThorough</qualifiedname>
+        <briefdescription>
+<para>Create an evaluator with one fast and one thorough judge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The fast judge receives weight 0.4, the thorough judge weight 0.6 in WEIGHTED_MEAN aggregation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="210" column="28" bodyfile="src/rag/distributed_rag_evaluator.cpp" bodystart="451" bodyend="477"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common distributed-evaluator setups. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/distributed_rag_evaluator.h" line="190" column="1" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="190" bodyend="211"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory_1a98db4fb804177df4b509f8d02620612c" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluatorFactory</scope><name>createFastThorough</name></member>
+      <member refid="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory_1a79fc185de1f6d5a7cb6648b4d0e75c68" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluatorFactory</scope><name>createHomogeneous</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

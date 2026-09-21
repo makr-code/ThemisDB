@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_aggregated_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AggregatedMetrics</compoundname>
+    <includes refid="prompt__evaluator_8h" local="no">prompt_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_aggregated_metrics_1a3db178b67b83cbf01f56418b1489f161" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::AggregatedMetrics::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::llm::AggregatedMetrics::overall_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Overall weighted score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="35" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_aggregated_metrics_1a89ac0f9488d2a4a64e7706506687967d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::AggregatedMetrics::mean_similarity</definition>
+        <argsstring></argsstring>
+        <name>mean_similarity</name>
+        <qualifiedname>themis::llm::AggregatedMetrics::mean_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean semantic similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="36" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_aggregated_metrics_1a622fb5b111ce4dd2a2ecf2e358aee069" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::AggregatedMetrics::std_similarity</definition>
+        <argsstring></argsstring>
+        <name>std_similarity</name>
+        <qualifiedname>themis::llm::AggregatedMetrics::std_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Standard deviation of similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="37" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_aggregated_metrics_1ac28e5e1d9c54014c6cac739b01a677e3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AggregatedMetrics::num_exact_matches</definition>
+        <argsstring></argsstring>
+        <name>num_exact_matches</name>
+        <qualifiedname>themis::llm::AggregatedMetrics::num_exact_matches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of exact matches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="38" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_aggregated_metrics_1a1f4660b1c32da232728bf37bde00700d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::AggregatedMetrics::pass_rate</definition>
+        <argsstring></argsstring>
+        <name>pass_rate</name>
+        <qualifiedname>themis::llm::AggregatedMetrics::pass_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Percentage passing threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="39" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_aggregated_metrics_1aeb6713c2dba639b453c5d93dca73e16c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::AggregatedMetrics::per_case_metrics</definition>
+        <argsstring></argsstring>
+        <name>per_case_metrics</name>
+        <qualifiedname>themis::llm::AggregatedMetrics::per_case_metrics</qualifiedname>
+        <briefdescription>
+<para>Per-test-case breakdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="40" column="20" bodyfile="include/llm/prompt_evaluator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_aggregated_metrics_1a3a61500088304b8e9cf56759bdda75bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::AggregatedMetrics::~AggregatedMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AggregatedMetrics</name>
+        <qualifiedname>themis::llm::AggregatedMetrics::~AggregatedMetrics</qualifiedname>
+        <briefdescription>
+<para>Aggregated Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_evaluator.h" line="29" column="1" bodyfile="include/llm/prompt_evaluator.h" bodystart="29" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_aggregated_metrics_1a89ac0f9488d2a4a64e7706506687967d" prot="public" virt="non-virtual"><scope>themis::llm::AggregatedMetrics</scope><name>mean_similarity</name></member>
+      <member refid="structthemis_1_1llm_1_1_aggregated_metrics_1ac28e5e1d9c54014c6cac739b01a677e3" prot="public" virt="non-virtual"><scope>themis::llm::AggregatedMetrics</scope><name>num_exact_matches</name></member>
+      <member refid="structthemis_1_1llm_1_1_aggregated_metrics_1a3db178b67b83cbf01f56418b1489f161" prot="public" virt="non-virtual"><scope>themis::llm::AggregatedMetrics</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_aggregated_metrics_1a1f4660b1c32da232728bf37bde00700d" prot="public" virt="non-virtual"><scope>themis::llm::AggregatedMetrics</scope><name>pass_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_aggregated_metrics_1aeb6713c2dba639b453c5d93dca73e16c" prot="public" virt="non-virtual"><scope>themis::llm::AggregatedMetrics</scope><name>per_case_metrics</name></member>
+      <member refid="structthemis_1_1llm_1_1_aggregated_metrics_1a622fb5b111ce4dd2a2ecf2e358aee069" prot="public" virt="non-virtual"><scope>themis::llm::AggregatedMetrics</scope><name>std_similarity</name></member>
+      <member refid="structthemis_1_1llm_1_1_aggregated_metrics_1a3a61500088304b8e9cf56759bdda75bc" prot="public" virt="virtual"><scope>themis::llm::AggregatedMetrics</scope><name>~AggregatedMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

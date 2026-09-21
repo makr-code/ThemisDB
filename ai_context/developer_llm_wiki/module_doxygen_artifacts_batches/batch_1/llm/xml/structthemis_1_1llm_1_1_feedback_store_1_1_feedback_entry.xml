@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FeedbackStore::FeedbackEntry</compoundname>
+    <includes refid="feedback__store_8h" local="no">feedback_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1abe51117c61c5e5ec9a6c596f8fae3098" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="57" column="21" bodyfile="include/llm/feedback_store.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a3132b72e59c8edba8d7c0d7e033e72e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::interaction_id</definition>
+        <argsstring></argsstring>
+        <name>interaction_id</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::interaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="58" column="21" bodyfile="include/llm/feedback_store.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5643a5ae2fb0b312e6356c2b4c7636a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="59" column="21" bodyfile="include/llm/feedback_store.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a51339255c1c3df85eb50bcec297a074f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017f" kindref="member">FeedbackType</ref></type>
+        <definition>FeedbackType themis::llm::FeedbackStore::FeedbackEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="60" column="22" bodyfile="include/llm/feedback_store.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ac8501cb144c1c74179a7b4561e56a95e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::question</definition>
+        <argsstring></argsstring>
+        <name>question</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::question</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="61" column="21" bodyfile="include/llm/feedback_store.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5fe73c00d629ac3ad71f7315c1e44cdf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::answer</definition>
+        <argsstring></argsstring>
+        <name>answer</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="62" column="21" bodyfile="include/llm/feedback_store.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a001eabab03c2c211b993beef565e5012" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::correction</definition>
+        <argsstring></argsstring>
+        <name>correction</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::correction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="63" column="21" bodyfile="include/llm/feedback_store.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a50084c46246842e0b1c74b2fcb9eff5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::comment</definition>
+        <argsstring></argsstring>
+        <name>comment</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::comment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="64" column="21" bodyfile="include/llm/feedback_store.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a741a92a7c8fe98ba1fcf5ceb67a11b22" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::FeedbackStore::FeedbackEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="65" column="17" bodyfile="include/llm/feedback_store.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ad63a19d8d518eb5862fc264ecbac0e1a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a154e8e11e190ff2a2ea67005dac56c9e" kindref="member">ValidationStatus</ref></type>
+        <definition>ValidationStatus themis::llm::FeedbackStore::FeedbackEntry::validation_status</definition>
+        <argsstring></argsstring>
+        <name>validation_status</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::validation_status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="66" column="26" bodyfile="include/llm/feedback_store.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ab16df962400a8d7750e7a755332414e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::model_version</definition>
+        <argsstring></argsstring>
+        <name>model_version</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="67" column="21" bodyfile="include/llm/feedback_store.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1aec4b8bd8087d1e7992d63bfeb1753ff2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="68" column="21" bodyfile="include/llm/feedback_store.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ab90a582af61f016f102ede95b6cb7bfa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FeedbackStore::FeedbackEntry::adapter_version</definition>
+        <argsstring></argsstring>
+        <name>adapter_version</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::adapter_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="69" column="21" bodyfile="include/llm/feedback_store.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a9acc7f1e5bae3b761159bcc5158a2503" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FeedbackStore::FeedbackEntry::used_for_training</definition>
+        <argsstring></argsstring>
+        <name>used_for_training</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::used_for_training</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="70" column="14" bodyfile="include/llm/feedback_store.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ae630542fab483c3d71febce65a1c1a9e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::FeedbackStore::FeedbackEntry::training_batch_id</definition>
+        <argsstring></argsstring>
+        <name>training_batch_id</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::training_batch_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="71" column="13" bodyfile="include/llm/feedback_store.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1acf76ac051b4d8d8b78dade98cb1a618e" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::FeedbackStore::FeedbackEntry::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="72" column="24" bodyfile="include/llm/feedback_store.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a1f727acbf0425e55c660b8d74be61279" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::FeedbackStore::FeedbackEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="79" column="24" bodyfile="src/llm/feedback_store.cpp" bodystart="108" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ab9b9e55a707f62a8d62613c67c8338b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref></type>
+        <definition>FeedbackStore::FeedbackEntry themis::llm::FeedbackStore::FeedbackEntry::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::llm::FeedbackStore::FeedbackEntry::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), feedbackTypeFromString(), THEMIS_WARN(), int64_t(), validationStatusFromString(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="85" column="30" bodyfile="src/llm/feedback_store.cpp" bodystart="135" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/feedback_store.h" line="56" column="5" bodyfile="include/llm/feedback_store.h" bodystart="56" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1aec4b8bd8087d1e7992d63bfeb1753ff2" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ab90a582af61f016f102ede95b6cb7bfa" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>adapter_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5fe73c00d629ac3ad71f7315c1e44cdf" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>answer</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a50084c46246842e0b1c74b2fcb9eff5f" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>comment</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a001eabab03c2c211b993beef565e5012" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>correction</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ab9b9e55a707f62a8d62613c67c8338b9" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1abe51117c61c5e5ec9a6c596f8fae3098" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a3132b72e59c8edba8d7c0d7e033e72e2" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>interaction_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1acf76ac051b4d8d8b78dade98cb1a618e" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ab16df962400a8d7750e7a755332414e7" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>model_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ac8501cb144c1c74179a7b4561e56a95e" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>question</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a741a92a7c8fe98ba1fcf5ceb67a11b22" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a1f727acbf0425e55c660b8d74be61279" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ae630542fab483c3d71febce65a1c1a9e" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>training_batch_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a51339255c1c3df85eb50bcec297a074f" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>type</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a9acc7f1e5bae3b761159bcc5158a2503" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>used_for_training</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5643a5ae2fb0b312e6356c2b4c7636a3" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ad63a19d8d518eb5862fc264ecbac0e1a" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::FeedbackEntry</scope><name>validation_status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__jwt__rotation__unit_8cpp" kind="file" language="C++">
+    <compoundname>test_jwt_rotation_unit.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">openssl/rsa.h</includes>
+    <includes local="no">openssl/pem.h</includes>
+    <includes local="no">openssl/bn.h</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <includes local="yes">auth/jwt_validator.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_jwt_rotation_unit.cpp</label>
+        <link refid="test__jwt__rotation__unit_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>auth/jwt_validator.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>openssl/bn.h</label>
+      </node>
+      <node id="7">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="5">
+        <label>openssl/pem.h</label>
+      </node>
+      <node id="4">
+        <label>openssl/rsa.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_r_s_a_fixture" prot="public">RSAFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__jwt__rotation__unit_8cpp_1afac2993bc5313e3c22b09b5ac0515c54" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string b64url</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;in)</argsstring>
+        <name>b64url</name>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_rotation_unit.cpp" line="11" column="20" bodyfile="tests/security/test_jwt_rotation_unit.cpp" bodystart="11" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__rotation__unit_8cpp_1af368dee30228a50ab941c1204bfd19fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string sign_RS256</definition>
+        <argsstring>(EVP_PKEY *pkey, const std::string &amp;header_payload)</argsstring>
+        <name>sign_RS256</name>
+        <param>
+          <type>EVP_PKEY *</type>
+          <declname>pkey</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_rotation_unit.cpp" line="43" column="20" bodyfile="tests/security/test_jwt_rotation_unit.cpp" bodystart="43" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__rotation__unit_8cpp_1a62d599c3b2bf11d0f55f70b3acc2734f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json make_jwks</definition>
+        <argsstring>(RSA *rsa, const std::string &amp;kid=&quot;test-int-1&quot;)</argsstring>
+        <name>make_jwks</name>
+        <param>
+          <type>RSA *</type>
+          <declname>rsa</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+          <defval>&quot;test-int-1&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_rotation_unit.cpp" line="56" column="23" bodyfile="tests/security/test_jwt_rotation_unit.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__rotation__unit_8cpp_1a68f3d1c3d659e2b5750fa12852aff5b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTUnit, JWKSRotation_SetJWKSForTesting)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTUnit</type>
+        </param>
+        <param>
+          <type>JWKSRotation_SetJWKSForTesting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_rotation_unit.cpp" line="64" column="1" bodyfile="tests/security/test_jwt_rotation_unit.cpp" bodystart="64" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/rsa.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/pem.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/bn.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwt_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>b64url(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>in)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>tbl<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>b64;<sp/>b64.reserve(((in.size()+2)/3)*4);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i=0;<sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(i+3&lt;=in.size())<sp/>{<sp/>uint32_t<sp/>n=(in[i]&lt;&lt;16)|(in[i+1]&lt;&lt;8)|in[i+2];<sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;6)&amp;63]);<sp/>b64.push_back(tbl[n&amp;63]);<sp/>i+=3;<sp/>}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(i+1==in.size()){<sp/>uint32_t<sp/>n=(in[i]&lt;&lt;16);<sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(i+2==in.size()){<sp/>uint32_t<sp/>n=(in[i]&lt;&lt;16)|(in[i+1]&lt;&lt;8);<sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;6)&amp;63]);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&amp;<sp/>c:<sp/>b64){<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(c==</highlight><highlight class="charliteral">&apos;+&apos;</highlight><highlight class="normal">)<sp/>c=</highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(c==</highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">)<sp/>c=</highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(!b64.empty()<sp/>&amp;&amp;<sp/>b64.back()==</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>b64.pop_back();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RSAFixture<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>RSA*<sp/><ref refid="struct_r_s_a_fixture_1a4f0db903230c926e94257bccca581929" kindref="member">rsa</ref>=</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>EVP_PKEY*<sp/>pkey=</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>BIGNUM*<sp/><ref refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" kindref="member">bn</ref>=</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" kindref="member">RSAFixture</ref>(){</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bn=BN_new();<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!bn)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;BN_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(BN_set_word(bn,<sp/>RSA_F4)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;BN_set_word<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rsa<sp/>=<sp/>RSA_new();<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!rsa)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;RSA_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(RSA_generate_key_ex(rsa,<sp/>2048,<sp/>bn,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;RSA_generate_key_ex<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pkey<sp/>=<sp/>EVP_PKEY_new();<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!pkey)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_PKEY_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_PKEY_assign_RSA(pkey,<sp/>rsa)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_PKEY_assign_RSA<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" kindref="member">~RSAFixture</ref>(){<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(pkey)<sp/>EVP_PKEY_free(pkey);<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(bn)<sp/>BN_free(bn);<sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>sign_RS256(EVP_PKEY*<sp/>pkey,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>header_payload){</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_MD_CTX*<sp/>mctx<sp/>=<sp/>EVP_MD_CTX_new();<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!mctx)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_MD_CTX_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_DigestSignInit(mctx,</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,EVP_sha256(),</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,pkey)&lt;=0)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;DigestSignInit<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_DigestSignUpdate(mctx,<sp/>header_payload.data(),<sp/>header_payload.size())&lt;=0)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;DigestSignUpdate<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>siglen=0;<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_DigestSignFinal(mctx,</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,&amp;siglen)&lt;=0)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;DigestSignFinal<sp/>query<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>sig(siglen);<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>siglen2=siglen;<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_DigestSignFinal(mctx,sig.data(),&amp;siglen2)&lt;=0)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;DigestSignFinal<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.resize(siglen2);<sp/>EVP_MD_CTX_free(mctx);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64url(sig);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>make_jwks(RSA*<sp/>rsa,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid=</highlight><highlight class="stringliteral">&quot;test-int-1&quot;</highlight><highlight class="normal">){</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BIGNUM*<sp/>n;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BIGNUM*<sp/>e;<sp/>RSA_get0_key(rsa,&amp;n,&amp;e,</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>n_bytes(BN_num_bytes(n));<sp/>BN_bn2bin(n,n_bytes.data());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>e_bytes(BN_num_bytes(e));<sp/>BN_bn2bin(e,e_bytes.data());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwk<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,kid},{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;use&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/>b64url(n_bytes)},{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>b64url(e_bytes)}};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array({jwk})}};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__jwt__rotation__unit_8cpp_1a68f3d1c3d659e2b5750fa12852aff5b4" kindref="member">TEST</ref>(JWTUnit,<sp/>JWKSRotation_SetJWKSForTesting)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>RSAFixture<sp/>fix;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWKS<sp/>that<sp/>does<sp/>not<sp/>contain<sp/>the<sp/>needed<sp/>kid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwk1<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;use&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;AAA&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwks1<sp/>=<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array({jwk1})}};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWKS<sp/>that<sp/>contains<sp/>the<sp/>correct<sp/>kid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>jwks2<sp/>=<sp/>make_jwks(fix.rsa,<sp/></highlight><highlight class="stringliteral">&quot;rot-kid-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prepare<sp/>validator<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;<sp/>cfg.expected_issuer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rot-issuer&quot;</highlight><highlight class="normal">;<sp/>cfg.expected_audience<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rot-aud&quot;</highlight><highlight class="normal">;<sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://unused/&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>token<sp/>signed<sp/>with<sp/>rot-kid-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>header<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;rot-kid-1&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(std::chrono::system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;rot-user&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;rot-issuer&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;aud&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;rot-aud&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/>now<sp/>+<sp/>300}};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header_s<sp/>=<sp/>header.dump();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload_s<sp/>=<sp/>payload.dump();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header_b64<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(header_s.begin(),<sp/>header_s.end()));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload_b64<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(payload_s.begin(),<sp/>payload_s.end()));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>unsigned_token<sp/>=<sp/>header_b64<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>payload_b64;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>sig<sp/>=<sp/>sign_RS256(fix.pkey,<sp/>unsigned_token);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>unsigned_token<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>sig;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First:<sp/>set<sp/>JWKS<sp/>to<sp/>jwks1<sp/>(missing<sp/>kid)<sp/>-&gt;<sp/>expect<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(jwks1);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second:<sp/>set<sp/>JWKS<sp/>to<sp/>jwks2<sp/>(contains<sp/>kid)<sp/>-&gt;<sp/>expect<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(jwks2);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>validator.parseAndValidate(token);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.sub,<sp/></highlight><highlight class="stringliteral">&quot;rot-user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_jwt_rotation_unit.cpp"/>
+  </compounddef>
+</doxygen>

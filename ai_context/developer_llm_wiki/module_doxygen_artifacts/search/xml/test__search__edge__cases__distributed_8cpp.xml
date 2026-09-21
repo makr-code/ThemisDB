@@ -1,0 +1,452 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__search__edge__cases__distributed_8cpp" kind="file" language="C++">
+    <compoundname>test_search_edge_cases_distributed.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="distributed__hybrid__search_8h" local="yes">search/distributed_hybrid_search.h</includes>
+    <includes refid="hybrid__search_8h" local="yes">search/hybrid_search.h</includes>
+    <includes refid="search__error__codes_8h" local="yes">search/search_error_codes.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>search/distributed_hybrid_search.h</label>
+        <link refid="distributed__hybrid__search_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>search/hybrid_search.h</label>
+        <link refid="hybrid__search_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>search/search_error_codes.h</label>
+        <link refid="search__error__codes_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/search/test_search_edge_cases_distributed.cpp</label>
+        <link refid="test__search__edge__cases__distributed_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cmath</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="16">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>sharding/remote_executor.h</label>
+      </node>
+      <node id="19">
+        <label>sharding/shard_topology.h</label>
+      </node>
+      <node id="18">
+        <label>sharding/urn_resolver.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>themis/export.h</label>
+      </node>
+      <node id="10">
+        <label>themis/search/llm_reranker_factory.h</label>
+      </node>
+      <node id="9">
+        <label>themis/search/llm_reranker_interface.h</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" prot="public">themis::search::testing::DistributedSearchEdgeCasesTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search">themis::search</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search_1_1testing">themis::search::testing</innernamespace>
+    <briefdescription>
+<para>Contract smoke tests for distributed search degradation diagnostics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This file intentionally keeps to the public API that is still valid in the current codebase. Older edge-case tests referenced removed fields such as failed_shard_ids, shard_latencies_ms, and legacy error constants that no longer exist in the distributed search contract. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__hybrid__search_8h" kindref="compound">search/distributed_hybrid_search.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hybrid__search_8h" kindref="compound">search/hybrid_search.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="search__error__codes_8h" kindref="compound">search/search_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1search" kindref="compound">themis::search</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing" kindref="compound">testing</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a4a96d4b06b6b5db92f6490f630af3de6" kindref="member">kCanonicalRngSeed</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a63aaa589ba2bff18180ce01ccdbd33fd" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>srand(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a4a96d4b06b6b5db92f6490f630af3de6" kindref="member">kCanonicalRngSeed</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_01_PartialShardFailureFirstShard)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" kindref="compound">DistributedHybridSearch::SearchStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" kindref="member">shards_queried</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" kindref="member">shards_succeeded</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" kindref="member">shards_failed</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" kindref="member">partial_result</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kindref="member">failed_shard_reasons</ref>.push_back(</highlight><highlight class="stringliteral">&quot;shard_0:<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" kindref="member">partial_result</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" kindref="member">shards_failed</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" kindref="member">shards_succeeded</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kindref="member">failed_shard_reasons</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/>EXPECT_NE(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kindref="member">failed_shard_reasons</ref>.front().find(</highlight><highlight class="stringliteral">&quot;shard_0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(DistributedSearchEdgeCasesTest,<sp/>DIS_02_CascadingShardFailures)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" kindref="compound">DistributedHybridSearch::SearchStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" kindref="member">shards_queried</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" kindref="member">shards_succeeded</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" kindref="member">shards_failed</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" kindref="member">partial_result</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kindref="member">failed_shard_reasons</ref>.push_back(</highlight><highlight class="stringliteral">&quot;shard_1:<sp/>HTTP<sp/>500&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kindref="member">failed_shard_reasons</ref>.push_back(</highlight><highlight class="stringliteral">&quot;shard_3:<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kindref="member">failed_shard_reasons</ref>.push_back(</highlight><highlight class="stringliteral">&quot;shard_4:<sp/>connection<sp/>reset&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" kindref="member">partial_result</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" kindref="member">shards_failed</ref>,<sp/>3u);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>EXPECT_LT(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" kindref="member">shards_succeeded</ref>,<sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" kindref="member">shards_queried</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kindref="member">failed_shard_reasons</ref>.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(DistributedSearchEdgeCasesTest,<sp/>DIS_03_NetworkInducedUnderflow)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>merged_results;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kExpectedResults<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kActualResults<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kActualResults;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref><sp/>r;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" kindref="member">document_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5af5cc78f00a97e73c08c53e1b3803af" kindref="member">hybrid_score</ref><sp/>=<sp/>1.0<sp/>-<sp/>(i<sp/>*<sp/>0.1);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>merged_results.push_back(r);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/>EXPECT_LT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(merged_results.size()),<sp/>kExpectedResults);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(merged_results.size()),<sp/>kActualResults);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>EXPECT_GE(merged_results.front().hybrid_score,<sp/>merged_results.back().hybrid_score);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_04_NetworkDelayAccumulation)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>std::vector&lt;int&gt;<sp/>shard_latency_ms<sp/>=<sp/>{500,<sp/>450,<sp/>520,<sp/>480};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_execution_time_ms<sp/>=<sp/>550;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>avg_latency<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>latency<sp/>:<sp/>shard_latency_ms)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>avg_latency<sp/>+=<sp/>latency;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>avg_latency<sp/>/=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(shard_latency_ms.size());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/>EXPECT_NEAR(avg_latency,<sp/>487.5,<sp/>1.0);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>EXPECT_LT(total_execution_time_ms,<sp/>avg_latency<sp/>*<sp/>2.0);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_05_ResponseReordering)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>std::vector&lt;int&gt;<sp/>shard_order<sp/>=<sp/>{0,<sp/>1,<sp/>2,<sp/>3};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/>std::vector&lt;int&gt;<sp/>arrival_order<sp/>=<sp/>{2,<sp/>0,<sp/>3,<sp/>1};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>EXPECT_NE(shard_order,<sp/>arrival_order);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>reassembled<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx<sp/>:<sp/>arrival_order)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>HybridSearch::Result<sp/>r;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" kindref="member">document_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(idx);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>reassembled.push_back(r);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>EXPECT_EQ(reassembled.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>EXPECT_EQ(reassembled[0].document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/>EXPECT_EQ(reassembled[1].document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_06_DeduplicationAfterReordering)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>raw_results;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>HybridSearch::Result<sp/>r;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" kindref="member">document_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>r.hybrid_score<sp/>=<sp/>0.9<sp/>-<sp/>(i<sp/>*<sp/>0.05);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>raw_results.push_back(r);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>deduped;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_doc_0<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>raw_results)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.document_id<sp/>!=<sp/></highlight><highlight class="stringliteral">&quot;doc_0&quot;</highlight><highlight class="normal"><sp/>||<sp/>!found_doc_0)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>deduped.push_back(r);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.document_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;doc_0&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_doc_0<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>EXPECT_EQ(deduped.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/>EXPECT_EQ(deduped.front().document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_07_CascadingTimeoutPartialRecovery)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>DistributedHybridSearch::SearchStats<sp/>stats;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/>stats.<ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" kindref="member">shards_queried</ref><sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/>stats.shards_succeeded<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/>stats.shards_failed<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/>stats.partial_result<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/>stats.failed_shard_reasons.push_back(</highlight><highlight class="stringliteral">&quot;shard_2:<sp/>connection<sp/>timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/>stats.failed_shard_reasons.push_back(</highlight><highlight class="stringliteral">&quot;shard_3:<sp/>HTTP<sp/>503&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(stats.partial_result);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.shards_failed,<sp/>3u);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>EXPECT_GT(stats.shards_succeeded,<sp/>0u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.failed_shard_reasons.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_08_TimeoutRecoveryBackoff)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/>std::vector&lt;int&gt;<sp/>retry_delays_ms<sp/>=<sp/>{10,<sp/>20,<sp/>40};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expected<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retry_delays_ms[i],<sp/>expected);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>expected<sp/>*=<sp/>2;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_09_LoadBalancingUnevenLatency)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/>std::vector&lt;int&gt;<sp/>latency_ms<sp/>=<sp/>{100,<sp/>2000,<sp/>150,<sp/>120};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>slow_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>latency<sp/>:<sp/>latency_ms)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency<sp/>&gt;<sp/>1000)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++slow_count;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/>EXPECT_EQ(slow_count,<sp/>1);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/>EXPECT_EQ(*std::max_element(latency_ms.begin(),<sp/>latency_ms.end()),<sp/>2000);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_10_AdaptiveTimeoutAdjustment)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/>std::vector&lt;int&gt;<sp/>historical_latencies<sp/>=<sp/>{100,<sp/>120,<sp/>150,<sp/>110};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>avg<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>latency<sp/>:<sp/>historical_latencies)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>avg<sp/>+=<sp/>latency;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/>avg<sp/>/=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(historical_latencies.size());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>variance<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>latency<sp/>:<sp/>historical_latencies)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>variance<sp/>+=<sp/>(latency<sp/>-<sp/>avg)<sp/>*<sp/>(latency<sp/>-<sp/>avg);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/>variance<sp/>/=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(historical_latencies.size());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>stddev<sp/>=<sp/>std::sqrt(variance);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>adaptive_timeout<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(avg<sp/>+<sp/>2.0<sp/>*<sp/>stddev);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/>EXPECT_GT(adaptive_timeout,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(avg));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/>EXPECT_LT(adaptive_timeout,<sp/>200);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_11_ShardStateCorruptionDetection)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ShardState<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>shard_id<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>checksum<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>result_count<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_valid()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>checksum<sp/>!=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/>ShardState<sp/>state;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/>state.shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/>state.checksum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/>state.result_count<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(state.is_valid());</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/>state.checksum<sp/>=<sp/>0x12345678u;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(state.is_valid());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_12_ShardStateTransitionConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>ShardPhase<sp/>{<sp/>IDLE,<sp/>QUERYING,<sp/>RESPONDING,<sp/>COMPLETED,<sp/>FAILED<sp/>};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/>ShardPhase<sp/>phase<sp/>=<sp/>IDLE;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/>EXPECT_EQ(phase,<sp/>IDLE);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/>phase<sp/>=<sp/>QUERYING;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/>EXPECT_EQ(phase,<sp/>QUERYING);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/>phase<sp/>=<sp/>RESPONDING;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/>EXPECT_EQ(phase,<sp/>RESPONDING);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/>phase<sp/>=<sp/>COMPLETED;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/>EXPECT_EQ(phase,<sp/>COMPLETED);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/>EXPECT_NE(phase,<sp/>IDLE);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_13_ConcurrentShardQueryIsolation)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QueryContext<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>query_id<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/>std::vector&lt;QueryContext&gt;<sp/>contexts<sp/>=<sp/>{{1,<sp/>0},<sp/>{1,<sp/>1},<sp/>{2,<sp/>0},<sp/>{2,<sp/>1}};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>query_1_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>query_2_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ctx<sp/>:<sp/>contexts)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx.query_id<sp/>==<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++query_1_count;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++query_2_count;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/>EXPECT_EQ(query_1_count,<sp/>2);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/>EXPECT_EQ(query_2_count,<sp/>2);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_14_ConcurrentRaceConditionPrevention)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expected_result_count<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>expected_result_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>HybridSearch::Result<sp/>r;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>r.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(r);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(results.size()),<sp/>expected_result_count);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>expected_result_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[i].document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_15_ReplicaFailoverAutomatic)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/>DistributedHybridSearch::SearchStats<sp/>stats;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/>stats.shards_queried<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/>stats.shards_succeeded<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/>stats.shards_failed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/>stats.partial_result<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/>stats.failed_shard_reasons.clear();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(stats.partial_result);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.shards_succeeded,<sp/>1u);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.shards_failed,<sp/>0u);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(stats.failed_shard_reasons.empty());</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref>,<sp/>DIS_16_ReplicaConsistencyAfterFailover)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>primary_results;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/>std::vector&lt;HybridSearch::Result&gt;<sp/>replica_results;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>HybridSearch::Result<sp/>r;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>r.document_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>r.hybrid_score<sp/>=<sp/>1.0<sp/>-<sp/>(i<sp/>*<sp/>0.1);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>primary_results.push_back(r);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>replica_results.push_back(r);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/>EXPECT_EQ(primary_results.size(),<sp/>replica_results.size());</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>primary_results.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(primary_results[i].document_id,<sp/>replica_results[i].document_id);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(primary_results[i].hybrid_score,<sp/>replica_results[i].hybrid_score);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::search</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/search/test_search_edge_cases_distributed.cpp"/>
+  </compounddef>
+</doxygen>

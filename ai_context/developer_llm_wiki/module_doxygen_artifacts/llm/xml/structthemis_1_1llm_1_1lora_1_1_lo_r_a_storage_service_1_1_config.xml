@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAStorageService::Config</compoundname>
+    <includes refid="lora__storage__service_8h" local="no">lora_storage_service.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa2a2f26eb5a312f99a3f30faeb765319" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0d" kindref="member">Backend</ref></type>
+        <definition>Backend themis::llm::lora::LoRAStorageService::Config::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::backend</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0da9529b0149540f485ca93da16263be09b" kindref="member">Backend::ThemisDB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="59" column="17" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa5355ca9130b0c8b145e6c13e0ac9b9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::collection_name</qualifiedname>
+        <initializer>= &quot;lora_adapters&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="60" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a31021ab8252a084d0d9d545114e89f6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::filesystem_path</definition>
+        <argsstring></argsstring>
+        <name>filesystem_path</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::filesystem_path</qualifiedname>
+        <initializer>= &quot;data/lora_adapters&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="61" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8db306fd9231a8dcad38c324aece6cbd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::enable_versioning</definition>
+        <argsstring></argsstring>
+        <name>enable_versioning</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::enable_versioning</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="62" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a3af30ca182b15a6d305c8f3406403b7b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRAStorageService::Config::max_versions</definition>
+        <argsstring></argsstring>
+        <name>max_versions</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::max_versions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="63" column="13" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a9a6592c69fb8c35d57e26a99bd1c10cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::enable_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="64" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a68a1aaf23f8bf8ffdf7a632eccc248b0" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::llm::lora::LoRAStorageService::Config::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="67" column="25" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6525cb580ee457c1f654df01ed393987" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::BlobStorageManager &gt;</type>
+        <definition>std::shared_ptr&lt;storage::BlobStorageManager&gt; themis::llm::lora::LoRAStorageService::Config::blob_manager</definition>
+        <argsstring></argsstring>
+        <name>blob_manager</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::blob_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="68" column="25" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aaed0c62b0c865ef229bb1054d9c94b5f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::SecuritySignatureManager &gt;</type>
+        <definition>std::shared_ptr&lt;storage::SecuritySignatureManager&gt; themis::llm::lora::LoRAStorageService::Config::signature_manager</definition>
+        <argsstring></argsstring>
+        <name>signature_manager</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::signature_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="69" column="25" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aefb1d317718bdc774145f86bdcb1b32f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::enable_encryption</definition>
+        <argsstring></argsstring>
+        <name>enable_encryption</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::enable_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="72" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae54f4f62d2a7d2f3eff2746aba3922d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::encryption_key_id</definition>
+        <argsstring></argsstring>
+        <name>encryption_key_id</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::encryption_key_id</qualifiedname>
+        <initializer>= &quot;lora_adapters&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="73" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae6fbeb80123384ac1ff2d1ea53cdc040" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::enable_signatures</definition>
+        <argsstring></argsstring>
+        <name>enable_signatures</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::enable_signatures</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="74" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6b21e442cc2bd3ca16d2b3aa0a38b4e6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::use_hsm_for_encryption</definition>
+        <argsstring></argsstring>
+        <name>use_hsm_for_encryption</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::use_hsm_for_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="77" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8b8d42d67173934b6c8bb2e0722a1d39" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::hsm_library_path</definition>
+        <argsstring></argsstring>
+        <name>hsm_library_path</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::hsm_library_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="78" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ab532c7b6c8c67fde9bd7553940bd0f01" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::LoRAStorageService::Config::hsm_slot_id</definition>
+        <argsstring></argsstring>
+        <name>hsm_slot_id</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::hsm_slot_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="79" column="18" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a4becb4fb78d82d77cf37c8be3dff8518" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::hsm_pin</definition>
+        <argsstring></argsstring>
+        <name>hsm_pin</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::hsm_pin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="80" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a7520a5953696855084f5e396b709be55" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::hsm_key_label</definition>
+        <argsstring></argsstring>
+        <name>hsm_key_label</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::hsm_key_label</qualifiedname>
+        <initializer>= &quot;lora-adapter-kek&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="81" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aacb6fd022c13bcea01d925b876ca1d07" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::LoRAStorageService::Config::hsm_session_pool_size</definition>
+        <argsstring></argsstring>
+        <name>hsm_session_pool_size</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::hsm_session_pool_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="82" column="18" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a3366dd7360a49a07cdf5536589e64732" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::use_pki_for_encryption</definition>
+        <argsstring></argsstring>
+        <name>use_pki_for_encryption</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::use_pki_for_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="85" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8c95b3850cbf22f8ec51d6f5432f4ce6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::pki_cert_path</definition>
+        <argsstring></argsstring>
+        <name>pki_cert_path</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::pki_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="86" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1abcb4006e34f804989c34dc01a3357c8b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::pki_private_key_path</definition>
+        <argsstring></argsstring>
+        <name>pki_private_key_path</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::pki_private_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="87" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a0d1f9f3fb63461c969df1728d0a1dffc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::pki_ca_bundle_path</definition>
+        <argsstring></argsstring>
+        <name>pki_ca_bundle_path</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::pki_ca_bundle_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="88" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ac8a93948c62bc7bccb8cf26bde6abd16" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::pki_verify_certificate</definition>
+        <argsstring></argsstring>
+        <name>pki_verify_certificate</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::pki_verify_certificate</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="89" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a9f7c85cf68c6f94e9fb1d136f8792726" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::use_vault_for_encryption</definition>
+        <argsstring></argsstring>
+        <name>use_vault_for_encryption</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::use_vault_for_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="92" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a102e604ce62bf61bcb04303d746abfba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::vault_addr</definition>
+        <argsstring></argsstring>
+        <name>vault_addr</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::vault_addr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="93" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a63609bf72fefd4724ea752b5f445f6c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::vault_token</definition>
+        <argsstring></argsstring>
+        <name>vault_token</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::vault_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="94" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8a797240a5dd40573a7dd46694de0680" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Config::vault_kv_mount</definition>
+        <argsstring></argsstring>
+        <name>vault_kv_mount</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::vault_kv_mount</qualifiedname>
+        <initializer>= &quot;themis&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="95" column="21" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a52ee4c547d254d1673b93a00cb5e3431" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::auto_detect_raid</definition>
+        <argsstring></argsstring>
+        <name>auto_detect_raid</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::auto_detect_raid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="98" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae8ede3cc3a5d98271732cab0e1d4072b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::enable_quorum_writes</definition>
+        <argsstring></argsstring>
+        <name>enable_quorum_writes</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::enable_quorum_writes</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="101" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6a2a41a51af20de85a3f3ab32a5590c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Config::enable_partition_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_partition_detection</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::enable_partition_detection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="102" column="14" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a08498c02da89b5d5ad71e8cbc1a2e04c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::LoRAStorageService::Config::write_quorum_size</definition>
+        <argsstring></argsstring>
+        <name>write_quorum_size</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::write_quorum_size</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="103" column="18" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ab4c3aa94b0f67f2274168fa5ad989108" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::LoRAStorageService::Config::read_quorum_size</definition>
+        <argsstring></argsstring>
+        <name>read_quorum_size</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Config::read_quorum_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="104" column="18" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_storage_service.h" line="58" column="5" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="58" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a52ee4c547d254d1673b93a00cb5e3431" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>auto_detect_raid</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa2a2f26eb5a312f99a3f30faeb765319" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>backend</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6525cb580ee457c1f654df01ed393987" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>blob_manager</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa5355ca9130b0c8b145e6c13e0ac9b9a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>collection_name</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a68a1aaf23f8bf8ffdf7a632eccc248b0" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>db</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a9a6592c69fb8c35d57e26a99bd1c10cc" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>enable_compression</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aefb1d317718bdc774145f86bdcb1b32f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>enable_encryption</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6a2a41a51af20de85a3f3ab32a5590c2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>enable_partition_detection</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae8ede3cc3a5d98271732cab0e1d4072b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>enable_quorum_writes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae6fbeb80123384ac1ff2d1ea53cdc040" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>enable_signatures</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8db306fd9231a8dcad38c324aece6cbd" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>enable_versioning</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae54f4f62d2a7d2f3eff2746aba3922d5" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>encryption_key_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a31021ab8252a084d0d9d545114e89f6c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>filesystem_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a7520a5953696855084f5e396b709be55" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>hsm_key_label</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8b8d42d67173934b6c8bb2e0722a1d39" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>hsm_library_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a4becb4fb78d82d77cf37c8be3dff8518" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>hsm_pin</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aacb6fd022c13bcea01d925b876ca1d07" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>hsm_session_pool_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ab532c7b6c8c67fde9bd7553940bd0f01" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>hsm_slot_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a3af30ca182b15a6d305c8f3406403b7b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>max_versions</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a0d1f9f3fb63461c969df1728d0a1dffc" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>pki_ca_bundle_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8c95b3850cbf22f8ec51d6f5432f4ce6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>pki_cert_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1abcb4006e34f804989c34dc01a3357c8b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>pki_private_key_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ac8a93948c62bc7bccb8cf26bde6abd16" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>pki_verify_certificate</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ab4c3aa94b0f67f2274168fa5ad989108" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>read_quorum_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aaed0c62b0c865ef229bb1054d9c94b5f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>signature_manager</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6b21e442cc2bd3ca16d2b3aa0a38b4e6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>use_hsm_for_encryption</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a3366dd7360a49a07cdf5536589e64732" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>use_pki_for_encryption</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a9f7c85cf68c6f94e9fb1d136f8792726" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>use_vault_for_encryption</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a102e604ce62bf61bcb04303d746abfba" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>vault_addr</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8a797240a5dd40573a7dd46694de0680" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>vault_kv_mount</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a63609bf72fefd4724ea752b5f445f6c9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>vault_token</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a08498c02da89b5d5ad71e8cbc1a2e04c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Config</scope><name>write_quorum_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

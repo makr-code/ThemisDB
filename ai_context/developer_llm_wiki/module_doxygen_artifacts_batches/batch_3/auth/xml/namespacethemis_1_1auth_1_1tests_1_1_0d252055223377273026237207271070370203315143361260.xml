@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1auth_1_1tests_1_1_0d252055223377273026237207271070370203315143361260" kind="namespace" language="C++">
+    <compoundname>themis::auth::tests::@252055223377273026237207271070370203315143361260</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/auth/test_auth_wavec_authentication_methods.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

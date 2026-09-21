@@ -1,0 +1,679 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ingestion__base__entity_8cpp" kind="file" language="C++">
+    <compoundname>test_ingestion_base_entity.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="base__entity_8h" local="yes">ingestion/base_entity.h</includes>
+    <includes refid="extraction__context_8h" local="yes">ingestion/extraction_context.h</includes>
+    <includes refid="file__manifest_8h" local="yes">ingestion/file_manifest.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="10">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ingestion/test_ingestion_base_entity.cpp</label>
+        <link refid="test__ingestion__base__entity_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionFileManifest, FM01_HasKnownFormat)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionFileManifest</type>
+        </param>
+        <param>
+          <type>FM01_HasKnownFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="25" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a6eee1134f9f21023d2cf5761029645a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionFileManifest, FM02_HasMime)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionFileManifest</type>
+        </param>
+        <param>
+          <type>FM02_HasMime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="32" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="32" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a13b885529f2ddf6529638ce040a79d3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionFileManifest, FM03_ExifOr)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionFileManifest</type>
+        </param>
+        <param>
+          <type>FM03_ExifOr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="39" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a8134816f8991f8188338e5f1425bbe00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionExtractionContext, EC01_DefaultAllFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionExtractionContext</type>
+        </param>
+        <param>
+          <type>EC01_DefaultAllFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="51" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="51" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1ad4c9732229165a1ca5cf4d70b04c71fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionExtractionContext, EC02_HasTextAfterAssign)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionExtractionContext</type>
+        </param>
+        <param>
+          <type>EC02_HasTextAfterAssign</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="61" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="61" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a86ca74dc785b2c548860c088256a54c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionExtractionContext, EC03_HasChunksAfterAdd)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionExtractionContext</type>
+        </param>
+        <param>
+          <type>EC03_HasChunksAfterAdd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="67" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="67" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1ada16ec6dabc526089574f0e0dc3f795a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionExtractionContext, EC04_HasEntitiesAfterAdd)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionExtractionContext</type>
+        </param>
+        <param>
+          <type>EC04_HasEntitiesAfterAdd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="75" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1ad9cbc3270216a2d8053212ae44cd70ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionExtractionContext, EC05_HasEmbeddingsAfterAdd)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionExtractionContext</type>
+        </param>
+        <param>
+          <type>EC05_HasEmbeddingsAfterAdd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="81" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="81" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a31753580346ad6cc7216d503404e0be2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionExtractionContext, EC06_HasGeoFeaturesAfterAdd)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionExtractionContext</type>
+        </param>
+        <param>
+          <type>EC06_HasGeoFeaturesAfterAdd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="87" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="87" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a561ab7e262b586ff741d00cd7035f0ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionExtractionContext, EC07_ExtraOr)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionExtractionContext</type>
+        </param>
+        <param>
+          <type>EC07_ExtraOr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="96" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a70c81a5c685855b1e77eb79ac2d8548c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA01_DefaultEntityTypeUnknown)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA01_DefaultEntityTypeUnknown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="107" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a2f7a11482a9ccc1525360b967a27f5b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA02_PropertyOrDefaultWhenAbsent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA02_PropertyOrDefaultWhenAbsent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="112" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a0ca6cc473a80548ab331c367f881f1ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA03_PropertyOrReturnsValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA03_PropertyOrReturnsValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="117" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="117" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a3b2a2e291fd171b853b9250bf35b7a8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA04_HasEmbedding)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA04_HasEmbedding</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="123" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="123" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a9d277038e91d1351c7648c691dcff5f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA05_DefaultRelationTypeUnknown)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA05_DefaultRelationTypeUnknown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="130" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="130" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1ac7d31fbea96216abe06f78b2473e2bca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA06_RelationFromToRoundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA06_RelationFromToRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="135" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="135" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a3c835450784ab33b28b63dc9ae4801c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA07_VectorRecordRoundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA07_VectorRecordRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="145" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="145" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1ad655851646c04c6b37614d50b5558e75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA08_VectorRecordMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA08_VectorRecordMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="156" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="156" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1ac20e4abd327bfaded9e95e821d669283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA09_BaseEntitySetDefaultQualityScore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA09_BaseEntitySetDefaultQualityScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="164" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="164" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__base__entity_8cpp_1a39acd6ae858b18f2287aa32f00ef5926" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionBaseEntity, BA10_BaseEntitySetPopulated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionBaseEntity</type>
+        </param>
+        <param>
+          <type>BA10_BaseEntitySetPopulated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_base_entity.cpp" line="169" column="1" bodyfile="tests/ingestion/test_ingestion_base_entity.cpp" bodystart="169" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>—<sp/>Ingestion<sp/>BaseEntity<sp/>/<sp/>ExtractionContext<sp/>/<sp/>FileManifest<sp/>Tests</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests<sp/>for:</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/>FileManifest<sp/>helper<sp/>methods<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FM-01..FM-03</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/><sp/>ExtractionContext<sp/>state<sp/>management<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EC-01..EC-07</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BaseEntity<sp/>helper<sp/>methods<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BA-01..BA-04</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/><sp/>EntityRelation<sp/>construction<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BA-05..BA-06</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>VectorRecord<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BA-07..BA-08</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BaseEntitySet<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BA-09..BA-10</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="base__entity_8h" kindref="compound">ingestion/base_entity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="extraction__context_8h" kindref="compound">ingestion/extraction_context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="file__manifest_8h" kindref="compound">ingestion/file_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">themis::ingestion</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FM<sp/>—<sp/>FileManifest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionFileManifest,<sp/>FM01_HasKnownFormat)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_file_manifest" kindref="compound">FileManifest</ref><sp/>m;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a9599b22f8a3c73859ff814239c03c138" kindref="member">hasKnownFormat</ref>());</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a2ac82b4acc2880797380f3cb87609d96" kindref="member">detected_format</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a74053f889a5dfc4afffbb4b710073caeabcd1b68617759b1dfcff0403a6b5a8d1" kindref="member">FileFormat::PDF</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a9599b22f8a3c73859ff814239c03c138" kindref="member">hasKnownFormat</ref>());</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionFileManifest,<sp/>FM02_HasMime)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_file_manifest" kindref="compound">FileManifest</ref><sp/>m;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a8003ecf2a45d4f050b43eb3bef078c94" kindref="member">hasMime</ref>());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a8cb1225e4bcde8e185e93b11bfbce7ac" kindref="member">detected_mime</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a8003ecf2a45d4f050b43eb3bef078c94" kindref="member">hasMime</ref>());</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionFileManifest,<sp/>FM03_ExifOr)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_file_manifest" kindref="compound">FileManifest</ref><sp/>m;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>def<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default_val&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a628d0525a06d4d9ab8b6df53d67e0c5c" kindref="member">exifOr</ref>(</highlight><highlight class="stringliteral">&quot;Author&quot;</highlight><highlight class="normal">,<sp/>def),<sp/>def);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1abe128693c8e46ea5d80c2bc445beb454" kindref="member">exif</ref>[</highlight><highlight class="stringliteral">&quot;Author&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Max<sp/>Mustermann&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a628d0525a06d4d9ab8b6df53d67e0c5c" kindref="member">exifOr</ref>(</highlight><highlight class="stringliteral">&quot;Author&quot;</highlight><highlight class="normal">,<sp/>def),<sp/></highlight><highlight class="stringliteral">&quot;Max<sp/>Mustermann&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EC<sp/>—<sp/>ExtractionContext</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionExtractionContext,<sp/>EC01_DefaultAllFalse)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ab5f8e95682f121d107507af9b1ba2242" kindref="member">hasText</ref>());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a2ca13cce0ff39de92731668dbb1115f9" kindref="member">hasChunks</ref>());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a9bd23b4d06b4cc2f6ec256d027c9dfce" kindref="member">hasEntities</ref>());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a4706c6426848803c541e56c3395e17d8" kindref="member">hasEmbeddings</ref>());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a6f00b9276620924db39d4091db492097" kindref="member">hasGeoFeatures</ref>());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a9fae59aa86bde7fb494c520fd695bd61" kindref="member">hasTableRows</ref>());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionExtractionContext,<sp/>EC02_HasTextAfterAssign)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a0ec698226f75bc619b0d2fc8fdf31b3e" kindref="member">raw_text</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ab5f8e95682f121d107507af9b1ba2242" kindref="member">hasText</ref>());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionExtractionContext,<sp/>EC03_HasChunksAfterAdd)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref><sp/>c;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1afb8f6b5a88d870623a61ff6cc32fd9ad" kindref="member">text</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;chunk<sp/>text&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a652d914b4ecda6555ed9a0dfb409a6e3" kindref="member">chunks</ref>.push_back(c);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a2ca13cce0ff39de92731668dbb1115f9" kindref="member">hasChunks</ref>());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionExtractionContext,<sp/>EC04_HasEntitiesAfterAdd)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a8c795796747c9375834273899c09e7a7" kindref="member">entities</ref>.push_back(<ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref>{});</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a9bd23b4d06b4cc2f6ec256d027c9dfce" kindref="member">hasEntities</ref>());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionExtractionContext,<sp/>EC05_HasEmbeddingsAfterAdd)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a86382df39fa6d7faf4a39591fa575b76" kindref="member">embeddings</ref>.push_back(<ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref>{</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/>{1.f,<sp/>2.f}});</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a4706c6426848803c541e56c3395e17d8" kindref="member">hasEmbeddings</ref>());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionExtractionContext,<sp/>EC06_HasGeoFeaturesAfterAdd)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_geo_feature" kindref="compound">GeoFeature</ref><sp/>gf;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>gf.<ref refid="structthemis_1_1ingestion_1_1_geo_feature_1af982ddbead5217f538b8427463361a39" kindref="member">id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gf1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>gf.<ref refid="structthemis_1_1ingestion_1_1_geo_feature_1aae997cd3205fca526023eb429bd29b10" kindref="member">geometry_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Point&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a1a59fb9bb455fdf46ddc4e85e2d33d64" kindref="member">geo_features</ref>.push_back(gf);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a6f00b9276620924db39d4091db492097" kindref="member">hasGeoFeatures</ref>());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionExtractionContext,<sp/>EC07_ExtraOr)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1aab6ad2fb787cad47ae858820b185a6e6" kindref="member">extraOr</ref>(</highlight><highlight class="stringliteral">&quot;missing&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;def&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;def&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a94a5f4250a5cdb406b370f6846082056" kindref="member">extra</ref>[</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1aab6ad2fb787cad47ae858820b185a6e6" kindref="member">extraOr</ref>(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;def&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BA<sp/>—<sp/>BaseEntity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA01_DefaultEntityTypeUnknown)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref><sp/>e;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.<ref refid="structthemis_1_1ingestion_1_1_base_entity_1ac7b655c43c54c3d16ec6174dd59bf88d" kindref="member">entity_type</ref>,<sp/><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">EntityType::UNKNOWN</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA02_PropertyOrDefaultWhenAbsent)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref><sp/>e;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.<ref refid="structthemis_1_1ingestion_1_1_base_entity_1a40f4aa1f5de4c1dba1eb527307ac0e71" kindref="member">propertyOr</ref>(</highlight><highlight class="stringliteral">&quot;missing&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fallback&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;fallback&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA03_PropertyOrReturnsValue)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref><sp/>e;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1ingestion_1_1_base_entity_1ab15f26479f6f304a592481f32d463afe" kindref="member">properties</ref>[</highlight><highlight class="stringliteral">&quot;section_ref&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>Abs.<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.<ref refid="structthemis_1_1ingestion_1_1_base_entity_1a40f4aa1f5de4c1dba1eb527307ac0e71" kindref="member">propertyOr</ref>(</highlight><highlight class="stringliteral">&quot;section_ref&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>Abs.<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA04_HasEmbedding)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref><sp/>e;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(e.<ref refid="structthemis_1_1ingestion_1_1_base_entity_1ab9745f051a8dd816f58f5c77b933bb94" kindref="member">hasEmbedding</ref>());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1ingestion_1_1_base_entity_1a7a53f8cbf1518fc50f144a77c581f606" kindref="member">embeddings</ref><sp/>=<sp/>{1.f,<sp/>2.f,<sp/>3.f};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.<ref refid="structthemis_1_1ingestion_1_1_base_entity_1ab9745f051a8dd816f58f5c77b933bb94" kindref="member">hasEmbedding</ref>());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA05_DefaultRelationTypeUnknown)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref><sp/>r;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1ingestion_1_1_entity_relation_1a0be9b8d68aa9b892336212e892362de2" kindref="member">relation_type</ref>,<sp/><ref refid="namespacethemis_1_1ingestion_1aa204b66459c74e54e3ea809e00fafed9a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">RelationType::UNKNOWN</ref>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA06_RelationFromToRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref><sp/>r;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1ingestion_1_1_entity_relation_1a4e2b981e3d6c1953d9de4feeaca760d4" kindref="member">from_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;law:BImSchG:§4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1ingestion_1_1_entity_relation_1a8c0d1b6dcd17a3fd58ee97b3dda02d30" kindref="member">to_id</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;law:BImSchG:§3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1ingestion_1_1_entity_relation_1a0be9b8d68aa9b892336212e892362de2" kindref="member">relation_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1aa204b66459c74e54e3ea809e00fafed9a1ea4f60a19f37cd6bff9e5bec29fb549" kindref="member">RelationType::CITES</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1ingestion_1_1_entity_relation_1a4e2b981e3d6c1953d9de4feeaca760d4" kindref="member">from_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;law:BImSchG:§4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1ingestion_1_1_entity_relation_1a8c0d1b6dcd17a3fd58ee97b3dda02d30" kindref="member">to_id</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;law:BImSchG:§3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1ingestion_1_1_entity_relation_1a0be9b8d68aa9b892336212e892362de2" kindref="member">relation_type</ref>,<sp/><ref refid="namespacethemis_1_1ingestion_1aa204b66459c74e54e3ea809e00fafed9a1ea4f60a19f37cd6bff9e5bec29fb549" kindref="member">RelationType::CITES</ref>);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA07_VectorRecordRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref><sp/>v;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a98e0d93b83a78f864020c34c4e573ee0" kindref="member">chunk_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;chunk:sha256:aabb:0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1af1cdeca310c7f9a47aa1425f989bd061" kindref="member">source_file_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256:aabb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a6ebfade338ffedf4672844b73a657d4a" kindref="member">text_snippet</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Das<sp/>Unternehmen<sp/>muss<sp/>...&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a330c8f5fa67c2fd9d6b19a6305be86e1" kindref="member">embedding</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{0.1f,<sp/>0.2f,<sp/>0.3f};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a98e0d93b83a78f864020c34c4e573ee0" kindref="member">chunk_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;chunk:sha256:aabb:0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1af1cdeca310c7f9a47aa1425f989bd061" kindref="member">source_file_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;sha256:aabb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a330c8f5fa67c2fd9d6b19a6305be86e1" kindref="member">embedding</ref>.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA08_VectorRecordMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref><sp/>v;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a09ae7c481b637b0e460cff38fb547dde" kindref="member">metadata</ref>[</highlight><highlight class="stringliteral">&quot;section_ref&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a09ae7c481b637b0e460cff38fb547dde" kindref="member">metadata</ref>[</highlight><highlight class="stringliteral">&quot;language&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a09ae7c481b637b0e460cff38fb547dde" kindref="member">metadata</ref>[</highlight><highlight class="stringliteral">&quot;section_ref&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.<ref refid="structthemis_1_1ingestion_1_1_vector_record_1a09ae7c481b637b0e460cff38fb547dde" kindref="member">metadata</ref>[</highlight><highlight class="stringliteral">&quot;language&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA09_BaseEntitySetDefaultQualityScore)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref><sp/>s;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1a430ea7040292160f3ac3fc5e97a3ccfa" kindref="member">quality_score</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__ingestion__base__entity_8cpp_1ac29020295e9be0f2f63968c9c19acfc8" kindref="member">TEST</ref>(IngestionBaseEntity,<sp/>BA10_BaseEntitySetPopulated)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref><sp/>s;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1ac96f1decf796f8cf73c4b1443376d5f0" kindref="member">nodes</ref>.push_back(<ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref>{});</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1ac96f1decf796f8cf73c4b1443376d5f0" kindref="member">nodes</ref>.push_back(<ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref>{});</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1aafd88e88bc356f85ca049b30bfe1b8c7" kindref="member">edges</ref>.push_back(<ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref>{});</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1a95aa6f94f101ba6265f4867ba20a3f48" kindref="member">chunks</ref>.push_back(<ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref>{});</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1a430ea7040292160f3ac3fc5e97a3ccfa" kindref="member">quality_score</ref><sp/>=<sp/>0.85;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1ac96f1decf796f8cf73c4b1443376d5f0" kindref="member">nodes</ref>.size(),<sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1aafd88e88bc356f85ca049b30bfe1b8c7" kindref="member">edges</ref>.size(),<sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1a95aa6f94f101ba6265f4867ba20a3f48" kindref="member">chunks</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1ingestion_1_1_base_entity_set_1a430ea7040292160f3ac3fc5e97a3ccfa" kindref="member">quality_score</ref>,<sp/>0.85);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ingestion/test_ingestion_base_entity.cpp"/>
+  </compounddef>
+</doxygen>

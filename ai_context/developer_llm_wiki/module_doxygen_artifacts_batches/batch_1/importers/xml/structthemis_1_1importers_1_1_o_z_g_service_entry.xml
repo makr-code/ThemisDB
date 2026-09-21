@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_o_z_g_service_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::OZGServiceEntry</compoundname>
+    <includes refid="ozg__service__registry_8h" local="no">ozg_service_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGServiceEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::id</qualifiedname>
+        <briefdescription>
+<para>OZG service ID (e.g. &quot;99026004017000&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="100" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1ad7161a681355d73807ff6a9e8b24e046" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGServiceEntry::short_name</definition>
+        <argsstring></argsstring>
+        <name>short_name</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::short_name</qualifiedname>
+        <briefdescription>
+<para>Abbreviated service name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="101" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1af94b50e1d54dd37de932bf8e5cbcf2b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGServiceEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::name</qualifiedname>
+        <briefdescription>
+<para>Full German service name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="102" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1a420d62c9068852b52105d7bad635c31d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGServiceEntry::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::description</qualifiedname>
+        <briefdescription>
+<para>Service description (plain text). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="103" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1afa46282c9f83c6e61a0aee260b244a34" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5" kindref="member">OZGFederalLevel</ref></type>
+        <definition>OZGFederalLevel themis::importers::OZGServiceEntry::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::level</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5a49c554534575fc4d777162363f0ff1f3" kindref="member">OZGFederalLevel::MUNICIPAL</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="106" column="21" bodyfile="include/importers/ozg_service_registry.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1ad087d727fa23d4382303f813a54c9c13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGServiceEntry::responsible_authority</definition>
+        <argsstring></argsstring>
+        <name>responsible_authority</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::responsible_authority</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="108" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1ab507af1f836fe14ac392902a6d387cdd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::OZGServiceEntry::applicable_states</definition>
+        <argsstring></argsstring>
+        <name>applicable_states</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::applicable_states</qualifiedname>
+        <briefdescription>
+<para>ISO 3166-2:DE state codes (&quot;DE-BY&quot;, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="109" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1a6eb4ff0323cd828c8bd1103a1bfc6345" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::OZGServiceEntry::legal_basis</definition>
+        <argsstring></argsstring>
+        <name>legal_basis</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::legal_basis</qualifiedname>
+        <briefdescription>
+<para>Statutes (§§ references), e.g. {&quot;§ 17 Abs. 1 BWahlG&quot;}. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="112" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1a0c14a58fe98c2da5f88bb886d2ab414f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::OZGServiceEntry::compliance_tags</definition>
+        <argsstring></argsstring>
+        <name>compliance_tags</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::compliance_tags</qualifiedname>
+        <briefdescription>
+<para>Semantic tags for compliance queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="113" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1a275a960c5812a13313eae7eabdfc134b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043" kindref="member">OZGServiceStatus</ref></type>
+        <definition>OZGServiceStatus themis::importers::OZGServiceEntry::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043a06972acc3aafeb3a65dbd996c8dedc73" kindref="member">OZGServiceStatus::NOT_STARTED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="116" column="22" bodyfile="include/importers/ozg_service_registry.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1aadf39d17b7e5ed7c63ddd6fda30bb7c7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::OZGServiceEntry::sdg_relevant</definition>
+        <argsstring></argsstring>
+        <name>sdg_relevant</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::sdg_relevant</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Subject to EU Single Digital Gateway Regulation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="117" column="10" bodyfile="include/importers/ozg_service_registry.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1a5222d0cea41aa06c763af320e2eed0a6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_o_z_g_data_field" kindref="compound">OZGDataField</ref> &gt;</type>
+        <definition>std::vector&lt;OZGDataField&gt; themis::importers::OZGServiceEntry::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::fields</qualifiedname>
+        <briefdescription>
+<para>Required input fields for this service. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="120" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1a85bf798f7dbaa9c0f90234f3be84798b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGServiceEntry::fim_process_id</definition>
+        <argsstring></argsstring>
+        <name>fim_process_id</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::fim_process_id</qualifiedname>
+        <briefdescription>
+<para>FIM Prozess-ID from the FIM library. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="123" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_o_z_g_service_entry_1a0ae7da6b7d9b4a9a8c651df5f12d7619" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OZGServiceEntry::catalog_version</definition>
+        <argsstring></argsstring>
+        <name>catalog_version</name>
+        <qualifiedname>themis::importers::OZGServiceEntry::catalog_version</qualifiedname>
+        <briefdescription>
+<para>OZG catalogue version this entry was sourced from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/ozg_service_registry.h" line="124" column="17" bodyfile="include/importers/ozg_service_registry.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/ozg_service_registry.h" line="98" column="1" bodyfile="include/importers/ozg_service_registry.h" bodystart="98" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ab507af1f836fe14ac392902a6d387cdd" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>applicable_states</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a0ae7da6b7d9b4a9a8c651df5f12d7619" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>catalog_version</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a0c14a58fe98c2da5f88bb886d2ab414f" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>compliance_tags</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a420d62c9068852b52105d7bad635c31d" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>description</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a5222d0cea41aa06c763af320e2eed0a6" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>fields</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a85bf798f7dbaa9c0f90234f3be84798b" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>fim_process_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>id</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a6eb4ff0323cd828c8bd1103a1bfc6345" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>legal_basis</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1afa46282c9f83c6e61a0aee260b244a34" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>level</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1af94b50e1d54dd37de932bf8e5cbcf2b9" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ad087d727fa23d4382303f813a54c9c13" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>responsible_authority</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1aadf39d17b7e5ed7c63ddd6fda30bb7c7" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>sdg_relevant</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ad7161a681355d73807ff6a9e8b24e046" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>short_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a275a960c5812a13313eae7eabdfc134b" prot="public" virt="non-virtual"><scope>themis::importers::OZGServiceEntry</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

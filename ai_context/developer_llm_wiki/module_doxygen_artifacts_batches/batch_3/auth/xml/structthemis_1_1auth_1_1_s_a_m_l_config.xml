@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_s_a_m_l_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::SAMLConfig</compoundname>
+    <includes refid="saml__authenticator_8h" local="no">saml_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1a7ac81150d5569e33def73e4cd620a1a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLConfig::sp_entity_id</definition>
+        <argsstring></argsstring>
+        <name>sp_entity_id</name>
+        <qualifiedname>themis::auth::SAMLConfig::sp_entity_id</qualifiedname>
+        <briefdescription>
+<para>SP EntityID URI (e.g. &quot;https://myapp.example.com/saml/metadata&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="37" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1a53cdb2a0848a8836334568335ee46991" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLConfig::sp_acs_url</definition>
+        <argsstring></argsstring>
+        <name>sp_acs_url</name>
+        <qualifiedname>themis::auth::SAMLConfig::sp_acs_url</qualifiedname>
+        <briefdescription>
+<para>Assertion Consumer Service URL (receives POST from IdP). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="38" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1ace9bc615532b77d2b9b91c8d62d381a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLConfig::idp_sso_url</definition>
+        <argsstring></argsstring>
+        <name>idp_sso_url</name>
+        <qualifiedname>themis::auth::SAMLConfig::idp_sso_url</qualifiedname>
+        <briefdescription>
+<para>IdP Single Sign-On URL (HTTP-Redirect binding). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="41" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1af9aab50f83c450fd51a38b6b2c04ab27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLConfig::idp_entity_id</definition>
+        <argsstring></argsstring>
+        <name>idp_entity_id</name>
+        <qualifiedname>themis::auth::SAMLConfig::idp_entity_id</qualifiedname>
+        <briefdescription>
+<para>IdP EntityID (validated in response). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="42" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1aa30e54a145c32710351fbc7d77453a1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLConfig::idp_certificate_pem</definition>
+        <argsstring></argsstring>
+        <name>idp_certificate_pem</name>
+        <qualifiedname>themis::auth::SAMLConfig::idp_certificate_pem</qualifiedname>
+        <briefdescription>
+<para>IdP X.509 certificate in PEM format (used to verify signatures). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="43" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1a31a85fdb88768bb39e1bcef8f8e71d6d" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::SAMLConfig::clock_skew</definition>
+        <argsstring></argsstring>
+        <name>clock_skew</name>
+        <qualifiedname>themis::auth::SAMLConfig::clock_skew</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Allowed clock skew for NotBefore/NotOnOrAfter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="46" column="26" bodyfile="include/auth/saml_authenticator.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1a840cd91c73b376741617627f26147882" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::SAMLConfig::require_signed_response</definition>
+        <argsstring></argsstring>
+        <name>require_signed_response</name>
+        <qualifiedname>themis::auth::SAMLConfig::require_signed_response</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether SAMLResponse element must be signed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="47" column="10" bodyfile="include/auth/saml_authenticator.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1a69d6d21bdb69a61857831eb7711ad542" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::SAMLConfig::require_signed_assertion</definition>
+        <argsstring></argsstring>
+        <name>require_signed_assertion</name>
+        <qualifiedname>themis::auth::SAMLConfig::require_signed_assertion</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether Assertion element must be signed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="48" column="10" bodyfile="include/auth/saml_authenticator.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1a51a784666cfadb248997eb1486451f51" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::SAMLConfig::require_encrypted_assertion</definition>
+        <argsstring></argsstring>
+        <name>require_encrypted_assertion</name>
+        <qualifiedname>themis::auth::SAMLConfig::require_encrypted_assertion</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>When true, plain (unencrypted) Assertions are rejected with SAML_INVALID_RESPONSE. Use together with sp_private_key_loader to enforce encrypted-only assertion delivery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="49" column="10" bodyfile="include/auth/saml_authenticator.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1a46e09e417b172da877abaf36205b27e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::SAMLConfig::max_replay_cache_size</definition>
+        <argsstring></argsstring>
+        <name>max_replay_cache_size</name>
+        <qualifiedname>themis::auth::SAMLConfig::max_replay_cache_size</qualifiedname>
+        <initializer>{100000}</initializer>
+        <briefdescription>
+<para>Maximum number of assertion IDs to keep in the in-memory replay cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="50" column="12" bodyfile="include/auth/saml_authenticator.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1af8f3c92f55ae69117e979e0b6290c91d" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string()&gt;</type>
+        <definition>std::function&lt;std::string()&gt; themis::auth::SAMLConfig::sp_private_key_loader</definition>
+        <argsstring></argsstring>
+        <name>sp_private_key_loader</name>
+        <qualifiedname>themis::auth::SAMLConfig::sp_private_key_loader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="67" column="19" bodyfile="include/auth/saml_authenticator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1adc064289151345e92ff696bb266e0f26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLConfig::attr_email</definition>
+        <argsstring></argsstring>
+        <name>attr_email</name>
+        <qualifiedname>themis::auth::SAMLConfig::attr_email</qualifiedname>
+        <initializer>{&quot;email&quot;}</initializer>
+        <briefdescription>
+<para>Attribute name carrying the user&apos;s email. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="70" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1aa98661fc65c8b423b883ecba668c8ec1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLConfig::attr_name_id_format</definition>
+        <argsstring></argsstring>
+        <name>attr_name_id_format</name>
+        <qualifiedname>themis::auth::SAMLConfig::attr_name_id_format</qualifiedname>
+        <initializer>{
+        &quot;urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress&quot;}</initializer>
+        <briefdescription>
+<para>Expected NameID Format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="71" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="71" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1a96d14d40dff487b07bbbbb6877d9504f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLConfig::requested_authn_context</definition>
+        <argsstring></argsstring>
+        <name>requested_authn_context</name>
+        <qualifiedname>themis::auth::SAMLConfig::requested_authn_context</qualifiedname>
+        <initializer>{
+        &quot;urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="75" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="75" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_config_1acc61ad447dd2ac1f72611b6c36ca885f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::SAMLConfig::allow_sha1_deprecated</definition>
+        <argsstring></argsstring>
+        <name>allow_sha1_deprecated</name>
+        <qualifiedname>themis::auth::SAMLConfig::allow_sha1_deprecated</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="85" column="10" bodyfile="include/auth/saml_authenticator.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/saml_authenticator.h" line="35" column="1" bodyfile="include/auth/saml_authenticator.h" bodystart="35" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1acc61ad447dd2ac1f72611b6c36ca885f" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>allow_sha1_deprecated</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1adc064289151345e92ff696bb266e0f26" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>attr_email</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1aa98661fc65c8b423b883ecba668c8ec1" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>attr_name_id_format</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1a31a85fdb88768bb39e1bcef8f8e71d6d" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>clock_skew</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1aa30e54a145c32710351fbc7d77453a1e" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>idp_certificate_pem</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1af9aab50f83c450fd51a38b6b2c04ab27" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>idp_entity_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1ace9bc615532b77d2b9b91c8d62d381a5" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>idp_sso_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1a46e09e417b172da877abaf36205b27e0" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>max_replay_cache_size</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1a96d14d40dff487b07bbbbb6877d9504f" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>requested_authn_context</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1a51a784666cfadb248997eb1486451f51" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>require_encrypted_assertion</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1a69d6d21bdb69a61857831eb7711ad542" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>require_signed_assertion</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1a840cd91c73b376741617627f26147882" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>require_signed_response</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1a53cdb2a0848a8836334568335ee46991" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>sp_acs_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1a7ac81150d5569e33def73e4cd620a1a2" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>sp_entity_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_config_1af8f3c92f55ae69117e979e0b6290c91d" prot="public" virt="non-virtual"><scope>themis::auth::SAMLConfig</scope><name>sp_private_key_loader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

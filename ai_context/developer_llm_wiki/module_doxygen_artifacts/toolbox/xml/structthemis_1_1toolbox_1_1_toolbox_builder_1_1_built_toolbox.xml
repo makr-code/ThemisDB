@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kind="struct" language="C++" prot="public">
+    <compoundname>themis::toolbox::ToolboxBuilder::BuiltToolbox</compoundname>
+    <includes refid="toolbox__builder_8h" local="no">toolbox_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a09ce11d26a30e8613f72285d8af6c150" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IngestionToolbox&gt; themis::toolbox::ToolboxBuilder::BuiltToolbox::toolbox</definition>
+        <argsstring></argsstring>
+        <name>toolbox</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::toolbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="97" column="37" bodyfile="include/toolbox/toolbox_builder.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a8da5ed014e70c466d167a860558ad3a1" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; aql::AQLIngestionBridge &gt;</type>
+        <definition>std::shared_ptr&lt;aql::AQLIngestionBridge&gt; themis::toolbox::ToolboxBuilder::BuiltToolbox::aql_bridge</definition>
+        <argsstring></argsstring>
+        <name>aql_bridge</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::aql_bridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="98" column="30" bodyfile="include/toolbox/toolbox_builder.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a65137058ba1d91ff4fc86fb9b3809929" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; rag::RAGIngestionBridge &gt;</type>
+        <definition>std::shared_ptr&lt;rag::RAGIngestionBridge&gt; themis::toolbox::ToolboxBuilder::BuiltToolbox::rag_bridge</definition>
+        <argsstring></argsstring>
+        <name>rag_bridge</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::rag_bridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="99" column="30" bodyfile="include/toolbox/toolbox_builder.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxBuilder::BuiltToolbox::BuiltToolbox</definition>
+        <argsstring>()</argsstring>
+        <name>BuiltToolbox</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::BuiltToolbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="101" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1ae84232d3941fe040ca1cbdde67ff3efa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxBuilder::BuiltToolbox::~BuiltToolbox</definition>
+        <argsstring>()</argsstring>
+        <name>~BuiltToolbox</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::~BuiltToolbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="102" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a4e5258e4706ab498422282c407a2157e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxBuilder::BuiltToolbox::BuiltToolbox</definition>
+        <argsstring>(BuiltToolbox &amp;&amp;) noexcept</argsstring>
+        <name>BuiltToolbox</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::BuiltToolbox</qualifiedname>
+        <param>
+          <type>BuiltToolbox &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="103" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1aa1ab03f7d6815797915497c52563dc75" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" kindref="member">BuiltToolbox</ref> &amp;</type>
+        <definition>ToolboxBuilder::BuiltToolbox &amp; themis::toolbox::ToolboxBuilder::BuiltToolbox::operator=</definition>
+        <argsstring>(BuiltToolbox &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" kindref="member">BuiltToolbox</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="104" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a7c1bde638d11be15e34fb236b21997ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxBuilder::BuiltToolbox::BuiltToolbox</definition>
+        <argsstring>(const BuiltToolbox &amp;)=default</argsstring>
+        <name>BuiltToolbox</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::BuiltToolbox</qualifiedname>
+        <param>
+          <type>const BuiltToolbox &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="105" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a80258ccd3b71eae040276dce92ce5bd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" kindref="member">BuiltToolbox</ref> &amp;</type>
+        <definition>BuiltToolbox &amp; themis::toolbox::ToolboxBuilder::BuiltToolbox::operator=</definition>
+        <argsstring>(const BuiltToolbox &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::BuiltToolbox::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" kindref="member">BuiltToolbox</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="106" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregates the toolbox and its auto-wired bridge instances. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fields are set according to the sinks provided to the builder:</para>
+<para><table rows="4" cols="2"><row>
+<entry thead="yes"><para>Field  </para>
+</entry><entry thead="yes"><para>Condition  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref></computeroutput>  </para>
+</entry><entry thead="no"><para>Always non-null.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a8da5ed014e70c466d167a860558ad3a1" kindref="member">aql_bridge</ref></computeroutput>  </para>
+</entry><entry thead="no"><para>Non-null when a graph-writer was registered.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a65137058ba1d91ff4fc86fb9b3809929" kindref="member">rag_bridge</ref></computeroutput>  </para>
+</entry><entry thead="no"><para>Non-null when a vector-writer or graph-writer was set.  </para>
+</entry></row>
+</table>
+</para>
+<sect1 id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1autotoc_md12_1s1"><sect2 id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1autotoc_md12">
+<title>Destructor</title><para>Declared out-of-line in <computeroutput><ref refid="toolbox__builder_8cpp" kindref="compound">toolbox_builder.cpp</ref></computeroutput> where the full <computeroutput>AQLIngestionBridge</computeroutput> / <computeroutput>RAGIngestionBridge</computeroutput> types are visible. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/toolbox/toolbox_builder.h" line="96" column="5" bodyfile="include/toolbox/toolbox_builder.h" bodystart="96" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a8da5ed014e70c466d167a860558ad3a1" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>aql_bridge</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>BuiltToolbox</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a4e5258e4706ab498422282c407a2157e" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>BuiltToolbox</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a7c1bde638d11be15e34fb236b21997ac" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>BuiltToolbox</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1aa1ab03f7d6815797915497c52563dc75" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a80258ccd3b71eae040276dce92ce5bd4" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a65137058ba1d91ff4fc86fb9b3809929" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>rag_bridge</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a09ce11d26a30e8613f72285d8af6c150" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>toolbox</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1ae84232d3941fe040ca1cbdde67ff3efa" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::BuiltToolbox</scope><name>~BuiltToolbox</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

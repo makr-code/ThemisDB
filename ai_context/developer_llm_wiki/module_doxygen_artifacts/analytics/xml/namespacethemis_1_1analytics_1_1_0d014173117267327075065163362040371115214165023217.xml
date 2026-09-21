@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1analytics_1_1_0d014173117267327075065163362040371115214165023217" kind="namespace" language="C++">
+    <compoundname>themis::analytics::@014173117267327075065163362040371115214165023217</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/olap.cpp" line="93" column="1"/>
+  </compounddef>
+</doxygen>

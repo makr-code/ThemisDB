@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_route_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorRouteHint</compoundname>
+    <includes refid="tensor__router_8h" local="no">tensor_router.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Distribution</name>
+        <qualifiedname>themis::storage::TensorRouteHint::Distribution</qualifiedname>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>N(0, σ²) — best for NF4. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a891f35a29c3d51d02ffd42dd6dcc69b2" prot="public">
+          <name>UNIFORM</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Uniform — INT8 preferred. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a0459833ba9cad7cfd7bbfe10d7bbbe6e" prot="public">
+          <name>SPARSE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Many near-zero values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a5b1394fe1a175123495f31fcee0a39aa" prot="public">
+          <name>SMOOTH_FIELD</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>PDE/Maxwell fields — very high TT-compressibility. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Expected data distribution (set by the caller when known). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="51" column="5" bodyfile="include/storage/tensor_router.h" bodystart="51" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DataCategory</name>
+        <qualifiedname>themis::storage::TensorRouteHint::DataCategory</qualifiedname>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99caa2aabfa55677f54ad88cc4f0278d63c6" prot="public">
+          <name>LLM_WEIGHTS</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca8d714aadf3072a244c1197256f4f0ea9" prot="public">
+          <name>LLM_ADAPTER</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>LoRA / PEFT adapter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca7f2699c7a1e80cc61c1873b896421176" prot="public">
+          <name>EMBEDDING</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca23a12f67f614b5518c7f1c2465bf95e3" prot="public">
+          <name>IMAGE</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca422e4ac829ec031c2ea29661251ca29c" prot="public">
+          <name>GEODATA</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca64c71603ed31477ee4757ae9af42f7e9" prot="public">
+          <name>SIMULATION</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>PDE / Maxwell field. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99cac231fa48df3ee393c92dccac4dba5e7d" prot="public">
+          <name>DOCUMENT</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca179518da8867f0b4237259ea3241a2ec" prot="public">
+          <name>RELATIONAL</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca5eb907bdd20f7bdad174e0525e3c4097" prot="public">
+          <name>TIMESERIES</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Data type category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="60" column="5" bodyfile="include/storage/tensor_router.h" bodystart="60" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_route_hint_1a6ab2c8327a02c3a63fdecffaf60d8390" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44" kindref="member">Distribution</ref></type>
+        <definition>Distribution themis::storage::TensorRouteHint::distribution</definition>
+        <argsstring></argsstring>
+        <name>distribution</name>
+        <qualifiedname>themis::storage::TensorRouteHint::distribution</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">Distribution::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="73" column="19" bodyfile="include/storage/tensor_router.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_route_hint_1a21e8617390e9146ff4610d526da634e0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99c" kindref="member">DataCategory</ref></type>
+        <definition>DataCategory themis::storage::TensorRouteHint::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::storage::TensorRouteHint::category</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca696b031073e74bf2cb98e5ef201d4aa3" kindref="member">DataCategory::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="74" column="19" bodyfile="include/storage/tensor_router.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_route_hint_1a13a5b98b7932a4043949cf3686d87621" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRouteHint::expected_rank</definition>
+        <argsstring></argsstring>
+        <name>expected_rank</name>
+        <qualifiedname>themis::storage::TensorRouteHint::expected_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Expected TT-rank (0 = unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="77" column="19" bodyfile="include/storage/tensor_router.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_route_hint_1a59d878bde2e2fb64caab1ada72377f26" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorRouteHint::inference_use</definition>
+        <argsstring></argsstring>
+        <name>inference_use</name>
+        <qualifiedname>themis::storage::TensorRouteHint::inference_use</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the data will be used in FLARE / RAG with an inference engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="80" column="19" bodyfile="include/storage/tensor_router.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_route_hint_1ae64907e73c120e8ea5631577f3202b00" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorRouteHint::high_churn</definition>
+        <argsstring></argsstring>
+        <name>high_churn</name>
+        <qualifiedname>themis::storage::TensorRouteHint::high_churn</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the data is updated frequently (high-churn). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="83" column="19" bodyfile="include/storage/tensor_router.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_route_hint_1a48afccf8c3c01867821468a09ef1d6ed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRouteHint::min_ratio</definition>
+        <argsstring></argsstring>
+        <name>min_ratio</name>
+        <qualifiedname>themis::storage::TensorRouteHint::min_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Minimum acceptable compression ratio (0.0 = no minimum). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="86" column="19" bodyfile="include/storage/tensor_router.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_route_hint_1ae3095690d86d955c56baaf837f28f84d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorRouteHint::domain_tag</definition>
+        <argsstring></argsstring>
+        <name>domain_tag</name>
+        <qualifiedname>themis::storage::TensorRouteHint::domain_tag</qualifiedname>
+        <briefdescription>
+<para>Optional domain tag used for TemplateCatalog lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When non-empty and a <computeroutput>TemplateCatalog</computeroutput> has been wired via <computeroutput><ref refid="classthemis_1_1storage_1_1_tensor_router_1a6c260c34d32a7ba5e0345261934a51d9" kindref="member">TensorRouter::setTemplateCatalog()</ref></computeroutput>, the router checks whether a structural template is available for this domain. A cache-hit promotes the routing decision toward LIFT (TENSOR_TRAIN), because an optimised TN topology is known — reducing structure-search cost at query time.</para>
+<para>When <computeroutput>setTemplateTopologyApplyFn()</computeroutput> is configured and returns true for a catalog hit, the router may promote to LIFT using template-informed topology wiring. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="102" column="19" bodyfile="include/storage/tensor_router.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tensor_router.h" line="49" column="1" bodyfile="include/storage/tensor_router.h" bodystart="49" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1a21e8617390e9146ff4610d526da634e0" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>category</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99c" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>DataCategory</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>Distribution</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1a6ab2c8327a02c3a63fdecffaf60d8390" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>distribution</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1ae3095690d86d955c56baaf837f28f84d" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>domain_tag</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1a13a5b98b7932a4043949cf3686d87621" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>expected_rank</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1ae64907e73c120e8ea5631577f3202b00" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>high_churn</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1a59d878bde2e2fb64caab1ada72377f26" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>inference_use</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_route_hint_1a48afccf8c3c01867821468a09ef1d6ed" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouteHint</scope><name>min_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

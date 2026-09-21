@@ -1,0 +1,706 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_error_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLErrorContext</compoundname>
+    <includes refid="aql__error__types_8h" local="no">aql_error_types.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1aad4f87b8ddeb8d6ac54399a46245c883" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::error_type_</definition>
+        <argsstring></argsstring>
+        <name>error_type_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::error_type_</qualifiedname>
+        <briefdescription>
+<para>Main error type (validation, translation, bridge, provider). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="171" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a4dbb0acbd121e8a9207f2697b9a150f8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::category_</definition>
+        <argsstring></argsstring>
+        <name>category_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::category_</qualifiedname>
+        <briefdescription>
+<para>Specific error category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="172" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a0957f1a35f2fcb22e86abf7d21981266" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::component_</definition>
+        <argsstring></argsstring>
+        <name>component_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::component_</qualifiedname>
+        <briefdescription>
+<para>Component that generated error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="173" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1ab81a6d1fe842a90b8af207d445c6b715" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::message_</definition>
+        <argsstring></argsstring>
+        <name>message_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::message_</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="174" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a5d38a07ccfd85653b2d5ea2be97bb664" prot="private" static="no" mutable="no">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::aql::AQLErrorContext::timestamp_</definition>
+        <argsstring></argsstring>
+        <name>timestamp_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::timestamp_</qualifiedname>
+        <briefdescription>
+<para>When error occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="175" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1ab3438e47fb4d2897c255e533af45fadc" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::operation_type_</definition>
+        <argsstring></argsstring>
+        <name>operation_type_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::operation_type_</qualifiedname>
+        <briefdescription>
+<para>Operation being performed (e.g., &quot;translate_nl_to_aql&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="176" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a70a22efcacb3ce76ca7b3f15a8abfca2" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLErrorContext::line_number_</definition>
+        <argsstring></argsstring>
+        <name>line_number_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::line_number_</qualifiedname>
+        <briefdescription>
+<para>Line number in query (for parse errors). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="177" column="14" bodyfile="include/aql/aql_error_types.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a9eacc12530e8654fc4782cafde51ee80" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLErrorContext::token_position_</definition>
+        <argsstring></argsstring>
+        <name>token_position_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::token_position_</qualifiedname>
+        <briefdescription>
+<para>Character position in query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="178" column="14" bodyfile="include/aql/aql_error_types.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a232f5a155d687fb858d235ca1c52d891" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::AQLErrorContext::diagnostic_hints_</definition>
+        <argsstring></argsstring>
+        <name>diagnostic_hints_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::diagnostic_hints_</qualifiedname>
+        <briefdescription>
+<para>Actionable hints for triage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="179" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1adfaffabafcecc70fd306def87d1b9ca1" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLErrorContext::retry_count_</definition>
+        <argsstring></argsstring>
+        <name>retry_count_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::retry_count_</qualifiedname>
+        <briefdescription>
+<para>Number of recovery attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="180" column="14" bodyfile="include/aql/aql_error_types.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a20245ca185d81ab0355765000d7278d5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLErrorContext::is_recoverable_</definition>
+        <argsstring></argsstring>
+        <name>is_recoverable_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::is_recoverable_</qualifiedname>
+        <briefdescription>
+<para>Whether error can be recovered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="181" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a06411ff7b1f358f1659eff75d1c1a080" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::schema_field_</definition>
+        <argsstring></argsstring>
+        <name>schema_field_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::schema_field_</qualifiedname>
+        <briefdescription>
+<para>Schema field name (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="182" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a35897a3b0552d9fb3fecd10aea02804d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::schema_collection_</definition>
+        <argsstring></argsstring>
+        <name>schema_collection_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::schema_collection_</qualifiedname>
+        <briefdescription>
+<para>Collection name (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="183" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_error_context_1af69bce6fdc0e838b096d129f8960a249" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::schema_type_info_</definition>
+        <argsstring></argsstring>
+        <name>schema_type_info_</name>
+        <qualifiedname>themis::aql::AQLErrorContext::schema_type_info_</qualifiedname>
+        <briefdescription>
+<para>Type information (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="184" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a8d4a3be3aee07cf014f4fb1ba514d54b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLErrorContext::AQLErrorContext</definition>
+        <argsstring>(const std::string &amp;error_type, const std::string &amp;category, const std::string &amp;component, const std::string &amp;message)</argsstring>
+        <name>AQLErrorContext</name>
+        <qualifiedname>themis::aql::AQLErrorContext::AQLErrorContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="27" column="5" bodyfile="include/aql/aql_error_types.h" bodystart="27" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1af883555966a3dcaa9d7173ba0f068b7c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::AQLErrorContext::getErrorType</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorType</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getErrorType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="41" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1aa74aaf51327bd6bfc5e40acd8f80be77" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::AQLErrorContext::getCategory</definition>
+        <argsstring>() const</argsstring>
+        <name>getCategory</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getCategory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="43" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1ada2c1065ac3cd3de15b820a0cc1c94e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::AQLErrorContext::getComponent</definition>
+        <argsstring>() const</argsstring>
+        <name>getComponent</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getComponent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="45" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a516f6c550f6681e25f3f85ebb3516ab6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::AQLErrorContext::getMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMessage</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="47" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1ab76df316d05d2d265df39a4916dae710" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::aql::AQLErrorContext::getTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>getTimestamp</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getTimestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="49" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a15fa258126ec3435cc9137d17086c683" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLErrorContext::setOperationType</definition>
+        <argsstring>(const std::string &amp;op_type)</argsstring>
+        <name>setOperationType</name>
+        <qualifiedname>themis::aql::AQLErrorContext::setOperationType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_type</declname>
+        </param>
+        <briefdescription>
+<para>Set Operation Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setOperationType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="56" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a372d27e5de8048d0c99e3083310506ff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::AQLErrorContext::getOperationType</definition>
+        <argsstring>() const</argsstring>
+        <name>getOperationType</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getOperationType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="58" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a3628986b702b666274fa67082a3c4d6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLErrorContext::setLineNumber</definition>
+        <argsstring>(uint32_t line)</argsstring>
+        <name>setLineNumber</name>
+        <qualifiedname>themis::aql::AQLErrorContext::setLineNumber</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Set Line Number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setLineNumber without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="65" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a0ab4e30297fc6793683f12c79dfc46bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLErrorContext::getLineNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getLineNumber</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getLineNumber</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="67" column="14" bodyfile="include/aql/aql_error_types.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a35d295b275d45e032681cc27a1f56449" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLErrorContext::setTokenPosition</definition>
+        <argsstring>(uint32_t pos)</argsstring>
+        <name>setTokenPosition</name>
+        <qualifiedname>themis::aql::AQLErrorContext::setTokenPosition</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Set Token Position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTokenPosition without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="74" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a5b266663f633d83be51a6d12faacf43c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLErrorContext::getTokenPosition</definition>
+        <argsstring>() const</argsstring>
+        <name>getTokenPosition</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getTokenPosition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="76" column="14" bodyfile="include/aql/aql_error_types.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1ad8064f133145c757bd4425aca0246993" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLErrorContext::addDiagnosticHint</definition>
+        <argsstring>(const std::string &amp;hint)</argsstring>
+        <name>addDiagnosticHint</name>
+        <qualifiedname>themis::aql::AQLErrorContext::addDiagnosticHint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Add Diagnostic Hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="83" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="83" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a4f184de851a4f4761c6ff963c5888a31" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::aql::AQLErrorContext::getDiagnosticHints</definition>
+        <argsstring>() const</argsstring>
+        <name>getDiagnosticHints</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getDiagnosticHints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="87" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a1b95ff463483f607e61bccf081568aee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLErrorContext::setRetryCount</definition>
+        <argsstring>(uint32_t count)</argsstring>
+        <name>setRetryCount</name>
+        <qualifiedname>themis::aql::AQLErrorContext::setRetryCount</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Set Retry Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryCount without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="96" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1ae23ee8597a2321c538622669a1aed7aa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLErrorContext::getRetryCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getRetryCount</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getRetryCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="98" column="14" bodyfile="include/aql/aql_error_types.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a3463f2a7c8d5793fadab4a8e57852e1f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLErrorContext::setRecoverable</definition>
+        <argsstring>(bool recoverable)</argsstring>
+        <name>setRecoverable</name>
+        <qualifiedname>themis::aql::AQLErrorContext::setRecoverable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>recoverable</declname>
+        </param>
+        <briefdescription>
+<para>Set Recoverable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recoverable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRecoverable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="105" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a117c3c57c838d23a8946472e418805f8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLErrorContext::isRecoverable</definition>
+        <argsstring>() const</argsstring>
+        <name>isRecoverable</name>
+        <qualifiedname>themis::aql::AQLErrorContext::isRecoverable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="107" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a4f26a079d28d5a5f9bafb89882dbf311" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLErrorContext::setSchemaContext</definition>
+        <argsstring>(const std::string &amp;field_name, const std::string &amp;collection_name, const std::string &amp;type_info=&quot;&quot;)</argsstring>
+        <name>setSchemaContext</name>
+        <qualifiedname>themis::aql::AQLErrorContext::setSchemaContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type_info</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="109" column="10" bodyfile="include/aql/aql_error_types.h" bodystart="109" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a3bb120ffeff03b40a7fb7bc7d6211519" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::AQLErrorContext::getSchemaField</definition>
+        <argsstring>() const</argsstring>
+        <name>getSchemaField</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getSchemaField</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="116" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a5a7294578784d4c11e66846d98b6cf2a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::AQLErrorContext::getSchemaCollection</definition>
+        <argsstring>() const</argsstring>
+        <name>getSchemaCollection</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getSchemaCollection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="118" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1a9a1d5cc69d86de43d0a3a7d632200264" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::AQLErrorContext::getSchemaTypeInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getSchemaTypeInfo</name>
+        <qualifiedname>themis::aql::AQLErrorContext::getSchemaTypeInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="120" column="23" bodyfile="include/aql/aql_error_types.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_error_context_1aa69f3a2345069c5ca07d90531db9ca35" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLErrorContext::formatForLogging</definition>
+        <argsstring>() const</argsstring>
+        <name>formatForLogging</name>
+        <qualifiedname>themis::aql::AQLErrorContext::formatForLogging</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="122" column="17" bodyfile="include/aql/aql_error_types.h" bodystart="122" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_error_types.h" line="25" column="1" bodyfile="include/aql/aql_error_types.h" bodystart="25" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1ad8064f133145c757bd4425aca0246993" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>addDiagnosticHint</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a8d4a3be3aee07cf014f4fb1ba514d54b" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>AQLErrorContext</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a4dbb0acbd121e8a9207f2697b9a150f8" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>category_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a0957f1a35f2fcb22e86abf7d21981266" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>component_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a232f5a155d687fb858d235ca1c52d891" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>diagnostic_hints_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1aad4f87b8ddeb8d6ac54399a46245c883" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>error_type_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1aa69f3a2345069c5ca07d90531db9ca35" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>formatForLogging</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1aa74aaf51327bd6bfc5e40acd8f80be77" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getCategory</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1ada2c1065ac3cd3de15b820a0cc1c94e7" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getComponent</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a4f184de851a4f4761c6ff963c5888a31" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getDiagnosticHints</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1af883555966a3dcaa9d7173ba0f068b7c" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getErrorType</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a0ab4e30297fc6793683f12c79dfc46bf" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getLineNumber</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a516f6c550f6681e25f3f85ebb3516ab6" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getMessage</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a372d27e5de8048d0c99e3083310506ff" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getOperationType</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1ae23ee8597a2321c538622669a1aed7aa" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getRetryCount</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a5a7294578784d4c11e66846d98b6cf2a" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getSchemaCollection</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a3bb120ffeff03b40a7fb7bc7d6211519" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getSchemaField</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a9a1d5cc69d86de43d0a3a7d632200264" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getSchemaTypeInfo</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1ab76df316d05d2d265df39a4916dae710" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getTimestamp</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a5b266663f633d83be51a6d12faacf43c" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>getTokenPosition</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a20245ca185d81ab0355765000d7278d5" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>is_recoverable_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a117c3c57c838d23a8946472e418805f8" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>isRecoverable</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a70a22efcacb3ce76ca7b3f15a8abfca2" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>line_number_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1ab81a6d1fe842a90b8af207d445c6b715" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>message_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1ab3438e47fb4d2897c255e533af45fadc" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>operation_type_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1adfaffabafcecc70fd306def87d1b9ca1" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>retry_count_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a35897a3b0552d9fb3fecd10aea02804d" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>schema_collection_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a06411ff7b1f358f1659eff75d1c1a080" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>schema_field_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1af69bce6fdc0e838b096d129f8960a249" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>schema_type_info_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a3628986b702b666274fa67082a3c4d6b" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>setLineNumber</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a15fa258126ec3435cc9137d17086c683" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>setOperationType</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a3463f2a7c8d5793fadab4a8e57852e1f" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>setRecoverable</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a1b95ff463483f607e61bccf081568aee" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>setRetryCount</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a4f26a079d28d5a5f9bafb89882dbf311" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>setSchemaContext</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a35d295b275d45e032681cc27a1f56449" prot="public" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>setTokenPosition</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a5d38a07ccfd85653b2d5ea2be97bb664" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>timestamp_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_error_context_1a9eacc12530e8654fc4782cafde51ee80" prot="private" virt="non-virtual"><scope>themis::aql::AQLErrorContext</scope><name>token_position_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::ByzantineMockCoordinator</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a12520471c41949e0c4c106e93c01f5a9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::transaction::test::ByzantineMockCoordinator::participant_count_</definition>
+        <argsstring></argsstring>
+        <name>participant_count_</name>
+        <qualifiedname>themis::transaction::test::ByzantineMockCoordinator::participant_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="277" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a16b28dc3a8f0888b677725bc3d75abaf" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1transaction_1_1test_1a9f11f0e2bb4244a8957c2be8f73cfff7" kindref="member">PrepareVote</ref> &gt;</type>
+        <definition>std::vector&lt;PrepareVote&gt; themis::transaction::test::ByzantineMockCoordinator::votes_</definition>
+        <argsstring></argsstring>
+        <name>votes_</name>
+        <qualifiedname>themis::transaction::test::ByzantineMockCoordinator::votes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="278" column="17" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1ac3721de2ad4b2f57b242494835033c2a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::test::ByzantineMockCoordinator::ByzantineMockCoordinator</definition>
+        <argsstring>(int participant_count)</argsstring>
+        <name>ByzantineMockCoordinator</name>
+        <qualifiedname>themis::transaction::test::ByzantineMockCoordinator::ByzantineMockCoordinator</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>participant_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="236" column="14" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="236" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a467706dd150eb97798dc6532b527a335" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::ByzantineMockCoordinator::injectByzantineVotes</definition>
+        <argsstring>()</argsstring>
+        <name>injectByzantineVotes</name>
+        <qualifiedname>themis::transaction::test::ByzantineMockCoordinator::injectByzantineVotes</qualifiedname>
+        <briefdescription>
+<para>Inject Byzantine votes: participant_count/2 conflict pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="242" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="242" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a77e2040c13e73d0ff96b5c98d73d5228" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1_1test_1a8c8d713d5dac22cbe81bd762fb46b973" kindref="member">CommitResult</ref></type>
+        <definition>CommitResult themis::transaction::test::ByzantineMockCoordinator::decide</definition>
+        <argsstring>() const</argsstring>
+        <name>decide</name>
+        <qualifiedname>themis::transaction::test::ByzantineMockCoordinator::decide</qualifiedname>
+        <briefdescription>
+<para>Evaluate votes and return commit decision. Any BYZANTINE_CONFLICT vote must force abort (fail-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="254" column="18" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="254" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a6ee28ea6d598cd89e05762ca129487f6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::test::ByzantineMockCoordinator::hasByzantineVote</definition>
+        <argsstring>() const</argsstring>
+        <name>hasByzantineVote</name>
+        <qualifiedname>themis::transaction::test::ByzantineMockCoordinator::hasByzantineVote</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="264" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="264" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a607048d25cf23344738589c5938d8625" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="namespacethemis_1_1transaction_1_1test_1a9f11f0e2bb4244a8957c2be8f73cfff7" kindref="member">PrepareVote</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; PrepareVote &gt; &amp; themis::transaction::test::ByzantineMockCoordinator::votes</definition>
+        <argsstring>() const</argsstring>
+        <name>votes</name>
+        <qualifiedname>themis::transaction::test::ByzantineMockCoordinator::votes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="273" column="23" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="273" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1ae71df79efddbc2324421c700310ae951" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::transaction::test::ByzantineMockCoordinator::participantCount</definition>
+        <argsstring>() const</argsstring>
+        <name>participantCount</name>
+        <qualifiedname>themis::transaction::test::ByzantineMockCoordinator::participantCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="274" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="274" bodyend="274"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="234" column="1" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="234" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1ac3721de2ad4b2f57b242494835033c2a" prot="public" virt="non-virtual"><scope>themis::transaction::test::ByzantineMockCoordinator</scope><name>ByzantineMockCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a77e2040c13e73d0ff96b5c98d73d5228" prot="public" virt="non-virtual"><scope>themis::transaction::test::ByzantineMockCoordinator</scope><name>decide</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a6ee28ea6d598cd89e05762ca129487f6" prot="public" virt="non-virtual"><scope>themis::transaction::test::ByzantineMockCoordinator</scope><name>hasByzantineVote</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a467706dd150eb97798dc6532b527a335" prot="public" virt="non-virtual"><scope>themis::transaction::test::ByzantineMockCoordinator</scope><name>injectByzantineVotes</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a12520471c41949e0c4c106e93c01f5a9" prot="private" virt="non-virtual"><scope>themis::transaction::test::ByzantineMockCoordinator</scope><name>participant_count_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1ae71df79efddbc2324421c700310ae951" prot="public" virt="non-virtual"><scope>themis::transaction::test::ByzantineMockCoordinator</scope><name>participantCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a607048d25cf23344738589c5938d8625" prot="public" virt="non-virtual"><scope>themis::transaction::test::ByzantineMockCoordinator</scope><name>votes</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_byzantine_mock_coordinator_1a16b28dc3a8f0888b677725bc3d75abaf" prot="private" virt="non-virtual"><scope>themis::transaction::test::ByzantineMockCoordinator</scope><name>votes_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_dspy_signature" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::DspySignature</compoundname>
+    <includes refid="dspy__module_8h" local="no">dspy_module.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a487e23f009104dfbb738445ac13e5de5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DspySignature::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="140" column="26" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1ae9ead7ba7ad287a15b1aa60c5a9529c4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DspySignature::description_</definition>
+        <argsstring></argsstring>
+        <name>description_</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::description_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="141" column="26" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a8232705f5493e2ceaae50331210b6b07" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field" kindref="compound">DspyField</ref> &gt;</type>
+        <definition>std::vector&lt;DspyField&gt; themis::prompt_engineering::DspySignature::inputs_</definition>
+        <argsstring></argsstring>
+        <name>inputs_</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::inputs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="142" column="17" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1af7ee9f0648f76ed35812ef3cb5c6df15" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field" kindref="compound">DspyField</ref> &gt;</type>
+        <definition>std::vector&lt;DspyField&gt; themis::prompt_engineering::DspySignature::outputs_</definition>
+        <argsstring></argsstring>
+        <name>outputs_</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::outputs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="143" column="17" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::DspySignature::DspySignature</definition>
+        <argsstring>(std::string name, std::string description=&quot;&quot;)</argsstring>
+        <name>DspySignature</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::DspySignature</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct a named signature with a task description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Short identifier, e.g. &quot;SentimentAnalysis&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One-sentence description of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="93" column="5" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1aae9a455dcdcffb6e797e81adb20ae459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" kindref="member">DspySignature</ref> &amp;</type>
+        <definition>DspySignature &amp; themis::prompt_engineering::DspySignature::addInput</definition>
+        <argsstring>(DspyField field)</argsstring>
+        <name>addInput</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::addInput</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field" kindref="compound">DspyField</ref></type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Add an input field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Input.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="96" column="19" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1aed82834455e7787ab07da0fa4e9fcf65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" kindref="member">DspySignature</ref> &amp;</type>
+        <definition>DspySignature &amp; themis::prompt_engineering::DspySignature::addOutput</definition>
+        <argsstring>(DspyField field)</argsstring>
+        <name>addOutput</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::addOutput</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field" kindref="compound">DspyField</ref></type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Add an output field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Output.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="99" column="19" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a7593b23ef1690458b58ddc5733809802" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::prompt_engineering::DspySignature::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::getName</qualifiedname>
+        <briefdescription>
+<para>Return signature name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="102" column="23" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a18e8efccf806a7112148369989aba99a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::prompt_engineering::DspySignature::getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::getDescription</qualifiedname>
+        <briefdescription>
+<para>Return task description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="105" column="23" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a4e52ee7f00c3db701297c8c30de07898" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field" kindref="compound">DspyField</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; DspyField &gt; &amp; themis::prompt_engineering::DspySignature::inputs</definition>
+        <argsstring>() const</argsstring>
+        <name>inputs</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::inputs</qualifiedname>
+        <briefdescription>
+<para>Return all declared input fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="108" column="23" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1ac56b258cc0ed5d6fb94fc3ad9195b2f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field" kindref="compound">DspyField</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; DspyField &gt; &amp; themis::prompt_engineering::DspySignature::outputs</definition>
+        <argsstring>() const</argsstring>
+        <name>outputs</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::outputs</qualifiedname>
+        <briefdescription>
+<para>Return all declared output fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="111" column="23" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a1c5985134e6a39b4c86914351c26a5bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DspySignature::buildPrompt</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;context) const</argsstring>
+        <name>buildPrompt</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::buildPrompt</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Build the prompt string from a context map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Renders each input field as a labelled section and appends output field labels so the model knows what to produce.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map from field name → value string for each input. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when a required input field is missing. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="123" column="17" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="73" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a2ab15b85f8b5e8cf1ee6e8334c09bfd9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::prompt_engineering::DspySignature::parseResponse</definition>
+        <argsstring>(const std::string &amp;response) const</argsstring>
+        <name>parseResponse</name>
+        <qualifiedname>themis::prompt_engineering::DspySignature::parseResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Parse the model response into a field→value map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Looks for each output field label (&quot;FieldName:&quot;) in the response and extracts the text following it. Absent optional fields receive their <computeroutput>default_value</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw model response text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map from output field name → extracted value string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="136" column="24" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="111" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Declares the typed input→output contract of an LLM call. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A signature acts as a structured specification: callers describe which fields are inputs and which are outputs; the associated module builds the prompt from the inputs and extracts the outputs from the response.</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" kindref="member">DspySignature</ref><sp/>sig(</highlight><highlight class="stringliteral">&quot;SentimentAnalysis&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Classify<sp/>the<sp/>sentiment<sp/>of<sp/>the<sp/>given<sp/>text.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">sig.addInput<sp/>({</highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>text<sp/>to<sp/>classify.&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">sig.addOutput({</highlight><highlight class="stringliteral">&quot;sentiment&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;One<sp/>of:<sp/>positive,<sp/>negative,<sp/>neutral.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" kindref="member">DspyFieldType::STRING</ref>});</highlight></codeline>
+<codeline><highlight class="normal">sig.addOutput({</highlight><highlight class="stringliteral">&quot;confidence&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Confidence<sp/>score<sp/>between<sp/>0<sp/>and<sp/>1.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8ae738c26bf4ce1037fa81b039a915cbf6" kindref="member">DspyFieldType::FLOAT</ref>});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/dspy_module.h" line="86" column="1" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="86" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1aae9a455dcdcffb6e797e81adb20ae459" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>addInput</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1aed82834455e7787ab07da0fa4e9fcf65" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>addOutput</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a1c5985134e6a39b4c86914351c26a5bc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>buildPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1ae9ead7ba7ad287a15b1aa60c5a9529c4" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>description_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>DspySignature</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a18e8efccf806a7112148369989aba99a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>getDescription</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a7593b23ef1690458b58ddc5733809802" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>getName</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a4e52ee7f00c3db701297c8c30de07898" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>inputs</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a8232705f5493e2ceaae50331210b6b07" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>inputs_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a487e23f009104dfbb738445ac13e5de5" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>name_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1ac56b258cc0ed5d6fb94fc3ad9195b2f5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>outputs</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1af7ee9f0648f76ed35812ef3cb5c6df15" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>outputs_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a2ab15b85f8b5e8cf1ee6e8334c09bfd9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspySignature</scope><name>parseResponse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

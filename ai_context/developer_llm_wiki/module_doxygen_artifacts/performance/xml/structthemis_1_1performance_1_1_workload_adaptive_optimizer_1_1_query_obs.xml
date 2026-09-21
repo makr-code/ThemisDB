@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::WorkloadAdaptiveOptimizer::QueryObs</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a1269f4923be545c0ebcba4d8faacea7f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::WorkloadAdaptiveOptimizer::QueryObs::is_write</definition>
+        <argsstring></argsstring>
+        <name>is_write</name>
+        <qualifiedname>themis::performance::WorkloadAdaptiveOptimizer::QueryObs::is_write</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="216" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a6b75ed81354f086ed7b4a040ba7be636" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadAdaptiveOptimizer::QueryObs::complexity</definition>
+        <argsstring></argsstring>
+        <name>complexity</name>
+        <qualifiedname>themis::performance::WorkloadAdaptiveOptimizer::QueryObs::complexity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="217" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a0d47620c97a091bef6f219207d5eb97c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::WorkloadAdaptiveOptimizer::QueryObs::result_rows</definition>
+        <argsstring></argsstring>
+        <name>result_rows</name>
+        <qualifiedname>themis::performance::WorkloadAdaptiveOptimizer::QueryObs::result_rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="218" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a914b822922acd4b8eea383040744f186" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::WorkloadAdaptiveOptimizer::QueryObs::latency_us</definition>
+        <argsstring></argsstring>
+        <name>latency_us</name>
+        <qualifiedname>themis::performance::WorkloadAdaptiveOptimizer::QueryObs::latency_us</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="219" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a98530999a0301c86b99aa04147ffb1c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::WorkloadAdaptiveOptimizer::QueryObs::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::performance::WorkloadAdaptiveOptimizer::QueryObs::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="220" column="21" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/workload_adaptive_optimizer.h" line="215" column="5" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="215" bodyend="221"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a6b75ed81354f086ed7b4a040ba7be636" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadAdaptiveOptimizer::QueryObs</scope><name>complexity</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a1269f4923be545c0ebcba4d8faacea7f" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadAdaptiveOptimizer::QueryObs</scope><name>is_write</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a914b822922acd4b8eea383040744f186" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadAdaptiveOptimizer::QueryObs</scope><name>latency_us</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a0d47620c97a091bef6f219207d5eb97c" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadAdaptiveOptimizer::QueryObs</scope><name>result_rows</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_adaptive_optimizer_1_1_query_obs_1a98530999a0301c86b99aa04147ffb1c4" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadAdaptiveOptimizer::QueryObs</scope><name>table_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

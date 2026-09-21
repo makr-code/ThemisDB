@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_distributed_txn_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DistributedTxnConfig</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_txn_config_1ade8e987ecdcdff77fa4bd8e2f1705cf0" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::storage::DistributedTxnConfig::shard_key_separator</definition>
+        <argsstring></argsstring>
+        <name>shard_key_separator</name>
+        <qualifiedname>themis::storage::DistributedTxnConfig::shard_key_separator</qualifiedname>
+        <initializer>= &apos;:&apos;</initializer>
+        <briefdescription>
+<para>Key separator used to extract shard_id from &quot;shard_id:key&quot; notation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="144" column="10" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/distributed_transaction_manager.h" line="142" column="1" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="142" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_distributed_txn_config_1ade8e987ecdcdff77fa4bd8e2f1705cf0" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTxnConfig</scope><name>shard_key_separator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

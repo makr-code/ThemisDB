@@ -1,0 +1,497 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_legal_auto_labeler" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::LegalAutoLabeler</compoundname>
+    <includes refid="auto__labeler_8h" local="no">auto_labeler.h</includes>
+    <innerclass refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl" prot="public">themis::training::LegalAutoLabeler::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1a432f4b0b11fda96219808661e98a1df4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::training::LegalAutoLabeler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="227" column="21" bodyfile="include/training/auto_labeler.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1adf5e30f5db739bab004cc29a710c79e9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LegalAutoLabeler::LegalAutoLabeler</definition>
+        <argsstring>(const AutoLabelConfig &amp;config, const std::string &amp;db_connection, query::QueryEngine *engine=nullptr)</argsstring>
+        <name>LegalAutoLabeler</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::LegalAutoLabeler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_auto_label_config" kindref="compound">AutoLabelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_connection</declname>
+        </param>
+        <param>
+          <type>query::QueryEngine *</type>
+          <declname>engine</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct auto-labeler without a database connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Labeling configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db_connection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Database connection string (informational) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional AQL query engine; when non-null, <ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1a0334b48ef382456f03f24e887c40717c" kindref="member">labelAll()</ref> and <ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1a935ba811c4d5d117b1a3d604a1e07267" kindref="member">labelQuery()</ref> fetch document IDs from the database via AQL. Pass nullptr (the default) to operate in test/offline mode, where no documents are fetched from the database. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="157" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1a681a5f3d357285185b5b8cd9c9807378" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LegalAutoLabeler::~LegalAutoLabeler</definition>
+        <argsstring>()</argsstring>
+        <name>~LegalAutoLabeler</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::~LegalAutoLabeler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1a19b2afce4ea34bde09f20486f0f8cc5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LegalAutoLabeler::LegalAutoLabeler</definition>
+        <argsstring>(const LegalAutoLabeler &amp;)=delete</argsstring>
+        <name>LegalAutoLabeler</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::LegalAutoLabeler</qualifiedname>
+        <param>
+          <type>const LegalAutoLabeler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="164" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1a4d6481f170ba55149cb42ce0fb87b655" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1adf5e30f5db739bab004cc29a710c79e9" kindref="member">LegalAutoLabeler</ref> &amp;</type>
+        <definition>LegalAutoLabeler &amp; themis::training::LegalAutoLabeler::operator=</definition>
+        <argsstring>(const LegalAutoLabeler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1adf5e30f5db739bab004cc29a710c79e9" kindref="member">LegalAutoLabeler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="165" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1a0334b48ef382456f03f24e887c40717c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref></type>
+        <definition>LabelingStats themis::training::LegalAutoLabeler::labelAll</definition>
+        <argsstring>(LabelingCallback callback=nullptr)</argsstring>
+        <name>labelAll</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::labelAll</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa74730bdbe99bcd1d8f3268982e72465" kindref="member">LabelingCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Label all documents in source collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Label All.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional progress callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Labeling statistics</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements labelAll without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="172" column="19" bodyfile="src/training/auto_labeler.cpp" bodystart="866" bodyend="868"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1a6ee0eb4c3a9817a48bcdcc92a6118a95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt; TrainingSample &gt; themis::training::LegalAutoLabeler::labelDocument</definition>
+        <argsstring>(const std::string &amp;document_id)</argsstring>
+        <name>labelDocument</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::labelDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>Label a specific document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Label Document.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of generated training samples</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements labelDocument without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="179" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="876" bodyend="878"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1a935ba811c4d5d117b1a3d604a1e07267" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref></type>
+        <definition>LabelingStats themis::training::LegalAutoLabeler::labelQuery</definition>
+        <argsstring>(const std::string &amp;aql_query, LabelingCallback callback=nullptr)</argsstring>
+        <name>labelQuery</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::labelQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa74730bdbe99bcd1d8f3268982e72465" kindref="member">LabelingCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Label documents matching a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Label Query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AQL query to select documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional progress callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Labeling statistics</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements labelQuery without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="187" column="19" bodyfile="src/training/auto_labeler.cpp" bodystart="887" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1a3185d7589c3ed9d40f74b00b84f85406" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt; TrainingSample &gt; themis::training::LegalAutoLabeler::getLowConfidenceSamples</definition>
+        <argsstring>(float min_confidence=0.5f)</argsstring>
+        <name>getLowConfidenceSamples</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::getLowConfidenceSamples</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>min_confidence</declname>
+          <defval>0.5f</defval>
+        </param>
+        <briefdescription>
+<para>Get low-confidence samples for human review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Low Confidence Samples.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum confidence threshold </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of low-confidence samples</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getLowConfidenceSamples without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="195" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="898" bodyend="900"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1aa13e2a82a79bb248ff3b82a42599fcca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LegalAutoLabeler::updateSampleConfidence</definition>
+        <argsstring>(const std::string &amp;sample_id, float new_confidence, const std::string &amp;reviewed_by)</argsstring>
+        <name>updateSampleConfidence</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::updateSampleConfidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>new_confidence</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reviewed_by</declname>
+        </param>
+        <briefdescription>
+<para>Update sample confidence after human review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Sample Confidence.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Updated confidence score </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reviewed_by</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User who reviewed the sample</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sample. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewed_by</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateSampleConfidence without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="203" column="10" bodyfile="src/training/auto_labeler.cpp" bodystart="909" bodyend="913"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1a8c99b646649354fdbb1e1530b51b9317" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LegalAutoLabeler::registerDocument</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;text)</argsstring>
+        <name>registerDocument</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::registerDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Register a document text for offline/test-mode labeling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Document.</para>
+<para>When no QueryEngine is wired in, <computeroutput><ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1a6ee0eb4c3a9817a48bcdcc92a6118a95" kindref="member">labelDocument()</ref></computeroutput> and <computeroutput>fetchDocumentText()</computeroutput> look up documents registered here instead of falling back to a fixed hardcoded placeholder paragraph. This allows unit and integration tests to exercise the full NLP pipeline with controlled, per-document texts without requiring a live database.</para>
+<para>Documents registered via this method take precedence over the built-in hardcoded fallback text. They do not affect the AQL-backed code path: when a QueryEngine is present, the DB always wins.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primary key used to identify the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document body text.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerDocument without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="223" column="10" bodyfile="src/training/auto_labeler.cpp" bodystart="855" bodyend="858"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Legal document auto-labeler. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically labels legal documents using the Legal Modality Analyzer from PR #1. Creates training samples from documents by extracting legal modalities (modal verbs like &quot;muss&quot;, &quot;soll&quot;, &quot;kann&quot;) with deontic logic annotations.</para>
+<para>Integration with PR #1:<itemizedlist>
+<listitem><para>Uses NlpTextAnalyzer::extractLegalModalities() for modal verb detection</para>
+</listitem><listitem><para>Generates training samples with category, strength, and deontic logic</para>
+</listitem><listitem><para>Flags low-confidence samples for human review</para>
+</listitem></itemizedlist>
+</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">AutoLabelConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.source_collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;legal_documents&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.target_collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;legal_training_samples&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.language_code<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.min_confidence<sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1adf5e30f5db739bab004cc29a710c79e9" kindref="member">LegalAutoLabeler</ref><sp/>labeler(config,<sp/>db);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>labeler.labelAll();</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Created<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>stats.samples_created<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>training<sp/>samples\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/training/auto_labeler.h" line="146" column="1" bodyfile="include/training/auto_labeler.h" bodystart="146" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a3185d7589c3ed9d40f74b00b84f85406" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>getLowConfidenceSamples</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a432f4b0b11fda96219808661e98a1df4" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a0334b48ef382456f03f24e887c40717c" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>labelAll</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a6ee0eb4c3a9817a48bcdcc92a6118a95" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>labelDocument</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a935ba811c4d5d117b1a3d604a1e07267" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>labelQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1adf5e30f5db739bab004cc29a710c79e9" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>LegalAutoLabeler</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a19b2afce4ea34bde09f20486f0f8cc5c" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>LegalAutoLabeler</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a4d6481f170ba55149cb42ce0fb87b655" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a8c99b646649354fdbb1e1530b51b9317" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>registerDocument</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1aa13e2a82a79bb248ff3b82a42599fcca" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>updateSampleConfidence</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1a681a5f3d357285185b5b8cd9c9807378" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler</scope><name>~LegalAutoLabeler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

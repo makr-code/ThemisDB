@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_metadata_shard_test" kind="class" language="C++" prot="public">
+    <compoundname>MetadataShardTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_metadata_shard_test_1a87c7450d726fe0b96625eb8d88428aac" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; MetadataShard &gt;</type>
+        <definition>std::unique_ptr&lt;MetadataShard&gt; MetadataShardTest::shard</definition>
+        <argsstring></argsstring>
+        <name>shard</name>
+        <qualifiedname>MetadataShardTest::shard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="38" column="21" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_metadata_shard_test_1ae60109594ac2510b929a4bdb3e2208ce" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MetadataShardTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MetadataShardTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="12" column="10" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="12" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_metadata_shard_test_1a6b523ad5950a1a1930312b30972686bf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MetadataShardTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MetadataShardTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_shard.cpp" line="32" column="10" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MetadataShardTest</label>
+        <link refid="class_metadata_shard_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MetadataShardTest</label>
+        <link refid="class_metadata_shard_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_metadata_shard.cpp" line="10" column="1" bodyfile="tests/metadata/test_metadata_shard.cpp" bodystart="10" bodyend="39"/>
+    <listofallmembers>
+      <member refid="class_metadata_shard_test_1ae60109594ac2510b929a4bdb3e2208ce" prot="protected" virt="non-virtual"><scope>MetadataShardTest</scope><name>SetUp</name></member>
+      <member refid="class_metadata_shard_test_1a87c7450d726fe0b96625eb8d88428aac" prot="protected" virt="non-virtual"><scope>MetadataShardTest</scope><name>shard</name></member>
+      <member refid="class_metadata_shard_test_1a6b523ad5950a1a1930312b30972686bf" prot="protected" virt="non-virtual"><scope>MetadataShardTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,447 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="access__coordinator_8h" kind="file" language="C++">
+    <compoundname>access_coordinator.h</compoundname>
+    <includes refid="access__metrics_8h" local="yes">access_metrics.h</includes>
+    <includes refid="access__tier__interface_8h" local="yes">access_tier_interface.h</includes>
+    <includes refid="age__based__policy_8h" local="yes">age_based_policy.h</includes>
+    <includes refid="promotion__demotion_8h" local="yes">promotion_demotion.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">future</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__access__coordinator__gates_8cpp" local="yes">benchmarks/access_model/bench_access_coordinator_gates.cpp</includedby>
+    <includedby refid="access__coordinator_8cpp" local="yes">src/access_model/access_coordinator.cpp</includedby>
+    <includedby refid="test__access__coordinator_8cpp" local="yes">tests/access_model/test_access_coordinator.cpp</includedby>
+    <includedby refid="test__access__coordinator__focused_8cpp" local="yes">tests/access_model/test_access_coordinator_focused.cpp</includedby>
+    <includedby refid="test__access__model__e2e_8cpp" local="yes">tests/access_model/test_access_model_e2e.cpp</includedby>
+    <includedby refid="test__cache__storage__integration_8cpp" local="yes">tests/access_model/test_cache_storage_integration.cpp</includedby>
+    <includedby refid="test__coordination__concurrency_8cpp" local="yes">tests/access_model/test_coordination_concurrency.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/access_model/access_coordinator.h</label>
+        <link refid="access__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>access_metrics.h</label>
+        <link refid="access__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>access_tier_interface.h</label>
+        <link refid="access__tier__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>age_based_policy.h</label>
+        <link refid="age__based__policy_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>promotion_demotion.h</label>
+        <link refid="promotion__demotion_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>future</label>
+      </node>
+      <node id="11">
+        <label>limits</label>
+      </node>
+      <node id="18">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/access_model/bench_access_coordinator_gates.cpp</label>
+        <link refid="bench__access__coordinator__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/access_model/access_coordinator.h</label>
+        <link refid="access__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/access_model/access_coordinator.cpp</label>
+        <link refid="access__coordinator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/access_model/test_access_coordinator.cpp</label>
+        <link refid="test__access__coordinator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/access_model/test_access_coordinator_focused.cpp</label>
+        <link refid="test__access__coordinator__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/access_model/test_access_model_e2e.cpp</label>
+        <link refid="test__access__model__e2e_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/access_model/test_cache_storage_integration.cpp</label>
+        <link refid="test__cache__storage__integration_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/access_model/test_coordination_concurrency.cpp</label>
+        <link refid="test__coordination__concurrency_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1access__model_1_1_eviction_listener" prot="public">themis::access_model::EvictionListener</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_promotion_listener" prot="public">themis::access_model::PromotionListener</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_eviction_event" prot="public">themis::access_model::EvictionEvent</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_access_event" prot="public">themis::access_model::AccessEvent</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_promotion_result" prot="public">themis::access_model::PromotionResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_access_transition_event" prot="public">themis::access_model::AccessTransitionEvent</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator" prot="public">themis::access_model::AccessCoordinator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1access__model">themis::access_model</innernamespace>
+    <briefdescription>
+<para>Broker for cache↔storage promotion/demotion coordination. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB | File: <ref refid="access__coordinator_8h" kindref="compound">access_coordinator.h</ref> | Version: 2.0.0 Maturity: 🟡 ALPHA (Phase 2 Implementation) | Status: Active development Author: Copilot | Date: 2026-08-03</para>
+<para>The <computeroutput>AccessCoordinator</computeroutput> is the central broker that manages tier transitions between cache and storage tiers. It receives eviction events from cache, access patterns from storage, and applies unified aging policies to make promotion/demotion decisions.</para>
+<para><bold>Listener vs. Coordinator design:</bold><itemizedlist>
+<listitem><para><computeroutput>EvictionListener</computeroutput> / <computeroutput>PromotionListener</computeroutput> are thin interfaces used by cache and storage modules to emit raw events.</para>
+</listitem><listitem><para><computeroutput>AccessCoordinator</computeroutput> is the full coordinator that receives structured events (<computeroutput>EvictionEvent</computeroutput>, <computeroutput>AccessEvent</computeroutput>) and drives tier transitions.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="access__tier__interface_8h" kindref="compound">include/access_model/access_tier_interface.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="promotion__demotion_8h" kindref="compound">include/access_model/promotion_demotion.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="access__metrics_8h" kindref="compound">include/access_model/access_metrics.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>docs/architecture/UNIFIED_ACCESS_MODEL.md </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="access__metrics_8h" kindref="compound">access_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="access__tier__interface_8h" kindref="compound">access_tier_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="age__based__policy_8h" kindref="compound">age_based_policy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="promotion__demotion_8h" kindref="compound">promotion_demotion.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1access__model" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1access__model" kindref="compound">access_model</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Thin<sp/>Event-Listener<sp/>Interfaces<sp/>(used<sp/>by<sp/>cache<sp/>&amp;<sp/>storage<sp/>modules)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1access__model_1_1_eviction_listener" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_eviction_listener" kindref="compound">EvictionListener</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1access__model_1_1_eviction_listener_1a3536eae60f4a501024cc42ca6f2536d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_eviction_listener_1a3536eae60f4a501024cc42ca6f2536d5" kindref="member">~EvictionListener</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1access__model_1_1_eviction_listener_1a7c1cdcf83d38ad2abe48d299f982bc32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_eviction_listener_1a7c1cdcf83d38ad2abe48d299f982bc32" kindref="member">onCacheEvicted</ref>(std::string_view<sp/>key,<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>from_tier,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>size_bytes,<sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>last_access_age_secs,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>eviction_reason)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1access__model_1_1_promotion_listener" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_promotion_listener" kindref="compound">PromotionListener</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1access__model_1_1_promotion_listener_1a0aaa9a0366a07b9cc12076e9475c7fa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_promotion_listener_1a0aaa9a0366a07b9cc12076e9475c7fa6" kindref="member">~PromotionListener</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1access__model_1_1_promotion_listener_1a590e1bb318d639fb7fc774ff29b833da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_promotion_listener_1a590e1bb318d639fb7fc774ff29b833da" kindref="member">onStorageAccess</ref>(std::string_view<sp/>key,<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>from_tier,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>access_window)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Structured<sp/>Event<sp/>Types<sp/>(used<sp/>by<sp/>AccessCoordinator<sp/>internal<sp/>interface)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1access__model_1_1_eviction_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_eviction_event" kindref="compound">EvictionEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1access__model_1_1_eviction_event_1a89e925cd4750f4f97330deb517a95fdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event_1a89e925cd4750f4f97330deb517a95fdc" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1access__model_1_1_eviction_event_1a640c80c0cc37d6c763832d48084cda0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event_1a640c80c0cc37d6c763832d48084cda0f" kindref="member">tier</ref><sp/>=<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1access__model_1_1_eviction_event_1a28b507f09007bcb8735f192def7facab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event_1a28b507f09007bcb8735f192def7facab" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1access__model_1_1_eviction_event_1a2a36feb1b6667db49902817c0e36661b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event_1a2a36feb1b6667db49902817c0e36661b" kindref="member">evicted_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1access__model_1_1_eviction_event_1a8b83f7cf8bba8c4be7f0498e822a6250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event_1a8b83f7cf8bba8c4be7f0498e822a6250" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1access__model_1_1_eviction_event_1a553f583bb983e10f06e8850ab4d598dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event_1a553f583bb983e10f06e8850ab4d598dd" kindref="member">last_access_age_secs</ref>{0};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1access__model_1_1_eviction_event_1aef1c79c1f12f27df6383fbbf218e0161" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event_1aef1c79c1f12f27df6383fbbf218e0161" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1access__model_1_1_access_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_access_event" kindref="compound">AccessEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1access__model_1_1_access_event_1a6d4472d32caf1f2f14e130f93b9372f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_access_event_1a6d4472d32caf1f2f14e130f93b9372f0" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1access__model_1_1_access_event_1a471787517e77f4af804ab87dc3a5018d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_access_event_1a471787517e77f4af804ab87dc3a5018d" kindref="member">current_tier</ref><sp/>=<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1access__model_1_1_access_event_1a9e4a9feb48e0f0acadb45e8da656264a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_access_event_1a9e4a9feb48e0f0acadb45e8da656264a" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1access__model_1_1_access_event_1ab4ba550a084c5969cc3f5938148ad9af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1access__model_1_1_access_event_1ab4ba550a084c5969cc3f5938148ad9af" kindref="member">access_window</ref>{86400};<sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>24<sp/>hours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1access__model_1_1_access_event_1ac777350145c09b1c65ed8e70d8e4bc4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_access_event_1ac777350145c09b1c65ed8e70d8e4bc4b" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1access__model_1_1_promotion_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_promotion_result" kindref="compound">PromotionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1access__model_1_1_promotion_result_1aabc90cb61bc3e2fbf9137775504c4ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_promotion_result_1aabc90cb61bc3e2fbf9137775504c4ccd" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1access__model_1_1_promotion_result_1a4afcfe2f7015e2ca5e09b40569ce3594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_promotion_result_1a4afcfe2f7015e2ca5e09b40569ce3594" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1access__model_1_1_promotion_result_1a550380cdc56c497dbd2f21371de72e9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1access__model_1_1_promotion_result_1a550380cdc56c497dbd2f21371de72e9b" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1access__model_1_1_promotion_result_1a49126a4f81ac463d5d6ff507bc6aa22e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_promotion_result_1a49126a4f81ac463d5d6ff507bc6aa22e" kindref="member">from_tier</ref><sp/>=<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1access__model_1_1_promotion_result_1a5d22abbdd9f4fc4841be77b4bd3bc0e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_promotion_result_1a5d22abbdd9f4fc4841be77b4bd3bc0e6" kindref="member">to_tier</ref><sp/>=<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1access__model_1_1_promotion_result_1a9d6d3a50edbce41f353dbcb538f0b672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1access__model_1_1_promotion_result_1a9d6d3a50edbce41f353dbcb538f0b672" kindref="member">total_latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1access__model_1_1_promotion_result_1a48863d9cafad525ed152c5b66406aba9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_promotion_result_1a48863d9cafad525ed152c5b66406aba9" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1access__model_1_1_promotion_result_1a7b9cae1380d590157a380c90d8575d2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1access__model_1_1_promotion_result_1a7b9cae1380d590157a380c90d8575d2b" kindref="member">completed_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1access__model_1_1_access_transition_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_access_transition_event" kindref="compound">AccessTransitionEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1access__model_1_1_access_transition_event_1a13ad0d5de26caf047101fc297666a004" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1a13ad0d5de26caf047101fc297666a004" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1access__model_1_1_access_transition_event_1a8341e04f98576512e463f72d9ac5b99e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1a8341e04f98576512e463f72d9ac5b99e" kindref="member">from_tier</ref><sp/>=<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1access__model_1_1_access_transition_event_1aabec7cdc299fab4e9fb57ca88b472709" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1aabec7cdc299fab4e9fb57ca88b472709" kindref="member">to_tier</ref><sp/>=<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1access__model_1_1_access_transition_event_1a395c1e52442d0f0e58c79d7ea7cbbef7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1a395c1e52442d0f0e58c79d7ea7cbbef7" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1access__model_1_1_access_transition_event_1a24dc0538da9ed07e692b32c7873f8ef0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1a24dc0538da9ed07e692b32c7873f8ef0" kindref="member">timestamp</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1access__model_1_1_access_transition_event_1a8c688a1d4696276e520041d743a5b9ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1a8c688a1d4696276e520041d743a5b9ae" kindref="member">latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1access__model_1_1_access_transition_event_1a52f21d413fc95c45134cb4b030ba1974" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1a52f21d413fc95c45134cb4b030ba1974" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1access__model_1_1_access_transition_event_1a1a580e58de1093c2132860b10f8daae3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1a1a580e58de1093c2132860b10f8daae3" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1access__model_1_1_access_transition_event_1aa773f4f0711cfabb51e23a07452b52a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_access_transition_event_1aa773f4f0711cfabb51e23a07452b52a4" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>AccessCoordinator<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1access__model_1_1_access_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1access__model_1_1_access_coordinator" kindref="compound">AccessCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1access__model_1_1_access_coordinator_1a27b302a8d3d89ef5461d9d8f7bf2752c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a27b302a8d3d89ef5461d9d8f7bf2752c" kindref="member">~AccessCoordinator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1access__model_1_1_access_coordinator_1afe2994aa5dab3795934842a83d333b7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1afe2994aa5dab3795934842a83d333b7c" kindref="member">initialize</ref>(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;<ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref>,<sp/>std::shared_ptr&lt;AccessTier&gt;&gt;&amp;<sp/>all_tiers)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1access__model_1_1_access_coordinator_1a6017311d0764657ddf6e9873496b715b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a6017311d0764657ddf6e9873496b715b" kindref="member">start</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1access__model_1_1_access_coordinator_1a4b19eb69cdd40271a864854934ef79a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a4b19eb69cdd40271a864854934ef79a0" kindref="member">shutdown</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1access__model_1_1_access_coordinator_1a21e0f47c8dca2cfe919659052b998614" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a21e0f47c8dca2cfe919659052b998614" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1access__model_1_1_access_coordinator_1a9cd6ca0f93c846cd5ad947af7f5c136c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a9cd6ca0f93c846cd5ad947af7f5c136c" kindref="member">onEviction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event" kindref="compound">EvictionEvent</ref>&amp;<sp/>event)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1access__model_1_1_access_coordinator_1af52b3b40c90cc09511b5bea508b36be2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1af52b3b40c90cc09511b5bea508b36be2" kindref="member">onHotAccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_access_event" kindref="compound">AccessEvent</ref>&amp;<sp/>event)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1access__model_1_1_access_coordinator_1a2eab886edde9554441ef6c23575600b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a2eab886edde9554441ef6c23575600b6" kindref="member">onCacheEvicted</ref>(std::string_view<sp/>key,<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>from_tier,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>size_bytes,<sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>last_access_age_secs,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>eviction_reason)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_eviction_event" kindref="compound">EvictionEvent</ref><sp/>event;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.<ref refid="structthemis_1_1access__model_1_1_eviction_event_1a89e925cd4750f4f97330deb517a95fdc" kindref="member">key</ref><sp/>=<sp/>std::string(key);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.tier<sp/>=<sp/>from_tier;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.reason<sp/>=<sp/>std::string(eviction_reason);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.evicted_size_bytes<sp/>=<sp/>size_bytes;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.access_count<sp/>=<sp/>access_count;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.last_access_age_secs<sp/>=<sp/>last_access_age_secs;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a9cd6ca0f93c846cd5ad947af7f5c136c" kindref="member">onEviction</ref>(event);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1access__model_1_1_access_coordinator_1aa4127dad733e9cf2a960f3b903b6e40b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1aa4127dad733e9cf2a960f3b903b6e40b" kindref="member">onStorageAccess</ref>(std::string_view<sp/>key,<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>from_tier,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>access_window)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_access_event" kindref="compound">AccessEvent</ref><sp/>event;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.<ref refid="structthemis_1_1access__model_1_1_access_event_1a6d4472d32caf1f2f14e130f93b9372f0" kindref="member">key</ref><sp/>=<sp/>std::string(key);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.current_tier<sp/>=<sp/>from_tier;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.access_count<sp/>=<sp/>access_count;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.access_window<sp/>=<sp/>access_window;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1af52b3b40c90cc09511b5bea508b36be2" kindref="member">onHotAccess</ref>(event);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1access__model_1_1_access_coordinator_1ad0ff1920ed76c77dd9c6f70bbd2b047d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1ad0ff1920ed76c77dd9c6f70bbd2b047d" kindref="member">setAgePolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy" kindref="compound">AgeBasedPolicy</ref>&amp;<sp/>policy)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1access__model_1_1_access_coordinator_1aa2ac3a732e099f93f2b8614419958c67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1aa2ac3a732e099f93f2b8614419958c67" kindref="member">setPromotionThresholds</ref>(uint64_t<sp/>cache_threshold,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>storage_threshold)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="classthemis_1_1access__model_1_1_access_coordinator_1ae8971cc44541a74020ff39ac81663ecd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;PromotionResult&gt;<sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1ae8971cc44541a74020ff39ac81663ecd" kindref="member">promoteAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>from_tier,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>to_tier,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>size_bytes)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1access__model_1_1_access_coordinator_1ae703dd886f984b8b2339785807ef345c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;DemotionPlan&gt;<sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1ae703dd886f984b8b2339785807ef345c" kindref="member">planDemotion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>from_tier,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>to_tier,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>data_size_bytes)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296" refid="classthemis_1_1access__model_1_1_access_coordinator_1a2ced68a9ad581ce5d3888388757ac808" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;DemotionResult&gt;<sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a2ced68a9ad581ce5d3888388757ac808" kindref="member">executeDemotion</ref>(</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plan_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="classthemis_1_1access__model_1_1_access_coordinator_1a77afe771848c00a7f2efabf2aa8b744a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_access_metrics" kindref="compound">AccessMetrics</ref><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a77afe771848c00a7f2efabf2aa8b744a" kindref="member">getKeyMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312" refid="classthemis_1_1access__model_1_1_access_coordinator_1a54b94bdacdf60c18026499d4d0757264" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_access_metrics" kindref="compound">AccessMetrics</ref><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a54b94bdacdf60c18026499d4d0757264" kindref="member">getTierMetrics</ref>(<ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>tier_level)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="classthemis_1_1access__model_1_1_access_coordinator_1a0a5ffae120c1e90d8618e942880e5836" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_model_metrics" kindref="compound">AccessModelMetrics</ref><sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a0a5ffae120c1e90d8618e942880e5836" kindref="member">getAccessModelMetrics</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320" refid="classthemis_1_1access__model_1_1_access_coordinator_1a2f2b17613f43220e405a11e8da804a34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;AccessTransitionEvent&gt;<sp/><ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a2f2b17613f43220e405a11e8da804a34" kindref="member">getRecentTransitions</ref>(</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>limit<sp/>=<sp/>100)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Factory<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328" refid="namespacethemis_1_1access__model_1a69604678d6a13ced9a8332dbcc0a3145" refkind="member"><highlight class="normal">std::shared_ptr&lt;AccessCoordinator&gt;<sp/><ref refid="namespacethemis_1_1access__model_1a69604678d6a13ced9a8332dbcc0a3145" kindref="member">createAccessCoordinator</ref>(</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>thread_pool_size<sp/>=<sp/>4);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>access_model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/access_model/access_coordinator.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_api_security_audit_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ApiSecurityAuditReport</compoundname>
+    <includes refid="api__security__audit_8h" local="no">api_security_audit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_report_1aea13fbca380aabe4d25e3906ee7165bb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_api_security_audit_finding" kindref="compound">ApiSecurityAuditFinding</ref> &gt;</type>
+        <definition>std::vector&lt;ApiSecurityAuditFinding&gt; themis::server::ApiSecurityAuditReport::findings</definition>
+        <argsstring></argsstring>
+        <name>findings</name>
+        <qualifiedname>themis::server::ApiSecurityAuditReport::findings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="39" column="17" bodyfile="include/server/api_security_audit.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_report_1a39dc419d871099c93aca78caa02e9f1c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ApiSecurityAuditReport::critical_count</definition>
+        <argsstring></argsstring>
+        <name>critical_count</name>
+        <qualifiedname>themis::server::ApiSecurityAuditReport::critical_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="41" column="14" bodyfile="include/server/api_security_audit.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_report_1a04450386582d6f150286bb97fdb5e387" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ApiSecurityAuditReport::high_count</definition>
+        <argsstring></argsstring>
+        <name>high_count</name>
+        <qualifiedname>themis::server::ApiSecurityAuditReport::high_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="42" column="14" bodyfile="include/server/api_security_audit.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_report_1aa194ec66ed92edb8f5fe743bbe897731" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ApiSecurityAuditReport::medium_count</definition>
+        <argsstring></argsstring>
+        <name>medium_count</name>
+        <qualifiedname>themis::server::ApiSecurityAuditReport::medium_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="43" column="14" bodyfile="include/server/api_security_audit.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_report_1ae7d8bfd9356413e0d7d9b67176ef64b5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ApiSecurityAuditReport::low_count</definition>
+        <argsstring></argsstring>
+        <name>low_count</name>
+        <qualifiedname>themis::server::ApiSecurityAuditReport::low_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="44" column="14" bodyfile="include/server/api_security_audit.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_report_1a44361819ad9192608d429483eafa8855" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ApiSecurityAuditReport::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::server::ApiSecurityAuditReport::passed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="46" column="10" bodyfile="include/server/api_security_audit.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_security_audit.h" line="38" column="1" bodyfile="include/server/api_security_audit.h" bodystart="38" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_report_1a39dc419d871099c93aca78caa02e9f1c" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditReport</scope><name>critical_count</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_report_1aea13fbca380aabe4d25e3906ee7165bb" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditReport</scope><name>findings</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_report_1a04450386582d6f150286bb97fdb5e387" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditReport</scope><name>high_count</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_report_1ae7d8bfd9356413e0d7d9b67176ef64b5" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditReport</scope><name>low_count</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_report_1aa194ec66ed92edb8f5fe743bbe897731" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditReport</scope><name>medium_count</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_report_1a44361819ad9192608d429483eafa8855" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditReport</scope><name>passed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUBatch</compoundname>
+    <includes refid="gpu__data__loader_8h" local="no">gpu_data_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1aff484680c8f9082a924fb110252843a3" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUBatch::input_ids</definition>
+        <argsstring></argsstring>
+        <name>input_ids</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::input_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="35" column="15" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1af04c745b0634ecaa34171727f463c134" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUBatch::attention_mask</definition>
+        <argsstring></argsstring>
+        <name>attention_mask</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::attention_mask</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="36" column="15" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a8672b86eee858d6fb6e3a15f7c8c2b17" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPUBatch::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="37" column="15" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a1aacdc1b8c2afd3e4bb95abf67c18b87" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUBatch::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="38" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a0102c8e12ee3c6bb22545bcfacd77b10" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUBatch::seq_len</definition>
+        <argsstring></argsstring>
+        <name>seq_len</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::seq_len</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="39" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUBatch::GPUBatch</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUBatch</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::GPUBatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="29" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ad6ef665eda80f25653313b54a243ef25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUBatch::~GPUBatch</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUBatch</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::~GPUBatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ab36894add062c84ae758b877cb2ef4ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUBatch::GPUBatch</definition>
+        <argsstring>(const GPUBatch &amp;)=delete</argsstring>
+        <name>GPUBatch</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::GPUBatch</qualifiedname>
+        <param>
+          <type>const GPUBatch &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="31" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a5c9c4e1e83e72b7b8fd6022e2c769605" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref> &amp;</type>
+        <definition>GPUBatch &amp; themis::llm::lora::GPUBatch::operator=</definition>
+        <argsstring>(const GPUBatch &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="32" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ad90ae83c715902a8c7460d56a85d3d26" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUBatch::GPUBatch</definition>
+        <argsstring>(GPUBatch &amp;&amp;) noexcept=default</argsstring>
+        <name>GPUBatch</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::GPUBatch</qualifiedname>
+        <param>
+          <type>GPUBatch &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1af30001832b3f253ac2b034bda963872a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref> &amp;</type>
+        <definition>GPUBatch &amp; themis::llm::lora::GPUBatch::operator=</definition>
+        <argsstring>(GPUBatch &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" kindref="member">GPUBatch</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="34" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a2d3c8627d83223b3fe3c195e2576f6ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUBatch::is_valid</definition>
+        <argsstring>() const</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::llm::lora::GPUBatch::is_valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="41" column="10" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="41" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::GPUBatch</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>attention_mask</edgelabel>
+          <edgelabel>input_ids</edgelabel>
+          <edgelabel>labels</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::GPUTensor</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/gpu_data_loader.h" line="28" column="1" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="28" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1af04c745b0634ecaa34171727f463c134" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>attention_mask</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a1aacdc1b8c2afd3e4bb95abf67c18b87" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a22b5b447509b8449d0e2b9c25efe4b70" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>GPUBatch</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ab36894add062c84ae758b877cb2ef4ad" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>GPUBatch</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ad90ae83c715902a8c7460d56a85d3d26" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>GPUBatch</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1aff484680c8f9082a924fb110252843a3" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>input_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a2d3c8627d83223b3fe3c195e2576f6ca" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a8672b86eee858d6fb6e3a15f7c8c2b17" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>labels</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a5c9c4e1e83e72b7b8fd6022e2c769605" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1af30001832b3f253ac2b034bda963872a" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1a0102c8e12ee3c6bb22545bcfacd77b10" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>seq_len</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch_1ad6ef665eda80f25653313b54a243ef25" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUBatch</scope><name>~GPUBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

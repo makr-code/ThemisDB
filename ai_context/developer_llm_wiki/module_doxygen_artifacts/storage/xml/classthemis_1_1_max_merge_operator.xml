@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_max_merge_operator" kind="class" language="C++" prot="public">
+    <compoundname>themis::MaxMergeOperator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">rocksdb::AssociativeMergeOperator</basecompoundref>
+    <includes refid="merge__operators_8h" local="no">merge_operators.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_max_merge_operator_1af459ee93a5fa300de8ab8d542702963c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::MaxMergeOperator::Merge</definition>
+        <argsstring>(const rocksdb::Slice &amp;key, const rocksdb::Slice *existing_value, const rocksdb::Slice &amp;value, std::string *new_value, rocksdb::Logger *logger) const override</argsstring>
+        <name>Merge</name>
+        <qualifiedname>themis::MaxMergeOperator::Merge</qualifiedname>
+        <param>
+          <type>const rocksdb::Slice &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const rocksdb::Slice *</type>
+          <declname>existing_value</declname>
+        </param>
+        <param>
+          <type>const rocksdb::Slice &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>new_value</declname>
+        </param>
+        <param>
+          <type>rocksdb::Logger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/merge_operators.h" line="73" column="10" bodyfile="src/storage/merge_operators.cpp" bodystart="155" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_max_merge_operator_1addcee742eb9f01efb7a283bb096719b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::MaxMergeOperator::Name</definition>
+        <argsstring>() const override</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::MaxMergeOperator::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/merge_operators.h" line="79" column="16" bodyfile="include/storage/merge_operators.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_max_merge_operator" kindref="compound">MaxMergeOperator</ref> - Keep maximum numeric value Use Case: Track maximum values efficiently Example: &quot;max:temperature:25.5&quot; + &quot;max:temperature:26.3&quot; → &quot;26.3&quot; </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>rocksdb::AssociativeMergeOperator</label>
+      </node>
+      <node id="1">
+        <label>themis::MaxMergeOperator</label>
+        <link refid="classthemis_1_1_max_merge_operator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>rocksdb::AssociativeMergeOperator</label>
+      </node>
+      <node id="1">
+        <label>themis::MaxMergeOperator</label>
+        <link refid="classthemis_1_1_max_merge_operator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/merge_operators.h" line="71" column="1" bodyfile="include/storage/merge_operators.h" bodystart="71" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_max_merge_operator_1af459ee93a5fa300de8ab8d542702963c" prot="public" virt="non-virtual"><scope>themis::MaxMergeOperator</scope><name>Merge</name></member>
+      <member refid="classthemis_1_1_max_merge_operator_1addcee742eb9f01efb7a283bb096719b2" prot="public" virt="non-virtual"><scope>themis::MaxMergeOperator</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

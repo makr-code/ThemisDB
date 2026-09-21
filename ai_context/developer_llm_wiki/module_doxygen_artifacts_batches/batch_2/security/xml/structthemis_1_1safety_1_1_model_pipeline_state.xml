@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1safety_1_1_model_pipeline_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::safety::ModelPipelineState</compoundname>
+    <includes refid="move__safety__helpers_8h" local="no">move_safety_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_model_pipeline_state_1aac65ffb7168abc3923bd5a23062d53e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::ModelPipelineState::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::safety::ModelPipelineState::model_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="258" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_model_pipeline_state_1af518162a7cb71b367accd0f4770cd350" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::ModelPipelineState::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::safety::ModelPipelineState::model_name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="259" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_model_pipeline_state_1abea102cd1fd8326f03eefd774ed17fad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::safety::ModelPipelineState::parameter_count</definition>
+        <argsstring></argsstring>
+        <name>parameter_count</name>
+        <qualifiedname>themis::safety::ModelPipelineState::parameter_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="260" column="12" bodyfile="include/security/move_safety_helpers.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_model_pipeline_state_1a9618756b5a9f9625cb1f2b4022fae1b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::ModelPipelineState::device</definition>
+        <argsstring></argsstring>
+        <name>device</name>
+        <qualifiedname>themis::safety::ModelPipelineState::device</qualifiedname>
+        <initializer>= &quot;cpu&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="261" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_model_pipeline_state_1a92d5e3fb70767c27ce28e5d88c37649c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::safety::ModelPipelineState::is_loaded</definition>
+        <argsstring></argsstring>
+        <name>is_loaded</name>
+        <qualifiedname>themis::safety::ModelPipelineState::is_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="262" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1safety_1_1_model_pipeline_state_1a887d354183b285e33ce95cb51fc83f7d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::safety::ModelPipelineState::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::safety::ModelPipelineState::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="264" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="264" bodyend="266"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1safety_1_1_model_pipeline_state" kindref="compound">ModelPipelineState</ref> - Safe reference to model after move. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures model metadata before move through pipeline stages Uses shared_ptr for shared ownership across stages </para>
+    </detaileddescription>
+    <location file="include/security/move_safety_helpers.h" line="257" column="1" bodyfile="include/security/move_safety_helpers.h" bodystart="257" bodyend="267"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1safety_1_1_model_pipeline_state_1a9618756b5a9f9625cb1f2b4022fae1b4" prot="public" virt="non-virtual"><scope>themis::safety::ModelPipelineState</scope><name>device</name></member>
+      <member refid="structthemis_1_1safety_1_1_model_pipeline_state_1a92d5e3fb70767c27ce28e5d88c37649c" prot="public" virt="non-virtual"><scope>themis::safety::ModelPipelineState</scope><name>is_loaded</name></member>
+      <member refid="structthemis_1_1safety_1_1_model_pipeline_state_1a887d354183b285e33ce95cb51fc83f7d" prot="public" virt="non-virtual"><scope>themis::safety::ModelPipelineState</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1safety_1_1_model_pipeline_state_1aac65ffb7168abc3923bd5a23062d53e3" prot="public" virt="non-virtual"><scope>themis::safety::ModelPipelineState</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1safety_1_1_model_pipeline_state_1af518162a7cb71b367accd0f4770cd350" prot="public" virt="non-virtual"><scope>themis::safety::ModelPipelineState</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1safety_1_1_model_pipeline_state_1abea102cd1fd8326f03eefd774ed17fad" prot="public" virt="non-virtual"><scope>themis::safety::ModelPipelineState</scope><name>parameter_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

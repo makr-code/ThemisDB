@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig</compoundname>
+    <includes refid="jaeger__tracer__adapter_8h" local="no">jaeger_tracer_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config_1ad65e294976201be2dbdc1acb2ace039a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="33" column="16" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config_1aa2139e7227da470930a1f6aee274a7a5" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig::timeout</qualifiedname>
+        <initializer>= std::chrono::seconds(30)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="34" column="30" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config_1a4e6d8f229327f10eeccefb2ff5fdf88c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig::success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="35" column="16" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/jaeger_tracer_adapter.h" line="32" column="5" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="32" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config_1ad65e294976201be2dbdc1acb2ace039a" prot="public" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config_1a4e6d8f229327f10eeccefb2ff5fdf88c" prot="public" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig</scope><name>success_threshold</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config_1aa2139e7227da470930a1f6aee274a7a5" prot="public" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

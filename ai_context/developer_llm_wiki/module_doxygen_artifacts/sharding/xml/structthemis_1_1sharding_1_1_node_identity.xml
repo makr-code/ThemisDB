@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_node_identity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::NodeIdentity</compoundname>
+    <includes refid="hardware__migration__manager_8h" local="no">hardware_migration_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_node_identity_1a94191b5bc88cc46d3779d6570620ec49" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::NodeIdentity::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::NodeIdentity::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="52" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_node_identity_1a09250de4a65455cf741c6138f6b986d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::NodeIdentity::cluster_name</definition>
+        <argsstring></argsstring>
+        <name>cluster_name</name>
+        <qualifiedname>themis::sharding::NodeIdentity::cluster_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="53" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_node_identity_1a98e82ebfd82e587190b6724885494332" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::NodeIdentity::token_start</definition>
+        <argsstring></argsstring>
+        <name>token_start</name>
+        <qualifiedname>themis::sharding::NodeIdentity::token_start</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="54" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_node_identity_1ade68300d9ecd4dcd6ed612bb863acc32" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::NodeIdentity::token_end</definition>
+        <argsstring></argsstring>
+        <name>token_end</name>
+        <qualifiedname>themis::sharding::NodeIdentity::token_end</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="55" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_node_identity_1a68d4e924ef5ea19bcc1a633ac79eb61e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::NodeIdentity::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::sharding::NodeIdentity::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="56" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_node_identity_1ae853169dcc6381b1f4f7361742a7373e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::NodeIdentity::identity_version</definition>
+        <argsstring></argsstring>
+        <name>identity_version</name>
+        <qualifiedname>themis::sharding::NodeIdentity::identity_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="57" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_node_identity_1ac53b40c465431944f0c65ccdc6f39da9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::NodeIdentity::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::sharding::NodeIdentity::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Serialise identity to JSON string (written to the identity file). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="60" column="17" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="55" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_node_identity_1a5fe15fe1998bc9c21fd611169842b1c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::NodeIdentity::saveTo</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>saveTo</name>
+        <qualifiedname>themis::sharding::NodeIdentity::saveTo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Write identity to file. Returns false and logs on error. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>P. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ofs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+To Json. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="66" column="10" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="94" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_node_identity_1a4861c2d83106fc2f26e037b788f9e077" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_node_identity" kindref="compound">NodeIdentity</ref> &gt;</type>
+        <definition>std::optional&lt; NodeIdentity &gt; themis::sharding::NodeIdentity::fromJson</definition>
+        <argsstring>(const std::string &amp;json)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::sharding::NodeIdentity::fromJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialise identity from a JSON string; returns nullopt on parse error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), value(), empty(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="63" column="26" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="73" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_node_identity_1a79119cae8f224e8f106e8a52613d0d66" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_node_identity" kindref="compound">NodeIdentity</ref> &gt;</type>
+        <definition>std::optional&lt; NodeIdentity &gt; themis::sharding::NodeIdentity::loadFrom</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFrom</name>
+        <qualifiedname>themis::sharding::NodeIdentity::loadFrom</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load From. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load identity from file. Returns nullopt if file absent or invalid.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ifs(), is_open(), content(), <ref refid="structthemis_1_1sharding_1_1_node_identity_1a4861c2d83106fc2f26e037b788f9e077" kindref="member">fromJson()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="69" column="26" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="134" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/hardware_migration_manager.h" line="51" column="1" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="51" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1a09250de4a65455cf741c6138f6b986d0" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>cluster_name</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1a68d4e924ef5ea19bcc1a633ac79eb61e" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1a4861c2d83106fc2f26e037b788f9e077" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1ae853169dcc6381b1f4f7361742a7373e" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>identity_version</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1a79119cae8f224e8f106e8a52613d0d66" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>loadFrom</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1a5fe15fe1998bc9c21fd611169842b1c5" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>saveTo</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1a94191b5bc88cc46d3779d6570620ec49" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1ac53b40c465431944f0c65ccdc6f39da9" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1ade68300d9ecd4dcd6ed612bb863acc32" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>token_end</name></member>
+      <member refid="structthemis_1_1sharding_1_1_node_identity_1a98e82ebfd82e587190b6724885494332" prot="public" virt="non-virtual"><scope>themis::sharding::NodeIdentity</scope><name>token_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::MultiGPUVectorBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_vector_backend" prot="public" virt="non-virtual">themis::acceleration::IVectorBackend</basecompoundref>
+    <includes refid="multi__gpu__backend_8h" local="no">multi_gpu_backend.h</includes>
+    <innerclass refid="structthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1_1_config" prot="public">themis::acceleration::MultiGPUVectorBackend::Config</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1_1_impl" prot="public">themis::acceleration::MultiGPUVectorBackend::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ac92dfa21e89a8265d1a5374a8f8a53dc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CommBackend</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::CommBackend</qualifiedname>
+        <enumvalue id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ac92dfa21e89a8265d1a5374a8f8a53dcae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+<para>Auto-detect: NCCL → RCCL → CPU. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ac92dfa21e89a8265d1a5374a8f8a53dca1ed15cc4178fd8ec4d845042a8f1ead0" prot="public">
+          <name>NCCL</name>
+          <briefdescription>
+<para>Explicit NCCL (NVIDIA Collective Communications Library). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ac92dfa21e89a8265d1a5374a8f8a53dcaf456a6872ffafa6f914fc095bab32733" prot="public">
+          <name>RCCL</name>
+          <briefdescription>
+<para>Explicit RCCL (AMD Collective Communications Library). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ac92dfa21e89a8265d1a5374a8f8a53dca2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+<para>Host-based merge, no GPU collectives. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="33" column="5" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="33" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a5c384391952529f7d5843e6a18402b64" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::acceleration::MultiGPUVectorBackend::pImpl_</definition>
+        <argsstring></argsstring>
+        <name>pImpl_</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::pImpl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="146" column="21" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ad2531cda6c6c877a3068e5179bf7e06b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::MultiGPUVectorBackend::MultiGPUVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>MultiGPUVectorBackend</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::MultiGPUVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="60" column="5" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="428" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1aa97b2e952121f26e76067191eb93db8f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::MultiGPUVectorBackend::MultiGPUVectorBackend</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>MultiGPUVectorBackend</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::MultiGPUVectorBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Multi GPUVector Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="66" column="14" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="430" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a7e09462edc00e6b577537296cc523d60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::MultiGPUVectorBackend::~MultiGPUVectorBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~MultiGPUVectorBackend</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::~MultiGPUVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="67" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a843d48d78d1f38ca8482ac253b6bc1be" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::MultiGPUVectorBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="73" column="24" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1acb56d47bf4d15f858e387e73d789307c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::MultiGPUVectorBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="74" column="25" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ae285af1bc32ee288d5271f51cf8de637" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::MultiGPUVectorBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="75" column="25" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="434" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a53d5a97977715c1907cffc38e597e217" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::MultiGPUVectorBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="76" column="25" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="438" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a12f991b1ec325ff861378daca358430d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::MultiGPUVectorBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, ErrorContext(), <ref refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a843d48d78d1f38ca8482ac253b6bc1be" kindref="member">name()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="77" column="25" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="457" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a1dba5d88afc85d138d626eeebc93ef65" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::MultiGPUVectorBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="78" column="25" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="471" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1aab2f57296975d83ae3d4c3ba0803626e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::MultiGPUVectorBackend::computeDistances</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2=true) override</argsstring>
+        <name>computeDistances</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::computeDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a56cc8ea7f1d8a7f2c8bb77025403f8e2">computeDistances</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Compute Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">useL2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDistances without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="84" column="17" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="486" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a76db6140db0f27906b6781ae0bbd1e12" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt; themis::acceleration::MultiGPUVectorBackend::batchKnnSearch</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2=true) override</argsstring>
+        <name>batchKnnSearch</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::batchKnnSearch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a7f0c7e6ce9e71f79406f2de2fa627008">batchKnnSearch</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="92" column="17" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="492" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a924cfcfa3f6cf64f3969a859030506b5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_shard_descriptor" kindref="compound">ShardDescriptor</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; ShardDescriptor &gt; &amp; themis::acceleration::MultiGPUVectorBackend::shards</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>shards</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::shards</qualifiedname>
+        <briefdescription>
+<para>Shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="110" column="23" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="497" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a51c3d1bf148cec9e06997d75f30b5e65" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::acceleration::MultiGPUVectorBackend::activeDeviceCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>activeDeviceCount</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::activeDeviceCount</qualifiedname>
+        <briefdescription>
+<para>Active Device Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="117" column="9" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="501" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a5a765b37f421ddec56da214469bc88c9" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ac92dfa21e89a8265d1a5374a8f8a53dc" kindref="member">CommBackend</ref></type>
+        <definition>MultiGPUVectorBackend::CommBackend themis::acceleration::MultiGPUVectorBackend::activeCommBackend</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>activeCommBackend</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::activeCommBackend</qualifiedname>
+        <briefdescription>
+<para>Active Comm Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="124" column="17" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="505" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a0942642a3cbfe6f3592d550ac6759db2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::MultiGPUVectorBackend::isCollectiveOpsAvailable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isCollectiveOpsAvailable</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::isCollectiveOpsAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Collective Ops Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="131" column="10" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="509" bodyend="511"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ae41d8cc21c4c78a6e28b9cea672c7297" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::acceleration::MultiGPUVectorBackend::detectGPUCount</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>detectGPUCount</name>
+        <qualifiedname>themis::acceleration::MultiGPUVectorBackend::detectGPUCount</qualifiedname>
+        <briefdescription>
+<para>Detect GPUCount. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="142" column="16" bodyfile="src/acceleration/multi_gpu_backend.cpp" bodystart="41" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::MultiGPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::MultiGPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/multi_gpu_backend.h" line="31" column="1" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="31" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a5a765b37f421ddec56da214469bc88c9" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>activeCommBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a51c3d1bf148cec9e06997d75f30b5e65" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>activeDeviceCount</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a76db6140db0f27906b6781ae0bbd1e12" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>batchKnnSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a2143e8e963e3190e8bc602b329abeb82" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>batchKnnSearchSafe</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ac92dfa21e89a8265d1a5374a8f8a53dc" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>CommBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1aab2f57296975d83ae3d4c3ba0803626e" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>computeDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ae41d8cc21c4c78a6e28b9cea672c7297" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>detectGPUCount</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a53d5a97977715c1907cffc38e597e217" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a12f991b1ec325ff861378daca358430d" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ae285af1bc32ee288d5271f51cf8de637" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a0942642a3cbfe6f3592d550ac6759db2" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>isCollectiveOpsAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ad2531cda6c6c877a3068e5179bf7e06b" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>MultiGPUVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1aa97b2e952121f26e76067191eb93db8f" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>MultiGPUVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a843d48d78d1f38ca8482ac253b6bc1be" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a5c384391952529f7d5843e6a18402b64" prot="private" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>pImpl_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1afe7b6b9c94e550943146ae6dd2633573" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>populateANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a924cfcfa3f6cf64f3969a859030506b5" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>shards</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a1dba5d88afc85d138d626eeebc93ef65" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1acb56d47bf4d15f858e387e73d789307c" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a80795a79f28f4f5dab65de8acd2af35f" prot="public" virt="virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>~IVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a7e09462edc00e6b577537296cc523d60" prot="public" virt="non-virtual"><scope>themis::acceleration::MultiGPUVectorBackend</scope><name>~MultiGPUVectorBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

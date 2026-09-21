@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="saga__orchestrator_8h" kind="file" language="C++">
+    <compoundname>saga_orchestrator.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="saga__plugin__bridge_8h" local="yes">include/transaction/saga_plugin_bridge.h</includedby>
+    <includedby refid="saga__orchestrator_8cpp" local="yes">src/transaction/saga_orchestrator.cpp</includedby>
+    <includedby refid="saga__orchestrator__plugin_8cpp" local="yes">src/transaction/saga_plugin/saga_orchestrator_plugin.cpp</includedby>
+    <includedby refid="test__saga__orchestration__hardening_8cpp" local="yes">tests/transaction/test_saga_orchestration_hardening.cpp</includedby>
+    <includedby refid="test__transaction__saga__compensation__phase2_8cpp" local="yes">tests/transaction/test_transaction_saga_compensation_phase2.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/transaction/saga_orchestrator.h</label>
+        <link refid="saga__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/transaction/saga_orchestrator.h</label>
+        <link refid="saga__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/transaction/saga_plugin_bridge.h</label>
+        <link refid="saga__plugin__bridge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/transaction/saga_orchestrator.cpp</label>
+        <link refid="saga__orchestrator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/transaction/saga_plugin/saga_orchestrator_plugin.cpp</label>
+        <link refid="saga__orchestrator__plugin_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/transaction/saga_plugin_bridge.cpp</label>
+        <link refid="saga__plugin__bridge_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/transaction/test_saga_orchestration_hardening.cpp</label>
+        <link refid="test__saga__orchestration__hardening_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/transaction/test_transaction_saga_compensation_phase2.cpp</label>
+        <link refid="test__transaction__saga__compensation__phase2_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_saga_orchestrator_status" prot="public">themis::SagaOrchestratorStatus</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_step" prot="public">themis::SAGAStep</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_definition" prot="public">themis::SAGADefinition</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_execution_status" prot="public">themis::SAGAExecutionStatus</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_orchestrator_config" prot="public">themis::SAGAOrchestratorConfig</innerclass>
+    <innerclass refid="classthemis_1_1_s_a_g_a_orchestrator" prot="public">themis::SAGAOrchestrator</innerclass>
+    <innerclass refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics" prot="public">themis::SAGAOrchestrator::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_saga_orchestrator_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_saga_orchestrator_status" kindref="compound">SagaOrchestratorStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_saga_orchestrator_status_1ae9b3a2f4ac11c76325e415a5a2237eb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_saga_orchestrator_status_1ae9b3a2f4ac11c76325e415a5a2237eb5" kindref="member">ok</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_saga_orchestrator_status_1adf71e037fc9eb32fdcb65b87aed856ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_saga_orchestrator_status_1adf71e037fc9eb32fdcb65b87aed856ea" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1_saga_orchestrator_status_1a51e1decc8e5dd54c9161548955798519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_saga_orchestrator_status" kindref="compound">SagaOrchestratorStatus</ref><sp/><ref refid="structthemis_1_1_saga_orchestrator_status_1a51e1decc8e5dd54c9161548955798519" kindref="member">OK</ref>()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_saga_orchestrator_status_1aa485a1b8f1a28c1a2e5a64c5aa3cfb69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_saga_orchestrator_status" kindref="compound">SagaOrchestratorStatus</ref><sp/><ref refid="structthemis_1_1_saga_orchestrator_status_1aa485a1b8f1a28c1a2e5a64c5aa3cfb69" kindref="member">Error</ref>(std::string<sp/>msg)<sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-step<sp/>runtime<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425" kindref="member">StepState</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425ac69f06e1a9b016d133907b4e5f5864d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a43491564ebcfd38568918efbd6e840fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a43491564ebcfd38568918efbd6e840fd" kindref="member">RUNNING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a203ec08f57cb105eeb2b121ba6503b52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a203ec08f57cb105eeb2b121ba6503b52" kindref="member">SKIPPED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425af7eb1a2119233b7d89c3c76589a10664" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60af7eb1a2119233b7d89c3c76589a10664" kindref="member">COMPENSATING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425a2df8d8245b6e73417307f431a21ae041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60a2df8d8245b6e73417307f431a21ae041" kindref="member">COMPENSATED</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Step<sp/>definition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1_s_a_g_a_step" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1_s_a_g_a_step_1a783cac28d251df922adcb36d765e9c7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_s_a_g_a_step_1a783cac28d251df922adcb36d765e9c7c" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_s_a_g_a_step_1a0f0db9306227a844811282372a3346fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void()&gt;<sp/><ref refid="structthemis_1_1_s_a_g_a_step_1a0f0db9306227a844811282372a3346fa" kindref="member">forward</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1_s_a_g_a_step_1a1a8948cb8779ad280ebfb561939470e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void()&gt;<sp/><ref refid="structthemis_1_1_s_a_g_a_step_1a1a8948cb8779ad280ebfb561939470e8" kindref="member">compensate</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1_s_a_g_a_step_1adb2e7b527acf7b61c8bdaeba39235792" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_s_a_g_a_step_1adb2e7b527acf7b61c8bdaeba39235792" kindref="member">depends_on</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1_s_a_g_a_step_1a7252025bf6f5418049b3b5828be5de3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool()&gt;<sp/><ref refid="structthemis_1_1_s_a_g_a_step_1a7252025bf6f5418049b3b5828be5de3c" kindref="member">condition</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_s_a_g_a_step_1afc75bcfd1536d13081f0a1edadf8e94b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_s_a_g_a_step_1afc75bcfd1536d13081f0a1edadf8e94b" kindref="member">timeout</ref>{0};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_s_a_g_a_step_1aa68ba0478e052148a29fe313653449bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_s_a_g_a_step_1aa68ba0478e052148a29fe313653449bb" kindref="member">max_retries</ref>{0};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_s_a_g_a_step_1a181e8f804dd6a536a92d602fd82eb01d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_s_a_g_a_step_1a181e8f804dd6a536a92d602fd82eb01d" kindref="member">retry_delay</ref>{0};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SAGA<sp/>definition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_s_a_g_a_definition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_s_a_g_a_definition_1a2f341955d011b99432e4173160a55c89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_s_a_g_a_definition_1a2f341955d011b99432e4173160a55c89" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_s_a_g_a_definition_1a6e2fdb5a45290c8a746a98a6ac5a5ffc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_s_a_g_a_definition_1a6e2fdb5a45290c8a746a98a6ac5a5ffc" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_s_a_g_a_definition_1a549fe599bbe9830c442638135494db18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SAGAStep&gt;<sp/><ref refid="structthemis_1_1_s_a_g_a_definition_1a549fe599bbe9830c442638135494db18" kindref="member">steps</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_s_a_g_a_definition_1a4b9b6528f753737a1f455e3cb490a9ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1_s_a_g_a_definition_1a4b9b6528f753737a1f455e3cb490a9ef" kindref="member">context</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_s_a_g_a_definition_1ae147606d29505cb17023f6800ac8ad9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_s_a_g_a_definition_1ae147606d29505cb17023f6800ac8ad9a" kindref="member">enable_parallel</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Execution<sp/>status<sp/>(returned<sp/>by<sp/>getStatus<sp/>/<sp/>accessible<sp/>after<sp/>execute)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_s_a_g_a_execution_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_s_a_g_a_execution_status" kindref="compound">SAGAExecutionStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_s_a_g_a_execution_status_1adde403adaee2e02498bbd9fbe1642e53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1adde403adaee2e02498bbd9fbe1642e53" kindref="member">saga_id</ref>;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_s_a_g_a_execution_status_1af0b694ca722f859eca9f910426e2feb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1af0b694ca722f859eca9f910426e2feb3" kindref="member">saga_name</ref>;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_s_a_g_a_execution_status_1a787ac736c0e8d6e88bf95412d1a4ee93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>StepState&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1a787ac736c0e8d6e88bf95412d1a4ee93" kindref="member">step_states</ref>;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_s_a_g_a_execution_status_1a0d96c030146cbbde4bef5a9ad1818929" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1a0d96c030146cbbde4bef5a9ad1818929" kindref="member">completed_steps</ref>{0};</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_s_a_g_a_execution_status_1acec2f2ffe44399ff02b3324b2cd97587" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1acec2f2ffe44399ff02b3324b2cd97587" kindref="member">failed_steps</ref>{0};</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1_s_a_g_a_execution_status_1a50ff8cfdca9715ac9b4d81bb6caae5b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1a50ff8cfdca9715ac9b4d81bb6caae5b0" kindref="member">pending_steps</ref>{0};</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1_s_a_g_a_execution_status_1aa7d503589ce108b072d5feffd61bf0dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1aa7d503589ce108b072d5feffd61bf0dd" kindref="member">skipped_steps</ref>{0};</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_s_a_g_a_execution_status_1a3d3ad3d08f16c5567d7a2b5614c1b9b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1a3d3ad3d08f16c5567d7a2b5614c1b9b5" kindref="member">total_duration_ms</ref>{0};</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1_s_a_g_a_execution_status_1a9ced898063a80bd8c906cecc2cb3e6e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_execution_status_1a9ced898063a80bd8c906cecc2cb3e6e1" kindref="member">failure_reason</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Orchestrator<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_s_a_g_a_orchestrator_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config" kindref="compound">SAGAOrchestratorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1_s_a_g_a_orchestrator_config_1ab5521be25b9e9b45c91ee9f16cb5fd65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config_1ab5521be25b9e9b45c91ee9f16cb5fd65" kindref="member">enable_parallel</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a8c889986dce5a01e66b814d6dc3dbe7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a8c889986dce5a01e66b814d6dc3dbe7b" kindref="member">default_timeout</ref>{std::chrono::milliseconds(5000)};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_s_a_g_a_orchestrator_config_1abbb1010e08cf2f7a4285c238c4389b37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config_1abbb1010e08cf2f7a4285c238c4389b37" kindref="member">default_retry_delay</ref>{std::chrono::milliseconds(1000)};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a0be8e9215a72b5e3621d8e32d2d5aebe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a0be8e9215a72b5e3621d8e32d2d5aebe" kindref="member">journal_path</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Circuit<sp/>Breaker<sp/>Configuration<sp/>(AC-9/AC-10)<sp/>──────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a330061f2630fdba9272dc0a7fc07615a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a330061f2630fdba9272dc0a7fc07615a" kindref="member">circuit_breaker_threshold</ref>{5};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1_s_a_g_a_orchestrator_config_1af1c673e9a3b8908ff0f1d8789cbdd685" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config_1af1c673e9a3b8908ff0f1d8789cbdd685" kindref="member">circuit_breaker_timeout</ref>{std::chrono::milliseconds(30000)};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SAGAOrchestrator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1_s_a_g_a_orchestrator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">Config</ref><sp/>=<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_config" kindref="compound">SAGAOrchestratorConfig</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref>(<ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">Config</ref><sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1_s_a_g_a_orchestrator_1a914abc7bf554f0c8ead41826f9fb6278" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1a914abc7bf554f0c8ead41826f9fb6278" kindref="member">~SAGAOrchestrator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1_s_a_g_a_orchestrator_1a6887389305d68c6ffeb181852a24aa4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1a6887389305d68c6ffeb181852a24aa4c" kindref="member">SAGAOrchestrator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1_s_a_g_a_orchestrator_1a63b81a6e05585c8f7f39881721ae87b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref>&amp;<sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1a63b81a6e05585c8f7f39881721ae87b1" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1_s_a_g_a_orchestrator_1a784e88d7e3671a06518b467613ef65e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1a784e88d7e3671a06518b467613ef65e6" kindref="member">SAGAOrchestrator</ref>(<ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1_s_a_g_a_orchestrator_1a9035fa5677aa70e662940b2887c2d4f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_s_a_g_a_orchestrator_1ae17a81d52ff91531d645b84c3a1b397a" kindref="member">SAGAOrchestrator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_saga_orchestrator_status" kindref="compound">SagaOrchestratorStatus</ref><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1a7c62771921f172a107a0254a90c8081d" kindref="member">execute</ref>(const<sp/><ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref>&amp;<sp/>saga);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_saga_orchestrator_status" kindref="compound">SagaOrchestratorStatus</ref><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1acd91d8e15a2747f29f5d44683390f4bc" kindref="member">validate</ref>(const<sp/><ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref>&amp;<sp/>saga)<sp/>const;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1_s_a_g_a_execution_status" kindref="compound">SAGAExecutionStatus</ref>&gt;<sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1a9ebd98f8a786c1508c734722682a90e2" kindref="member">getStatus</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>saga_id)<sp/>const;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1acc76c0862090b49638eb52206d5106db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1acc76c0862090b49638eb52206d5106db" kindref="member">sagas_started</ref>{0};</highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1aff90914fa4923b4472263dac64177756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1aff90914fa4923b4472263dac64177756" kindref="member">sagas_completed</ref>{0};</highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a20f684c7195f28f4d53c8a6b16a0c10b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a20f684c7195f28f4d53c8a6b16a0c10b" kindref="member">sagas_compensated</ref>{0};</highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a44acf9e767cb8302e33d2fd6ae57cd05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a44acf9e767cb8302e33d2fd6ae57cd05" kindref="member">sagas_failed</ref>{0};</highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a4beb0c7a35ba1d27daf15bc941b20ff1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a4beb0c7a35ba1d27daf15bc941b20ff1" kindref="member">total_step_executions</ref>{0};</highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a25ff11456a0713dbe7fde85cb73ac8ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a25ff11456a0713dbe7fde85cb73ac8ba" kindref="member">total_step_retries</ref>{0};</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a3571db8912ada48d39f81337cac49d70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a3571db8912ada48d39f81337cac49d70" kindref="member">total_compensations</ref>{0};</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a114fb8edd6cbb5a028ecd571ffe8134f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a114fb8edd6cbb5a028ecd571ffe8134f" kindref="member">total_steps_skipped</ref>{0};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>Metrics<sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aa974d80254b514bcae86da3cb3360bcf" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aed90909bb6dc338af4926179162442cf" kindref="member">registerTemplate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>template_name,<sp/><ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref><sp/>tmpl);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_s_a_g_a_definition" kindref="compound">SAGADefinition</ref><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aa91957d2ab58e8d28ced919109995fac" kindref="member">instantiateTemplate</ref>(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>template_name,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instance_id,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>context_overrides<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1a388fc66cb56b341b00337c5d20dca1b4" kindref="member">renderWorkflow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SAGADefinition&amp;<sp/>saga)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>status_mutex_;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>SAGAExecutionStatus&gt;<sp/>statuses_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>templates_mutex_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>SAGADefinition&gt;<sp/>templates_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>metrics<sp/>(lock-protected<sp/>for<sp/>thread<sp/>safety)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>metrics_mutex_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>Metrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Journal<sp/>mutex:<sp/>serialises<sp/>concurrent<sp/>journalWrite()<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>journal_mutex_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Circuit<sp/>Breaker<sp/>State<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-step<sp/>failure<sp/>tracking<sp/>for<sp/>circuit<sp/>breaker<sp/>(AC-9/AC-10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>circuit_breaker_mutex_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint32_t&gt;<sp/>consecutive_failures_;<sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::chrono::system_clock::time_point&gt;<sp/>last_failure_time_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/>half_open_probe_in_flight_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isCircuitBreakerOpen(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>step_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordCircuitBreakerFailure(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>step_name);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordCircuitBreakerSuccess(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>step_name);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>tryAcquireCircuitBreakerExecution(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>step_name);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>topologicalSort(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SAGADefinition&amp;<sp/>saga)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Map<sp/>type<sp/>for<sp/>fast<sp/>step<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">StepMap<sp/>=<sp/>std::unordered_map&lt;std::string,<sp/>const<sp/>SAGAStep*&gt;;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>StepMap<sp/>buildStepMap(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SAGADefinition&amp;<sp/>saga);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425" kindref="member">StepState</ref><sp/>executeStep(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SAGAStep&amp;<sp/>step,</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>saga_id,</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">Config</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>compensateAll(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SAGADefinition&amp;<sp/>saga,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StepMap&amp;<sp/>step_map,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>executed_order,</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SAGAExecutionStatus&amp;<sp/>status_rec);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>compensateStep(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SAGAStep&amp;<sp/>step,</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SAGAExecutionStatus&amp;<sp/>status_rec);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>journalWrite(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>saga_id,</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>detail<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/saga_orchestrator.h"/>
+  </compounddef>
+</doxygen>

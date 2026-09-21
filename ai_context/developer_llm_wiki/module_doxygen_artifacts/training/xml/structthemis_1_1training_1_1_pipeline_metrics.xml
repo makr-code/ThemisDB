@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_pipeline_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::PipelineMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_metrics_1ac58a74d37730e83a6ef7f50ee18266b5" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::training::PipelineMetrics::stage_start</definition>
+        <argsstring></argsstring>
+        <name>stage_start</name>
+        <qualifiedname>themis::training::PipelineMetrics::stage_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="60" column="43" bodyfile="src/training/training_pipeline.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_metrics_1a08e381f5b46bde380b26167d8a3206db" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::training::PipelineMetrics::stage_durations_sec</definition>
+        <argsstring></argsstring>
+        <name>stage_durations_sec</name>
+        <qualifiedname>themis::training::PipelineMetrics::stage_durations_sec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="61" column="14" bodyfile="src/training/training_pipeline.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_pipeline_metrics_1ae853ee16f2a1d2107b3c118c74fcd74b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::PipelineMetrics::beginStage</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>beginStage</name>
+        <qualifiedname>themis::training::PipelineMetrics::beginStage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Begin Stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="68" column="10" bodyfile="src/training/training_pipeline.cpp" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_pipeline_metrics_1a1d6a630262c22d18e560c302b1245402" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::PipelineMetrics::endStage</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>endStage</name>
+        <qualifiedname>themis::training::PipelineMetrics::endStage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>End Stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="77" column="10" bodyfile="src/training/training_pipeline.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_pipeline_metrics_1a6b688cbf756df1ffbc67afa6735e4a82" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::training::PipelineMetrics::totalElapsed</definition>
+        <argsstring>() const</argsstring>
+        <name>totalElapsed</name>
+        <qualifiedname>themis::training::PipelineMetrics::totalElapsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="83" column="12" bodyfile="src/training/training_pipeline.cpp" bodystart="83" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/training_pipeline.cpp" line="59" column="1" bodyfile="src/training/training_pipeline.cpp" bodystart="59" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_pipeline_metrics_1ae853ee16f2a1d2107b3c118c74fcd74b" prot="public" virt="non-virtual"><scope>themis::training::PipelineMetrics</scope><name>beginStage</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_metrics_1a1d6a630262c22d18e560c302b1245402" prot="public" virt="non-virtual"><scope>themis::training::PipelineMetrics</scope><name>endStage</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_metrics_1a08e381f5b46bde380b26167d8a3206db" prot="public" virt="non-virtual"><scope>themis::training::PipelineMetrics</scope><name>stage_durations_sec</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_metrics_1ac58a74d37730e83a6ef7f50ee18266b5" prot="public" virt="non-virtual"><scope>themis::training::PipelineMetrics</scope><name>stage_start</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_metrics_1a6b688cbf756df1ffbc67afa6735e4a82" prot="public" virt="non-virtual"><scope>themis::training::PipelineMetrics</scope><name>totalElapsed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

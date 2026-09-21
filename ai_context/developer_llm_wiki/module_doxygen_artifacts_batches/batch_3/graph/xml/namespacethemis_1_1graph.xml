@@ -1,0 +1,1163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1graph" kind="namespace" language="C++">
+    <compoundname>themis::graph</compoundname>
+    <innerclass refid="classthemis_1_1graph_1_1_adjacency_list" prot="public">themis::graph::AdjacencyList</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_c_d_c_event" prot="public">themis::graph::CDCEvent</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_deduplication_config" prot="public">themis::graph::DeduplicationConfig</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_deduplication_stats" prot="public">themis::graph::DeduplicationStats</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_distributed_graph_config" prot="public">themis::graph::DistributedGraphConfig</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_distributed_graph_manager" prot="public">themis::graph::DistributedGraphManager</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_edge" prot="public">themis::graph::Edge</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_edge_score" prot="public">themis::graph::EdgeScore</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_error_context" prot="public">themis::graph::ErrorContext</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_fingerprint_graph_config" prot="public">themis::graph::FingerprintGraphConfig</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_fingerprint_match" prot="public">themis::graph::FingerprintMatch</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_gate_criterion" prot="public">themis::graph::GateCriterion</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_g_p_u_graph_traversal" prot="public">themis::graph::GPUGraphTraversal</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" prot="public">themis::graph::GraphAdvancedCostModel</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_buffer_pool" prot="public">themis::graph::GraphBufferPool</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_connection_pool" prot="public">themis::graph::GraphConnectionPool</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_cost_histogram" prot="public">themis::graph::GraphCostHistogram</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_embedding_config" prot="public">themis::graph::GraphEmbeddingConfig</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_embedding_stats" prot="public">themis::graph::GraphEmbeddingStats</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_explain_plan" prot="public">themis::graph::GraphExplainPlan</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_fingerprint_detector" prot="public">themis::graph::GraphFingerprintDetector</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache" prot="public">themis::graph::GraphLRUPlanCache</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" prot="public">themis::graph::GraphMultiTierCache</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" prot="public">themis::graph::GraphPhaseGateOrchestrator</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_plan_node" prot="public">themis::graph::GraphPlanNode</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_query_cache" prot="public">themis::graph::GraphQueryCache</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_query_optimizer" prot="public">themis::graph::GraphQueryOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_query_rewriter" prot="public">themis::graph::GraphQueryRewriter</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_query_scheduler" prot="public">themis::graph::GraphQueryScheduler</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_rewrite_stats" prot="public">themis::graph::GraphRewriteStats</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_shard_balancer" prot="public">themis::graph::GraphShardBalancer</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_snapshot" prot="public">themis::graph::GraphSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_thread_pool" prot="public">themis::graph::GraphThreadPool</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_traversal_result_cache" prot="public">themis::graph::GraphTraversalResultCache</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_watermark" prot="public">themis::graph::GraphWatermark</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_i_graph_embedding_provider" prot="public">themis::graph::IGraphEmbeddingProvider</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_i_graph_explain_provider" prot="public">themis::graph::IGraphExplainProvider</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_inference_chain" prot="public">themis::graph::InferenceChain</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_inference_edge" prot="public">themis::graph::InferenceEdge</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_inference_store" prot="public">themis::graph::InferenceStore</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_k_g_completion_engine" prot="public">themis::graph::KGCompletionEngine</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_k_g_triple" prot="public">themis::graph::KGTriple</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner" prot="public">themis::graph::KnowledgeGraphReasoner</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_link_prediction" prot="public">themis::graph::LinkPrediction</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_link_prediction_head" prot="public">themis::graph::LinkPredictionHead</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_local_shard_graph_executor" prot="public">themis::graph::LocalShardGraphExecutor</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_node_embedding" prot="public">themis::graph::NodeEmbedding</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_ontology_manager" prot="public">themis::graph::OntologyManager</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_parallel_traversal" prot="public">themis::graph::ParallelTraversal</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_path_constraints" prot="public">themis::graph::PathConstraints</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_persisted_fingerprint_edge" prot="public">themis::graph::PersistedFingerprintEdge</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_persisted_fingerprint_graph_snapshot" prot="public">themis::graph::PersistedFingerprintGraphSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_persisted_fingerprint_node" prot="public">themis::graph::PersistedFingerprintNode</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_phase_gap_report" prot="public">themis::graph::PhaseGapReport</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_refresh_audit_entry" prot="public">themis::graph::RefreshAuditEntry</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_refresh_policy" prot="public">themis::graph::RefreshPolicy</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_refresh_stats" prot="public">themis::graph::RefreshStats</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_registered_fingerprint" prot="public">themis::graph::RegisteredFingerprint</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_rotat_e_config" prot="public">themis::graph::RotatEConfig</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_rotat_e_model" prot="public">themis::graph::RotatEModel</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_rotat_e_train_result" prot="public">themis::graph::RotatETrainResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_rule" prot="public">themis::graph::Rule</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine" prot="public">themis::graph::ScheduledGraphEdgeRefreshEngine</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_shard_graph_executor" prot="public">themis::graph::ShardGraphExecutor</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_similar_tensor_result" prot="public">themis::graph::SimilarTensorResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_stored_tensor_record" prot="public">themis::graph::StoredTensorRecord</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_tensor_deduplication_manager" prot="public">themis::graph::TensorDeduplicationManager</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_tensor_fingerprint" prot="public">themis::graph::TensorFingerprint</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph" prot="public">themis::graph::TensorFingerprintGraph</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_triple" prot="public">themis::graph::Triple</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_vertex_descriptor" prot="public">themis::graph::VertexDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_watermarked_snapshot" prot="public">themis::graph::WatermarkedSnapshot</innerclass>
+    <innernamespace refid="namespacethemis_1_1graph_1_1test">themis::graph::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PartitionStrategy</name>
+        <qualifiedname>themis::graph::PartitionStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a50b7748612b28db487d115f220bb77ab" prot="public">
+          <name>HASH</name>
+          <briefdescription>
+<para>Uniform distribution by node ID hash (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a01036ddcc971d02f6c32c3da31a119f2" prot="public">
+          <name>RANGE</name>
+          <briefdescription>
+<para>Partition by node ID lexicographic ranges. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a4a221f74494f1ac7a498e6524292eaef" prot="public">
+          <name>GEO</name>
+          <briefdescription>
+<para>Partition by geographic region tag. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>User-supplied partition function. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="28" column="1" bodyfile="include/graph/distributed_graph.h" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConsistencyLevel</name>
+        <qualifiedname>themis::graph::ConsistencyLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a1c24fbd27d8776c209d0d7d22584e46f" prot="public">
+          <name>EVENTUAL</name>
+          <briefdescription>
+<para>Best-effort: read from any replica (lower latency). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a3dfb3ae3cdaa322f0388f1a531c39520" prot="public">
+          <name>STRONG</name>
+          <briefdescription>
+<para>Read from primary: guarantees up-to-date data (higher latency). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="35" column="1" bodyfile="include/graph/distributed_graph.h" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GraphPlanNodeType</name>
+        <qualifiedname>themis::graph::GraphPlanNodeType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a6dfe3de064463735ae92e17c598744cb" prot="public">
+          <name>VERTEX_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2ace327bfca950470c626379aba6d3b1cc" prot="public">
+          <name>EDGE_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a60bd23725be8d74f2581d3b052f2d68b" prot="public">
+          <name>INDEX_LOOKUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2aedeaea31b36c7e493c988b91b3439d1c" prot="public">
+          <name>BFS_TRAVERSAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a56e5fc5a94cac637194511c100330369" prot="public">
+          <name>DFS_TRAVERSAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a50a7316887f56d2d783d2bbbf813c108" prot="public">
+          <name>SHORTEST_PATH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2ae75ab17a550f46adbbe891b819cf951d" prot="public">
+          <name>FILTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2af4ba3e491fc18c6a9379b4e3b2aa503e" prot="public">
+          <name>PROJECTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a361d91ce0f028b6708f607b76b12a318" prot="public">
+          <name>AGGREGATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2aa7bdfbfac6ba2252b889996b1430abb4" prot="public">
+          <name>SORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a3d49b5cb41d88e381beb0d887d7023a2" prot="public">
+          <name>LIMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a2e0fc921614e47e1e6ee456f454c73a1" prot="public">
+          <name>HASH_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2af78ea30cb360ede78316ce967243f9e4" prot="public">
+          <name>NESTED_LOOP_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="22" column="1" bodyfile="include/graph/explain_plan.h" bodystart="22" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EmbeddingAlgorithm</name>
+        <qualifiedname>themis::graph::EmbeddingAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659a25ac51e72b5779ac0efd19a7548b32b2" prot="public">
+          <name>NODE2VEC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659ae478548b33a2ea7247fe93d36448e12d" prot="public">
+          <name>GRAPHSAGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659a25e5bdf50d909a283e4c7d8dea4a70bf" prot="public">
+          <name>GAT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659a4bdb59e373b91cef9bf1962ced246852" prot="public">
+          <name>GCN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659a17b8ef2c330f1430e00c9de5469fc7e7" prot="public">
+          <name>LINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659a1fd78612b91745123ed63fcd5fde5176" prot="public">
+          <name>DEEPWALK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659a898a0c4f620ea53a27539aac708a17cb" prot="public">
+          <name>CUSTOM_LLM</name>
+          <briefdescription>
+<para>Use an LLM to generate node-description embeddings. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="22" column="1" bodyfile="include/graph/graph_embedding.h" bodystart="22" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ff" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ErrorCategory</name>
+        <qualifiedname>themis::graph::ErrorCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa1d1b796d362097826000f8fe3209f86a" prot="public">
+          <name>DENIAL</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Operation cannot proceed; precondition violated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffaf35b388d8d4adeab05bce916c73d7a72" prot="public">
+          <name>FALLBACK</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Acceleration unavailable; CPU fallback possible. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa448226c857e56581051776a9f4e30315" prot="public">
+          <name>REASONING_CONFLICT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Reasoning conflict; inference contradiction. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Graph module error category enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Classifies errors into three semantic categories for routing recovery behavior:</para>
+<para><itemizedlist>
+<listitem><para><bold>DENIAL</bold>: Operation cannot proceed. Invalid input, constraint violation, or resource exhaustion. Recovery: caller must fix preconditions.</para>
+</listitem><listitem><para><bold>FALLBACK</bold>: Acceleration path unavailable (GPU, distributed). Operation can retry on CPU. Recovery: automatic fallback or retry.</para>
+</listitem><listitem><para><bold>REASONING_CONFLICT</bold>: Knowledge graph inference detected contradiction or unsatisfiable constraint set. Recovery: operator intervention required. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="46" column="1" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>GraphErrorCode</name>
+        <qualifiedname>themis::graph::GraphErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2dfe65c9edac8c5eb0b7707965bce749" prot="public">
+          <name>OPT_INVALID_QUERY_AST</name>
+          <initializer>= 0x01010001</initializer>
+          <briefdescription>
+<para>DENIAL: Null or invalid query AST passed to optimizer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da6323ff87bcbaf1300292356b61b3ff00" prot="public">
+          <name>OPT_UNSUPPORTED_QUERY_PATTERN</name>
+          <initializer>= 0x01010002</initializer>
+          <briefdescription>
+<para>DENIAL: Query pattern not supported by current optimizer version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dab6ebd5c26a63c3205e8215b7bd3e7370" prot="public">
+          <name>OPT_MISSING_GRAPH_STATISTICS</name>
+          <initializer>= 0x01010003</initializer>
+          <briefdescription>
+<para>DENIAL: Graph statistics unavailable or stale. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dad8d97b76e2fecb8e6082cc02571ea74e" prot="public">
+          <name>OPT_COST_CALC_OVERFLOW</name>
+          <initializer>= 0x01010004</initializer>
+          <briefdescription>
+<para>DENIAL: Cost model calculation overflow. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daeb0980e786b73b0e7ac964ce98184c04" prot="public">
+          <name>OPT_GPU_UNAVAILABLE</name>
+          <initializer>= 0x01020001</initializer>
+          <briefdescription>
+<para>FALLBACK: GPU acceleration unavailable; CPU fallback required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da1e52ce11c025e4bf740e39c44b3ad8a4" prot="public">
+          <name>OPT_DISTRIBUTED_PLANNER_OFFLINE</name>
+          <initializer>= 0x01020002</initializer>
+          <briefdescription>
+<para>FALLBACK: Distributed query planner offline. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daaf17e16eb96a6951c1312c64321a62b5" prot="public">
+          <name>OPT_UNSATISFIABLE_CONSTRAINTS</name>
+          <initializer>= 0x01030001</initializer>
+          <briefdescription>
+<para>REASONING_CONFLICT: Constraint set detected as unsatisfiable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7cb127899582fc54a59ccc9703256981" prot="public">
+          <name>TRAV_VERTEX_NOT_FOUND</name>
+          <initializer>= 0x02010001</initializer>
+          <briefdescription>
+<para>DENIAL: Source or target vertex not found in graph. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da068c9ca92a082a6f3badb8e7cd5c11c0" prot="public">
+          <name>TRAV_INVALID_EDGE_FILTER</name>
+          <initializer>= 0x02010002</initializer>
+          <briefdescription>
+<para>DENIAL: Invalid edge type or property filter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da45cc8cc3910c37498a8a9ff23168a7a9" prot="public">
+          <name>TRAV_FRONTIER_OVERFLOW</name>
+          <initializer>= 0x02010003</initializer>
+          <briefdescription>
+<para>DENIAL: Frontier exceeded maximum size limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf18381f82dff1b5a8cbeca136bd13fd7" prot="public">
+          <name>TRAV_MAX_DEPTH_EXCEEDED</name>
+          <initializer>= 0x02010004</initializer>
+          <briefdescription>
+<para>DENIAL: Path depth exceeds configured maximum. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8e30792adaa507790f9d5d83b90761d6" prot="public">
+          <name>TRAV_TIMEOUT</name>
+          <initializer>= 0x02010005</initializer>
+          <briefdescription>
+<para>DENIAL: Timeout elapsed during traversal. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da247cef61827a574d15582f57dc501725" prot="public">
+          <name>TRAV_THREAD_CREATION_FAILED</name>
+          <initializer>= 0x02010006</initializer>
+          <briefdescription>
+<para>DENIAL: Parallel traversal thread creation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf9049de330f0b46ce1610eea43165c7b" prot="public">
+          <name>TRAV_GPU_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x02020001</initializer>
+          <briefdescription>
+<para>FALLBACK: GPU memory exhausted; CPU fallback required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8661b3d324067bf7ce0efd723914b65b" prot="public">
+          <name>TRAV_GPU_KERNEL_FAILED</name>
+          <initializer>= 0x02020002</initializer>
+          <briefdescription>
+<para>FALLBACK: GPU kernel launch failed; CPU fallback required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da075afd336159f115c03f5a3ee3167d79" prot="public">
+          <name>TRAV_SHARD_UNAVAILABLE</name>
+          <initializer>= 0x02020003</initializer>
+          <briefdescription>
+<para>FALLBACK: Distributed shard unavailable; retry or use cache. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da10ada271667c423c099dbca8c1d6e2c4" prot="public">
+          <name>TRAV_CONSTRAINT_VIOLATION</name>
+          <initializer>= 0x02030001</initializer>
+          <briefdescription>
+<para>REASONING_CONFLICT: Constraint cannot be satisfied during traversal. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daa03e7f1cafb2d9c79b95b1e1f360452b" prot="public">
+          <name>REASON_INVALID_RULE_SYNTAX</name>
+          <initializer>= 0x03010001</initializer>
+          <briefdescription>
+<para>DENIAL: Invalid inference rule syntax. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da34f2d0aa4a32f13c13e96df57b40dbe2" prot="public">
+          <name>REASON_ONTOLOGY_LOAD_FAILED</name>
+          <initializer>= 0x03010002</initializer>
+          <briefdescription>
+<para>DENIAL: Ontology not loaded or corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3e04ec1732b3b548e729f99d97b7cd12" prot="public">
+          <name>REASON_BINDING_FAILED</name>
+          <initializer>= 0x03010003</initializer>
+          <briefdescription>
+<para>DENIAL: <ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref> variable binding failed (no matching facts). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8a42cb1680af9384e2c7911031ad194d" prot="public">
+          <name>REASON_INFERENCE_CONFLICT</name>
+          <initializer>= 0x03030001</initializer>
+          <briefdescription>
+<para>REASONING_CONFLICT: Inferred fact contradicts known fact. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daaee7301a8a0637aa0b858ecf2f2a6fc7" prot="public">
+          <name>REASON_CYCLIC_RULE</name>
+          <initializer>= 0x03030002</initializer>
+          <briefdescription>
+<para>REASONING_CONFLICT: Cyclic rule dependency detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf9176ffb1b3188e172ccceab95e2cb91" prot="public">
+          <name>TENSOR_INVALID_SHAPE</name>
+          <initializer>= 0x04010001</initializer>
+          <briefdescription>
+<para>DENIAL: Invalid tensor dimensions or shape mismatch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da62ed9c9149771ffa90efeffeed613bd6" prot="public">
+          <name>TENSOR_FINGERPRINT_FAILED</name>
+          <initializer>= 0x04010002</initializer>
+          <briefdescription>
+<para>DENIAL: Fingerprint computation failed (NaN or inf). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf6294bf3b9c81ae11f63f6e896428890" prot="public">
+          <name>TENSOR_INVALID_THRESHOLD</name>
+          <initializer>= 0x04010003</initializer>
+          <briefdescription>
+<para>DENIAL: Graph deduplication threshold out of range. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7fc86aa80a787499020e3c94085ae655" prot="public">
+          <name>TENSOR_GPU_OP_UNAVAILABLE</name>
+          <initializer>= 0x04020001</initializer>
+          <briefdescription>
+<para>FALLBACK: GPU tensor operation unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3f30a1b764a136a477867d792387bbeb" prot="public">
+          <name>DIST_INVALID_SHARD_CONFIG</name>
+          <initializer>= 0x05010001</initializer>
+          <briefdescription>
+<para>DENIAL: Shard configuration invalid or incomplete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf24355a284ecd250bfdb470a7a1707db" prot="public">
+          <name>DIST_MERGE_FAILED</name>
+          <initializer>= 0x05010002</initializer>
+          <briefdescription>
+<para>DENIAL: Cross-shard merge operation failed (incompatible results). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daa7b856fc3445e94bdbd45c149d51360c" prot="public">
+          <name>DIST_VERTEX_UNHASHED</name>
+          <initializer>= 0x05010003</initializer>
+          <briefdescription>
+<para>DENIAL: Vertex not hashed to any shard. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2bac5faf183cde9c536cbacdad37a12c" prot="public">
+          <name>DIST_SHARD_PEER_OFFLINE</name>
+          <initializer>= 0x05020001</initializer>
+          <briefdescription>
+<para>FALLBACK: Shard peer offline; operation deferred. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da175bed962b6c48f2b4e4efcce1828855" prot="public">
+          <name>DIST_RPC_TIMEOUT</name>
+          <initializer>= 0x05020002</initializer>
+          <briefdescription>
+<para>FALLBACK: RPC timeout on cross-shard communication. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf7707a73b61b97f51c0ec24bbd73b91c" prot="public">
+          <name>CACHE_PLAN_CACHE_FULL</name>
+          <initializer>= 0x06010001</initializer>
+          <briefdescription>
+<para>DENIAL: Plan cache full; LRU eviction needed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da05b8cd21d53f2f1d74ffce1d733085b3" prot="public">
+          <name>POOL_RESOURCE_EXHAUSTED</name>
+          <initializer>= 0x06010002</initializer>
+          <briefdescription>
+<para>DENIAL: Resource pool exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7e2bfe14690bd9d387462c28062c54cd" prot="public">
+          <name>LB_DECISION_FAILED</name>
+          <initializer>= 0x06010003</initializer>
+          <briefdescription>
+<para>DENIAL: Load balancing decision failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dab18ae448d41f7b0ce63861c51d1bf16a" prot="public">
+          <name>CACHE_MISS</name>
+          <initializer>= 0x06020001</initializer>
+          <briefdescription>
+<para>FALLBACK: Cache miss on frequently-accessed plan. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da574dfca5e088abccfa24fec2a681e9c8" prot="public">
+          <name>GENERIC_ERROR</name>
+          <initializer>= 0x07010001</initializer>
+          <briefdescription>
+<para>DENIAL: Unknown or unclassified error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3e860a081575fc82cc7b6ed2ca602947" prot="public">
+          <name>NOT_IMPLEMENTED</name>
+          <initializer>= 0x07010002</initializer>
+          <briefdescription>
+<para>DENIAL: Not implemented (stub). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8c51da4c6c8da2fd1ab2c760e152c84b" prot="public">
+          <name>INTERNAL_INVARIANT_FAILED</name>
+          <initializer>= 0x07010003</initializer>
+          <briefdescription>
+<para>DENIAL: Internal consistency check failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2599f038befb31287e92307199bf259b" prot="public">
+          <name>SYSTEM_RESOURCE_UNAVAILABLE</name>
+          <initializer>= 0x07020001</initializer>
+          <briefdescription>
+<para>FALLBACK: Temporary system resource unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Graph module error codes (Phase 1 frozen). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each code specifies category, scope, and recovery semantics. Format: GRAPHxxyyzz where xx=component, yy=category, zz=sequence.</para>
+<para>Invariant: Do not add codes without Phase 1 contract review. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="63" column="1" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="63" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GateStatus</name>
+        <qualifiedname>themis::graph::GateStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fa7a95bf926a0333f57705aeac07a362a2" prot="public">
+          <name>PASS</name>
+          <briefdescription>
+<para>All criteria met; phase may advance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac2759effffc94bb9acc71d69fe3e8a1f" prot="public">
+          <name>FAIL</name>
+          <briefdescription>
+<para>One or more criteria not met; see <computeroutput>gaps()</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Phase has not yet been evaluated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10faeecba0068950a2df17c47e851e1eef14" prot="public">
+          <name>BLOCKED</name>
+          <briefdescription>
+<para>A prerequisite phase has not passed its own gate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="54" column="1" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SimilarityMetric</name>
+        <qualifiedname>themis::graph::SimilarityMetric</qualifiedname>
+        <enumvalue id="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702fae66ba018ef96aa5c78c8fba787f43717" prot="public">
+          <name>COSINE</name>
+          <briefdescription>
+<para>Cosine similarity between node embedding vectors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702faf631bca16207bd2c79fca06f9f1875e0" prot="public">
+          <name>DOT_PRODUCT</name>
+          <briefdescription>
+<para>Dot-product similarity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702fab142d642e537e694b9314e1a56835f8d" prot="public">
+          <name>EUCLIDEAN</name>
+          <briefdescription>
+<para>Negative Euclidean distance (higher = more similar). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="38" column="1" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="38" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" prot="public" static="no">
+        <type>std::uint64_t</type>
+        <definition>using themis::graph::VertexId = std::uint64_t</definition>
+        <argsstring></argsstring>
+        <name>VertexId</name>
+        <qualifiedname>themis::graph::VertexId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="42" column="1" bodyfile="include/graph/adjacency_list.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1graph_1ac6cb1122ddd82fee16915b84d0f2ea58" prot="public" static="no">
+        <type>double</type>
+        <definition>using themis::graph::EdgeWeight = double</definition>
+        <argsstring></argsstring>
+        <name>EdgeWeight</name>
+        <qualifiedname>themis::graph::EdgeWeight</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="44" column="1" bodyfile="include/graph/adjacency_list.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1graph_1a5340366b4fd5d12d9ce2316953c7e837" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> &amp;)&gt;</type>
+        <definition>using themis::graph::EdgePredicate = std::function&lt;bool(const Edge&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EdgePredicate</name>
+        <qualifiedname>themis::graph::EdgePredicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="69" column="1" bodyfile="include/graph/adjacency_list.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1graph_1a6079938a2f38c988cd5df3a11acd9180" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;node_id)&gt;</type>
+        <definition>using themis::graph::NodeEmbeddingProvider = 
+std::function&lt;std::vector&lt;float&gt;(const std::string&amp; node_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>NodeEmbeddingProvider</name>
+        <qualifiedname>themis::graph::NodeEmbeddingProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="149" column="1" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1graph_1ac7861e5b54daa04e99697c72443fd472" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ff" kindref="member">ErrorCategory</ref></type>
+        <definition>ErrorCategory themis::graph::getErrorCategory</definition>
+        <argsstring>(GraphErrorCode code) noexcept</argsstring>
+        <name>getErrorCategory</name>
+        <qualifiedname>themis::graph::getErrorCategory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Maps error code to its category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error code to classify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Category enum indicating error class (DENIAL, FALLBACK, REASONING_CONFLICT)</para>
+</simplesect>
+Thread-safe: pure function, no state mutation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="194" column="1" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="194" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1abfa7fd6cc90de6dc89f7235a1c77c540" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::isRecoverableFallback</definition>
+        <argsstring>(GraphErrorCode code) noexcept</argsstring>
+        <name>isRecoverableFallback</name>
+        <qualifiedname>themis::graph::isRecoverableFallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Checks if error code indicates a recoverable fallback condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code to test </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if error is FALLBACK category (GPU, distributed, cache unavailable)</para>
+</simplesect>
+Thread-safe: pure function. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="219" column="1" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="219" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1aa871df03b4ff89e5fbfc7a63414f46c0" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::isReasoningConflict</definition>
+        <argsstring>(GraphErrorCode code) noexcept</argsstring>
+        <name>isReasoningConflict</name>
+        <qualifiedname>themis::graph::isReasoningConflict</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Checks if error code represents a reasoning conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code to test </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if error is REASONING_CONFLICT category</para>
+</simplesect>
+Thread-safe: pure function. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="232" column="1" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="232" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1acef51ef8a647e3c4d5eb50cda22ba455" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::graph::getErrorDescription</definition>
+        <argsstring>(GraphErrorCode code) noexcept</argsstring>
+        <name>getErrorDescription</name>
+        <qualifiedname>themis::graph::getErrorDescription</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns human-readable error description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String describing error semantics and recovery action</para>
+</simplesect>
+Thread-safe: uses static lookup table. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/graph_error_taxonomy.cpp" line="26" column="1" bodyfile="src/graph/graph_error_taxonomy.cpp" bodystart="26" bodyend="89" declfile="include/graph/graph_error_taxonomy.h" declline="249" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1a39bb5bcc88f69095b01a9308f4698ee1" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::getErrorCodeHex</definition>
+        <argsstring>(GraphErrorCode code) noexcept</argsstring>
+        <name>getErrorCodeHex</name>
+        <qualifiedname>themis::graph::getErrorCodeHex</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns error code as hex string (for logging). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Hex representation (e.g., &quot;0x01010001&quot;)</para>
+</simplesect>
+Thread-safe: pure function. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/graph_error_taxonomy.cpp" line="96" column="1" bodyfile="src/graph/graph_error_taxonomy.cpp" bodystart="96" bodyend="101" declfile="include/graph/graph_error_taxonomy.h" declline="260" declcolumn="1"/>
+      </memberdef>
+      <member refid="group___g_r_a_p_h___e_r_r_o_r___i_n_v_a_r_i_a_n_t_s_1ga4b8bb4fcf1e84ee54ef723f3f839b68d" kind="function"><name>isValidErrorCode</name></member>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1a4a07c0216609edc73abf20d4d3391f7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::wireGraphIndexJournalHooks</definition>
+        <argsstring>(TensorDeduplicationManager &amp;tdm, GraphIndexManager &amp;graph_idx, const std::string &amp;snapshot_key)</argsstring>
+        <name>wireGraphIndexJournalHooks</name>
+        <qualifiedname>themis::graph::wireGraphIndexJournalHooks</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager" kindref="compound">TensorDeduplicationManager</ref> &amp;</type>
+          <declname>tdm</declname>
+        </param>
+        <param>
+          <type>GraphIndexManager &amp;</type>
+          <declname>graph_idx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_key</declname>
+        </param>
+        <briefdescription>
+<para>Wire Graph Index Journal Hooks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tdm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">tdm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::string_view(), makeEdgeId(), makeAnchorId(), edge(), setField(), std::string(), toHex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/tensor_deduplication_manager.cpp" line="1879" column="6" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1879" bodyend="1956" declfile="include/graph/tensor_deduplication_manager.h" declline="290" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1ab85c9fd0d272c5d04c9c631dbaf59684" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">GraphQueryOptimizer::TraversalAlgorithm</ref> &gt; &amp;</type>
+        <definition>static const std::unordered_map&lt; std::string, GraphQueryOptimizer::TraversalAlgorithm &gt; &amp; themis::graph::algoNameMap</definition>
+        <argsstring>()</argsstring>
+        <name>algoNameMap</name>
+        <qualifiedname>themis::graph::algoNameMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/graph_query_optimizer.cpp" line="2887" column="1" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2887" bodyend="2896"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1a6f74c8f5c74a2f84d605f1a67a249a9c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::graph::algoToName</definition>
+        <argsstring>(GraphQueryOptimizer::TraversalAlgorithm algo)</argsstring>
+        <name>algoToName</name>
+        <qualifiedname>themis::graph::algoToName</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">GraphQueryOptimizer::TraversalAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+<para>Algo To Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements algoToName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/graph_query_optimizer.cpp" line="2904" column="20" bodyfile="src/graph/graph_query_optimizer.cpp" bodystart="2904" bodyend="2914"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/adjacency_list.h" line="36" column="1"/>
+  </compounddef>
+</doxygen>

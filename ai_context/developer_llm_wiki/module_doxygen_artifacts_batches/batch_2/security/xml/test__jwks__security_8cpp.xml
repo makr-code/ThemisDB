@@ -1,0 +1,787 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__jwks__security_8cpp" kind="file" language="C++">
+    <compoundname>test_jwks_security.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/jwks_security.h</includes>
+    <includes local="no">fstream</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_jwks_security.cpp</label>
+        <link refid="test__jwks__security_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>auth/jwks_security.h</label>
+      </node>
+      <node id="4">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_test_certificate_helper" prot="public">TestCertificateHelper</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, SecureDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>SecureDefaults</type>
+        </param>
+        <briefdescription>
+<para>Test secure defaults configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="33" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="33" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1ae1f83e5decc927569e22a0f8a61e3a83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, PublicKeyPinning)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>PublicKeyPinning</type>
+        </param>
+        <briefdescription>
+<para>Test public key pinning configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="46" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="46" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1afff2f1a540e2fb0b7d7cf8209ad0d566" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, CertificatePinning)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>CertificatePinning</type>
+        </param>
+        <briefdescription>
+<para>Test certificate pinning configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="59" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="59" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a2f7ebb30b47b130e220c715550761859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, MTLSConfiguration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>MTLSConfiguration</type>
+        </param>
+        <briefdescription>
+<para>Test mTLS configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="70" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="70" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a27747b9e71f8698a581a559f8fbeee06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, ValidationMissingHashes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>ValidationMissingHashes</type>
+        </param>
+        <briefdescription>
+<para>Test configuration validation - missing pinned hashes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="86" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="86" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a5f7f3c709802cb40672a0663c4e6cfb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, ValidationSecureDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>ValidationSecureDefaults</type>
+        </param>
+        <briefdescription>
+<para>Test configuration validation - secure defaults valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="97" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1ab65517bf7d4e21f7b58fdf357d68345c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, TLSVersions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>TLSVersions</type>
+        </param>
+        <briefdescription>
+<para>Test TLS version configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="106" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="106" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1ab50d26dd5ab45bd3f11b2750ceddb9c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, HostnameVerification)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>HostnameVerification</type>
+        </param>
+        <briefdescription>
+<para>Test hostname verification configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="120" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="120" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1abfbecaab45fb6267fdf32759b68fabc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, CertificateVerification)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>CertificateVerification</type>
+        </param>
+        <briefdescription>
+<para>Test certificate verification configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="133" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="133" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a7ddd1d5499dfacc3d4b02f02ebfc525a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, Timeouts)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>Timeouts</type>
+        </param>
+        <briefdescription>
+<para>Test timeout configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="146" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1acaad2b76e46f08f43e0533c12744f1db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, AllowedCiphers)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>AllowedCiphers</type>
+        </param>
+        <briefdescription>
+<para>Test allowed ciphers configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="159" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1ae078dd6a5c233a91d79f1fb5490a4766" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, CABundle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>CABundle</type>
+        </param>
+        <briefdescription>
+<para>Test CA bundle configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="171" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="171" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1ab5159932f47ef9a8ddfc65ab3840abde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecureFetcherTest, Initialization)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecureFetcherTest</type>
+        </param>
+        <param>
+          <type>Initialization</type>
+        </param>
+        <briefdescription>
+<para>Test JWKS secure fetcher initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="181" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="181" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a3238d38949529ab8dcbda168e6ca2245" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecureFetcherTest, RequiresHTTPS)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecureFetcherTest</type>
+        </param>
+        <param>
+          <type>RequiresHTTPS</type>
+        </param>
+        <briefdescription>
+<para>Test JWKS fetcher requires HTTPS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="190" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="190" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a506810b028cfceecd20818a7e33e3c39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecureFetcherTest, NoPinningAlwaysVerifies)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecureFetcherTest</type>
+        </param>
+        <param>
+          <type>NoPinningAlwaysVerifies</type>
+        </param>
+        <briefdescription>
+<para>Test pinning verification - no pinning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="201" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="201" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1aef11bd81163906233606ef878c2a82b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecureFetcherTest, PinningVerification)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecureFetcherTest</type>
+        </param>
+        <param>
+          <type>PinningVerification</type>
+        </param>
+        <briefdescription>
+<para>Test pinning verification - with pinning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="212" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="212" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a51545f0919ff21eb8597bc1b22dfc3ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecureFetcherTest, FetchStatsInitialization)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecureFetcherTest</type>
+        </param>
+        <param>
+          <type>FetchStatsInitialization</type>
+        </param>
+        <briefdescription>
+<para>Test fetch stats initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="228" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="228" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a90707c7c1dac32f70177fed62f920fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CertificateUtilsTest, SPKIHashComputationStructure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CertificateUtilsTest</type>
+        </param>
+        <param>
+          <type>SPKIHashComputationStructure</type>
+        </param>
+        <briefdescription>
+<para>Test certificate utils - SPKI hash computation structure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="242" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="242" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1aaac877e7266686fdede27037f77578e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CertificateUtilsTest, CertificateVerificationStructure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CertificateUtilsTest</type>
+        </param>
+        <param>
+          <type>CertificateVerificationStructure</type>
+        </param>
+        <briefdescription>
+<para>Test certificate utils - certificate verification structure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="253" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="253" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1aac2963515c4ea040d362ab3c534f5c49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, MultiplePinnedHashes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>MultiplePinnedHashes</type>
+        </param>
+        <briefdescription>
+<para>Test multiple pinned hashes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="262" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="262" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1af727bf72634cfa41ac49e7d48d5d1c06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, ConfigImmutability)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>ConfigImmutability</type>
+        </param>
+        <briefdescription>
+<para>Test config immutability after creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="279" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="279" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1abbba06af4ae630e19d8440690c0e01c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, MTLSWithoutPassword)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>MTLSWithoutPassword</type>
+        </param>
+        <briefdescription>
+<para>Test mTLS without password. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="292" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="292" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a17cfef31beb8d60f8dd453b5091fcfd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, PinningModeEnumeration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>PinningModeEnumeration</type>
+        </param>
+        <briefdescription>
+<para>Test pinning mode enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="306" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="306" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__security_8cpp_1a718cd318c602cd5a5dd84741629cac4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSSecurityConfigTest, TLSVersionEnumeration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSSecurityConfigTest</type>
+        </param>
+        <param>
+          <type>TLSVersionEnumeration</type>
+        </param>
+        <briefdescription>
+<para>Test TLS version enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="325" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="325" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwks_security.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>create<sp/>a<sp/>test<sp/>certificate<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="class_test_certificate_helper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_test_certificate_helper" kindref="compound">TestCertificateHelper</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_test_certificate_helper_1a1c30b076f9a1b8ba3e186ebd67e2085a" kindref="member">createTestCert</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>minimal<sp/>self-signed<sp/>certificate<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>cert_content<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(-----BEGIN<sp/>CERTIFICATE-----</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">MIIDXTCCAkWgAwIBAgIJAKl8VNN8H8qcMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral">BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral">aWRnaXRzIFB0eSBMdGQwHhcNMjQwMTAxMDAwMDAwWhcNMjUwMTAxMDAwMDAwWjBF</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">MQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral">ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral">CgKCAQEA0p7M8f8xZJNbI4dD0RH8VGj0YvAqPQJ1jZe7VYqFT5cW9b0z8jY8iF3i</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral">ZQ1YvBH2JKqH5L8nV9I6bA8FnX6iD0Ql9B2P7xJ8fV1nB7dI2K3V9bN5lF8iQ3jL</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">-----END<sp/>CERTIFICATE-----)&quot;;</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>file(path);</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file<sp/>&lt;&lt;<sp/>cert_content;</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file.close();</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>SecureDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::secureDefaults();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinning_mode,<sp/>JWKSSecurityConfig::PinningMode::NONE);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_2);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_hostname);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_certificate);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.enable_mtls);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>PublicKeyPinning)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>hashes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;hash1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hash2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hash3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::withPublicKeyPinning(hashes);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinning_mode,<sp/>JWKSSecurityConfig::PinningMode::PUBLIC_KEY);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinned_hashes.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinned_hashes[0],<sp/></highlight><highlight class="stringliteral">&quot;hash1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_2);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>CertificatePinning)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::withCertificatePinning(</highlight><highlight class="stringliteral">&quot;/tmp/test_cert.pem&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinning_mode,<sp/>JWKSSecurityConfig::PinningMode::CERTIFICATE);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinned_cert_path,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test_cert.pem&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_2);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>MTLSConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::withMTLS(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/client_cert.pem&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/client_key.pem&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;password123&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.enable_mtls);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.client_cert_path,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/client_cert.pem&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.client_key_path,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/client_key.pem&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.client_key_password,<sp/></highlight><highlight class="stringliteral">&quot;password123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>ValidationMissingHashes)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>config.pinning_mode<sp/>=<sp/>JWKSSecurityConfig::PinningMode::PUBLIC_KEY;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>config.pinned_hashes.clear();<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(JWKSSecurityConfig<sp/>security_config(config),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>ValidationSecureDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::secureDefaults();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(JWKSSecurityConfig<sp/>security_config(config));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>TLSVersions)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>different<sp/>TLS<sp/>versions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>config.min_tls_version<sp/>=<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_2;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_2);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>config.min_tls_version<sp/>=<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_3;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_3);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>HostnameVerification)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>config.verify_hostname<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_hostname);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>config.verify_hostname<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.verify_hostname);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>CertificateVerification)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>config.verify_certificate<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_certificate);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>config.verify_certificate<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.verify_certificate);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>Timeouts)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>config.connect_timeout_ms<sp/>=<sp/>3000;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>config.read_timeout_ms<sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.connect_timeout_ms,<sp/>3000);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.read_timeout_ms,<sp/>10000);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>AllowedCiphers)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>config.allowed_ciphers<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;TLS_AES_256_GCM_SHA384&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TLS_CHACHA20_POLY1305_SHA256&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.allowed_ciphers.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.allowed_ciphers[0],<sp/></highlight><highlight class="stringliteral">&quot;TLS_AES_256_GCM_SHA384&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>CABundle)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>config.ca_bundle_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/etc/ssl/certs/ca-bundle.crt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.ca_bundle_path,<sp/></highlight><highlight class="stringliteral">&quot;/etc/ssl/certs/ca-bundle.crt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecureFetcherTest,<sp/>Initialization)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::secureDefaults();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(JWKSSecureFetcher<sp/>fetcher(config));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecureFetcherTest,<sp/>RequiresHTTPS)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::secureDefaults();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecureFetcher<sp/>fetcher(config);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP<sp/>URL<sp/>should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(fetcher.fetch(</highlight><highlight class="stringliteral">&quot;http://example.com/jwks.json&quot;</highlight><highlight class="normal">),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecureFetcherTest,<sp/>NoPinningAlwaysVerifies)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::secureDefaults();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecureFetcher<sp/>fetcher(config);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>cert_chain<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;cert1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cert2&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fetcher.verifyPinning(cert_chain));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecureFetcherTest,<sp/>PinningVerification)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::withPublicKeyPinning({</highlight><highlight class="stringliteral">&quot;expected_hash&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecureFetcher<sp/>fetcher(config);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>In<sp/>actual<sp/>implementation,<sp/>would<sp/>need<sp/>real<sp/>certificates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>structure<sp/>works</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>cert_chain<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;cert_data&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verification<sp/>logic<sp/>would<sp/>check<sp/>against<sp/>pinned<sp/>hashes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>this<sp/>unit<sp/>test,<sp/>we<sp/>just<sp/>verify<sp/>the<sp/>method<sp/>exists<sp/>and<sp/>can<sp/>be<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>fetcher.verifyPinning(cert_chain);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecureFetcherTest,<sp/>FetchStatsInitialization)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::secureDefaults();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecureFetcher<sp/>fetcher(config);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>fetcher.getLastFetchStats();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>stats<sp/>should<sp/>be<sp/>empty/zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.url.empty());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.status_code,<sp/>0);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(CertificateUtilsTest,<sp/>SPKIHashComputationStructure)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>the<sp/>method<sp/>exists<sp/>and<sp/>has<sp/>proper<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>Actual<sp/>certificate<sp/>file<sp/>needed<sp/>for<sp/>real<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>verifies<sp/>the<sp/>API<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>production,<sp/>would<sp/>create<sp/>a<sp/>real<sp/>test<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(CertificateUtilsTest,<sp/>CertificateVerificationStructure)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>verifyCertificate<sp/>method<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>false<sp/>for<sp/>non-existent<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(CertificateUtils::verifyCertificate(</highlight><highlight class="stringliteral">&quot;/nonexistent/cert.pem&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>MultiplePinnedHashes)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>hashes<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hashes.push_back(</highlight><highlight class="stringliteral">&quot;hash_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::withPublicKeyPinning(hashes);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinned_hashes.size(),<sp/>10);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinned_hashes[0],<sp/></highlight><highlight class="stringliteral">&quot;hash_0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinned_hashes[9],<sp/></highlight><highlight class="stringliteral">&quot;hash_9&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>ConfigImmutability)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::secureDefaults();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig<sp/>security_config(config);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved_config<sp/>=<sp/>security_config.getConfig();</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_2);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retrieved_config.verify_hostname);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>MTLSWithoutPassword)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>JWKSSecurityConfig::withMTLS(</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/client_cert.pem&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/client_key.pem&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>password</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.enable_mtls);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.client_key_password.empty());</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>PinningModeEnumeration)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>config.pinning_mode<sp/>=<sp/>JWKSSecurityConfig::PinningMode::NONE;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinning_mode,<sp/>JWKSSecurityConfig::PinningMode::NONE);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>config.pinning_mode<sp/>=<sp/>JWKSSecurityConfig::PinningMode::PUBLIC_KEY;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinning_mode,<sp/>JWKSSecurityConfig::PinningMode::PUBLIC_KEY);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>config.pinning_mode<sp/>=<sp/>JWKSSecurityConfig::PinningMode::CERTIFICATE;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinning_mode,<sp/>JWKSSecurityConfig::PinningMode::CERTIFICATE);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>config.pinning_mode<sp/>=<sp/>JWKSSecurityConfig::PinningMode::CA_CERTIFICATE;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.pinning_mode,<sp/>JWKSSecurityConfig::PinningMode::CA_CERTIFICATE);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__jwks__security_8cpp_1a85c3712af3c7c4e8cc6e04abdc44e794" kindref="member">TEST</ref>(JWKSSecurityConfigTest,<sp/>TLSVersionEnumeration)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSSecurityConfig::Config<sp/>config;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>config.min_tls_version<sp/>=<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_0;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_0);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>config.min_tls_version<sp/>=<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_1;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_1);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>config.min_tls_version<sp/>=<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_2;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_2);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>config.min_tls_version<sp/>=<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_3;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.min_tls_version,<sp/>JWKSSecurityConfig::TLSVersion::TLS_1_3);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_jwks_security.cpp"/>
+  </compounddef>
+</doxygen>

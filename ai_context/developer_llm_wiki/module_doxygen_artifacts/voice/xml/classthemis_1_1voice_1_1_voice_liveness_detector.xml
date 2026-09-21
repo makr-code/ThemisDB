@@ -1,0 +1,659 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_liveness_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceLivenessDetector</compoundname>
+    <includes refid="voice__liveness__detector_8h" local="no">voice_liveness_detector.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" prot="public">themis::voice::VoiceLivenessDetector::Config</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result" prot="public">themis::voice::VoiceLivenessDetector::VerificationResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a0571d39ba4c8e57d4d1086a03dc81dcc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::voice::VoiceLivenessDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="149" column="12" bodyfile="include/voice/voice_liveness_detector.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a6d92611433de362a6c2a2e2beb2b8624" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceLivenessDetector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="150" column="24" bodyfile="include/voice/voice_liveness_detector.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a258f19caceac5df3165dcc3b6bd36d23" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceLivenessDetector::next_challenge_id_</definition>
+        <argsstring></argsstring>
+        <name>next_challenge_id_</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::next_challenge_id_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="152" column="14" bodyfile="include/voice/voice_liveness_detector.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_detector_1ad73ee84f3063cd341ecf47138c40e27b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> &gt;</type>
+        <definition>std::map&lt;uint64_t, Challenge&gt; themis::voice::VoiceLivenessDetector::active_challenges_</definition>
+        <argsstring></argsstring>
+        <name>active_challenges_</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::active_challenges_</qualifiedname>
+        <briefdescription>
+<para>Pending challenges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="153" column="14" bodyfile="include/voice/voice_liveness_detector.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a312491bdefd758198ce3a5a285aebee0" prot="private" static="no" mutable="no">
+        <type>std::set&lt; uint64_t &gt;</type>
+        <definition>std::set&lt;uint64_t&gt; themis::voice::VoiceLivenessDetector::verified_challenges_</definition>
+        <argsstring></argsstring>
+        <name>verified_challenges_</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::verified_challenges_</qualifiedname>
+        <briefdescription>
+<para>Previously verified (replay detection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="154" column="14" bodyfile="include/voice/voice_liveness_detector.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_detector_1ab595f1d4fd51390198f9cf2d4664228e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, int64_t &gt;</type>
+        <definition>std::map&lt;uint64_t, int64_t&gt; themis::voice::VoiceLivenessDetector::verified_timestamps_</definition>
+        <argsstring></argsstring>
+        <name>verified_timestamps_</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::verified_timestamps_</qualifiedname>
+        <briefdescription>
+<para>When each challenge was verified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="155" column="14" bodyfile="include/voice/voice_liveness_detector.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceLivenessDetector::VoiceLivenessDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>VoiceLivenessDetector</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::VoiceLivenessDetector</qualifiedname>
+        <briefdescription>
+<para>Construct detector with default config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a99e81f229f5fc76f0fa929ee241b28d4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceLivenessDetector::VoiceLivenessDetector</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>VoiceLivenessDetector</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::VoiceLivenessDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct detector with custom config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Liveness detection configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="98" column="14" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a929a0993dc63c95e2b3060d45a84165d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceLivenessDetector::~VoiceLivenessDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VoiceLivenessDetector</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::~VoiceLivenessDetector</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a5a52dc7d12b40a31df39072bfe359b7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceLivenessDetector::VoiceLivenessDetector</definition>
+        <argsstring>(const VoiceLivenessDetector &amp;)=delete</argsstring>
+        <name>VoiceLivenessDetector</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::VoiceLivenessDetector</qualifiedname>
+        <param>
+          <type>const VoiceLivenessDetector &amp;</type>
+        </param>
+        <briefdescription>
+<para>Delete copy, allow move. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="104" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1aacf057dc0553d901a187c3c5faa1da8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref> &amp;</type>
+        <definition>VoiceLivenessDetector &amp; themis::voice::VoiceLivenessDetector::operator=</definition>
+        <argsstring>(const VoiceLivenessDetector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="105" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a02168009f5360b23d6ae097a7c280558" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceLivenessDetector::VoiceLivenessDetector</definition>
+        <argsstring>(VoiceLivenessDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>VoiceLivenessDetector</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::VoiceLivenessDetector</qualifiedname>
+        <param>
+          <type>VoiceLivenessDetector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a0863fd4621bfeaf069d2e827b11786d5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref> &amp;</type>
+        <definition>VoiceLivenessDetector &amp; themis::voice::VoiceLivenessDetector::operator=</definition>
+        <argsstring>(VoiceLivenessDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="107" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a1f9d4b1f2502053a52c9ddc3c9099db8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> &gt;</type>
+        <definition>std::optional&lt; Challenge &gt; themis::voice::VoiceLivenessDetector::issueChallenge</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>issueChallenge</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::issueChallenge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Issue a new liveness challenge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Issue <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> with unique ID and random phrase; nullopt if generation failed @error 7100: <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> generation failed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), cleanupExpiredChallengesUnlocked(), nowMs(), generateRandomChallenge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="113" column="20" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="118" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a225453883a4972dee8638dd7a803e262" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VoiceLivenessDetector::VerificationResult themis::voice::VoiceLivenessDetector::verifyResponse</definition>
+        <argsstring>(const std::string &amp;user_id, const Challenge &amp;challenge, const std::string &amp;audio_response)</argsstring>
+        <name>verifyResponse</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::verifyResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> &amp;</type>
+          <declname>challenge</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio_response</declname>
+        </param>
+        <briefdescription>
+<para>Verify a challenge response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>challenge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original challenge issued </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio data containing user&apos;s response </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result" kindref="compound">VerificationResult</ref> with pass/fail verdict @error 7101: <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> verification failed @error 7102: Stale challenge (&gt;5s old) @error 7103: Replay attack detected @error 7104: Invalid challenge response (text mismatch)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">challenge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nowMs(), empty(), size(), lock(), cleanupExpiredChallengesUnlocked(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="124" column="25" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="151" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a02fa076c19c29f2b0ab32ab49a571917" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> &gt;</type>
+        <definition>std::optional&lt; Challenge &gt; themis::voice::VoiceLivenessDetector::getChallenge</definition>
+        <argsstring>(uint64_t challenge_id) const</argsstring>
+        <name>getChallenge</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::getChallenge</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>challenge_id</declname>
+        </param>
+        <briefdescription>
+<para>Get an active challenge by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>challenge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> if found and not expired; nullopt otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="133" column="20" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="257" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a6f6984c5972dd34a59bfd723dbf0ff54" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceLivenessDetector::cleanupExpiredChallenges</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupExpiredChallenges</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::cleanupExpiredChallenges</qualifiedname>
+        <briefdescription>
+<para>Cleanup expired challenges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Expired Challenges.</para>
+<para><simplesect kind="return"><para>Number of challenges cleaned up</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), cleanupExpiredChallengesUnlocked(), nowMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="137" column="13" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="280" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a5215b4019594a1ddd461d419adbe69d6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceLivenessDetector::isReplayedChallenge</definition>
+        <argsstring>(uint64_t challenge_id) const</argsstring>
+        <name>isReplayedChallenge</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::isReplayedChallenge</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>challenge_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if a challenge has been verified before (replay detection). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>challenge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if challenge was previously verified (replay); false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="142" column="11" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="291" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1aa58e4627e0a17714ed3b322479a1ea9f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceLivenessDetector::getActiveChallengeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveChallengeCount</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::getActiveChallengeCount</qualifiedname>
+        <briefdescription>
+<para>Get current challenge count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of active challenges </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="146" column="13" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="301" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a9461e5118fa6852a12bb8bbe3c088f43" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceLivenessDetector::speechToText</definition>
+        <argsstring>(const std::string &amp;audio)</argsstring>
+        <name>speechToText</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::speechToText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+<para>Extract a deterministic transcript candidate from the response payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Speech To Text.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw response payload; opaque/binary data is rejected fail-closed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recognized text; empty string if extraction failed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), normalizeText(), extractTranscriptCandidate(), std::isalpha(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="160" column="17" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="317" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1ad10e5bfb7e8822e0b1e8e7ba1416ffd6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceLivenessDetector::generateRandomChallenge</definition>
+        <argsstring>()</argsstring>
+        <name>generateRandomChallenge</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::generateRandomChallenge</qualifiedname>
+        <briefdescription>
+<para>Generate random challenge phrase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Random <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref>.</para>
+<para><simplesect kind="return"><para>Random phrase suitable for voice challenge</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), dis(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="164" column="17" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="338" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1abdd93be2fbeed19456671ced2ff1c38c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceLivenessDetector::nowMs</definition>
+        <argsstring>() const</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::nowMs</qualifiedname>
+        <briefdescription>
+<para>Get current time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Milliseconds since epoch </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="168" column="13" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="346" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_detector_1a1bd64cf65972334090ae92b7bff0c4ed" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceLivenessDetector::normalizeText</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>normalizeText</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::normalizeText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Normalize text for comparison (lowercase, remove punctuation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalize Text.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Normalized text</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::isalnum(), std::tolower(), std::isspace(), empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="173" column="17" bodyfile="src/voice/voice_liveness_detector.cpp" bodystart="358" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Challenge-response based liveness detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Prevents replay and playback attacks by requiring clients to:<orderedlist>
+<listitem><para>Receive a random challenge phrase</para>
+</listitem><listitem><para>Capture live audio containing that phrase</para>
+</listitem><listitem><para>Return the audio within a time window</para>
+</listitem><listitem><para>Prove the response matches the challenge (via speech-to-text)</para>
+</listitem></orderedlist>
+</para>
+<para>Thread-safe: all methods acquire internal mutex.</para>
+<para>The implementation is intentionally fail-closed: opaque or malformed binary payloads are rejected unless they contain a locally verifiable transcript representation. This avoids granting access when upstream capture or speech extraction data is incomplete. </para>
+    </detaileddescription>
+    <location file="include/voice/voice_liveness_detector.h" line="75" column="1" bodyfile="include/voice/voice_liveness_detector.h" bodystart="75" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1ad73ee84f3063cd341ecf47138c40e27b" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>active_challenges_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a6f6984c5972dd34a59bfd723dbf0ff54" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>cleanupExpiredChallenges</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a0571d39ba4c8e57d4d1086a03dc81dcc" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1ad10e5bfb7e8822e0b1e8e7ba1416ffd6" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>generateRandomChallenge</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1aa58e4627e0a17714ed3b322479a1ea9f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>getActiveChallengeCount</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a02fa076c19c29f2b0ab32ab49a571917" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>getChallenge</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a5215b4019594a1ddd461d419adbe69d6" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>isReplayedChallenge</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a1f9d4b1f2502053a52c9ddc3c9099db8" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>issueChallenge</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a6d92611433de362a6c2a2e2beb2b8624" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a258f19caceac5df3165dcc3b6bd36d23" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>next_challenge_id_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a1bd64cf65972334090ae92b7bff0c4ed" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>normalizeText</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abdd93be2fbeed19456671ced2ff1c38c" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1aacf057dc0553d901a187c3c5faa1da8f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a0863fd4621bfeaf069d2e827b11786d5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a9461e5118fa6852a12bb8bbe3c088f43" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>speechToText</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a312491bdefd758198ce3a5a285aebee0" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>verified_challenges_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1ab595f1d4fd51390198f9cf2d4664228e" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>verified_timestamps_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a225453883a4972dee8638dd7a803e262" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>verifyResponse</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>VoiceLivenessDetector</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a99e81f229f5fc76f0fa929ee241b28d4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>VoiceLivenessDetector</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a5a52dc7d12b40a31df39072bfe359b7a" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>VoiceLivenessDetector</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a02168009f5360b23d6ae097a7c280558" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>VoiceLivenessDetector</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a929a0993dc63c95e2b3060d45a84165d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector</scope><name>~VoiceLivenessDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::ThreadPoolManager::Config</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1abb252472114ee2dd22dd6c844e1ee4c1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref></type>
+        <definition>ThreadPool::Config themis::utils::ThreadPoolManager::Config::io_pool</definition>
+        <argsstring></argsstring>
+        <name>io_pool</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::Config::io_pool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="200" column="28" bodyfile="include/utils/thread_pool_manager.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1acfd2384529c37dac5b0c35271afd081e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref></type>
+        <definition>ThreadPool::Config themis::utils::ThreadPoolManager::Config::cpu_pool</definition>
+        <argsstring></argsstring>
+        <name>cpu_pool</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::Config::cpu_pool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="201" column="28" bodyfile="include/utils/thread_pool_manager.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1a1b62d2c7bc4722264926488aa966eba4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref></type>
+        <definition>ThreadPool::Config themis::utils::ThreadPoolManager::Config::blocking_pool</definition>
+        <argsstring></argsstring>
+        <name>blocking_pool</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::Config::blocking_pool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="202" column="28" bodyfile="include/utils/thread_pool_manager.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1a6978ce6f378f90f18e1a0398cc6894c8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::ThreadPoolManager::Config::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::Config::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="204" column="14" bodyfile="include/utils/thread_pool_manager.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1acca3ddae6332aed818e10e8861b91f86" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::utils::ThreadPoolManager::Config::metrics_interval</definition>
+        <argsstring></argsstring>
+        <name>metrics_interval</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::Config::metrics_interval</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="205" column="30" bodyfile="include/utils/thread_pool_manager.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::ThreadPool::Config</label>
+        <link refid="structthemis_1_1utils_1_1_thread_pool_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::ThreadPoolManager::Config</label>
+        <link refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>blocking_pool</edgelabel>
+          <edgelabel>cpu_pool</edgelabel>
+          <edgelabel>io_pool</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/thread_pool_manager.h" line="199" column="5" bodyfile="include/utils/thread_pool_manager.h" bodystart="199" bodyend="206"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1a1b62d2c7bc4722264926488aa966eba4" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::Config</scope><name>blocking_pool</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1acfd2384529c37dac5b0c35271afd081e" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::Config</scope><name>cpu_pool</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1a6978ce6f378f90f18e1a0398cc6894c8" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::Config</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1abb252472114ee2dd22dd6c844e1ee4c1" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::Config</scope><name>io_pool</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1acca3ddae6332aed818e10e8861b91f86" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::Config</scope><name>metrics_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

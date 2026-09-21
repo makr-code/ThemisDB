@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1content_1_1adapters" kind="namespace" language="C++">
+    <compoundname>themis::content::adapters</compoundname>
+    <innerclass refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory" prot="public">themis::content::adapters::FormatExtractorFactory</innerclass>
+    <innernamespace refid="namespacethemis_1_1content_1_1adapters_1_1test">themis::content::adapters::test</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1a3cc697ca308268a4c7aa8bd4a63b35de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IFormatExtractor &gt; themis::content::adapters::createPdfExtractorAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>createPdfExtractorAdapter</name>
+        <qualifiedname>themis::content::adapters::createPdfExtractorAdapter</qualifiedname>
+        <briefdescription>
+<para>Create Pdf Extractor Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createPdfExtractorAdapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/adapters/pdf_extractor_adapter.cpp" line="79" column="17" bodyfile="src/content/adapters/pdf_extractor_adapter.cpp" bodystart="79" bodyend="81" declfile="include/content/adapters/format_extractor_adapters.h" declline="30" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1a4a53c2bd57e186387850d4c991a8949e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IFormatExtractor &gt; themis::content::adapters::createOfficeExtractorAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>createOfficeExtractorAdapter</name>
+        <qualifiedname>themis::content::adapters::createOfficeExtractorAdapter</qualifiedname>
+        <briefdescription>
+<para>Create Office Extractor Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createOfficeExtractorAdapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/adapters/office_extractor_adapter.cpp" line="104" column="17" bodyfile="src/content/adapters/office_extractor_adapter.cpp" bodystart="104" bodyend="106" declfile="include/content/adapters/format_extractor_adapters.h" declline="36" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1a8bcaf6c68211adf36163b94cbecec9e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IFormatExtractor &gt; themis::content::adapters::createImageExtractorAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>createImageExtractorAdapter</name>
+        <qualifiedname>themis::content::adapters::createImageExtractorAdapter</qualifiedname>
+        <briefdescription>
+<para>Create Image Extractor Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createImageExtractorAdapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/adapters/image_extractor_adapter.cpp" line="86" column="17" bodyfile="src/content/adapters/image_extractor_adapter.cpp" bodystart="86" bodyend="88" declfile="include/content/adapters/format_extractor_adapters.h" declline="42" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1af9f7bafa4bfb7a63b28c56c396109b65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IFormatExtractor &gt; themis::content::adapters::createArchiveExtractorAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>createArchiveExtractorAdapter</name>
+        <qualifiedname>themis::content::adapters::createArchiveExtractorAdapter</qualifiedname>
+        <briefdescription>
+<para>Create Archive Extractor Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createArchiveExtractorAdapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/adapters/archive_extractor_adapter.cpp" line="99" column="17" bodyfile="src/content/adapters/archive_extractor_adapter.cpp" bodystart="99" bodyend="101" declfile="include/content/adapters/format_extractor_adapters.h" declline="48" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1ac8db5e5f807b97adf4e47e21521330d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IFormatExtractor &gt; themis::content::adapters::createAudioExtractorAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>createAudioExtractorAdapter</name>
+        <qualifiedname>themis::content::adapters::createAudioExtractorAdapter</qualifiedname>
+        <briefdescription>
+<para>Create Audio Extractor Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createAudioExtractorAdapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/adapters/audio_extractor_adapter.cpp" line="105" column="17" bodyfile="src/content/adapters/audio_extractor_adapter.cpp" bodystart="105" bodyend="107" declfile="include/content/adapters/format_extractor_adapters.h" declline="54" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1a7438be469c45897db6118ae84ec0e06b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IFormatExtractor &gt; themis::content::adapters::createTextExtractorAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>createTextExtractorAdapter</name>
+        <qualifiedname>themis::content::adapters::createTextExtractorAdapter</qualifiedname>
+        <briefdescription>
+<para>Create Text Extractor Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createTextExtractorAdapter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/adapters/text_extractor_adapter.cpp" line="102" column="17" bodyfile="src/content/adapters/text_extractor_adapter.cpp" bodystart="102" bodyend="104" declfile="include/content/adapters/format_extractor_adapters.h" declline="60" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1adapters_1a85db9f0893e8021c216150846d930cd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory" kindref="compound">FormatExtractorFactory</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; FormatExtractorFactory &gt; themis::content::adapters::createDefaultFormatExtractorFactory</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultFormatExtractorFactory</name>
+        <qualifiedname>themis::content::adapters::createDefaultFormatExtractorFactory</qualifiedname>
+        <briefdescription>
+<para>Create Default Format Extractor Factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1content_1_1adapters_1a7438be469c45897db6118ae84ec0e06b" kindref="member">createTextExtractorAdapter()</ref>, registerExtractor(), <ref refid="namespacethemis_1_1content_1_1adapters_1a3cc697ca308268a4c7aa8bd4a63b35de" kindref="member">createPdfExtractorAdapter()</ref>, <ref refid="namespacethemis_1_1content_1_1adapters_1a4a53c2bd57e186387850d4c991a8949e" kindref="member">createOfficeExtractorAdapter()</ref>, <ref refid="namespacethemis_1_1content_1_1adapters_1a8bcaf6c68211adf36163b94cbecec9e5" kindref="member">createImageExtractorAdapter()</ref>, <ref refid="namespacethemis_1_1content_1_1adapters_1af9f7bafa4bfb7a63b28c56c396109b65" kindref="member">createArchiveExtractorAdapter()</ref>, <ref refid="namespacethemis_1_1content_1_1adapters_1ac8db5e5f807b97adf4e47e21521330d4" kindref="member">createAudioExtractorAdapter()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/adapters/format_extractor_factory.cpp" line="83" column="17" bodyfile="src/content/adapters/format_extractor_factory.cpp" bodystart="83" bodyend="117" declfile="include/content/adapters/format_extractor_adapters.h" declline="88" declcolumn="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/adapters/format_extractor_adapters.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

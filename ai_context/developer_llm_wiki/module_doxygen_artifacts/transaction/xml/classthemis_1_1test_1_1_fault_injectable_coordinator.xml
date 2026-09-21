@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_fault_injectable_coordinator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::test::FaultInjectableCoordinator</compoundname>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_transaction_coordinator" prot="public" virt="non-virtual">themis::transaction::ITransactionCoordinator</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1aaa6329e965640c1cca609d3aeb2f61f5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::FaultInjectableCoordinator::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="245" column="24" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a5f9affb687d998a3d4d6c3a521cc9f55" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0c" kindref="member">FaultPattern</ref></type>
+        <definition>FaultPattern themis::test::FaultInjectableCoordinator::pattern_</definition>
+        <argsstring></argsstring>
+        <name>pattern_</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::pattern_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="246" column="18" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a5af0827c1e0650695aa72d1b26e71395" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::test::FaultInjectableCoordinator::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="247" column="18" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a17c2187623b6e9210cd78a7435dc7428" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1transaction_1a996913b80effcd72e90c43af1984c6d8" kindref="member">TxnLifecycleState</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TxnLifecycleState&gt; themis::test::FaultInjectableCoordinator::states_</definition>
+        <argsstring></argsstring>
+        <name>states_</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::states_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="248" column="24" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1aa0f9604c6bae81f64983d37e20c72926" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::FaultInjectableCoordinator::FaultInjectableCoordinator</definition>
+        <argsstring>(FaultPattern pattern=FaultPattern::NONE, unsigned rng_seed=42)</argsstring>
+        <name>FaultInjectableCoordinator</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::FaultInjectableCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0c" kindref="member">FaultPattern</ref></type>
+          <declname>pattern</declname>
+          <defval><ref refid="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0cab50339a10e1de285ac99d4c3990b8693" kindref="member">FaultPattern::NONE</ref></defval>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>rng_seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="67" column="14" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a785903c157b62f8281c4c633f3448058" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::FaultInjectableCoordinator::setFaultPattern</definition>
+        <argsstring>(FaultPattern p)</argsstring>
+        <name>setFaultPattern</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::setFaultPattern</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0c" kindref="member">FaultPattern</ref></type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="72" column="10" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1ac30c4a81fccf5ea7227ac13e05dd6e78" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1afc769200a9b379f277622191f028a20d" kindref="member">CommitProtocol</ref></type>
+        <definition>CommitProtocol themis::test::FaultInjectableCoordinator::protocolType</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>protocolType</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::protocolType</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a2efca7c70b19b6bb81969a97298f33a4">protocolType</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="79" column="20" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1afd48bcdd740671ba77cf1811cf38ebeb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::test::FaultInjectableCoordinator::protocolName</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>protocolName</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::protocolName</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a2e0bdfc4eb0d8b721ff73b33d25a2c55">protocolName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="83" column="22" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a19b8588bae66ab0eb74d80f4805410be" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_coordinator_capabilities" kindref="compound">CoordinatorCapabilities</ref></type>
+        <definition>CoordinatorCapabilities themis::test::FaultInjectableCoordinator::capabilities</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>capabilities</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::capabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a6a4675bcfc9eb6fa897352aa8ba9bb3a">capabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="87" column="29" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="87" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a76b6377a06a84bb8a261b0b444ff2505" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>TxnCoordinatorResult themis::test::FaultInjectableCoordinator::begin</definition>
+        <argsstring>(std::string_view txn_id, const TxnCoordinatorOptions &amp;={}) override</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::begin</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a89c5f7b36530a9e41301be25fee1a563">begin</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_txn_coordinator_options" kindref="compound">TxnCoordinatorOptions</ref> &amp;</type>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="101" column="26" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="101" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1afca064b7833af94b58f2df2dfab3a30d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>TxnCoordinatorResult themis::test::FaultInjectableCoordinator::prepare</definition>
+        <argsstring>(std::string_view txn_id) override</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::prepare</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a8ca42939b5e5121404d69e0d5768cbec">prepare</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="120" column="26" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="120" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1ab6d79016efba15b77c773b9f9ed6a7ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>TxnCoordinatorResult themis::test::FaultInjectableCoordinator::commit</definition>
+        <argsstring>(std::string_view txn_id) override</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::commit</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a781c9159cfd5306b6c146ae72d9aa264">commit</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="168" column="26" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="168" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a019a36b62ac5ea1b3798d685ab76a81e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>TxnCoordinatorResult themis::test::FaultInjectableCoordinator::abort</definition>
+        <argsstring>(std::string_view txn_id) override</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::abort</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ab8892fcfb2017d0e55f00d644ce8f56d">abort</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="195" column="26" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="195" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a29ee9df4c02a5ca07773afed6812ef88" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1a996913b80effcd72e90c43af1984c6d8" kindref="member">TxnLifecycleState</ref></type>
+        <definition>TxnLifecycleState themis::test::FaultInjectableCoordinator::getState</definition>
+        <argsstring>(std::string_view txn_id) const override</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::getState</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ae4fb5dfcf6da895463a2edd65e16eac6">getState</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="213" column="23" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="213" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1af5e8419d019c4d82651b09480a89687b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor" kindref="compound">InDoubtTxnDescriptor</ref> &gt;</type>
+        <definition>std::vector&lt; InDoubtTxnDescriptor &gt; themis::test::FaultInjectableCoordinator::getInDoubtTransactions</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInDoubtTransactions</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::getInDoubtTransactions</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ab3bc7d6510a614edca752830083d2736">getInDoubtTransactions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="219" column="17" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="219" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injectable_coordinator_1a28b8a89829f58d7b6886342a002775fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::test::FaultInjectableCoordinator::recoverInDoubt</definition>
+        <argsstring>() override</argsstring>
+        <name>recoverInDoubt</name>
+        <qualifiedname>themis::test::FaultInjectableCoordinator::recoverInDoubt</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a9394eb6615f3e76911ddcfd1e453297b">recoverInDoubt</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="232" column="12" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="232" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal thread-safe mock coordinator that can simulate fault patterns. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements ITransactionCoordinator so tests exercise the interface contract without depending on internal coordinator classes or non-existent headers. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::test::FaultInjectableCoordinator</label>
+        <link refid="classthemis_1_1test_1_1_fault_injectable_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::ITransactionCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_transaction_coordinator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::test::FaultInjectableCoordinator</label>
+        <link refid="classthemis_1_1test_1_1_fault_injectable_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::ITransactionCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_transaction_coordinator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="65" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="65" bodyend="249"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a019a36b62ac5ea1b3798d685ab76a81e" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>abort</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a76b6377a06a84bb8a261b0b444ff2505" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>begin</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a19b8588bae66ab0eb74d80f4805410be" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>capabilities</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1ab6d79016efba15b77c773b9f9ed6a7ba" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>commit</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1aa0f9604c6bae81f64983d37e20c72926" prot="public" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>FaultInjectableCoordinator</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1af5e8419d019c4d82651b09480a89687b" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>getInDoubtTransactions</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a29ee9df4c02a5ca07773afed6812ef88" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>getState</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1aa341b2756a2038af87f39a1fc8535838" prot="public" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>ITransactionCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a7faf164c7e210abcf6f39774fc2a8ea7" prot="public" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>ITransactionCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ac7ca144f7d5d75f7aad2d856e22435f5" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>ITransactionCoordinator</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1aaa6329e965640c1cca609d3aeb2f61f5" prot="private" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a1f6dda2a66d27b09987c11cdbd434eb3" prot="public" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a905b9fb13148157af638477749b90c8b" prot="public" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a5f9affb687d998a3d4d6c3a521cc9f55" prot="private" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>pattern_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1afca064b7833af94b58f2df2dfab3a30d" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>prepare</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1afd48bcdd740671ba77cf1811cf38ebeb" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>protocolName</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1ac30c4a81fccf5ea7227ac13e05dd6e78" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>protocolType</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a28b8a89829f58d7b6886342a002775fb" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>recoverInDoubt</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a5af0827c1e0650695aa72d1b26e71395" prot="private" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a785903c157b62f8281c4c633f3448058" prot="public" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>setFaultPattern</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a17c2187623b6e9210cd78a7435dc7428" prot="private" virt="non-virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>states_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1af7a28db93769cd65fe18cbe995d671e1" prot="public" virt="virtual"><scope>themis::test::FaultInjectableCoordinator</scope><name>~ITransactionCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

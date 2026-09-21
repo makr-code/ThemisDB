@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_downsampling_tier" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DownsamplingTier</compoundname>
+    <includes refid="downsampling_8h" local="no">downsampling.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_downsampling_tier_1afcc1072bdc00dac49fd40ff5caa22c03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DownsamplingTier::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::DownsamplingTier::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable label (e.g. &quot;1m&quot;, &quot;1h&quot;, &quot;1d&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="37" column="17" bodyfile="include/timeseries/downsampling.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_downsampling_tier_1ae1b4755dd50585367122e61687212ada" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::DownsamplingTier::resolution</definition>
+        <argsstring></argsstring>
+        <name>resolution</name>
+        <qualifiedname>themis::DownsamplingTier::resolution</qualifiedname>
+        <briefdescription>
+<para>Aggregation window width. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="38" column="31" bodyfile="include/timeseries/downsampling.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_downsampling_tier_1a65f199c2656f48a35bf5470fa68a165d" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::DownsamplingTier::retention</definition>
+        <argsstring></argsstring>
+        <name>retention</name>
+        <qualifiedname>themis::DownsamplingTier::retention</qualifiedname>
+        <briefdescription>
+<para>How long to keep this tier&apos;s data (0 = forever). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="39" column="30" bodyfile="include/timeseries/downsampling.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_downsampling_tier_1a2a20ae2749f6d71b5ea46b488e57c12a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_downsampling_tier" kindref="compound">DownsamplingTier</ref></type>
+        <definition>DownsamplingTier themis::DownsamplingTier::minutes</definition>
+        <argsstring>(int n, std::chrono::seconds keep=std::chrono::seconds{0})</argsstring>
+        <name>minutes</name>
+        <qualifiedname>themis::DownsamplingTier::minutes</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>keep</declname>
+          <defval>std::chrono::seconds{0}</defval>
+        </param>
+        <briefdescription>
+<para>Convenience factory for common tier sizes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Minutes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="42" column="29" bodyfile="src/timeseries/downsampling.cpp" bodystart="32" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_downsampling_tier_1a57b87608d5c5c27a3fa78db1374613ea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_downsampling_tier" kindref="compound">DownsamplingTier</ref></type>
+        <definition>DownsamplingTier themis::DownsamplingTier::hours</definition>
+        <argsstring>(int n, std::chrono::seconds keep=std::chrono::seconds{0})</argsstring>
+        <name>hours</name>
+        <qualifiedname>themis::DownsamplingTier::hours</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>keep</declname>
+          <defval>std::chrono::seconds{0}</defval>
+        </param>
+        <briefdescription>
+<para>Hours. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="43" column="29" bodyfile="src/timeseries/downsampling.cpp" bodystart="47" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_downsampling_tier_1a2c654a871f8db21c3e8ab4c09c023226" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_downsampling_tier" kindref="compound">DownsamplingTier</ref></type>
+        <definition>DownsamplingTier themis::DownsamplingTier::days</definition>
+        <argsstring>(int n, std::chrono::seconds keep=std::chrono::seconds{0})</argsstring>
+        <name>days</name>
+        <qualifiedname>themis::DownsamplingTier::days</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>keep</declname>
+          <defval>std::chrono::seconds{0}</defval>
+        </param>
+        <briefdescription>
+<para>Days. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="44" column="29" bodyfile="src/timeseries/downsampling.cpp" bodystart="62" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single resolution tier in the downsampling pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each tier accumulates raw (or finer-grain) data into fixed-width windows and stores the result as a continuous aggregate in <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>. </para>
+    </detaileddescription>
+    <location file="include/timeseries/downsampling.h" line="36" column="1" bodyfile="include/timeseries/downsampling.h" bodystart="36" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_downsampling_tier_1a2c654a871f8db21c3e8ab4c09c023226" prot="public" virt="non-virtual"><scope>themis::DownsamplingTier</scope><name>days</name></member>
+      <member refid="structthemis_1_1_downsampling_tier_1a57b87608d5c5c27a3fa78db1374613ea" prot="public" virt="non-virtual"><scope>themis::DownsamplingTier</scope><name>hours</name></member>
+      <member refid="structthemis_1_1_downsampling_tier_1a2a20ae2749f6d71b5ea46b488e57c12a" prot="public" virt="non-virtual"><scope>themis::DownsamplingTier</scope><name>minutes</name></member>
+      <member refid="structthemis_1_1_downsampling_tier_1afcc1072bdc00dac49fd40ff5caa22c03" prot="public" virt="non-virtual"><scope>themis::DownsamplingTier</scope><name>name</name></member>
+      <member refid="structthemis_1_1_downsampling_tier_1ae1b4755dd50585367122e61687212ada" prot="public" virt="non-virtual"><scope>themis::DownsamplingTier</scope><name>resolution</name></member>
+      <member refid="structthemis_1_1_downsampling_tier_1a65f199c2656f48a35bf5470fa68a165d" prot="public" virt="non-virtual"><scope>themis::DownsamplingTier</scope><name>retention</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

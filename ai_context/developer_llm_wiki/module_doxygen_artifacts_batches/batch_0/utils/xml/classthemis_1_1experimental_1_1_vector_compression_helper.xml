@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1experimental_1_1_vector_compression_helper" kind="class" language="C++" prot="public">
+    <compoundname>themis::experimental::VectorCompressionHelper</compoundname>
+    <includes refid="lossless__vector__integration_8h" local="no">lossless_vector_integration.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_vector_compression_helper_1a7e8696c3381124ba0d92401dc8847098" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>static std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::experimental::VectorCompressionHelper::tryLosslessCompression</definition>
+        <argsstring>(const BaseEntity &amp;e, const std::vector&lt; float &gt; &amp;vec, RocksDBWrapper &amp;db)</argsstring>
+        <name>tryLosslessCompression</name>
+        <qualifiedname>themis::experimental::VectorCompressionHelper::tryLosslessCompression</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_integration.h" line="74" column="26" bodyfile="include/utils/lossless_vector_integration.h" bodystart="74" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_vector_compression_helper_1a5efeab163772b9df50424bd70dfee05d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>static std::optional&lt; std::vector&lt; float &gt; &gt; themis::experimental::VectorCompressionHelper::decompressVector</definition>
+        <argsstring>(const BaseEntity &amp;e)</argsstring>
+        <name>decompressVector</name>
+        <qualifiedname>themis::experimental::VectorCompressionHelper::decompressVector</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_integration.h" line="191" column="26" bodyfile="include/utils/lossless_vector_integration.h" bodystart="191" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vector compression helper. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lossless_vector_integration.h" line="70" column="1" bodyfile="include/utils/lossless_vector_integration.h" bodystart="70" bodyend="264"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1experimental_1_1_vector_compression_helper_1a5efeab163772b9df50424bd70dfee05d" prot="public" virt="non-virtual"><scope>themis::experimental::VectorCompressionHelper</scope><name>decompressVector</name></member>
+      <member refid="classthemis_1_1experimental_1_1_vector_compression_helper_1a7e8696c3381124ba0d92401dc8847098" prot="public" virt="non-virtual"><scope>themis::experimental::VectorCompressionHelper</scope><name>tryLosslessCompression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

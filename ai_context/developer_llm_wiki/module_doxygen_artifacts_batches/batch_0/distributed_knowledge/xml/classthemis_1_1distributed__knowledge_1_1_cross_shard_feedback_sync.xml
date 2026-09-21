@@ -1,0 +1,978 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::CrossShardFeedbackSync</compoundname>
+    <includes refid="cross__shard__feedback__sync_8h" local="no">cross_shard_feedback_sync.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ac5a98c1b431a7b69ab81620d5d84b514" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> &amp;)&gt;</type>
+        <definition>using themis::distributed_knowledge::CrossShardFeedbackSync::FeedbackCallback = std::function&lt;void(const FeedbackSummary&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FeedbackCallback</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::FeedbackCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="88" column="5" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae901741549d3b13a3419492ef6052daf" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> &amp;)&gt;</type>
+        <definition>using themis::distributed_knowledge::CrossShardFeedbackSync::InboundPolicyCheck = std::function&lt;bool(const FeedbackSummary&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InboundPolicyCheck</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::InboundPolicyCheck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="122" column="5" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a3aae69b93a5f811c5d691c6c778eda8e" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> &amp;)&gt;</type>
+        <definition>using themis::distributed_knowledge::CrossShardFeedbackSync::ZeroTrustEnforcer = std::function&lt;bool(const FeedbackSummary&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ZeroTrustEnforcer</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::ZeroTrustEnforcer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="139" column="5" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a703cd74f78a066af3b6a0ebe92b2c456" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref></type>
+        <definition>FeedbackSyncConfig themis::distributed_knowledge::CrossShardFeedbackSync::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="168" column="43" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a82464616a74920c33390ab4874603f2a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::CrossShardFeedbackSync::local_shard_id_</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::local_shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="169" column="43" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ad3ba26bd1441a870d0f4fab3691b1ce4" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(nlohmann::json)&gt;</type>
+        <definition>std::function&lt;void(nlohmann::json)&gt; themis::distributed_knowledge::CrossShardFeedbackSync::gossip_message_fn_</definition>
+        <argsstring></argsstring>
+        <name>gossip_message_fn_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::gossip_message_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="170" column="21" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae738d912bcdb30783b82c1b227159b51" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ac5a98c1b431a7b69ab81620d5d84b514" kindref="member">FeedbackCallback</ref></type>
+        <definition>FeedbackCallback themis::distributed_knowledge::CrossShardFeedbackSync::on_feedback_</definition>
+        <argsstring></argsstring>
+        <name>on_feedback_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::on_feedback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="171" column="43" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a4676c89e64866d250f77c9cb4694abfc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae901741549d3b13a3419492ef6052daf" kindref="member">InboundPolicyCheck</ref></type>
+        <definition>InboundPolicyCheck themis::distributed_knowledge::CrossShardFeedbackSync::policy_check_</definition>
+        <argsstring></argsstring>
+        <name>policy_check_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::policy_check_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="172" column="43" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a69bba23296928da00232bcc5266f3fea" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a3aae69b93a5f811c5d691c6c778eda8e" kindref="member">ZeroTrustEnforcer</ref></type>
+        <definition>ZeroTrustEnforcer themis::distributed_knowledge::CrossShardFeedbackSync::zero_trust_enforcer_</definition>
+        <argsstring></argsstring>
+        <name>zero_trust_enforcer_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::zero_trust_enforcer_</qualifiedname>
+        <briefdescription>
+<para>DK-OR-S. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="173" column="43" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1afd400689d612eda6145846c89bd2d601" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+        <definition>std::shared_ptr&lt;themis::llm::DecisionRecordYamlProcessor&gt; themis::distributed_knowledge::CrossShardFeedbackSync::dr_processor_</definition>
+        <argsstring></argsstring>
+        <name>dr_processor_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::dr_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="176" column="21" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a27b519f4d09a0a122400565df371d77b" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::distributed_knowledge::CrossShardFeedbackSync::seen_ids_</definition>
+        <argsstring></argsstring>
+        <name>seen_ids_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::seen_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="179" column="30" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aaaab2a9dc3e9c68c3d3014a4d1389091" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::published_count_</definition>
+        <argsstring></argsstring>
+        <name>published_count_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::published_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="182" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a45eb5406e16d0b3ed9784c2607ec923f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::received_count_</definition>
+        <argsstring></argsstring>
+        <name>received_count_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::received_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="183" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af60c45bfe82a402c2f086ade4cb62750" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::deduplicated_count_</definition>
+        <argsstring></argsstring>
+        <name>deduplicated_count_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::deduplicated_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="184" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a5a443481b6bf8cdf934d9a927c866be9" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::rejected_by_policy_</definition>
+        <argsstring></argsstring>
+        <name>rejected_by_policy_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::rejected_by_policy_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="185" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a052b472bdba27bfc211c5056496bc248" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::skipped_publish_count_</definition>
+        <argsstring></argsstring>
+        <name>skipped_publish_count_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::skipped_publish_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>DK-OR-B-2: gossip backpressure skips. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="186" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a1411d4ad3d4a780fb77cd44d7b0b9f0e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::erase_count_</definition>
+        <argsstring></argsstring>
+        <name>erase_count_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::erase_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>DK-OR-H-3: GDPR erase ops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="187" column="12" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af60fb1ab3ee576d107a4a15f09707bbd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::distributed_knowledge::CrossShardFeedbackSync::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="189" column="24" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a6fd0b2b31f2f2990fef2212f333495b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::CrossShardFeedbackSync::CrossShardFeedbackSync</definition>
+        <argsstring>(FeedbackSyncConfig config, std::string local_shard_id, std::function&lt; void(nlohmann::json)&gt; gossip_message_fn)</argsstring>
+        <name>CrossShardFeedbackSync</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::CrossShardFeedbackSync</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>local_shard_id</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(nlohmann::json)&gt;</type>
+          <declname>gossip_message_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="90" column="5" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="25" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a08510c6d3df99a1defd926ddcf30afe7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::CrossShardFeedbackSync::~CrossShardFeedbackSync</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CrossShardFeedbackSync</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::~CrossShardFeedbackSync</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af77b4cbb45975cfa9e339b903d38b592" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::CrossShardFeedbackSync::CrossShardFeedbackSync</definition>
+        <argsstring>(const CrossShardFeedbackSync &amp;)=delete</argsstring>
+        <name>CrossShardFeedbackSync</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::CrossShardFeedbackSync</qualifiedname>
+        <param>
+          <type>const CrossShardFeedbackSync &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="97" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a95a50f92b4ed99e9817028f699fd2dc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a6fd0b2b31f2f2990fef2212f333495b1" kindref="member">CrossShardFeedbackSync</ref> &amp;</type>
+        <definition>CrossShardFeedbackSync &amp; themis::distributed_knowledge::CrossShardFeedbackSync::operator=</definition>
+        <argsstring>(const CrossShardFeedbackSync &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a6fd0b2b31f2f2990fef2212f333495b1" kindref="member">CrossShardFeedbackSync</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="98" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a9c4a7343fe43e0dcea0d7f26b179a1ca" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::CrossShardFeedbackSync::CrossShardFeedbackSync</definition>
+        <argsstring>(CrossShardFeedbackSync &amp;&amp;) noexcept=default</argsstring>
+        <name>CrossShardFeedbackSync</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::CrossShardFeedbackSync</qualifiedname>
+        <param>
+          <type>CrossShardFeedbackSync &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae236cd215fb47d07642dd91a24f0c7bc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a6fd0b2b31f2f2990fef2212f333495b1" kindref="member">CrossShardFeedbackSync</ref> &amp;</type>
+        <definition>CrossShardFeedbackSync &amp; themis::distributed_knowledge::CrossShardFeedbackSync::operator=</definition>
+        <argsstring>(CrossShardFeedbackSync &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a6fd0b2b31f2f2990fef2212f333495b1" kindref="member">CrossShardFeedbackSync</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="100" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a67c9e5e044e80f0b790fb861cbfcca50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::CrossShardFeedbackSync::publishFeedback</definition>
+        <argsstring>(FeedbackSummary summary)</argsstring>
+        <name>publishFeedback</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::publishFeedback</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref></type>
+          <declname>summary</declname>
+        </param>
+        <briefdescription>
+<para>── Publishing ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Publish Feedback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">summary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">summary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), size(), std::to_string(), generateSummaryId(), std::chrono::system_clock::now(), toJson(), lk(), emitFeedbackDecisionRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="107" column="10" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="51" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aa6882cea0e4c147fb657ff3f408f7679" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::CrossShardFeedbackSync::handleInboundSummary</definition>
+        <argsstring>(const nlohmann::json &amp;payload)</argsstring>
+        <name>handleInboundSummary</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::handleInboundSummary</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>── Receiving ──────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Inbound Summary.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1adba3f7ba30e0228c14f8b266d5bb1749" kindref="member">FeedbackSummary::fromJson()</ref>, lk(), count(), zero_trust_enforcer_(), policy_check_(), size(), clear(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="114" column="10" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="105" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a713107e423b9839a9d1ee040228d1694" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::CrossShardFeedbackSync::setFeedbackCallback</definition>
+        <argsstring>(FeedbackCallback cb)</argsstring>
+        <name>setFeedbackCallback</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::setFeedbackCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ac5a98c1b431a7b69ab81620d5d84b514" kindref="member">FeedbackCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set Feedback Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="120" column="10" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="162" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a2e26ca70d27893716f1633171ea900c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::CrossShardFeedbackSync::setInboundPolicyCheck</definition>
+        <argsstring>(InboundPolicyCheck check)</argsstring>
+        <name>setInboundPolicyCheck</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::setInboundPolicyCheck</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae901741549d3b13a3419492ef6052daf" kindref="member">InboundPolicyCheck</ref></type>
+          <declname>check</declname>
+        </param>
+        <briefdescription>
+<para>Set Inbound Policy Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="128" column="10" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="172" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a0a19240a6d426b69645c5a9726347d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::CrossShardFeedbackSync::setDecisionRecordProcessor</definition>
+        <argsstring>(std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt; processor)</argsstring>
+        <name>setDecisionRecordProcessor</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::setDecisionRecordProcessor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+          <declname>processor</declname>
+        </param>
+        <briefdescription>
+<para>Set Decision Record Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="134" column="10" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="266" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a7078fc5bccfc10b276c5242b897fe4fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::CrossShardFeedbackSync::setZeroTrustEnforcer</definition>
+        <argsstring>(ZeroTrustEnforcer enforcer)</argsstring>
+        <name>setZeroTrustEnforcer</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::setZeroTrustEnforcer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a3aae69b93a5f811c5d691c6c778eda8e" kindref="member">ZeroTrustEnforcer</ref></type>
+          <declname>enforcer</declname>
+        </param>
+        <briefdescription>
+<para>Set Zero Trust Enforcer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── DK-OR: ZeroTrust setter, skipped-publish counter, erase ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enforcer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enforcer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="145" column="10" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="307" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a40074e95b840556ebebfa62077d584a1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::getSkippedPublishCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getSkippedPublishCount</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::getSkippedPublishCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="147" column="13" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="312" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ac024d8e6d63dec408b8d5c34d2058ad5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::governance::StoreErasureResult</type>
+        <definition>themis::governance::StoreErasureResult themis::distributed_knowledge::CrossShardFeedbackSync::erase</definition>
+        <argsstring>(const std::string &amp;subject_id=&quot;&quot;, themis::governance::Regulation regulation=themis::governance::Regulation::GDPR)</argsstring>
+        <name>erase</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::erase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>themis::governance::Regulation</type>
+          <declname>regulation</declname>
+          <defval>themis::governance::Regulation::GDPR</defval>
+        </param>
+        <briefdescription>
+<para>Erase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">Regulation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="149" column="44" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="328" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a74bcc7dc217c132a52562aa8d2095a0b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::eraseCount</definition>
+        <argsstring>() const</argsstring>
+        <name>eraseCount</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::eraseCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="153" column="13" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="348" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a041425eaad583395fe357b9b3053352f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::publishedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>publishedCount</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::publishedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="157" column="13" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="181" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aa8bad6ba3ffdac5000d089ab3dfe953a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::receivedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>receivedCount</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::receivedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="159" column="13" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="191" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a92302ecdbc55f81386b723dc22e5bdad" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::deduplicatedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>deduplicatedCount</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::deduplicatedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="161" column="13" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="201" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1afe950cbc49652f3d3f4d4f84e1192e60" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::CrossShardFeedbackSync::rejectedByPolicyCount</definition>
+        <argsstring>() const</argsstring>
+        <name>rejectedByPolicyCount</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::rejectedByPolicyCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="163" column="13" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="211" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae01db9bd6283a9fa06df8cdb6c2a7afa" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::CrossShardFeedbackSync::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="165" column="21" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="221" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a314259a44f20214da1f1babcbe7932b0" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::CrossShardFeedbackSync::generateSummaryId</definition>
+        <argsstring>()</argsstring>
+        <name>generateSummaryId</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::generateSummaryId</qualifiedname>
+        <briefdescription>
+<para>Generate Summary Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), rng(), dist(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="191" column="25" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="245" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a3d8643ae67494f7b64491f4928e5067c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::CrossShardFeedbackSync::emitFeedbackDecisionRecord</definition>
+        <argsstring>(const std::string &amp;direction, const FeedbackSummary &amp;summary) const</argsstring>
+        <name>emitFeedbackDecisionRecord</name>
+        <qualifiedname>themis::distributed_knowledge::CrossShardFeedbackSync::emitFeedbackDecisionRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>direction</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> &amp;</type>
+          <declname>summary</declname>
+        </param>
+        <briefdescription>
+<para>Emit Feedback Decision Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">direction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">summary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="197" column="10" bodyfile="src/distributed_knowledge/cross_shard_feedback_sync.cpp" bodystart="278" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="86" column="1" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="86" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a703cd74f78a066af3b6a0ebe92b2c456" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>config_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a6fd0b2b31f2f2990fef2212f333495b1" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>CrossShardFeedbackSync</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af77b4cbb45975cfa9e339b903d38b592" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>CrossShardFeedbackSync</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a9c4a7343fe43e0dcea0d7f26b179a1ca" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>CrossShardFeedbackSync</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af60c45bfe82a402c2f086ade4cb62750" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>deduplicated_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a92302ecdbc55f81386b723dc22e5bdad" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>deduplicatedCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1afd400689d612eda6145846c89bd2d601" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>dr_processor_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a3d8643ae67494f7b64491f4928e5067c" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>emitFeedbackDecisionRecord</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ac024d8e6d63dec408b8d5c34d2058ad5" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>erase</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a1411d4ad3d4a780fb77cd44d7b0b9f0e" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>erase_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a74bcc7dc217c132a52562aa8d2095a0b" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>eraseCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ac5a98c1b431a7b69ab81620d5d84b514" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>FeedbackCallback</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a314259a44f20214da1f1babcbe7932b0" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>generateSummaryId</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a40074e95b840556ebebfa62077d584a1" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>getSkippedPublishCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae01db9bd6283a9fa06df8cdb6c2a7afa" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ad3ba26bd1441a870d0f4fab3691b1ce4" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>gossip_message_fn_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aa6882cea0e4c147fb657ff3f408f7679" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>handleInboundSummary</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae901741549d3b13a3419492ef6052daf" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>InboundPolicyCheck</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a82464616a74920c33390ab4874603f2a" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>local_shard_id_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1af60fb1ab3ee576d107a4a15f09707bbd" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae738d912bcdb30783b82c1b227159b51" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>on_feedback_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a95a50f92b4ed99e9817028f699fd2dc8" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1ae236cd215fb47d07642dd91a24f0c7bc" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a4676c89e64866d250f77c9cb4694abfc" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>policy_check_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aaaab2a9dc3e9c68c3d3014a4d1389091" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>published_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a041425eaad583395fe357b9b3053352f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>publishedCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a67c9e5e044e80f0b790fb861cbfcca50" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>publishFeedback</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a45eb5406e16d0b3ed9784c2607ec923f" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>received_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1aa8bad6ba3ffdac5000d089ab3dfe953a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>receivedCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a5a443481b6bf8cdf934d9a927c866be9" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>rejected_by_policy_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1afe950cbc49652f3d3f4d4f84e1192e60" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>rejectedByPolicyCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a27b519f4d09a0a122400565df371d77b" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>seen_ids_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a0a19240a6d426b69645c5a9726347d4a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>setDecisionRecordProcessor</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a713107e423b9839a9d1ee040228d1694" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>setFeedbackCallback</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a2e26ca70d27893716f1633171ea900c9" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>setInboundPolicyCheck</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a7078fc5bccfc10b276c5242b897fe4fe" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>setZeroTrustEnforcer</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a052b472bdba27bfc211c5056496bc248" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>skipped_publish_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a69bba23296928da00232bcc5266f3fea" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>zero_trust_enforcer_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a3aae69b93a5f811c5d691c6c778eda8e" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>ZeroTrustEnforcer</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_cross_shard_feedback_sync_1a08510c6d3df99a1defd926ddcf30afe7" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::CrossShardFeedbackSync</scope><name>~CrossShardFeedbackSync</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

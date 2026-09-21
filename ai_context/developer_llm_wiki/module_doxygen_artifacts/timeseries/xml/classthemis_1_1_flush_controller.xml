@@ -1,0 +1,494 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_flush_controller" kind="class" language="C++" prot="public">
+    <compoundname>themis::FlushController</compoundname>
+    <includes refid="ts__auto__buffer__adaptive_8h" local="no">ts_auto_buffer_adaptive.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1a58e012a3a8fc56d2752d5484060f80a8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_flush_controller_config" kindref="compound">FlushControllerConfig</ref></type>
+        <definition>FlushControllerConfig themis::FlushController::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::FlushController::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="154" column="29" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1a4371eded4fd2794071dd3380cd2b5a5f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::FlushController::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::FlushController::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="156" column="29" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1a6c6e8782e7f57de7c0ff88b84396d3a4" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::FlushController::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::FlushController::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="157" column="29" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1af5cd3f96a1012a1449e6e245f91c07e2" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FlushController::ewma_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>ewma_latency_ms_</name>
+        <qualifiedname>themis::FlushController::ewma_latency_ms_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="159" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1a7a185fcf1552157d69052baad494f033" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FlushController::batch_size_</definition>
+        <argsstring></argsstring>
+        <name>batch_size_</name>
+        <qualifiedname>themis::FlushController::batch_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="160" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1abe054009f2b5eaf7de19792a2f74399e" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FlushController::sample_count_</definition>
+        <argsstring></argsstring>
+        <name>sample_count_</name>
+        <qualifiedname>themis::FlushController::sample_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="161" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1a0f7b6c0c2ed9e5af8218bae1bc2808e2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FlushController::backpressure_events_</definition>
+        <argsstring></argsstring>
+        <name>backpressure_events_</name>
+        <qualifiedname>themis::FlushController::backpressure_events_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="162" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1ac3b3056f435632fb78a60f99bc4afadd" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::FlushController::backpressure_</definition>
+        <argsstring></argsstring>
+        <name>backpressure_</name>
+        <qualifiedname>themis::FlushController::backpressure_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="163" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_flush_controller_1a1cb49e6e29d55ef07e8c92252514da32" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FlushController::current_buffered_</definition>
+        <argsstring></argsstring>
+        <name>current_buffered_</name>
+        <qualifiedname>themis::FlushController::current_buffered_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="164" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1a2145c8c3ff03f20bc9c0bcfd87b38d8f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FlushController::FlushController</definition>
+        <argsstring>(FlushControllerConfig config={})</argsstring>
+        <name>FlushController</name>
+        <qualifiedname>themis::FlushController::FlushController</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_flush_controller_config" kindref="compound">FlushControllerConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="83" column="14" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="24" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1ab791580a54167495158ceb73ce7c1cc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FlushController::reportFlushLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>reportFlushLatency</name>
+        <qualifiedname>themis::FlushController::reportFlushLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record the measured write latency of a completed flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Flush Latency.</para>
+<para>Updates the EWMA and adjusts the recommended batch size. Emits a backpressure metric when the SLO is breached.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured flush write latency in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), updateBatchSize(), THEMIS_WARN(), THEMIS_INFO(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="95" column="10" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="42" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1a4ca0513c0b37fd8c80940e2e89469824" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::FlushController::checkBackpressure</definition>
+        <argsstring>(size_t buffered_points, std::chrono::milliseconds timeout=std::chrono::seconds{5})</argsstring>
+        <name>checkBackpressure</name>
+        <qualifiedname>themis::FlushController::checkBackpressure</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>buffered_points</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds{5}</defval>
+        </param>
+        <briefdescription>
+<para>Notify the controller that <computeroutput>buffered_points</computeroutput> are queued. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Backpressure.</para>
+<para>If backpressure is active, this call blocks until the queue drains below the low_water_mark or the timeout expires.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffered_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current number of buffered data points. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait before unblocking. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the producer may proceed; false if timed out.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffered_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), wait_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="109" column="10" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="119" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1ace6ea5d4127d13977b3f5c1d87033457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FlushController::notifyDrained</definition>
+        <argsstring>(size_t remaining_points)</argsstring>
+        <name>notifyDrained</name>
+        <qualifiedname>themis::FlushController::notifyDrained</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>remaining_points</declname>
+        </param>
+        <briefdescription>
+<para>Signal that the buffer has been partially drained. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify Drained.</para>
+<para>Call this from the flush thread after each flush completes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>remaining_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Points still in the buffer after the flush.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remaining_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="119" column="10" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="144" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1a46f0e86ac8efd544d9b711fbd31f9e82" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::FlushController::recommendedBatchSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>recommendedBatchSize</name>
+        <qualifiedname>themis::FlushController::recommendedBatchSize</qualifiedname>
+        <briefdescription>
+<para>Return the current recommended flush batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="128" column="12" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="156" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1a4b1f2c8d2fd5684a9629995504cb3633" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::FlushController::ewmaLatencyMs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ewmaLatencyMs</name>
+        <qualifiedname>themis::FlushController::ewmaLatencyMs</qualifiedname>
+        <briefdescription>
+<para>Return the current EWMA latency in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="135" column="12" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="166" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1a4bf0b0e41b118a2a5b1f301401159e7d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_flush_controller_stats" kindref="compound">FlushControllerStats</ref></type>
+        <definition>FlushControllerStats themis::FlushController::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::FlushController::stats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all controller statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="142" column="26" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="186" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1a3f874e457a71ba9782d096381f8b0652" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::FlushController::isBackpressureActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isBackpressureActive</name>
+        <qualifiedname>themis::FlushController::isBackpressureActive</qualifiedname>
+        <briefdescription>
+<para>True when the controller is actively signalling backpressure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True on success. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="149" column="10" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="176" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1ad38a823d2e798c77ea1b9401508a886e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_flush_controller_config" kindref="compound">FlushControllerConfig</ref> &amp;</type>
+        <definition>const FlushControllerConfig &amp; themis::FlushController::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::FlushController::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="151" column="33" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_flush_controller_1a86a35781e87e22fca26855fe7a272b10" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FlushController::updateBatchSize</definition>
+        <argsstring>()</argsstring>
+        <name>updateBatchSize</name>
+        <qualifiedname>themis::FlushController::updateBatchSize</qualifiedname>
+        <briefdescription>
+<para>Update Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── updateBatchSize (mutex_ held by caller) ─────────────────────────────────────────────────────────────────────────────</para>
+<para>Calls: std::floor(), std::max(), std::ceil(), std::min(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="169" column="10" bodyfile="src/timeseries/ts_auto_buffer_adaptive.cpp" bodystart="83" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive flush batch-size controller for <ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Integrates with <ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref> by replacing the static <computeroutput>flush_batch_size</computeroutput> in <ref refid="structthemis_1_1_t_s_auto_buffer_config" kindref="compound">TSAutoBufferConfig</ref> with a dynamically adjusted value. </para>
+    </detaileddescription>
+    <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="81" column="1" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="81" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_flush_controller_1ac3b3056f435632fb78a60f99bc4afadd" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>backpressure_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a0f7b6c0c2ed9e5af8218bae1bc2808e2" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>backpressure_events_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a7a185fcf1552157d69052baad494f033" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>batch_size_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a4ca0513c0b37fd8c80940e2e89469824" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>checkBackpressure</name></member>
+      <member refid="classthemis_1_1_flush_controller_1ad38a823d2e798c77ea1b9401508a886e" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>config</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a58e012a3a8fc56d2752d5484060f80a8" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a1cb49e6e29d55ef07e8c92252514da32" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>current_buffered_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a6c6e8782e7f57de7c0ff88b84396d3a4" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1af5cd3f96a1012a1449e6e245f91c07e2" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>ewma_latency_ms_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a4b1f2c8d2fd5684a9629995504cb3633" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>ewmaLatencyMs</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a2145c8c3ff03f20bc9c0bcfd87b38d8f" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>FlushController</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a3f874e457a71ba9782d096381f8b0652" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>isBackpressureActive</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a4371eded4fd2794071dd3380cd2b5a5f" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1ace6ea5d4127d13977b3f5c1d87033457" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>notifyDrained</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a46f0e86ac8efd544d9b711fbd31f9e82" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>recommendedBatchSize</name></member>
+      <member refid="classthemis_1_1_flush_controller_1ab791580a54167495158ceb73ce7c1cc2" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>reportFlushLatency</name></member>
+      <member refid="classthemis_1_1_flush_controller_1abe054009f2b5eaf7de19792a2f74399e" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>sample_count_</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a4bf0b0e41b118a2a5b1f301401159e7d" prot="public" virt="non-virtual"><scope>themis::FlushController</scope><name>stats</name></member>
+      <member refid="classthemis_1_1_flush_controller_1a86a35781e87e22fca26855fe7a272b10" prot="private" virt="non-virtual"><scope>themis::FlushController</scope><name>updateBatchSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

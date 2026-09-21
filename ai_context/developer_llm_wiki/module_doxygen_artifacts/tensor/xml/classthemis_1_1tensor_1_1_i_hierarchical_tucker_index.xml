@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::tensor::IHierarchicalTuckerIndex</compoundname>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_flat_h_t_index" prot="public" virt="non-virtual">themis::tensor::FlatHTIndex</derivedcompoundref>
+    <includes refid="ht__index_8h" local="no">ht_index.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1a29110057cb66044ef3b95e46c507e683" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::tensor::IHierarchicalTuckerIndex::~IHierarchicalTuckerIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHierarchicalTuckerIndex</name>
+        <qualifiedname>themis::tensor::IHierarchicalTuckerIndex::~IHierarchicalTuckerIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="47" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1aefd5ba98b7cb8b52a87b1fa8619b0d37" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::tensor::IHierarchicalTuckerIndex::add</definition>
+        <argsstring>(const std::string &amp;id, HTTrain train)=0</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::tensor::IHierarchicalTuckerIndex::add</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_flat_h_t_index_1ab17126a702921b6171537357263e74ea">add</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref></type>
+          <declname>train</declname>
+        </param>
+        <briefdescription>
+<para>Add an HT tensor to the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique string identifier. Replaces any existing entry with the same id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HT representation of the tensor to add. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="58" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1ab3723cd34547bb57336fa302cd8082d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tensor::IHierarchicalTuckerIndex::remove</definition>
+        <argsstring>(const std::string &amp;id)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::tensor::IHierarchicalTuckerIndex::remove</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a9dd5a157a092dc5444d29f96fe2e2fc2">remove</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove an entry from the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the entry existed and was removed; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="64" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1adf47f1a1b03049fb617e1ad7a816ba20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_h_t_search_result" kindref="compound">HTSearchResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; HTSearchResult &gt; themis::tensor::IHierarchicalTuckerIndex::search</definition>
+        <argsstring>(const HTTrain &amp;query, std::size_t k) const =0</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::tensor::IHierarchicalTuckerIndex::search</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a40b5bfa0812f7f18894dfb966ce95b4d">search</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>k-nearest-neighbour search by cosine similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> encoding the query tensor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Up to k results in descending similarity order. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1aa905744dcb78d47db1a57d2c0acd7241" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::tensor::IHierarchicalTuckerIndex::size</definition>
+        <argsstring>() const =0</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::tensor::IHierarchicalTuckerIndex::size</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a0341453d9128a881935de90512485ab7">size</reimplementedby>
+        <briefdescription>
+<para>Number of tensors currently stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="79" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1acd7782067d82ad132cfd43132450a5b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::tensor::IHierarchicalTuckerIndex::serialize</definition>
+        <argsstring>() const =0</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::tensor::IHierarchicalTuckerIndex::serialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a4e516e2c0cdd66f660611c640d35dbf5">serialize</reimplementedby>
+        <briefdescription>
+<para>Serialise the full index to a byte blob. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="86" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1adb3bc26a47f43eb8d3d5af14c5b5f199" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tensor::IHierarchicalTuckerIndex::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)=0</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::tensor::IHierarchicalTuckerIndex::deserialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_flat_h_t_index_1aada47135c79fb30b3a576588c9a6874f">deserialize</reimplementedby>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise in-place from bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true on success; false on format error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="92" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for a Hierarchical Tucker (HT) vector index. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations may use linear scan (<ref refid="classthemis_1_1tensor_1_1_flat_h_t_index" kindref="compound">FlatHTIndex</ref>) or tree-based search structures (HnswHTBridge, deferred to Q2 2028). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::FlatHTIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_flat_h_t_index"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::tensor::IHierarchicalTuckerIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/tensor/ht_index.h" line="45" column="1" bodyfile="include/tensor/ht_index.h" bodystart="45" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1aefd5ba98b7cb8b52a87b1fa8619b0d37" prot="public" virt="pure-virtual"><scope>themis::tensor::IHierarchicalTuckerIndex</scope><name>add</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1adb3bc26a47f43eb8d3d5af14c5b5f199" prot="public" virt="pure-virtual"><scope>themis::tensor::IHierarchicalTuckerIndex</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1ab3723cd34547bb57336fa302cd8082d9" prot="public" virt="pure-virtual"><scope>themis::tensor::IHierarchicalTuckerIndex</scope><name>remove</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1adf47f1a1b03049fb617e1ad7a816ba20" prot="public" virt="pure-virtual"><scope>themis::tensor::IHierarchicalTuckerIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1acd7782067d82ad132cfd43132450a5b1" prot="public" virt="pure-virtual"><scope>themis::tensor::IHierarchicalTuckerIndex</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1aa905744dcb78d47db1a57d2c0acd7241" prot="public" virt="pure-virtual"><scope>themis::tensor::IHierarchicalTuckerIndex</scope><name>size</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1a29110057cb66044ef3b95e46c507e683" prot="public" virt="virtual"><scope>themis::tensor::IHierarchicalTuckerIndex</scope><name>~IHierarchicalTuckerIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

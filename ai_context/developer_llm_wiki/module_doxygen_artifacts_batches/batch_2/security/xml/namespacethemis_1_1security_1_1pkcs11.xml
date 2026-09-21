@@ -1,0 +1,782 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security_1_1pkcs11" kind="namespace" language="C++">
+    <compoundname>themis::security::pkcs11</compoundname>
+    <innerclass refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category" prot="public">themis::security::pkcs11::Pkcs11Category</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library" prot="public">themis::security::pkcs11::Pkcs11Library</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" prot="public">themis::security::pkcs11::Pkcs11Session</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1pkcs11_1_1_attribute_filter" prot="public">themis::security::pkcs11::AttributeFilter</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1ab847ee2da9bfa77529df5e1d5bec758e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::pkcs11::ckrvToString</definition>
+        <argsstring>(CK_RV rv) noexcept</argsstring>
+        <name>ckrvToString</name>
+        <qualifiedname>themis::security::pkcs11::ckrvToString</qualifiedname>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref></type>
+          <declname>rv</declname>
+        </param>
+        <briefdescription>
+<para>Map a PKCS#11 <ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref> return value to a human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers all standard <ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref> codes defined in <ref refid="pkcs11__minimal_8h" kindref="compound">pkcs11_minimal.h</ref> plus a hex-formatted fallback for vendor-specific or unlisted codes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="93" column="20" bodyfile="include/security/pkcs11_wrapper.h" bodystart="93" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a423b8bb199183c94273a1ec818354acb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::error_code</type>
+        <definition>std::error_code themis::security::pkcs11::makePkcs11Error</definition>
+        <argsstring>(CK_RV rv) noexcept</argsstring>
+        <name>makePkcs11Error</name>
+        <qualifiedname>themis::security::pkcs11::makePkcs11Error</qualifiedname>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref></type>
+          <declname>rv</declname>
+        </param>
+        <briefdescription>
+<para>Construct an std::error_code from a PKCS#11 <ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref> value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting><codeline><highlight class="normal"><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>rv<sp/>=<sp/>api-&gt;C_Initialize(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rv<sp/>!=<sp/><ref refid="pkcs11__minimal_8h_1ab31ba85d49b381d1eac204796296eafa" kindref="member">CKR_OK</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_pkcs11_error(rv);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="140" column="24" bodyfile="include/security/pkcs11_wrapper.h" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a20b29c3cb91c089bf5a0456822288bef" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="pkcs11__minimal_8h_1ac24d1e7fc4d61629ed309029417225b6" kindref="member">CK_SLOT_ID</ref> &gt;</type>
+        <definition>std::vector&lt; CK_SLOT_ID &gt; themis::security::pkcs11::listSlots</definition>
+        <argsstring>(CK_FUNCTION_LIST_PTR api) noexcept</argsstring>
+        <name>listSlots</name>
+        <qualifiedname>themis::security::pkcs11::listSlots</qualifiedname>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" kindref="member">CK_FUNCTION_LIST_PTR</ref></type>
+          <declname>api</declname>
+        </param>
+        <briefdescription>
+<para>Enumerate all slots that have a token present. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>api</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKCS#11 function list (must not be null). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of slot IDs, or empty on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Slots. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="474" column="20" bodyfile="include/security/pkcs11_wrapper.h" bodystart="474" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1ab29519e4ab638a756cf5511eb8165ffe" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref> &gt;</type>
+        <definition>std::vector&lt; CK_OBJECT_HANDLE &gt; themis::security::pkcs11::findObjects</definition>
+        <argsstring>(const Pkcs11Session &amp;session, const std::vector&lt; AttributeFilter &gt; &amp;filters, uint32_t maxObjects=64) noexcept</argsstring>
+        <name>findObjects</name>
+        <qualifiedname>themis::security::pkcs11::findObjects</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1security_1_1pkcs11_1_1_attribute_filter" kindref="compound">AttributeFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>maxObjects</declname>
+          <defval>64</defval>
+        </param>
+        <briefdescription>
+<para>Find PKCS#11 objects matching a set of attribute filters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs C_FindObjectsInit / C_FindObjects / C_FindObjectsFinal and collects up to <computeroutput>maxObjects</computeroutput> handles.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute constraints (type + 32-bit value). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxObjects</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound on results (default: 64). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching object handles; empty on failure or no match. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Handles. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">maxObjects</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="502" column="20" bodyfile="include/security/pkcs11_wrapper.h" bodystart="502" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a4ee80f341b911adce72bfacb07b5c890" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref> &gt;</type>
+        <definition>std::vector&lt; CK_OBJECT_HANDLE &gt; themis::security::pkcs11::findObjectsByLabel</definition>
+        <argsstring>(const Pkcs11Session &amp;session, const std::string &amp;label, uint32_t objClass=0) noexcept</argsstring>
+        <name>findObjectsByLabel</name>
+        <qualifiedname>themis::security::pkcs11::findObjectsByLabel</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>objClass</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Find objects matching a label string and optional class filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key/certificate label (CKA_LABEL). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>objClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional object class (e.g. CKO_PRIVATE_KEY). Pass 0 to omit this filter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching object handles; empty on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Handles. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kMax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="549" column="20" bodyfile="include/security/pkcs11_wrapper.h" bodystart="549" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a057b61ab9ce65172e4ab482dac1069a6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::pkcs11::signData</definition>
+        <argsstring>(const Pkcs11Session &amp;session, CK_OBJECT_HANDLE privateKey, uint32_t mechanism, const std::vector&lt; uint8_t &gt; &amp;data) noexcept</argsstring>
+        <name>signData</name>
+        <qualifiedname>themis::security::pkcs11::signData</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref></type>
+          <declname>privateKey</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mechanism</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sign data (or a pre-computed hash) with a private key object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses C_SignInit / C_Sign. The caller is responsible for pre-hashing <computeroutput>data</computeroutput> if the chosen <computeroutput>mechanism</computeroutput> expects a digest rather than raw data (e.g. CKM_RSA_PKCS expects a DER-encoded DigestInfo; use CKM_SHA256_RSA_PKCS to have the HSM compute the hash).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open, logged-in <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>privateKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle of the private key object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mechanism</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKCS#11 mechanism type (e.g. CKM_SHA256_RSA_PKCS). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data (or hash) to sign. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Signature bytes, or empty on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Sig. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sigLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="615" column="20" bodyfile="include/security/pkcs11_wrapper.h" bodystart="615" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a144bc0348710a978bad06af3e0ab0b26" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::pkcs11::verifyData</definition>
+        <argsstring>(const Pkcs11Session &amp;session, CK_OBJECT_HANDLE publicKey, uint32_t mechanism, const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;signature) noexcept</argsstring>
+        <name>verifyData</name>
+        <qualifiedname>themis::security::pkcs11::verifyData</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref></type>
+          <declname>publicKey</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mechanism</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <briefdescription>
+<para>Verify a signature with a public key object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses C_VerifyInit / C_Verify.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open, logged-in <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>publicKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle of the public key object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mechanism</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKCS#11 mechanism type (must match the one used for signing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original data (or hash) that was signed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signature bytes to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the signature is valid; false on verification failure or error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="664" column="13" bodyfile="include/security/pkcs11_wrapper.h" bodystart="664" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1ae55f6a66dd84db21c6b05356a6e804fd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::pkcs11::encryptData</definition>
+        <argsstring>(const Pkcs11Session &amp;session, CK_OBJECT_HANDLE publicKey, uint32_t mechanism, void *mechParam, size_t mechParamLen, const std::vector&lt; uint8_t &gt; &amp;plaintext) noexcept</argsstring>
+        <name>encryptData</name>
+        <qualifiedname>themis::security::pkcs11::encryptData</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref></type>
+          <declname>publicKey</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mechanism</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>mechParam</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>mechParamLen</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt data with a public key object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses C_EncryptInit / C_Encrypt. Intended primarily for RSA-OAEP DEK wrapping where the public key is stored in the HSM.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open, logged-in <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>publicKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle of the public (or wrapping) key object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mechanism</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKCS#11 mechanism (e.g. CKM_RSA_PKCS_OAEP). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mechParam</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional mechanism parameter bytes (e.g. OAEP params). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to encrypt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ciphertext bytes, or empty on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ct. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="703" column="20" bodyfile="include/security/pkcs11_wrapper.h" bodystart="703" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a5d82f0c40ee17a3dd7e0d979c623b8f8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::pkcs11::decryptData</definition>
+        <argsstring>(const Pkcs11Session &amp;session, CK_OBJECT_HANDLE privateKey, uint32_t mechanism, void *mechParam, size_t mechParamLen, const std::vector&lt; uint8_t &gt; &amp;ciphertext) noexcept</argsstring>
+        <name>decryptData</name>
+        <qualifiedname>themis::security::pkcs11::decryptData</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref></type>
+          <declname>privateKey</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mechanism</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>mechParam</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>mechParamLen</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt data with a private key object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses C_DecryptInit / C_Decrypt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open, logged-in <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>privateKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle of the private (or unwrapping) key object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mechanism</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKCS#11 mechanism (must match encryption mechanism). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mechParam</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional mechanism parameter bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mechParamLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of mechParam. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ciphertext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ciphertext to decrypt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Plaintext bytes, or empty on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Pt. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ptLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="755" column="20" bodyfile="include/security/pkcs11_wrapper.h" bodystart="755" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a28892daca795b50e053596c57d2a68b6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>, <ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref> &gt;</type>
+        <definition>std::pair&lt; CK_OBJECT_HANDLE, CK_OBJECT_HANDLE &gt; themis::security::pkcs11::generateRsaKeyPair</definition>
+        <argsstring>(const Pkcs11Session &amp;session, const std::string &amp;label, uint32_t keyBits=2048, bool extractable=false) noexcept</argsstring>
+        <name>generateRsaKeyPair</name>
+        <qualifiedname>themis::security::pkcs11::generateRsaKeyPair</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>keyBits</declname>
+          <defval>2048</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>extractable</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Generate an RSA key pair in the HSM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates non-extractable, token-persistent keys labelled with <computeroutput>label</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open, logged-in <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CKA_LABEL for the generated key pair. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyBits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key size in bits (e.g. 2048, 3072, 4096). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>extractable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the private key may be extracted. Should be false for production keys. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>{publicKeyHandle, privateKeyHandle}, both 0 on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="806" column="18" bodyfile="include/security/pkcs11_wrapper.h" bodystart="806" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a7fbb908b84395c1fc7ceb2dd23725250" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; uint32_t &gt;</type>
+        <definition>std::optional&lt; uint32_t &gt; themis::security::pkcs11::getAttribute</definition>
+        <argsstring>(const Pkcs11Session &amp;session, CK_OBJECT_HANDLE object, uint32_t attrType) noexcept</argsstring>
+        <name>getAttribute</name>
+        <qualifiedname>themis::security::pkcs11::getAttribute</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref></type>
+          <declname>object</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>attrType</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a uint32_t scalar attribute value from a PKCS#11 object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object handle. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attrType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute type (e.g. CKA_CLASS). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Attribute value, or std::nullopt on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="860" column="22" bodyfile="include/security/pkcs11_wrapper.h" bodystart="860" bodyend="875"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1pkcs11_1a4cbcff7ef074a2fbed158b314a9ab98c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::pkcs11::getAttributeBytes</definition>
+        <argsstring>(const Pkcs11Session &amp;session, CK_OBJECT_HANDLE object, uint32_t attrType) noexcept</argsstring>
+        <name>getAttributeBytes</name>
+        <qualifiedname>themis::security::pkcs11::getAttributeBytes</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref></type>
+          <declname>object</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>attrType</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a variable-length byte attribute from a PKCS#11 object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs two calls: first to determine the length, then to fetch data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object handle. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attrType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute type (e.g. CKA_VALUE for certificate DER). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Attribute bytes, or empty on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="887" column="20" bodyfile="include/security/pkcs11_wrapper.h" bodystart="887" bodyend="907"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/pkcs11_wrapper.h" line="81" column="1"/>
+  </compounddef>
+</doxygen>

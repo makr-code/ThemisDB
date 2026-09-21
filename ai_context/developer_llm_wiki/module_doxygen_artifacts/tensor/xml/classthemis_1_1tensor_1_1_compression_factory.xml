@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_compression_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::CompressionFactory</compoundname>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_compression_factory_1a1692910959cc198d58406842791d86d2" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_compression_strategy" kindref="compound">ICompressionStrategy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ICompressionStrategy &gt; themis::tensor::CompressionFactory::create</definition>
+        <argsstring>(const std::string &amp;strategy_name)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::tensor::CompressionFactory::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>strategy_name</declname>
+        </param>
+        <briefdescription>
+<para>Create a compression strategy by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>strategy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Strategy name (e.g., &quot;TT_DECOMPOSITION&quot;, &quot;QUANTIZE_INT8&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to strategy, or nullptr if name not recognized.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the strategy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="308" column="29" bodyfile="src/tensor/compression_strategy.cpp" bodystart="306" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_compression_factory_1abc3025bd4d64d7a74e30a88e6354809c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::CompressionFactory::registerStrategy</definition>
+        <argsstring>(const std::string &amp;name, std::unique_ptr&lt; ICompressionStrategy &gt; strategy)</argsstring>
+        <name>registerStrategy</name>
+        <qualifiedname>themis::tensor::CompressionFactory::registerStrategy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_compression_strategy" kindref="compound">ICompressionStrategy</ref> &gt;</type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Register a custom compression strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Strategy name for lookup. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Strategy implementation (ownership transferred).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerStrategy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="317" column="17" bodyfile="src/tensor/compression_strategy.cpp" bodystart="333" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for creating compression strategy instances. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/compression_strategy.h" line="300" column="1" bodyfile="include/tensor/compression_strategy.h" bodystart="300" bodyend="320"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_compression_factory_1a1692910959cc198d58406842791d86d2" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_factory_1abc3025bd4d64d7a74e30a88e6354809c" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionFactory</scope><name>registerStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

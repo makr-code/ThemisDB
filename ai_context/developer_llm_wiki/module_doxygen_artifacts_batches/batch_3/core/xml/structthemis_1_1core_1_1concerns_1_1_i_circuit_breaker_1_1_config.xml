@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::ICircuitBreaker::Config</compoundname>
+    <includes refid="i__circuit__breaker_8h" local="no">i_circuit_breaker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a86c739424210adaee7b64257e98fddbb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ICircuitBreaker::Config::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::Config::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="33" column="16" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a5886fcb5a0f03830745a241a83db3878" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::core::concerns::ICircuitBreaker::Config::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::Config::timeout</qualifiedname>
+        <initializer>= std::chrono::seconds(30)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="34" column="30" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a06d3df7ff50656bf1cc7db84fd84be0e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::ICircuitBreaker::Config::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::Config::success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="35" column="16" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1aaf568c062011939d0ff81f047d36b00d" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::core::concerns::ICircuitBreaker::Config::failure_window</definition>
+        <argsstring></argsstring>
+        <name>failure_window</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::Config::failure_window</qualifiedname>
+        <initializer>= std::chrono::seconds(60)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="36" column="30" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/i_circuit_breaker.h" line="32" column="5" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a86c739424210adaee7b64257e98fddbb" prot="public" virt="non-virtual"><scope>themis::core::concerns::ICircuitBreaker::Config</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1aaf568c062011939d0ff81f047d36b00d" prot="public" virt="non-virtual"><scope>themis::core::concerns::ICircuitBreaker::Config</scope><name>failure_window</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a06d3df7ff50656bf1cc7db84fd84be0e" prot="public" virt="non-virtual"><scope>themis::core::concerns::ICircuitBreaker::Config</scope><name>success_threshold</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a5886fcb5a0f03830745a241a83db3878" prot="public" virt="non-virtual"><scope>themis::core::concerns::ICircuitBreaker::Config</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

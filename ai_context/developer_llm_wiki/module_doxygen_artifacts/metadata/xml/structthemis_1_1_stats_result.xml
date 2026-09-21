@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_stats_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::StatsResult</compoundname>
+    <includes refid="statistics__collector_8h" local="no">statistics_collector.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_stats_result_1a4f186679fab6ac4f332594adc3f4acf1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::StatsResult&lt; T &gt;::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::StatsResult::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="152" column="10" bodyfile="include/metadata/statistics_collector.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_stats_result_1aa55f091f23f201e89b524e38e0199ac4" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T themis::StatsResult&lt; T &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::StatsResult::value</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="153" column="7" bodyfile="include/metadata/statistics_collector.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_stats_result_1aeecf0aa201d79f5e83586ec7fa18f73b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" kindref="member">StatsErrorCode</ref></type>
+        <definition>StatsErrorCode themis::StatsResult&lt; T &gt;::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::StatsResult::error</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6deae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">StatsErrorCode::OK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="154" column="20" bodyfile="include/metadata/statistics_collector.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_stats_result_1a037ad2f5ee9d8e3fff10dc04a70fbe94" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::StatsResult&lt; T &gt;::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::StatsResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="155" column="17" bodyfile="include/metadata/statistics_collector.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_stats_result_1a58180c1b93dd13283c008259baca6353" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; T &gt;</type>
+        <definition>static StatsResult&lt; T &gt; themis::StatsResult&lt; T &gt;::success</definition>
+        <argsstring>(T v)</argsstring>
+        <name>success</name>
+        <qualifiedname>themis::StatsResult::success</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="157" column="24" bodyfile="include/metadata/statistics_collector.h" bodystart="157" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_stats_result_1a67784c93a6a16f4c5851893248ed6316" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; T &gt;</type>
+        <definition>static StatsResult&lt; T &gt; themis::StatsResult&lt; T &gt;::failure</definition>
+        <argsstring>(StatsErrorCode code, std::string msg)</argsstring>
+        <name>failure</name>
+        <qualifiedname>themis::StatsResult::failure</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" kindref="member">StatsErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="164" column="24" bodyfile="include/metadata/statistics_collector.h" bodystart="164" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result type wrapping a value or an error code. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/statistics_collector.h" line="151" column="1" bodyfile="include/metadata/statistics_collector.h" bodystart="151" bodyend="171"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_stats_result_1aeecf0aa201d79f5e83586ec7fa18f73b" prot="public" virt="non-virtual"><scope>themis::StatsResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1_stats_result_1a037ad2f5ee9d8e3fff10dc04a70fbe94" prot="public" virt="non-virtual"><scope>themis::StatsResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1_stats_result_1a67784c93a6a16f4c5851893248ed6316" prot="public" virt="non-virtual"><scope>themis::StatsResult</scope><name>failure</name></member>
+      <member refid="structthemis_1_1_stats_result_1a4f186679fab6ac4f332594adc3f4acf1" prot="public" virt="non-virtual"><scope>themis::StatsResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1_stats_result_1a58180c1b93dd13283c008259baca6353" prot="public" virt="non-virtual"><scope>themis::StatsResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1_stats_result_1aa55f091f23f201e89b524e38e0199ac4" prot="public" virt="non-virtual"><scope>themis::StatsResult</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_gpu_batch_containment_test" kind="class" language="C++" prot="public">
+    <compoundname>GpuBatchContainmentTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_gpu_batch_containment_test_1a931670408a239f41e229c626ebfd9a86" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> *</type>
+        <definition>ISpatialComputeBackend* GpuBatchContainmentTest::cpu_backend_</definition>
+        <argsstring></argsstring>
+        <name>cpu_backend_</name>
+        <qualifiedname>GpuBatchContainmentTest::cpu_backend_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_kernel_dispatcher.cpp" line="157" column="28" bodyfile="tests/geo/test_gpu_kernel_dispatcher.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gpu_batch_containment_test_1a83913bc0fc880aa4218419e6c2deb61b" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> *</type>
+        <definition>ISpatialComputeBackend* GpuBatchContainmentTest::gpu_backend_</definition>
+        <argsstring></argsstring>
+        <name>gpu_backend_</name>
+        <qualifiedname>GpuBatchContainmentTest::gpu_backend_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1geo_1a6a624344c315b22db1046070c5e3c504" kindref="member">getGpuSpatialBackend</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_kernel_dispatcher.cpp" line="158" column="28" bodyfile="tests/geo/test_gpu_kernel_dispatcher.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_gpu_batch_containment_test_1add9c088408264363d058d5ed64e3bd40" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo GpuBatchContainmentTest::makePoint</definition>
+        <argsstring>(double x, double y)</argsstring>
+        <name>makePoint</name>
+        <qualifiedname>GpuBatchContainmentTest::makePoint</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_kernel_dispatcher.cpp" line="160" column="25" bodyfile="tests/geo/test_gpu_kernel_dispatcher.cpp" bodystart="160" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gpu_batch_containment_test_1ae9fe0278152607f5a166dc4914eac1ab" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo GpuBatchContainmentTest::makeSquare</definition>
+        <argsstring>(double lat0, double lon0, double lat1, double lon1)</argsstring>
+        <name>makeSquare</name>
+        <qualifiedname>GpuBatchContainmentTest::makeSquare</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lat0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_kernel_dispatcher.cpp" line="166" column="25" bodyfile="tests/geo/test_gpu_kernel_dispatcher.cpp" bodystart="166" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>These tests validate that <ref refid="classthemis_1_1geo_1_1_gpu_batch_backend" kindref="compound">GpuBatchBackend</ref> (gpu_spatial) produces the same intersection results as <ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend()</ref> for typical point-in-polygon queries regardless of whether a GPU is present. When THEMIS_GEO_CUDA is defined and a GPU is available, the results come from the CUDA kernel; otherwise they come from the CPU fallback path. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GpuBatchContainmentTest</label>
+        <link refid="class_gpu_batch_containment_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GpuBatchContainmentTest</label>
+        <link refid="class_gpu_batch_containment_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cpu_backend_</edgelabel>
+          <edgelabel>gpu_backend_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_gpu_kernel_dispatcher.cpp" line="155" column="1" bodyfile="tests/geo/test_gpu_kernel_dispatcher.cpp" bodystart="155" bodyend="175"/>
+    <listofallmembers>
+      <member refid="class_gpu_batch_containment_test_1a931670408a239f41e229c626ebfd9a86" prot="protected" virt="non-virtual"><scope>GpuBatchContainmentTest</scope><name>cpu_backend_</name></member>
+      <member refid="class_gpu_batch_containment_test_1a83913bc0fc880aa4218419e6c2deb61b" prot="protected" virt="non-virtual"><scope>GpuBatchContainmentTest</scope><name>gpu_backend_</name></member>
+      <member refid="class_gpu_batch_containment_test_1add9c088408264363d058d5ed64e3bd40" prot="protected" virt="non-virtual"><scope>GpuBatchContainmentTest</scope><name>makePoint</name></member>
+      <member refid="class_gpu_batch_containment_test_1ae9fe0278152607f5a166dc4914eac1ab" prot="protected" virt="non-virtual"><scope>GpuBatchContainmentTest</scope><name>makeSquare</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

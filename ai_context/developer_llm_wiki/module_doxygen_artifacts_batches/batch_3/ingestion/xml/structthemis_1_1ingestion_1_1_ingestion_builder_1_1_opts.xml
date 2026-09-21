@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts" kind="struct" language="C++" prot="private">
+    <compoundname>themis::ingestion::IngestionBuilder::Opts</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1ac64c72eb828a17fc7c3b1059ed5954c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionBuilder::Opts::db_connection</definition>
+        <argsstring></argsstring>
+        <name>db_connection</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::db_connection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1873" column="21" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1873" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1aa83da00caa48a39374b86e5fc7884b77" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &gt;</type>
+        <definition>std::vector&lt;SourceConfig&gt; themis::ingestion::IngestionBuilder::Opts::sources</definition>
+        <argsstring></argsstring>
+        <name>sources</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::sources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1874" column="21" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1874" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a4ba749c28aa30558dc55d4021da77feb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig themis::ingestion::IngestionBuilder::Opts::retry_config</definition>
+        <argsstring></argsstring>
+        <name>retry_config</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::retry_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1875" column="21" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1875" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a197f7fda0c62a1f381e6f39f452dbc5a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_rate_limit_config" kindref="compound">RateLimitConfig</ref></type>
+        <definition>RateLimitConfig themis::ingestion::IngestionBuilder::Opts::rate_limit_config</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_config</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::rate_limit_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1876" column="25" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1876" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a9a24385eb163c8983287415dffba411d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionBuilder::Opts::parallel_enabled</definition>
+        <argsstring></argsstring>
+        <name>parallel_enabled</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::parallel_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1877" column="14" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1877" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a6134a70b23425c634c53e2a42dac887d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionBuilder::Opts::max_threads</definition>
+        <argsstring></argsstring>
+        <name>max_threads</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::max_threads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1878" column="16" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1878" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1aea0fbf13356182c7d1f055029c4300c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionBuilder::Opts::target_collection</definition>
+        <argsstring></argsstring>
+        <name>target_collection</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::target_collection</qualifiedname>
+        <initializer>= &quot;legal_documents&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1879" column="21" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1879" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a53d40d419f3ec995210ce0c19c62bf0b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionBuilder::Opts::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1880" column="14" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1880" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1ad87dbf2b783b88c42d1c8c1a2d23017a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1ingestion_1_1_schema_config" kindref="compound">SchemaConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SchemaConfig&gt; themis::ingestion::IngestionBuilder::Opts::schema_configs</definition>
+        <argsstring></argsstring>
+        <name>schema_configs</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::schema_configs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1881" column="28" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1881" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1afd9a8cbeb67c6c2e05aad124c3a5e7c1" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1ingestion_1a8c07b97537327bffabda2bb574e1edb1" kindref="member">ConnectorFactory</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ConnectorFactory&gt; themis::ingestion::IngestionBuilder::Opts::plugin_factories</definition>
+        <argsstring></argsstring>
+        <name>plugin_factories</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::plugin_factories</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1882" column="28" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1882" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a58f7b204cd30716ec1bfae5fa902dfcb" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1ingestion_1_1_legal_ingestion_config" kindref="compound">LegalIngestionConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LegalIngestionConfig&gt; themis::ingestion::IngestionBuilder::Opts::legal_ingestion_configs</definition>
+        <argsstring></argsstring>
+        <name>legal_ingestion_configs</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::Opts::legal_ingestion_configs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1883" column="28" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1883" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::IngestionBuilder::Opts</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>retry_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>rate_limit_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::RateLimitConfig</label>
+        <link refid="structthemis_1_1ingestion_1_1_rate_limit_config"/>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::RetryConfig</label>
+        <link refid="structthemis_1_1ingestion_1_1_retry_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/ingestion_manager.h" line="1872" column="5" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1872" bodyend="1884"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1ac64c72eb828a17fc7c3b1059ed5954c8" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>db_connection</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a53d40d419f3ec995210ce0c19c62bf0b" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>dry_run</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a58f7b204cd30716ec1bfae5fa902dfcb" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>legal_ingestion_configs</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a6134a70b23425c634c53e2a42dac887d" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>max_threads</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a9a24385eb163c8983287415dffba411d" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>parallel_enabled</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1afd9a8cbeb67c6c2e05aad124c3a5e7c1" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>plugin_factories</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a197f7fda0c62a1f381e6f39f452dbc5a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>rate_limit_config</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1a4ba749c28aa30558dc55d4021da77feb" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>retry_config</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1ad87dbf2b783b88c42d1c8c1a2d23017a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>schema_configs</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1aa83da00caa48a39374b86e5fc7884b77" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>sources</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts_1aea0fbf13356182c7d1f055029c4300c4" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder::Opts</scope><name>target_collection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

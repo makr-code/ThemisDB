@@ -1,0 +1,416 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_distributed_metadata_catalog" kind="class" language="C++" prot="public">
+    <compoundname>themis::DistributedMetadataCatalog</compoundname>
+    <includes refid="distributed__catalog_8h" local="no">distributed_catalog.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_distributed_metadata_catalog_1a8a52f5a53ca0f9265ae8154038c63eb8" prot="private" static="no" mutable="no">
+        <type>themisdb::sharding::MetadataShardRouter &amp;</type>
+        <definition>themisdb::sharding::MetadataShardRouter&amp; themis::DistributedMetadataCatalog::router_</definition>
+        <argsstring></argsstring>
+        <name>router_</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="109" column="45" bodyfile="include/metadata/distributed_catalog.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_metadata_catalog_1a0711b7177d71b979d2d7da7749dae2ec" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::DistributedMetadataCatalog::publish_count_</definition>
+        <argsstring></argsstring>
+        <name>publish_count_</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::publish_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="112" column="25" bodyfile="include/metadata/distributed_catalog.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_metadata_catalog_1a937e1e36e17f1ca4141158ecd196d892" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::DistributedMetadataCatalog::fetch_count_</definition>
+        <argsstring></argsstring>
+        <name>fetch_count_</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::fetch_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="113" column="25" bodyfile="include/metadata/distributed_catalog.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_metadata_catalog_1a7528334cc4aeefe2bbc375089d5c1293" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::DistributedMetadataCatalog::remove_count_</definition>
+        <argsstring></argsstring>
+        <name>remove_count_</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::remove_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="114" column="25" bodyfile="include/metadata/distributed_catalog.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_metadata_catalog_1a9fed152f8c06ef9cbdd9b80d764b8844" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::DistributedMetadataCatalog::sync_count_</definition>
+        <argsstring></argsstring>
+        <name>sync_count_</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::sync_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="115" column="25" bodyfile="include/metadata/distributed_catalog.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1a6d413c14ecb68cbf30e7a69e5a79b4ee" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedMetadataCatalog::DistributedMetadataCatalog</definition>
+        <argsstring>(themisdb::sharding::MetadataShardRouter &amp;router)</argsstring>
+        <name>DistributedMetadataCatalog</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::DistributedMetadataCatalog</qualifiedname>
+        <param>
+          <type>themisdb::sharding::MetadataShardRouter &amp;</type>
+          <declname>router</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>router</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed shard router (non-owning reference) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="54" column="14" bodyfile="src/metadata/distributed_catalog.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1ad09a3a3b72e379ec6a74680426eaad7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedMetadataCatalog::~DistributedMetadataCatalog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedMetadataCatalog</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::~DistributedMetadataCatalog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1a5d9e4cb07bc064cf7300b392b11e39a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedMetadataCatalog::DistributedMetadataCatalog</definition>
+        <argsstring>(const DistributedMetadataCatalog &amp;)=delete</argsstring>
+        <name>DistributedMetadataCatalog</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::DistributedMetadataCatalog</qualifiedname>
+        <param>
+          <type>const DistributedMetadataCatalog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1a55842dc1645271a38db99dad198b78c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_distributed_metadata_catalog_1a6d413c14ecb68cbf30e7a69e5a79b4ee" kindref="member">DistributedMetadataCatalog</ref> &amp;</type>
+        <definition>DistributedMetadataCatalog &amp; themis::DistributedMetadataCatalog::operator=</definition>
+        <argsstring>(const DistributedMetadataCatalog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_distributed_metadata_catalog_1a6d413c14ecb68cbf30e7a69e5a79b4ee" kindref="member">DistributedMetadataCatalog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="60" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1ad667d4384dc9795d47b11a6f8fad3c20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedMetadataCatalog::DistributedMetadataCatalog</definition>
+        <argsstring>(DistributedMetadataCatalog &amp;&amp;)=delete</argsstring>
+        <name>DistributedMetadataCatalog</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::DistributedMetadataCatalog</qualifiedname>
+        <param>
+          <type>DistributedMetadataCatalog &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1a85582a4a80246ed39aed0ba681c12f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_distributed_metadata_catalog_1a6d413c14ecb68cbf30e7a69e5a79b4ee" kindref="member">DistributedMetadataCatalog</ref> &amp;</type>
+        <definition>DistributedMetadataCatalog &amp; themis::DistributedMetadataCatalog::operator=</definition>
+        <argsstring>(DistributedMetadataCatalog &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_distributed_metadata_catalog_1a6d413c14ecb68cbf30e7a69e5a79b4ee" kindref="member">DistributedMetadataCatalog</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="62" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1a5250c841b30d5cb9d71e467a80a0ead0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedMetadataCatalog::publishSchema</definition>
+        <argsstring>(const SchemaManager::TableSchema &amp;schema)</argsstring>
+        <name>publishSchema</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::publishSchema</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Publish Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Publish (create or update) a single table schema to the distributed catalog. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table schema to publish </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if the router rejected the write</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="71" column="10" bodyfile="src/metadata/distributed_catalog.cpp" bodystart="34" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1a30e0c31457b25ad47ade31a9a17590bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedMetadataCatalog::syncFromSchemaManager</definition>
+        <argsstring>(SchemaManager &amp;schema_mgr)</argsstring>
+        <name>syncFromSchemaManager</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::syncFromSchemaManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> &amp;</type>
+          <declname>schema_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Sync From Schema Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sync all table schemas from a local <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> to the distributed catalog. Iterates all tables returned by schema_mgr.getAllTables() and calls <ref refid="classthemis_1_1_distributed_metadata_catalog_1a5250c841b30d5cb9d71e467a80a0ead0" kindref="member">publishSchema()</ref> for each one. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schema_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source of truth for local schemas </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of schemas successfully published</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="78" column="12" bodyfile="src/metadata/distributed_catalog.cpp" bodystart="63" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1a9bf4e66320a2e4335fd7511d5bf4a532" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedMetadataCatalog::removeSchema</definition>
+        <argsstring>(const std::string &amp;table_name)</argsstring>
+        <name>removeSchema</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::removeSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a table schema from the distributed catalog. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if removed, false if not found or router rejected the removal</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="83" column="10" bodyfile="src/metadata/distributed_catalog.cpp" bodystart="85" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1a478f269a3abf3aa86429c7d362609a5f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &gt;</type>
+        <definition>std::optional&lt; SchemaManager::TableSchema &gt; themis::DistributedMetadataCatalog::fetchSchema</definition>
+        <argsstring>(const std::string &amp;table_name) const</argsstring>
+        <name>fetchSchema</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::fetchSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fetch a table schema from the distributed catalog. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name to look up </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>TableSchema if found, std::nullopt otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="92" column="19" bodyfile="src/metadata/distributed_catalog.cpp" bodystart="111" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1aa93fe5a4c0b7059feef4137f1d7cca58" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::DistributedMetadataCatalog::listTableNames</definition>
+        <argsstring>() const</argsstring>
+        <name>listTableNames</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::listTableNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List all table names present in the distributed catalog. Performs a scatter-gather across all shards via the router. <simplesect kind="return"><para>Sorted vector of table names </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="98" column="17" bodyfile="src/metadata/distributed_catalog.cpp" bodystart="132" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_metadata_catalog_1ac5d9e18fed81255fa6f2282ce8d14c5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::DistributedMetadataCatalog::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::DistributedMetadataCatalog::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return catalog statistics as a JSON object. Includes counts of published, sync, fetch, and remove operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/distributed_catalog.h" line="106" column="20" bodyfile="src/metadata/distributed_catalog.cpp" bodystart="143" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_distributed_metadata_catalog" kindref="compound">DistributedMetadataCatalog</ref> - Distributed schema catalog across metadata shards</para>
+<para>Bridges the local <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> catalog with the distributed MetadataShardRouter, enabling schema metadata to be published to and queried from any shard in the cluster. All table schemas are stored in the MetadataPartitionKey::SCHEMA partition of the shard router using the table name as the key.</para>
+<para>Architecture: <ref refid="classthemis_1_1_distributed_metadata_catalog" kindref="compound">DistributedMetadataCatalog</ref> ├─→ MetadataShardRouter (distributed key/value store, SCHEMA partition) └─→ <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> (local RocksDB-based catalog, used for bulk sync)</para>
+<para>Thread-Safety:<itemizedlist>
+<listitem><para>All public methods are thread-safe. The router provides its own thread safety; operation counters are maintained with std::atomic.</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <ref refid="classthemis_1_1_distributed_metadata_catalog" kindref="compound">DistributedMetadataCatalog</ref> catalog(router); catalog.publishSchema(schema); auto fetched = catalog.fetchSchema(&quot;users&quot;); catalog.syncFromSchemaManager(schema_mgr);</para>
+<para>Issue: makr-code/ThemisDB#1961 </para>
+    </detaileddescription>
+    <location file="include/metadata/distributed_catalog.h" line="50" column="1" bodyfile="include/metadata/distributed_catalog.h" bodystart="50" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a6d413c14ecb68cbf30e7a69e5a79b4ee" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>DistributedMetadataCatalog</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a5d9e4cb07bc064cf7300b392b11e39a7" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>DistributedMetadataCatalog</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1ad667d4384dc9795d47b11a6f8fad3c20" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>DistributedMetadataCatalog</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a937e1e36e17f1ca4141158ecd196d892" prot="private" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>fetch_count_</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a478f269a3abf3aa86429c7d362609a5f" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>fetchSchema</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1ac5d9e18fed81255fa6f2282ce8d14c5c" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1aa93fe5a4c0b7059feef4137f1d7cca58" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>listTableNames</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a55842dc1645271a38db99dad198b78c0" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a85582a4a80246ed39aed0ba681c12f53" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a0711b7177d71b979d2d7da7749dae2ec" prot="private" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>publish_count_</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a5250c841b30d5cb9d71e467a80a0ead0" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>publishSchema</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a7528334cc4aeefe2bbc375089d5c1293" prot="private" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>remove_count_</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a9bf4e66320a2e4335fd7511d5bf4a532" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>removeSchema</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a8a52f5a53ca0f9265ae8154038c63eb8" prot="private" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>router_</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a9fed152f8c06ef9cbdd9b80d764b8844" prot="private" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>sync_count_</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1a30e0c31457b25ad47ade31a9a17590bd" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>syncFromSchemaManager</name></member>
+      <member refid="classthemis_1_1_distributed_metadata_catalog_1ad09a3a3b72e379ec6a74680426eaad7c" prot="public" virt="non-virtual"><scope>themis::DistributedMetadataCatalog</scope><name>~DistributedMetadataCatalog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

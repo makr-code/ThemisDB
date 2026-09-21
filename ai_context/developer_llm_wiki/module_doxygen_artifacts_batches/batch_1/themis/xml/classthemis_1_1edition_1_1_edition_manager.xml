@@ -1,0 +1,1848 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1edition_1_1_edition_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::edition::EditionManager</compoundname>
+    <includes refid="edition__manager_8h" local="no">edition_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1afcd745cc157719801e87302380d06e5d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::edition::EditionManager::overrides_mutex_</definition>
+        <argsstring></argsstring>
+        <name>overrides_mutex_</name>
+        <qualifiedname>themis::edition::EditionManager::overrides_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="483" column="57" bodyfile="include/themis/edition_manager.h" bodystart="483" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1a6f41f3c87a41ca6c138f454664d94144" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::edition::EditionManager::overrides_</definition>
+        <argsstring></argsstring>
+        <name>overrides_</name>
+        <qualifiedname>themis::edition::EditionManager::overrides_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="484" column="38" bodyfile="include/themis/edition_manager.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1af50800473408e42e44982663f29787db" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::edition::EditionManager::policy_mutex_</definition>
+        <argsstring></argsstring>
+        <name>policy_mutex_</name>
+        <qualifiedname>themis::edition::EditionManager::policy_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="487" column="57" bodyfile="include/themis/edition_manager.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1afc56fc7972b6aa5d8f040319c83f6cc9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">gpu::IVRAMPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;gpu::IVRAMPolicy&gt; themis::edition::EditionManager::vram_policy_</definition>
+        <argsstring></argsstring>
+        <name>vram_policy_</name>
+        <qualifiedname>themis::edition::EditionManager::vram_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="488" column="39" bodyfile="include/themis/edition_manager.h" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1a6a6062b29cee61370a69e9c6f944e28d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy" kindref="compound">sharding::IShardLimitPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::IShardLimitPolicy&gt; themis::edition::EditionManager::shard_policy_</definition>
+        <argsstring></argsstring>
+        <name>shard_policy_</name>
+        <qualifiedname>themis::edition::EditionManager::shard_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="489" column="28" bodyfile="include/themis/edition_manager.h" bodystart="489" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1a4156a07914ad2a081e464905a604c49a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::edition::EditionManager::effective_vram_gb_</definition>
+        <argsstring></argsstring>
+        <name>effective_vram_gb_</name>
+        <qualifiedname>themis::edition::EditionManager::effective_vram_gb_</qualifiedname>
+        <initializer>{ -2 }</initializer>
+        <briefdescription>
+<para>Effective VRAM limit (GiB) from the installed plugin; -2 = no plugin installed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="491" column="9" bodyfile="include/themis/edition_manager.h" bodystart="491" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1ada56733f6d2bc9ba580128fa40563ff3" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::edition::EditionManager::effective_shard_nodes_</definition>
+        <argsstring></argsstring>
+        <name>effective_shard_nodes_</name>
+        <qualifiedname>themis::edition::EditionManager::effective_shard_nodes_</qualifiedname>
+        <initializer>{ -2 }</initializer>
+        <briefdescription>
+<para>Effective max shard nodes from the installed plugin; -2 = no plugin installed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="493" column="9" bodyfile="include/themis/edition_manager.h" bodystart="493" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1ad7d39551e439f657ce5f42b3d2d19604" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy" kindref="compound">llm::ILLMResourcePolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;llm::ILLMResourcePolicy&gt; themis::edition::EditionManager::llm_resource_policy_</definition>
+        <argsstring></argsstring>
+        <name>llm_resource_policy_</name>
+        <qualifiedname>themis::edition::EditionManager::llm_resource_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="496" column="32" bodyfile="include/themis/edition_manager.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1a614e9e85f09966d671f2d4c92c6017d8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy" kindref="compound">tenant::ITenantQuotaPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;tenant::ITenantQuotaPolicy&gt; themis::edition::EditionManager::tenant_quota_policy_</definition>
+        <argsstring></argsstring>
+        <name>tenant_quota_policy_</name>
+        <qualifiedname>themis::edition::EditionManager::tenant_quota_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="499" column="29" bodyfile="include/themis/edition_manager.h" bodystart="499" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1a7041c6de8a199261a084b059c855e9d9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_i_query_limit_policy" kindref="compound">query::IQueryLimitPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::IQueryLimitPolicy&gt; themis::edition::EditionManager::query_limit_policy_</definition>
+        <argsstring></argsstring>
+        <name>query_limit_policy_</name>
+        <qualifiedname>themis::edition::EditionManager::query_limit_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="502" column="31" bodyfile="include/themis/edition_manager.h" bodystart="502" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1afc020d0cacc055670de61b3e0e217043" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_i_connection_policy" kindref="compound">network::IConnectionPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;network::IConnectionPolicy&gt; themis::edition::EditionManager::connection_policy_</definition>
+        <argsstring></argsstring>
+        <name>connection_policy_</name>
+        <qualifiedname>themis::edition::EditionManager::connection_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="505" column="29" bodyfile="include/themis/edition_manager.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1ad67b3cb9d837566fcec0df34bae63262" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy" kindref="compound">storage::IStorageOpsPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;storage::IStorageOpsPolicy&gt; themis::edition::EditionManager::storage_ops_policy_</definition>
+        <argsstring></argsstring>
+        <name>storage_ops_policy_</name>
+        <qualifiedname>themis::edition::EditionManager::storage_ops_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="508" column="29" bodyfile="include/themis/edition_manager.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1edition_1_1_edition_manager_1a4ea1ca69c90d83b9f93b735ce2bd25cc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy" kindref="compound">ratelimit::IRateLimitPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ratelimit::IRateLimitPolicy&gt; themis::edition::EditionManager::rate_limit_policy_</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_policy_</name>
+        <qualifiedname>themis::edition::EditionManager::rate_limit_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="511" column="28" bodyfile="include/themis/edition_manager.h" bodystart="511" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a49b48f0a2a04b9050b5cfad32480968f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1edition_1_1_edition_manager_1af7164370a58317ef3e5378226544f306" kindref="member">EditionManager</ref> &amp;</type>
+        <definition>EditionManager &amp; themis::edition::EditionManager::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::edition::EditionManager::instance</qualifiedname>
+        <briefdescription>
+<para>Retrieve the process-wide singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Instance.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="79" column="27" bodyfile="src/themis/edition_manager.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1af7164370a58317ef3e5378226544f306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::edition::EditionManager::EditionManager</definition>
+        <argsstring>(const EditionManager &amp;)=delete</argsstring>
+        <name>EditionManager</name>
+        <qualifiedname>themis::edition::EditionManager::EditionManager</qualifiedname>
+        <param>
+          <type>const EditionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a5d2999864cae7af38233329ccba39d0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1edition_1_1_edition_manager_1af7164370a58317ef3e5378226544f306" kindref="member">EditionManager</ref> &amp;</type>
+        <definition>EditionManager &amp; themis::edition::EditionManager::operator=</definition>
+        <argsstring>(const EditionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::edition::EditionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1edition_1_1_edition_manager_1af7164370a58317ef3e5378226544f306" kindref="member">EditionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="83" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a2c06cf8d8ee1b1ebf8ab2987e8411699" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::isFeatureAvailable</definition>
+        <argsstring>(std::string_view feature_name) const</argsstring>
+        <name>isFeatureAvailable</name>
+        <qualifiedname>themis::edition::EditionManager::isFeatureAvailable</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if the named feature is available at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The check is two-stage:<orderedlist>
+<listitem><para>Compile-time: edition::IsFeatureEnabled(feature_name) must be true.</para>
+</listitem><listitem><para>Runtime: <ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a27774dfffa5cfdd44d73a95349871173" kindref="member">license::RuntimeLicenseGate::instance()</ref> must allow it.</para>
+</listitem></orderedlist>
+</para>
+<para>Features that are not in the Enterprise gate list (i.e. Community features) are always allowed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One of: &quot;enterprise_plugins&quot;, &quot;multi_master&quot;, &quot;field_encryption&quot;, &quot;rbac&quot;, &quot;hsm&quot;, or any unknown feature name (unknown → always allowed). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="103" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a1748b312d33920ceb008de324079d3e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::isFeatureAvailable</definition>
+        <argsstring>(std::string_view feature_name, std::string &amp;error_out) const</argsstring>
+        <name>isFeatureAvailable</name>
+        <qualifiedname>themis::edition::EditionManager::isFeatureAvailable</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Like <ref refid="classthemis_1_1edition_1_1_edition_manager_1a2c06cf8d8ee1b1ebf8ab2987e8411699" kindref="member">isFeatureAvailable()</ref> but also populates <computeroutput>error_out</computeroutput> with a human-readable explanation when returning false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">overrides_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="109" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="53" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1ae658b1645a52aec824c84d2e774149a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::checkNodeLimit</definition>
+        <argsstring>(int requested_nodes, std::string &amp;error_out) const</argsstring>
+        <name>checkNodeLimit</name>
+        <qualifiedname>themis::edition::EditionManager::checkNodeLimit</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>requested_nodes</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if <computeroutput>requested_nodes</computeroutput> is within the edition limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>COMMUNITY: up to SHARDING_MAX_NODES ENTERPRISE: up to SHARDING_MAX_NODES HYPERSCALER: unlimited (always returns true)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of shard nodes the caller wants to use. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Populated with an error string on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="126" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="85" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a1179dc4314a12809257118995002d8a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::checkVRAMLimit</definition>
+        <argsstring>(int requested_vram_gb, std::string &amp;error_out) const</argsstring>
+        <name>checkVRAMLimit</name>
+        <qualifiedname>themis::edition::EditionManager::checkVRAMLimit</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>requested_vram_gb</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if <computeroutput>requested_vram_gb</computeroutput> is within the edition limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>COMMUNITY: up to GPU_MAX_VRAM_GB ENTERPRISE: up to GPU_MAX_VRAM_GB HYPERSCALER: unlimited (always returns true)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested_vram_gb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>VRAM to allocate in gigabytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Populated with an error string on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="138" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="142" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a94789a781d44b18a35b264891c5a44b2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6e" kindref="member">EditionType</ref></type>
+        <definition>EditionType themis::edition::EditionManager::getEditionType</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getEditionType</name>
+        <qualifiedname>themis::edition::EditionManager::getEditionType</qualifiedname>
+        <briefdescription>
+<para>Returns the compile-time edition type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="145" column="17" bodyfile="src/themis/edition_manager.cpp" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a6ad84cf0e58c4241e49cb8efbf46c64f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::edition::EditionManager::getEditionName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getEditionName</name>
+        <qualifiedname>themis::edition::EditionManager::getEditionName</qualifiedname>
+        <briefdescription>
+<para>Returns the compile-time edition name string (e.g. &quot;COMMUNITY&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="148" column="22" bodyfile="src/themis/edition_manager.cpp" bodystart="209" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a566c522e05b3a6b7148615e769515a59" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::edition::EditionManager::getMaxNodes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getMaxNodes</name>
+        <qualifiedname>themis::edition::EditionManager::getMaxNodes</qualifiedname>
+        <briefdescription>
+<para>Maximum shard nodes for this edition (-1 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="151" column="9" bodyfile="src/themis/edition_manager.cpp" bodystart="213" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a5a9ac8049d947c825a6f8bcd36655a50" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::edition::EditionManager::getMaxVRAMGB</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getMaxVRAMGB</name>
+        <qualifiedname>themis::edition::EditionManager::getMaxVRAMGB</qualifiedname>
+        <briefdescription>
+<para>Maximum GPU VRAM in GB for this edition (-1 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="154" column="9" bodyfile="src/themis/edition_manager.cpp" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a51fa04f1c80491134a13f89d79bdf7b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::edition::EditionManager::getAvailableFeatures</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableFeatures</name>
+        <qualifiedname>themis::edition::EditionManager::getAvailableFeatures</qualifiedname>
+        <briefdescription>
+<para>Returns the names of all known gated features that are currently available (both compile-time ON and runtime license valid). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="164" column="17" bodyfile="src/themis/edition_manager.cpp" bodystart="225" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1aa432f197a25348c4e782e9c542a8dfeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::edition::EditionManager::getUnavailableFeatures</definition>
+        <argsstring>() const</argsstring>
+        <name>getUnavailableFeatures</name>
+        <qualifiedname>themis::edition::EditionManager::getUnavailableFeatures</qualifiedname>
+        <briefdescription>
+<para>Returns the names of all known gated features that are currently unavailable (compile-time OFF or runtime license invalid). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="170" column="17" bodyfile="src/themis/edition_manager.cpp" bodystart="236" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1afa819b547b709ad9176cd7de6fa92377" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::edition::EditionManager::getUpgradeMessage</definition>
+        <argsstring>(std::string_view feature_name) const</argsstring>
+        <name>getUpgradeMessage</name>
+        <qualifiedname>themis::edition::EditionManager::getUpgradeMessage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Returns a human-readable upgrade message for the given feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The message explains which edition supports the feature and how to obtain it. Returns an empty string if the feature is already available. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="182" column="17" bodyfile="src/themis/edition_manager.cpp" bodystart="251" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a49510895f6689b26de810a8585b2f92b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::installVRAMPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; gpu::IVRAMPolicy &gt; policy, int claimed_max_vram_gb)</argsstring>
+        <name>installVRAMPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::installVRAMPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">gpu::IVRAMPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>claimed_max_vram_gb</declname>
+        </param>
+        <briefdescription>
+<para>Install a signed VRAM policy supplied by an edition-upgrade plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Install VRAMPolicy.</para>
+<para>The policy is accepted only when <computeroutput>claimed_max_vram_gb</computeroutput> does not exceed the compile-time ceiling (<computeroutput>GPU_MAX_VRAM_GB</computeroutput>), or the ceiling is -1 (Hyperscaler — unlimited). A rejected install is logged and returns <computeroutput>false</computeroutput>; the binary retains its compile-time default.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IVRAMPolicy implementation provided by the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_vram_gb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum VRAM (GiB) the policy declares it allows. Must be &lt;= GPU_MAX_VRAM_GB compile-time ceiling, or -1. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true Policy accepted and installed. </para>
+</simplesect>
+<simplesect kind="return"><para>false Policy rejected — ceiling exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_vram_gb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="204" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="350" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a43e625e382c7f1933854a65358761e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::installShardPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::IShardLimitPolicy &gt; policy, int claimed_max_nodes)</argsstring>
+        <name>installShardPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::installShardPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy" kindref="compound">sharding::IShardLimitPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>claimed_max_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Install a signed shard-limit policy supplied by an edition-upgrade plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Install Shard Policy.</para>
+<para>Enforces the compile-time ceiling <computeroutput>SHARDING_MAX_NODES</computeroutput> (Defense in Depth). A rejected install is logged; the binary retains its default node limit.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IShardLimitPolicy implementation provided by the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum shard-node count the policy declares it allows. Must be &lt;= SHARDING_MAX_NODES compile-time ceiling, or -1. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true Policy accepted and installed. </para>
+</simplesect>
+<simplesect kind="return"><para>false Policy rejected — ceiling exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="221" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="391" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1ad3d924836fb4d894ed8437fa9471be47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearVRAMPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>clearVRAMPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::clearVRAMPolicy</qualifiedname>
+        <briefdescription>
+<para>Remove any previously installed VRAM policy (reverts to compile-time default). Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear VRAMPolicy.</para>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="228" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="428" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a322b11a070bea6e8f4e1350080fa836e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearShardPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>clearShardPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::clearShardPolicy</qualifiedname>
+        <briefdescription>
+<para>Remove any previously installed shard-limit policy (reverts to compile-time default). Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Shard Policy.</para>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="234" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="440" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a34e6b7f0f589826e8998f4178fc6e5e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::installLLMResourcePolicy</definition>
+        <argsstring>(std::shared_ptr&lt; llm::ILLMResourcePolicy &gt; policy, int64_t claimed_max_context_tokens, int32_t claimed_max_model_instances, int64_t claimed_max_vram_per_model_mb)</argsstring>
+        <name>installLLMResourcePolicy</name>
+        <qualifiedname>themis::edition::EditionManager::installLLMResourcePolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy" kindref="compound">llm::ILLMResourcePolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>claimed_max_context_tokens</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>claimed_max_model_instances</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>claimed_max_vram_per_model_mb</declname>
+        </param>
+        <briefdescription>
+<para>Install a signed LLM resource policy supplied by an edition-upgrade plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Group 4: LLM resource policy ============================================================================</para>
+<para>Defense in Depth: <computeroutput>claimed_max_context_tokens</computeroutput> must satisfy (LLM_MAX_CONTEXT_TOKENS == 0 || claimed ≤ LLM_MAX_CONTEXT_TOKENS); <computeroutput>claimed_max_model_instances</computeroutput> must satisfy (LLM_MAX_MODEL_INSTANCES == -1 || claimed ≤ LLM_MAX_MODEL_INSTANCES); <computeroutput>claimed_max_vram_per_model_mb</computeroutput> must satisfy (LLM_MAX_VRAM_PER_MODEL_MB == 0 || claimed ≤ LLM_MAX_VRAM_PER_MODEL_MB). A rejected install is logged and returns false.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LLM resource policy implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_context_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max context tokens per inference; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_model_instances</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max concurrently loaded models; -1 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_vram_per_model_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max VRAM per model in MiB; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on acceptance, false when a ceiling is exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_context_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_model_instances</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_vram_per_model_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="257" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="457" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a9efedcf3c48069e82cd02a0760bc6a50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearLLMResourcePolicy</definition>
+        <argsstring>()</argsstring>
+        <name>clearLLMResourcePolicy</name>
+        <qualifiedname>themis::edition::EditionManager::clearLLMResourcePolicy</qualifiedname>
+        <briefdescription>
+<para>Remove any previously installed LLM resource policy. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear LLMResource Policy.</para>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="266" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="516" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1aff002600e375d7dcb57eb325c4e65874" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::installTenantQuotaPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; tenant::ITenantQuotaPolicy &gt; policy, uint64_t claimed_max_storage_bytes, uint64_t claimed_max_documents, uint32_t claimed_max_collections, uint32_t claimed_max_concurrent_queries, uint32_t claimed_max_rps)</argsstring>
+        <name>installTenantQuotaPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::installTenantQuotaPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy" kindref="compound">tenant::ITenantQuotaPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>claimed_max_storage_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>claimed_max_documents</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_collections</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_concurrent_queries</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_rps</declname>
+        </param>
+        <briefdescription>
+<para>Install a signed tenant-quota policy supplied by an edition-upgrade plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Group 1+3: Tenant quota policy ============================================================================</para>
+<para>Defense in Depth: each claimed value is validated against the corresponding compile-time ceiling in <ref refid="edition_8h" kindref="compound">edition.h</ref> (0 = unlimited ceilings always accept). A rejected install is logged and returns false.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant quota policy implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_storage_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max storage per tenant in bytes; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max documents per tenant; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_collections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max collections per tenant; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_concurrent_queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max concurrent queries per tenant; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_rps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max requests per second per tenant; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on acceptance, false when a ceiling is exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_storage_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_collections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_concurrent_queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_rps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="287" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="534" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a2f890883ccc122056393f19797d31e3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearTenantQuotaPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>clearTenantQuotaPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::clearTenantQuotaPolicy</qualifiedname>
+        <briefdescription>
+<para>Remove any previously installed tenant-quota policy. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Tenant Quota Policy.</para>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="298" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="613" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1afd28afb4e2553614335e7e20c20f6328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::installQueryLimitPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; query::IQueryLimitPolicy &gt; policy, uint32_t claimed_max_depth, uint32_t claimed_max_complexity, uint64_t claimed_max_payload_bytes, uint64_t claimed_max_result_rows)</argsstring>
+        <name>installQueryLimitPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::installQueryLimitPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_i_query_limit_policy" kindref="compound">query::IQueryLimitPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_depth</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_complexity</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>claimed_max_payload_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>claimed_max_result_rows</declname>
+        </param>
+        <briefdescription>
+<para>Install a signed query-limit policy supplied by an edition-upgrade plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Group 2: Query limit policy ============================================================================</para>
+<para>Defense in Depth: each claimed value is validated against the corresponding compile-time ceiling in <ref refid="edition_8h" kindref="compound">edition.h</ref> (0 = unlimited ceilings always accept). A rejected install is logged and returns false.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query limit policy implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max GraphQL/AQL depth; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_complexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max query complexity score; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_payload_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max request payload bytes; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_result_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max result rows per query; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on acceptance, false when a ceiling is exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_complexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_payload_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_result_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="318" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="630" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a57c46084596705c068ac68d2999954f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearQueryLimitPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>clearQueryLimitPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::clearQueryLimitPolicy</qualifiedname>
+        <briefdescription>
+<para>Remove any previously installed query-limit policy. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Query Limit Policy.</para>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="328" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="698" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a5f7a14396dfb3b20e9c04ab7d63c9f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::installConnectionPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; network::IConnectionPolicy &gt; policy, uint32_t claimed_max_http2_streams, uint32_t claimed_max_sse_connections, uint32_t claimed_max_total_connections, uint32_t claimed_max_sse_events_per_sec)</argsstring>
+        <name>installConnectionPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::installConnectionPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_i_connection_policy" kindref="compound">network::IConnectionPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_http2_streams</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_sse_connections</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_total_connections</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>claimed_max_sse_events_per_sec</declname>
+        </param>
+        <briefdescription>
+<para>Install a signed connection policy supplied by an edition-upgrade plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Group 2+3: Connection policy ============================================================================</para>
+<para>Defense in Depth: each claimed value is validated against the corresponding compile-time ceiling in <ref refid="edition_8h" kindref="compound">edition.h</ref> (0 = unlimited ceilings always accept). A rejected install is logged and returns false.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Connection policy implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_http2_streams</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max HTTP/2 streams per connection; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_sse_connections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max total SSE connections; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_total_connections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max total server connections; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_sse_events_per_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max SSE events/sec; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on acceptance, false when a ceiling is exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_http2_streams</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_sse_connections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_total_connections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_sse_events_per_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="348" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="715" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1abffcdf53af3a79cef57c382b12c65f98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearConnectionPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>clearConnectionPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::clearConnectionPolicy</qualifiedname>
+        <briefdescription>
+<para>Remove any previously installed connection policy. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Connection Policy.</para>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="358" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="784" bodyend="789"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1aa50399f19c9d3d45d51a2f946384230b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::installStorageOpsPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; storage::IStorageOpsPolicy &gt; policy, int32_t claimed_max_background_jobs, uint64_t claimed_max_compaction_bytes_per_sec, int32_t claimed_max_concurrent_snapshots)</argsstring>
+        <name>installStorageOpsPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::installStorageOpsPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_storage_ops_policy" kindref="compound">storage::IStorageOpsPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>claimed_max_background_jobs</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>claimed_max_compaction_bytes_per_sec</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>claimed_max_concurrent_snapshots</declname>
+        </param>
+        <briefdescription>
+<para>Install a signed storage-operations policy supplied by an edition-upgrade plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Group 5: Storage operations policy ============================================================================</para>
+<para>Defense in Depth: each claimed value is validated against the corresponding compile-time ceiling in <ref refid="edition_8h" kindref="compound">edition.h</ref> (-1 = unlimited for counts, 0 = unlimited for rates). A rejected install is logged and returns false.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage ops policy implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_background_jobs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max concurrent background jobs; -1 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_compaction_bytes_per_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max compaction I/O rate in bytes/s; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_concurrent_snapshots</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max concurrent snapshots; -1 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on acceptance, false when a ceiling is exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_background_jobs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_compaction_bytes_per_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_concurrent_snapshots</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="377" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="800" bodyend="854"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a06e88685a26b03a74280b3304250cd56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearStorageOpsPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>clearStorageOpsPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::clearStorageOpsPolicy</qualifiedname>
+        <briefdescription>
+<para>Remove any previously installed storage-operations policy. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Storage Ops Policy.</para>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="386" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="860" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a5fe1e4bf2ac0f541b20605413f403cb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::installRateLimitPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; ratelimit::IRateLimitPolicy &gt; policy, uint64_t claimed_max_global_rps)</argsstring>
+        <name>installRateLimitPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::installRateLimitPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy" kindref="compound">ratelimit::IRateLimitPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>claimed_max_global_rps</declname>
+        </param>
+        <briefdescription>
+<para>Install a signed global rate-limit policy supplied by an edition-upgrade plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Group 3: Global rate-limit policy ============================================================================</para>
+<para>Defense in Depth: <computeroutput>claimed_max_global_rps</computeroutput> must satisfy (RATE_LIMIT_MAX_GLOBAL_RPS == 0 || claimed ≤ RATE_LIMIT_MAX_GLOBAL_RPS). A rejected install is logged and returns false.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rate-limit policy implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>claimed_max_global_rps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max global requests per second; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on acceptance, false when the ceiling is exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_max_global_rps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="403" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="874" bodyend="905"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a0b4e5abc96827a122ff817a3e8bca186" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearRateLimitPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>clearRateLimitPolicy</name>
+        <qualifiedname>themis::edition::EditionManager::clearRateLimitPolicy</qualifiedname>
+        <briefdescription>
+<para>Remove any previously installed global rate-limit policy. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Rate Limit Policy.</para>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="410" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="911" bodyend="916"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1ae1a37eca2c54f49c3b96dbe517831ab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::setFeatureOverride</definition>
+        <argsstring>(std::string_view feature_name, bool enabled)</argsstring>
+        <name>setFeatureOverride</name>
+        <qualifiedname>themis::edition::EditionManager::setFeatureOverride</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set a runtime override for a named feature flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Feature Override.</para>
+<para>Overrides are layered on top of (and cannot bypass) the compile-time edition gate. An override of <computeroutput>true</computeroutput> for a Community-edition feature that is compile-time disabled is silently stored but will never allow the feature — the compile-time gate still applies.</para>
+<para>Typical use-cases:<itemizedlist>
+<listitem><para>Staged rollout: set to <computeroutput>false</computeroutput> while validating, flip to <computeroutput>true</computeroutput> when ready to expose the feature to this node.</para>
+</listitem><listitem><para>Maintenance mode: set to <computeroutput>false</computeroutput> to block a feature without redeployment.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Feature to override (see edition::kGatedFeatureNames). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>true</computeroutput> = allow (if edition/license also allow); <computeroutput>false</computeroutput> = always block.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the feature. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="436" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="291" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1aae312676c7d9e9bd8e5c7ece6087cfe5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearFeatureOverride</definition>
+        <argsstring>(std::string_view feature_name)</argsstring>
+        <name>clearFeatureOverride</name>
+        <qualifiedname>themis::edition::EditionManager::clearFeatureOverride</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove the runtime override for a named feature flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Feature Override.</para>
+<para>After calling this, <computeroutput>isFeatureAvailable(feature_name)</computeroutput> reverts to the standard edition + license decision. A no-op if no override exists for <computeroutput>feature_name</computeroutput>.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the feature.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="447" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="301" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1ad4bd52f087444969310d629d355c82fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::edition::EditionManager::clearAllFeatureOverrides</definition>
+        <argsstring>()</argsstring>
+        <name>clearAllFeatureOverrides</name>
+        <qualifiedname>themis::edition::EditionManager::clearAllFeatureOverrides</qualifiedname>
+        <briefdescription>
+<para>Remove all runtime overrides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear All Feature Overrides.</para>
+<para>After this call every feature reverts to the standard edition + license decision.</para>
+<para>Thread-safe.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="457" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="310" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a0b8e6ea4efb6ff83a6914cbf0d873fa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionManager::hasFeatureOverride</definition>
+        <argsstring>(std::string_view feature_name) const</argsstring>
+        <name>hasFeatureOverride</name>
+        <qualifiedname>themis::edition::EditionManager::hasFeatureOverride</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Returns <computeroutput>true</computeroutput> if a runtime override is set for the feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not indicate whether the feature is available — use <computeroutput><ref refid="classthemis_1_1edition_1_1_edition_manager_1a2c06cf8d8ee1b1ebf8ab2987e8411699" kindref="member">isFeatureAvailable()</ref></computeroutput> for that.</para>
+<para>Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">overrides_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="467" column="10" bodyfile="src/themis/edition_manager.cpp" bodystart="315" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a43fa8fd364dc1114e64c35b8005b9173" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; bool &gt;</type>
+        <definition>std::optional&lt; bool &gt; themis::edition::EditionManager::getFeatureOverride</definition>
+        <argsstring>(std::string_view feature_name) const</argsstring>
+        <name>getFeatureOverride</name>
+        <qualifiedname>themis::edition::EditionManager::getFeatureOverride</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Returns the current runtime override value, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><computeroutput>std::nullopt</computeroutput> when no override is set; <computeroutput>true</computeroutput> / <computeroutput>false</computeroutput> when an override has been set via <computeroutput><ref refid="classthemis_1_1edition_1_1_edition_manager_1ae1a37eca2c54f49c3b96dbe517831ab3" kindref="member">setFeatureOverride()</ref></computeroutput>.</para>
+</simplesect>
+Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">overrides_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="477" column="19" bodyfile="src/themis/edition_manager.cpp" bodystart="325" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1a1131f5a9af8a1afeb76a8489852ebb80" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::edition::EditionManager::EditionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>EditionManager</name>
+        <qualifiedname>themis::edition::EditionManager::EditionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="480" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1edition_1_1_edition_manager_1abb23756d5e3ef9d6f58f77e16b0c4aef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::edition::EditionManager::~EditionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EditionManager</name>
+        <qualifiedname>themis::edition::EditionManager::~EditionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition_manager.h" line="481" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Process-wide singleton that enforces edition feature and resource limits at runtime. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/themis/edition_manager.h" line="76" column="1" bodyfile="include/themis/edition_manager.h" bodystart="76" bodyend="512"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1ae658b1645a52aec824c84d2e774149a2" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>checkNodeLimit</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a1179dc4314a12809257118995002d8a4" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>checkVRAMLimit</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1ad4bd52f087444969310d629d355c82fa" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearAllFeatureOverrides</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1abffcdf53af3a79cef57c382b12c65f98" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearConnectionPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1aae312676c7d9e9bd8e5c7ece6087cfe5" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearFeatureOverride</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a9efedcf3c48069e82cd02a0760bc6a50" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearLLMResourcePolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a57c46084596705c068ac68d2999954f0" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearQueryLimitPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a0b4e5abc96827a122ff817a3e8bca186" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearRateLimitPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a322b11a070bea6e8f4e1350080fa836e" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearShardPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a06e88685a26b03a74280b3304250cd56" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearStorageOpsPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a2f890883ccc122056393f19797d31e3c" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearTenantQuotaPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1ad3d924836fb4d894ed8437fa9471be47" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>clearVRAMPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1afc020d0cacc055670de61b3e0e217043" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>connection_policy_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1af7164370a58317ef3e5378226544f306" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>EditionManager</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a1131f5a9af8a1afeb76a8489852ebb80" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>EditionManager</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1ada56733f6d2bc9ba580128fa40563ff3" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>effective_shard_nodes_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a4156a07914ad2a081e464905a604c49a" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>effective_vram_gb_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a51fa04f1c80491134a13f89d79bdf7b7" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>getAvailableFeatures</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a6ad84cf0e58c4241e49cb8efbf46c64f" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>getEditionName</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a94789a781d44b18a35b264891c5a44b2" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>getEditionType</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a43fa8fd364dc1114e64c35b8005b9173" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>getFeatureOverride</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a566c522e05b3a6b7148615e769515a59" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>getMaxNodes</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a5a9ac8049d947c825a6f8bcd36655a50" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>getMaxVRAMGB</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1aa432f197a25348c4e782e9c542a8dfeb" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>getUnavailableFeatures</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1afa819b547b709ad9176cd7de6fa92377" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>getUpgradeMessage</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a0b8e6ea4efb6ff83a6914cbf0d873fa0" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>hasFeatureOverride</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a5f7a14396dfb3b20e9c04ab7d63c9f53" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>installConnectionPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a34e6b7f0f589826e8998f4178fc6e5e3" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>installLLMResourcePolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1afd28afb4e2553614335e7e20c20f6328" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>installQueryLimitPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a5fe1e4bf2ac0f541b20605413f403cb3" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>installRateLimitPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a43e625e382c7f1933854a65358761e07" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>installShardPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1aa50399f19c9d3d45d51a2f946384230b" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>installStorageOpsPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1aff002600e375d7dcb57eb325c4e65874" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>installTenantQuotaPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a49510895f6689b26de810a8585b2f92b" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>installVRAMPolicy</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a49b48f0a2a04b9050b5cfad32480968f" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>instance</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a2c06cf8d8ee1b1ebf8ab2987e8411699" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>isFeatureAvailable</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a1748b312d33920ceb008de324079d3e0" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>isFeatureAvailable</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1ad7d39551e439f657ce5f42b3d2d19604" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>llm_resource_policy_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a5d2999864cae7af38233329ccba39d0d" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a6f41f3c87a41ca6c138f454664d94144" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>overrides_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1afcd745cc157719801e87302380d06e5d" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>overrides_mutex_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1af50800473408e42e44982663f29787db" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>policy_mutex_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a7041c6de8a199261a084b059c855e9d9" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>query_limit_policy_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a4ea1ca69c90d83b9f93b735ce2bd25cc" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>rate_limit_policy_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1ae1a37eca2c54f49c3b96dbe517831ab3" prot="public" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>setFeatureOverride</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a6a6062b29cee61370a69e9c6f944e28d" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>shard_policy_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1ad67b3cb9d837566fcec0df34bae63262" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>storage_ops_policy_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1a614e9e85f09966d671f2d4c92c6017d8" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>tenant_quota_policy_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1afc56fc7972b6aa5d8f040319c83f6cc9" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>vram_policy_</name></member>
+      <member refid="classthemis_1_1edition_1_1_edition_manager_1abb23756d5e3ef9d6f58f77e16b0c4aef" prot="private" virt="non-virtual"><scope>themis::edition::EditionManager</scope><name>~EditionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

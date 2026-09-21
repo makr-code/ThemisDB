@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bench_stub_signal_bus" kind="class" language="C++" prot="public">
+    <compoundname>BenchStubSignalBus</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_bench_stub_signal_bus_1a8fe118b95226f862669a80a57454aaa9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; BenchStubSignalBus::sent_</definition>
+        <argsstring></argsstring>
+        <name>sent_</name>
+        <qualifiedname>BenchStubSignalBus::sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="92" column="17" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_bench_stub_signal_bus_1a57e69a5066ff2d959efa367e996c8bd3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BenchStubSignalBus::send</definition>
+        <argsstring>(uint64_t pid, int signum)</argsstring>
+        <name>send</name>
+        <qualifiedname>BenchStubSignalBus::send</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>signum</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="83" column="10" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bench_stub_signal_bus_1a5ceb40c375257bca49e0056187dffc15" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t BenchStubSignalBus::sent</definition>
+        <argsstring>() const</argsstring>
+        <name>sent</name>
+        <qualifiedname>BenchStubSignalBus::sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="88" column="14" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bench_stub_signal_bus_1a264720e6d5c027ff01290e65990d8994" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BenchStubSignalBus::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>BenchStubSignalBus::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="89" column="10" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="81" column="1" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="81" bodyend="93"/>
+    <listofallmembers>
+      <member refid="class_bench_stub_signal_bus_1a264720e6d5c027ff01290e65990d8994" prot="public" virt="non-virtual"><scope>BenchStubSignalBus</scope><name>reset</name></member>
+      <member refid="class_bench_stub_signal_bus_1a57e69a5066ff2d959efa367e996c8bd3" prot="public" virt="non-virtual"><scope>BenchStubSignalBus</scope><name>send</name></member>
+      <member refid="class_bench_stub_signal_bus_1a5ceb40c375257bca49e0056187dffc15" prot="public" virt="non-virtual"><scope>BenchStubSignalBus</scope><name>sent</name></member>
+      <member refid="class_bench_stub_signal_bus_1a8fe118b95226f862669a80a57454aaa9" prot="private" virt="non-virtual"><scope>BenchStubSignalBus</scope><name>sent_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

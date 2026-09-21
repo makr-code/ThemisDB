@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="mig__manager_8h" kind="file" language="C++">
+    <compoundname>mig_manager.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="device__discovery_8h" local="yes">themis/gpu/device_discovery.h</includes>
+    <includedby refid="admin__api_8h" local="yes">include/themis/gpu/admin_api.h</includedby>
+    <includedby refid="gpu__module_8h" local="yes">include/themis/gpu/gpu_module.h</includedby>
+    <incdepgraph>
+      <node id="8">
+        <label>themis/edition.h</label>
+        <link refid="edition_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis/gpu/device_discovery.h</label>
+        <link refid="device__discovery_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/mig_manager.h</label>
+        <link refid="mig__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/gpu/admin_api.h</label>
+        <link refid="admin__api_8h"/>
+      </node>
+      <node id="3">
+        <label>include/themis/gpu/gpu_module.h</label>
+        <link refid="gpu__module_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/mig_manager.h</label>
+        <link refid="mig__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_m_i_g_manager" prot="public">themis::gpu::MIGManager</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" prot="public">themis::gpu::MIGManager::MIGInstance</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats" prot="public">themis::gpu::MIGManager::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="device__discovery_8h" kindref="compound">themis/gpu/device_discovery.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1gpu_1_1_m_i_g_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MIG<sp/>profile<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a0e7a1d214edfe699882678b07f85391d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a0e7a1d214edfe699882678b07f85391d" kindref="member">kProfile_1g_5gb</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1g.5gb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a114679206f06c909885c34103613f523" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a114679206f06c909885c34103613f523" kindref="member">kProfile_2g_10gb</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2g.10gb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aaffaacedd49ad16917c9530943d55bcc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aaffaacedd49ad16917c9530943d55bcc" kindref="member">kProfile_3g_20gb</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;3g.20gb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae65420d42138b01670c0f484e7f7f90c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae65420d42138b01670c0f484e7f7f90c" kindref="member">kProfile_4g_20gb</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;4g.20gb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a44fe6fe713b36d9fe9a66cae5291368f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a44fe6fe713b36d9fe9a66cae5291368f" kindref="member">kProfile_7g_40gb</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;7g.40gb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1adf891d8f7dbee37c89032fa91f751249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1adf891d8f7dbee37c89032fa91f751249" kindref="member">kProfile_1g_10gb</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1g.10gb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aba9425274a17f9a5bd21292ddf7bc49e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aba9425274a17f9a5bd21292ddf7bc49e" kindref="member">kProfile_1g_12gb</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1g.12gb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a7a024e889331aa5f55e013d8a23ffc19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a7a024e889331aa5f55e013d8a23ffc19" kindref="member">kProfile_7g_80gb</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;7g.80gb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MIG<sp/>instance<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" kindref="compound">MIGInstance</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1adc8414293d3286c61c7aba36f0fca3a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1adc8414293d3286c61c7aba36f0fca3a9" kindref="member">instance_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a78e90e3edc25dc0aa8d6ae1524dc7d4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a78e90e3edc25dc0aa8d6ae1524dc7d4b" kindref="member">device_index</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1adba2d49647dd91d3a2824897f1eaaa9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1adba2d49647dd91d3a2824897f1eaaa9c" kindref="member">gi_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a1d43671a1a17296e5fc6834400019c3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a1d43671a1a17296e5fc6834400019c3e" kindref="member">profile</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a0752b7712e90a865983b780589f770c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a0752b7712e90a865983b780589f770c0" kindref="member">memory_bytes</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1ae50c919a8c605846c2d3ff5edba97561" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1ae50c919a8c605846c2d3ff5edba97561" kindref="member">is_active</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1aee4d216b943a2a62518e4277a7ef38ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1aee4d216b943a2a62518e4277a7ef38ef" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a5a2fd06797702509a4fbff4eeca2548b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a5a2fd06797702509a4fbff4eeca2548b" kindref="member">MIG_NOT_SUPPORTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae9a99b542928c4044a56ef620ff502a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ae9a99b542928c4044a56ef620ff502a8" kindref="member">MIG_FEATURE_DISABLED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a78d9d7c14824306ce81742588a7df71f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a78d9d7c14824306ce81742588a7df71f" kindref="member">INVALID_PROFILE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ab75d8a2c3c647346973220ce1237fe18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8ab75d8a2c3c647346973220ce1237fe18" kindref="member">DEVICE_NOT_FOUND</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a25ade52c232758b2054f770be0a9ac38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a25ade52c232758b2054f770be0a9ac38" kindref="member">PARTITION_LIMIT_EXCEEDED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8afe4e7515a3be5e61f21686438b11404b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8afe4e7515a3be5e61f21686438b11404b" kindref="member">INSTANCE_NOT_FOUND</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a4b50bbad8ad58da7f7558366fc69ab6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a4b50bbad8ad58da7f7558366fc69ab6d" kindref="member">ALREADY_ASSIGNED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a52b5afe3870fcaac0e063ad0bd47209f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8a52b5afe3870fcaac0e063ad0bd47209f" kindref="member">NOT_ASSIGNED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1aeae711d25dd037f27a3289a28e566720" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1aeae711d25dd037f27a3289a28e566720" kindref="member">total_created</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a7cb59356a350ae6dcfd0fd098f059790" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a7cb59356a350ae6dcfd0fd098f059790" kindref="member">total_destroyed</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a6046dbb252cbbded8dda01b5e3449859" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a6046dbb252cbbded8dda01b5e3449859" kindref="member">total_assigned</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a2fd0b3a2de60d6d37d2805eecc90374c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a2fd0b3a2de60d6d37d2805eecc90374c" kindref="member">total_unassigned</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1adb42b463276a6da47f8ee93c6d308db5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1adb42b463276a6da47f8ee93c6d308db5" kindref="member">active_instances</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Singleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a5d4dc35d23a771240859673017a815ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a5d4dc35d23a771240859673017a815ba" kindref="member">GetInstance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref><sp/>inst;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>inst;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a3f6a2631ff113599a90bace63736e595" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a3f6a2631ff113599a90bace63736e595" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a2a095a8c71e177e7e4fb53eb707e544a" kindref="member">MIGManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction<sp/>/<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a376cda34c170d8761f68c8461b6062a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a376cda34c170d8761f68c8461b6062a5" kindref="member">MIGManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a371e938d5a05aab6c18b6bcf4933f5c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a371e938d5a05aab6c18b6bcf4933f5c8" kindref="member">~MIGManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Partition<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a219a0266fcf2f4e6fb27f5cc26be522f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a219a0266fcf2f4e6fb27f5cc26be522f" kindref="member">createPartition</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>profile,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>out_instance_id);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a770530bc03480030422ffd209ab55b95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a770530bc03480030422ffd209ab55b95" kindref="member">createPartition</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>profile,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>out_instance_id,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DeviceInfo&gt;&amp;<sp/>devices);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ac6c44ece657aa3b987bfac4c5d49024b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ac6c44ece657aa3b987bfac4c5d49024b" kindref="member">destroyPartition</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instance_id);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>assignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a97692b8cd1f2c1fcc9126bb5fa956967" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a97692b8cd1f2c1fcc9126bb5fa956967" kindref="member">assignToTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instance_id,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a7734e575d718276cb8d274f3696ed2ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a7734e575d718276cb8d274f3696ed2ab" kindref="member">unassignFromTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instance_id);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a937d46a724c7057fb69a444d7adbc26e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MIGInstance&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a937d46a724c7057fb69a444d7adbc26e" kindref="member">getInstances</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1af62007275877590a291c8eaf62110d64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MIGInstance&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1af62007275877590a291c8eaf62110d64" kindref="member">getInstancesForDevice</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ab6b8cf71080e415a27ea22fb2b8220e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MIGInstance&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ab6b8cf71080e415a27ea22fb2b8220e5" kindref="member">getInstancesForTenant</ref>(</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aa1290f5005a8753fb83313d026111411" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aa1290f5005a8753fb83313d026111411" kindref="member">getInstance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instance_id,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" kindref="compound">MIGInstance</ref>&amp;<sp/>out)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capability<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aef8801395d1f6cf7a68811e9fbb5ec4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aef8801395d1f6cf7a68811e9fbb5ec4f" kindref="member">deviceSupportsMIG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref>&amp;<sp/>device)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a1c40e26c891e59c189b20e27ffad632a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a1c40e26c891e59c189b20e27ffad632a" kindref="member">isKnownProfile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>profile)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a62a14d660ee1c7c7a31b752a5cae6591" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a62a14d660ee1c7c7a31b752a5cae6591" kindref="member">profileMemoryBytes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>profile)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a265561fa56567f30f8be6b6b5716968d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a265561fa56567f30f8be6b6b5716968d" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aaf0abe701cf745357e40d71cb58953ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1aaf0abe701cf745357e40d71cb58953ea" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a526869b516e18a1ff03d3318d50eed7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a526869b516e18a1ff03d3318d50eed7d" kindref="member">makeInstanceId</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gi_id);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registry:<sp/>instance_id<sp/>-&gt;<sp/>MIGInstance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>MIGInstance&gt;<sp/>instances_;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-device<sp/>instance<sp/>count:<sp/>device_index<sp/>-&gt;<sp/>count.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>int&gt;<sp/>device_instance_count_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Next<sp/>GI<sp/>ID<sp/>per<sp/>device:<sp/>device_index<sp/>-&gt;<sp/>next<sp/>gi_id.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>int&gt;<sp/>next_gi_id_;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>stat_created_<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>stat_destroyed_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>stat_assigned_<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>stat_unassigned_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kMaxInstancesPerDevice<sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="namespacethemis_1_1gpu_1a1a7507ddfe37099982d27b545db77461" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1gpu_1a1a7507ddfe37099982d27b545db77461" kindref="member">migStatusName</ref>(<ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ae1315c4cc26edd1d253472c9fa895aa8" kindref="member">MIGManager::Status</ref><sp/>s)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/mig_manager.h"/>
+  </compounddef>
+</doxygen>

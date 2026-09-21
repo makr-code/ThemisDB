@@ -1,0 +1,761 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__llm__infrastructure_8cpp" kind="file" language="C++">
+    <compoundname>bench_llm_infrastructure.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="llama__resource__manager_8h" local="yes">llm/llama_resource_manager.h</includes>
+    <includes refid="sampling__strategy_8h" local="yes">llm/sampling_strategy.h</includes>
+    <includes local="yes">acceleration/compute_backend.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/llm/bench_llm_infrastructure.cpp</label>
+        <link refid="bench__llm__infrastructure_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>llm/gpu_memory_manager.h</label>
+        <link refid="gpu__memory__manager_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/llama_resource_manager.h</label>
+        <link refid="llama__resource__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/sampling_strategy.h</label>
+        <link refid="sampling__strategy_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="10">
+        <label>cstddef</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a6a06c6a822ff85800f0791d672c13092" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_BackendAutoDetect</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BackendAutoDetect</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="23" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_BackendAutoDetect)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_BackendAutoDetect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="29" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="29" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a5aad75332ab40a4346caf67b7540904b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_BackendSelection_Vulkan</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BackendSelection_Vulkan</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="31" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="31" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1af921cd96f9b339fe006760ae85218334" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_BackendSelection_Vulkan)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_BackendSelection_Vulkan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="39" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="39" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a23200009747a4279748117af4afae7ee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_BackendSelection_CUDA</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BackendSelection_CUDA</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="41" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1acfca2bf42e1f3eddde6f4d3cc6213c5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_BackendSelection_CUDA)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_BackendSelection_CUDA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="49" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="49" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a0013315068f746fe1b3741fc890ca08a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Sampling_GreedyCreation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Sampling_GreedyCreation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="53" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1adefeb646d6ac1672e839c1c58447770c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Sampling_GreedyCreation)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Sampling_GreedyCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="59" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="59" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1ab1b7d37f0b390ba04a5552bfaf7e006d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Sampling_NucleusCreation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Sampling_NucleusCreation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="61" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1aa290765b7281f10bdcbf01c695307bf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Sampling_NucleusCreation)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Sampling_NucleusCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="67" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="67" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a1be7521b1d4f0dda8d855d7e1d04f21c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Sampling_MirostatCreation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Sampling_MirostatCreation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="69" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="69" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1aa0613acf91a46a0af0b6ab410a0e2eba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Sampling_MirostatCreation)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Sampling_MirostatCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="75" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="75" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a1ce8fedfcbc5382dd312607360d2bec6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Sampling_FactoryGreedy</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Sampling_FactoryGreedy</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="77" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a32ddd77539fc44ecb78694957f8b376d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Sampling_FactoryGreedy)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Sampling_FactoryGreedy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="83" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="83" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a09cca79ffa6dbccf8b1336dfd6330d5e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Sampling_FactoryNucleus</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Sampling_FactoryNucleus</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="85" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a08e52fa3824ab63561745099dbb8ee6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Sampling_FactoryNucleus)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Sampling_FactoryNucleus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="91" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="91" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a4b8689190a60266fb91797b83eb0ff50" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ModelHandle_Construction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ModelHandle_Construction</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="95" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="95" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a9e0752b829c9ea881d4904c351c1c177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ModelHandle_Construction)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ModelHandle_Construction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="103" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="103" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a79c53e57f0719e367b21234be62590aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ModelHandle_MoveSemantics</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ModelHandle_MoveSemantics</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="105" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="105" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a1573b72ad98eb645c034d3824c64dadf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ModelHandle_MoveSemantics)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ModelHandle_MoveSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="112" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="112" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a6ac25971cf6f315f767b4fa6c2c5544e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_GPUConfig_OptimalLayers</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GPUConfig_OptimalLayers</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="116" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="116" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1aeddf3105582ec7df02574af5504b6b08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_GPUConfig_OptimalLayers)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_GPUConfig_OptimalLayers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="125" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="125" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a34eff462928a1a62692209323aada574" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_GPUConfig_VRAMTracking</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GPUConfig_VRAMTracking</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="127" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="127" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a38c4aa0a8771c20d03160f0ee63055d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_GPUConfig_VRAMTracking)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_GPUConfig_VRAMTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="136" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="136" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a5b5f7da6083b8ada60e122d7fe5232db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Compare_BackendTypes</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Compare_BackendTypes</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="140" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="140" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1acc5a22762ce53cd3092b4101befc914d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Compare_BackendTypes)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Compare_BackendTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="158" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="158" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1afb76e42fe5e44517ab1732acfd9fc0ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Compare_SamplingStrategies</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Compare_SamplingStrategies</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="160" column="13" bodyfile="benchmarks/llm/bench_llm_infrastructure.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1ac6f7784e55799cc6c2f8e412f68126c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Compare_SamplingStrategies)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Compare_SamplingStrategies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="172" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="172" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__infrastructure_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_infrastructure.cpp" line="175" column="1" declfile="benchmarks/llm/bench_llm_infrastructure.cpp" declline="175" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Benchmarks for LLM infrastructure components. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Benchmarks:<itemizedlist>
+<listitem><para>Model loading time</para>
+</listitem><listitem><para>Context creation time</para>
+</listitem><listitem><para>Backend selection overhead</para>
+</listitem><listitem><para>Sampling strategy performance</para>
+</listitem><listitem><para>Memory allocation/deallocation </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llama__resource__manager_8h" kindref="compound">llm/llama_resource_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="sampling__strategy_8h" kindref="compound">llm/sampling_strategy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/compute_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::acceleration;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Backend<sp/>Selection<sp/>Benchmarks<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_BackendAutoDetect(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BackendRegistry::instance().autoDetect();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(BackendRegistry::instance());</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_BackendAutoDetect);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_BackendSelection_Vulkan(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>BackendRegistry::instance().autoDetect();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>backend<sp/>=<sp/>BackendRegistry::instance().getBackend(BackendType::VULKAN);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(backend);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_BackendSelection_Vulkan);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_BackendSelection_CUDA(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>BackendRegistry::instance().autoDetect();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>backend<sp/>=<sp/>BackendRegistry::instance().getBackend(BackendType::CUDA);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(backend);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_BackendSelection_CUDA);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Sampling<sp/>Strategy<sp/>Benchmarks<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Sampling_GreedyCreation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>strategy<sp/>=<sp/>std::make_unique&lt;GreedySampling&gt;();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(strategy);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_Sampling_GreedyCreation);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Sampling_NucleusCreation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>strategy<sp/>=<sp/>std::make_unique&lt;NucleusSampling&gt;(0.8f,<sp/>40,<sp/>0.9f);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(strategy);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_Sampling_NucleusCreation);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Sampling_MirostatCreation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>strategy<sp/>=<sp/>std::make_unique&lt;MirostatSampling&gt;();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(strategy);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_Sampling_MirostatCreation);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Sampling_FactoryGreedy(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>strategy<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_sampling_strategy_factory_1a2850dec40cff487b23c0936bef7bcb3f" kindref="member">SamplingStrategyFactory::create</ref>(</highlight><highlight class="stringliteral">&quot;greedy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(strategy);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_Sampling_FactoryGreedy);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Sampling_FactoryNucleus(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>strategy<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_sampling_strategy_factory_1a2850dec40cff487b23c0936bef7bcb3f" kindref="member">SamplingStrategyFactory::create</ref>(</highlight><highlight class="stringliteral">&quot;nucleus&quot;</highlight><highlight class="normal">,<sp/>0.8f,<sp/>40,<sp/>0.9f);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(strategy);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_Sampling_FactoryNucleus);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Model<sp/>Handle<sp/>Benchmarks<sp/>(Stub)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ModelHandle_Construction(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>benchmark<sp/>-<sp/>to<sp/>be<sp/>implemented<sp/>with<sp/>real<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>llama_model_params<sp/>params<sp/>=<sp/>llama_model_default_params();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LlamaModelHandle<sp/>handle(&quot;models/test.gguf&quot;,<sp/>params);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(state.iterations());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_ModelHandle_Construction);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ModelHandle_MoveSemantics(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>benchmark<sp/>-<sp/>to<sp/>be<sp/>implemented<sp/>with<sp/>real<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>move<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(state.iterations());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_ModelHandle_MoveSemantics);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>GPU<sp/>Configuration<sp/>Benchmarks<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_GPUConfig_OptimalLayers(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config" kindref="compound">GPUBackendConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a576f0eed92288f859694db7f2e6f333b" kindref="member">auto_detect_optimal_layers</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub:<sp/>determineOptimalGPULayers()<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(config);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_GPUConfig_OptimalLayers);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_GPUConfig_VRAMTracking(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config" kindref="compound">GPUBackendConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a80bca1ce84415034d8247a2a26e789d3" kindref="member">use_gpu_memory_manager</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub:<sp/>VRAM<sp/>tracking<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(config);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_GPUConfig_VRAMTracking);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Comparison<sp/>Benchmarks<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Compare_BackendTypes(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>BackendRegistry::instance().autoDetect();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BackendType&gt;<sp/>backends<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BackendType::VULKAN,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BackendType::CUDA,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BackendType::HIP,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BackendType::METAL,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BackendType::CPU</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>type<sp/>:<sp/>backends)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>backend<sp/>=<sp/>BackendRegistry::instance().getBackend(type);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(backend);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_Compare_BackendTypes);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Compare_SamplingStrategies(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;ISamplingStrategy&gt;&gt;<sp/>strategies;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>strategies.push_back(std::make_unique&lt;GreedySampling&gt;());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>strategies.push_back(std::make_unique&lt;NucleusSampling&gt;());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>strategies.push_back(std::make_unique&lt;MirostatSampling&gt;());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>strategy<sp/>:<sp/>strategies)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(strategy-&gt;name());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a9f8e30a8030671aa12f2b911b1def0e9" kindref="member">BENCHMARK</ref>(BM_Compare_SamplingStrategies);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>main</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="bench__llm__infrastructure_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/llm/bench_llm_infrastructure.cpp"/>
+  </compounddef>
+</doxygen>

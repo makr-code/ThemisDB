@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_distributed_graph_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::DistributedGraphConfig</compoundname>
+    <includes refid="distributed__graph_8h" local="no">distributed_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_distributed_graph_config_1a2c974dc3f779b12708c85cebecee8ffb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15" kindref="member">PartitionStrategy</ref></type>
+        <definition>PartitionStrategy themis::graph::DistributedGraphConfig::partitioning</definition>
+        <argsstring></argsstring>
+        <name>partitioning</name>
+        <qualifiedname>themis::graph::DistributedGraphConfig::partitioning</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a50b7748612b28db487d115f220bb77ab" kindref="member">PartitionStrategy::HASH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="41" column="23" bodyfile="include/graph/distributed_graph.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_distributed_graph_config_1ad56c05ab65972ac511ca020b3ac620ee" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::DistributedGraphConfig::replication_factor</definition>
+        <argsstring></argsstring>
+        <name>replication_factor</name>
+        <qualifiedname>themis::graph::DistributedGraphConfig::replication_factor</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="42" column="9" bodyfile="include/graph/distributed_graph.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_distributed_graph_config_1acfafcfdd4bec36d6517c6888bcea78ae" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12" kindref="member">ConsistencyLevel</ref></type>
+        <definition>ConsistencyLevel themis::graph::DistributedGraphConfig::consistency</definition>
+        <argsstring></argsstring>
+        <name>consistency</name>
+        <qualifiedname>themis::graph::DistributedGraphConfig::consistency</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a1c24fbd27d8776c209d0d7d22584e46f" kindref="member">ConsistencyLevel::EVENTUAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="43" column="22" bodyfile="include/graph/distributed_graph.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_distributed_graph_config_1a179afb1a3eb8d724683484aec9c2d6a3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::DistributedGraphConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::graph::DistributedGraphConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="44" column="14" bodyfile="include/graph/distributed_graph.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_distributed_graph_config_1a5c854bc69fec8c3bb56568e9bfe1dc9d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::DistributedGraphConfig::max_parallel_shards</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_shards</name>
+        <qualifiedname>themis::graph::DistributedGraphConfig::max_parallel_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="45" column="14" bodyfile="include/graph/distributed_graph.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_distributed_graph_config_1a1fa4cbe887a467d4abb7ce61fcfe0845" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::DistributedGraphConfig::DistributedGraphConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>DistributedGraphConfig</name>
+        <qualifiedname>themis::graph::DistributedGraphConfig::DistributedGraphConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="47" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/distributed_graph.h" line="40" column="1" bodyfile="include/graph/distributed_graph.h" bodystart="40" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_distributed_graph_config_1acfafcfdd4bec36d6517c6888bcea78ae" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphConfig</scope><name>consistency</name></member>
+      <member refid="structthemis_1_1graph_1_1_distributed_graph_config_1a1fa4cbe887a467d4abb7ce61fcfe0845" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphConfig</scope><name>DistributedGraphConfig</name></member>
+      <member refid="structthemis_1_1graph_1_1_distributed_graph_config_1a5c854bc69fec8c3bb56568e9bfe1dc9d" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphConfig</scope><name>max_parallel_shards</name></member>
+      <member refid="structthemis_1_1graph_1_1_distributed_graph_config_1a2c974dc3f779b12708c85cebecee8ffb" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphConfig</scope><name>partitioning</name></member>
+      <member refid="structthemis_1_1graph_1_1_distributed_graph_config_1ad56c05ab65972ac511ca020b3ac620ee" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphConfig</scope><name>replication_factor</name></member>
+      <member refid="structthemis_1_1graph_1_1_distributed_graph_config_1a179afb1a3eb8d724683484aec9c2d6a3" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

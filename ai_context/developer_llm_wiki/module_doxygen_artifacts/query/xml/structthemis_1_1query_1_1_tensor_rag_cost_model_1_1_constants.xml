@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::TensorRagCostModel::Constants</compoundname>
+    <includes refid="tensor__rag__cost__model_8h" local="no">tensor_rag_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a62f29230645c8f50e0b56c2bbf0444fa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::simd_floats_per_ns</definition>
+        <argsstring></argsstring>
+        <name>simd_floats_per_ns</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::simd_floats_per_ns</qualifiedname>
+        <initializer>= 16.0</initializer>
+        <briefdescription>
+<para>AVX-512: 16 float32/ns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="139" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1ad8a5da3e925730c769fbf3b7740ce577" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::gflops_single_thread</definition>
+        <argsstring></argsstring>
+        <name>gflops_single_thread</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::gflops_single_thread</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>~1 GFlops single-thread CPU </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="140" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a2446f4712e70b3f1ba80e0d5f0bd65d4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::gflops_gpu</definition>
+        <argsstring></argsstring>
+        <name>gflops_gpu</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::gflops_gpu</qualifiedname>
+        <initializer>= 20.0</initializer>
+        <briefdescription>
+<para>~20 GFlops for distance kernels (RTX 4090) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="141" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a3a5879ae1f72744d26720df0c97caae3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::ssd_bandwidth_bytes_per_ns</definition>
+        <argsstring></argsstring>
+        <name>ssd_bandwidth_bytes_per_ns</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::ssd_bandwidth_bytes_per_ns</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>~500 MB/s NVMe </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="144" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a612bcf565c36b7126e886fb137f03ff0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::json_parse_bytes_per_ns</definition>
+        <argsstring></argsstring>
+        <name>json_parse_bytes_per_ns</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::json_parse_bytes_per_ns</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>~500 MB/s simdjson </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="145" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a32366ba29b98a199255f02b892518f8b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::mmap_page_fault_ns</definition>
+        <argsstring></argsstring>
+        <name>mmap_page_fault_ns</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::mmap_page_fault_ns</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>~10 µs per page fault </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="146" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a728f5ae46d298220d54dd87aac3e0e4f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::mmap_pages_per_tt_core</definition>
+        <argsstring></argsstring>
+        <name>mmap_pages_per_tt_core</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::mmap_pages_per_tt_core</qualifiedname>
+        <initializer>= 4.0</initializer>
+        <briefdescription>
+<para>~4 OS pages per TT-core </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="147" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1ac1201883c72cc26fa66579327ae140f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::tokenise_ns_per_token</definition>
+        <argsstring></argsstring>
+        <name>tokenise_ns_per_token</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::tokenise_ns_per_token</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+<para>~200 ns/token (BPE) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="150" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a4d3a6ca123683c5ba8ba42a451ccd5dd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::prefill_ns_per_token</definition>
+        <argsstring></argsstring>
+        <name>prefill_ns_per_token</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::prefill_ns_per_token</qualifiedname>
+        <initializer>= 50000.0</initializer>
+        <briefdescription>
+<para>~50 µs/token prefill (7B CPU) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="151" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1aff59324d39a9fa0769df21a6168d7ae9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorRagCostModel::Constants::tt_contraction_ns_per_flop</definition>
+        <argsstring></argsstring>
+        <name>tt_contraction_ns_per_flop</name>
+        <qualifiedname>themis::query::TensorRagCostModel::Constants::tt_contraction_ns_per_flop</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>1/GFLOPS </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="152" column="16" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/tensor_rag_cost_model.h" line="137" column="5" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="137" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a2446f4712e70b3f1ba80e0d5f0bd65d4" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>gflops_gpu</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1ad8a5da3e925730c769fbf3b7740ce577" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>gflops_single_thread</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a612bcf565c36b7126e886fb137f03ff0" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>json_parse_bytes_per_ns</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a32366ba29b98a199255f02b892518f8b" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>mmap_page_fault_ns</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a728f5ae46d298220d54dd87aac3e0e4f" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>mmap_pages_per_tt_core</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a4d3a6ca123683c5ba8ba42a451ccd5dd" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>prefill_ns_per_token</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a62f29230645c8f50e0b56c2bbf0444fa" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>simd_floats_per_ns</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1a3a5879ae1f72744d26720df0c97caae3" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>ssd_bandwidth_bytes_per_ns</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1ac1201883c72cc26fa66579327ae140f2" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>tokenise_ns_per_token</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_cost_model_1_1_constants_1aff59324d39a9fa0769df21a6168d7ae9" prot="public" virt="non-virtual"><scope>themis::query::TensorRagCostModel::Constants</scope><name>tt_contraction_ns_per_flop</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

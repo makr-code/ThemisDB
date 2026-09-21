@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1test_1_1_change_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::test::ChangeManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1test_1_1_change_manager_test_1a6cea31fdac12905ba44e2371fac5c8c0" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_version_history" kindref="compound">PolicyVersionHistory</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyVersionHistory&gt; themis::governance::test::ChangeManagerTest::version_history_</definition>
+        <argsstring></argsstring>
+        <name>version_history_</name>
+        <qualifiedname>themis::governance::test::ChangeManagerTest::version_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="99" column="21" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1test_1_1_change_manager_test_1abf11f7993057250c7ae1222e55068258" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyManager&gt; themis::governance::test::ChangeManagerTest::policy_manager_</definition>
+        <argsstring></argsstring>
+        <name>policy_manager_</name>
+        <qualifiedname>themis::governance::test::ChangeManagerTest::policy_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="100" column="21" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1test_1_1_change_manager_test_1a798906847897ccca3caf1a18a7e47a6f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_change_manager" kindref="compound">PolicyChangeManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PolicyChangeManager&gt; themis::governance::test::ChangeManagerTest::change_manager_</definition>
+        <argsstring></argsstring>
+        <name>change_manager_</name>
+        <qualifiedname>themis::governance::test::ChangeManagerTest::change_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="101" column="21" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_change_manager_test_1af4ee8833327bee60edf8e6f843e5d990" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::test::ChangeManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::governance::test::ChangeManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="81" column="10" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="81" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_change_manager_test_1a44054976fccea48b29bd2409d547f053" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref></type>
+        <definition>PolicyRule themis::governance::test::ChangeManagerTest::createTestRule</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>createTestRule</name>
+        <qualifiedname>themis::governance::test::ChangeManagerTest::createTestRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="87" column="16" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="87" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::governance::test::ChangeManagerTest</label>
+        <link refid="classthemis_1_1governance_1_1test_1_1_change_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::governance::test::ChangeManagerTest</label>
+        <link refid="classthemis_1_1governance_1_1test_1_1_change_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_policy_versioning_and_approval.cpp" line="79" column="1" bodyfile="tests/governance/test_policy_versioning_and_approval.cpp" bodystart="79" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1test_1_1_change_manager_test_1a798906847897ccca3caf1a18a7e47a6f" prot="protected" virt="non-virtual"><scope>themis::governance::test::ChangeManagerTest</scope><name>change_manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_change_manager_test_1a44054976fccea48b29bd2409d547f053" prot="protected" virt="non-virtual"><scope>themis::governance::test::ChangeManagerTest</scope><name>createTestRule</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_change_manager_test_1abf11f7993057250c7ae1222e55068258" prot="protected" virt="non-virtual"><scope>themis::governance::test::ChangeManagerTest</scope><name>policy_manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_change_manager_test_1af4ee8833327bee60edf8e6f843e5d990" prot="protected" virt="non-virtual"><scope>themis::governance::test::ChangeManagerTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_change_manager_test_1a6cea31fdac12905ba44e2371fac5c8c0" prot="protected" virt="non-virtual"><scope>themis::governance::test::ChangeManagerTest</scope><name>version_history_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1access__model_1_1_access_coordinator_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::access_model::AccessCoordinatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1_access_coordinator_test_1ad535c81ba9df39f442bae6e6afb9e664" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_access_coordinator" kindref="compound">AccessCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AccessCoordinator&gt; themis::access_model::AccessCoordinatorTest::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="115" column="21" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1_access_coordinator_test_1a465a4747d77247b53872b46e480f102b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_test_access_tier" kindref="compound">TestAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TestAccessTier&gt; themis::access_model::AccessCoordinatorTest::l1_</definition>
+        <argsstring></argsstring>
+        <name>l1_</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::l1_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="116" column="21" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1_access_coordinator_test_1a61da2812bf5f0082b394b8b33fccc8fe" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_test_access_tier" kindref="compound">TestAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TestAccessTier&gt; themis::access_model::AccessCoordinatorTest::l2_</definition>
+        <argsstring></argsstring>
+        <name>l2_</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::l2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="117" column="21" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1_access_coordinator_test_1aab618c6de0f002ca051f4fe04517b683" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_test_access_tier" kindref="compound">TestAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TestAccessTier&gt; themis::access_model::AccessCoordinatorTest::l3_</definition>
+        <argsstring></argsstring>
+        <name>l3_</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::l3_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="118" column="21" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1_access_coordinator_test_1adbaa8e21b23240c912c2a30e698390ac" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_test_access_tier" kindref="compound">TestAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TestAccessTier&gt; themis::access_model::AccessCoordinatorTest::hot_</definition>
+        <argsstring></argsstring>
+        <name>hot_</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::hot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="119" column="21" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1_access_coordinator_test_1aa843ba52a5cdd3e66fd7543f428f2a74" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_test_access_tier" kindref="compound">TestAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TestAccessTier&gt; themis::access_model::AccessCoordinatorTest::warm_</definition>
+        <argsstring></argsstring>
+        <name>warm_</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::warm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="120" column="21" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1_access_coordinator_test_1a0be02f1f526aceb04a79e71d95de9d2b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_test_access_tier" kindref="compound">TestAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TestAccessTier&gt; themis::access_model::AccessCoordinatorTest::cold_</definition>
+        <argsstring></argsstring>
+        <name>cold_</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::cold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="121" column="21" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_test_1a95c5637f700557eff0e71b3e15a12332" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::AccessCoordinatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="87" column="10" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="87" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_test_1aaa3be79a995691976e499c910e1dd40c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::AccessCoordinatorTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="98" column="10" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_test_1a4d41c8d81eb6259ff13242785ec821f8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref>, std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_access_tier" kindref="compound">AccessTier</ref> &gt; &gt;</type>
+        <definition>std::map&lt; TierLevel, std::shared_ptr&lt; AccessTier &gt; &gt; themis::access_model::AccessCoordinatorTest::allTiers</definition>
+        <argsstring>()</argsstring>
+        <name>allTiers</name>
+        <qualifiedname>themis::access_model::AccessCoordinatorTest::allTiers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="104" column="14" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="104" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::access_model::AccessCoordinatorTest</label>
+        <link refid="classthemis_1_1access__model_1_1_access_coordinator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::access_model::AccessCoordinatorTest</label>
+        <link refid="classthemis_1_1access__model_1_1_access_coordinator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/access_model/test_access_coordinator.cpp" line="85" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="85" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1a4d41c8d81eb6259ff13242785ec821f8" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>allTiers</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1a0be02f1f526aceb04a79e71d95de9d2b" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>cold_</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1ad535c81ba9df39f442bae6e6afb9e664" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>coordinator_</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1adbaa8e21b23240c912c2a30e698390ac" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>hot_</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1a465a4747d77247b53872b46e480f102b" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>l1_</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1a61da2812bf5f0082b394b8b33fccc8fe" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>l2_</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1aab618c6de0f002ca051f4fe04517b683" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>l3_</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1a95c5637f700557eff0e71b3e15a12332" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1aaa3be79a995691976e499c910e1dd40c" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_test_1aa843ba52a5cdd3e66fd7543f428f2a74" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessCoordinatorTest</scope><name>warm_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::ExportStreamingBuffer</compoundname>
+    <includes refid="performance__helpers_8h" local="no">performance_helpers.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a603c514c870db976032299bf70b77ef7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::ExportStreamingBuffer::CHUNK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>CHUNK_SIZE</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::CHUNK_SIZE</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="426" column="29" bodyfile="include/server/performance_helpers.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a9a233efc89588e2b277b702f4a7879e6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::ExportStreamingBuffer::MAX_BUFFERED</definition>
+        <argsstring></argsstring>
+        <name>MAX_BUFFERED</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::MAX_BUFFERED</qualifiedname>
+        <initializer>= 1048576</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="427" column="29" bodyfile="include/server/performance_helpers.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a9a06cb6277cce7d89c2827a47a0b675d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::perf::ExportStreamingBuffer::BACKPRESSURE_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>BACKPRESSURE_THRESHOLD</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::BACKPRESSURE_THRESHOLD</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="428" column="29" bodyfile="include/server/performance_helpers.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a05f35476eeb6aa48ff13c998e3719f39" prot="private" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::vector&lt; uint8_t &gt; &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const std::vector&lt;uint8_t&gt;&amp;)&gt; themis::server::perf::ExportStreamingBuffer::write_fn_</definition>
+        <argsstring></argsstring>
+        <name>write_fn_</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::write_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="513" column="19" bodyfile="include/server/performance_helpers.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a89e5c41b773a486b7e89adff2a2a06bb" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::ExportStreamingBuffer::max_size_</definition>
+        <argsstring></argsstring>
+        <name>max_size_</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::max_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="514" column="12" bodyfile="include/server/performance_helpers.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a6e07bfea89b50e3b7a28357a0523d021" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::server::perf::ExportStreamingBuffer::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="515" column="17" bodyfile="include/server/performance_helpers.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1afd74b2e433b62ce39a8bd35aeb0e999c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::perf::ExportStreamingBuffer::buffer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>buffer_mutex_</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::buffer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="516" column="24" bodyfile="include/server/performance_helpers.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a2026dcf2eefb1ab9fa11fd6bba65b2e1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::ExportStreamingBuffer::ExportStreamingBuffer</definition>
+        <argsstring>(std::function&lt; bool(const std::vector&lt; uint8_t &gt; &amp;)&gt; write_fn, size_t estimated_size=1048576)</argsstring>
+        <name>ExportStreamingBuffer</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::ExportStreamingBuffer</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(const std::vector&lt; uint8_t &gt; &amp;)&gt;</type>
+          <declname>write_fn</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_size</declname>
+          <defval>1048576</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="430" column="14" bodyfile="include/server/performance_helpers.h" bodystart="430" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1af6ff0297eeecf4437e603375791898fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::perf::ExportStreamingBuffer::write</definition>
+        <argsstring>(const uint8_t *data, size_t len)</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::write</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), size(), insert(), end(), flushLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="447" column="10" bodyfile="include/server/performance_helpers.h" bodystart="447" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a294634182ae91fcce28b4d1a11372fc4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::perf::ExportStreamingBuffer::flush</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::seconds(5))</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::flush</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(5)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="471" column="10" bodyfile="include/server/performance_helpers.h" bodystart="471" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a55c3a085650d769a6c1f42936b9b76be" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::perf::ExportStreamingBuffer::isBackpressureActive</definition>
+        <argsstring>() const</argsstring>
+        <name>isBackpressureActive</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::isBackpressureActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="481" column="10" bodyfile="include/server/performance_helpers.h" bodystart="481" bodyend="490"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a81aa6379c5e7879ab4184617a4d68e63" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::perf::ExportStreamingBuffer::flushLocked</definition>
+        <argsstring>()</argsstring>
+        <name>flushLocked</name>
+        <qualifiedname>themis::server::perf::ExportStreamingBuffer::flushLocked</qualifiedname>
+        <briefdescription>
+<para>Flush Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), write_fn_(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="498" column="10" bodyfile="include/server/performance_helpers.h" bodystart="498" bodyend="511"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/performance_helpers.h" line="424" column="1" bodyfile="include/server/performance_helpers.h" bodystart="424" bodyend="517"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a9a06cb6277cce7d89c2827a47a0b675d" prot="public" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>BACKPRESSURE_THRESHOLD</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a6e07bfea89b50e3b7a28357a0523d021" prot="private" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1afd74b2e433b62ce39a8bd35aeb0e999c" prot="private" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>buffer_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a603c514c870db976032299bf70b77ef7" prot="public" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>CHUNK_SIZE</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a2026dcf2eefb1ab9fa11fd6bba65b2e1" prot="public" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>ExportStreamingBuffer</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a294634182ae91fcce28b4d1a11372fc4" prot="public" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>flush</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a81aa6379c5e7879ab4184617a4d68e63" prot="private" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>flushLocked</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a55c3a085650d769a6c1f42936b9b76be" prot="public" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>isBackpressureActive</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a9a233efc89588e2b277b702f4a7879e6" prot="public" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>MAX_BUFFERED</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a89e5c41b773a486b7e89adff2a2a06bb" prot="private" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>max_size_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1af6ff0297eeecf4437e603375791898fb" prot="public" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>write</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_export_streaming_buffer_1a05f35476eeb6aa48ff13c998e3719f39" prot="private" virt="non-virtual"><scope>themis::server::perf::ExportStreamingBuffer</scope><name>write_fn_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

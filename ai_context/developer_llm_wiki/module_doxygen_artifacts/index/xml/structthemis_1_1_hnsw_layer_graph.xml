@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hnsw_layer_graph" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HnswLayerGraph</compoundname>
+    <includes refid="cuda__hnsw__graph__traversal_8h" local="no">cuda_hnsw_graph_traversal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_graph_1ac37adb5a0571a3aa9a8f0144389d17cd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; themis::HnswLayerGraph::offsets</definition>
+        <argsstring></argsstring>
+        <name>offsets</name>
+        <qualifiedname>themis::HnswLayerGraph::offsets</qualifiedname>
+        <briefdescription>
+<para>Row offsets (size = num_nodes + 1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="33" column="18" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_graph_1a5c127cc9d72ef18ff66e86917eef200e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; themis::HnswLayerGraph::neighbours</definition>
+        <argsstring></argsstring>
+        <name>neighbours</name>
+        <qualifiedname>themis::HnswLayerGraph::neighbours</qualifiedname>
+        <briefdescription>
+<para>Neighbour IDs (concatenated adjacency lists). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="34" column="18" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_graph_1ad3c7f1b9e35d19cd91852e7cce2b5d17" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::HnswLayerGraph::num_nodes</definition>
+        <argsstring></argsstring>
+        <name>num_nodes</name>
+        <qualifiedname>themis::HnswLayerGraph::num_nodes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="35" column="27" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_layer_graph_1ad810c2e20790cedd6d246a9bde5ff4b7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::HnswLayerGraph::max_neighbours</definition>
+        <argsstring></argsstring>
+        <name>max_neighbours</name>
+        <qualifiedname>themis::HnswLayerGraph::max_neighbours</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum out-degree (M). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="36" column="27" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/cuda_hnsw_graph_traversal.h" line="32" column="1" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hnsw_layer_graph_1ad810c2e20790cedd6d246a9bde5ff4b7" prot="public" virt="non-virtual"><scope>themis::HnswLayerGraph</scope><name>max_neighbours</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_graph_1a5c127cc9d72ef18ff66e86917eef200e" prot="public" virt="non-virtual"><scope>themis::HnswLayerGraph</scope><name>neighbours</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_graph_1ad3c7f1b9e35d19cd91852e7cce2b5d17" prot="public" virt="non-virtual"><scope>themis::HnswLayerGraph</scope><name>num_nodes</name></member>
+      <member refid="structthemis_1_1_hnsw_layer_graph_1ac37adb5a0571a3aa9a8f0144389d17cd" prot="public" virt="non-virtual"><scope>themis::HnswLayerGraph</scope><name>offsets</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

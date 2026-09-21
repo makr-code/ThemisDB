@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_cross_encoder_reranker" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::CrossEncoderReranker</compoundname>
+    <includes refid="reranker_8h" local="no">reranker.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl" prot="public">themis::rag::CrossEncoderReranker::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a42af074206a492037c2de73aaad54611" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::CrossEncoderReranker::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="228" column="21" bodyfile="include/rag/reranker.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1aba60cef64062a2203eac1451d93b9c9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CrossEncoderReranker::CrossEncoderReranker</definition>
+        <argsstring>()</argsstring>
+        <name>CrossEncoderReranker</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::CrossEncoderReranker</qualifiedname>
+        <briefdescription>
+<para>Construct reranker with default (heuristic) configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="122" column="5" bodyfile="src/rag/reranker.cpp" bodystart="388" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a551555abe7c6b9ff2bb3e6a383dd7121" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CrossEncoderReranker::CrossEncoderReranker</definition>
+        <argsstring>(const CrossEncoderConfig &amp;config)</argsstring>
+        <name>CrossEncoderReranker</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::CrossEncoderReranker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct reranker with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reranker configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="128" column="14" bodyfile="src/rag/reranker.cpp" bodystart="391" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a0cf31d9dc9bf8689ec0928335b28223c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CrossEncoderReranker::~CrossEncoderReranker</definition>
+        <argsstring>()</argsstring>
+        <name>~CrossEncoderReranker</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::~CrossEncoderReranker</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="133" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_rerank_result" kindref="compound">RerankResult</ref></type>
+        <definition>RerankResult themis::rag::CrossEncoderReranker::rerank</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; judge::RetrievedDocument &gt; &amp;candidates, size_t top_k=0) const</argsstring>
+        <name>rerank</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::rerank</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Re-rank candidate documents for a given query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scores every candidate against the query, optionally reuses the internal score cache for repeated <computeroutput>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, document-id)</computeroutput> pairs, and returns the top-k results sorted in descending relevance order. The <computeroutput>similarity_score</computeroutput> field of each returned document is replaced with the cross-encoder relevance score.</para>
+<para>Empty input, oversized queries/documents, or excessive candidate counts are rejected fail-closed and return an empty result instead of attempting partial scoring.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial retrieval results (any order, any count). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of documents to return; 0 uses config default. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Re-rank result with sorted documents and score details. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="153" column="18" bodyfile="src/rag/reranker.cpp" bodystart="396" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::CrossEncoderReranker::score</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;document) const</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::score</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+<para>Score a single query-document pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a relevance score in [0, 1]. Higher is more relevant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Relevance score </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="168" column="12" bodyfile="src/rag/reranker.cpp" bodystart="527" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a76ec961e33be7690ead81c49ee22686b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::rag::CrossEncoderReranker::scoreBatch</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;documents) const</argsstring>
+        <name>scoreBatch</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::scoreBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Score multiple query-document pairs in one batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Equivalent to calling <ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" kindref="member">score()</ref> for each pair but may be more efficient when a real batch-capable model is loaded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document texts to score </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Relevance scores in the same order as <computeroutput>documents</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="180" column="17" bodyfile="src/rag/reranker.cpp" bodystart="533" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a512d3ac85b3fcb19dbf2378d28a59dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::CrossEncoderReranker::loadModel</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::loadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>Load (or replace) the ONNX cross-encoder model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Model.</para>
+<para>The loader canonicalises <computeroutput>model_path</computeroutput>, rejects symlinks, requires a regular <computeroutput>.onnx</computeroutput> file, validates bounded file size and permissions, and computes a SHA-256 digest before accepting the model. When a <computeroutput>&lt;model_path&gt;.sha256</computeroutput> sidecar exists, the digest must match; when the sidecar is absent, the loader emits a warning and proceeds.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the ONNX model file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> when the model passed validation and was loaded; <computeroutput>false</computeroutput> on invalid paths, checksum mismatches, or other integrity/safety failures.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), input_path(), std::filesystem::weakly_canonical(), THEMIS_ERROR(), std::filesystem::is_symlink(), extension(), verifyModelFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="199" column="10" bodyfile="src/rag/reranker.cpp" bodystart="552" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a80828699fac2b1bde5a0dc8e2c42464f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::CrossEncoderReranker::isModelLoaded</definition>
+        <argsstring>() const</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::isModelLoaded</qualifiedname>
+        <briefdescription>
+<para>Check whether an ONNX model has been successfully loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if a model is loaded and will be used for scoring </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="205" column="10" bodyfile="src/rag/reranker.cpp" bodystart="603" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1ae631993c259caf81cda0fc2781903f3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::CrossEncoderReranker::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::clearCache</qualifiedname>
+        <briefdescription>
+<para>Invalidate the internal score cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Cache.</para>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="210" column="10" bodyfile="src/rag/reranker.cpp" bodystart="612" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4a5f07165be02b8174e2bcf83b999dd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref> &amp;</type>
+        <definition>const CrossEncoderConfig &amp; themis::rag::CrossEncoderReranker::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="215" column="30" bodyfile="src/rag/reranker.cpp" bodystart="617" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4752b0006eb9874280c1e13e8e27b686" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::CrossEncoderReranker::setConfig</definition>
+        <argsstring>(const CrossEncoderConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para>Clears the score cache when cache-related settings change.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cfg_lock(), <ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1ae631993c259caf81cda0fc2781903f3a" kindref="member">clearCache()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="224" column="10" bodyfile="src/rag/reranker.cpp" bodystart="626" bodyend="639"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Re-ranking layer backed by a cross-encoder model. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage (with heuristic scorer, no model file needed): <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aba60cef64062a2203eac1451d93b9c9d" kindref="member">CrossEncoderReranker</ref><sp/>reranker;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.rerank(query,<sp/>candidates);</highlight></codeline>
+</programlisting></para>
+<para>Usage (with ONNX cross-encoder model): <programlisting><codeline><highlight class="normal">CrossEncoderConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.model_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;models/cross-encoder-ms-marco.onnx&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.batch_size<sp/>=<sp/>32;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aba60cef64062a2203eac1451d93b9c9d" kindref="member">CrossEncoderReranker</ref><sp/>reranker(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.rerank(query,<sp/>candidates);</highlight></codeline>
+</programlisting></para>
+<para>Performance targets:<itemizedlist>
+<listitem><para>Heuristic mode: &lt;5 ms for 100 candidates</para>
+</listitem><listitem><para>ONNX model mode: +50-100 ms for 100 candidates (GPU: +20-50 ms)</para>
+</listitem><listitem><para>Re-ranking Precision@10: ~85 % (cross-encoder model) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/reranker.h" line="117" column="1" bodyfile="include/rag/reranker.h" bodystart="117" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1ae631993c259caf81cda0fc2781903f3a" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aba60cef64062a2203eac1451d93b9c9d" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>CrossEncoderReranker</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a551555abe7c6b9ff2bb3e6a383dd7121" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>CrossEncoderReranker</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4a5f07165be02b8174e2bcf83b999dd4" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a42af074206a492037c2de73aaad54611" prot="private" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a80828699fac2b1bde5a0dc8e2c42464f" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>isModelLoaded</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a512d3ac85b3fcb19dbf2378d28a59dc5" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>rerank</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>score</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a76ec961e33be7690ead81c49ee22686b" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>scoreBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4752b0006eb9874280c1e13e8e27b686" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a0cf31d9dc9bf8689ec0928335b28223c" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker</scope><name>~CrossEncoderReranker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

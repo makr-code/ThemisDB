@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_json_wiki_index_reader" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::JsonWikiIndexReader</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_wiki_index_reader" prot="public" virt="non-virtual">themis::llm::IWikiIndexReader</basecompoundref>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_json_wiki_index_reader_1a141dc45194271a4023e4282394ade530" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::JsonWikiIndexReader::index_path_</definition>
+        <argsstring></argsstring>
+        <name>index_path_</name>
+        <qualifiedname>themis::llm::JsonWikiIndexReader::index_path_</qualifiedname>
+        <briefdescription>
+<para>Path to JSON file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="392" column="28" bodyfile="include/llm/wiki_index_store.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_json_wiki_index_reader_1a8cbe993e0cdb28f3a733d108502f4ef3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+        <definition>std::vector&lt;WikiChunk&gt; themis::llm::JsonWikiIndexReader::chunks_</definition>
+        <argsstring></argsstring>
+        <name>chunks_</name>
+        <qualifiedname>themis::llm::JsonWikiIndexReader::chunks_</qualifiedname>
+        <briefdescription>
+<para>Loaded chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="393" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_json_wiki_index_reader_1aeed53d9e5ba5d47f16bdba028d119843" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::JsonWikiIndexReader::loaded_</definition>
+        <argsstring></argsstring>
+        <name>loaded_</name>
+        <qualifiedname>themis::llm::JsonWikiIndexReader::loaded_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Load status flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="394" column="28" bodyfile="include/llm/wiki_index_store.h" bodystart="394" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_wiki_index_reader_1a166da7a56ff861f36886ce9df255e528" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::JsonWikiIndexReader::JsonWikiIndexReader</definition>
+        <argsstring>(std::string index_path, bool auto_load=false)</argsstring>
+        <name>JsonWikiIndexReader</name>
+        <qualifiedname>themis::llm::JsonWikiIndexReader::JsonWikiIndexReader</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>index_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_load</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="375" column="14" bodyfile="src/llm/wiki_index_store.cpp" bodystart="879" bodyend="885"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_wiki_index_reader_1ab9687a94fec4707117de85a4a66323ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::JsonWikiIndexReader::load</definition>
+        <argsstring>()</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::llm::JsonWikiIndexReader::load</qualifiedname>
+        <briefdescription>
+<para>Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), is_open(), std::string(), what(), is_array(), clear(), reserve(), <ref refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1a24b11abf5663bcf481a72ca836c07834" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="380" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="892" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_wiki_index_reader_1af68731621a38dcc41344e97428551220" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+        <definition>std::vector&lt; WikiChunk &gt; themis::llm::JsonWikiIndexReader::query</definition>
+        <argsstring>(const std::string &amp;query_text, int top_k, float min_score) const override</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::llm::JsonWikiIndexReader::query</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a0424927b6c95bc7944e61a90a4f5610b">query</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>top_k</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_score</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="382" column="18" bodyfile="src/llm/wiki_index_store.cpp" bodystart="940" bodyend="1026"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_wiki_index_reader_1af6ed6c009aa01218cb29e3c7dcc9f113" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::JsonWikiIndexReader::isReady</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::JsonWikiIndexReader::isReady</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a16100a812f8598d1ba9a4497486febb6">isReady</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="387" column="11" bodyfile="src/llm/wiki_index_store.cpp" bodystart="1028" bodyend="1030"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_wiki_index_reader_1a24b11abf5663bcf481a72ca836c07834" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::JsonWikiIndexReader::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::JsonWikiIndexReader::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="389" column="18" bodyfile="src/llm/wiki_index_store.cpp" bodystart="1032" bodyend="1034"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::IWikiIndexReader</label>
+        <link refid="classthemis_1_1llm_1_1_i_wiki_index_reader"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::JsonWikiIndexReader</label>
+        <link refid="classthemis_1_1llm_1_1_json_wiki_index_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::IWikiIndexReader</label>
+        <link refid="classthemis_1_1llm_1_1_i_wiki_index_reader"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::JsonWikiIndexReader</label>
+        <link refid="classthemis_1_1llm_1_1_json_wiki_index_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/wiki_index_store.h" line="373" column="1" bodyfile="include/llm/wiki_index_store.h" bodystart="373" bodyend="395"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1a8cbe993e0cdb28f3a733d108502f4ef3" prot="private" virt="non-virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>chunks_</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1a141dc45194271a4023e4282394ade530" prot="private" virt="non-virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>index_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1af6ed6c009aa01218cb29e3c7dcc9f113" prot="public" virt="virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1a166da7a56ff861f36886ce9df255e528" prot="public" virt="non-virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>JsonWikiIndexReader</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1ab9687a94fec4707117de85a4a66323ec" prot="public" virt="non-virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>load</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1aeed53d9e5ba5d47f16bdba028d119843" prot="private" virt="non-virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>loaded_</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1af68731621a38dcc41344e97428551220" prot="public" virt="virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>query</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1a24b11abf5663bcf481a72ca836c07834" prot="public" virt="non-virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>size</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a0a1b9d076f803887ff633eba97086943" prot="public" virt="virtual"><scope>themis::llm::JsonWikiIndexReader</scope><name>~IWikiIndexReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

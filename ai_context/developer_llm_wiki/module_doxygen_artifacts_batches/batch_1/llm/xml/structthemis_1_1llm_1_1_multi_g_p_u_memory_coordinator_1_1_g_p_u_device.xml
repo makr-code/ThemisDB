@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MultiGPUMemoryCoordinator::GPUDevice</compoundname>
+    <includes refid="multi__gpu__memory__coordinator_8h" local="no">multi_gpu_memory_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a92a9398341fd602a022b3cdf5ab86d0d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MultiGPUMemoryCoordinator::GPUDevice::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::GPUDevice::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="33" column="13" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1ae6e62b0807966aa1b3a984183c553c27" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiGPUMemoryCoordinator::GPUDevice::total_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_vram_bytes</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::GPUDevice::total_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="34" column="16" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a039928c49ea47e7a73e026cf1e100579" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiGPUMemoryCoordinator::GPUDevice::available_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_vram_bytes</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::GPUDevice::available_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="35" column="16" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a488b14224ce0d6ebe7360b6de37a3b43" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MultiGPUMemoryCoordinator::GPUDevice::compute_capability</definition>
+        <argsstring></argsstring>
+        <name>compute_capability</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::GPUDevice::compute_capability</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="36" column="13" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1af1e4654ab68bc26e7e401ccd45160cd9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUMemoryCoordinator::GPUDevice::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::GPUDevice::is_healthy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="37" column="14" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a076953913ea0e041462c964b4d651d56" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MultiGPUMemoryCoordinator::GPUDevice::temperature_celsius</definition>
+        <argsstring></argsstring>
+        <name>temperature_celsius</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::GPUDevice::temperature_celsius</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="38" column="15" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1aac08d0f2fa8fb2c96e28a14fa8352fb9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MultiGPUMemoryCoordinator::GPUDevice::utilization_percent</definition>
+        <argsstring></argsstring>
+        <name>utilization_percent</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::GPUDevice::utilization_percent</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="39" column="15" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_gpu_memory_coordinator.h" line="32" column="5" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="32" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a039928c49ea47e7a73e026cf1e100579" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::GPUDevice</scope><name>available_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a488b14224ce0d6ebe7360b6de37a3b43" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::GPUDevice</scope><name>compute_capability</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a92a9398341fd602a022b3cdf5ab86d0d" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::GPUDevice</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1af1e4654ab68bc26e7e401ccd45160cd9" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::GPUDevice</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a076953913ea0e041462c964b4d651d56" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::GPUDevice</scope><name>temperature_celsius</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1ae6e62b0807966aa1b3a984183c553c27" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::GPUDevice</scope><name>total_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1aac08d0f2fa8fb2c96e28a14fa8352fb9" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::GPUDevice</scope><name>utilization_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

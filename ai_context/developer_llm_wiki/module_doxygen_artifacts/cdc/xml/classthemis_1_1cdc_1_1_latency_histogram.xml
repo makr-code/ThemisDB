@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_latency_histogram" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::LatencyHistogram</compoundname>
+    <includes refid="cdc__metrics_8h" local="no">cdc_metrics.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_latency_histogram_1abfca325af2097a40467efe1879056b53" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::LatencyHistogram::NUM_BUCKETS</definition>
+        <argsstring></argsstring>
+        <name>NUM_BUCKETS</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::NUM_BUCKETS</qualifiedname>
+        <initializer>= 14</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="123" column="29" bodyfile="include/cdc/cdc_metrics.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_latency_histogram_1abc83e7ef8febc141aeaaacf8a244e3e8" prot="private" static="no" mutable="no">
+        <type>std::array&lt; std::atomic&lt; uint64_t &gt;, NUM_BUCKETS &gt;</type>
+        <definition>std::array&lt;std::atomic&lt;uint64_t&gt;, NUM_BUCKETS&gt; themis::cdc::LatencyHistogram::buckets_</definition>
+        <argsstring></argsstring>
+        <name>buckets_</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="124" column="16" bodyfile="include/cdc/cdc_metrics.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_latency_histogram_1ad4f6064a6b98d30285c862968d5d3648" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::LatencyHistogram::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="125" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_latency_histogram_1ad585e25a05130db644f971e1a18f8a7e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::LatencyHistogram::sum_micros_</definition>
+        <argsstring></argsstring>
+        <name>sum_micros_</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::sum_micros_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="126" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a4242cd7ebc6f3e1c8fc85fdbf810fcf2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::LatencyHistogram::LatencyHistogram</definition>
+        <argsstring>()</argsstring>
+        <name>LatencyHistogram</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::LatencyHistogram</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="36" column="5" bodyfile="include/cdc/cdc_metrics.h" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a3ec0cf0fea7872d345a04eb9f583cc57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::LatencyHistogram::record</definition>
+        <argsstring>(uint64_t latency_micros)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::record</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_micros</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_micros</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: bucketIndex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="47" column="10" bodyfile="include/cdc/cdc_metrics.h" bodystart="47" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a8eafd497e79d3bded25f9e156aaa64a5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::LatencyHistogram::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="56" column="14" bodyfile="include/cdc/cdc_metrics.h" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1ae70ef16bb78a2a0851189845e5bd25b8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::cdc::LatencyHistogram::average</definition>
+        <argsstring>() const</argsstring>
+        <name>average</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::average</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="60" column="12" bodyfile="include/cdc/cdc_metrics.h" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a7143b2184dc917003e3472553bd3d710" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::LatencyHistogram::p50</definition>
+        <argsstring>() const</argsstring>
+        <name>p50</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::p50</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="65" column="14" bodyfile="include/cdc/cdc_metrics.h" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a3db33855bcb53f9e0c86899c54f75dff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::LatencyHistogram::p95</definition>
+        <argsstring>() const</argsstring>
+        <name>p95</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::p95</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="69" column="14" bodyfile="include/cdc/cdc_metrics.h" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a61b873ffb74b785802a78c654508d2c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::LatencyHistogram::p99</definition>
+        <argsstring>() const</argsstring>
+        <name>p99</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::p99</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="73" column="14" bodyfile="include/cdc/cdc_metrics.h" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a0a94f5b5befceff976de0b2469916af5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::LatencyHistogram::percentile</definition>
+        <argsstring>(double p) const</argsstring>
+        <name>percentile</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::percentile</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="77" column="14" bodyfile="include/cdc/cdc_metrics.h" bodystart="77" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a129d69779563a56bd2c5a89401a1151f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::LatencyHistogram::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="96" column="20" bodyfile="include/cdc/cdc_metrics.h" bodystart="96" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a52886c2f6d63099343fc825f9b89ed95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::LatencyHistogram::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="111" column="10" bodyfile="include/cdc/cdc_metrics.h" bodystart="111" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a602244913ff0c154d5dae2cc29ca8565" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::LatencyHistogram::bucketIndex</definition>
+        <argsstring>(uint64_t latency_micros) const</argsstring>
+        <name>bucketIndex</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::bucketIndex</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_micros</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="128" column="12" bodyfile="include/cdc/cdc_metrics.h" bodystart="128" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_latency_histogram_1a905bf6c3f4829e38bf70d2dcd02a5c83" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::LatencyHistogram::bucketMidpoint</definition>
+        <argsstring>(size_t bucket) const</argsstring>
+        <name>bucketMidpoint</name>
+        <qualifiedname>themis::cdc::LatencyHistogram::bucketMidpoint</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bucket</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="171" column="14" bodyfile="include/cdc/cdc_metrics.h" bodystart="171" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_metrics.h" line="34" column="1" bodyfile="include/cdc/cdc_metrics.h" bodystart="34" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1ae70ef16bb78a2a0851189845e5bd25b8" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>average</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a602244913ff0c154d5dae2cc29ca8565" prot="private" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>bucketIndex</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a905bf6c3f4829e38bf70d2dcd02a5c83" prot="private" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>bucketMidpoint</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1abc83e7ef8febc141aeaaacf8a244e3e8" prot="private" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>buckets_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a8eafd497e79d3bded25f9e156aaa64a5" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>count</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1ad4f6064a6b98d30285c862968d5d3648" prot="private" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>count_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a4242cd7ebc6f3e1c8fc85fdbf810fcf2" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>LatencyHistogram</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1abfca325af2097a40467efe1879056b53" prot="private" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>NUM_BUCKETS</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a7143b2184dc917003e3472553bd3d710" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>p50</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a3db33855bcb53f9e0c86899c54f75dff" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>p95</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a61b873ffb74b785802a78c654508d2c8" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>p99</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a0a94f5b5befceff976de0b2469916af5" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>percentile</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a3ec0cf0fea7872d345a04eb9f583cc57" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>record</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a52886c2f6d63099343fc825f9b89ed95" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>reset</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1ad585e25a05130db644f971e1a18f8a7e" prot="private" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>sum_micros_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_latency_histogram_1a129d69779563a56bd2c5a89401a1151f" prot="public" virt="non-virtual"><scope>themis::cdc::LatencyHistogram</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

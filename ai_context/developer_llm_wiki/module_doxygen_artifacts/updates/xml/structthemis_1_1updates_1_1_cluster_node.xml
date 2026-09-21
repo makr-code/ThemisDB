@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_cluster_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ClusterNode</compoundname>
+    <includes refid="cluster__update__manager_8h" local="no">cluster_update_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_1a36686a746aa7b37f0a7b857c613248da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::updates::ClusterNode::node_id</qualifiedname>
+        <briefdescription>
+<para>Stable unique identifier (hostname, UUID, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="52" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_1a79cfaab5a935aad711d91bcf898e3350" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterNode::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>themis::updates::ClusterNode::address</qualifiedname>
+        <briefdescription>
+<para>Human-readable address / endpoint (informational only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="55" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_1a88b609cebbbc4a51ab1e7ba3d78ea136" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ClusterNode::is_leader</definition>
+        <argsstring></argsstring>
+        <name>is_leader</name>
+        <qualifiedname>themis::updates::ClusterNode::is_leader</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true this node is the Raft/replication leader and will be updated last in a rolling update. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="59" column="10" bodyfile="include/updates/cluster_update_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_1a2590ff55fea99e89f992d90bf365e885" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterNode::current_version</definition>
+        <argsstring></argsstring>
+        <name>current_version</name>
+        <qualifiedname>themis::updates::ClusterNode::current_version</qualifiedname>
+        <briefdescription>
+<para>Current version running on this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="62" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes one node that participates in a cluster-wide update. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/cluster_update_manager.h" line="50" column="1" bodyfile="include/updates/cluster_update_manager.h" bodystart="50" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_1a79cfaab5a935aad711d91bcf898e3350" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNode</scope><name>address</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_1a2590ff55fea99e89f992d90bf365e885" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNode</scope><name>current_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_1a88b609cebbbc4a51ab1e7ba3d78ea136" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNode</scope><name>is_leader</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_1a36686a746aa7b37f0a7b857c613248da" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNode</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

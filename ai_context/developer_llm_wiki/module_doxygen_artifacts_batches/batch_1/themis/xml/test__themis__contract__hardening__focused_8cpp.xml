@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__themis__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_themis_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="themis__api__contract_8h" local="yes">themis/themis_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>themis/themis_api_contract.h</label>
+        <link refid="themis__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/themis/test_themis_contract_hardening_focused.cpp</label>
+        <link refid="test__themis__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisContractTest, THE01_ErrorCodesUnique)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisContractTest</type>
+        </param>
+        <param>
+          <type>THE01_ErrorCodesUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_contract_hardening_focused.cpp" line="16" column="1" bodyfile="tests/themis/test_themis_contract_hardening_focused.cpp" bodystart="16" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__contract__hardening__focused_8cpp_1ac2f6047a813bee3dbea339dce053a8fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisContractTest, THE02_ErrorCodesInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisContractTest</type>
+        </param>
+        <param>
+          <type>THE02_ErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_contract_hardening_focused.cpp" line="24" column="1" bodyfile="tests/themis/test_themis_contract_hardening_focused.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__contract__hardening__focused_8cpp_1a60ba6714463969e0085ef3444007fb13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisContractTest, THE03_EditionValuesAreDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisContractTest</type>
+        </param>
+        <param>
+          <type>THE03_EditionValuesAreDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_contract_hardening_focused.cpp" line="29" column="1" bodyfile="tests/themis/test_themis_contract_hardening_focused.cpp" bodystart="29" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__contract__hardening__focused_8cpp_1a4e446657b8774744242d65ce28b524ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisContractTest, THE04_MinimalEditionLowest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisContractTest</type>
+        </param>
+        <param>
+          <type>THE04_MinimalEditionLowest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_contract_hardening_focused.cpp" line="41" column="1" bodyfile="tests/themis/test_themis_contract_hardening_focused.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__contract__hardening__focused_8cpp_1a37ba0e8379ee05d288b98b7d3e184b61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisContractTest, THE05_MilitaryEditionHighest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisContractTest</type>
+        </param>
+        <param>
+          <type>THE05_MilitaryEditionHighest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_contract_hardening_focused.cpp" line="45" column="1" bodyfile="tests/themis/test_themis_contract_hardening_focused.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__contract__hardening__focused_8cpp_1a1dd936fdef4137edf5ecdd1032867b31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisContractTest, THE06_EditionSwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisContractTest</type>
+        </param>
+        <param>
+          <type>THE06_EditionSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_contract_hardening_focused.cpp" line="50" column="1" bodyfile="tests/themis/test_themis_contract_hardening_focused.cpp" bodystart="50" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__contract__hardening__focused_8cpp_1a58299b377545d135a3da76af1f8ec404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisContractTest, THE07_EditionMismatchIsFirstCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisContractTest</type>
+        </param>
+        <param>
+          <type>THE07_EditionMismatchIsFirstCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_contract_hardening_focused.cpp" line="63" column="1" bodyfile="tests/themis/test_themis_contract_hardening_focused.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__contract__hardening__focused_8cpp_1a876fab45de00582136f08b6319e974a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisContractTest, THE08_FeatureUnknownIsSecondCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisContractTest</type>
+        </param>
+        <param>
+          <type>THE08_FeatureUnknownIsSecondCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_contract_hardening_focused.cpp" line="67" column="1" bodyfile="tests/themis/test_themis_contract_hardening_focused.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1–6 contract-hardening tests for the themis (engine) module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: THE-01..THE-08 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="themis__api__contract_8h" kindref="compound">themis/themis_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1engine" kindref="compound">themis::engine</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" kindref="member">TEST</ref>(ThemisContractTest,<sp/>THE01_ErrorCodesUnique)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba4c5751fc04ccb88a2c947fde6f379e15" kindref="member">ThemisError::kEditionMismatch</ref>),</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba146d42c893284d42f9a45c946b20662c" kindref="member">ThemisError::kFeatureUnknown</ref>),</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(codes[0],<sp/>codes[1]);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" kindref="member">TEST</ref>(ThemisContractTest,<sp/>THE02_ErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba4c5751fc04ccb88a2c947fde6f379e15" kindref="member">ThemisError::kEditionMismatch</ref>),<sp/>7800);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba146d42c893284d42f9a45c946b20662c" kindref="member">ThemisError::kFeatureUnknown</ref>),<sp/><sp/>7899);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" kindref="member">TEST</ref>(ThemisContractTest,<sp/>THE03_EditionValuesAreDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>editions<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba8b1164c65f88adb0ab22378f0fde15af" kindref="member">Edition::kMinimal</ref>),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba1340469a0e6e43f921f39d93cc07e7c6" kindref="member">Edition::kCommunity</ref>),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba77d728aed98d968f1d0ea34605b29658" kindref="member">Edition::kEnterprise</ref>),</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba4e1143da893ab3a7eb2deb79e17eb7aa" kindref="member">Edition::kHyperscaler</ref>),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759bab3241d1b28aff893dc96bfe66f7edb27" kindref="member">Edition::kMilitary</ref>),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(editions.begin(),<sp/>editions.end());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(editions.begin(),<sp/>editions.end()),<sp/>editions.end());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" kindref="member">TEST</ref>(ThemisContractTest,<sp/>THE04_MinimalEditionLowest)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba8b1164c65f88adb0ab22378f0fde15af" kindref="member">Edition::kMinimal</ref>),<sp/>1);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" kindref="member">TEST</ref>(ThemisContractTest,<sp/>THE05_MilitaryEditionHighest)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>mil<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759bab3241d1b28aff893dc96bfe66f7edb27" kindref="member">Edition::kMilitary</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(mil,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba4e1143da893ab3a7eb2deb79e17eb7aa" kindref="member">Edition::kHyperscaler</ref>));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" kindref="member">TEST</ref>(ThemisContractTest,<sp/>THE06_EditionSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759b" kindref="member">Edition</ref><sp/>ed<sp/>=<sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba77d728aed98d968f1d0ea34605b29658" kindref="member">Edition::kEnterprise</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(ed)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba8b1164c65f88adb0ab22378f0fde15af" kindref="member">Edition::kMinimal</ref>:<sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;minimal&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba1340469a0e6e43f921f39d93cc07e7c6" kindref="member">Edition::kCommunity</ref>:<sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;community&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba77d728aed98d968f1d0ea34605b29658" kindref="member">Edition::kEnterprise</ref>:<sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;enterprise&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba4e1143da893ab3a7eb2deb79e17eb7aa" kindref="member">Edition::kHyperscaler</ref>:<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hyperscaler&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759bab3241d1b28aff893dc96bfe66f7edb27" kindref="member">Edition::kMilitary</ref>:<sp/><sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;military&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(name,<sp/></highlight><highlight class="stringliteral">&quot;enterprise&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" kindref="member">TEST</ref>(ThemisContractTest,<sp/>THE07_EditionMismatchIsFirstCode)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba4c5751fc04ccb88a2c947fde6f379e15" kindref="member">ThemisError::kEditionMismatch</ref>),<sp/>7800);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__themis__contract__hardening__focused_8cpp_1aeaff4b3b420143ef759cb0f4543cc97d" kindref="member">TEST</ref>(ThemisContractTest,<sp/>THE08_FeatureUnknownIsSecondCode)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba146d42c893284d42f9a45c946b20662c" kindref="member">ThemisError::kFeatureUnknown</ref>),<sp/>7801);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/themis/test_themis_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

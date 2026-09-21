@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::BoundedLRUCache::Config</compoundname>
+    <includes refid="bounded__lru__cache_8h" local="no">bounded_lru_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a7a31a46ca428b1c52f327f347e579b06" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::BoundedLRUCache::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Config::max_entries</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="33" column="16" bodyfile="include/cache/bounded_lru_cache.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a24e587092648945f01493c1d07f37c2a" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::cache::BoundedLRUCache::Config::ttl</definition>
+        <argsstring></argsstring>
+        <name>ttl</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Config::ttl</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="34" column="30" bodyfile="include/cache/bounded_lru_cache.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a2486c9a80df8942c2e2e38d1db7d8055" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::BoundedLRUCache::Config::enable_statistics</definition>
+        <argsstring></argsstring>
+        <name>enable_statistics</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Config::enable_statistics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="35" column="14" bodyfile="include/cache/bounded_lru_cache.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a0ffda766e71b5d11b7bfdb8f082d4429" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::BoundedLRUCache::Config::max_entry_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_entry_size_bytes</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Config::max_entry_size_bytes</qualifiedname>
+        <initializer>= 67108864U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="37" column="18" bodyfile="include/cache/bounded_lru_cache.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a927c71b554351c01f184ca3d5f1225dc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::BoundedLRUCache::Config::max_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>max_ttl_seconds</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Config::max_ttl_seconds</qualifiedname>
+        <initializer>= 86400U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="39" column="18" bodyfile="include/cache/bounded_lru_cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/bounded_lru_cache.h" line="32" column="5" bodyfile="include/cache/bounded_lru_cache.h" bodystart="32" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a2486c9a80df8942c2e2e38d1db7d8055" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Config</scope><name>enable_statistics</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a7a31a46ca428b1c52f327f347e579b06" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Config</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a0ffda766e71b5d11b7bfdb8f082d4429" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Config</scope><name>max_entry_size_bytes</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a927c71b554351c01f184ca3d5f1225dc" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Config</scope><name>max_ttl_seconds</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a24e587092648945f01493c1d07f37c2a" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Config</scope><name>ttl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

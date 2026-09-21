@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_i_round_trip_editor" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::document::IRoundTripEditor</compoundname>
+    <derivedcompoundref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" prot="public" virt="non-virtual">themis::document::StoreBackedRoundTripEditor</derivedcompoundref>
+    <includes refid="round__trip__editor_8h" local="no">round_trip_editor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_round_trip_editor_1ad6c37ca4545f450077173783223be156" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::document::IRoundTripEditor::~IRoundTripEditor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRoundTripEditor</name>
+        <qualifiedname>themis::document::IRoundTripEditor::~IRoundTripEditor</qualifiedname>
+        <briefdescription>
+<para>IRound Trip Editor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/round_trip_editor.h" line="49" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_round_trip_editor_1a7e9877a2d11d5bc1e6afd66211f8caa5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::document::IRoundTripEditor::beginRelay</definition>
+        <argsstring>(const std::string &amp;relay_id, const std::string &amp;seed_document)=0</argsstring>
+        <name>beginRelay</name>
+        <qualifiedname>themis::document::IRoundTripEditor::beginRelay</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a16b60b3b2b7732c5dd2c7c5fa7a60b5b">beginRelay</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relay_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>seed_document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/round_trip_editor.h" line="51" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_round_trip_editor_1a1baa591e40813784972ccf063c3649ae" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::document::IRoundTripEditor::saveInteraction</definition>
+        <argsstring>(const std::string &amp;relay_id, std::size_t interaction_index, const std::string &amp;instruction, const std::string &amp;document)=0</argsstring>
+        <name>saveInteraction</name>
+        <qualifiedname>themis::document::IRoundTripEditor::saveInteraction</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a9e3242001383fc73c12ecf988fb5b541">saveInteraction</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relay_id</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>interaction_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instruction</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/round_trip_editor.h" line="54" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_round_trip_editor_1a20e461fca9506a551d8d71d4192272da" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::optional&lt; <ref refid="structthemis_1_1document_1_1_round_trip_snapshot" kindref="compound">RoundTripSnapshot</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::optional&lt; RoundTripSnapshot &gt; &gt; themis::document::IRoundTripEditor::loadInteraction</definition>
+        <argsstring>(const std::string &amp;relay_id, std::size_t interaction_index) const =0</argsstring>
+        <name>loadInteraction</name>
+        <qualifiedname>themis::document::IRoundTripEditor::loadInteraction</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a9950c7507df5d805234bc18a43106b35">loadInteraction</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relay_id</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>interaction_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/round_trip_editor.h" line="60" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_round_trip_editor_1a293e7fa41a9a253813adcd68ee87ad42" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::size_t &gt;</type>
+        <definition>virtual Result&lt; std::size_t &gt; themis::document::IRoundTripEditor::countSnapshots</definition>
+        <argsstring>(const std::string &amp;relay_id) const =0</argsstring>
+        <name>countSnapshots</name>
+        <qualifiedname>themis::document::IRoundTripEditor::countSnapshots</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a17236032e006493fbe8b42dc6e622da4">countSnapshots</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relay_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/round_trip_editor.h" line="64" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::document::IRoundTripEditor</label>
+        <link refid="classthemis_1_1document_1_1_i_round_trip_editor"/>
+      </node>
+      <node id="2">
+        <label>themis::document::StoreBackedRoundTripEditor</label>
+        <link refid="classthemis_1_1document_1_1_store_backed_round_trip_editor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/document/round_trip_editor.h" line="43" column="1" bodyfile="include/document/round_trip_editor.h" bodystart="43" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_i_round_trip_editor_1a7e9877a2d11d5bc1e6afd66211f8caa5" prot="public" virt="pure-virtual"><scope>themis::document::IRoundTripEditor</scope><name>beginRelay</name></member>
+      <member refid="classthemis_1_1document_1_1_i_round_trip_editor_1a293e7fa41a9a253813adcd68ee87ad42" prot="public" virt="pure-virtual"><scope>themis::document::IRoundTripEditor</scope><name>countSnapshots</name></member>
+      <member refid="classthemis_1_1document_1_1_i_round_trip_editor_1a20e461fca9506a551d8d71d4192272da" prot="public" virt="pure-virtual"><scope>themis::document::IRoundTripEditor</scope><name>loadInteraction</name></member>
+      <member refid="classthemis_1_1document_1_1_i_round_trip_editor_1a1baa591e40813784972ccf063c3649ae" prot="public" virt="pure-virtual"><scope>themis::document::IRoundTripEditor</scope><name>saveInteraction</name></member>
+      <member refid="classthemis_1_1document_1_1_i_round_trip_editor_1ad6c37ca4545f450077173783223be156" prot="public" virt="virtual"><scope>themis::document::IRoundTripEditor</scope><name>~IRoundTripEditor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

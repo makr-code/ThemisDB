@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::LLMJudgeClient::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a8a1caa0928e8cf6153d6f3a648c15515" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::judge::LLMJudgeClient::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeClient::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_judge_client.cpp" line="198" column="12" bodyfile="src/rag/llm_judge_client.cpp" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a7ebb19d08af5b4fd93d410729c20ed2d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt;</type>
+        <definition>std::shared_ptr&lt;llm::InferenceEngineEnhanced&gt; themis::rag::judge::LLMJudgeClient::Impl::inference_engine</definition>
+        <argsstring></argsstring>
+        <name>inference_engine</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeClient::Impl::inference_engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_judge_client.cpp" line="199" column="21" bodyfile="src/rag/llm_judge_client.cpp" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1ada4e062db1509d80523201ce3e3b676d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::LLMJudgeClient::Impl::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeClient::Impl::model_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_judge_client.cpp" line="200" column="17" bodyfile="src/rag/llm_judge_client.cpp" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1ad772404cbc83ca92ae6d10a69443f2dc" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::LLMJudgeClient::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeClient::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_judge_client.cpp" line="201" column="24" bodyfile="src/rag/llm_judge_client.cpp" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a6676b07a77b8aa1809da38238c6c4cf2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::LLMJudgeClient::Impl::tryAutoRegisterLocalModel</definition>
+        <argsstring>()</argsstring>
+        <name>tryAutoRegisterLocalModel</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeClient::Impl::tryAutoRegisterLocalModel</qualifiedname>
+        <briefdescription>
+<para>Try Auto Register Local Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::getenv(), std::string_view(), THEMIS_INFO(), resolveLocalModelPaths(), empty(), THEMIS_DEBUG(), string(), std::filesystem::exists(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_judge_client.cpp" line="207" column="10" bodyfile="src/rag/llm_judge_client.cpp" bodystart="207" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a917bfec269005c068c480c79b23e382f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::LLMJudgeClient::Impl::Impl</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeClient::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_judge_client.cpp" line="275" column="5" bodyfile="src/rag/llm_judge_client.cpp" bodystart="275" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a45a6cd845a34dcc66d481a3b36b8883a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::LLMJudgeClient::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeClient::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_judge_client.cpp" line="290" column="5" bodyfile="src/rag/llm_judge_client.cpp" bodystart="290" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::judge::LLMJudgeClient::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::judge::LLMJudgeClient::Impl</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/llm_judge_client.cpp" line="197" column="1" bodyfile="src/rag/llm_judge_client.cpp" bodystart="197" bodyend="295"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a8a1caa0928e8cf6153d6f3a648c15515" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeClient::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a917bfec269005c068c480c79b23e382f" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeClient::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a7ebb19d08af5b4fd93d410729c20ed2d" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeClient::Impl</scope><name>inference_engine</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1ada4e062db1509d80523201ce3e3b676d" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeClient::Impl</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1ad772404cbc83ca92ae6d10a69443f2dc" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeClient::Impl</scope><name>state_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a6676b07a77b8aa1809da38238c6c4cf2" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeClient::Impl</scope><name>tryAutoRegisterLocalModel</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client_1_1_impl_1a45a6cd845a34dcc66d481a3b36b8883a" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeClient::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

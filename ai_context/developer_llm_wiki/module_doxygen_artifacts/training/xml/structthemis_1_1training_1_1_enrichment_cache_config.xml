@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_enrichment_cache_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentCacheConfig</compoundname>
+    <includes refid="knowledge__graph__enricher_8h" local="no">knowledge_graph_enricher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_config_1aa14d0a33c474d4cd112c3c8cbf90779a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentCacheConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::training::EnrichmentCacheConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable or disable the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="67" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_config_1ad826fc5136f943151b7d198c27843553" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCacheConfig::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::training::EnrichmentCacheConfig::capacity</qualifiedname>
+        <initializer>= 50000</initializer>
+        <briefdescription>
+<para>Maximum number of cached entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="68" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_config_1ab15267cd0294dab43351a8f060c950cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCacheConfig::refresh_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>refresh_interval_seconds</name>
+        <qualifiedname>themis::training::EnrichmentCacheConfig::refresh_interval_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Seconds between graph-version refreshes (0 = disable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="69" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_enrichment_cache_config_1a394232b6aa43abfff34377137af995c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EnrichmentCacheConfig::EnrichmentCacheConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>EnrichmentCacheConfig</name>
+        <qualifiedname>themis::training::EnrichmentCacheConfig::EnrichmentCacheConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="71" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the enrichment LRU cache. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/knowledge_graph_enricher.h" line="66" column="1" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="66" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_config_1ad826fc5136f943151b7d198c27843553" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheConfig</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_config_1aa14d0a33c474d4cd112c3c8cbf90779a" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_config_1a394232b6aa43abfff34377137af995c9" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheConfig</scope><name>EnrichmentCacheConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_config_1ab15267cd0294dab43351a8f060c950cd" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheConfig</scope><name>refresh_interval_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_governance_hot_reload_test" kind="class" language="C++" prot="public">
+    <compoundname>GovernanceHotReloadTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_governance_hot_reload_test_1a5df3617e86e4cd9eb85e3ba7aed5e207" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path GovernanceHotReloadTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>GovernanceHotReloadTest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_hot_reload.cpp" line="57" column="16" bodyfile="tests/governance/test_governance_policy_hot_reload.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_governance_hot_reload_test_1a7dd78e5faaf1726e2b3a286dcbbc6689" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GovernanceHotReloadTest::yaml_path_</definition>
+        <argsstring></argsstring>
+        <name>yaml_path_</name>
+        <qualifiedname>GovernanceHotReloadTest::yaml_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_hot_reload.cpp" line="58" column="17" bodyfile="tests/governance/test_governance_policy_hot_reload.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_governance_hot_reload_test_1a81b7b720f2e21a02d290de3949271361" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GovernanceHotReloadTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GovernanceHotReloadTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_hot_reload.cpp" line="35" column="10" bodyfile="tests/governance/test_governance_policy_hot_reload.cpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_governance_hot_reload_test_1ad2b67524438d515582753c18bff086c5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GovernanceHotReloadTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GovernanceHotReloadTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_hot_reload.cpp" line="41" column="10" bodyfile="tests/governance/test_governance_policy_hot_reload.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_governance_hot_reload_test_1aee7eb30269fe730d0c69226778e85b4a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GovernanceHotReloadTest::writeYaml</definition>
+        <argsstring>(const char *content)</argsstring>
+        <name>writeYaml</name>
+        <qualifiedname>GovernanceHotReloadTest::writeYaml</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_hot_reload.cpp" line="45" column="10" bodyfile="tests/governance/test_governance_policy_hot_reload.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_governance_hot_reload_test_1a90ea5e3e9d2cb25673914591346ca2da" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GovernanceHotReloadTest::touchFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>touchFile</name>
+        <qualifiedname>GovernanceHotReloadTest::touchFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Bump the file&apos;s mtime so reloadIfChanged() treats it as &quot;changed&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_hot_reload.cpp" line="53" column="10" bodyfile="tests/governance/test_governance_policy_hot_reload.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GovernanceHotReloadTest</label>
+        <link refid="class_governance_hot_reload_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GovernanceHotReloadTest</label>
+        <link refid="class_governance_hot_reload_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_policy_hot_reload.cpp" line="33" column="1" bodyfile="tests/governance/test_governance_policy_hot_reload.cpp" bodystart="33" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_governance_hot_reload_test_1a81b7b720f2e21a02d290de3949271361" prot="protected" virt="non-virtual"><scope>GovernanceHotReloadTest</scope><name>SetUp</name></member>
+      <member refid="class_governance_hot_reload_test_1ad2b67524438d515582753c18bff086c5" prot="protected" virt="non-virtual"><scope>GovernanceHotReloadTest</scope><name>TearDown</name></member>
+      <member refid="class_governance_hot_reload_test_1a5df3617e86e4cd9eb85e3ba7aed5e207" prot="protected" virt="non-virtual"><scope>GovernanceHotReloadTest</scope><name>tmp_dir_</name></member>
+      <member refid="class_governance_hot_reload_test_1a90ea5e3e9d2cb25673914591346ca2da" prot="protected" virt="non-virtual"><scope>GovernanceHotReloadTest</scope><name>touchFile</name></member>
+      <member refid="class_governance_hot_reload_test_1aee7eb30269fe730d0c69226778e85b4a" prot="protected" virt="non-virtual"><scope>GovernanceHotReloadTest</scope><name>writeYaml</name></member>
+      <member refid="class_governance_hot_reload_test_1a7dd78e5faaf1726e2b3a286dcbbc6689" prot="protected" virt="non-virtual"><scope>GovernanceHotReloadTest</scope><name>yaml_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

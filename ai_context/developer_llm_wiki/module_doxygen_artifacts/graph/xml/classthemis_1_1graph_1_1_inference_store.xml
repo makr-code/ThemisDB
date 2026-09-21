@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_inference_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::InferenceStore</compoundname>
+    <includes refid="knowledge__graph__reasoner_8h" local="no">knowledge_graph_reasoner.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_inference_store_1_1_entry" prot="private">themis::graph::InferenceStore::Entry</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_inference_store_1a139a8e0efc7ac75d4e7dcae97222cbbd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::InferenceStore::kMaxTriples</definition>
+        <argsstring></argsstring>
+        <name>kMaxTriples</name>
+        <qualifiedname>themis::graph::InferenceStore::kMaxTriples</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="96" column="34" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_inference_store_1a4ec504ae4b53b7770f5534e85095b6fb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::graph::InferenceStore::kDefaultTTL</definition>
+        <argsstring></argsstring>
+        <name>kDefaultTTL</name>
+        <qualifiedname>themis::graph::InferenceStore::kDefaultTTL</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="97" column="43" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_inference_store_1a0b6e81c42ab335aea82c0596dba61f30" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::graph::InferenceStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graph::InferenceStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="139" column="31" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_inference_store_1a6aabb4a4bdd26aa64d3912f3cf5bd9c3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, Entry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Entry&gt; themis::graph::InferenceStore::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::graph::InferenceStore::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="140" column="24" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_inference_store_1ac1a99b8d387b61bcb041fcf2cce46799" prot="private" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::graph::InferenceStore::insertion_order_</definition>
+        <argsstring></argsstring>
+        <name>insertion_order_</name>
+        <qualifiedname>themis::graph::InferenceStore::insertion_order_</qualifiedname>
+        <briefdescription>
+<para>front = oldest </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="141" column="15" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1a0d920f63129d723e7d9e1361a4fc2c8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::InferenceStore::InferenceStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>InferenceStore</name>
+        <qualifiedname>themis::graph::InferenceStore::InferenceStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1aaf967977a80d19d309dbc339e7ad38d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::InferenceStore::InferenceStore</definition>
+        <argsstring>(const InferenceStore &amp;)=delete</argsstring>
+        <name>InferenceStore</name>
+        <qualifiedname>themis::graph::InferenceStore::InferenceStore</qualifiedname>
+        <param>
+          <type>const InferenceStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1aa29c0396054b6a67e99bd4d4c53dd8a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_inference_store_1a0d920f63129d723e7d9e1361a4fc2c8b" kindref="member">InferenceStore</ref> &amp;</type>
+        <definition>InferenceStore &amp; themis::graph::InferenceStore::operator=</definition>
+        <argsstring>(const InferenceStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::InferenceStore::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_inference_store_1a0d920f63129d723e7d9e1361a4fc2c8b" kindref="member">InferenceStore</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="103" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1a972186a37c175fa1de44c7fb5ddbbc0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::InferenceStore::store</definition>
+        <argsstring>(Triple fact, std::string rule_id, std::vector&lt; Triple &gt; premises, std::chrono::seconds ttl=kDefaultTTL)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::graph::InferenceStore::store</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref></type>
+          <declname>fact</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &gt;</type>
+          <declname>premises</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>ttl</declname>
+          <defval><ref refid="classthemis_1_1graph_1_1_inference_store_1a4ec504ae4b53b7770f5534e85095b6fb" kindref="member">kDefaultTTL</ref></defval>
+        </param>
+        <briefdescription>
+<para>Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fact</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">premises</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeKey(), std::chrono::steady_clock::now(), lock(), begin(), end(), find(), erase(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="105" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="71" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1a551310b32313e2d00bdbd4bec510aa81" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::InferenceStore::contains</definition>
+        <argsstring>(const Triple &amp;t) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::graph::InferenceStore::contains</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="108" column="11" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="115" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1a2aea339771ab583c6b883b1943b2088b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1graph_1_1_inference_edge" kindref="compound">InferenceEdge</ref> &gt;</type>
+        <definition>std::optional&lt; InferenceEdge &gt; themis::graph::InferenceStore::get</definition>
+        <argsstring>(const Triple &amp;t) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::graph::InferenceStore::get</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="110" column="20" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="130" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1a3edaec75c716cf34aa7b514d39996044" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_inference_edge" kindref="compound">InferenceEdge</ref> &gt;</type>
+        <definition>std::vector&lt; InferenceEdge &gt; themis::graph::InferenceStore::getDerived</definition>
+        <argsstring>(std::string_view subject) const</argsstring>
+        <name>getDerived</name>
+        <qualifiedname>themis::graph::InferenceStore::getDerived</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>subject</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="112" column="18" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="148" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1a3b619e5e3bfa835aece9b83a68f31232" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::InferenceStore::evictExpired</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpired</name>
+        <qualifiedname>themis::graph::InferenceStore::evictExpired</qualifiedname>
+        <briefdescription>
+<para>Evict Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), lock(), begin(), end(), find(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="117" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="173" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1af1eec44870259e2bc2bc89621b71cea4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::InferenceStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::graph::InferenceStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="119" column="18" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="188" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1ad46daba7c6eb98b19c484526aee6a2f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::InferenceStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::graph::InferenceStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="124" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="202" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_inference_store_1a0b6623c0a0fabd8b04eb14800041d9b1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::InferenceStore::makeKey</definition>
+        <argsstring>(const Triple &amp;t)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::graph::InferenceStore::makeKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="137" column="24" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/knowledge_graph_reasoner.h" line="94" column="1" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="94" bodyend="142"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1ad46daba7c6eb98b19c484526aee6a2f4" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a551310b32313e2d00bdbd4bec510aa81" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>contains</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a6aabb4a4bdd26aa64d3912f3cf5bd9c3" prot="private" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a3b619e5e3bfa835aece9b83a68f31232" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>evictExpired</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a2aea339771ab583c6b883b1943b2088b" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>get</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a3edaec75c716cf34aa7b514d39996044" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>getDerived</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a0d920f63129d723e7d9e1361a4fc2c8b" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>InferenceStore</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1aaf967977a80d19d309dbc339e7ad38d6" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>InferenceStore</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1ac1a99b8d387b61bcb041fcf2cce46799" prot="private" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>insertion_order_</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a4ec504ae4b53b7770f5534e85095b6fb" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>kDefaultTTL</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a139a8e0efc7ac75d4e7dcae97222cbbd" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>kMaxTriples</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a0b6623c0a0fabd8b04eb14800041d9b1" prot="private" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a0b6e81c42ab335aea82c0596dba61f30" prot="private" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1aa29c0396054b6a67e99bd4d4c53dd8a6" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1af1eec44870259e2bc2bc89621b71cea4" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>size</name></member>
+      <member refid="classthemis_1_1graph_1_1_inference_store_1a972186a37c175fa1de44c7fb5ddbbc0f" prot="public" virt="non-virtual"><scope>themis::graph::InferenceStore</scope><name>store</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

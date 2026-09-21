@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_steal_pool" kind="class" language="C++" prot="public">
+    <compoundname>StealPool</compoundname>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_steal_pool_1a6d3b8fe0254c83f586a806c5c5970571" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned StealPool::kMaxW</definition>
+        <argsstring></argsstring>
+        <name>kMaxW</name>
+        <qualifiedname>StealPool::kMaxW</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="98" column="31" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_steal_pool_1a39d8a6d5f5f498b200883b9d81790896" prot="private" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned StealPool::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>StealPool::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="99" column="14" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_steal_pool_1a2d57488d00005cd333969258078bb65f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::deque&lt; uint64_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::deque&lt;uint64_t&gt; &gt; StealPool::queues_</definition>
+        <argsstring></argsstring>
+        <name>queues_</name>
+        <qualifiedname>StealPool::queues_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="100" column="17" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_steal_pool_1a8d2242dcf170838c29f0bf70de26f489" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StealPool::mu_[kMaxW]</definition>
+        <argsstring>[kMaxW]</argsstring>
+        <name>mu_</name>
+        <qualifiedname>StealPool::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="101" column="24" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_steal_pool_1a0570b5720c4517c4deb129ac85c54492" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StealPool::StealPool</definition>
+        <argsstring>(unsigned workers)</argsstring>
+        <name>StealPool</name>
+        <qualifiedname>StealPool::StealPool</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>workers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="76" column="14" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="76" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_steal_pool_1af5e1013d45c2929ac2aab2ec3f9caaba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StealPool::submit</definition>
+        <argsstring>(uint64_t task_id)</argsstring>
+        <name>submit</name>
+        <qualifiedname>StealPool::submit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="79" column="10" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_steal_pool_1a08865ce1e4c096891a5999c58c08f55c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StealPool::steal</definition>
+        <argsstring>(uint64_t &amp;out)</argsstring>
+        <name>steal</name>
+        <qualifiedname>StealPool::steal</qualifiedname>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="85" column="10" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="85" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/execution/bench_execution_dedicated_gates.cpp" line="74" column="1" bodyfile="benchmarks/execution/bench_execution_dedicated_gates.cpp" bodystart="74" bodyend="102"/>
+    <listofallmembers>
+      <member refid="class_steal_pool_1a6d3b8fe0254c83f586a806c5c5970571" prot="private" virt="non-virtual"><scope>StealPool</scope><name>kMaxW</name></member>
+      <member refid="class_steal_pool_1a8d2242dcf170838c29f0bf70de26f489" prot="private" virt="non-virtual"><scope>StealPool</scope><name>mu_</name></member>
+      <member refid="class_steal_pool_1a2d57488d00005cd333969258078bb65f" prot="private" virt="non-virtual"><scope>StealPool</scope><name>queues_</name></member>
+      <member refid="class_steal_pool_1a08865ce1e4c096891a5999c58c08f55c" prot="public" virt="non-virtual"><scope>StealPool</scope><name>steal</name></member>
+      <member refid="class_steal_pool_1a0570b5720c4517c4deb129ac85c54492" prot="public" virt="non-virtual"><scope>StealPool</scope><name>StealPool</name></member>
+      <member refid="class_steal_pool_1af5e1013d45c2929ac2aab2ec3f9caaba" prot="public" virt="non-virtual"><scope>StealPool</scope><name>submit</name></member>
+      <member refid="class_steal_pool_1a39d8a6d5f5f498b200883b9d81790896" prot="private" virt="non-virtual"><scope>StealPool</scope><name>workers_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

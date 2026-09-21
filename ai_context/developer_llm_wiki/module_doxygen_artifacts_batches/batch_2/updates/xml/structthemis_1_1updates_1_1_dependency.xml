@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_dependency" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::Dependency</compoundname>
+    <includes refid="dependency__resolver_8h" local="no">dependency_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_dependency_1a9d747ca4fbddd8e977f0fba1e412a392" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::Dependency::package</definition>
+        <argsstring></argsstring>
+        <name>package</name>
+        <qualifiedname>themis::updates::Dependency::package</qualifiedname>
+        <briefdescription>
+<para>Package name (e.g. &quot;themis-storage&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="30" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_dependency_1a4a04376fe6d605a67a6e0e829c01a077" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::Dependency::version_constraint</definition>
+        <argsstring></argsstring>
+        <name>version_constraint</name>
+        <qualifiedname>themis::updates::Dependency::version_constraint</qualifiedname>
+        <briefdescription>
+<para>Version constraint string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supported operators: &gt;=, &lt;=, &gt;, &lt;, ==, != Multiple constraints joined by comma are ANDed, e.g. &quot;&gt;=1.4.0,&lt;2.0.0&quot;. Empty string means &quot;any version&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="39" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_dependency_1a63bcf53c0ad56c394cf9043e9cc75acd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::Dependency::optional</definition>
+        <argsstring></argsstring>
+        <name>optional</name>
+        <qualifiedname>themis::updates::Dependency::optional</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, the dependency is optional; resolution does not fail if the package is absent, and it is not added to the backfilled list. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="43" column="10" bodyfile="include/updates/dependency_resolver.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_dependency_1a930da81164b9afc8bb97b1f299353a05" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::Dependency::conflicts</definition>
+        <argsstring></argsstring>
+        <name>conflicts</name>
+        <qualifiedname>themis::updates::Dependency::conflicts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Package names that conflict with this dependency. If any package in this list is currently installed (or is being added to the update plan), a <ref refid="structthemis_1_1updates_1_1_dependency_conflict" kindref="compound">DependencyConflict</ref> is reported and resolution fails. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="48" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a dependency on an external package. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/dependency_resolver.h" line="28" column="1" bodyfile="include/updates/dependency_resolver.h" bodystart="28" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_dependency_1a930da81164b9afc8bb97b1f299353a05" prot="public" virt="non-virtual"><scope>themis::updates::Dependency</scope><name>conflicts</name></member>
+      <member refid="structthemis_1_1updates_1_1_dependency_1a63bcf53c0ad56c394cf9043e9cc75acd" prot="public" virt="non-virtual"><scope>themis::updates::Dependency</scope><name>optional</name></member>
+      <member refid="structthemis_1_1updates_1_1_dependency_1a9d747ca4fbddd8e977f0fba1e412a392" prot="public" virt="non-virtual"><scope>themis::updates::Dependency</scope><name>package</name></member>
+      <member refid="structthemis_1_1updates_1_1_dependency_1a4a04376fe6d605a67a6e0e829c01a077" prot="public" virt="non-virtual"><scope>themis::updates::Dependency</scope><name>version_constraint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

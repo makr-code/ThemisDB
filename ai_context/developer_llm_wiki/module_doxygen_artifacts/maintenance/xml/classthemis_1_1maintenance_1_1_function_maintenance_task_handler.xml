@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1maintenance_1_1_function_maintenance_task_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::maintenance::FunctionMaintenanceTaskHandler</compoundname>
+    <basecompoundref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" prot="public" virt="non-virtual">themis::maintenance::IMaintenanceTaskHandler</basecompoundref>
+    <includes refid="maintenance__task__handler__impls_8h" local="no">maintenance_task_handler_impls.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a3334e22bba1b01cec88c38e9fb23deb3" prot="public" static="no">
+        <type>std::function&lt; Result&lt; std::string &gt;( const std::string &amp;, <ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref>)&gt;</type>
+        <definition>using themis::maintenance::FunctionMaintenanceTaskHandler::ExecuteFn = std::function&lt;Result&lt;std::string&gt;(
+       const std::string&amp;, MaintenanceTaskType)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExecuteFn</name>
+        <qualifiedname>themis::maintenance::FunctionMaintenanceTaskHandler::ExecuteFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="193" column="5" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a4fcec08ca2e5184b33440eab9c97b31c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::FunctionMaintenanceTaskHandler::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::maintenance::FunctionMaintenanceTaskHandler::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="212" column="17" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1ada15c12a8f0ce55bc59924389173aae5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a3334e22bba1b01cec88c38e9fb23deb3" kindref="member">ExecuteFn</ref></type>
+        <definition>ExecuteFn themis::maintenance::FunctionMaintenanceTaskHandler::fn_</definition>
+        <argsstring></argsstring>
+        <name>fn_</name>
+        <qualifiedname>themis::maintenance::FunctionMaintenanceTaskHandler::fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="213" column="17" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a6333ec1c943ed5f2a74c74e699b0393c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::FunctionMaintenanceTaskHandler::FunctionMaintenanceTaskHandler</definition>
+        <argsstring>(std::string name, ExecuteFn fn)</argsstring>
+        <name>FunctionMaintenanceTaskHandler</name>
+        <qualifiedname>themis::maintenance::FunctionMaintenanceTaskHandler::FunctionMaintenanceTaskHandler</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a3334e22bba1b01cec88c38e9fb23deb3" kindref="member">ExecuteFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="196" column="5" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="196" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1adee8a95d74935feabc4ffc28144da9ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::maintenance::FunctionMaintenanceTaskHandler::execute</definition>
+        <argsstring>(const std::string &amp;job_id, MaintenanceTaskType task_type) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::maintenance::FunctionMaintenanceTaskHandler::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a0c02379595c393103648c8cf3191b259">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <briefdescription>
+<para>Execute the maintenance task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orchestrator job identifier (for logging/tracing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The task type being executed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok with a human-readable result summary string on success, or an Error on failure (the orchestrator will propagate the error message to the job&apos;s error_message field). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="199" column="12" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="199" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a43bf90a8e529e9e26eb82dd36c603299" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::FunctionMaintenanceTaskHandler::handlerName</definition>
+        <argsstring>() const override</argsstring>
+        <name>handlerName</name>
+        <qualifiedname>themis::maintenance::FunctionMaintenanceTaskHandler::handlerName</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a944d9bb4ec535eb3b5003129b43157f9">handlerName</reimplements>
+        <briefdescription>
+<para>Human-readable handler name for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returned by GET /api/v1/maintenance/task-handlers. Should be unique and stable across restarts (e.g. &quot;StorageCompactionHandler&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="209" column="17" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wraps a std::function as an <ref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" kindref="compound">IMaintenanceTaskHandler</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Useful for ad-hoc or test handler registrations: <programlisting><codeline><highlight class="normal">orchestrator.registerTaskHandler(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a65ec89d68ac3d5ef1e4fad4f75023ec3" kindref="member">MaintenanceTaskType::QUOTA_CHECK</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::make_shared&lt;FunctionMaintenanceTaskHandler&gt;(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;QuotaCheckHandler&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id,<sp/><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::string&gt;{</highlight><highlight class="stringliteral">&quot;Quota<sp/>check<sp/>passed&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::maintenance::FunctionMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::maintenance::FunctionMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/maintenance/maintenance_task_handler_impls.h" line="191" column="1" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="191" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1adee8a95d74935feabc4ffc28144da9ea" prot="public" virt="virtual"><scope>themis::maintenance::FunctionMaintenanceTaskHandler</scope><name>execute</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a3334e22bba1b01cec88c38e9fb23deb3" prot="public" virt="non-virtual"><scope>themis::maintenance::FunctionMaintenanceTaskHandler</scope><name>ExecuteFn</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1ada15c12a8f0ce55bc59924389173aae5" prot="private" virt="non-virtual"><scope>themis::maintenance::FunctionMaintenanceTaskHandler</scope><name>fn_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a6333ec1c943ed5f2a74c74e699b0393c" prot="public" virt="non-virtual"><scope>themis::maintenance::FunctionMaintenanceTaskHandler</scope><name>FunctionMaintenanceTaskHandler</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a43bf90a8e529e9e26eb82dd36c603299" prot="public" virt="virtual"><scope>themis::maintenance::FunctionMaintenanceTaskHandler</scope><name>handlerName</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a4fcec08ca2e5184b33440eab9c97b31c" prot="private" virt="non-virtual"><scope>themis::maintenance::FunctionMaintenanceTaskHandler</scope><name>name_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a02df22c7fc7ff41510208a7fa0673de9" prot="public" virt="virtual"><scope>themis::maintenance::FunctionMaintenanceTaskHandler</scope><name>~IMaintenanceTaskHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

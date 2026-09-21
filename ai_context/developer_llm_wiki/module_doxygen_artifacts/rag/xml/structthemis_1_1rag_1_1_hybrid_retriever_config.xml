@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_hybrid_retriever_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::HybridRetrieverConfig</compoundname>
+    <includes refid="hybrid__retriever_8h" local="no">hybrid_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::HybridRetrieverConfig::bm25_weight</definition>
+        <argsstring></argsstring>
+        <name>bm25_weight</name>
+        <qualifiedname>themis::rag::HybridRetrieverConfig::bm25_weight</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Contribution weight for BM25 (sparse/keyword) results. Must be &gt;= 0. Need not sum to 1 with vector_weight. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="28" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::HybridRetrieverConfig::vector_weight</definition>
+        <argsstring></argsstring>
+        <name>vector_weight</name>
+        <qualifiedname>themis::rag::HybridRetrieverConfig::vector_weight</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Contribution weight for vector (dense/semantic) results. Must be &gt;= 0. Need not sum to 1 with bm25_weight. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="32" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::HybridRetrieverConfig::use_rrf</definition>
+        <argsstring></argsstring>
+        <name>use_rrf</name>
+        <qualifiedname>themis::rag::HybridRetrieverConfig::use_rrf</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use Reciprocal Rank Fusion (recommended). When false, a linear combination of normalised raw scores is used. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="36" column="10" bodyfile="include/rag/hybrid_retriever.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::HybridRetrieverConfig::rrf_k</definition>
+        <argsstring></argsstring>
+        <name>rrf_k</name>
+        <qualifiedname>themis::rag::HybridRetrieverConfig::rrf_k</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RRF smoothing constant (default 60 per the original paper). Must be &gt; 0. Larger values reduce the rank-order sensitivity. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="40" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab7d876bb44777f61b44ffa5d9d67808e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::HybridRetrieverConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::HybridRetrieverConfig::top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum number of documents returned after fusion (0 = return all). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="43" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab6de9f9661d6e7005f67f86dfcfe9350" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::HybridRetrieverConfig::normalize_scores</definition>
+        <argsstring></argsstring>
+        <name>normalize_scores</name>
+        <qualifiedname>themis::rag::HybridRetrieverConfig::normalize_scores</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalise raw scores to [0, 1] before linear combination. Only relevant when use_rrf = false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="47" column="10" bodyfile="include/rag/hybrid_retriever.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/hybrid_retriever.h" line="25" column="1" bodyfile="include/rag/hybrid_retriever.h" bodystart="25" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverConfig</scope><name>bm25_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab6de9f9661d6e7005f67f86dfcfe9350" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverConfig</scope><name>normalize_scores</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverConfig</scope><name>rrf_k</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab7d876bb44777f61b44ffa5d9d67808e" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverConfig</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverConfig</scope><name>use_rrf</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverConfig</scope><name>vector_weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

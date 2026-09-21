@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_full_pipeline_test" kind="class" language="C++" prot="public">
+    <compoundname>FullPipelineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="struct_full_pipeline_test_1_1_query_result" prot="protected">FullPipelineTest::QueryResult</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_full_pipeline_test_1ab350cc9f97b995c25724e1f33a794124" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; FullPipelineTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>FullPipelineTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="457" column="19" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_full_pipeline_test_1a57a8c19c1ef0358c880c3f6be2e07d6f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUQueryAccelerator &gt;</type>
+        <definition>std::shared_ptr&lt;GPUQueryAccelerator&gt; FullPipelineTest::accelerator</definition>
+        <argsstring></argsstring>
+        <name>accelerator</name>
+        <qualifiedname>FullPipelineTest::accelerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="458" column="19" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="458" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_full_pipeline_test_1aaa9d2a9e9525b097ecc911bca1bf9e6b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FullPipelineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FullPipelineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="460" column="8" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="460" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="class_full_pipeline_test_1aaca5de0c0b7f8607a04798996d81bee2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_full_pipeline_test_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult FullPipelineTest::simulate_query</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, bool force_cpu=false)</argsstring>
+        <name>simulate_query</name>
+        <qualifiedname>FullPipelineTest::simulate_query</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force_cpu</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="473" column="15" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="473" bodyend="495"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FullPipelineTest</label>
+        <link refid="class_full_pipeline_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FullPipelineTest</label>
+        <link refid="class_full_pipeline_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="455" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="455" bodyend="496"/>
+    <listofallmembers>
+      <member refid="class_full_pipeline_test_1a57a8c19c1ef0358c880c3f6be2e07d6f" prot="protected" virt="non-virtual"><scope>FullPipelineTest</scope><name>accelerator</name></member>
+      <member refid="class_full_pipeline_test_1ab350cc9f97b995c25724e1f33a794124" prot="protected" virt="non-virtual"><scope>FullPipelineTest</scope><name>handler</name></member>
+      <member refid="class_full_pipeline_test_1aaa9d2a9e9525b097ecc911bca1bf9e6b" prot="protected" virt="non-virtual"><scope>FullPipelineTest</scope><name>SetUp</name></member>
+      <member refid="class_full_pipeline_test_1aaca5de0c0b7f8607a04798996d81bee2" prot="protected" virt="non-virtual"><scope>FullPipelineTest</scope><name>simulate_query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

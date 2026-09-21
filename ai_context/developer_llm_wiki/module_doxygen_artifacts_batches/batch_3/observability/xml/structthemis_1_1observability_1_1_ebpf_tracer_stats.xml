@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_ebpf_tracer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::EbpfTracerStats</compoundname>
+    <includes refid="ebpf__tracer_8h" local="no">ebpf_tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a53975f45a56c81a24bfcd5e30a70e58c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::EbpfTracerStats::context_switches_total</definition>
+        <argsstring></argsstring>
+        <name>context_switches_total</name>
+        <qualifiedname>themis::observability::EbpfTracerStats::context_switches_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative context switches observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="55" column="13" bodyfile="include/observability/ebpf_tracer.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a714b8b13d886000a7273067015220b3c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::EbpfTracerStats::page_faults_total</definition>
+        <argsstring></argsstring>
+        <name>page_faults_total</name>
+        <qualifiedname>themis::observability::EbpfTracerStats::page_faults_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative page faults observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="56" column="13" bodyfile="include/observability/ebpf_tracer.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a636a0efb7b5e8383d76643e734f4fdde" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::EbpfTracerStats::cpu_migrations_total</definition>
+        <argsstring></argsstring>
+        <name>cpu_migrations_total</name>
+        <qualifiedname>themis::observability::EbpfTracerStats::cpu_migrations_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative CPU migrations observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="57" column="13" bodyfile="include/observability/ebpf_tracer.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_stats_1ae0bf47159c51789d7331a1d6a03a1e38" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::EbpfTracerStats::task_clock_ns_total</definition>
+        <argsstring></argsstring>
+        <name>task_clock_ns_total</name>
+        <qualifiedname>themis::observability::EbpfTracerStats::task_clock_ns_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative CPU time in nanoseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="58" column="13" bodyfile="include/observability/ebpf_tracer.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_stats_1aafaf5320f681d87a6d8a0240ca502fdd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::EbpfTracerStats::collection_cycles</definition>
+        <argsstring></argsstring>
+        <name>collection_cycles</name>
+        <qualifiedname>themis::observability::EbpfTracerStats::collection_cycles</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of completed collection cycles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="59" column="14" bodyfile="include/observability/ebpf_tracer.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics snapshot exported by <ref refid="classthemis_1_1observability_1_1_ebpf_tracer_1aeff966ec0b580b41c0c1ec807ff52015" kindref="member">EbpfTracer::getStats()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/ebpf_tracer.h" line="54" column="1" bodyfile="include/observability/ebpf_tracer.h" bodystart="54" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1aafaf5320f681d87a6d8a0240ca502fdd" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerStats</scope><name>collection_cycles</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a53975f45a56c81a24bfcd5e30a70e58c" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerStats</scope><name>context_switches_total</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a636a0efb7b5e8383d76643e734f4fdde" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerStats</scope><name>cpu_migrations_total</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1a714b8b13d886000a7273067015220b3c" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerStats</scope><name>page_faults_total</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_stats_1ae0bf47159c51789d7331a1d6a03a1e38" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerStats</scope><name>task_clock_ns_total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,796 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_flat_tensor_index" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::tensor::FlatTensorIndex</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_tensor_index" prot="public" virt="non-virtual">themis::tensor::ITensorIndex</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_flat_tensor_index_1adcad1218cd5d4390ba06c6b9c583ed7c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::tensor::FlatTensorIndex::kMagic[11]</definition>
+        <argsstring>[11]</argsstring>
+        <name>kMagic</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::kMagic</qualifiedname>
+        <initializer>= &quot;THEMIS_TTI&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="260" column="27" bodyfile="src/tensor/tensor_index.cpp" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a1dee165658787c22fe1b1b36bdfd3b28" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::tensor::FlatTensorIndex::kVersion</definition>
+        <argsstring></argsstring>
+        <name>kVersion</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::kVersion</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="261" column="30" bodyfile="src/tensor/tensor_index.cpp" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a39ddb13cf4ec34c746e1047676402d95" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::tensor::FlatTensorIndex::rw_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rw_mutex_</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::rw_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="553" column="56" bodyfile="src/tensor/tensor_index.cpp" bodystart="553" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_flat_tensor_index_1acd0360d301ee493e5587f50a36d48a41" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, storage::TTTrain &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, storage::TTTrain&gt; themis::tensor::FlatTensorIndex::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="554" column="29" bodyfile="src/tensor/tensor_index.cpp" bodystart="554" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_flat_tensor_index_1ae80da12ef3c5a526183269bd624f361b" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::FlatTensorIndex::dim_</definition>
+        <argsstring></argsstring>
+        <name>dim_</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::dim_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="555" column="56" bodyfile="src/tensor/tensor_index.cpp" bodystart="555" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_flat_tensor_index_1ab49a59725e83821665677e73d0b27d4f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_index_stats" kindref="compound">TensorIndexStats</ref></type>
+        <definition>TensorIndexStats themis::tensor::FlatTensorIndex::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="556" column="56" bodyfile="src/tensor/tensor_index.cpp" bodystart="556" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1aa5fbb616e689fbf2634804d42241c9df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::FlatTensorIndex::FlatTensorIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>FlatTensorIndex</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::FlatTensorIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1ad35e8828c71773a04bd9f62c10511a84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::FlatTensorIndex::~FlatTensorIndex</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~FlatTensorIndex</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::~FlatTensorIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a0acf1c1510e2b7aafc54186575fe8bc3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::FlatTensorIndex::add</definition>
+        <argsstring>(int64_t id, const storage::TTTrain &amp;train) override</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::add</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a92fa3610dcc218ff3bae38eb4a979b62">add</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <briefdescription>
+<para>Add a vector stored as a Tensor-Train to the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User-assigned identifier (must be unique). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TT-compressed representation produced by TensorTrainDecomposer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if id already exists or train is invalid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="65" column="11" bodyfile="src/tensor/tensor_index.cpp" bodystart="65" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a64c200341e4c9d52031948ebe021c9e7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::FlatTensorIndex::addFlat</definition>
+        <argsstring>(int64_t id, const float *vector, size_t dim) override</argsstring>
+        <name>addFlat</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::addFlat</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a76affd999a883936228ef237e4b93adf">addFlat</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Add a flat float vector by compressing it internally. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience overload — calls TensorTrainDecomposer::decompose() with the index&apos;s default rank / epsilon settings before delegating to add(id, train).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User-assigned identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to dim float values. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="87" column="11" bodyfile="src/tensor/tensor_index.cpp" bodystart="87" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a66a31cea0e51e9a374946161b38213f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::FlatTensorIndex::remove</definition>
+        <argsstring>(int64_t id) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a88364c83a32cebbb2a8760997669fac4">remove</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a vector by id. Returns false if not found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="110" column="10" bodyfile="src/tensor/tensor_index.cpp" bodystart="110" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a0b63d0d289136321df5d5ccf6b57097c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_tensor_search_result" kindref="compound">TensorSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; TensorSearchResult &gt; themis::tensor::FlatTensorIndex::search</definition>
+        <argsstring>(const storage::TTTrain &amp;query, int k) const override</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::search</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a9f6a4f57e4810e4463abecc1ff1f4c61">search</reimplements>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Approximate k-nearest-neighbour search in the compressed domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Distance computation runs entirely on TT cores: O(d·r²) per candidate. The caller does NOT need to decompress the stored vectors.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TT-train of the query vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of results requested. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Up to k results sorted by ascending distance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="131" column="17" bodyfile="src/tensor/tensor_index.cpp" bodystart="131" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a7840da693f77aeca8c040547a836f708" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_tensor_search_result" kindref="compound">TensorSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; TensorSearchResult &gt; themis::tensor::FlatTensorIndex::searchFlat</definition>
+        <argsstring>(const float *query, size_t dim, int k) const override</argsstring>
+        <name>searchFlat</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::searchFlat</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a71a74cd61ef99b09bd2aae78d40f7ed1">searchFlat</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Flat-vector query convenience overload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compresses <computeroutput>query</computeroutput> internally, then delegates to search(train, k). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="176" column="17" bodyfile="src/tensor/tensor_index.cpp" bodystart="176" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a119751d12f26ece311683c2d211c7801" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt; float &gt; themis::tensor::FlatTensorIndex::innerProduct</definition>
+        <argsstring>(int64_t id_a, int64_t id_b) const override</argsstring>
+        <name>innerProduct</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::innerProduct</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a2f6bf8b7af70409b45cbbebca87b3288">innerProduct</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>id_a</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>id_b</declname>
+        </param>
+        <briefdescription>
+<para>Inner product of two stored TT-trains in compressed domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Complexity: O(d · r³) (TT-inner-product algorithm, Holtz 2012).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the first stored vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the second stored vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Inner product value, or std::nullopt if either ID not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="196" column="19" bodyfile="src/tensor/tensor_index.cpp" bodystart="196" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a4e8712d256345a49253762d21fec91b0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt; float &gt; themis::tensor::FlatTensorIndex::norm</definition>
+        <argsstring>(int64_t id) const override</argsstring>
+        <name>norm</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::norm</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a0d93b6e08525c4e60c8dd672e81457f9">norm</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Frobenius norm of a stored TT-train, computed without reconstruction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses the identity ‖T‖_F = sqrt(&lt;T,T&gt;_TT) in O(d·r³).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector ID. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Norm value, or std::nullopt if id not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="212" column="19" bodyfile="src/tensor/tensor_index.cpp" bodystart="212" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a100a3d093c5d33c58ec166e5f421cc97" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const storage::TTTrain *</type>
+        <definition>const storage::TTTrain * themis::tensor::FlatTensorIndex::get</definition>
+        <argsstring>(int64_t id) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::get</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1aa9e1546dea92ebc97db172b2d3cc941e">get</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the raw TT-train for an entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to internal storage (valid until next mutation). Returns nullptr if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="226" column="28" bodyfile="src/tensor/tensor_index.cpp" bodystart="226" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1af03d8174d44345cade11fe39550856df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::FlatTensorIndex::save</definition>
+        <argsstring>(const std::string &amp;path) const override</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::save</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a5013b76a5fb8e751dce060705487378a">save</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Persist the index to a RocksDB-backed storage path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Key schema: <computeroutput>__ttidx__:&lt;index_name&gt;:&lt;id&gt;:&lt;core_k&gt;</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="263" column="10" bodyfile="src/tensor/tensor_index.cpp" bodystart="263" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a938fea1cbf55695c6b3e312678f2687f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::FlatTensorIndex::load</definition>
+        <argsstring>(const std::string &amp;path) override</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::load</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1a36344c177da7383727ffa6656d1dd9ee">load</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load a previously persisted index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>In. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Atomically swap in new data <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="313" column="10" bodyfile="src/tensor/tensor_index.cpp" bodystart="313" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a7e1c07551e1aec2aac51587a3b332a57" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::FlatTensorIndex::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::size</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1ab45cc3f83fd9db081b2818718d1e2042">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="422" column="13" bodyfile="src/tensor/tensor_index.cpp" bodystart="422" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1ae34be5a6f7b9f14f04d24bf41bf9d7bb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_index_stats" kindref="compound">TensorIndexStats</ref></type>
+        <definition>TensorIndexStats themis::tensor::FlatTensorIndex::stats</definition>
+        <argsstring>() const override</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::stats</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_tensor_index_1af4f6531ad94f6c38393e77ab57e7bd22">stats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="432" column="23" bodyfile="src/tensor/tensor_index.cpp" bodystart="432" bodyend="458"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a3652ab1504b1f9c9bfb9230452012966" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::tensor::FlatTensorIndex::ttInnerProduct</definition>
+        <argsstring>(const storage::TTTrain &amp;A, const storage::TTTrain &amp;B)</argsstring>
+        <name>ttInnerProduct</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::ttInnerProduct</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+<para>Tt Inner Product. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a7e1c07551e1aec2aac51587a3b332a57" kindref="member">size()</ref>, T_new(), std::move(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="472" column="18" bodyfile="src/tensor/tensor_index.cpp" bodystart="472" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1ac588a0efe90035d51b40aa6b1fa69499" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::tensor::FlatTensorIndex::ttNorm</definition>
+        <argsstring>(const storage::TTTrain &amp;T)</argsstring>
+        <name>ttNorm</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::ttNorm</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>T</declname>
+        </param>
+        <briefdescription>
+<para>Tt Norm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ttInnerProduct(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="530" column="18" bodyfile="src/tensor/tensor_index.cpp" bodystart="530" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_tensor_index_1a70a9c65a4ec8dc882d171cb74dd5d767" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::tensor::FlatTensorIndex::estimateBytes</definition>
+        <argsstring>(const storage::TTTrain &amp;t)</argsstring>
+        <name>estimateBytes</name>
+        <qualifiedname>themis::tensor::FlatTensorIndex::estimateBytes</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a7e1c07551e1aec2aac51587a3b332a57" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/tensor_index.cpp" line="541" column="19" bodyfile="src/tensor/tensor_index.cpp" bodystart="541" bodyend="547"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::FlatTensorIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_flat_tensor_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::ITensorIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_i_tensor_index"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::FlatTensorIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_flat_tensor_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::ITensorIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_i_tensor_index"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/tensor/tensor_index.cpp" line="56" column="1" bodyfile="src/tensor/tensor_index.cpp" bodystart="56" bodyend="557"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a0acf1c1510e2b7aafc54186575fe8bc3" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>add</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a64c200341e4c9d52031948ebe021c9e7" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>addFlat</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1ae80da12ef3c5a526183269bd624f361b" prot="private" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>dim_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a70a9c65a4ec8dc882d171cb74dd5d767" prot="private" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>estimateBytes</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1aa5fbb616e689fbf2634804d42241c9df" prot="public" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>FlatTensorIndex</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a100a3d093c5d33c58ec166e5f421cc97" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>get</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a119751d12f26ece311683c2d211c7801" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>innerProduct</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1adcad1218cd5d4390ba06c6b9c583ed7c" prot="public" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>kMagic</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a1dee165658787c22fe1b1b36bdfd3b28" prot="public" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>kVersion</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a938fea1cbf55695c6b3e312678f2687f" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>load</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a4e8712d256345a49253762d21fec91b0" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>norm</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a66a31cea0e51e9a374946161b38213f1" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>remove</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a39ddb13cf4ec34c746e1047676402d95" prot="private" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>rw_mutex_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1af03d8174d44345cade11fe39550856df" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>save</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a0b63d0d289136321df5d5ccf6b57097c" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a7840da693f77aeca8c040547a836f708" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>searchFlat</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a7e1c07551e1aec2aac51587a3b332a57" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>size</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1ae34be5a6f7b9f14f04d24bf41bf9d7bb" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>stats</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1ab49a59725e83821665677e73d0b27d4f" prot="private" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1acd0360d301ee493e5587f50a36d48a41" prot="private" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>store_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1a3652ab1504b1f9c9bfb9230452012966" prot="private" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>ttInnerProduct</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1ac588a0efe90035d51b40aa6b1fa69499" prot="private" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>ttNorm</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_tensor_index_1ad35e8828c71773a04bd9f62c10511a84" prot="public" virt="non-virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>~FlatTensorIndex</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_tensor_index_1a9b9d22e6fdd3d73edc83e55e546d2238" prot="public" virt="virtual"><scope>themis::tensor::FlatTensorIndex</scope><name>~ITensorIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

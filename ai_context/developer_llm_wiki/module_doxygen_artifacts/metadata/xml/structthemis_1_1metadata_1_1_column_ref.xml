@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_column_ref" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::ColumnRef</compoundname>
+    <includes refid="column__lineage_8h" local="no">column_lineage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_ref_1acdf02b248adc6a824aab3e45c5cc3fc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnRef::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::metadata::ColumnRef::table_name</qualifiedname>
+        <briefdescription>
+<para>Table or collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="31" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_ref_1aafb0f4a0b0f88784daa38f2e1cdf8e1c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnRef::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::metadata::ColumnRef::column_name</qualifiedname>
+        <briefdescription>
+<para>Column or property name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="32" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_ref_1a50f924f452dac424a294ac74985aad98" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::metadata::ColumnRef::operator==</definition>
+        <argsstring>(const ColumnRef &amp;other) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::metadata::ColumnRef::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="34" column="10" bodyfile="include/metadata/column_lineage.h" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_ref_1a5f21f16e59e39b3d454d41be8a2b803e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnRef::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::metadata::ColumnRef::toString</qualifiedname>
+        <briefdescription>
+<para>Render the reference as <computeroutput>table_name.column_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Fully qualified column name string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="42" column="17" bodyfile="src/metadata/column_lineage.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_ref_1accb3fcec5d0bfa8fe16108650ef6db1a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::metadata::ColumnRef::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::ColumnRef::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this column reference to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with <computeroutput>table</computeroutput> and <computeroutput>column</computeroutput> fields. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="48" column="20" bodyfile="src/metadata/column_lineage.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_ref_1a00e621f48a9816b40baac364c3a3b3c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref></type>
+        <definition>ColumnRef themis::metadata::ColumnRef::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::metadata::ColumnRef::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse a column reference from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From JSON.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object containing <computeroutput>table</computeroutput> and <computeroutput>column</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="55" column="22" bodyfile="src/metadata/column_lineage.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A reference to a specific column within a specific table/collection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/column_lineage.h" line="30" column="1" bodyfile="include/metadata/column_lineage.h" bodystart="30" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_column_ref_1aafb0f4a0b0f88784daa38f2e1cdf8e1c" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnRef</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_ref_1a00e621f48a9816b40baac364c3a3b3c8" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnRef</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_ref_1a50f924f452dac424a294ac74985aad98" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnRef</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_ref_1acdf02b248adc6a824aab3e45c5cc3fc4" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnRef</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_ref_1accb3fcec5d0bfa8fe16108650ef6db1a" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnRef</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_ref_1a5f21f16e59e39b3d454d41be8a2b803e" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnRef</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

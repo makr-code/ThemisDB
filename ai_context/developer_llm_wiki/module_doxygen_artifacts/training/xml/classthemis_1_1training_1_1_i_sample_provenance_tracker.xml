@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_i_sample_provenance_tracker" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::training::ISampleProvenanceTracker</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_sample_provenance_tracker_1ac5b1f1615d123fe2a9274dffa1255f38" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::training::ISampleProvenanceTracker::~ISampleProvenanceTracker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISampleProvenanceTracker</name>
+        <qualifiedname>themis::training::ISampleProvenanceTracker::~ISampleProvenanceTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="280" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_sample_provenance_tracker_1ab2e3ca3c760d0898f0cf1f102602a5a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::training::ISampleProvenanceTracker::record</definition>
+        <argsstring>(const SampleProvenance &amp;provenance)=0</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::training::ISampleProvenanceTracker::record</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_sample_provenance" kindref="compound">SampleProvenance</ref> &amp;</type>
+          <declname>provenance</declname>
+        </param>
+        <briefdescription>
+<para>Append a provenance record. Cannot overwrite an existing record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>provenance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provenance data to store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if sample_id is already recorded. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="287" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_sample_provenance_tracker_1aa7b1a9bd661514128e863e1fa55006e5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_lineage_graph" kindref="compound">LineageGraph</ref></type>
+        <definition>virtual LineageGraph themis::training::ISampleProvenanceTracker::queryLineage</definition>
+        <argsstring>(const std::string &amp;sample_id) const =0</argsstring>
+        <name>queryLineage</name>
+        <qualifiedname>themis::training::ISampleProvenanceTracker::queryLineage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the transformation DAG for a sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample to trace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Lineage graph rooted at the training-ready sample. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="294" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_sample_provenance_tracker_1a4e5fc02caae495e8589a40663b210c1d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::training::ISampleProvenanceTracker::totalRecords</definition>
+        <argsstring>() const =0</argsstring>
+        <name>totalRecords</name>
+        <qualifiedname>themis::training::ISampleProvenanceTracker::totalRecords</qualifiedname>
+        <briefdescription>
+<para>Total number of provenance records stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="299" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_sample_provenance_tracker_1a51ca26bae210e736c7b6126d330032ea" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::training::ISampleProvenanceTracker::storageEstimateBytes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>storageEstimateBytes</name>
+        <qualifiedname>themis::training::ISampleProvenanceTracker::storageEstimateBytes</qualifiedname>
+        <briefdescription>
+<para>Estimated storage footprint in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="304" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Append-only sample lineage tracker interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Design constraints:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1training_1_1_i_sample_provenance_tracker_1ab2e3ca3c760d0898f0cf1f102602a5a6" kindref="member">record()</ref> is append-only; no update or delete path exists.</para>
+</listitem><listitem><para>Only opaque source URIs are stored; raw training content must not appear in provenance records.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1training_1_1_i_sample_provenance_tracker_1aa7b1a9bd661514128e863e1fa55006e5" kindref="member">queryLineage()</ref> returns the full transformation DAG, not raw content.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1training_1_1_provenance_tracker" kindref="compound">ProvenanceTracker</ref> (concrete implementation) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="278" column="1" bodyfile="include/training/training_interfaces.h" bodystart="278" bodyend="305"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_i_sample_provenance_tracker_1aa7b1a9bd661514128e863e1fa55006e5" prot="public" virt="pure-virtual"><scope>themis::training::ISampleProvenanceTracker</scope><name>queryLineage</name></member>
+      <member refid="classthemis_1_1training_1_1_i_sample_provenance_tracker_1ab2e3ca3c760d0898f0cf1f102602a5a6" prot="public" virt="pure-virtual"><scope>themis::training::ISampleProvenanceTracker</scope><name>record</name></member>
+      <member refid="classthemis_1_1training_1_1_i_sample_provenance_tracker_1a51ca26bae210e736c7b6126d330032ea" prot="public" virt="pure-virtual"><scope>themis::training::ISampleProvenanceTracker</scope><name>storageEstimateBytes</name></member>
+      <member refid="classthemis_1_1training_1_1_i_sample_provenance_tracker_1a4e5fc02caae495e8589a40663b210c1d" prot="public" virt="pure-virtual"><scope>themis::training::ISampleProvenanceTracker</scope><name>totalRecords</name></member>
+      <member refid="classthemis_1_1training_1_1_i_sample_provenance_tracker_1ac5b1f1615d123fe2a9274dffa1255f38" prot="public" virt="virtual"><scope>themis::training::ISampleProvenanceTracker</scope><name>~ISampleProvenanceTracker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

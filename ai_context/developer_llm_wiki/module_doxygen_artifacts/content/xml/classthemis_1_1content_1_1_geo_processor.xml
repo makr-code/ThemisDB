@@ -1,0 +1,874 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_geo_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::GeoProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor_plugin" prot="public" virt="non-virtual">themis::content::IContentProcessorPlugin</basecompoundref>
+    <includes refid="geo__processor_8h" local="no">geo_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1af31614ba54e495b217dfd17c8ce3169a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::GeoProcessor::default_crs_</definition>
+        <argsstring></argsstring>
+        <name>default_crs_</name>
+        <qualifiedname>themis::content::GeoProcessor::default_crs_</qualifiedname>
+        <initializer>= &quot;EPSG:4326&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="48" column="17" bodyfile="include/content/geo_processor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1aca36b731f6292a56a29003d8cb072f06" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::GeoProcessor::max_features_</definition>
+        <argsstring></argsstring>
+        <name>max_features_</name>
+        <qualifiedname>themis::content::GeoProcessor::max_features_</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="49" column="9" bodyfile="include/content/geo_processor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1a119b37b4f5ab0080b49677ce511f2659" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::GeoProcessor::simplify_geometry_</definition>
+        <argsstring></argsstring>
+        <name>simplify_geometry_</name>
+        <qualifiedname>themis::content::GeoProcessor::simplify_geometry_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="50" column="10" bodyfile="include/content/geo_processor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1a38aafec22274f52d024561ea29d8d6ca" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::GeoProcessor::simplify_tolerance_</definition>
+        <argsstring></argsstring>
+        <name>simplify_tolerance_</name>
+        <qualifiedname>themis::content::GeoProcessor::simplify_tolerance_</qualifiedname>
+        <initializer>= 0.0001</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="51" column="12" bodyfile="include/content/geo_processor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1af314ee584a9fec86e7bed48d5081d8f2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::GeoProcessor::generate_centroid_</definition>
+        <argsstring></argsstring>
+        <name>generate_centroid_</name>
+        <qualifiedname>themis::content::GeoProcessor::generate_centroid_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="52" column="10" bodyfile="include/content/geo_processor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1a77fe03caa2b26a6622c77315b2827b1b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::GeoProcessor::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::content::GeoProcessor::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="55" column="24" bodyfile="include/content/geo_processor.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1a3dc0e0c8158c305165f1f1f763be4003" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::GeoProcessor::files_processed_</definition>
+        <argsstring></argsstring>
+        <name>files_processed_</name>
+        <qualifiedname>themis::content::GeoProcessor::files_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="56" column="17" bodyfile="include/content/geo_processor.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1ae6e8e8530c40a90df55011810517a886" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::GeoProcessor::total_features_</definition>
+        <argsstring></argsstring>
+        <name>total_features_</name>
+        <qualifiedname>themis::content::GeoProcessor::total_features_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="57" column="17" bodyfile="include/content/geo_processor.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1a822c1814a780efc4127d217efa93ed01" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::GeoProcessor::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::content::GeoProcessor::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="58" column="17" bodyfile="include/content/geo_processor.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_geo_processor_1abe19554279da1da54226107e96b014e5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::GeoProcessor::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::content::GeoProcessor::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="60" column="10" bodyfile="include/content/geo_processor.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a3dbdb2a344483a69fa11dc003173f9db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::GeoProcessor::GeoProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>GeoProcessor</name>
+        <qualifiedname>themis::content::GeoProcessor::GeoProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="22" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1af8cb15de0e1f1177d6839621ca2cbd61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::GeoProcessor::~GeoProcessor</definition>
+        <argsstring>() override</argsstring>
+        <name>~GeoProcessor</name>
+        <qualifiedname>themis::content::GeoProcessor::~GeoProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="23" column="5" bodyfile="src/content/geo_processor.cpp" bodystart="61" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1ab2736273c0983eb254605b699e85c6eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::content::GeoProcessor::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::content::GeoProcessor::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4">getInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="26" column="16" bodyfile="src/content/geo_processor.cpp" bodystart="67" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a0e75d78ed4030d5a3a03dfaf61abd576" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::GeoProcessor::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::content::GeoProcessor::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: GDALAllRegister(), OGRRegisterAll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="27" column="10" bodyfile="src/content/geo_processor.cpp" bodystart="107" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a1347098196e42ccb4c54614486eb48c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::content::GeoProcessor::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::content::GeoProcessor::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: GDALDestroyDriverManager(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="28" column="10" bodyfile="src/content/geo_processor.cpp" bodystart="133" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1afcafb553c7057d3bf85904c2d9cd9584" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::GeoProcessor::canProcess</definition>
+        <argsstring>(const std::string &amp;mime_type) const override</argsstring>
+        <name>canProcess</name>
+        <qualifiedname>themis::content::GeoProcessor::canProcess</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099">canProcess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="29" column="10" bodyfile="src/content/geo_processor.cpp" bodystart="146" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a5eb08b02ec938e5414b2b86ffab4fb3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref></type>
+        <definition>ContentExtractionResult themis::content::GeoProcessor::extract</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, const ExtractionOptions &amp;options={}) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::GeoProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d">extract</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), size(), empty(), <ref refid="namespacethemis_1_1content" kindref="compound">content()</ref>, begin(), end(), find(), parseGeoJSON(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="31" column="29" bodyfile="src/content/geo_processor.cpp" bodystart="170" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a8209c7ef2e6efb64a12f2aa7e481800b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_chunk" kindref="compound">ContentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunk &gt; themis::content::GeoProcessor::chunk</definition>
+        <argsstring>(const ContentExtractionResult &amp;result, int max_tokens, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::GeoProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(), value(), size(), std::min(), str(), <ref refid="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" kindref="member">countTokens()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="37" column="17" bodyfile="src/content/geo_processor.cpp" bodystart="286" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a9d7b12cc71b76c8858d2dbb3675e6c1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::GeoProcessor::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::content::GeoProcessor::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529">healthCheck</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="43" column="10" bodyfile="src/content/geo_processor.cpp" bodystart="326" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1ad1ada181f67f726b4aaf00bb0cbe6193" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::GeoProcessor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::GeoProcessor::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46">getStatistics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="44" column="10" bodyfile="src/content/geo_processor.cpp" bodystart="330" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a7a71aba546a5689dd7a99394458dc138" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref></type>
+        <definition>GeoExtractionData themis::content::GeoProcessor::parseGeoJSON</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseGeoJSON</name>
+        <qualifiedname>themis::content::GeoProcessor::parseGeoJSON</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse Geo JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1content" kindref="compound">content()</ref>, begin(), end(), json::parse(), value(), contains(), parseCoordinates(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="68" column="23" bodyfile="src/content/geo_processor.cpp" bodystart="347" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a683584c0bf4202f93a0fc5253ccc2b3e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref></type>
+        <definition>GeoExtractionData themis::content::GeoProcessor::parseShapefile</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const ExtractionOptions &amp;options={})</argsstring>
+        <name>parseShapefile</name>
+        <qualifiedname>themis::content::GeoProcessor::parseShapefile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Parse Shapefile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: generateVSIPath(), VSIFileFromMemBuffer(), c_str(), data(), size(), VSIFCloseL(), GDALOpenEx(), VSIUnlink(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="69" column="23" bodyfile="src/content/geo_processor.cpp" bodystart="481" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1adaf1c30856dc1b200cfd607e34ed5c47" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref></type>
+        <definition>GeoExtractionData themis::content::GeoProcessor::parseGeoTIFF</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseGeoTIFF</name>
+        <qualifiedname>themis::content::GeoProcessor::parseGeoTIFF</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse Geo TIFF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper function for GeoTIFF processing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: generateVSIPath(), VSIFileFromMemBuffer(), c_str(), data(), size(), VSIFCloseL(), GDALOpen(), VSIUnlink(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="75" column="23" bodyfile="src/content/geo_processor.cpp" bodystart="777" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a673230c9a8e10e85b8788f20bb1711ab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref></type>
+        <definition>GeoExtractionData themis::content::GeoProcessor::parseKML</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseKML</name>
+        <qualifiedname>themis::content::GeoProcessor::parseKML</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse KML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements parseKML without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="81" column="23" bodyfile="src/content/geo_processor.cpp" bodystart="446" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a9f77f48a2154b774cca4451dc71d3109" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref></type>
+        <definition>GeoExtractionData themis::content::GeoProcessor::parseGPX</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>parseGPX</name>
+        <qualifiedname>themis::content::GeoProcessor::parseGPX</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Parse GPX. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements parseGPX without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="87" column="23" bodyfile="src/content/geo_processor.cpp" bodystart="463" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1ab4e1c61977c73a42aaf9058d99062764" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref></type>
+        <definition>GeoExtractionData themis::content::GeoProcessor::parseGeoPackage</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const ExtractionOptions &amp;options={})</argsstring>
+        <name>parseGeoPackage</name>
+        <qualifiedname>themis::content::GeoProcessor::parseGeoPackage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Parse Geo Package. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: generateVSIPath(), VSIFileFromMemBuffer(), c_str(), data(), size(), VSIFCloseL(), GDALOpenEx(), VSIUnlink(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="88" column="23" bodyfile="src/content/geo_processor.cpp" bodystart="672" bodyend="768"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a5c7f908aa2eca8e0a3a981dffcf76f5c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; double, double &gt;</type>
+        <definition>std::pair&lt; double, double &gt; themis::content::GeoProcessor::calculateCentroid</definition>
+        <argsstring>(const GeoExtractionData &amp;geo)</argsstring>
+        <name>calculateCentroid</name>
+        <qualifiedname>themis::content::GeoProcessor::calculateCentroid</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref> &amp;</type>
+          <declname>geo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="90" column="15" bodyfile="src/content/geo_processor.cpp" bodystart="928" bodyend="940"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a88b7c53a8dde03f152f58444b5eda3dc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::content::GeoProcessor::calculateArea</definition>
+        <argsstring>(const GeoExtractionData &amp;geo)</argsstring>
+        <name>calculateArea</name>
+        <qualifiedname>themis::content::GeoProcessor::calculateArea</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref> &amp;</type>
+          <declname>geo</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Area. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="96" column="12" bodyfile="src/content/geo_processor.cpp" bodystart="948" bodyend="966"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_geo_processor_1a277520f200b7a8524ddf93b235ed353b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::content::GeoProcessor::calculateLength</definition>
+        <argsstring>(const GeoExtractionData &amp;geo)</argsstring>
+        <name>calculateLength</name>
+        <qualifiedname>themis::content::GeoProcessor::calculateLength</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_geo_extraction_data" kindref="compound">GeoExtractionData</ref> &amp;</type>
+          <declname>geo</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::sin(), std::cos(), std::atan2(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/geo_processor.h" line="102" column="12" bodyfile="src/content/geo_processor.cpp" bodystart="974" bodyend="1002"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::content::GeoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_geo_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::content::GeoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_geo_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/geo_processor.h" line="20" column="1" bodyfile="include/content/geo_processor.h" bodystart="20" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a88b7c53a8dde03f152f58444b5eda3dc" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>calculateArea</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a5c7f908aa2eca8e0a3a981dffcf76f5c" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>calculateCentroid</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a277520f200b7a8524ddf93b235ed353b" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>calculateLength</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1afcafb553c7057d3bf85904c2d9cd9584" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>canProcess</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a8209c7ef2e6efb64a12f2aa7e481800b" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1af31614ba54e495b217dfd17c8ce3169a" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>default_crs_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a822c1814a780efc4127d217efa93ed01" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a5eb08b02ec938e5414b2b86ffab4fb3e" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a3dc0e0c8158c305165f1f1f763be4003" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>files_processed_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1af314ee584a9fec86e7bed48d5081d8f2" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>generate_centroid_</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a3dbdb2a344483a69fa11dc003173f9db" prot="public" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>GeoProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1ab2736273c0983eb254605b699e85c6eb" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1ad1ada181f67f726b4aaf00bb0cbe6193" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a9d7b12cc71b76c8858d2dbb3675e6c1f" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a0e75d78ed4030d5a3a03dfaf61abd576" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1abe19554279da1da54226107e96b014e5" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1aca36b731f6292a56a29003d8cb072f06" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>max_features_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a7a71aba546a5689dd7a99394458dc138" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>parseGeoJSON</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1ab4e1c61977c73a42aaf9058d99062764" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>parseGeoPackage</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1adaf1c30856dc1b200cfd607e34ed5c47" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>parseGeoTIFF</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a9f77f48a2154b774cca4451dc71d3109" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>parseGPX</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a673230c9a8e10e85b8788f20bb1711ab" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>parseKML</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a683584c0bf4202f93a0fc5253ccc2b3e" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>parseShapefile</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a1347098196e42ccb4c54614486eb48c5" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a119b37b4f5ab0080b49677ce511f2659" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>simplify_geometry_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a38aafec22274f52d024561ea29d8d6ca" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>simplify_tolerance_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1a77fe03caa2b26a6622c77315b2827b1b" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1ae6e8e8530c40a90df55011810517a886" prot="private" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>total_features_</name></member>
+      <member refid="classthemis_1_1content_1_1_geo_processor_1af8cb15de0e1f1177d6839621ca2cbd61" prot="public" virt="non-virtual"><scope>themis::content::GeoProcessor</scope><name>~GeoProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" virt="virtual"><scope>themis::content::GeoProcessor</scope><name>~IContentProcessorPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

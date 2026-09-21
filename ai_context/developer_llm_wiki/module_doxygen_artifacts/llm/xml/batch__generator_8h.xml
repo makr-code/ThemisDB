@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="batch__generator_8h" kind="file" language="C++">
+    <compoundname>batch_generator.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="training__data__iterator_8h" local="yes">training_data_iterator.h</includes>
+    <includedby refid="batch__generator_8cpp" local="yes">src/llm/batch_generator.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/batch_generator.h</label>
+        <link refid="batch__generator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>training_data_iterator.h</label>
+        <link refid="training__data__iterator_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>exporters/jsonl_llm_exporter.h</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="10">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="12">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/batch_generator.h</label>
+        <link refid="batch__generator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/batch_generator.cpp</label>
+        <link refid="batch__generator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_batch_config" prot="public">themis::llm::BatchConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_training_batch" prot="public">themis::llm::TrainingBatch</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_batch_statistics" prot="public">themis::llm::BatchStatistics</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_batch_generator" prot="public">themis::llm::BatchGenerator</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_batch_generator_factory" prot="public">themis::llm::BatchGeneratorFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__data__iterator_8h" kindref="compound">training_data_iterator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1" kindref="member">SamplingStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a39403cd282d944abcd4f14996cb71bcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a39403cd282d944abcd4f14996cb71bcb" kindref="member">SEQUENTIAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequential<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a170e02e86972c2be8559884cc3c12254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a170e02e86972c2be8559884cc3c12254" kindref="member">RANDOM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Random<sp/>sampling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a0ea498e9e5b064b5c8d63d4324c45617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a0ea498e9e5b064b5c8d63d4324c45617" kindref="member">STRATIFIED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stratified<sp/>sampling<sp/>(balanced<sp/>by<sp/>category)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a3873396d1cc86ee2ec4bd042d90f55ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a3873396d1cc86ee2ec4bd042d90f55ef" kindref="member">CURRICULUM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Curriculum<sp/>learning<sp/>(easy<sp/>to<sp/>hard)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1ae9d8ebf89324671ee286fa7bf1a2c16c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1ae9d8ebf89324671ee286fa7bf1a2c16c" kindref="member">WEIGHTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weighted<sp/>sampling<sp/>by<sp/>quality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_batch_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_batch_config" kindref="compound">BatchConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_batch_config_1a549b3e050335cce748a65ff9d033d3bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1a549b3e050335cce748a65ff9d033d3bc" kindref="member">batch_size</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_batch_config_1ac47b00bb596a7eb3169c7bf2316453a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1ac47b00bb596a7eb3169c7bf2316453a1" kindref="member">max_sequence_length</ref><sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_batch_config_1adc81c062d963b088aca3c6194bef7d1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1adc81c062d963b088aca3c6194bef7d1c" kindref="member">shuffle</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_batch_config_1a2fedc55cc786fd4ad8d3a5d0f6c23d8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1" kindref="member">SamplingStrategy</ref><sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1a2fedc55cc786fd4ad8d3a5d0f6c23d8b" kindref="member">strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a473ddb2439c72146a1926eb64a943ef1a170e02e86972c2be8559884cc3c12254" kindref="member">SamplingStrategy::RANDOM</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefetching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_batch_config_1af676ba48748ed2928eb507add1b50c7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1af676ba48748ed2928eb507add1b50c7e" kindref="member">enable_prefetch</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_batch_config_1a62d2a31bd94e115f3d52e0d03317a605" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1a62d2a31bd94e115f3d52e0d03317a605" kindref="member">prefetch_batches</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Padding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_batch_config_1a4ee6d09bdbece254239a14f0aa1bb4e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1a4ee6d09bdbece254239a14f0aa1bb4e6" kindref="member">pad_to_max_length</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_batch_config_1aaab4c2a8f5ba64ca089c1ddc8e6776cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1aaab4c2a8f5ba64ca089c1ddc8e6776cf" kindref="member">padding_side</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;right&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;left&quot;<sp/>or<sp/>&quot;right&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1_batch_config_1a1fe5dad5491a19f168ec2db1eae34dba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1a1fe5dad5491a19f168ec2db1eae34dba" kindref="member">min_quality_score</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_batch_config_1a2fed932791d6d918bb882ccb5613776e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1a2fed932791d6d918bb882ccb5613776e" kindref="member">min_length</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_batch_config_1a58957c91626653e3d38faed3fb436b04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1a58957c91626653e3d38faed3fb436b04" kindref="member">max_length</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_batch_config_1ad389f13d5340e0bb2172cd531c01081d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1ad389f13d5340e0bb2172cd531c01081d" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1_batch_config_1afe78cfb2f086a624b20f400dd0f9bfdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config" kindref="compound">BatchConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_batch_config_1afe78cfb2f086a624b20f400dd0f9bfdf" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_training_batch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_training_batch" kindref="compound">TrainingBatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1_training_batch_1a2031198dcae89afe6eb41edd4db2c499" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1a2031198dcae89afe6eb41edd4db2c499" kindref="member">~TrainingBatch</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_training_batch_1ad412f3cfe25ba96e4e96e8e7f66c5712" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TrainingSample&gt;<sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1ad412f3cfe25ba96e4e96e8e7f66c5712" kindref="member">examples</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokenized<sp/>data<sp/>(prepared<sp/>for<sp/>model<sp/>input)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_training_batch_1a36560305f45c25fd14aa16f29d7acf63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1a36560305f45c25fd14aa16f29d7acf63" kindref="member">input_ids</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_training_batch_1a7754b1430c7d1d89474d166f7d17e9a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1a7754b1430c7d1d89474d166f7d17e9a8" kindref="member">attention_mask</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_training_batch_1afda319eb8eaf30b3e6bc16827edd85ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1afda319eb8eaf30b3e6bc16827edd85ab" kindref="member">labels</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Batch<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_training_batch_1aaeb61c947a7b3894dd6f68a7dd7f4c2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1aaeb61c947a7b3894dd6f68a7dd7f4c2f" kindref="member">batch_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1_training_batch_1a04075e88a5945a8cc42ef4808064fb14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1a04075e88a5945a8cc42ef4808064fb14" kindref="member">num_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_training_batch_1a314defc3fa565a69a1776a5a33c9a41d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1a314defc3fa565a69a1776a5a33c9a41d" kindref="member">avg_quality_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-model<sp/>enrichment<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1_training_batch_1a1c91d798af13b56206f02204b3980b5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1a1c91d798af13b56206f02204b3980b5d" kindref="member">graph_contexts</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_training_batch_1a5df3fccbfad0a1809d9f11f8e1d80ab8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1a5df3fccbfad0a1809d9f11f8e1d80ab8" kindref="member">vector_similarities</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_training_batch_1ab0d0890cfba938bb2d507d21abaa2291" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_training_batch_1ab0d0890cfba938bb2d507d21abaa2291" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1_batch_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_batch_statistics" kindref="compound">BatchStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1_batch_statistics_1a148ee4149099efcf924a4d788b9fae87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a148ee4149099efcf924a4d788b9fae87" kindref="member">~BatchStatistics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1_batch_statistics_1a17c2f7db138ea3273af113de6e385615" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a17c2f7db138ea3273af113de6e385615" kindref="member">total_batches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1_batch_statistics_1a60fe228221ae7606a7fc8ef4f2646a2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a60fe228221ae7606a7fc8ef4f2646a2a" kindref="member">total_examples</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1_batch_statistics_1a7bb4311f3c9210e938ae81aa326e402b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a7bb4311f3c9210e938ae81aa326e402b" kindref="member">total_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_batch_statistics_1ab55eaa2f8b00d5026c032cfdc0b1ba32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1ab55eaa2f8b00d5026c032cfdc0b1ba32" kindref="member">filtered_examples</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>distribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm_1_1_batch_statistics_1a7959e1863694a526bbae36c2dcf9ae77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a7959e1863694a526bbae36c2dcf9ae77" kindref="member">min_quality</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1llm_1_1_batch_statistics_1a4f3e33fcb6d02a8fb65ec8accc66ff9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a4f3e33fcb6d02a8fb65ec8accc66ff9e" kindref="member">max_quality</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1_batch_statistics_1a195e12d619f4facd618bb65f52861f37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a195e12d619f4facd618bb65f52861f37" kindref="member">avg_quality</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Length<sp/>distribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1llm_1_1_batch_statistics_1a5ce74be218f49cb52a62a0e259d5f193" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a5ce74be218f49cb52a62a0e259d5f193" kindref="member">min_length</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1llm_1_1_batch_statistics_1a565f86c1c8278318795686821ff16be7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a565f86c1c8278318795686821ff16be7" kindref="member">max_length</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1llm_1_1_batch_statistics_1a977f86b99f648944716f7de358468689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a977f86b99f648944716f7de358468689" kindref="member">avg_length</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1_batch_statistics_1a7453f53de71e1d0f7b5a13ece0409e3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics_1a7453f53de71e1d0f7b5a13ece0409e3c" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1llm_1_1_batch_generator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_batch_generator_1a5264b382f508f1556b1f627c4658bf7d" kindref="member">BatchGenerator</ref><sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1llm_1_1_batch_generator_1a5264b382f508f1556b1f627c4658bf7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1a5264b382f508f1556b1f627c4658bf7d" kindref="member">BatchGenerator</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainingDataIterator&gt;<sp/>data_iterator,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config" kindref="compound">BatchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1llm_1_1_batch_generator_1a3a4c571ff430d1fa5f1c86a82ef245d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1a3a4c571ff430d1fa5f1c86a82ef245d1" kindref="member">~BatchGenerator</ref>();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1llm_1_1_batch_generator_1aeba5dac9ee7d5108ef9d0e962cec9acf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TrainingBatch&gt;<sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1aeba5dac9ee7d5108ef9d0e962cec9acf" kindref="member">nextBatch</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1llm_1_1_batch_generator_1af49a178055d1c63ee87e347cd8f4c6cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1af49a178055d1c63ee87e347cd8f4c6cc" kindref="member">reset</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>reshuffle<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1llm_1_1_batch_generator_1ad18fa29fc324fcdd834d74c427038989" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1ad18fa29fc324fcdd834d74c427038989" kindref="member">getBatchCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1llm_1_1_batch_generator_1affd6176082224593890778cb335dc3b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1affd6176082224593890778cb335dc3b3" kindref="member">getCurrentBatchIndex</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1llm_1_1_batch_generator_1a869d7039ced39fc7b5957300b00c9045" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1a869d7039ced39fc7b5957300b00c9045" kindref="member">hasNextBatch</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1llm_1_1_batch_generator_1a87e4515f758ee5617fd889a1ccd84301" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_batch_statistics" kindref="compound">BatchStatistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1a87e4515f758ee5617fd889a1ccd84301" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1llm_1_1_batch_generator_1a3701a0d07e2bc63e82e95a89f00574bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1a3701a0d07e2bc63e82e95a89f00574bd" kindref="member">setFilter</ref>(std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrainingSample&amp;)&gt;<sp/>filter);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1llm_1_1_batch_generator_1a73c0d6c5edb6bd8678246d4b4c09a09c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_1a73c0d6c5edb6bd8678246d4b4c09a09c" kindref="member">setPrefetchEnabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>prefetchNextBatch();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Apply<sp/>sampling<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>sampleIndices(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_count,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokenize<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>tokenizeBatch(<ref refid="structthemis_1_1llm_1_1_training_batch" kindref="compound">TrainingBatch</ref>&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Apply<sp/>padding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applyPadding(<ref refid="structthemis_1_1llm_1_1_training_batch" kindref="compound">TrainingBatch</ref>&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1llm_1_1_batch_generator_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_batch_generator_factory" kindref="compound">BatchGeneratorFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1llm_1_1_batch_generator_factory_1ab307cf13e71df5d7e2e9e2f0fddecf9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;BatchGenerator&gt;<sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_factory_1ab307cf13e71df5d7e2e9e2f0fddecf9f" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainingDataIterator&gt;<sp/>data_iterator</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1llm_1_1_batch_generator_factory_1ac8ffac6b58c64ce300e79c31fd8c9f96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;BatchGenerator&gt;<sp/><ref refid="classthemis_1_1llm_1_1_batch_generator_factory_1ac8ffac6b58c64ce300e79c31fd8c9f96" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainingDataIterator&gt;<sp/>data_iterator,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_batch_config" kindref="compound">BatchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/batch_generator.h"/>
+  </compounddef>
+</doxygen>

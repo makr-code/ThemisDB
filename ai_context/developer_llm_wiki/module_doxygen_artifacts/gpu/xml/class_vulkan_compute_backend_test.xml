@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_vulkan_compute_backend_test" kind="class" language="C++" prot="public">
+    <compoundname>VulkanComputeBackendTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_vulkan_compute_backend_test_1a7b990f52901fc1ea0d5fe629ea1dc1da" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void VulkanComputeBackendTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>VulkanComputeBackendTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vulkan_backend.cpp" line="27" column="10" bodyfile="tests/gpu/test_gpu_vulkan_backend.cpp" bodystart="27" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vulkan_compute_backend_test_1a629b3192a42c7c2bb7783798a3640d40" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void VulkanComputeBackendTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>VulkanComputeBackendTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vulkan_backend.cpp" line="36" column="10" bodyfile="tests/gpu/test_gpu_vulkan_backend.cpp" bodystart="36" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vulkan_compute_backend_test_1abaa3941bd82c1a22ec0ebacad5339b7a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>VulkanComputeBackend &amp;</type>
+        <definition>VulkanComputeBackend &amp; VulkanComputeBackendTest::backend</definition>
+        <argsstring>()</argsstring>
+        <name>backend</name>
+        <qualifiedname>VulkanComputeBackendTest::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vulkan_backend.cpp" line="45" column="26" bodyfile="tests/gpu/test_gpu_vulkan_backend.cpp" bodystart="45" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>VulkanComputeBackendTest</label>
+        <link refid="class_vulkan_compute_backend_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>VulkanComputeBackendTest</label>
+        <link refid="class_vulkan_compute_backend_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_vulkan_backend.cpp" line="25" column="1" bodyfile="tests/gpu/test_gpu_vulkan_backend.cpp" bodystart="25" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_vulkan_compute_backend_test_1abaa3941bd82c1a22ec0ebacad5339b7a" prot="protected" virt="non-virtual"><scope>VulkanComputeBackendTest</scope><name>backend</name></member>
+      <member refid="class_vulkan_compute_backend_test_1a7b990f52901fc1ea0d5fe629ea1dc1da" prot="protected" virt="non-virtual"><scope>VulkanComputeBackendTest</scope><name>SetUp</name></member>
+      <member refid="class_vulkan_compute_backend_test_1a629b3192a42c7c2bb7783798a3640d40" prot="protected" virt="non-virtual"><scope>VulkanComputeBackendTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

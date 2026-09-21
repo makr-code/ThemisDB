@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_fim_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::FimImporter</compoundname>
+    <includes refid="fim__importer_8h" local="no">fim_importer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" prot="public" static="no">
+        <type>std::function&lt; std::string(std::string_view url)&gt;</type>
+        <definition>using themis::process::FimImporter::HttpFetchFn = std::function&lt;std::string(std::string_view url)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HttpFetchFn</name>
+        <qualifiedname>themis::process::FimImporter::HttpFetchFn</qualifiedname>
+        <briefdescription>
+<para>Callback type for HTTP GET operations used by <ref refid="classthemis_1_1process_1_1_fim_importer_1afe85763df89d6355e91635459ea8bf0e" kindref="member">importFromFitkoApi()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The function receives the full URL string and returns the response body as a UTF-8 string. An empty string or thrown exception is treated as a fetch failure. Callers inject a libcurl-backed implementation at startup; unit tests inject a scripted response. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="75" column="5" bodyfile="include/process/fim_importer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_fim_importer_1aa3bef8b876bf9b4266eb551cd8045e36" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref></type>
+        <definition>HttpFetchFn themis::process::FimImporter::http_fetch_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_fetch_fn_</name>
+        <qualifiedname>themis::process::FimImporter::http_fetch_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional HTTP GET backend; null = stub path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="161" column="17" bodyfile="include/process/fim_importer.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_fim_importer_1a55327dbd45548b3f01586a48cfd1992a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::FimImporter::FimImporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>FimImporter</name>
+        <qualifiedname>themis::process::FimImporter::FimImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_fim_importer_1a383cdc88650ddcf6e3d93a51b4e226ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::FimImporter::setHttpFetchFn</definition>
+        <argsstring>(HttpFetchFn fn)</argsstring>
+        <name>setHttpFetchFn</name>
+        <qualifiedname>themis::process::FimImporter::setHttpFetchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject an HTTP fetch backend for <ref refid="classthemis_1_1process_1_1_fim_importer_1afe85763df89d6355e91635459ea8bf0e" kindref="member">importFromFitkoApi()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <ref refid="classthemis_1_1process_1_1_fim_importer_1afe85763df89d6355e91635459ea8bf0e" kindref="member">importFromFitkoApi()</ref> delegates the HTTP GET call to <computeroutput>fn</computeroutput> instead of returning the &quot;not yet implemented&quot; error result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that performs the HTTP GET and returns the response body. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="87" column="10" bodyfile="include/process/fim_importer.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_fim_importer_1aabaf4a0de3bc8561778b9d03c44095cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_fim_model_result" kindref="compound">FimModelResult</ref> &gt;</type>
+        <definition>std::vector&lt; FimModelResult &gt; themis::process::FimImporter::importFimCatalogue</definition>
+        <argsstring>(std::string_view catalogue_xml, ProcessDomain domain=ProcessDomain::ADMINISTRATION)</argsstring>
+        <name>importFimCatalogue</name>
+        <qualifiedname>themis::process::FimImporter::importFimCatalogue</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>catalogue_xml</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+          <declname>domain</declname>
+          <defval><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref></defval>
+        </param>
+        <briefdescription>
+<para>Parse a FIM Prozessbibliothek XML catalogue document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1process_1_1_fim_importer_1aabaf4a0de3bc8561778b9d03c44095cd" kindref="member">FimImporter::importFimCatalogue</ref> ─────────────────────────────────────────────────────────────────────────────</para>
+<para>The catalogue may contain multiple <computeroutput>&lt;prozess&gt;</computeroutput> elements. Each element is converted to a separate <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> with notation BPMN_2_0 and the supplied <computeroutput>domain</computeroutput> classification.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>catalogue_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw catalogue XML string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain to assign to imported models. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One <ref refid="structthemis_1_1process_1_1_fim_model_result" kindref="compound">FimModelResult</ref> per <computeroutput>&lt;prozess&gt;</computeroutput> element found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">catalogue_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>&lt; Position in catalogue_xml after &lt;prozess&gt; open</para>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="121" column="17" bodyfile="src/process/fim_importer.cpp" bodystart="345" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_fim_importer_1a92099f44099a5339c8b0a650dace0a36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_fim_model_result" kindref="compound">FimModelResult</ref></type>
+        <definition>FimModelResult themis::process::FimImporter::importSingleModel</definition>
+        <argsstring>(std::string_view bpmn_xml, ProcessDomain domain=ProcessDomain::ADMINISTRATION)</argsstring>
+        <name>importSingleModel</name>
+        <qualifiedname>themis::process::FimImporter::importSingleModel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>bpmn_xml</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+          <declname>domain</declname>
+          <defval><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref></defval>
+        </param>
+        <briefdescription>
+<para>Import a single FIM BPMN 2.0 XML document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1process_1_1_fim_importer_1a92099f44099a5339c8b0a650dace0a36" kindref="member">FimImporter::importSingleModel</ref> ─────────────────────────────────────────────────────────────────────────────</para>
+<para>Delegates BPMN parsing to <ref refid="classthemis_1_1process_1_1_bpmn_serializer" kindref="compound">BpmnSerializer</ref> and wraps the result in a <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bpmn_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>BPMN 2.0 XML string (FIM-compliant). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain classification for the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_fim_model_result" kindref="compound">FimModelResult</ref> with populated record on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bpmn_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="135" column="20" bodyfile="src/process/fim_importer.cpp" bodystart="495" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_fim_importer_1afe85763df89d6355e91635459ea8bf0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_fim_model_result" kindref="compound">FimModelResult</ref> &gt;</type>
+        <definition>std::vector&lt; FimModelResult &gt; themis::process::FimImporter::importFromFitkoApi</definition>
+        <argsstring>(std::string_view api_base_url, ProcessDomain domain=ProcessDomain::ADMINISTRATION)</argsstring>
+        <name>importFromFitkoApi</name>
+        <qualifiedname>themis::process::FimImporter::importFromFitkoApi</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>api_base_url</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+          <declname>domain</declname>
+          <defval><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref></defval>
+        </param>
+        <briefdescription>
+<para>Fetch and import process models from the FITKO REST API. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1process_1_1_fim_importer_1afe85763df89d6355e91635459ea8bf0e" kindref="member">FimImporter::importFromFitkoApi</ref> ─────────────────────────────────────────────────────────────────────────────</para>
+<para>When an <ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref> has been injected via <ref refid="classthemis_1_1process_1_1_fim_importer_1a383cdc88650ddcf6e3d93a51b4e226ba" kindref="member">setHttpFetchFn()</ref>, calls <computeroutput>api_base_url</computeroutput> + &quot;/prozesse&quot; and parses the JSON response envelope (expected: <computeroutput>{"items": [{"bpmnXml": "..."}]}</computeroutput>), importing each BPMN payload via <ref refid="classthemis_1_1process_1_1_fim_importer_1a92099f44099a5339c8b0a650dace0a36" kindref="member">importSingleModel()</ref>. Without an injected fetch function, returns a single error result explaining that HTTP transport is not configured.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>api_base_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base URL of the FITKO FIM API (without trailing slash). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain classification. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One <ref refid="structthemis_1_1process_1_1_fim_model_result" kindref="compound">FimModelResult</ref> per model retrieved.</para>
+</simplesect>
+<simplesect kind="note"><para>This function emits SPDLOG_WARN entries for non-fatal API errors (e.g. individual model payloads that fail to parse).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">api_base_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="156" column="17" bodyfile="src/process/fim_importer.cpp" bodystart="547" bodyend="638"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_fim_importer_1aa50e5ebcd285f9bb7175f4129eb1b530" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref></type>
+        <definition>FimImporter::HttpFetchFn themis::process::FimImporter::makeCurlHttpFetchFn</definition>
+        <argsstring>()</argsstring>
+        <name>makeCurlHttpFetchFn</name>
+        <qualifiedname>themis::process::FimImporter::makeCurlHttpFetchFn</qualifiedname>
+        <briefdescription>
+<para>Create a libcurl-backed <ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref> for use with <ref refid="classthemis_1_1process_1_1_fim_importer_1a383cdc88650ddcf6e3d93a51b4e226ba" kindref="member">setHttpFetchFn()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Factory: real libcurl-backed <ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref> Guarded by THEMIS_FIM_HAS_CURL (set when THEMIS_HAS_CURL or THEMIS_ENABLE_CURL is defined and libcurl is linked).</para>
+<para>When built with <computeroutput>THEMIS_HAS_CURL</computeroutput> defined (libcurl linked), returns a concrete <ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref> that performs a real HTTP GET using libcurl with a 10-second timeout and TLS peer verification enabled. The returned fn is safe to use from multiple threads (each call owns its own CURL handle).</para>
+<para>When built without libcurl, returns an empty <computeroutput>std::function</computeroutput> so that <ref refid="classthemis_1_1process_1_1_fim_importer_1afe85763df89d6355e91635459ea8bf0e" kindref="member">importFromFitkoApi()</ref> falls through to the &quot;not implemented&quot; fallback.</para>
+<para><bold>Usage at startup:</bold> <programlisting><codeline><highlight class="normal">importer.setHttpFetchFn(<ref refid="classthemis_1_1process_1_1_fim_importer_1aa50e5ebcd285f9bb7175f4129eb1b530" kindref="member">FimImporter::makeCurlHttpFetchFn</ref>());</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A ready-to-use <ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref> or an empty function when libcurl is unavailable.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Returns an empty function otherwise. ───────────────────────────────────────────────────────────────────────────── </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="108" column="24" bodyfile="src/process/fim_importer.cpp" bodystart="646" bodyend="700"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_fim_importer_1a252aa6409f7135d4ab219703327bd484" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></type>
+        <definition>static ProcessModelRecord themis::process::FimImporter::buildRecord_</definition>
+        <argsstring>(const BpmnSerializer::ImportResult &amp;ir, ProcessDomain domain)</argsstring>
+        <name>buildRecord_</name>
+        <qualifiedname>themis::process::FimImporter::buildRecord_</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">BpmnSerializer::ImportResult</ref> &amp;</type>
+          <declname>ir</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="164" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Imports process models from the FIM Prozessbibliothek (FITKO 2024). </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1process_1_1_fim_importer_1autotoc_md7_1s1"><sect2 id="classthemis_1_1process_1_1_fim_importer_1autotoc_md7">
+<title>Supported input formats</title><para><itemizedlist>
+<listitem><para>FIM catalogue XML (<computeroutput>&lt;prozessbibliothek&gt;</computeroutput> root element) containing one or more <computeroutput>&lt;prozess&gt;</computeroutput> entries whose body is a BPMN 2.0 XML fragment.</para>
+</listitem><listitem><para>Individual FIM BPMN 2.0 XML files (delegated to <ref refid="classthemis_1_1process_1_1_bpmn_serializer" kindref="compound">BpmnSerializer</ref>).</para>
+</listitem><listitem><para>FITKO REST API responses (JSON envelope wrapping a BPMN XML payload).</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1process_1_1_fim_importer_1autotoc_md8_1s1"><sect2 id="classthemis_1_1process_1_1_fim_importer_1autotoc_md8">
+<title>Usage</title><para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1process_1_1_fim_importer_1a55327dbd45548b3f01586a48cfd1992a" kindref="member">FimImporter</ref><sp/>imp;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>imp.importFimCatalogue(xml_string,<sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.ok)<sp/>manager.save(r.record);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/process/fim_importer.h" line="65" column="1" bodyfile="include/process/fim_importer.h" bodystart="65" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1a252aa6409f7135d4ab219703327bd484" prot="private" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>buildRecord_</name></member>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1a55327dbd45548b3f01586a48cfd1992a" prot="public" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>FimImporter</name></member>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1aa3bef8b876bf9b4266eb551cd8045e36" prot="private" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>http_fetch_fn_</name></member>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" prot="public" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>HttpFetchFn</name></member>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1aabaf4a0de3bc8561778b9d03c44095cd" prot="public" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>importFimCatalogue</name></member>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1afe85763df89d6355e91635459ea8bf0e" prot="public" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>importFromFitkoApi</name></member>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1a92099f44099a5339c8b0a650dace0a36" prot="public" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>importSingleModel</name></member>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1aa50e5ebcd285f9bb7175f4129eb1b530" prot="public" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>makeCurlHttpFetchFn</name></member>
+      <member refid="classthemis_1_1process_1_1_fim_importer_1a383cdc88650ddcf6e3d93a51b4e226ba" prot="public" virt="non-virtual"><scope>themis::process::FimImporter</scope><name>setHttpFetchFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

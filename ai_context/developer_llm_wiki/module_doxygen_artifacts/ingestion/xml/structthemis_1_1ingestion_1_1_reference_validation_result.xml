@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_reference_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::ReferenceValidationResult</compoundname>
+    <includes refid="agentic__reference__validator_8h" local="no">agentic_reference_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_reference_validation_result_1a0899b73c6bc08127c841489d8cdf4adb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_legal_reference" kindref="compound">LegalReference</ref></type>
+        <definition>LegalReference themis::ingestion::ReferenceValidationResult::reference</definition>
+        <argsstring></argsstring>
+        <name>reference</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationResult::reference</qualifiedname>
+        <briefdescription>
+<para>The reference that was checked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="73" column="20" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_reference_validation_result_1ae49e61d64ad035c1dc792ead5cff79e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ReferenceValidationResult::found</definition>
+        <argsstring></argsstring>
+        <name>found</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationResult::found</qualifiedname>
+        <briefdescription>
+<para>true when the reference resolves in the knowledge base </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="74" column="20" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_reference_validation_result_1adfc64630989209b9fcee8794cce4ffb9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::ReferenceValidationResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationResult::confidence</qualifiedname>
+        <briefdescription>
+<para>Confidence in the validation result [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="75" column="20" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_reference_validation_result_1abad4cb18ee8dd13f2e4c325682965b8f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ReferenceValidationResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationResult::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable status or error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="76" column="20" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_reference_validation_result_1aa25b279d3baf459658be2f75db2e6ffe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ReferenceValidationResult::ReferenceValidationResult</definition>
+        <argsstring>()</argsstring>
+        <name>ReferenceValidationResult</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationResult::ReferenceValidationResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="78" column="5" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_reference_validation_result_1acb00d734b820ec07f2fda18306a9f577" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ReferenceValidationResult::ReferenceValidationResult</definition>
+        <argsstring>(LegalReference ref, bool found_, double conf, std::string msg=&quot;&quot;)</argsstring>
+        <name>ReferenceValidationResult</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationResult::ReferenceValidationResult</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_legal_reference" kindref="compound">LegalReference</ref></type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>found_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conf</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="79" column="5" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="79" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of validating a single cross-reference. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::LegalReference</label>
+        <link refid="structthemis_1_1ingestion_1_1_legal_reference"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::ReferenceValidationResult</label>
+        <link refid="structthemis_1_1ingestion_1_1_reference_validation_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>reference</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/agentic_reference_validator.h" line="72" column="1" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="72" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_result_1adfc64630989209b9fcee8794cce4ffb9" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_result_1ae49e61d64ad035c1dc792ead5cff79e8" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationResult</scope><name>found</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_result_1abad4cb18ee8dd13f2e4c325682965b8f" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_result_1a0899b73c6bc08127c841489d8cdf4adb" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationResult</scope><name>reference</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_result_1aa25b279d3baf459658be2f75db2e6ffe" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationResult</scope><name>ReferenceValidationResult</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_result_1acb00d734b820ec07f2fda18306a9f577" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationResult</scope><name>ReferenceValidationResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

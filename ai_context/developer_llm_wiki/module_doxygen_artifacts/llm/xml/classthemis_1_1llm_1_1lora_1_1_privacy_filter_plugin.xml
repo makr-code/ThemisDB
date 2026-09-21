@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::PrivacyFilterPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" prot="public" virt="non-virtual">themis::llm::lora::BaseFeedbackPlugin</basecompoundref>
+    <includes refid="feedback__plugin_8h" local="no">feedback_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a4e51a1b9851d3dcf459d02ce5e0a78aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::PrivacyFilterPlugin::~PrivacyFilterPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~PrivacyFilterPlugin</name>
+        <qualifiedname>themis::llm::lora::PrivacyFilterPlugin::~PrivacyFilterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a166870581df09601aa1134f949a3fedb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PrivacyFilterPlugin::process</definition>
+        <argsstring>(Feedback &amp;feedback) override</argsstring>
+        <name>process</name>
+        <qualifiedname>themis::llm::lora::PrivacyFilterPlugin::process</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7d3d8625b623aa482e2db4d8773ed51a">process</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref> &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ <ref refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin" kindref="compound">PrivacyFilterPlugin</ref> Implementation ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: email_pattern(), std::regex_replace(), phone_pattern(), cc_pattern(), ssn_pattern(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="79" column="10" bodyfile="src/llm/lora_framework/feedback_plugin.cpp" bodystart="27" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a06454ff4f00a061838515435fac5d054" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::PrivacyFilterPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::lora::PrivacyFilterPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7e5acd991ac8a9d81b2fa500caac48c0">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="80" column="17" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::BaseFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::FeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::PrivacyFilterPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::BaseFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::FeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::PrivacyFilterPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/feedback_plugin.h" line="76" column="1" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="76" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a06454ff4f00a061838515435fac5d054" prot="public" virt="virtual"><scope>themis::llm::lora::PrivacyFilterPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a65ab7213e5ed159aa019a0b5294abe5d" prot="public" virt="virtual"><scope>themis::llm::lora::PrivacyFilterPlugin</scope><name>onTrainingTrigger</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a166870581df09601aa1134f949a3fedb" prot="public" virt="virtual"><scope>themis::llm::lora::PrivacyFilterPlugin</scope><name>process</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a1bfad4661bb7411cfce7ce0989f4696e" prot="public" virt="virtual"><scope>themis::llm::lora::PrivacyFilterPlugin</scope><name>validate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1afe83ca0c780ba5f6b3802898bd688c68" prot="public" virt="non-virtual"><scope>themis::llm::lora::PrivacyFilterPlugin</scope><name>~BaseFeedbackPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a389b7d5762d2f99a345aa3a11b76eb4c" prot="public" virt="virtual"><scope>themis::llm::lora::PrivacyFilterPlugin</scope><name>~FeedbackPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a4e51a1b9851d3dcf459d02ce5e0a78aa" prot="public" virt="non-virtual"><scope>themis::llm::lora::PrivacyFilterPlugin</scope><name>~PrivacyFilterPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

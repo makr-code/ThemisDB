@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_large_element_count_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LargeElementCountStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_large_element_count_stress_1a585144212befed79d3eabdb1ff480867" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::LargeElementCountStress::element_count</definition>
+        <argsstring></argsstring>
+        <name>element_count</name>
+        <qualifiedname>themis::process::LargeElementCountStress::element_count</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Element count for this scenario (default: 10,000). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="154" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_large_element_count_stress_1a7ccf72960ad3ce6c67816f04cdaa0f82" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::LargeElementCountStress::expected_latency_p95_ms</definition>
+        <argsstring></argsstring>
+        <name>expected_latency_p95_ms</name>
+        <qualifiedname>themis::process::LargeElementCountStress::expected_latency_p95_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Expected latency ceiling (ms) at P95. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="157" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_large_element_count_stress_1a491eeede43003a13f86f784eff9ba99b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::LargeElementCountStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::LargeElementCountStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with large element count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="160" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_large_element_count_stress_1af96d33d570be21ee6d0d93288c4c7bfa" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::LargeElementCountStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::LargeElementCountStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success for this scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="163" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_large_element_count_stress_1acecb83c0e9f621e3fe0099b6ef311f7b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::LargeElementCountStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::LargeElementCountStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="165" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="165" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Large element count stress scenario for BPMN parser. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> Process model with &gt;10,000 nodes, gateways, and transitions <linebreak/>
+ <bold>Element Count:</bold> 10,000+ (configurable) <linebreak/>
+ <bold>Expected Behavior:</bold> Success in &lt;500 ms; or graceful failure with error code <linebreak/>
+ <bold>Trigger:</bold> <computeroutput>PROC_MAX_ELEMENTS_EXCEEDED</computeroutput> if element count exceeded <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Deserialization succeeds or fails with explicit error</para>
+</listitem><listitem><para>Latency &lt;500 ms (P95)</para>
+</listitem><listitem><para>No incomplete or corrupted model state</para>
+</listitem><listitem><para>Memory freed on failure </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="152" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="152" bodyend="168"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_large_element_count_stress_1acecb83c0e9f621e3fe0099b6ef311f7b" prot="public" virt="non-virtual"><scope>themis::process::LargeElementCountStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_large_element_count_stress_1a585144212befed79d3eabdb1ff480867" prot="public" virt="non-virtual"><scope>themis::process::LargeElementCountStress</scope><name>element_count</name></member>
+      <member refid="structthemis_1_1process_1_1_large_element_count_stress_1a7ccf72960ad3ce6c67816f04cdaa0f82" prot="public" virt="non-virtual"><scope>themis::process::LargeElementCountStress</scope><name>expected_latency_p95_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_large_element_count_stress_1a491eeede43003a13f86f784eff9ba99b" prot="public" virt="non-virtual"><scope>themis::process::LargeElementCountStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_large_element_count_stress_1af96d33d570be21ee6d0d93288c4c7bfa" prot="public" virt="non-virtual"><scope>themis::process::LargeElementCountStress</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_metric_labels" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::MetricLabels</compoundname>
+    <includes refid="metric__labels_8h" local="no">metric_labels.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a472de237eae1d9f68b3568cde13eb868" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">IMetrics::Labels</ref></type>
+        <definition>IMetrics::Labels themis::core::concerns::MetricLabels::labels_</definition>
+        <argsstring></argsstring>
+        <name>labels_</name>
+        <qualifiedname>themis::core::concerns::MetricLabels::labels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="46" column="22" bodyfile="include/core/concerns/metric_labels.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a2ff0230636d71ecb3385bddbb550ed8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::MetricLabels::MetricLabels</definition>
+        <argsstring>()=default</argsstring>
+        <name>MetricLabels</name>
+        <qualifiedname>themis::core::concerns::MetricLabels::MetricLabels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="23" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a043f8d84f9dd26d33425d82b112a25aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a2ff0230636d71ecb3385bddbb550ed8b" kindref="member">MetricLabels</ref> &amp;</type>
+        <definition>MetricLabels &amp; themis::core::concerns::MetricLabels::add</definition>
+        <argsstring>(std::string_view key, std::string_view value)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::core::concerns::MetricLabels::add</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="32" column="18" bodyfile="include/core/concerns/metric_labels.h" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a9445ccac63f7fd79e3f19ab5f7d8f5eb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">IMetrics::Labels</ref></type>
+        <definition>IMetrics::Labels themis::core::concerns::MetricLabels::toLabels</definition>
+        <argsstring>() const</argsstring>
+        <name>toLabels</name>
+        <qualifiedname>themis::core::concerns::MetricLabels::toLabels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="37" column="22" bodyfile="include/core/concerns/metric_labels.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_metric_labels_1ac9869fe9cc58f07d8c86cfe039f35602" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::MetricLabels::operator IMetrics::Labels</definition>
+        <argsstring>() const</argsstring>
+        <name>operator IMetrics::Labels</name>
+        <qualifiedname>themis::core::concerns::MetricLabels::Labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="39" column="5" bodyfile="include/core/concerns/metric_labels.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_metric_labels_1aaa8bb8306fab42d526f9e26a3f4f683e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::MetricLabels::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::core::concerns::MetricLabels::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="41" column="10" bodyfile="include/core/concerns/metric_labels.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_metric_labels_1af849a8cc34b895928c888673d25d631c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::core::concerns::MetricLabels::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::core::concerns::MetricLabels::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="43" column="17" bodyfile="include/core/concerns/metric_labels.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/metric_labels.h" line="21" column="1" bodyfile="include/core/concerns/metric_labels.h" bodystart="21" bodyend="47"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a043f8d84f9dd26d33425d82b112a25aa" prot="public" virt="non-virtual"><scope>themis::core::concerns::MetricLabels</scope><name>add</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1aaa8bb8306fab42d526f9e26a3f4f683e" prot="public" virt="non-virtual"><scope>themis::core::concerns::MetricLabels</scope><name>empty</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a472de237eae1d9f68b3568cde13eb868" prot="private" virt="non-virtual"><scope>themis::core::concerns::MetricLabels</scope><name>labels_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a2ff0230636d71ecb3385bddbb550ed8b" prot="public" virt="non-virtual"><scope>themis::core::concerns::MetricLabels</scope><name>MetricLabels</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1ac9869fe9cc58f07d8c86cfe039f35602" prot="public" virt="non-virtual"><scope>themis::core::concerns::MetricLabels</scope><name>operator IMetrics::Labels</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1af849a8cc34b895928c888673d25d631c" prot="public" virt="non-virtual"><scope>themis::core::concerns::MetricLabels</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a9445ccac63f7fd79e3f19ab5f7d8f5eb" prot="public" virt="non-virtual"><scope>themis::core::concerns::MetricLabels</scope><name>toLabels</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

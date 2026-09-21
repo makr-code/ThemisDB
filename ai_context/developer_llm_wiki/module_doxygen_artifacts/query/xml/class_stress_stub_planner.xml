@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_stub_planner" kind="class" language="C++" prot="public">
+    <compoundname>StressStubPlanner</compoundname>
+    <innerclass refid="struct_stress_stub_planner_1_1_plan_result" prot="public">StressStubPlanner::PlanResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_stub_planner_1ab6c309432523db7b2e9df0e1cf86e21f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressStubPlanner::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>StressStubPlanner::total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="66" column="17" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_stub_planner_1a72cef6904397fe9c327374d7b6b7883a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_stress_stub_planner_1_1_plan_result" kindref="compound">PlanResult</ref></type>
+        <definition>PlanResult StressStubPlanner::plan</definition>
+        <argsstring>(uint64_t query_id, int join_fan_out=1)</argsstring>
+        <name>plan</name>
+        <qualifiedname>StressStubPlanner::plan</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>join_fan_out</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="60" column="16" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_stub_planner_1a5788799aa52d90f345c67db1e79f4b98" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressStubPlanner::total</definition>
+        <argsstring>() const</argsstring>
+        <name>total</name>
+        <qualifiedname>StressStubPlanner::total</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="64" column="14" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/test_query_highcardinality_stress.cpp" line="57" column="1" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="57" bodyend="67"/>
+    <listofallmembers>
+      <member refid="class_stress_stub_planner_1a72cef6904397fe9c327374d7b6b7883a" prot="public" virt="non-virtual"><scope>StressStubPlanner</scope><name>plan</name></member>
+      <member refid="class_stress_stub_planner_1a5788799aa52d90f345c67db1e79f4b98" prot="public" virt="non-virtual"><scope>StressStubPlanner</scope><name>total</name></member>
+      <member refid="class_stress_stub_planner_1ab6c309432523db7b2e9df0e1cf86e21f" prot="private" virt="non-virtual"><scope>StressStubPlanner</scope><name>total_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

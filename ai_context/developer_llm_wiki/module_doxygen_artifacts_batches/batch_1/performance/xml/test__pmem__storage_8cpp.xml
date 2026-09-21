@@ -1,0 +1,919 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__pmem__storage_8cpp" kind="file" language="C++">
+    <compoundname>test_pmem_storage.cpp</compoundname>
+    <includes refid="pmem__storage_8h" local="yes">performance/phase4/pmem_storage.h</includes>
+    <includes refid="phase4_2feature__flags_8h" local="yes">performance/phase4/feature_flags.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>performance/phase4/feature_flags.h</label>
+        <link refid="phase4_2feature__flags_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>performance/phase4/pmem_storage.h</label>
+        <link refid="pmem__storage_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/phase4/test_pmem_storage.cpp</label>
+        <link refid="test__pmem__storage_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>cstring</label>
+      </node>
+      <node id="13">
+        <label>filesystem</label>
+      </node>
+      <node id="11">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_p_mem_pool_test" prot="public">PMemPoolTest</innerclass>
+    <innerclass refid="class_p_mem_layout_test" prot="public">PMemLayoutTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, OpenAndClose)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>OpenAndClose</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="49" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a877c8ecd63577cea2acad67047d6a1b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, SingleAllocation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>SingleAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="57" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="57" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1ae8f67cdae470556eace7a9017d2833ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, AlignmentRespected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>AlignmentRespected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="70" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="70" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1aa522ba1233dffc091ef3389c0de2d3b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, MultipleAllocations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleAllocations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="86" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="86" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1affea81640583ee5a45b703239b58fed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, ExhaustionReturnNullptr)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>ExhaustionReturnNullptr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="105" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="105" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1aba4999913f504327ca9c6c5345393643" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, PersistDoesNotCrash)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>PersistDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="120" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="120" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1aca53ac156bfe281757aa719b29bc4865" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, StatsReflectAllocations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>StatsReflectAllocations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="129" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="129" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a776c87c71ae9dbdd4caf2b1d0f12ba41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, FreeUpdatesStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>FreeUpdatesStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="144" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="144" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a98d8aaf75551602c89e685170f6a7170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, RecoverFromPersistedState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RecoverFromPersistedState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="155" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="155" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a1123ac683cc8223c7609c18aed489e5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemPoolTest, ConcurrentAllocations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentAllocations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="172" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="172" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1ab672b74bba63d301f375e3596e6b0c32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemLayoutTest, WriteAndRead)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref></type>
+        </param>
+        <param>
+          <type>WriteAndRead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="235" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="235" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a6de230fff7f2a4b80f8127271337264b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemLayoutTest, WriteNullDataReturnsNullptr)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref></type>
+        </param>
+        <param>
+          <type>WriteNullDataReturnsNullptr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="246" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="246" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a87d8b9743d990ac9102ae64706444945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemLayoutTest, WriteZeroLengthReturnsNullptr)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref></type>
+        </param>
+        <param>
+          <type>WriteZeroLengthReturnsNullptr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="251" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="251" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a9087393f53690d795d8745dc25a70632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemLayoutTest, StatsAccumulate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref></type>
+        </param>
+        <param>
+          <type>StatsAccumulate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="257" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="257" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1ab590c35d8c9f0ba4cfcf78eba31be7e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemLayoutTest, WriteAmplificationAtLeastOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref></type>
+        </param>
+        <param>
+          <type>WriteAmplificationAtLeastOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="270" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="270" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a95d923d12740d3c171c8bd5296b77fd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemLayoutTest, FlushAllDoesNotCrash)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref></type>
+        </param>
+        <param>
+          <type>FlushAllDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="280" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="280" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a811aec27401e93fa199508f81a2ab922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PMemLayoutTest, PoolStatsHealthy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref></type>
+        </param>
+        <param>
+          <type>PoolStatsHealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="287" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="287" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a19184507b2941b97ee36068d68fe7b8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PMemPersistenceTest, FlushRangeDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PMemPersistenceTest</type>
+        </param>
+        <param>
+          <type>FlushRangeDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="298" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="298" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a781f98df95ce344c4a860d6b77065018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PMemPersistenceTest, PmemPersistDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PMemPersistenceTest</type>
+        </param>
+        <param>
+          <type>PmemPersistDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="304" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="304" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1af6d1d65a3d731f7b38f59711d6da328a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PMemPersistenceTest, SfenceDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PMemPersistenceTest</type>
+        </param>
+        <param>
+          <type>SfenceDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="310" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="310" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1af2b12fe4cdd7f12312b370d80a6107b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase4FeatureFlagsTest, DefaultDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase4FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>DefaultDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="318" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="318" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1a90747f86513817fe528991722a7f9e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase4FeatureFlagsTest, EnableDisable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase4FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>EnableDisable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="324" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="324" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1ad1f11fb55554a56216836e2a13cf019c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase4FeatureFlagsTest, MacroOffWithoutCompileFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase4FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>MacroOffWithoutCompileFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="332" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="332" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmem__storage_8cpp_1adc8385da933d9afb57863ea998865b50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PMemDeviceDetectionTest, DetectDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PMemDeviceDetectionTest</type>
+        </param>
+        <param>
+          <type>DetectDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="351" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="351" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Tests<sp/>for<sp/>Persistent<sp/>Memory<sp/>(Optane)<sp/>aware<sp/>storage<sp/>layout<sp/>(Phase<sp/>4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pmem__storage_8h" kindref="compound">performance/phase4/pmem_storage.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="phase4_2feature__flags_8h" kindref="compound">performance/phase4/feature_flags.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase4" kindref="compound">themis::performance::phase4</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>temporary<sp/>pool<sp/>file<sp/>that<sp/>is<sp/>removed<sp/>after<sp/>each<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_p_mem_pool_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_p_mem_pool_test_1a7b2f603411379bb7ef6eab5efd3b99c0" kindref="member">pool_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_p_mem_pool_test_1a22ee23f3be4d788f5cc748372a9cb779" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_p_mem_pool_test_1a7b2f603411379bb7ef6eab5efd3b99c0" kindref="member">pool_path_</ref><sp/>=<sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_pmem_test_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(::testing::UnitTest::GetInstance()-&gt;random_seed())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.pool&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_p_mem_pool_test_1a29b09771102198c8edb0e195e7aac83d" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove(<ref refid="class_p_mem_pool_test_1a7b2f603411379bb7ef6eab5efd3b99c0" kindref="member">pool_path_</ref>);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config" kindref="compound">PMemPool::Config</ref><sp/><ref refid="class_p_mem_pool_test_1a9d34fd22b7ef8a1196114c28a686a158" kindref="member">make_config</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size<sp/>=<sp/>4<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/></highlight><highlight class="comment">/*<sp/>4<sp/>MiB<sp/>*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config" kindref="compound">PMemPool::Config</ref>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_p_mem_pool_test_1a7b2f603411379bb7ef6eab5efd3b99c0" kindref="member">pool_path_</ref>,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.pool_size<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>size,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.alignment<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>kPMemCacheLineSize,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.create_if_missing<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.use_dax<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">//<sp/>no<sp/>real<sp/>DAX<sp/>in<sp/>CI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.recover_on_open<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PMemPool<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>OpenAndClose)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(pool.base(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pool.get_stats();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.is_healthy);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.total_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>SingleAllocation)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>pool.allocate(128);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(p,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>and<sp/>read<sp/>back</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memset(p,<sp/>0xAB,<sp/>128);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>bytes<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(p);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bytes[0],<sp/><sp/><sp/>0xAB);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bytes[127],<sp/>0xAB);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>AlignmentRespected)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p1<sp/>=<sp/>pool.allocate(1);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p2<sp/>=<sp/>pool.allocate(1);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(p1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(p2,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>pointers<sp/>should<sp/>be<sp/>aligned<sp/>to<sp/>kPMemCacheLineSize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(p1)<sp/>%<sp/>kPMemCacheLineSize,<sp/>0u);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(p2)<sp/>%<sp/>kPMemCacheLineSize,<sp/>0u);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>allocation<sp/>must<sp/>follow<sp/>the<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(p2)<sp/>-<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(p1),</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">ptrdiff_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kPMemCacheLineSize));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>MultipleAllocations)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;void*&gt;<sp/>ptrs<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>64;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>pool.allocate(256);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(p,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Allocation<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptrs.push_back(p);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>allocations<sp/>must<sp/>be<sp/>distinct<sp/>and<sp/>non-overlapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>ptrs.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(ptrs[i],<sp/>ptrs[i<sp/>-<sp/>1]);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptrs[i])<sp/>-<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptrs[i<sp/>-<sp/>1]),</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">ptrdiff_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kPMemCacheLineSize));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>ExhaustionReturnNullptr)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>small<sp/>pool<sp/>(just<sp/>over<sp/>the<sp/>header<sp/>+<sp/>bitmap,<sp/>so<sp/>data<sp/>area<sp/>is<sp/>tiny)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config(64<sp/>*<sp/>1024<sp/></highlight><highlight class="comment">/*<sp/>64<sp/>KiB<sp/>*/</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>exhausted<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4096;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>pool.allocate(256);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!p)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exhausted<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(exhausted)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>pool<sp/>exhaustion<sp/>but<sp/>allocations<sp/>kept<sp/>succeeding&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>PersistDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>pool.allocate(512);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(p,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memset(p,<sp/>0x55,<sp/>512);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>persist()<sp/>must<sp/>not<sp/>throw<sp/>or<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(pool.persist(p,<sp/>512));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>StatsReflectAllocations)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats_before<sp/>=<sp/>pool.get_stats();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats_before.alloc_count,<sp/>0u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>pool.allocate(256);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(p,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats_after<sp/>=<sp/>pool.get_stats();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats_after.alloc_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats_after.used_bytes,<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(stats_after.free_bytes,<sp/><sp/>stats_after.total_bytes);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>FreeUpdatesStats)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>pool.allocate(256);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(p,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>pool.get_stats();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>pool.free(p,<sp/>256);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>after<sp/>=<sp/>pool.get_stats();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(after.free_count,<sp/>before.free_count<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>RecoverFromPersistedState)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>some<sp/>data<sp/>and<sp/>close<sp/>the<sp/>pool,<sp/>then<sp/>re-open<sp/>and<sp/>verify<sp/>metadata.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>pool.allocate(512);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(p,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::memset(p,<sp/>0xCC,<sp/>512);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pool.persist(p,<sp/>512);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-open:<sp/>recovery<sp/>must<sp/>succeed<sp/>(no<sp/>throw)<sp/>and<sp/>report<sp/>non-zero<sp/>used_bytes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config());</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pool.get_stats();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.is_healthy);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.used_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_pool_test" kindref="compound">PMemPoolTest</ref>,<sp/>ConcurrentAllocations)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref><sp/>pool(make_config(16<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/></highlight><highlight class="comment">/*<sp/>16<sp/>MiB<sp/>*/</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_threads<sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>allocs_each<sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;void*&gt;&gt;<sp/>results(num_threads);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>num_threads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>allocs_each;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>pool.allocate(256);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results[t].push_back(p);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Collect<sp/>all<sp/>pointers<sp/>and<sp/>verify<sp/>uniqueness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;void*&gt;<sp/>all_ptrs<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_ptrs.insert(all_ptrs.end(),<sp/>r.begin(),<sp/>r.end());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(all_ptrs.begin(),<sp/>all_ptrs.end());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::adjacent_find(all_ptrs.begin(),<sp/>all_ptrs.end()),</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_ptrs.end())</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>pointers<sp/>returned<sp/>by<sp/>concurrent<sp/>allocations&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PMemStorageLayout<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="class_p_mem_layout_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_p_mem_layout_test_1a247096f5eb89a3fec60aa41d4aa8dd8a" kindref="member">pool_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_p_mem_layout_test_1a100950ca46d615f6b8f4ac8a4e54fe7f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_p_mem_layout_test_1a247096f5eb89a3fec60aa41d4aa8dd8a" kindref="member">pool_path_</ref><sp/>=<sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_layout_test_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(::testing::UnitTest::GetInstance()-&gt;random_seed())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.pool&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_p_mem_layout_test_1ab6b38e295b3be8777aefb8f3a2cb644f" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove(<ref refid="class_p_mem_layout_test_1a247096f5eb89a3fec60aa41d4aa8dd8a" kindref="member">pool_path_</ref>);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config" kindref="compound">PMemStorageLayout::Config</ref><sp/><ref refid="class_p_mem_layout_test_1a03cca43488e37f543ef55f32433be95c" kindref="member">make_layout_config</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config" kindref="compound">PMemStorageLayout::Config</ref>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_p_mem_layout_test_1a247096f5eb89a3fec60aa41d4aa8dd8a" kindref="member">pool_path_</ref>,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.pool_size<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4<sp/>*<sp/>1024<sp/>*<sp/>1024,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.write_granule<sp/><sp/><sp/><sp/><sp/>=<sp/>kPMemCacheLineSize,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.use_dax<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.create_if_missing<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref>,<sp/>WriteAndRead)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout" kindref="compound">PMemStorageLayout</ref><sp/>layout(make_layout_config());</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>persistent<sp/>world&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>dst<sp/>=<sp/>layout.write(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>payload.data(),<sp/>payload.size());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(dst,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>must<sp/>be<sp/>readable<sp/>from<sp/>the<sp/>returned<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::memcmp(dst,<sp/>payload.data(),<sp/>payload.size()),<sp/>0);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref>,<sp/>WriteNullDataReturnsNullptr)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout" kindref="compound">PMemStorageLayout</ref><sp/>layout(make_layout_config());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(layout.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>10),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref>,<sp/>WriteZeroLengthReturnsNullptr)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout" kindref="compound">PMemStorageLayout</ref><sp/>layout(make_layout_config());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>data[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(layout.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>data,<sp/>0),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref>,<sp/>StatsAccumulate)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout" kindref="compound">PMemStorageLayout</ref><sp/>layout(make_layout_config());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload(128,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>layout.write(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>payload.data(),<sp/>payload.size());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>layout.write(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>payload.data(),<sp/>payload.size());</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ws<sp/>=<sp/>layout.get_write_stats();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ws.writes,<sp/>2u);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ws.bytes_written,<sp/>2<sp/>*<sp/>payload.size());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ws.bytes_persisted,<sp/>ws.bytes_written);<sp/></highlight><highlight class="comment">//<sp/>padding<sp/>≥<sp/>payload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref>,<sp/>WriteAmplificationAtLeastOne)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout" kindref="compound">PMemStorageLayout</ref><sp/>layout(make_layout_config());</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload(1,<sp/></highlight><highlight class="charliteral">&apos;Z&apos;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>1<sp/>byte<sp/>–<sp/>maximum<sp/>padding<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>layout.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>payload.data(),<sp/>payload.size());</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ws<sp/>=<sp/>layout.get_write_stats();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ws.write_amplification_x1000,<sp/>1000u);<sp/></highlight><highlight class="comment">//<sp/>≥<sp/>1×</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref>,<sp/>FlushAllDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout" kindref="compound">PMemStorageLayout</ref><sp/>layout(make_layout_config());</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload(512,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>layout.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>payload.data(),<sp/>payload.size());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(layout.flush_all());</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1ae79b8d502c63750930d52a41376a33a7" kindref="member">TEST_F</ref>(<ref refid="class_p_mem_layout_test" kindref="compound">PMemLayoutTest</ref>,<sp/>PoolStatsHealthy)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout" kindref="compound">PMemStorageLayout</ref><sp/>layout(make_layout_config());</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ps<sp/>=<sp/>layout.get_pool_stats();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ps.is_healthy);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(ps.total_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Persistence<sp/>helpers<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1a19184507b2941b97ee36068d68fe7b8f" kindref="member">TEST</ref>(PMemPersistenceTest,<sp/>FlushRangeDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(64)<sp/>uint8_t<sp/>buf[512]{};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memset(buf,<sp/>0x77,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buf));</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="namespacethemis_1_1performance_1_1phase4_1aa7690699f4eafdf472c2da1efa170fb7" kindref="member">pmem_flush_range</ref>(buf,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buf)));</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1a19184507b2941b97ee36068d68fe7b8f" kindref="member">TEST</ref>(PMemPersistenceTest,<sp/>PmemPersistDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(64)<sp/>uint8_t<sp/>buf[256]{};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memset(buf,<sp/>0x88,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buf));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="namespacethemis_1_1performance_1_1phase4_1ab9cb12a0e8addc660ea1f80ecc4c2c4b" kindref="member">pmem_persist</ref>(buf,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buf)));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1a19184507b2941b97ee36068d68fe7b8f" kindref="member">TEST</ref>(PMemPersistenceTest,<sp/>SfenceDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="namespacethemis_1_1performance_1_1phase4_1a7db0a69fb0e24d2652ced2f5d24c28d7" kindref="member">pmem_sfence</ref>());</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature<sp/>flags<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1a19184507b2941b97ee36068d68fe7b8f" kindref="member">TEST</ref>(Phase4FeatureFlagsTest,<sp/>DefaultDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>to<sp/>false<sp/>to<sp/>ensure<sp/>clean<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().pmem_enabled());</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1a19184507b2941b97ee36068d68fe7b8f" kindref="member">TEST</ref>(Phase4FeatureFlagsTest,<sp/>EnableDisable)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().pmem_enabled());</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().pmem_enabled());</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1a19184507b2941b97ee36068d68fe7b8f" kindref="member">TEST</ref>(Phase4FeatureFlagsTest,<sp/>MacroOffWithoutCompileFlag)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>THEMIS_ENABLE_PMEM<sp/>the<sp/>macro<sp/>must<sp/>evaluate<sp/>to<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>regardless<sp/>of<sp/>the<sp/>runtime<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_ENABLE_PMEM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="phase4_2feature__flags_8h_1aa849f5c443890f4e06a482a1cb3acd3a" kindref="member">THEMIS_PHASE4_PMEM_ENABLED</ref>());</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>the<sp/>compile<sp/>flag<sp/>the<sp/>macro<sp/>delegates<sp/>to<sp/>the<sp/>runtime<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="phase4_2feature__flags_8h_1aa849f5c443890f4e06a482a1cb3acd3a" kindref="member">THEMIS_PHASE4_PMEM_ENABLED</ref>());</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Device<sp/>detection<sp/>smoke<sp/>test<sp/>(allowed<sp/>to<sp/>return<sp/>an<sp/>empty<sp/>list<sp/>in<sp/>CI)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="test__pmem__storage_8cpp_1a19184507b2941b97ee36068d68fe7b8f" kindref="member">TEST</ref>(PMemDeviceDetectionTest,<sp/>DetectDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/><ref refid="namespacethemis_1_1performance_1_1phase4_1a48d88ba8dd1aef0318c15d495de64e68" kindref="member">detect_pmem_devices</ref>();</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>result<sp/>is<sp/>valid<sp/>in<sp/>CI<sp/>environments<sp/>without<sp/>PMem<sp/>hardware.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)devs;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/phase4/test_pmem_storage.cpp"/>
+  </compounddef>
+</doxygen>

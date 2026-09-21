@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::JoinExportConfig::PIIConfig</compoundname>
+    <includes refid="join__exporter_8h" local="no">join_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a293cd3ad94ddba794947a75604b6ae30" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JoinExportConfig::PIIConfig::enable_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_detection</name>
+        <qualifiedname>themis::exporters::JoinExportConfig::PIIConfig::enable_detection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="45" column="14" bodyfile="include/exporters/join_exporter.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a34a6bf0b98219c9f690add8da67488f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JoinExportConfig::PIIConfig::enable_redaction</definition>
+        <argsstring></argsstring>
+        <name>enable_redaction</name>
+        <qualifiedname>themis::exporters::JoinExportConfig::PIIConfig::enable_redaction</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="46" column="14" bodyfile="include/exporters/join_exporter.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a16f3a8aa9cae564df0fdd240564d8e71" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JoinExportConfig::PIIConfig::detect_email</definition>
+        <argsstring></argsstring>
+        <name>detect_email</name>
+        <qualifiedname>themis::exporters::JoinExportConfig::PIIConfig::detect_email</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="47" column="14" bodyfile="include/exporters/join_exporter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a8fcbbbd7eff8c9ac253f1f8acf10d27b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JoinExportConfig::PIIConfig::detect_phone</definition>
+        <argsstring></argsstring>
+        <name>detect_phone</name>
+        <qualifiedname>themis::exporters::JoinExportConfig::PIIConfig::detect_phone</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="48" column="14" bodyfile="include/exporters/join_exporter.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1ad18139dadfb0ffa78959ef842ad5b726" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JoinExportConfig::PIIConfig::detect_ssn</definition>
+        <argsstring></argsstring>
+        <name>detect_ssn</name>
+        <qualifiedname>themis::exporters::JoinExportConfig::PIIConfig::detect_ssn</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="49" column="14" bodyfile="include/exporters/join_exporter.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a9bc1cfa434513f2fad23b260dc4b204b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JoinExportConfig::PIIConfig::detect_credit_card</definition>
+        <argsstring></argsstring>
+        <name>detect_credit_card</name>
+        <qualifiedname>themis::exporters::JoinExportConfig::PIIConfig::detect_credit_card</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="50" column="14" bodyfile="include/exporters/join_exporter.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1acc63abc06869004c35f3c8470d3fd877" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JoinExportConfig::PIIConfig::redaction_strategy</definition>
+        <argsstring></argsstring>
+        <name>redaction_strategy</name>
+        <qualifiedname>themis::exporters::JoinExportConfig::PIIConfig::redaction_strategy</qualifiedname>
+        <initializer>= &quot;mask&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="51" column="21" bodyfile="include/exporters/join_exporter.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a6b5e75e205f05299e38aaec4d6f2bb32" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JoinExportConfig::PIIConfig::fail_on_pii</definition>
+        <argsstring></argsstring>
+        <name>fail_on_pii</name>
+        <qualifiedname>themis::exporters::JoinExportConfig::PIIConfig::fail_on_pii</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="52" column="14" bodyfile="include/exporters/join_exporter.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/join_exporter.h" line="44" column="5" bodyfile="include/exporters/join_exporter.h" bodystart="44" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a9bc1cfa434513f2fad23b260dc4b204b" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExportConfig::PIIConfig</scope><name>detect_credit_card</name></member>
+      <member refid="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a16f3a8aa9cae564df0fdd240564d8e71" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExportConfig::PIIConfig</scope><name>detect_email</name></member>
+      <member refid="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a8fcbbbd7eff8c9ac253f1f8acf10d27b" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExportConfig::PIIConfig</scope><name>detect_phone</name></member>
+      <member refid="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1ad18139dadfb0ffa78959ef842ad5b726" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExportConfig::PIIConfig</scope><name>detect_ssn</name></member>
+      <member refid="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a293cd3ad94ddba794947a75604b6ae30" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExportConfig::PIIConfig</scope><name>enable_detection</name></member>
+      <member refid="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a34a6bf0b98219c9f690add8da67488f9" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExportConfig::PIIConfig</scope><name>enable_redaction</name></member>
+      <member refid="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1a6b5e75e205f05299e38aaec4d6f2bb32" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExportConfig::PIIConfig</scope><name>fail_on_pii</name></member>
+      <member refid="structthemis_1_1exporters_1_1_join_export_config_1_1_p_i_i_config_1acc63abc06869004c35f3c8470d3fd877" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExportConfig::PIIConfig</scope><name>redaction_strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

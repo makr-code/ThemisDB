@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1process_1_1_audit_trail_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::process::AuditTrailEntry</compoundname>
+    <includes refid="process__telemetry__contract_8h" local="no">process_telemetry_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1ae432819e442b6328b0b53f2cc7e69b10" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themisdb::process::AuditTrailEntry::entry_id</definition>
+        <argsstring></argsstring>
+        <name>entry_id</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::entry_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unique entry ID (monotonically increasing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="68" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1abbaefb1bfeb25b6f3350773586f13bc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::AuditTrailEntry::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::model_id</qualifiedname>
+        <briefdescription>
+<para>Model ID that was mutated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="71" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1acbdb1c1a2cb7dd6ea66e461b556d3e55" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::AuditTrailEntry::operation_type</definition>
+        <argsstring></argsstring>
+        <name>operation_type</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::operation_type</qualifiedname>
+        <briefdescription>
+<para>Operation type (insert, update, delete). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="74" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1a9574449d893f76415d829c143be6bb7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::AuditTrailEntry::delta_patch</definition>
+        <argsstring></argsstring>
+        <name>delta_patch</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::delta_patch</qualifiedname>
+        <briefdescription>
+<para>Delta encoding (RFC 7386 JSON Merge Patch format). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="77" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1ae45d9c02e9196859f1ebc1023925a3be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::AuditTrailEntry::before_hash</definition>
+        <argsstring></argsstring>
+        <name>before_hash</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::before_hash</qualifiedname>
+        <briefdescription>
+<para>Before-mutation model hash (SHA-256). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="80" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1aa8769054ac93243629d83b19289b955c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::AuditTrailEntry::after_hash</definition>
+        <argsstring></argsstring>
+        <name>after_hash</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::after_hash</qualifiedname>
+        <briefdescription>
+<para>After-mutation model hash (SHA-256). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="83" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1a30c74ce3491183cd36ecbcac243bdfcd" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::AuditTrailEntry::crc32_checksum</definition>
+        <argsstring></argsstring>
+        <name>crc32_checksum</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::crc32_checksum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CRC32 checksum for integrity verification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="86" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1a0c7e912030546b130501cdd70b771e46" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::process::AuditTrailEntry::mutation_time</definition>
+        <argsstring></argsstring>
+        <name>mutation_time</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::mutation_time</qualifiedname>
+        <briefdescription>
+<para>Timestamp of mutation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="89" column="41" bodyfile="include/process/process_telemetry_contract.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1a8df6603179db92d8e87cd8c87c68d3f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::AuditTrailEntry::source_node_id</definition>
+        <argsstring></argsstring>
+        <name>source_node_id</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::source_node_id</qualifiedname>
+        <briefdescription>
+<para>Source node ID (for auditing replicated mutations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="92" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1a9bb467ec87aaca510fbcf109f6d1df11" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themisdb::process::AuditTrailEntry::before_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>before_size_bytes</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::before_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Model size before mutation (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="95" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1a36e9a5c33d8a27ec87b83671bb155799" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themisdb::process::AuditTrailEntry::after_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>after_size_bytes</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::after_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Model size after mutation (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="98" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1a11a98920cfa8b4c72880bb6f163d8b9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::AuditTrailEntry::metadata_json</definition>
+        <argsstring></argsstring>
+        <name>metadata_json</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::metadata_json</qualifiedname>
+        <briefdescription>
+<para>Additional metadata as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="101" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_audit_trail_entry_1a7affa17e5e67067e307beceaf1646f66" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::process::AuditTrailEntry::is_persisted</definition>
+        <argsstring></argsstring>
+        <name>is_persisted</name>
+        <qualifiedname>themisdb::process::AuditTrailEntry::is_persisted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Is entry persisted to durable storage? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="104" column="8" bodyfile="include/process/process_telemetry_contract.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable audit trail entry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each entry represents one model mutation. Cannot be modified after creation. </para>
+    </detaileddescription>
+    <location file="include/process/process_telemetry_contract.h" line="66" column="1" bodyfile="include/process/process_telemetry_contract.h" bodystart="66" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1aa8769054ac93243629d83b19289b955c" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>after_hash</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a36e9a5c33d8a27ec87b83671bb155799" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>after_size_bytes</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1ae45d9c02e9196859f1ebc1023925a3be" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>before_hash</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a9bb467ec87aaca510fbcf109f6d1df11" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>before_size_bytes</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a30c74ce3491183cd36ecbcac243bdfcd" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>crc32_checksum</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a9574449d893f76415d829c143be6bb7b" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>delta_patch</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1ae432819e442b6328b0b53f2cc7e69b10" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>entry_id</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a7affa17e5e67067e307beceaf1646f66" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>is_persisted</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a11a98920cfa8b4c72880bb6f163d8b9e" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>metadata_json</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1abbaefb1bfeb25b6f3350773586f13bc9" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>model_id</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a0c7e912030546b130501cdd70b771e46" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>mutation_time</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1acbdb1c1a2cb7dd6ea66e461b556d3e55" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>operation_type</name></member>
+      <member refid="structthemisdb_1_1process_1_1_audit_trail_entry_1a8df6603179db92d8e87cd8c87c68d3f0" prot="public" virt="non-virtual"><scope>themisdb::process::AuditTrailEntry</scope><name>source_node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

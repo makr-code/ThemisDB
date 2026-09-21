@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_query_range_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpQueryRangeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_query_range_test_1a32d252b16a531adf164cc7061f4af9d0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_http_query_range_fixture" kindref="compound">HttpQueryRangeFixture</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;HttpQueryRangeFixture&gt; HttpQueryRangeTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpQueryRangeTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="125" column="21" bodyfile="tests/network/test_http_query_range.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_query_range_test_1a5775054e5bd83889bffbbbfa1dbd7447" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpQueryRangeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpQueryRangeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="123" column="10" bodyfile="tests/network/test_http_query_range.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_query_range_test_1a51fafda80bdb1e072089f0ea08dbf8d5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpQueryRangeTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpQueryRangeTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="124" column="10" bodyfile="tests/network/test_http_query_range.cpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpQueryRangeTest</label>
+        <link refid="class_http_query_range_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpQueryRangeTest</label>
+        <link refid="class_http_query_range_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_query_range.cpp" line="121" column="1" bodyfile="tests/network/test_http_query_range.cpp" bodystart="121" bodyend="126"/>
+    <listofallmembers>
+      <member refid="class_http_query_range_test_1a32d252b16a531adf164cc7061f4af9d0" prot="protected" virt="non-virtual"><scope>HttpQueryRangeTest</scope><name>server_</name></member>
+      <member refid="class_http_query_range_test_1a5775054e5bd83889bffbbbfa1dbd7447" prot="protected" virt="non-virtual"><scope>HttpQueryRangeTest</scope><name>SetUp</name></member>
+      <member refid="class_http_query_range_test_1a51fafda80bdb1e072089f0ea08dbf8d5" prot="protected" virt="non-virtual"><scope>HttpQueryRangeTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

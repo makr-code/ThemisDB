@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::index::HnswParameterTuner::QueryStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats_1ad3ee116c102baa0090c9b9b8e3c790bd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswParameterTuner::QueryStats::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::index::HnswParameterTuner::QueryStats::latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="190" column="16" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats_1a222b7398153244488c9b44ea1be73f2c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswParameterTuner::QueryStats::recall</definition>
+        <argsstring></argsstring>
+        <name>recall</name>
+        <qualifiedname>themis::index::HnswParameterTuner::QueryStats::recall</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="191" column="16" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats_1aed2481ea50fb8610e3cedacccee01a45" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::QueryStats::ef_used</definition>
+        <argsstring></argsstring>
+        <name>ef_used</name>
+        <qualifiedname>themis::index::HnswParameterTuner::QueryStats::ef_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="192" column="13" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats_1a512c1f8fc91f1be724b04a79216548dc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswParameterTuner::QueryStats::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::index::HnswParameterTuner::QueryStats::k</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="193" column="16" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/hnsw_parameter_tuner.h" line="189" column="5" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="189" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats_1aed2481ea50fb8610e3cedacccee01a45" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::QueryStats</scope><name>ef_used</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats_1a512c1f8fc91f1be724b04a79216548dc" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::QueryStats</scope><name>k</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats_1ad3ee116c102baa0090c9b9b8e3c790bd" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::QueryStats</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats_1a222b7398153244488c9b44ea1be73f2c" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::QueryStats</scope><name>recall</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

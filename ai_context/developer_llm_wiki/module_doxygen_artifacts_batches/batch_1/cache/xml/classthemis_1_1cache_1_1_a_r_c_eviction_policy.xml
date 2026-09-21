@@ -1,0 +1,444 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_a_r_c_eviction_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::ARCEvictionPolicy</compoundname>
+    <basecompoundref refid="classthemis_1_1cache_1_1_cache_eviction_policy" prot="public" virt="non-virtual">themis::cache::CacheEvictionPolicy</basecompoundref>
+    <includes refid="cache__eviction__policy_8h" local="no">cache_eviction_policy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a3acbcbb7249512a2789b7788cb238812" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::ARCEvictionPolicy::arc_p</definition>
+        <argsstring></argsstring>
+        <name>arc_p</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::arc_p</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="228" column="12" bodyfile="include/cache/cache_eviction_policy.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1ab58462a611caa8d1d1b5ab32478698f4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::ARCEvictionPolicy::is_moved_from_</definition>
+        <argsstring></argsstring>
+        <name>is_moved_from_</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::is_moved_from_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="229" column="10" bodyfile="include/cache/cache_eviction_policy.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aa556415edf618a7b86e8a68ed7731607" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::ARCEvictionPolicy::ARCEvictionPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>ARCEvictionPolicy</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::ARCEvictionPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="210" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1abf03ce53bb9177bc15d46bb7e8ccc44f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::ARCEvictionPolicy::ARCEvictionPolicy</definition>
+        <argsstring>(ARCEvictionPolicy &amp;&amp;other) noexcept</argsstring>
+        <name>ARCEvictionPolicy</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::ARCEvictionPolicy</qualifiedname>
+        <param>
+          <type>ARCEvictionPolicy &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="212" column="5" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="359" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a4aef2264ea729c85e262880559a09142" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aa556415edf618a7b86e8a68ed7731607" kindref="member">ARCEvictionPolicy</ref> &amp;</type>
+        <definition>ARCEvictionPolicy &amp; themis::cache::ARCEvictionPolicy::operator=</definition>
+        <argsstring>(ARCEvictionPolicy &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aa556415edf618a7b86e8a68ed7731607" kindref="member">ARCEvictionPolicy</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="213" column="23" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="366" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a71701d07fb8ff0a198a5099e7f50e33b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::ARCEvictionPolicy::ARCEvictionPolicy</definition>
+        <argsstring>(const ARCEvictionPolicy &amp;)=delete</argsstring>
+        <name>ARCEvictionPolicy</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::ARCEvictionPolicy</qualifiedname>
+        <param>
+          <type>const ARCEvictionPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="215" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a5841f13eb0e357cc3a5c4fb1b8583433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aa556415edf618a7b86e8a68ed7731607" kindref="member">ARCEvictionPolicy</ref> &amp;</type>
+        <definition>ARCEvictionPolicy &amp; themis::cache::ARCEvictionPolicy::operator=</definition>
+        <argsstring>(const ARCEvictionPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aa556415edf618a7b86e8a68ed7731607" kindref="member">ARCEvictionPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="216" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1afb96dabd612fa2bef7407b7f1da9afdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCEvictionPolicy::record_hit</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>record_hit</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::record_hit</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a5d286b8655f90d806903bee57747ea48">record_hit</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Record hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_hit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="218" column="10" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="385" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aada1c2dd3cae52e2a3f939f35b0977a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCEvictionPolicy::record_miss</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>record_miss</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::record_miss</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_cache_eviction_policy_1aac65676ca440ccf3e03ecad621e6568c">record_miss</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Record miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_miss without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="219" column="10" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="398" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a6f5c50f34ad2283166babe45b238f838" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCEvictionPolicy::record_insert</definition>
+        <argsstring>(const std::string &amp;key, size_t size) override</argsstring>
+        <name>record_insert</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::record_insert</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_cache_eviction_policy_1ad15f5ddbb1aa174c6f1cf27e196c3247">record_insert</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Record insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_insert without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="220" column="10" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="412" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1ab6daeb49e5cd9be5bf0f31d1550ffc7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCEvictionPolicy::record_delete</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>record_delete</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::record_delete</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a07248b58ca3eab78a385654e5a05391b">record_delete</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Record delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_delete without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="221" column="10" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="426" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a36ebdf5e5093ca4e5833a76e309dedeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_eviction_policy_1_1_eviction_decision" kindref="compound">EvictionDecision</ref></type>
+        <definition>CacheEvictionPolicy::EvictionDecision themis::cache::ARCEvictionPolicy::choose_victim</definition>
+        <argsstring>(const std::vector&lt; CacheKeyDescriptor &gt; &amp;candidates) override</argsstring>
+        <name>choose_victim</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::choose_victim</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_cache_eviction_policy_1ab1ad514c1596f0068252aab944d2ecc1">choose_victim</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1cache_1_1_cache_key_descriptor" kindref="compound">CacheKeyDescriptor</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Choose victim. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::min_element(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="222" column="22" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="440" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a0d7cd3eb544df8476c849ea25898cdf4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::cache::ARCEvictionPolicy::policy_name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>policy_name</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::policy_name</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a42b6546770a7a0e926accb1461c8c487">policy_name</reimplements>
+        <briefdescription>
+<para>Policy name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="223" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aadeea2e87ff21d068c617f3e034bfd9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a5f05c19a977f248c942c9c5dfcade24a" kindref="member">CacheEvictionPolicy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CacheEvictionPolicy &gt; themis::cache::ARCEvictionPolicy::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::clone</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a5b97775daa31c5704a1ced232082fa41">clone</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="224" column="21" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="467" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a28be1d1ed415273211d32c0072db0c47" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::ARCEvictionPolicy::is_moved_from</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>is_moved_from</name>
+        <qualifiedname>themis::cache::ARCEvictionPolicy::is_moved_from</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a37553333c62b902808538dc2a26f63c9">is_moved_from</reimplements>
+        <briefdescription>
+<para>Is moved from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="225" column="10" bodyfile="include/cache/cache_eviction_policy.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cache::ARCEvictionPolicy</label>
+        <link refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::CacheEvictionPolicy</label>
+        <link refid="classthemis_1_1cache_1_1_cache_eviction_policy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cache::ARCEvictionPolicy</label>
+        <link refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::CacheEvictionPolicy</label>
+        <link refid="classthemis_1_1cache_1_1_cache_eviction_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cache/cache_eviction_policy.h" line="208" column="1" bodyfile="include/cache/cache_eviction_policy.h" bodystart="208" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a3acbcbb7249512a2789b7788cb238812" prot="private" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>arc_p</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aa556415edf618a7b86e8a68ed7731607" prot="public" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>ARCEvictionPolicy</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1abf03ce53bb9177bc15d46bb7e8ccc44f" prot="public" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>ARCEvictionPolicy</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a71701d07fb8ff0a198a5099e7f50e33b" prot="public" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>ARCEvictionPolicy</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a5f05c19a977f248c942c9c5dfcade24a" prot="public" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>CacheEvictionPolicy</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a4ea65998eae2925a9b1c289c16cf07c6" prot="public" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>CacheEvictionPolicy</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a11f506aa71944f083a41c96cc64355a8" prot="protected" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>CacheEvictionPolicy</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a36ebdf5e5093ca4e5833a76e309dedeb" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>choose_victim</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aadeea2e87ff21d068c617f3e034bfd9d" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>clone</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a28be1d1ed415273211d32c0072db0c47" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>is_moved_from</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1ab58462a611caa8d1d1b5ab32478698f4" prot="private" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>is_moved_from_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a4aef2264ea729c85e262880559a09142" prot="public" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a5841f13eb0e357cc3a5c4fb1b8583433" prot="public" virt="non-virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_eviction_policy_1aec3445b1e63c2a59c4f532fb738f2674" prot="public" virt="non-virtual" ambiguityscope="themis::cache::CacheEvictionPolicy::"><scope>themis::cache::ARCEvictionPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a458ab740a778b3a06377b252421224bd" prot="public" virt="non-virtual" ambiguityscope="themis::cache::CacheEvictionPolicy::"><scope>themis::cache::ARCEvictionPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a0d7cd3eb544df8476c849ea25898cdf4" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>policy_name</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1ab6daeb49e5cd9be5bf0f31d1550ffc7b" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>record_delete</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1afb96dabd612fa2bef7407b7f1da9afdd" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>record_hit</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1a6f5c50f34ad2283166babe45b238f838" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>record_insert</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy_1aada1c2dd3cae52e2a3f939f35b0977a9" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>record_miss</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_eviction_policy_1a58304e2bc9992c417dcf594ba40d5472" prot="public" virt="virtual"><scope>themis::cache::ARCEvictionPolicy</scope><name>~CacheEvictionPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

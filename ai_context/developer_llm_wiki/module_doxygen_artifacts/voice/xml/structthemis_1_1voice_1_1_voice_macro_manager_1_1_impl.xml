@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceMacroManager::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl_1a7c2b036a896e44af85d54317a041ca29" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceMacroManager::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_macro_manager.cpp" line="297" column="24" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl_1afd37d84612cd0bbfb015fff9317eea23" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref>, <ref refid="structthemis_1_1voice_1_1_macro_info" kindref="compound">MacroInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;MacroID, MacroInfo&gt; themis::voice::VoiceMacroManager::Impl::macros</definition>
+        <argsstring></argsstring>
+        <name>macros</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::Impl::macros</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_macro_manager.cpp" line="298" column="24" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl_1aff3e8a2badeb7473480be104a5f2b945" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceMacroManager::Impl::total_executions</definition>
+        <argsstring></argsstring>
+        <name>total_executions</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::Impl::total_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_macro_manager.cpp" line="299" column="14" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="299" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/voice/voice_macro_manager.cpp" line="296" column="1" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="296" bodyend="300"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl_1afd37d84612cd0bbfb015fff9317eea23" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager::Impl</scope><name>macros</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl_1a7c2b036a896e44af85d54317a041ca29" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl_1aff3e8a2badeb7473480be104a5f2b945" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager::Impl</scope><name>total_executions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

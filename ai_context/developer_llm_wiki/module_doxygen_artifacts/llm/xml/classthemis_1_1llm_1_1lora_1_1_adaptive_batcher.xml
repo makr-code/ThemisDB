@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdaptiveBatcher</compoundname>
+    <includes refid="adaptive__batcher_8h" local="no">adaptive_batcher.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" prot="public">themis::llm::lora::AdaptiveBatcher::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats" prot="public">themis::llm::lora::AdaptiveBatcher::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a4b6427a0e8672a8e612c34b0db9b9b08" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::lora::AdaptiveBatcher::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="99" column="12" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a91ecd8ca9de1101400eb0d0d0273f843" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">::themis::llm::GPUMemoryManager</ref> *</type>
+        <definition>::themis::llm::GPUMemoryManager* themis::llm::lora::AdaptiveBatcher::mem_manager_</definition>
+        <argsstring></argsstring>
+        <name>mem_manager_</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::mem_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="100" column="37" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a8f8ee9d3f1197f0068bc955f89c29526" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AdaptiveBatcher::current_batch_size_</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size_</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::current_batch_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="101" column="12" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aa86063ef38699736c86e855c118f8043" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdaptiveBatcher::oom_count_</definition>
+        <argsstring></argsstring>
+        <name>oom_count_</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::oom_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="102" column="9" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ac8dbecd2508cc80b3779a8ef5eb28f6f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::lora::AdaptiveBatcher::recent_utilizations_</definition>
+        <argsstring></argsstring>
+        <name>recent_utilizations_</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::recent_utilizations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="103" column="17" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aca34054da3b014c669fc13978a24f3f0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdaptiveBatcher::is_calibrated_</definition>
+        <argsstring></argsstring>
+        <name>is_calibrated_</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::is_calibrated_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="106" column="10" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ab9bb9d95eba584ff20d7fb81c3e8ccfd" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdaptiveBatcher::memory_estimation_multiplier_</definition>
+        <argsstring></argsstring>
+        <name>memory_estimation_multiplier_</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::memory_estimation_multiplier_</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="107" column="11" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aebfbdcbbda71219ba0d46e99d76ecff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::AdaptiveBatcher::~AdaptiveBatcher</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdaptiveBatcher</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::~AdaptiveBatcher</qualifiedname>
+        <briefdescription>
+<para>Adaptive Batcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="29" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a7c712ca02836b3a2ffc6c04ee023843f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AdaptiveBatcher::AdaptiveBatcher</definition>
+        <argsstring>(const Config &amp;config, ::themis::llm::GPUMemoryManager *mem_manager)</argsstring>
+        <name>AdaptiveBatcher</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::AdaptiveBatcher</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">::themis::llm::GPUMemoryManager</ref> *</type>
+          <declname>mem_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="42" column="14" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="22" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ab8d45927255f1595db90f70b9b295f85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AdaptiveBatcher::computeOptimalBatchSize</definition>
+        <argsstring>(size_t sequence_length)</argsstring>
+        <name>computeOptimalBatchSize</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::computeOptimalBatchSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>sequence_length</declname>
+        </param>
+        <briefdescription>
+<para>Compute Optimal Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), getFreeVRAM(), estimateMemoryPerSample(), estimateSharedMemory(), spdlog::warn(), std::clamp(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="49" column="12" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="47" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1afb67a493bd682c87ceef25d3c821c2e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdaptiveBatcher::handleOOMEvent</definition>
+        <argsstring>()</argsstring>
+        <name>handleOOMEvent</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::handleOOMEvent</qualifiedname>
+        <briefdescription>
+<para>Handle OOMEvent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::max(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="54" column="10" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="108" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a5c5f6e70a187dc759f235c453b105045" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdaptiveBatcher::increaseBatchSizeIfPossible</definition>
+        <argsstring>()</argsstring>
+        <name>increaseBatchSizeIfPossible</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::increaseBatchSizeIfPossible</qualifiedname>
+        <briefdescription>
+<para>Increase Batch Size If Possible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: computeAverageUtilization(), std::min(), spdlog::info(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="59" column="10" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="123" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a22054a74736bda48fd10ab29ef5fcf64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdaptiveBatcher::updateUtilization</definition>
+        <argsstring>(float utilization)</argsstring>
+        <name>updateUtilization</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::updateUtilization</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>utilization</declname>
+        </param>
+        <briefdescription>
+<para>Update Utilization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">utilization</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">utilization</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="65" column="10" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="151" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a93c523a52b21a946b91be35901908c94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>AdaptiveBatcher::Stats themis::llm::lora::AdaptiveBatcher::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="78" column="11" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="160" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ac148ff251fa548c8de963aed15a135ed" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AdaptiveBatcher::getCurrentBatchSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentBatchSize</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::getCurrentBatchSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="80" column="12" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a94e4493fb88f3bbbae66856df34ca887" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdaptiveBatcher::resetOOMCounter</definition>
+        <argsstring>()</argsstring>
+        <name>resetOOMCounter</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::resetOOMCounter</qualifiedname>
+        <briefdescription>
+<para>Reset OOMCounter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements resetOOMCounter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="86" column="10" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a58524711bcef3559dea3b13d611c2e22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdaptiveBatcher::calibrateMemoryEstimation</definition>
+        <argsstring>(size_t actual_memory_used, size_t sequence_length, size_t batch_size)</argsstring>
+        <name>calibrateMemoryEstimation</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::calibrateMemoryEstimation</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>actual_memory_used</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sequence_length</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Calibrate Memory Estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_memory_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_memory_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1llm_1_1lora_1a550a24b62708d73306fb4ca5369173c9" kindref="member">estimateMemoryPerSampleBase()</ref>, <ref refid="namespacethemis_1_1llm_1_1lora_1a4bb0f1feae0f2d5a2924dcf598fffe92" kindref="member">estimateSharedMemoryBase()</ref>, spdlog::info(), spdlog::debug(), std::abs(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="94" column="10" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="257" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aa9eea28556aa3aa3bf9229d03ee942ca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdaptiveBatcher::computeAverageUtilization</definition>
+        <argsstring>() const</argsstring>
+        <name>computeAverageUtilization</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::computeAverageUtilization</qualifiedname>
+        <briefdescription>
+<para>Compute Average Utilization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="113" column="11" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="179" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a58cff33d1596ce8158e9d2cf1068b137" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AdaptiveBatcher::estimateMemoryPerSample</definition>
+        <argsstring>(size_t sequence_length) const</argsstring>
+        <name>estimateMemoryPerSample</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::estimateMemoryPerSample</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>sequence_length</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Memory Per Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="120" column="12" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="190" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a60201f7b3071446902196fe2c5704659" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AdaptiveBatcher::estimateSharedMemory</definition>
+        <argsstring>() const</argsstring>
+        <name>estimateSharedMemory</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::estimateSharedMemory</qualifiedname>
+        <briefdescription>
+<para>Estimate Shared Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="126" column="12" bodyfile="src/llm/lora_framework/adaptive_batcher.cpp" bodystart="206" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/adaptive_batcher.h" line="23" column="1" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="23" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a7c712ca02836b3a2ffc6c04ee023843f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>AdaptiveBatcher</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a58524711bcef3559dea3b13d611c2e22" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>calibrateMemoryEstimation</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aa9eea28556aa3aa3bf9229d03ee942ca" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>computeAverageUtilization</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ab8d45927255f1595db90f70b9b295f85" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>computeOptimalBatchSize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a4b6427a0e8672a8e612c34b0db9b9b08" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a8f8ee9d3f1197f0068bc955f89c29526" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>current_batch_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a58cff33d1596ce8158e9d2cf1068b137" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>estimateMemoryPerSample</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a60201f7b3071446902196fe2c5704659" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>estimateSharedMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ac148ff251fa548c8de963aed15a135ed" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>getCurrentBatchSize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a93c523a52b21a946b91be35901908c94" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1afb67a493bd682c87ceef25d3c821c2e1" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>handleOOMEvent</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a5c5f6e70a187dc759f235c453b105045" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>increaseBatchSizeIfPossible</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aca34054da3b014c669fc13978a24f3f0" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>is_calibrated_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a91ecd8ca9de1101400eb0d0d0273f843" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>mem_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ab9bb9d95eba584ff20d7fb81c3e8ccfd" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>memory_estimation_multiplier_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aa86063ef38699736c86e855c118f8043" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>oom_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ac8dbecd2508cc80b3779a8ef5eb28f6f" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>recent_utilizations_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a94e4493fb88f3bbbae66856df34ca887" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>resetOOMCounter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a22054a74736bda48fd10ab29ef5fcf64" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>updateUtilization</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aebfbdcbbda71219ba0d46e99d76ecff8" prot="public" virt="virtual"><scope>themis::llm::lora::AdaptiveBatcher</scope><name>~AdaptiveBatcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_storage_engine" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IStorageEngine</compoundname>
+    <includes refid="storage__interface_8h" local="no">storage_interface.h</includes>
+    <innerclass refid="structthemis_1_1_i_storage_engine_1_1_scan_range" prot="public">themis::IStorageEngine::ScanRange</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1a7dea847de110c943ca99731f50a19e7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IStorageEngine::~IStorageEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStorageEngine</name>
+        <qualifiedname>themis::IStorageEngine::~IStorageEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="38" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1a989a2fc93affe5527e7ba79d90cc8f23" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::IStorageEngine::open</definition>
+        <argsstring>(const std::string &amp;db_path)=0</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::IStorageEngine::open</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_path</declname>
+        </param>
+        <briefdescription>
+<para>Open/initialize the storage engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to database directory </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error with details </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="46" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1ab86ca2928c0412678905b03cb4d0cf45" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::IStorageEngine::close</definition>
+        <argsstring>()=0</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::IStorageEngine::close</qualifiedname>
+        <briefdescription>
+<para>Close the storage engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="51" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1a588faa34d0faaebcd51ea02c272b5f70" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::IStorageEngine::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)=0</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::IStorageEngine::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error with details </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="60" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1ad8e6e9deec7b30a35a5787dd85e994b9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>virtual Result&lt; std::string &gt; themis::IStorageEngine::get</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::IStorageEngine::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get a value by key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;std::string&gt; - The value if found, or error with details </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="68" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1af61cb18da360bda684a319a13a05337b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::IStorageEngine::del</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::IStorageEngine::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to delete </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error with details </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="76" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1a3e877e8300d151ad4267e0aeb2b47408" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::IStorageEngine::scanRange</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key, std::function&lt; bool(std::string_view key, std::string_view value)&gt; callback)</argsstring>
+        <name>scanRange</name>
+        <qualifiedname>themis::IStorageEngine::scanRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(std::string_view key, std::string_view value)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan a key range [start_key, end_key). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates all keys in sorted order within the range and calls <computeroutput>callback</computeroutput> for each key-value pair. Iteration stops when <computeroutput>callback</computeroutput> returns false or the end of the range is reached.</para>
+<para>The default implementation returns ERR_STORAGE_NOT_IMPLEMENTED. Concrete engines that support range scans should override this.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive lower bound (empty = beginning of keyspace). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exclusive upper bound (empty = end of keyspace). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called for each key-value pair; return false to stop. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; – ok on success, error on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="93" column="21" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="93" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1a5e634d525c78e0c27bb72749fcae24c0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::IStorageEngine::scanPrefix</definition>
+        <argsstring>(std::string_view prefix, std::function&lt; bool(std::string_view key, std::string_view value)&gt; callback)</argsstring>
+        <name>scanPrefix</name>
+        <qualifiedname>themis::IStorageEngine::scanPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(std::string_view key, std::string_view value)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan all keys with a given prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates all keys whose byte representation starts with <computeroutput>prefix</computeroutput> and calls <computeroutput>callback</computeroutput> for each. Iteration stops when <computeroutput>callback</computeroutput> returns false or no more matching keys exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key prefix to match. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called for each key-value pair; return false to stop. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; – ok on success, error on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="113" column="21" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="113" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_storage_engine_1ac7a88d8dbb495fd9b7ea2688569558f2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::IStorageEngine::scanMultiRange</definition>
+        <argsstring>(const std::vector&lt; ScanRange &gt; &amp;ranges, std::function&lt; bool(std::string_view key, std::string_view value)&gt; callback)</argsstring>
+        <name>scanMultiRange</name>
+        <qualifiedname>themis::IStorageEngine::scanMultiRange</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_i_storage_engine_1_1_scan_range" kindref="compound">ScanRange</ref> &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(std::string_view key, std::string_view value)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan multiple key ranges in a single call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates all provided <computeroutput>ranges</computeroutput> in order, calling <computeroutput>callback</computeroutput> for every key-value pair encountered. Ranges are processed sequentially; overlapping ranges may deliver duplicate entries.</para>
+<para>Returns false from <computeroutput>callback</computeroutput> to stop iteration over the current range (and all subsequent ranges).</para>
+<para>The default implementation delegates each range to <ref refid="classthemis_1_1_i_storage_engine_1a3e877e8300d151ad4267e0aeb2b47408" kindref="member">scanRange()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of {start_key, end_key} pairs to scan. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called for each key-value pair; return false to stop. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; – ok on success, error on first failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="145" column="21" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="145" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for storage engine operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides abstract interface for core storage operations without depending on concrete storage implementations (RocksDB, etc.). </para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/storage_interface.h" line="36" column="1" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="36" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_storage_engine_1ab86ca2928c0412678905b03cb4d0cf45" prot="public" virt="pure-virtual"><scope>themis::IStorageEngine</scope><name>close</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_1af61cb18da360bda684a319a13a05337b" prot="public" virt="pure-virtual"><scope>themis::IStorageEngine</scope><name>del</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_1ad8e6e9deec7b30a35a5787dd85e994b9" prot="public" virt="pure-virtual"><scope>themis::IStorageEngine</scope><name>get</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_1a989a2fc93affe5527e7ba79d90cc8f23" prot="public" virt="pure-virtual"><scope>themis::IStorageEngine</scope><name>open</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_1a588faa34d0faaebcd51ea02c272b5f70" prot="public" virt="pure-virtual"><scope>themis::IStorageEngine</scope><name>put</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_1ac7a88d8dbb495fd9b7ea2688569558f2" prot="public" virt="virtual"><scope>themis::IStorageEngine</scope><name>scanMultiRange</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_1a5e634d525c78e0c27bb72749fcae24c0" prot="public" virt="virtual"><scope>themis::IStorageEngine</scope><name>scanPrefix</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_1a3e877e8300d151ad4267e0aeb2b47408" prot="public" virt="virtual"><scope>themis::IStorageEngine</scope><name>scanRange</name></member>
+      <member refid="classthemis_1_1_i_storage_engine_1a7dea847de110c943ca99731f50a19e7b" prot="public" virt="virtual"><scope>themis::IStorageEngine</scope><name>~IStorageEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

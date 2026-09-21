@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_multi_modal_input" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::MultiModalInput</compoundname>
+    <includes refid="multimodal__infer__request_8h" local="no">multimodal_infer_request.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_multi_modal_input_1aef0747b378e4cbee2e1a403a54960963" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a360acd9a2c31778c4c5f92f1b1f7e702" kindref="member">ModalityType</ref></type>
+        <definition>ModalityType themis::aql::MultiModalInput::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::aql::MultiModalInput::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1a360acd9a2c31778c4c5f92f1b1f7e702a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ModalityType::TEXT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="42" column="18" bodyfile="include/aql/multimodal_infer_request.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_multi_modal_input_1a4f20021ad514cf920b06491aa56327f4" prot="public" static="no" mutable="no">
+        <type>std::variant&lt; std::string, std::vector&lt; uint8_t &gt;, std::filesystem::path &gt;</type>
+        <definition>std::variant&lt; std::string, std::vector&lt;uint8_t&gt;, std::filesystem::path &gt; themis::aql::MultiModalInput::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::aql::MultiModalInput::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="48" column="2" bodyfile="include/aql/multimodal_infer_request.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_multi_modal_input_1ad0fe84416016b0677f2ec801dac0427c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::MultiModalInput::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::aql::MultiModalInput::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="50" column="17" bodyfile="include/aql/multimodal_infer_request.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_multi_modal_input_1aed4fb9ac8f4dde673d4c5257f3fdf9db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::MultiModalInput::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::aql::MultiModalInput::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="52" column="17" bodyfile="include/aql/multimodal_infer_request.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_input_1a120e506abe0f580769bfec78c011e614" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::MultiModalInput::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::MultiModalInput::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="58" column="10" bodyfile="include/aql/multimodal_infer_request.h" bodystart="58" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_input_1aa05aa798e76724ee12d3ab00bda402e2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>static const std::unordered_set&lt; std::string &gt; &amp; themis::aql::MultiModalInput::imageMimeTypes</definition>
+        <argsstring>()</argsstring>
+        <name>imageMimeTypes</name>
+        <qualifiedname>themis::aql::MultiModalInput::imageMimeTypes</qualifiedname>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Allowlist accessors (static so tests can inspect them) ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements imageMimeTypes without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="88" column="37" bodyfile="include/aql/multimodal_infer_request.h" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_input_1a53dcc281b065f98727ca4ea82453ecce" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>static const std::unordered_set&lt; std::string &gt; &amp; themis::aql::MultiModalInput::audioMimeTypes</definition>
+        <argsstring>()</argsstring>
+        <name>audioMimeTypes</name>
+        <qualifiedname>themis::aql::MultiModalInput::audioMimeTypes</qualifiedname>
+        <briefdescription>
+<para>Audio Mime Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements audioMimeTypes without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="101" column="37" bodyfile="include/aql/multimodal_infer_request.h" bodystart="101" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_input_1a05a792c1a3bcf19701ded4982a244f72" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>static const std::unordered_set&lt; std::string &gt; &amp; themis::aql::MultiModalInput::videoMimeTypes</definition>
+        <argsstring>()</argsstring>
+        <name>videoMimeTypes</name>
+        <qualifiedname>themis::aql::MultiModalInput::videoMimeTypes</qualifiedname>
+        <briefdescription>
+<para>Video Mime Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements videoMimeTypes without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="114" column="37" bodyfile="include/aql/multimodal_infer_request.h" bodystart="114" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_input_1a7860a5053de85d50bcb13f3376b8edbd" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::MultiModalInput::validateTextMime</definition>
+        <argsstring>() const</argsstring>
+        <name>validateTextMime</name>
+        <qualifiedname>themis::aql::MultiModalInput::validateTextMime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="123" column="10" bodyfile="include/aql/multimodal_infer_request.h" bodystart="123" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_input_1aeb8ac8f1f3a1d3ce2d5d8248510c4ea1" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::MultiModalInput::validateMimeInSet</definition>
+        <argsstring>(const std::unordered_set&lt; std::string &gt; &amp;allowed, const char *modality_name) const</argsstring>
+        <name>validateMimeInSet</name>
+        <qualifiedname>themis::aql::MultiModalInput::validateMimeInSet</qualifiedname>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>allowed</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>modality_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="140" column="10" bodyfile="include/aql/multimodal_infer_request.h" bodystart="140" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_input_1a0fe7c7674ee45c903d35df25d63a5a51" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::MultiModalInput::validateNonEmptyBinaryIfBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>validateNonEmptyBinaryIfBytes</name>
+        <qualifiedname>themis::aql::MultiModalInput::validateNonEmptyBinaryIfBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="150" column="10" bodyfile="include/aql/multimodal_infer_request.h" bodystart="150" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/multimodal_infer_request.h" line="41" column="1" bodyfile="include/aql/multimodal_infer_request.h" bodystart="41" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1a53dcc281b065f98727ca4ea82453ecce" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>audioMimeTypes</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1a4f20021ad514cf920b06491aa56327f4" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>data</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1aa05aa798e76724ee12d3ab00bda402e2" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>imageMimeTypes</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1aed4fb9ac8f4dde673d4c5257f3fdf9db" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>label</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1ad0fe84416016b0677f2ec801dac0427c" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1aef0747b378e4cbee2e1a403a54960963" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>type</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1a120e506abe0f580769bfec78c011e614" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>validate</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1aeb8ac8f1f3a1d3ce2d5d8248510c4ea1" prot="private" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>validateMimeInSet</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1a0fe7c7674ee45c903d35df25d63a5a51" prot="private" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>validateNonEmptyBinaryIfBytes</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1a7860a5053de85d50bcb13f3376b8edbd" prot="private" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>validateTextMime</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_input_1a05a792c1a3bcf19701ded4982a244f72" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInput</scope><name>videoMimeTypes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

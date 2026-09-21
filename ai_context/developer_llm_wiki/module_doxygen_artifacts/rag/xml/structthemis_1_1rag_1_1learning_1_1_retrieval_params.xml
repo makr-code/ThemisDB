@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_retrieval_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::RetrievalParams</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1a395b03c4fef3830b24e39bb789a84485" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::RetrievalParams::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::learning::RetrievalParams::top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="152" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1aabda1f280c734b993fcff89b34369fef" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::RetrievalParams::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::rag::learning::RetrievalParams::similarity_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="153" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1ac7c453e2a211e75b23d732c22a772169" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::RetrievalParams::coverage_threshold</definition>
+        <argsstring></argsstring>
+        <name>coverage_threshold</name>
+        <qualifiedname>themis::rag::learning::RetrievalParams::coverage_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="154" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retrieval parameters for optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="151" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="151" bodyend="155"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1ac7c453e2a211e75b23d732c22a772169" prot="public" virt="non-virtual"><scope>themis::rag::learning::RetrievalParams</scope><name>coverage_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1aabda1f280c734b993fcff89b34369fef" prot="public" virt="non-virtual"><scope>themis::rag::learning::RetrievalParams</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1a395b03c4fef3830b24e39bb789a84485" prot="public" virt="non-virtual"><scope>themis::rag::learning::RetrievalParams</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

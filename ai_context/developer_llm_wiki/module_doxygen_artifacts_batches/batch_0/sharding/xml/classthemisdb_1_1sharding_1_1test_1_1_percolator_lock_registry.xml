@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::PercolatorLockRegistry</compoundname>
+    <innerclass refid="structthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1_1_lock_entry" prot="private">themisdb::sharding::test::PercolatorLockRegistry::LockEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1a0b35abc30e0244e9a07081283377c0e9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::test::PercolatorLockRegistry::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::test::PercolatorLockRegistry::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="712" column="45" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="712" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1aa246a7c2f328036d955962e21898f4c1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, LockEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LockEntry&gt; themisdb::sharding::test::PercolatorLockRegistry::locks_</definition>
+        <argsstring></argsstring>
+        <name>locks_</name>
+        <qualifiedname>themisdb::sharding::test::PercolatorLockRegistry::locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="713" column="24" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="713" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1a66043dc80109c648dcfc6f4c2779faed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::PercolatorLockRegistry::acquireLock</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;key, std::chrono::steady_clock::time_point expiry)</argsstring>
+        <name>acquireLock</name>
+        <qualifiedname>themisdb::sharding::test::PercolatorLockRegistry::acquireLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>expiry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="683" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="683" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1a48dbcce3fa0d9b15f4dcd0471a727af2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::test::PercolatorLockRegistry::cleanStaleLocks</definition>
+        <argsstring>(std::chrono::steady_clock::time_point now)</argsstring>
+        <name>cleanStaleLocks</name>
+        <qualifiedname>themisdb::sharding::test::PercolatorLockRegistry::cleanStaleLocks</qualifiedname>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+<para>Clean stale locks (expired before <computeroutput>now</computeroutput>). Returns cleaned count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="691" column="12" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="691" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1a300774ec4f19f55d52a0ff20bb7b43cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::test::PercolatorLockRegistry::lockCount</definition>
+        <argsstring>() const</argsstring>
+        <name>lockCount</name>
+        <qualifiedname>themisdb::sharding::test::PercolatorLockRegistry::lockCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="705" column="12" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="705" bodyend="708"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal Percolator-style lock registry for orphan-detection tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="681" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="681" bodyend="714"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1a66043dc80109c648dcfc6f4c2779faed" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::PercolatorLockRegistry</scope><name>acquireLock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1a48dbcce3fa0d9b15f4dcd0471a727af2" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::PercolatorLockRegistry</scope><name>cleanStaleLocks</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1a300774ec4f19f55d52a0ff20bb7b43cf" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::PercolatorLockRegistry</scope><name>lockCount</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1aa246a7c2f328036d955962e21898f4c1" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::PercolatorLockRegistry</scope><name>locks_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry_1a0b35abc30e0244e9a07081283377c0e9" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::PercolatorLockRegistry</scope><name>mu_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

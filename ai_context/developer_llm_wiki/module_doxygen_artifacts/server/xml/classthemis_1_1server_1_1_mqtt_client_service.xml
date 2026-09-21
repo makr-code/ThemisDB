@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_mqtt_client_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::MqttClientService</compoundname>
+    <includes refid="mqtt__client__service_8h" local="no">mqtt_client_service.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mqtt_client_service_1ae18876e9fda7dc15e3267d3e598b9d72" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_mqtt_client_config" kindref="compound">MqttClientConfig</ref></type>
+        <definition>MqttClientConfig themis::server::MqttClientService::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::MqttClientService::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="493" column="22" bodyfile="include/server/mqtt_client_service.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mqtt_client_service_1abfea76f82468d5265fcec3a19e68ca2a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::MqttClientService::effective_client_id_</definition>
+        <argsstring></argsstring>
+        <name>effective_client_id_</name>
+        <qualifiedname>themis::server::MqttClientService::effective_client_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="494" column="17" bodyfile="include/server/mqtt_client_service.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mqtt_client_service_1a98c313e4df2111a64b6f2b5ba64c0b89" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport" kindref="compound">MqttCDCTransport</ref></type>
+        <definition>MqttCDCTransport themis::server::MqttClientService::cdc_transport_</definition>
+        <argsstring></argsstring>
+        <name>cdc_transport_</name>
+        <qualifiedname>themis::server::MqttClientService::cdc_transport_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="495" column="22" bodyfile="include/server/mqtt_client_service.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1ad85f68672c56e479de4ecf7c5086be76" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MqttClientService::MqttClientService</definition>
+        <argsstring>(MqttClientConfig={})</argsstring>
+        <name>MqttClientService</name>
+        <qualifiedname>themis::server::MqttClientService::MqttClientService</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_mqtt_client_config" kindref="compound">MqttClientConfig</ref></type>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="457" column="14" bodyfile="include/server/mqtt_client_service.h" bodystart="457" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1aea0753019bfd74478703edf9310c0658" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MqttClientService::~MqttClientService</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MqttClientService</name>
+        <qualifiedname>themis::server::MqttClientService::~MqttClientService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="458" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1a420675160875f5ede13d3c47240831e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MqttClientService::MqttClientService</definition>
+        <argsstring>(const MqttClientService &amp;)=delete</argsstring>
+        <name>MqttClientService</name>
+        <qualifiedname>themis::server::MqttClientService::MqttClientService</qualifiedname>
+        <param>
+          <type>const MqttClientService &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="459" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1af2e0a811e549361d5d82cce9a6ee8795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_mqtt_client_service_1ad85f68672c56e479de4ecf7c5086be76" kindref="member">MqttClientService</ref> &amp;</type>
+        <definition>MqttClientService &amp; themis::server::MqttClientService::operator=</definition>
+        <argsstring>(const MqttClientService &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::MqttClientService::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_mqtt_client_service_1ad85f68672c56e479de4ecf7c5086be76" kindref="member">MqttClientService</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="460" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1a73650a74c7d49dcbfd93fcd74614b0e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MqttClientService::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::server::MqttClientService::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements start without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="465" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="465" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1a9528f5874cdc93bf8dc78def94bde7e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MqttClientService::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::server::MqttClientService::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements stop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="470" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="470" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1a06b8897db9c805c6d129e3c912badf2a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::MqttClientService::isConnected</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isConnected</name>
+        <qualifiedname>themis::server::MqttClientService::isConnected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="471" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="471" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1ab2fc13a9f3eefbb00442b3963f8c1274" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::MqttClientService::publish</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, uint8_t=1, bool=false)</argsstring>
+        <name>publish</name>
+        <qualifiedname>themis::server::MqttClientService::publish</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="472" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="472" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1a0498cccbdf1223c8760119d23b2378ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::MqttClientService::subscribe</definition>
+        <argsstring>(const std::string &amp;, uint8_t=1)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themis::server::MqttClientService::subscribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="473" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="473" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1a7c1f5d939cdbde87e1b9169488a557e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::MqttClientService::unsubscribe</definition>
+        <argsstring>(const std::string &amp;)</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themis::server::MqttClientService::unsubscribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Unsubscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements unsubscribe without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="480" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="480" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1ab99e1cc4a415433dfe1bdf350d66bbab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MqttClientService::setMessageHandler</definition>
+        <argsstring>(std::shared_ptr&lt; IMqttMessageHandler &gt;)</argsstring>
+        <name>setMessageHandler</name>
+        <qualifiedname>themis::server::MqttClientService::setMessageHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_i_mqtt_message_handler" kindref="compound">IMqttMessageHandler</ref> &gt;</type>
+        </param>
+        <briefdescription>
+<para>Set Message Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMessageHandler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="486" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="486" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1ae67eecdf31178792a13ce395894de401" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport" kindref="compound">MqttCDCTransport</ref> &amp;</type>
+        <definition>MqttCDCTransport &amp; themis::server::MqttClientService::cdcTransport</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cdcTransport</name>
+        <qualifiedname>themis::server::MqttClientService::cdcTransport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="487" column="22" bodyfile="include/server/mqtt_client_service.h" bodystart="487" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1ad27b0812258a9a22e2f8b07142972874" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MqttClientService::registerWithServiceRegistry</definition>
+        <argsstring>(const std::string &amp;=&quot;mqtt_client&quot;)</argsstring>
+        <name>registerWithServiceRegistry</name>
+        <qualifiedname>themis::server::MqttClientService::registerWithServiceRegistry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <defval>&quot;mqtt_client&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="488" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="488" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1a36918e99f07d0b93696af12ac9826e8f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MqttClientService::unregisterFromServiceRegistry</definition>
+        <argsstring>(const std::string &amp;=&quot;mqtt_client&quot;)</argsstring>
+        <name>unregisterFromServiceRegistry</name>
+        <qualifiedname>themis::server::MqttClientService::unregisterFromServiceRegistry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <defval>&quot;mqtt_client&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="489" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="489" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1aa0d750f092c18a3dfdf19b1459421454" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1server_1_1_mqtt_client_config" kindref="compound">MqttClientConfig</ref> &amp;</type>
+        <definition>const MqttClientConfig &amp; themis::server::MqttClientService::getConfig</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::server::MqttClientService::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="490" column="28" bodyfile="include/server/mqtt_client_service.h" bodystart="490" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_client_service_1a88c90ad1aa53174d0fd0934f82e143bf" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::server::MqttClientService::clientId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>clientId</name>
+        <qualifiedname>themis::server::MqttClientService::clientId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="491" column="23" bodyfile="include/server/mqtt_client_service.h" bodystart="491" bodyend="491"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/mqtt_client_service.h" line="455" column="1" bodyfile="include/server/mqtt_client_service.h" bodystart="455" bodyend="496"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a98c313e4df2111a64b6f2b5ba64c0b89" prot="private" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>cdc_transport_</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1ae67eecdf31178792a13ce395894de401" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>cdcTransport</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a88c90ad1aa53174d0fd0934f82e143bf" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>clientId</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1ae18876e9fda7dc15e3267d3e598b9d72" prot="private" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1abfea76f82468d5265fcec3a19e68ca2a" prot="private" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>effective_client_id_</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1aa0d750f092c18a3dfdf19b1459421454" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a06b8897db9c805c6d129e3c912badf2a" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>isConnected</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1ad85f68672c56e479de4ecf7c5086be76" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>MqttClientService</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a420675160875f5ede13d3c47240831e6" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>MqttClientService</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1af2e0a811e549361d5d82cce9a6ee8795" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1ab2fc13a9f3eefbb00442b3963f8c1274" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>publish</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1ad27b0812258a9a22e2f8b07142972874" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>registerWithServiceRegistry</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1ab99e1cc4a415433dfe1bdf350d66bbab" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>setMessageHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a73650a74c7d49dcbfd93fcd74614b0e2" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>start</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a9528f5874cdc93bf8dc78def94bde7e3" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>stop</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a0498cccbdf1223c8760119d23b2378ba" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>subscribe</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a36918e99f07d0b93696af12ac9826e8f" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>unregisterFromServiceRegistry</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1a7c1f5d939cdbde87e1b9169488a557e4" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>unsubscribe</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_client_service_1aea0753019bfd74478703edf9310c0658" prot="public" virt="non-virtual"><scope>themis::server::MqttClientService</scope><name>~MqttClientService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

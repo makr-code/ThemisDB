@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_audit_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::AuditLogEntry</compoundname>
+    <includes refid="graphql__audit__logger_8h" local="no">graphql_audit_logger.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EventType</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::EventType</qualifiedname>
+        <enumvalue id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa87f3234eaea75cc0883e9b5fc50f444c" prot="public">
+          <name>QueryExecution</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfaacc05a977459bcfd91836131775fa36e" prot="public">
+          <name>MutationExecution</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa26b2307a6ca8175d1ea9a35f87f53815" prot="public">
+          <name>SubscriptionCreated</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfabbfe21fc78bf10eb314764e7a2f0e8d2" prot="public">
+          <name>AuthenticationAttempt</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa61063732a53bca53b189c030b68c99f7" prot="public">
+          <name>AuthorizationFailure</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfac7433990fc11e0ae16d6974bbf8b2f44" prot="public">
+          <name>RateLimitExceeded</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa3c1862b16a903ed116ee2ed115f7570b" prot="public">
+          <name>ValidationFailure</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bfa6d52441da3acb1a45c93063f6e6445e5" prot="public">
+          <name>DeprecatedFeatureUsed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="71" column="5" bodyfile="include/api/graphql_audit_logger.h" bodystart="71" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a08b04beb2468afc34e3e886a48a18541" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" kindref="member">EventType</ref></type>
+        <definition>EventType themis::graphql::AuditLogEntry::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="82" column="15" bodyfile="include/api/graphql_audit_logger.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a1ed22962c024a423f8800873d8a377a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::operation_name</definition>
+        <argsstring></argsstring>
+        <name>operation_name</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::operation_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="83" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a3f65e4ab578b10e6d6cb68e59bfc5ebb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::operation_type</definition>
+        <argsstring></argsstring>
+        <name>operation_type</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::operation_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="84" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1acad4e6ec483f1dd4d096bbe5e776b231" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="85" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1ad3107919634ee0ebdcdfdc8f0bd5ecd8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="86" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1ac0c6bd9e3a958dec059bc817ff76b6c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::ip_address</definition>
+        <argsstring></argsstring>
+        <name>ip_address</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::ip_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="87" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a58e8d1a9efe2b9743eaa5161fb4adbd6" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::graphql::AuditLogEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="88" column="43" bodyfile="include/api/graphql_audit_logger.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a89cf0d014c85e1f7f2de1adf07d2e590" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::AuditLogEntry::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="89" column="10" bodyfile="include/api/graphql_audit_logger.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a1a55238a7877bb98e97517f5edceea5c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="90" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a20438dc3fea7bb75014c4deba3c57c91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::query_hash</definition>
+        <argsstring></argsstring>
+        <name>query_hash</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::query_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="91" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a21f77fae7dc76900a351c4cf6dc4696e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::AuditLogEntry::query_complexity</definition>
+        <argsstring></argsstring>
+        <name>query_complexity</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::query_complexity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="92" column="12" bodyfile="include/api/graphql_audit_logger.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_log_entry_1a955fce22deab00d5337264a254f4cf23" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::graphql::AuditLogEntry::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="95" column="24" bodyfile="include/api/graphql_audit_logger.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_audit_log_entry_1a5dfbd387890ce37d8138f9e0d1c72667" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::graphql::AuditLogEntry::eventTypeToString</definition>
+        <argsstring>(EventType type)</argsstring>
+        <name>eventTypeToString</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::eventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" kindref="member">EventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Event Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements eventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="103" column="24" bodyfile="include/api/graphql_audit_logger.h" bodystart="103" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_audit_log_entry_1a95a8d7e8b232efeaaf78366a1612abe3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="117" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="117" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_audit_log_entry_1aa6f511f3b8759faf020e7dc741f381b8" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::AuditLogEntry::formatTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>formatTimestamp</name>
+        <qualifiedname>themis::graphql::AuditLogEntry::formatTimestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="150" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="150" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_audit_logger.h" line="70" column="1" bodyfile="include/api/graphql_audit_logger.h" bodystart="70" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1a55238a7877bb98e97517f5edceea5c" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a08b04beb2468afc34e3e886a48a18541" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a8771772794df7186c021c9fbc82035bf" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>EventType</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a5dfbd387890ce37d8138f9e0d1c72667" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>eventTypeToString</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1aa6f511f3b8759faf020e7dc741f381b8" prot="private" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>formatTimestamp</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1ac0c6bd9e3a958dec059bc817ff76b6c5" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>ip_address</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a955fce22deab00d5337264a254f4cf23" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a1ed22962c024a423f8800873d8a377a9" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>operation_name</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a3f65e4ab578b10e6d6cb68e59bfc5ebb" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>operation_type</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a21f77fae7dc76900a351c4cf6dc4696e" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>query_complexity</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a20438dc3fea7bb75014c4deba3c57c91" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>query_hash</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a89cf0d014c85e1f7f2de1adf07d2e590" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>success</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1ad3107919634ee0ebdcdfdc8f0bd5ecd8" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a58e8d1a9efe2b9743eaa5161fb4adbd6" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1a95a8d7e8b232efeaaf78366a1612abe3" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_log_entry_1acad4e6ec483f1dd4d096bbe5e776b231" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogEntry</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

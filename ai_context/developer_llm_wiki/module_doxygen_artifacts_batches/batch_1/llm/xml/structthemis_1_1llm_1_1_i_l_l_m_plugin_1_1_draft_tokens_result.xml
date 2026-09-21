@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ILLMPlugin::DraftTokensResult</compoundname>
+    <includes refid="llm__plugin__interface_8h" local="no">llm_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1a53d1c185363741197d9177b7526926dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::ILLMPlugin::DraftTokensResult::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>themis::llm::ILLMPlugin::DraftTokensResult::tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="361" column="21" bodyfile="include/llm/llm_plugin_interface.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1aef20213ac65b80fc64fe57688ccaceb4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::llm::ILLMPlugin::DraftTokensResult::logits</definition>
+        <argsstring></argsstring>
+        <name>logits</name>
+        <qualifiedname>themis::llm::ILLMPlugin::DraftTokensResult::logits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="362" column="21" bodyfile="include/llm/llm_plugin_interface.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1a27c743012c9c3c4d6413ebeaba6c5066" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ILLMPlugin::DraftTokensResult::vocab_size</definition>
+        <argsstring></argsstring>
+        <name>vocab_size</name>
+        <qualifiedname>themis::llm::ILLMPlugin::DraftTokensResult::vocab_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="363" column="16" bodyfile="include/llm/llm_plugin_interface.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_plugin_interface.h" line="360" column="5" bodyfile="include/llm/llm_plugin_interface.h" bodystart="360" bodyend="364"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1aef20213ac65b80fc64fe57688ccaceb4" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin::DraftTokensResult</scope><name>logits</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1a53d1c185363741197d9177b7526926dd" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin::DraftTokensResult</scope><name>tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1a27c743012c9c3c4d6413ebeaba6c5066" prot="public" virt="non-virtual"><scope>themis::llm::ILLMPlugin::DraftTokensResult</scope><name>vocab_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

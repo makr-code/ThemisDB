@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AIDecisionAuditor::Stats</compoundname>
+    <includes refid="ai__decision__auditor_8h" local="no">ai_decision_auditor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1a4002042a1e97b36fc9cfa349e2812cc4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AIDecisionAuditor::Stats::total_decisions</definition>
+        <argsstring></argsstring>
+        <name>total_decisions</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::Stats::total_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="186" column="16" bodyfile="include/llm/ai_decision_auditor.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1a8c99eaf96be3f51b47c8e2cb625806fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AIDecisionAuditor::Stats::flagged_for_review</definition>
+        <argsstring></argsstring>
+        <name>flagged_for_review</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::Stats::flagged_for_review</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="187" column="16" bodyfile="include/llm/ai_decision_auditor.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ab34fdcbfa048f324dbcba7e182495ea8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AIDecisionAuditor::Stats::human_overrides</definition>
+        <argsstring></argsstring>
+        <name>human_overrides</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::Stats::human_overrides</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="188" column="16" bodyfile="include/llm/ai_decision_auditor.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ac66aa9b78437cc4b3cd975b6d1ddd941" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AIDecisionAuditor::Stats::avg_confidence</definition>
+        <argsstring></argsstring>
+        <name>avg_confidence</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::Stats::avg_confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="189" column="15" bodyfile="include/llm/ai_decision_auditor.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ad3d96f1e9c3226dd0e3548e4b5cf5ba4" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::AIDecisionAuditor::Stats::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::Stats::avg_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="190" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_decision_auditor.h" line="185" column="5" bodyfile="include/llm/ai_decision_auditor.h" bodystart="185" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ac66aa9b78437cc4b3cd975b6d1ddd941" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::Stats</scope><name>avg_confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ad3d96f1e9c3226dd0e3548e4b5cf5ba4" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::Stats</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1a8c99eaf96be3f51b47c8e2cb625806fa" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::Stats</scope><name>flagged_for_review</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ab34fdcbfa048f324dbcba7e182495ea8" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::Stats</scope><name>human_overrides</name></member>
+      <member refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1a4002042a1e97b36fc9cfa349e2812cc4" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor::Stats</scope><name>total_decisions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,639 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_wire_protocol_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolMetrics</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats" prot="public">themis::network::WireProtocolMetrics::LatencyStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats" prot="public">themis::network::WireProtocolMetrics::ThroughputStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats" prot="public">themis::network::WireProtocolMetrics::ErrorStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot" prot="public">themis::network::WireProtocolMetrics::Snapshot</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_config" prot="public">themis::network::WireProtocolMetrics::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1ab4c15937b4411ca655e5c6fbf7f895a5" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::WireProtocolMetrics::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="172" column="12" bodyfile="include/network/wire_protocol_performance.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1acde7a5c45784797a88669d4bd4ae12e1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::WireProtocolMetrics::latency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>latency_mutex_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::latency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="175" column="35" bodyfile="include/network/wire_protocol_performance.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a47d51f99197b85041836f880ef312b8f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::network::WireProtocolMetrics::latency_samples_</definition>
+        <argsstring></argsstring>
+        <name>latency_samples_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::latency_samples_</qualifiedname>
+        <briefdescription>
+<para>milliseconds </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="176" column="27" bodyfile="include/network/wire_protocol_performance.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a7fc00ed5c048b22013d566df10e608ec" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolMetrics::write_pos_</definition>
+        <argsstring></argsstring>
+        <name>write_pos_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::write_pos_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="177" column="35" bodyfile="include/network/wire_protocol_performance.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a44a6cef9550b88523cf8aa52265962e7" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolMetrics::buffer_full_</definition>
+        <argsstring></argsstring>
+        <name>buffer_full_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::buffer_full_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="178" column="35" bodyfile="include/network/wire_protocol_performance.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a2236458f9b53e257ec4d733329225acf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::bytes_received_total_</definition>
+        <argsstring></argsstring>
+        <name>bytes_received_total_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::bytes_received_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="181" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a5206e040ca57415bcb25ad495fd74930" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::bytes_sent_total_</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent_total_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::bytes_sent_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="182" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a56cf728e723f4e0f54f5000859414095" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::requests_total_</definition>
+        <argsstring></argsstring>
+        <name>requests_total_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::requests_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="183" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a96ca45613b87b9cac2cf828e48d76e0c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::compressed_payloads_</definition>
+        <argsstring></argsstring>
+        <name>compressed_payloads_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::compressed_payloads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="184" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="184" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a97f7fe9a6653255ca271aa278b2fe535" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::original_bytes_total_</definition>
+        <argsstring></argsstring>
+        <name>original_bytes_total_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::original_bytes_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="185" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1ac61b51a45cdc5a8660a36f5553ca5123" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::compressed_bytes_total_</definition>
+        <argsstring></argsstring>
+        <name>compressed_bytes_total_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::compressed_bytes_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="186" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a42f4747a11d602c3d4040377f25291e7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::errors_total_</definition>
+        <argsstring></argsstring>
+        <name>errors_total_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::errors_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="189" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1ad5e6f83830b67acb26f49099cf4ab403" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::connection_errors_</definition>
+        <argsstring></argsstring>
+        <name>connection_errors_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::connection_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="190" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1aae1485a639f2a82a4e2657873e7c123b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::timeout_errors_</definition>
+        <argsstring></argsstring>
+        <name>timeout_errors_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::timeout_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="191" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a3fa117e973d77e2636109922f792db27" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::parse_errors_</definition>
+        <argsstring></argsstring>
+        <name>parse_errors_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::parse_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="192" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a0586a339be52d4de140be2e90c5db638" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolMetrics::auth_errors_</definition>
+        <argsstring></argsstring>
+        <name>auth_errors_</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::auth_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="193" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1acddd307d0449fbbb2208cc5d9dd79e75" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::WireProtocolMetrics::WireProtocolMetrics</definition>
+        <argsstring>(const Config &amp;cfg=Config::defaults())</argsstring>
+        <name>WireProtocolMetrics</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::WireProtocolMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>Config::defaults()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="112" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a1b83a26a8c7a70be81f6f37ebda9280d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolMetrics::recordLatency</definition>
+        <argsstring>(std::chrono::steady_clock::time_point started)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::recordLatency</qualifiedname>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>started</declname>
+        </param>
+        <briefdescription>
+<para>Record a completed request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Latency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>started</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time-point when request handling began.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">started</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), count(), <ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="120" column="10" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="38" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolMetrics::recordLatencyMs</definition>
+        <argsstring>(double ms)</argsstring>
+        <name>recordLatencyMs</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::recordLatencyMs</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+<para>Record raw latency in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Latency Ms.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="125" column="10" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="49" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1aa8fb8748cfe3e7c41110631070eec6d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolMetrics::recordBytes</definition>
+        <argsstring>(uint64_t received, uint64_t sent)</argsstring>
+        <name>recordBytes</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::recordBytes</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>received</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sent</declname>
+        </param>
+        <briefdescription>
+<para>Accumulate byte counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Bytes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>received</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes read from the wire (payload). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes written to the wire (response payload).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">received</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="132" column="10" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a7d80877255c9fb1439c70c28f3e7fd86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolMetrics::recordCompression</definition>
+        <argsstring>(uint64_t original_bytes, uint64_t compressed_bytes)</argsstring>
+        <name>recordCompression</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::recordCompression</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>original_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>compressed_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record a compressed payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Compression.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size before compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size after compression.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">original_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="139" column="10" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolMetrics::recordError</definition>
+        <argsstring>(const char *kind)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::recordError</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>kind</declname>
+        </param>
+        <briefdescription>
+<para>Increment an error counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One of &quot;connection&quot;, &quot;timeout&quot;, &quot;parse&quot;, &quot;auth&quot;.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), k(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="145" column="10" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="86" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot" kindref="compound">Snapshot</ref></type>
+        <definition>WireProtocolMetrics::Snapshot themis::network::WireProtocolMetrics::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::snapshot</qualifiedname>
+        <briefdescription>
+<para>Compute a consistent point-in-time snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Latency percentiles are computed from the current sample window. This involves a sort of the window copy, so it is O(n log n) where n ≤ max_samples. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="156" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="101" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1aaade86d8f79b7da489ca5ebdf1902efa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all counters and the sample window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), std::fill(), begin(), end(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="161" column="10" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="182" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1af9a8cf49950293ca30d8290d8f9325f5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::totalRequests</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalRequests</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::totalRequests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="164" column="14" bodyfile="include/network/wire_protocol_performance.h" bodystart="164" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a55ddd5e783eabf29e4e149d2a9cde28b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::totalErrors</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalErrors</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::totalErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="167" column="14" bodyfile="include/network/wire_protocol_performance.h" bodystart="167" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_metrics_1a3ac0b46ace672701680cc8ae1ad3e756" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::percentile</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;sorted, double p) noexcept</argsstring>
+        <name>percentile</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::percentile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>sorted</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="196" column="19" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="202" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe metrics collector for the wire protocol. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Call <computeroutput><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a1b83a26a8c7a70be81f6f37ebda9280d" kindref="member">recordLatency()</ref></computeroutput> on every completed request, <computeroutput><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1aa8fb8748cfe3e7c41110631070eec6d2" kindref="member">recordBytes()</ref></computeroutput> for each transferred payload, and <computeroutput><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" kindref="member">recordError()</ref></computeroutput> on failures. The rolling window is bounded: older samples are dropped once <computeroutput>max_samples</computeroutput> is reached.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1acddd307d0449fbbb2208cc5d9dd79e75" kindref="member">WireProtocolMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>inside<sp/>session<sp/>handler:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>…<sp/>handle<sp/>request<sp/>…</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">metrics.recordLatency(t0);</highlight></codeline>
+<codeline><highlight class="normal">metrics.recordBytes(bytes_in,<sp/>bytes_out);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>periodic<sp/>reporting:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>metrics.snapshot();</highlight></codeline>
+<codeline><highlight class="normal">logger-&gt;info(</highlight><highlight class="stringliteral">&quot;p99={}<sp/>ms,<sp/>rps={}&quot;</highlight><highlight class="normal">,<sp/>snap.latency.p99_ms,<sp/>snap.throughput.requests_per_second);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="65" column="1" bodyfile="include/network/wire_protocol_performance.h" bodystart="65" bodyend="197"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a0586a339be52d4de140be2e90c5db638" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>auth_errors_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a44a6cef9550b88523cf8aa52265962e7" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>buffer_full_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a2236458f9b53e257ec4d733329225acf" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>bytes_received_total_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a5206e040ca57415bcb25ad495fd74930" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>bytes_sent_total_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1ab4c15937b4411ca655e5c6fbf7f895a5" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1ac61b51a45cdc5a8660a36f5553ca5123" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>compressed_bytes_total_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a96ca45613b87b9cac2cf828e48d76e0c" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>compressed_payloads_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1ad5e6f83830b67acb26f49099cf4ab403" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>connection_errors_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a42f4747a11d602c3d4040377f25291e7" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>errors_total_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1acde7a5c45784797a88669d4bd4ae12e1" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>latency_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a47d51f99197b85041836f880ef312b8f" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>latency_samples_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a97f7fe9a6653255ca271aa278b2fe535" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>original_bytes_total_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a3fa117e973d77e2636109922f792db27" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>parse_errors_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a3ac0b46ace672701680cc8ae1ad3e756" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>percentile</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1aa8fb8748cfe3e7c41110631070eec6d2" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>recordBytes</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a7d80877255c9fb1439c70c28f3e7fd86" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>recordCompression</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a1b83a26a8c7a70be81f6f37ebda9280d" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>recordLatencyMs</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a56cf728e723f4e0f54f5000859414095" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>requests_total_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1aaade86d8f79b7da489ca5ebdf1902efa" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1aae1485a639f2a82a4e2657873e7c123b" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>timeout_errors_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a55ddd5e783eabf29e4e149d2a9cde28b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>totalErrors</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1af9a8cf49950293ca30d8290d8f9325f5" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>totalRequests</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1acddd307d0449fbbb2208cc5d9dd79e75" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>WireProtocolMetrics</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a7fc00ed5c048b22013d566df10e608ec" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolMetrics</scope><name>write_pos_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

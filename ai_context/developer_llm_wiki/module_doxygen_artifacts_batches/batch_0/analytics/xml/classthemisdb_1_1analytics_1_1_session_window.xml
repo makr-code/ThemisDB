@@ -1,0 +1,604 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_session_window" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::SessionWindow</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_session_window_1_1_session" prot="private">themisdb::analytics::SessionWindow::Session</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_session_window_1a4f5593933790ac352cd8b978db00957a" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref>)&gt;</type>
+        <definition>using themisdb::analytics::SessionWindow::ResultCallback = std::function&lt;void(WindowResult)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResultCallback</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::ResultCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="501" column="5" bodyfile="include/analytics/streaming_window.h" bodystart="501" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a22efb288b5ec7c227c490904bb1242f7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_session_window_config" kindref="compound">SessionWindowConfig</ref></type>
+        <definition>SessionWindowConfig themisdb::analytics::SessionWindow::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="544" column="25" bodyfile="include/analytics/streaming_window.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a65e28e259caa76d12acb1b7ed2bd518c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a4f5593933790ac352cd8b978db00957a" kindref="member">ResultCallback</ref></type>
+        <definition>ResultCallback themisdb::analytics::SessionWindow::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="545" column="20" bodyfile="include/analytics/streaming_window.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a882e4cd9e1547ebe5af3b42657287d5c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kindref="compound">WindowAggregateSpec</ref> &gt;</type>
+        <definition>std::vector&lt;WindowAggregateSpec&gt; themisdb::analytics::SessionWindow::agg_specs_</definition>
+        <argsstring></argsstring>
+        <name>agg_specs_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::agg_specs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="546" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1ab0a6f57f2a137f774bf12e3c07b9ab8a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, Session &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Session&gt; themisdb::analytics::SessionWindow::sessions_</definition>
+        <argsstring></argsstring>
+        <name>sessions_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="557" column="24" bodyfile="include/analytics/streaming_window.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1aec5b0cc17c10b52ead285c88b0e1b8cb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::SessionWindow::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="558" column="24" bodyfile="include/analytics/streaming_window.h" bodystart="558" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a825621b2e9652ed2fc684f517bbf0774" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::analytics::SessionWindow::expiry_thread_</definition>
+        <argsstring></argsstring>
+        <name>expiry_thread_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::expiry_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="561" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="561" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a39e94863d4f0c47a847f12475c77fafe" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::analytics::SessionWindow::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="562" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="562" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a0a04215166397767042c1eacfb1cd7bc" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::analytics::SessionWindow::expiry_cv_</definition>
+        <argsstring></argsstring>
+        <name>expiry_cv_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::expiry_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="563" column="29" bodyfile="include/analytics/streaming_window.h" bodystart="563" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a6fb8f6a2f593cbecb89cadd798c83090" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::SessionWindow::expiry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>expiry_mutex_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::expiry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="564" column="16" bodyfile="include/analytics/streaming_window.h" bodystart="564" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a7f3f177ce56837c4b8e5e8297fbb5b42" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themisdb::analytics::SessionWindow::watermark_us_</definition>
+        <argsstring></argsstring>
+        <name>watermark_us_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::watermark_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="567" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="567" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a68f260eb5f43b60a54422150067f95f9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::SessionWindow::windows_opened_</definition>
+        <argsstring></argsstring>
+        <name>windows_opened_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::windows_opened_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="569" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="569" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1ada3c95c777463b817e5ad76b40e223e2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::SessionWindow::windows_closed_</definition>
+        <argsstring></argsstring>
+        <name>windows_closed_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::windows_closed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="570" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="570" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1ac77c8dec426f7a7c39a4750e029baef0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::SessionWindow::records_ingested_</definition>
+        <argsstring></argsstring>
+        <name>records_ingested_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::records_ingested_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="571" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="571" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a6264398bad291677e3420ca509329c0d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::SessionWindow::records_dropped_</definition>
+        <argsstring></argsstring>
+        <name>records_dropped_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::records_dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="572" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="572" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1aaa5757a376e47fc62c5df6a279f70227" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::SessionWindow::late_records_</definition>
+        <argsstring></argsstring>
+        <name>late_records_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::late_records_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="573" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="573" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1a567a7564876d1749ef79b6fb4130fa90" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::SessionWindow::results_emitted_</definition>
+        <argsstring></argsstring>
+        <name>results_emitted_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::results_emitted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="574" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="574" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_session_window_1aabb90709d260fc2e09d382e139a42c7e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::SessionWindow::windows_evicted_</definition>
+        <argsstring></argsstring>
+        <name>windows_evicted_</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::windows_evicted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="575" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="575" bodyend="575"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::SessionWindow::SessionWindow</definition>
+        <argsstring>(const SessionWindowConfig &amp;config)</argsstring>
+        <name>SessionWindow</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::SessionWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_session_window_config" kindref="compound">SessionWindowConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Session Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="508" column="14" bodyfile="src/analytics/streaming_window.cpp" bodystart="1077" bodyend="1088"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1ab7e5ce8154a9464cf062ec4dd4257f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::SessionWindow::~SessionWindow</definition>
+        <argsstring>()</argsstring>
+        <name>~SessionWindow</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::~SessionWindow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="509" column="5" bodyfile="src/analytics/streaming_window.cpp" bodystart="1090" bodyend="1107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1a2ded22e1a1d08f83e96f6314e7b0e751" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::SessionWindow::SessionWindow</definition>
+        <argsstring>(const SessionWindow &amp;)=delete</argsstring>
+        <name>SessionWindow</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::SessionWindow</qualifiedname>
+        <param>
+          <type>const SessionWindow &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="511" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1ad4837c4ab8f5f040530d8c4cec72080c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" kindref="member">SessionWindow</ref> &amp;</type>
+        <definition>SessionWindow &amp; themisdb::analytics::SessionWindow::operator=</definition>
+        <argsstring>(const SessionWindow &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" kindref="member">SessionWindow</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="512" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1affdc40909242df8efe02a188888d0d22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::SessionWindow::addAggregation</definition>
+        <argsstring>(const WindowAggregateSpec &amp;spec)</argsstring>
+        <name>addAggregation</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::addAggregation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kindref="compound">WindowAggregateSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+<para>Add Aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="518" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1124" bodyend="1127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1a980c6293286923c7f53a48bb081bd55f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::SessionWindow::setResultCallback</definition>
+        <argsstring>(ResultCallback cb)</argsstring>
+        <name>setResultCallback</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::setResultCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a4f5593933790ac352cd8b978db00957a" kindref="member">ResultCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set Result Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="523" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1134" bodyend="1137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1a53e22d63fb014799a96460ee40b1fd83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::SessionWindow::ingest</definition>
+        <argsstring>(const StreamRecord &amp;record)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::ingest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Ingest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: toMicros(), count(), load(), compare_exchange_weak(), spdlog::debug(), lk(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="530" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1166" bodyend="1298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1a702ce398075c05020185bd7f0d48977b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::SessionWindow::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), empty(), push_back(), computeResult(), clear(), cb(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="535" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1304" bodyend="1325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1aed32eac1621acedcc3165187aa12185a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref></type>
+        <definition>WindowStats themisdb::analytics::SessionWindow::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="541" column="17" bodyfile="src/analytics/streaming_window.cpp" bodystart="1327" bodyend="1337"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1af6920671cfe699be7f7f9f3f08e69843" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref></type>
+        <definition>WindowResult themisdb::analytics::SessionWindow::computeResult</definition>
+        <argsstring>(const Session &amp;s, bool late=false) const</argsstring>
+        <name>computeResult</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::computeResult</qualifiedname>
+        <param>
+          <type>const Session &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>late</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="577" column="18" bodyfile="src/analytics/streaming_window.cpp" bodystart="1148" bodyend="1158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1a16b02b23fd9cbf1ac358ef3704ddfbad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::SessionWindow::expiryLoop</definition>
+        <argsstring>()</argsstring>
+        <name>expiryLoop</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::expiryLoop</qualifiedname>
+        <briefdescription>
+<para>Expiry Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), wait_for(), load(), std::chrono::system_clock::now(), push_back(), empty(), computeResult(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="581" column="10" bodyfile="src/analytics/streaming_window.cpp" bodystart="1343" bodyend="1383"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_session_window_1a1c005dfdfebdee19279cd3d3f216c95b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::SessionWindow::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themisdb::analytics::SessionWindow::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: genId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="586" column="24" bodyfile="src/analytics/streaming_window.cpp" bodystart="1144" bodyend="1146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_window.h" line="499" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="499" bodyend="587"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1affdc40909242df8efe02a188888d0d22" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>addAggregation</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a882e4cd9e1547ebe5af3b42657287d5c" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>agg_specs_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a65e28e259caa76d12acb1b7ed2bd518c" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>callback_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1af6920671cfe699be7f7f9f3f08e69843" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>computeResult</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a22efb288b5ec7c227c490904bb1242f7" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a0a04215166397767042c1eacfb1cd7bc" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>expiry_cv_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a6fb8f6a2f593cbecb89cadd798c83090" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>expiry_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a825621b2e9652ed2fc684f517bbf0774" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>expiry_thread_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a16b02b23fd9cbf1ac358ef3704ddfbad" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>expiryLoop</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a702ce398075c05020185bd7f0d48977b" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>flush</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a1c005dfdfebdee19279cd3d3f216c95b" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>generateId</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1aed32eac1621acedcc3165187aa12185a" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a53e22d63fb014799a96460ee40b1fd83" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>ingest</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1aaa5757a376e47fc62c5df6a279f70227" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>late_records_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1aec5b0cc17c10b52ead285c88b0e1b8cb" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1ad4837c4ab8f5f040530d8c4cec72080c" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a6264398bad291677e3420ca509329c0d" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>records_dropped_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1ac77c8dec426f7a7c39a4750e029baef0" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>records_ingested_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a4f5593933790ac352cd8b978db00957a" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>ResultCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a567a7564876d1749ef79b6fb4130fa90" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>results_emitted_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a39e94863d4f0c47a847f12475c77fafe" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1ab0a6f57f2a137f774bf12e3c07b9ab8a" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>sessions_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>SessionWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a2ded22e1a1d08f83e96f6314e7b0e751" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>SessionWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a980c6293286923c7f53a48bb081bd55f" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>setResultCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a7f3f177ce56837c4b8e5e8297fbb5b42" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>watermark_us_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1ada3c95c777463b817e5ad76b40e223e2" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>windows_closed_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1aabb90709d260fc2e09d382e139a42c7e" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>windows_evicted_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1a68f260eb5f43b60a54422150067f95f9" prot="private" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>windows_opened_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_session_window_1ab7e5ce8154a9464cf062ec4dd4257f93" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindow</scope><name>~SessionWindow</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

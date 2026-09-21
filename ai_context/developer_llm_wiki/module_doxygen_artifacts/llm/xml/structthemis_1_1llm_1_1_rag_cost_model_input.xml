@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_rag_cost_model_input" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RagCostModelInput</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1ab7f35974e43937e506ef152f96660d6c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::RagCostModelInput::retrieved_docs</definition>
+        <argsstring></argsstring>
+        <name>retrieved_docs</name>
+        <qualifiedname>themis::llm::RagCostModelInput::retrieved_docs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="448" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1ac7569ce22be1e7e34fc59e87524c85b5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::RagCostModelInput::retrieval_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>retrieval_latency_ms</name>
+        <qualifiedname>themis::llm::RagCostModelInput::retrieval_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="449" column="13" bodyfile="include/llm/ai_orchestrator.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1a7f9e90e497a5649a607eab5f05004dd7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::RagCostModelInput::llm_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>llm_latency_ms</name>
+        <qualifiedname>themis::llm::RagCostModelInput::llm_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="450" column="13" bodyfile="include/llm/ai_orchestrator.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1a83d96651375e884ffb8b6049998b6458" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RagCostModelInput::tokens_prompt</definition>
+        <argsstring></argsstring>
+        <name>tokens_prompt</name>
+        <qualifiedname>themis::llm::RagCostModelInput::tokens_prompt</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="451" column="9" bodyfile="include/llm/ai_orchestrator.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1a3f667db92d49da3c491987d7c420d03e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RagCostModelInput::tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>tokens_generated</name>
+        <qualifiedname>themis::llm::RagCostModelInput::tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="452" column="9" bodyfile="include/llm/ai_orchestrator.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1a713fda666bf8466575c144aa511667a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::RagCostModelInput::adapter_apply_attempted</definition>
+        <argsstring></argsstring>
+        <name>adapter_apply_attempted</name>
+        <qualifiedname>themis::llm::RagCostModelInput::adapter_apply_attempted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="453" column="10" bodyfile="include/llm/ai_orchestrator.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1af0c216605db78a250384e1681572314f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::RagCostModelInput::adapter_apply_success</definition>
+        <argsstring></argsstring>
+        <name>adapter_apply_success</name>
+        <qualifiedname>themis::llm::RagCostModelInput::adapter_apply_success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="454" column="10" bodyfile="include/llm/ai_orchestrator.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1a82e851f2550c2831e528b84c3472c9f7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RagCostModelInput::adapter_apply_attempts</definition>
+        <argsstring></argsstring>
+        <name>adapter_apply_attempts</name>
+        <qualifiedname>themis::llm::RagCostModelInput::adapter_apply_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="455" column="9" bodyfile="include/llm/ai_orchestrator.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1a3399e1b10d85f54f5a32e37811265075" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::RagCostModelInput::adapter_apply_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>adapter_apply_latency_ms</name>
+        <qualifiedname>themis::llm::RagCostModelInput::adapter_apply_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="456" column="13" bodyfile="include/llm/ai_orchestrator.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1a1dfc9511b71e2afcc160b387935fdde5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RagCostModelInput::tenant</definition>
+        <argsstring></argsstring>
+        <name>tenant</name>
+        <qualifiedname>themis::llm::RagCostModelInput::tenant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="457" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_model_input_1a38867b2655cdfbfc92a00fcec0cfd8c8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::RagCostModelInput::extra</definition>
+        <argsstring></argsstring>
+        <name>extra</name>
+        <qualifiedname>themis::llm::RagCostModelInput::extra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="458" column="10" bodyfile="include/llm/ai_orchestrator.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="447" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="447" bodyend="459"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1a713fda666bf8466575c144aa511667a8" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>adapter_apply_attempted</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1a82e851f2550c2831e528b84c3472c9f7" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>adapter_apply_attempts</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1a3399e1b10d85f54f5a32e37811265075" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>adapter_apply_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1af0c216605db78a250384e1681572314f" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>adapter_apply_success</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1a38867b2655cdfbfc92a00fcec0cfd8c8" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>extra</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1a7f9e90e497a5649a607eab5f05004dd7" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>llm_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1ac7569ce22be1e7e34fc59e87524c85b5" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>retrieval_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1ab7f35974e43937e506ef152f96660d6c" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>retrieved_docs</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1a1dfc9511b71e2afcc160b387935fdde5" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>tenant</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1a3f667db92d49da3c491987d7c420d03e" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>tokens_generated</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_model_input_1a83d96651375e884ffb8b6049998b6458" prot="public" virt="non-virtual"><scope>themis::llm::RagCostModelInput</scope><name>tokens_prompt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

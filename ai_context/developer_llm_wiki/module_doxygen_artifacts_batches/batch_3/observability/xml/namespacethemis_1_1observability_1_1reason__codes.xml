@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1reason__codes" kind="namespace" language="C++">
+    <compoundname>themis::observability::reason_codes</compoundname>
+    <innernamespace refid="namespacethemis_1_1observability_1_1reason__codes_1_1fallback__mode">themis::observability::reason_codes::fallback_mode</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1reason__codes_1_1ann">themis::observability::reason_codes::ann</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag">themis::observability::reason_codes::tensor_rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1reason__codes_1_1graph__truth">themis::observability::reason_codes::graph_truth</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer">themis::observability::reason_codes::final_layer</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1a78d02ca7121fa139c51c362926857af8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::kPolicyVersionDefault</definition>
+        <argsstring></argsstring>
+        <name>kPolicyVersionDefault</name>
+        <qualifiedname>themis::observability::reason_codes::kPolicyVersionDefault</qualifiedname>
+        <initializer>= &quot;2026-06-17&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="15" column="35" bodyfile="include/observability/reason_codes.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/reason_codes.h" line="13" column="1"/>
+  </compounddef>
+</doxygen>

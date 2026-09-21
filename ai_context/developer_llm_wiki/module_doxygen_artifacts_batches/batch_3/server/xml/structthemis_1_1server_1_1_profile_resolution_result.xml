@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_profile_resolution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ProfileResolutionResult</compoundname>
+    <includes refid="server__activation__profile_8h" local="no">server_activation_profile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_profile_resolution_result_1a3423f99dfb861088b172194e16047ffa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ProfileResolutionResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::server::ProfileResolutionResult::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="38" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_profile_resolution_result_1a9f4f495f2372bdda75689a79bc9f228f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57" kindref="member">ServerActivationProfile</ref></type>
+        <definition>ServerActivationProfile themis::server::ProfileResolutionResult::profile</definition>
+        <argsstring></argsstring>
+        <name>profile</name>
+        <qualifiedname>themis::server::ProfileResolutionResult::profile</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57aeb6d8ae6f20283755b339c0dc273988b" kindref="member">ServerActivationProfile::Standard</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="39" column="29" bodyfile="include/server/server_activation_profile.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_profile_resolution_result_1a1ae40609a2c12247613b402176aeb5bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ProfileResolutionResult::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::server::ProfileResolutionResult::source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="40" column="17" bodyfile="include/server/server_activation_profile.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_profile_resolution_result_1a88c9f2106c79abfaaf8971c63f4277cf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ProfileResolutionResult::raw_value</definition>
+        <argsstring></argsstring>
+        <name>raw_value</name>
+        <qualifiedname>themis::server::ProfileResolutionResult::raw_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="41" column="17" bodyfile="include/server/server_activation_profile.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_profile_resolution_result_1acd01398ba4a5d44e5330b767b6bb83ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ProfileResolutionResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::server::ProfileResolutionResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="42" column="17" bodyfile="include/server/server_activation_profile.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of server profile resolution from CLI/config/environment. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/server_activation_profile.h" line="37" column="1" bodyfile="include/server/server_activation_profile.h" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_profile_resolution_result_1acd01398ba4a5d44e5330b767b6bb83ae" prot="public" virt="non-virtual"><scope>themis::server::ProfileResolutionResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1server_1_1_profile_resolution_result_1a3423f99dfb861088b172194e16047ffa" prot="public" virt="non-virtual"><scope>themis::server::ProfileResolutionResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1server_1_1_profile_resolution_result_1a9f4f495f2372bdda75689a79bc9f228f" prot="public" virt="non-virtual"><scope>themis::server::ProfileResolutionResult</scope><name>profile</name></member>
+      <member refid="structthemis_1_1server_1_1_profile_resolution_result_1a88c9f2106c79abfaaf8971c63f4277cf" prot="public" virt="non-virtual"><scope>themis::server::ProfileResolutionResult</scope><name>raw_value</name></member>
+      <member refid="structthemis_1_1server_1_1_profile_resolution_result_1a1ae40609a2c12247613b402176aeb5bb" prot="public" virt="non-virtual"><scope>themis::server::ProfileResolutionResult</scope><name>source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

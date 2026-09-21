@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1core_1_1concerns_1_1labels" kind="namespace" language="C++">
+    <compoundname>themis::core::concerns::labels</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1a2dfc89dd75f76e6c9ea0b829b144f2cf" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kMethod</definition>
+        <argsstring></argsstring>
+        <name>kMethod</name>
+        <qualifiedname>themis::core::concerns::labels::kMethod</qualifiedname>
+        <initializer>= &quot;method&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="52" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1a0eb1d47b3aceb649a718614a78832100" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kStatus</definition>
+        <argsstring></argsstring>
+        <name>kStatus</name>
+        <qualifiedname>themis::core::concerns::labels::kStatus</qualifiedname>
+        <initializer>= &quot;status&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="53" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1af2200c24c2552841abfa821bc8856b38" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kEndpoint</definition>
+        <argsstring></argsstring>
+        <name>kEndpoint</name>
+        <qualifiedname>themis::core::concerns::labels::kEndpoint</qualifiedname>
+        <initializer>= &quot;endpoint&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="54" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1a4d22039b401f51074dba2086d7022ab7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kOperation</definition>
+        <argsstring></argsstring>
+        <name>kOperation</name>
+        <qualifiedname>themis::core::concerns::labels::kOperation</qualifiedname>
+        <initializer>= &quot;operation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="57" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1a22c9dc16eba04341daa647c24da0591b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kTable</definition>
+        <argsstring></argsstring>
+        <name>kTable</name>
+        <qualifiedname>themis::core::concerns::labels::kTable</qualifiedname>
+        <initializer>= &quot;table&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="58" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1ace17097f32e40ee23de45f36dbd67691" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kDatabase</definition>
+        <argsstring></argsstring>
+        <name>kDatabase</name>
+        <qualifiedname>themis::core::concerns::labels::kDatabase</qualifiedname>
+        <initializer>= &quot;database&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="59" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1a54257b820650a5432a1efe18bcda560a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kService</definition>
+        <argsstring></argsstring>
+        <name>kService</name>
+        <qualifiedname>themis::core::concerns::labels::kService</qualifiedname>
+        <initializer>= &quot;service&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="62" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1ae4df64b058e488d030106a5d724d984f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kEnv</definition>
+        <argsstring></argsstring>
+        <name>kEnv</name>
+        <qualifiedname>themis::core::concerns::labels::kEnv</qualifiedname>
+        <initializer>= &quot;env&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="63" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1a88e0c70d982a8913785a478e572f6159" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kInstance</definition>
+        <argsstring></argsstring>
+        <name>kInstance</name>
+        <qualifiedname>themis::core::concerns::labels::kInstance</qualifiedname>
+        <initializer>= &quot;instance&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="64" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1ad59271aa8efc1b8db736c03a8ad72349" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kError</definition>
+        <argsstring></argsstring>
+        <name>kError</name>
+        <qualifiedname>themis::core::concerns::labels::kError</qualifiedname>
+        <initializer>= &quot;error&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="67" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1a7862b7abc39cc04ca49062f407d575ee" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kResult</definition>
+        <argsstring></argsstring>
+        <name>kResult</name>
+        <qualifiedname>themis::core::concerns::labels::kResult</qualifiedname>
+        <initializer>= &quot;result&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="68" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1a13ff94f267634693c0ee13e97e9d6051" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kCacheName</definition>
+        <argsstring></argsstring>
+        <name>kCacheName</name>
+        <qualifiedname>themis::core::concerns::labels::kCacheName</qualifiedname>
+        <initializer>= &quot;cache_name&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="71" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1_1labels_1ad62833638271b8b6de198df533c89810" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::labels::kCacheResult</definition>
+        <argsstring></argsstring>
+        <name>kCacheResult</name>
+        <qualifiedname>themis::core::concerns::labels::kCacheResult</qualifiedname>
+        <initializer>= &quot;cache_result&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/metric_labels.h" line="72" column="35" bodyfile="include/core/concerns/metric_labels.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/metric_labels.h" line="49" column="1"/>
+  </compounddef>
+</doxygen>

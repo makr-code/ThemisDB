@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_t_s_a_client_wrapper" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::TSAClientWrapper</compoundname>
+    <basecompoundref refid="classthemis_1_1security_1_1_i_t_s_a_client" prot="public" virt="non-virtual">themis::security::ITSAClient</basecompoundref>
+    <includes refid="tsa__api_8h" local="no">tsa_api.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a2626151bbf80f8284d503388c70232db" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_timestamp_authority" kindref="compound">TimestampAuthority</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TimestampAuthority&gt; themis::security::TSAClientWrapper::authority_</definition>
+        <argsstring></argsstring>
+        <name>authority_</name>
+        <qualifiedname>themis::security::TSAClientWrapper::authority_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="351" column="21" bodyfile="include/security/tsa_api.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae9f4566f101727ee47f0e62f61a4d301" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref></type>
+        <definition>TSAEventHooks themis::security::TSAClientWrapper::hooks_</definition>
+        <argsstring></argsstring>
+        <name>hooks_</name>
+        <qualifiedname>themis::security::TSAClientWrapper::hooks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="352" column="19" bodyfile="include/security/tsa_api.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae081cc118c9c0c68f869be17058d8cb5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TSAClientWrapper::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::security::TSAClientWrapper::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="353" column="17" bodyfile="include/security/tsa_api.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::TSAClientWrapper::TSAClientWrapper</definition>
+        <argsstring>(std::unique_ptr&lt; TimestampAuthority &gt; authority, TSAEventHooks hooks={})</argsstring>
+        <name>TSAClientWrapper</name>
+        <qualifiedname>themis::security::TSAClientWrapper::TSAClientWrapper</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_timestamp_authority" kindref="compound">TimestampAuthority</ref> &gt;</type>
+          <declname>authority</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref></type>
+          <declname>hooks</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct with an existing <ref refid="classthemis_1_1security_1_1_timestamp_authority" kindref="compound">TimestampAuthority</ref> and optional hooks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>authority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backend TSA client (ownership transferred). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hooks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional integration callbacks. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="332" column="14" bodyfile="src/security/tsa_api.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ad7608de2e3ffba1cb17f4f89f07fa899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::TSAClientWrapper::~TSAClientWrapper</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~TSAClientWrapper</name>
+        <qualifiedname>themis::security::TSAClientWrapper::~TSAClientWrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="335" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a5b133eb89a62603a9c7afafa95cd03bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::TSAClientWrapper::TSAClientWrapper</definition>
+        <argsstring>(const TSAClientWrapper &amp;)=delete</argsstring>
+        <name>TSAClientWrapper</name>
+        <qualifiedname>themis::security::TSAClientWrapper::TSAClientWrapper</qualifiedname>
+        <param>
+          <type>const TSAClientWrapper &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="338" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a200959af700208a5513b4173a4256e03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref> &amp;</type>
+        <definition>TSAClientWrapper &amp; themis::security::TSAClientWrapper::operator=</definition>
+        <argsstring>(const TSAClientWrapper &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::TSAClientWrapper::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="339" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a055ae79e85595b8678df1f58b2db7585" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::TSAClientWrapper::TSAClientWrapper</definition>
+        <argsstring>(TSAClientWrapper &amp;&amp;) noexcept</argsstring>
+        <name>TSAClientWrapper</name>
+        <qualifiedname>themis::security::TSAClientWrapper::TSAClientWrapper</qualifiedname>
+        <param>
+          <type>TSAClientWrapper &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="342" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a6a453ea8ef945b135402e7f559cd0acc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref> &amp;</type>
+        <definition>TSAClientWrapper &amp; themis::security::TSAClientWrapper::operator=</definition>
+        <argsstring>(TSAClientWrapper &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::TSAClientWrapper::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="343" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a969e3298df0e553fb21ad45099d3032c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1security_1_1_t_s_a_response" kindref="compound">TSAResponse</ref></type>
+        <definition>TSAResponse themis::security::TSAClientWrapper::requestTimestamp</definition>
+        <argsstring>(const TSARequest &amp;req) override</argsstring>
+        <name>requestTimestamp</name>
+        <qualifiedname>themis::security::TSAClientWrapper::requestTimestamp</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_t_s_a_client_1a1139921f8b655f74743a42665dcdd043">requestTimestamp</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_t_s_a_request" kindref="compound">TSARequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Request Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), getTimestampForHash(), getTimestamp(), fireError(), empty(), <ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae8fda1dc19d3355e0e5498249fb4d115" kindref="member">getLastError()</ref>, <ref refid="structthemis_1_1security_1_1_t_s_a_response_1ac6c01a620a05170b1b224ad17d127f0a" kindref="member">TSAResponse::fromToken()</ref>, on_timestamp_issued(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="345" column="17" bodyfile="src/security/tsa_api.cpp" bodystart="83" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae879dd90f5c8243e230a150e9f80f873" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::security::TSAClientWrapper::verifyToken</definition>
+        <argsstring>(const TSAVerifyRequest &amp;req) override</argsstring>
+        <name>verifyToken</name>
+        <qualifiedname>themis::security::TSAClientWrapper::verifyToken</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_t_s_a_client_1adea9e7019be873eec9479492ef5ecda7">verifyToken</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_t_s_a_verify_request" kindref="compound">TSAVerifyRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Verify a bearer token or credential for a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the token is valid.</para>
+</simplesect>
+Calls: empty(), parseToken(), fireError(), on_token_verified(), verifyTimestampForHash(), verifyTimestamp(), <ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae8fda1dc19d3355e0e5498249fb4d115" kindref="member">getLastError()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="346" column="10" bodyfile="src/security/tsa_api.cpp" bodystart="116" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a37c9e55087cb3da698333ace8a326c17" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::security::TSAClientWrapper::isAvailable</definition>
+        <argsstring>() override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::security::TSAClientWrapper::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_t_s_a_client_1a22128ae86defe01adb342491469cc6f5">isAvailable</reimplements>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isAvailable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="347" column="10" bodyfile="src/security/tsa_api.cpp" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae8fda1dc19d3355e0e5498249fb4d115" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::TSAClientWrapper::getLastError</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::security::TSAClientWrapper::getLastError</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_t_s_a_client_1a106b252c59d7bae156dd1c65e24133ad">getLastError</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the most recent error message, or an empty string. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="348" column="17" bodyfile="src/security/tsa_api.cpp" bodystart="158" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a61a8fd228d053ed24c3a7dbbf630deb2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::TSAClientWrapper::fireError</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>fireError</name>
+        <qualifiedname>themis::security::TSAClientWrapper::fireError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Fire Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: on_error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="359" column="10" bodyfile="src/security/tsa_api.cpp" bodystart="70" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper" kindref="compound">TSAClientWrapper</ref> — production implementation of <ref refid="classthemis_1_1security_1_1_i_t_s_a_client" kindref="compound">ITSAClient</ref>.</para>
+<para>Wraps the existing <ref refid="classthemis_1_1security_1_1_timestamp_authority" kindref="compound">TimestampAuthority</ref> backend, translates between the high-level TSARequest/TSAResponse types and the low-level <ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref>, and fires the registered <ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref> callbacks. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::security::ITSAClient</label>
+        <link refid="classthemis_1_1security_1_1_i_t_s_a_client"/>
+      </node>
+      <node id="1">
+        <label>themis::security::TSAClientWrapper</label>
+        <link refid="classthemis_1_1security_1_1_t_s_a_client_wrapper"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::security::ITSAClient</label>
+        <link refid="classthemis_1_1security_1_1_i_t_s_a_client"/>
+      </node>
+      <node id="1">
+        <label>themis::security::TSAClientWrapper</label>
+        <link refid="classthemis_1_1security_1_1_t_s_a_client_wrapper"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/tsa_api.h" line="324" column="1" bodyfile="include/security/tsa_api.h" bodystart="324" bodyend="360"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a2626151bbf80f8284d503388c70232db" prot="private" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>authority_</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a61a8fd228d053ed24c3a7dbbf630deb2" prot="private" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>fireError</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae8fda1dc19d3355e0e5498249fb4d115" prot="public" virt="virtual"><scope>themis::security::TSAClientWrapper</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae9f4566f101727ee47f0e62f61a4d301" prot="private" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>hooks_</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a37c9e55087cb3da698333ace8a326c17" prot="public" virt="virtual"><scope>themis::security::TSAClientWrapper</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae081cc118c9c0c68f869be17058d8cb5" prot="private" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a200959af700208a5513b4173a4256e03" prot="public" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a6a453ea8ef945b135402e7f559cd0acc" prot="public" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a969e3298df0e553fb21ad45099d3032c" prot="public" virt="virtual"><scope>themis::security::TSAClientWrapper</scope><name>requestTimestamp</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" prot="public" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>TSAClientWrapper</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a5b133eb89a62603a9c7afafa95cd03bb" prot="public" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>TSAClientWrapper</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a055ae79e85595b8678df1f58b2db7585" prot="public" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>TSAClientWrapper</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae879dd90f5c8243e230a150e9f80f873" prot="public" virt="virtual"><scope>themis::security::TSAClientWrapper</scope><name>verifyToken</name></member>
+      <member refid="classthemis_1_1security_1_1_i_t_s_a_client_1a54f4d6257df175bf9cc534eaac2de7f7" prot="public" virt="virtual"><scope>themis::security::TSAClientWrapper</scope><name>~ITSAClient</name></member>
+      <member refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ad7608de2e3ffba1cb17f4f89f07fa899" prot="public" virt="non-virtual"><scope>themis::security::TSAClientWrapper</scope><name>~TSAClientWrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

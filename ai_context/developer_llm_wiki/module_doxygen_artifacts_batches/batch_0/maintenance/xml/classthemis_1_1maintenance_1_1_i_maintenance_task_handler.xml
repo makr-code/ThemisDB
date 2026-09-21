@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::maintenance::IMaintenanceTaskHandler</compoundname>
+    <derivedcompoundref refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler" prot="public" virt="non-virtual">themis::maintenance::FunctionMaintenanceTaskHandler</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler" prot="public" virt="non-virtual">themis::maintenance::MvccCleanupHandler</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1maintenance_1_1_replica_validation_handler" prot="public" virt="non-virtual">themis::maintenance::ReplicaValidationHandler</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1maintenance_1_1_storage_compaction_handler" prot="public" virt="non-virtual">themis::maintenance::StorageCompactionHandler</derivedcompoundref>
+    <includes refid="i__maintenance__task__handler_8h" local="no">i_maintenance_task_handler.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a02df22c7fc7ff41510208a7fa0673de9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::maintenance::IMaintenanceTaskHandler::~IMaintenanceTaskHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMaintenanceTaskHandler</name>
+        <qualifiedname>themis::maintenance::IMaintenanceTaskHandler::~IMaintenanceTaskHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_maintenance_task_handler.h" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a0c02379595c393103648c8cf3191b259" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>virtual Result&lt; std::string &gt; themis::maintenance::IMaintenanceTaskHandler::execute</definition>
+        <argsstring>(const std::string &amp;job_id, MaintenanceTaskType task_type)=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::maintenance::IMaintenanceTaskHandler::execute</qualifiedname>
+        <reimplementedby refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1adee8a95d74935feabc4ffc28144da9ea">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1acd59a272b176c6ec9862e12c493c77ee">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1ac846e954e1c6e7d23ba2b027ca2f149a">execute</reimplementedby>
+        <reimplementedby refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a4d40cdcd78e3058663b4f5ec43710e8a">execute</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <briefdescription>
+<para>Execute the maintenance task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orchestrator job identifier (for logging/tracing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The task type being executed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok with a human-readable result summary string on success, or an Error on failure (the orchestrator will propagate the error message to the job&apos;s error_message field). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_maintenance_task_handler.h" line="39" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a944d9bb4ec535eb3b5003129b43157f9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::maintenance::IMaintenanceTaskHandler::handlerName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>handlerName</name>
+        <qualifiedname>themis::maintenance::IMaintenanceTaskHandler::handlerName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler_1a43bf90a8e529e9e26eb82dd36c603299">handlerName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1aa14d69fa0b2b35daeb017e70c161fb30">handlerName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1aac84162b127496650e53d15c87ec4133">handlerName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1maintenance_1_1_storage_compaction_handler_1a5214d38e6f12934bf4899f8800deb883">handlerName</reimplementedby>
+        <briefdescription>
+<para>Human-readable handler name for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returned by GET /api/v1/maintenance/task-handlers. Should be unique and stable across restarts (e.g. &quot;StorageCompactionHandler&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_maintenance_task_handler.h" line="48" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pluggable handler for a single maintenance task type. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations are expected to be thread-safe: the orchestrator may call <ref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a0c02379595c393103648c8cf3191b259" kindref="member">execute()</ref> from any thread. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::maintenance::FunctionMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_function_maintenance_task_handler"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+      <node id="3">
+        <label>themis::maintenance::MvccCleanupHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::maintenance::ReplicaValidationHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_replica_validation_handler"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::maintenance::StorageCompactionHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_storage_compaction_handler"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/maintenance/i_maintenance_task_handler.h" line="26" column="1" bodyfile="include/maintenance/i_maintenance_task_handler.h" bodystart="26" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a0c02379595c393103648c8cf3191b259" prot="public" virt="pure-virtual"><scope>themis::maintenance::IMaintenanceTaskHandler</scope><name>execute</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a944d9bb4ec535eb3b5003129b43157f9" prot="public" virt="pure-virtual"><scope>themis::maintenance::IMaintenanceTaskHandler</scope><name>handlerName</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a02df22c7fc7ff41510208a7fa0673de9" prot="public" virt="virtual"><scope>themis::maintenance::IMaintenanceTaskHandler</scope><name>~IMaintenanceTaskHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

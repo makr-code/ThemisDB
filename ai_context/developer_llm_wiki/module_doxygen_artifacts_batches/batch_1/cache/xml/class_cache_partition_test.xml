@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cache_partition_test" kind="class" language="C++" prot="public">
+    <compoundname>CachePartitionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cache_partition_test_1aec3f10e52c2f54e2a4e11b0478ef6e3f" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_mock_cache_partition" kindref="compound">MockCachePartition</ref></type>
+        <definition>MockCachePartition CachePartitionTest::partition</definition>
+        <argsstring></argsstring>
+        <name>partition</name>
+        <qualifiedname>CachePartitionTest::partition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="477" column="24" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="477" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CachePartitionTest</label>
+        <link refid="class_cache_partition_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CachePartitionTest</label>
+        <link refid="class_cache_partition_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>partition</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>MockCachePartition</label>
+        <link refid="class_mock_cache_partition"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::cache::ICachePartition</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_partition"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="475" column="1" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="475" bodyend="478"/>
+    <listofallmembers>
+      <member refid="class_cache_partition_test_1aec3f10e52c2f54e2a4e11b0478ef6e3f" prot="protected" virt="non-virtual"><scope>CachePartitionTest</scope><name>partition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

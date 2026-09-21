@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::bench</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench_1_1aql__gates">themis::bench::aql_gates</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1aql__helpers">themis::bench::aql_helpers</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1aql__translation">themis::bench::aql_translation</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="53" column="1"/>
+  </compounddef>
+</doxygen>

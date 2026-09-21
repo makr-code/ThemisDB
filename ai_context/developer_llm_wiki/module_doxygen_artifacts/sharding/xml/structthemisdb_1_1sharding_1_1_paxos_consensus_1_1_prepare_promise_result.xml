@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_paxos_consensus_1_1_prepare_promise_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PaxosConsensus::PreparePromiseResult</compoundname>
+    <includes refid="paxos__consensus_8h" local="no">paxos_consensus.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_consensus_1_1_prepare_promise_result_1aa04ec92c30b25ec9814f81a764e17e46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosConsensus::PreparePromiseResult::promised</definition>
+        <argsstring></argsstring>
+        <name>promised</name>
+        <qualifiedname>themisdb::sharding::PaxosConsensus::PreparePromiseResult::promised</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true = acceptor promised </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="199" column="14" bodyfile="include/sharding/paxos_consensus.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_consensus_1_1_prepare_promise_result_1a1f60cd7c888af6677b25e5faa0c13fa2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PaxosConsensus::PreparePromiseResult::accepted_round</definition>
+        <argsstring></argsstring>
+        <name>accepted_round</name>
+        <qualifiedname>themisdb::sharding::PaxosConsensus::PreparePromiseResult::accepted_round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ballot of the last accepted proposal </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="200" column="18" bodyfile="include/sharding/paxos_consensus.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_consensus_1_1_prepare_promise_result_1af018f87823c3e78fe9c71d77e2e67445" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &gt;</type>
+        <definition>std::optional&lt;ConsensusLogEntry&gt; themisdb::sharding::PaxosConsensus::PreparePromiseResult::accepted_value</definition>
+        <argsstring></argsstring>
+        <name>accepted_value</name>
+        <qualifiedname>themisdb::sharding::PaxosConsensus::PreparePromiseResult::accepted_value</qualifiedname>
+        <briefdescription>
+<para>value accepted at that ballot </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="201" column="23" bodyfile="include/sharding/paxos_consensus.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Extended prepare callback that, on success, returns the acceptor&apos;s highest-ballot accepted value (Paxos Phase-1b safe-value propagation). When the acceptor has never accepted a value, the optional is empty. If this callback is registered it takes priority over <ref refid="classthemisdb_1_1sharding_1_1_paxos_consensus_1ac2026c8e18afe81ad469b09f0ed1eddf" kindref="member">PaxosPrepareCallback</ref>. </para>
+    </detaileddescription>
+    <location file="include/sharding/paxos_consensus.h" line="198" column="5" bodyfile="include/sharding/paxos_consensus.h" bodystart="198" bodyend="202"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_consensus_1_1_prepare_promise_result_1a1f60cd7c888af6677b25e5faa0c13fa2" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosConsensus::PreparePromiseResult</scope><name>accepted_round</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_consensus_1_1_prepare_promise_result_1af018f87823c3e78fe9c71d77e2e67445" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosConsensus::PreparePromiseResult</scope><name>accepted_value</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_consensus_1_1_prepare_promise_result_1aa04ec92c30b25ec9814f81a764e17e46" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosConsensus::PreparePromiseResult</scope><name>promised</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

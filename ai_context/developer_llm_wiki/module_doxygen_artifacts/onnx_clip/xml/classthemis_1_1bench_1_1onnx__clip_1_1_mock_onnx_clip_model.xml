@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::onnx_clip::MockOnnxClipModel</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a0a24e3e979fcf05d1a97371f3ef03bc4" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::bench::onnx_clip::MockOnnxClipModel::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="151" column="18" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a5207e5f312a5ac9631ba49856099f24f" prot="private" static="no" mutable="no">
+        <type>std::uniform_real_distribution&lt; float &gt;</type>
+        <definition>std::uniform_real_distribution&lt;float&gt; themis::bench::onnx_clip::MockOnnxClipModel::dis_</definition>
+        <argsstring></argsstring>
+        <name>dis_</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::dis_</qualifiedname>
+        <initializer>{-1.0f, 1.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="152" column="36" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a01d754b735f7bfd8c49a2b13a15d3df9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::onnx_clip::MockOnnxClipModel::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::initialized_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="153" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a9110fd6bb63bd1384b5c217839aa2ca9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::onnx_clip::MockOnnxClipModel::MockOnnxClipModel</definition>
+        <argsstring>()</argsstring>
+        <name>MockOnnxClipModel</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::MockOnnxClipModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="66" column="5" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a13aaf5445bd9d3b76a0e084525e67a71" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::MockOnnxClipModel::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize model (simulates weight loading + graph construction). Target: &lt; 500 ms (cold start, no caching). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="72" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="72" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a481197d0ef6e04a4fb8b7f10a77867b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::bench::onnx_clip::MockOnnxClipModel::encodeImage</definition>
+        <argsstring>(int height=224, int width=224)</argsstring>
+        <name>encodeImage</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::encodeImage</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>height</declname>
+          <defval>224</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+          <defval>224</defval>
+        </param>
+        <briefdescription>
+<para>Encode single image to embedding (target: ≤ 150 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Image height (default 224) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Image width (default 224) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Embedding vector (768 dimensions for CLIP ViT-B/32) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="90" column="17" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="90" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a8835cab917e7bf43d53e68516f64103b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::bench::onnx_clip::MockOnnxClipModel::encodeBatch</definition>
+        <argsstring>(int batch_size)</argsstring>
+        <name>encodeBatch</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::encodeBatch</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Encode batch of images (target: varies by batch size). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of images in batch </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Batch embeddings (batch_size x 768) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="109" column="17" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="109" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a5712427e5f1fd7a51eb41894868c9c0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::bench::onnx_clip::MockOnnxClipModel::encodeText</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>encodeText</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::encodeText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Encode text prompt to embedding (target: ≤ 5 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Text to encode </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Embedding vector (768 dimensions) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="122" column="17" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="122" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a62d0e913938861353323d025bc4fee39" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::onnx_clip::MockOnnxClipModel::healthCheck</definition>
+        <argsstring>()</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::healthCheck</qualifiedname>
+        <briefdescription>
+<para>Health-check operation (smoke test). Measures overhead of model availability check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="138" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1ab6065a9562bc554ced0843b031e847d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::MockOnnxClipModel::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::bench::onnx_clip::MockOnnxClipModel::reset</qualifiedname>
+        <briefdescription>
+<para>Reset model state between benchmark iterations. Called in TearDown to ensure clean slate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="146" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="146" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock ONNX CLIP model for benchmarking when real implementation unavailable. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This fixture provides deterministic latency patterns matching expected performance profiles. In production builds, this would be replaced with the real themis_image_onnx_clip module. </para>
+    </detaileddescription>
+    <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="64" column="1" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="64" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a5207e5f312a5ac9631ba49856099f24f" prot="private" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>dis_</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a8835cab917e7bf43d53e68516f64103b" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>encodeBatch</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a481197d0ef6e04a4fb8b7f10a77867b3" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>encodeImage</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a5712427e5f1fd7a51eb41894868c9c0a" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>encodeText</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a62d0e913938861353323d025bc4fee39" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a13aaf5445bd9d3b76a0e084525e67a71" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a01d754b735f7bfd8c49a2b13a15d3df9" prot="private" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a9110fd6bb63bd1384b5c217839aa2ca9" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>MockOnnxClipModel</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1ab6065a9562bc554ced0843b031e847d5" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>reset</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model_1a0a24e3e979fcf05d1a97371f3ef03bc4" prot="private" virt="non-virtual"><scope>themis::bench::onnx_clip::MockOnnxClipModel</scope><name>rng_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

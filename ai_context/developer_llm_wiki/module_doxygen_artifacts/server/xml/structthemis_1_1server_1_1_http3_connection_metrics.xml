@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_http3_connection_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::Http3ConnectionMetrics</compoundname>
+    <includes refid="http3__production__config_8h" local="no">http3_production_config.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot" prot="public">themis::server::Http3ConnectionMetrics::Snapshot</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_connection_metrics_1a438b0765e75677656f50b32c46f4eb60" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::Http3ConnectionMetrics::handshake_start_us</definition>
+        <argsstring></argsstring>
+        <name>handshake_start_us</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::handshake_start_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Absolute µs since epoch at connect. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="75" column="14" bodyfile="include/server/http3_production_config.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_connection_metrics_1a1ca0c3cc1b5ca0b535306c3cb7154974" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::Http3ConnectionMetrics::handshake_end_us</definition>
+        <argsstring></argsstring>
+        <name>handshake_end_us</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::handshake_end_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Absolute µs since epoch at handshake done. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="76" column="14" bodyfile="include/server/http3_production_config.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_connection_metrics_1a5748f52983f53d8a7f5823f4ec05ea16" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::Http3ConnectionMetrics::zero_rtt_used</definition>
+        <argsstring></argsstring>
+        <name>zero_rtt_used</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::zero_rtt_used</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Connection resumed with 0-RTT early data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="77" column="14" bodyfile="include/server/http3_production_config.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_connection_metrics_1a47d041434f5af8351b63e08fb6de9bfa" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::Http3ConnectionMetrics::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::bytes_sent</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="80" column="17" bodyfile="include/server/http3_production_config.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_connection_metrics_1a5f2da3e67d57d0d84569a575fdba03ee" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::Http3ConnectionMetrics::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::bytes_received</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="81" column="17" bodyfile="include/server/http3_production_config.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_connection_metrics_1a8cda935791c9531e5b7936f46c7b0414" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::Http3ConnectionMetrics::requests_total</definition>
+        <argsstring></argsstring>
+        <name>requests_total</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::requests_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="82" column="17" bodyfile="include/server/http3_production_config.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_connection_metrics_1a6573c6ec336e1b5b9a1c5dbda6b896fb" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::Http3ConnectionMetrics::request_latency_total_us</definition>
+        <argsstring></argsstring>
+        <name>request_latency_total_us</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::request_latency_total_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="85" column="17" bodyfile="include/server/http3_production_config.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_connection_metrics_1a4413e1cc2ed312c6060f9d781defd1e1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::server::Http3ConnectionMetrics::migration_count</definition>
+        <argsstring></argsstring>
+        <name>migration_count</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::migration_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="88" column="17" bodyfile="include/server/http3_production_config.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_http3_connection_metrics_1a5c7eab789905dece560d07a7c4003939" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::Http3ConnectionMetrics::Http3ConnectionMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>Http3ConnectionMetrics</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::Http3ConnectionMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="90" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_http3_connection_metrics_1a957da35de28b02afd60c28d3cf02ae18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot" kindref="compound">Snapshot</ref></type>
+        <definition>Snapshot themis::server::Http3ConnectionMetrics::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::server::Http3ConnectionMetrics::snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="105" column="14" bodyfile="include/server/http3_production_config.h" bodystart="105" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/http3_production_config.h" line="73" column="1" bodyfile="include/server/http3_production_config.h" bodystart="73" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5f2da3e67d57d0d84569a575fdba03ee" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a47d041434f5af8351b63e08fb6de9bfa" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a1ca0c3cc1b5ca0b535306c3cb7154974" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>handshake_end_us</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a438b0765e75677656f50b32c46f4eb60" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>handshake_start_us</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5c7eab789905dece560d07a7c4003939" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>Http3ConnectionMetrics</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a4413e1cc2ed312c6060f9d781defd1e1" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>migration_count</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a6573c6ec336e1b5b9a1c5dbda6b896fb" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>request_latency_total_us</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a8cda935791c9531e5b7936f46c7b0414" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>requests_total</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a957da35de28b02afd60c28d3cf02ae18" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>snapshot</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5748f52983f53d8a7f5823f4ec05ea16" prot="public" virt="non-virtual"><scope>themis::server::Http3ConnectionMetrics</scope><name>zero_rtt_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

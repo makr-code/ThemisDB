@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_resource_tracker" kind="struct" language="C++" prot="public">
+    <compoundname>ResourceTracker</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_resource_tracker_1ad61a4dffdfbe02ef83c0fe06aff3ca27" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ResourceTracker::cleaned_up</definition>
+        <argsstring></argsstring>
+        <name>cleaned_up</name>
+        <qualifiedname>ResourceTracker::cleaned_up</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="88" column="10" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_resource_tracker_1a50785c548e66909ea338f525327f55dc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ResourceTracker::threw_on_cleanup</definition>
+        <argsstring></argsstring>
+        <name>threw_on_cleanup</name>
+        <qualifiedname>ResourceTracker::threw_on_cleanup</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="89" column="10" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="87" column="1" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="87" bodyend="90"/>
+    <listofallmembers>
+      <member refid="struct_resource_tracker_1ad61a4dffdfbe02ef83c0fe06aff3ca27" prot="public" virt="non-virtual"><scope>ResourceTracker</scope><name>cleaned_up</name></member>
+      <member refid="struct_resource_tracker_1a50785c548e66909ea338f525327f55dc" prot="public" virt="non-virtual"><scope>ResourceTracker</scope><name>threw_on_cleanup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

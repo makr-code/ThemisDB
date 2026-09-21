@@ -1,0 +1,672 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_audio_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::AudioProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor_plugin" prot="public" virt="non-virtual">themis::content::IContentProcessorPlugin</basecompoundref>
+    <includes refid="audio__processor_8h" local="no">audio_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1aefe0b6492881403c34d7b2f6c2852af7" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::AudioProcessor::enable_transcription_</definition>
+        <argsstring></argsstring>
+        <name>enable_transcription_</name>
+        <qualifiedname>themis::content::AudioProcessor::enable_transcription_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="50" column="10" bodyfile="include/content/audio_processor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1a8e60d826aae367de2f49fc544503d8c0" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::AudioProcessor::transcription_model_</definition>
+        <argsstring></argsstring>
+        <name>transcription_model_</name>
+        <qualifiedname>themis::content::AudioProcessor::transcription_model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="51" column="17" bodyfile="include/content/audio_processor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1aff8102c03934fc554633b5ce29686b9e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::AudioProcessor::transcription_language_</definition>
+        <argsstring></argsstring>
+        <name>transcription_language_</name>
+        <qualifiedname>themis::content::AudioProcessor::transcription_language_</qualifiedname>
+        <initializer>= &quot;auto&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="52" column="17" bodyfile="include/content/audio_processor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1acebdaf880f28c2cba18434f2cb201bc2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::AudioProcessor::extract_waveform_</definition>
+        <argsstring></argsstring>
+        <name>extract_waveform_</name>
+        <qualifiedname>themis::content::AudioProcessor::extract_waveform_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="53" column="10" bodyfile="include/content/audio_processor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1a83d203912e5e9c6f963000007529047b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::AudioProcessor::waveform_samples_</definition>
+        <argsstring></argsstring>
+        <name>waveform_samples_</name>
+        <qualifiedname>themis::content::AudioProcessor::waveform_samples_</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="54" column="9" bodyfile="include/content/audio_processor.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1ac20c8261cf9e287ee5835fad9bfb5ca9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::AudioProcessor::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::content::AudioProcessor::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="57" column="24" bodyfile="include/content/audio_processor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1a7cdf7d500d90227bca7914602bd7a42c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AudioProcessor::audio_files_processed_</definition>
+        <argsstring></argsstring>
+        <name>audio_files_processed_</name>
+        <qualifiedname>themis::content::AudioProcessor::audio_files_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="58" column="17" bodyfile="include/content/audio_processor.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1ae1116c3168cb44d0d7d19de3b48b3bd7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AudioProcessor::total_duration_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_duration_ms_</name>
+        <qualifiedname>themis::content::AudioProcessor::total_duration_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="59" column="17" bodyfile="include/content/audio_processor.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1a73085b8cf9b1f304a60f696b00a72424" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AudioProcessor::transcriptions_performed_</definition>
+        <argsstring></argsstring>
+        <name>transcriptions_performed_</name>
+        <qualifiedname>themis::content::AudioProcessor::transcriptions_performed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="60" column="17" bodyfile="include/content/audio_processor.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1a3eba7f22ecc7e03e8709dc4a087a155a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::AudioProcessor::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::content::AudioProcessor::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="61" column="17" bodyfile="include/content/audio_processor.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1a6f501a4e1461e96a54113507775fb4ca" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::AudioProcessor::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::content::AudioProcessor::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="63" column="10" bodyfile="include/content/audio_processor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_audio_processor_1a5c5d351bc055fac1636afeb01f4a31c2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_s_t_t_processor" kindref="compound">STTProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;STTProcessor&gt; themis::content::AudioProcessor::stt_processor_</definition>
+        <argsstring></argsstring>
+        <name>stt_processor_</name>
+        <qualifiedname>themis::content::AudioProcessor::stt_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="92" column="21" bodyfile="include/content/audio_processor.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1ad5db625aeb4ced5654735ccd168d83ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::AudioProcessor::AudioProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>AudioProcessor</name>
+        <qualifiedname>themis::content::AudioProcessor::AudioProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1a2abd7f19d474b030dfebe4d0e6fc74d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::AudioProcessor::~AudioProcessor</definition>
+        <argsstring>() override</argsstring>
+        <name>~AudioProcessor</name>
+        <qualifiedname>themis::content::AudioProcessor::~AudioProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="25" column="5" bodyfile="src/content/audio_processor.cpp" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1aecf3a6bf8c6b0d0b708106b758efe53a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::content::AudioProcessor::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::content::AudioProcessor::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4">getInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="28" column="16" bodyfile="src/content/audio_processor.cpp" bodystart="32" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1ac8b5a6a1f9a8a646f1237317a4a70426" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::AudioProcessor::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::content::AudioProcessor::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: stt_config(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="29" column="10" bodyfile="src/content/audio_processor.cpp" bodystart="61" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1a2dcba9cac3335cc9e3658593b9afd44b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::content::AudioProcessor::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::content::AudioProcessor::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="30" column="10" bodyfile="src/content/audio_processor.cpp" bodystart="98" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1a911c2b0450073ebd9ef7348365ea5616" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::AudioProcessor::canProcess</definition>
+        <argsstring>(const std::string &amp;mime_type) const override</argsstring>
+        <name>canProcess</name>
+        <qualifiedname>themis::content::AudioProcessor::canProcess</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099">canProcess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="31" column="10" bodyfile="src/content/audio_processor.cpp" bodystart="111" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1a1a3ab7526d58512f61574e69d87bc8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref></type>
+        <definition>ContentExtractionResult themis::content::AudioProcessor::extract</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, const ExtractionOptions &amp;options={}) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::AudioProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d">extract</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), size(), empty(), extractMetadata(), extractTags(), extractWaveform(), json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="33" column="29" bodyfile="src/content/audio_processor.cpp" bodystart="127" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1afd5094af7cf810944ba21c088b4bc3be" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_chunk" kindref="compound">ContentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunk &gt; themis::content::AudioProcessor::chunk</definition>
+        <argsstring>(const ContentExtractionResult &amp;result, int max_tokens, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::AudioProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="namespacethemis_1_1content_1a2b7a37dea4bc189fe2bbd96a0ee5c3d7" kindref="member">splitSentences()</ref>, <ref refid="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" kindref="member">countTokens()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="39" column="17" bodyfile="src/content/audio_processor.cpp" bodystart="278" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1ab0a4cdd9b0bb8fe20e6714f0c455426a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::AudioProcessor::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::content::AudioProcessor::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529">healthCheck</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="45" column="10" bodyfile="src/content/audio_processor.cpp" bodystart="325" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1a0a7555f9ff6d36dee7c67de6237f164d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::AudioProcessor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::AudioProcessor::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46">getStatistics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="46" column="10" bodyfile="src/content/audio_processor.cpp" bodystart="329" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1a013ad4a3c18183c820505215acd49aaf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_media_extraction_data" kindref="compound">MediaExtractionData</ref></type>
+        <definition>MediaExtractionData themis::content::AudioProcessor::extractMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractMetadata</name>
+        <qualifiedname>themis::content::AudioProcessor::extractMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), parseMp3FrameHeader(), parseWavMetadata(), parseFlacMetadata(), parseOggVorbisMetadata(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="71" column="25" bodyfile="src/content/audio_processor.cpp" bodystart="689" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1a511da0bf8cd661526431e59775952f2e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::AudioProcessor::extractTags</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractTags</name>
+        <qualifiedname>themis::content::AudioProcessor::extractTags</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Tags. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), readBE32(), frame_id(), id3FrameToTagName(), decodeUtf16Le(), std::string(), stripBom(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="77" column="10" bodyfile="src/content/audio_processor.cpp" bodystart="803" bodyend="974"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1ad5d504efcee94117eb0c26a955d29c55" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::AudioProcessor::extractWaveform</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractWaveform</name>
+        <qualifiedname>themis::content::AudioProcessor::extractWaveform</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="83" column="17" bodyfile="src/content/audio_processor.cpp" bodystart="982" bodyend="992"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_audio_processor_1a9edb9b87c6dbe9fb52d618d681c53247" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::AudioProcessor::transcribe</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>themis::content::AudioProcessor::transcribe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Transcribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements transcribe without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/audio_processor.h" line="89" column="17" bodyfile="src/content/audio_processor.cpp" bodystart="1000" bodyend="1010"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::content::AudioProcessor</label>
+        <link refid="classthemis_1_1content_1_1_audio_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::content::AudioProcessor</label>
+        <link refid="classthemis_1_1content_1_1_audio_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/audio_processor.h" line="22" column="1" bodyfile="include/content/audio_processor.h" bodystart="22" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a7cdf7d500d90227bca7914602bd7a42c" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>audio_files_processed_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1ad5db625aeb4ced5654735ccd168d83ce" prot="public" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>AudioProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a911c2b0450073ebd9ef7348365ea5616" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>canProcess</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1afd5094af7cf810944ba21c088b4bc3be" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1aefe0b6492881403c34d7b2f6c2852af7" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>enable_transcription_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a3eba7f22ecc7e03e8709dc4a087a155a" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a1a3ab7526d58512f61574e69d87bc8bf" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1acebdaf880f28c2cba18434f2cb201bc2" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>extract_waveform_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a013ad4a3c18183c820505215acd49aaf" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>extractMetadata</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a511da0bf8cd661526431e59775952f2e" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>extractTags</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1ad5d504efcee94117eb0c26a955d29c55" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>extractWaveform</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1aecf3a6bf8c6b0d0b708106b758efe53a" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a0a7555f9ff6d36dee7c67de6237f164d" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1ab0a4cdd9b0bb8fe20e6714f0c455426a" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1ac8b5a6a1f9a8a646f1237317a4a70426" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a6f501a4e1461e96a54113507775fb4ca" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a2dcba9cac3335cc9e3658593b9afd44b" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1ac20c8261cf9e287ee5835fad9bfb5ca9" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a5c5d351bc055fac1636afeb01f4a31c2" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>stt_processor_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1ae1116c3168cb44d0d7d19de3b48b3bd7" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>total_duration_ms_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a9edb9b87c6dbe9fb52d618d681c53247" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>transcribe</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1aff8102c03934fc554633b5ce29686b9e" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>transcription_language_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a8e60d826aae367de2f49fc544503d8c0" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>transcription_model_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a73085b8cf9b1f304a60f696b00a72424" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>transcriptions_performed_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a83d203912e5e9c6f963000007529047b" prot="private" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>waveform_samples_</name></member>
+      <member refid="classthemis_1_1content_1_1_audio_processor_1a2abd7f19d474b030dfebe4d0e6fc74d0" prot="public" virt="non-virtual"><scope>themis::content::AudioProcessor</scope><name>~AudioProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" virt="virtual"><scope>themis::content::AudioProcessor</scope><name>~IContentProcessorPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

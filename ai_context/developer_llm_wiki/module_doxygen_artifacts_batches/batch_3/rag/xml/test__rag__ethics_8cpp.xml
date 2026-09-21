@@ -1,0 +1,671 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__ethics_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_ethics.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes refid="bias__detector_8h" local="yes">rag/bias_detector.h</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>rag/bias_detector.h</label>
+        <link refid="bias__detector_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_ethics.cpp</label>
+        <link refid="test__rag__ethics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_r_a_g_ethics_test" prot="public">RAGEthicsTest</innerclass>
+    <innerclass refid="class_bias_detector_test" prot="public">BiasDetectorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1aa7d0b0d13b3ac19c913450e381358eff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>static std::vector&lt; RetrievedDocument &gt; makeDocs</definition>
+        <argsstring>()</argsstring>
+        <name>makeDocs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="23" column="20" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1aafa3866aba0f445ce7b8960795c7de3a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref></type>
+        <definition>static RAGJudgeConfig balancedConfig</definition>
+        <argsstring>()</argsstring>
+        <name>balancedConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="30" column="23" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="30" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGEthicsTest, EthicalComplianceScoreRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref></type>
+        </param>
+        <param>
+          <type>EthicalComplianceScoreRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="51" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1ab8561778975bf6e361a70a14c884d8e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGEthicsTest, GoodEthicsScoresHigh)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref></type>
+        </param>
+        <param>
+          <type>GoodEthicsScoresHigh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="61" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="61" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1a434bfcb7018f4b831236589e8e259374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGEthicsTest, EthicalVetoDisabledByConfig)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref></type>
+        </param>
+        <param>
+          <type>EthicalVetoDisabledByConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="74" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="74" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1afb81319067729ce956badc6ea45ff2f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGEthicsTest, EthicalViolationsListPopulatedOnVeto)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref></type>
+        </param>
+        <param>
+          <type>EthicalViolationsListPopulatedOnVeto</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="87" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="87" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1afdd353bd15ddbab7631046dab471b7ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGEthicsTest, ConfidenceIsComputed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref></type>
+        </param>
+        <param>
+          <type>ConfidenceIsComputed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="113" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="113" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1ad6d4161a22ef2acd1ccc9a992946bdb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGEthicsTest, ConfidenceVariesWithScores)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref></type>
+        </param>
+        <param>
+          <type>ConfidenceVariesWithScores</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="124" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="124" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1a07d7d6f6cce53e87cb8a34ccf3b42238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, DefaultConfig)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="152" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="152" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1ae037825d0c7e943bf82e566c382e1e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, SetConfigRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>SetConfigRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="160" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1acc40b9699b2593096ef8aabcf04293e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, PositionBiasInsufficientSamples)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>PositionBiasInsufficientSamples</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="174" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="174" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1a33436a9ea708a049a709d92ccba023d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, PositionBiasNoSignificantBias)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>PositionBiasNoSignificantBias</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="187" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="187" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1a686a41f2114fd5f0c516732a3d0013bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, LengthBiasInsufficientSamples)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LengthBiasInsufficientSamples</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="209" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="209" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1a10be0f3c1546b596c458da274f554ad6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, LengthBiasUncorrelated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LengthBiasUncorrelated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="217" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="217" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1af75014f497f12ce65a832c4a94a2ef2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, AnalyzeAllBiasesEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>AnalyzeAllBiasesEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="235" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="235" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1ab77360f2ae8279c856bdd5f68600fe2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, BiasMitigationNoSignificantBias)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>BiasMitigationNoSignificantBias</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="242" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="242" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__ethics_8cpp_1a22e9d029573556365f9c83a6cca506c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BiasDetectorTest, BiasMitigationReducesConfidence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>BiasMitigationReducesConfidence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="257" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="257" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for ethical compliance evaluation and bias detection in the RAG judge. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>Ethical compliance scoring via evaluate() (BALANCED mode)</para>
+</listitem><listitem><para>Ethical VETO mechanism (low compliance fails quality threshold)</para>
+</listitem><listitem><para>Computed confidence (not hardcoded 0.85)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1judge_1_1_bias_detector" kindref="compound">BiasDetector</ref>: detectPositionBias, detectLengthBias, analyzeAllBiases, applyBiasMitigation, setConfig/getConfig </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="bias__detector_8h" kindref="compound">rag/bias_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>makeDocs()<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Renewable<sp/>energy<sp/>reduces<sp/>carbon<sp/>emissions<sp/>and<sp/>is<sp/>widely<sp/>adopted.&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>{}},</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Studies<sp/>show<sp/>that<sp/>solar<sp/>power<sp/>output<sp/>varies<sp/>by<sp/>region.&quot;</highlight><highlight class="normal">,<sp/>0.85,<sp/>{}},</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/>balancedConfig()<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a54d02b9a412daab7cfedc4516a7317fe" kindref="member">mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516a0cb4635d100151dcaac6f91db856c402" kindref="member">EvaluationMode::BALANCED</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a3b2f3acd742d8c05775ca3dd20aa94ea" kindref="member">enable_ethical_evaluation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a18112b1c7fcccb0a83fb318b0bc36e16" kindref="member">ethical_veto_power</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a24b80477de3a01fbb9384f0475400f8c" kindref="member">ethical_compliance_threshold</ref><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1adc6acdb9a8f6b23c47bf35dc0af23075" kindref="member">quality_threshold</ref><sp/>=<sp/>0.6;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ethical<sp/>compliance<sp/>via<sp/>evaluate()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="class_r_a_g_ethics_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref><sp/><ref refid="class_r_a_g_ethics_test_1ad1a948cb51415ae29ffdd2c351efbc15" kindref="member">judge_</ref>{balancedConfig()};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/><ref refid="class_r_a_g_ethics_test_1ad290be8e5167865233ba5e4c898d023b" kindref="member">docs_</ref><sp/>=<sp/>makeDocs();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ethical<sp/>compliance<sp/>score<sp/>is<sp/>in<sp/>[0,<sp/>1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref>,<sp/>EthicalComplianceScoreRange)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Renewable<sp/>energy<sp/>has<sp/>both<sp/>advantages<sp/>and<sp/>disadvantages.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;You<sp/>may<sp/>consider<sp/>solar<sp/>or<sp/>wind<sp/>options<sp/>depending<sp/>on<sp/>your<sp/>region.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>judge_.evaluate(</highlight><highlight class="stringliteral">&quot;Should<sp/>I<sp/>use<sp/>renewable<sp/>energy?&quot;</highlight><highlight class="normal">,<sp/>docs_,<sp/>answer);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.ethical_compliance_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.ethical_compliance_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>An<sp/>answer<sp/>that<sp/>respects<sp/>autonomy<sp/>(offers<sp/>choice,<sp/>avoids<sp/>imperatives)<sp/>should<sp/>score<sp/>well</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref>,<sp/>GoodEthicsScoresHigh)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;There<sp/>are<sp/>multiple<sp/>perspectives<sp/>on<sp/>this<sp/>topic.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Some<sp/>experts<sp/>argue<sp/>that<sp/>solar<sp/>is<sp/>better,<sp/>while<sp/>others<sp/>prefer<sp/>wind.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Ultimately,<sp/>the<sp/>choice<sp/>depends<sp/>on<sp/>your<sp/>specific<sp/>needs<sp/>and<sp/>location.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>judge_.evaluate(</highlight><highlight class="stringliteral">&quot;Which<sp/>energy<sp/>source<sp/>is<sp/>best?&quot;</highlight><highlight class="normal">,<sp/>docs_,<sp/>answer);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>balanced,<sp/>autonomy-preserving<sp/>answer<sp/>should<sp/>have<sp/>no<sp/>ethical<sp/>violations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>an<sp/>acceptable<sp/>compliance<sp/>score.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ethical_violations.empty()<sp/>||<sp/>result.ethical_compliance_score<sp/>&gt;=<sp/>0.5)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Balanced,<sp/>autonomy-preserving<sp/>answer<sp/>should<sp/>not<sp/>have<sp/>low<sp/>ethical<sp/>score&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ethical<sp/>VETO:<sp/>when<sp/>ethical<sp/>compliance<sp/>is<sp/>disabled,<sp/>veto<sp/>is<sp/>not<sp/>triggered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref>,<sp/>EthicalVetoDisabledByConfig)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/>cfg<sp/>=<sp/>balancedConfig();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a3b2f3acd742d8c05775ca3dd20aa94ea" kindref="member">enable_ethical_evaluation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a18112b1c7fcccb0a83fb318b0bc36e16" kindref="member">ethical_veto_power</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>(cfg);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>a<sp/>low-quality<sp/>answer<sp/>should<sp/>not<sp/>fail<sp/>because<sp/>of<sp/>ethics<sp/>when<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;You<sp/>must<sp/>always<sp/>use<sp/>solar<sp/>energy.<sp/>This<sp/>is<sp/>the<sp/>only<sp/>option.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>.evaluate(</highlight><highlight class="stringliteral">&quot;What<sp/>energy<sp/>should<sp/>I<sp/>use?&quot;</highlight><highlight class="normal">,<sp/>docs_,<sp/>answer);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(result.ethical_compliance_score,<sp/>1.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>skipped,<sp/>defaults<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ethical<sp/>violations<sp/>list<sp/>is<sp/>populated<sp/>only<sp/>when<sp/>the<sp/>VETO<sp/>triggers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref>,<sp/>EthicalViolationsListPopulatedOnVeto)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>threshold<sp/>impossibly<sp/>high<sp/>so<sp/>almost<sp/>any<sp/>answer<sp/>triggers<sp/>VETO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/>cfg<sp/>=<sp/>balancedConfig();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a24b80477de3a01fbb9384f0475400f8c" kindref="member">ethical_compliance_threshold</ref><sp/>=<sp/>0.99;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a18112b1c7fcccb0a83fb318b0bc36e16" kindref="member">ethical_veto_power</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>(cfg);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;You<sp/>absolutely<sp/>must<sp/>use<sp/>solar<sp/>energy.<sp/>There<sp/>is<sp/>no<sp/>alternative.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>.evaluate(</highlight><highlight class="stringliteral">&quot;Which<sp/>energy<sp/>is<sp/>best?&quot;</highlight><highlight class="normal">,<sp/>docs_,<sp/>answer);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.ethical_violations.empty())<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>violation<sp/>message<sp/>should<sp/>mention<sp/>&quot;VETO&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_veto<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>result.ethical_violations)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v.find(</highlight><highlight class="stringliteral">&quot;VETO&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_veto<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_veto)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;VETO<sp/>message<sp/>should<sp/>be<sp/>present<sp/>in<sp/>violations&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.passed_quality_threshold)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Ethical<sp/>VETO<sp/>must<sp/>set<sp/>passed_quality_threshold<sp/>=<sp/>false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Confidence<sp/>is<sp/>in<sp/>[0,<sp/>1]<sp/>and<sp/>not<sp/>a<sp/>hardcoded<sp/>constant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref>,<sp/>ConfidenceIsComputed)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Renewable<sp/>energy<sp/>sources<sp/>like<sp/>solar<sp/>and<sp/>wind<sp/>are<sp/>widely<sp/>available.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>judge_.evaluate(</highlight><highlight class="stringliteral">&quot;Tell<sp/>me<sp/>about<sp/>renewable<sp/>energy.&quot;</highlight><highlight class="normal">,<sp/>docs_,<sp/>answer);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Confidence<sp/>must<sp/>not<sp/>be<sp/>the<sp/>old<sp/>hardcoded<sp/>value<sp/>for<sp/>every<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(it<sp/>varies<sp/>with<sp/>score<sp/>distribution,<sp/>so<sp/>we<sp/>only<sp/>check<sp/>range)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Two<sp/>different<sp/>answers<sp/>produce<sp/>different<sp/>confidence<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_ethics_test" kindref="compound">RAGEthicsTest</ref>,<sp/>ConfidenceVariesWithScores)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Answer<sp/>A:<sp/>addresses<sp/>query<sp/>well,<sp/>consistent<sp/>scores<sp/>expected<sp/>→<sp/>higher<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer_a<sp/>=</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Renewable<sp/>energy<sp/>is<sp/>sustainable<sp/>and<sp/>reduces<sp/>emissions.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Solar<sp/>and<sp/>wind<sp/>are<sp/>the<sp/>most<sp/>common<sp/>types.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Answer<sp/>B:<sp/>totally<sp/>off-topic<sp/>→<sp/>inconsistent<sp/>/<sp/>low<sp/>scores<sp/>→<sp/>lower<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer_b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>weather<sp/>today<sp/>is<sp/>sunny<sp/>with<sp/>a<sp/>high<sp/>of<sp/>25<sp/>degrees.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result_a<sp/>=<sp/>judge_.evaluate(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>renewable<sp/>energy?&quot;</highlight><highlight class="normal">,<sp/>docs_,<sp/>answer_a);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result_b<sp/>=<sp/>judge_.evaluate(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>renewable<sp/>energy?&quot;</highlight><highlight class="normal">,<sp/>docs_,<sp/>answer_b);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>scores<sp/>must<sp/>be<sp/>in<sp/>range<sp/>regardless</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result_a.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result_a.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result_b.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result_b.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BiasDetector<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="class_bias_detector_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_bias_detector" kindref="compound">BiasDetector</ref><sp/><ref refid="class_bias_detector_test_1a836e2e2a2bfcba7ef8917316dd3b6c59" kindref="member">detector_</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>config<sp/>is<sp/>accessible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>DefaultConfig)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>detector_.getConfig();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.min_samples_for_detection,<sp/>0);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.significance_threshold,<sp/>0.0);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cfg.significance_threshold,<sp/>1.0);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>setConfig<sp/>round-trips<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>SetConfigRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" kindref="compound">BiasDetectorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1aa642b6a98271d39820f40ea2dd521b83" kindref="member">min_samples_for_detection</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1aeccf6bd307518d6673f4fce13d632225" kindref="member">significance_threshold</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a51d2b0e9b2348e31479f1df0d7507032" kindref="member">bias_threshold</ref><sp/>=<sp/>0.15;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_.setConfig(cfg);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>detector_.getConfig();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.min_samples_for_detection,<sp/>20);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(retrieved.significance_threshold,<sp/>0.01);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(retrieved.bias_threshold,<sp/>0.15);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>detectPositionBias<sp/>with<sp/>insufficient<sp/>samples<sp/>returns<sp/>non-significant<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>PositionBiasInsufficientSamples)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;ComparisonResult,<sp/>bool&gt;&gt;<sp/>comparisons;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref><sp/>cr;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a4533944c842acad34cf11e136534ba2f" kindref="member">winner</ref><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48a3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonResult::Winner::ANSWER_A</ref>;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a858c4b61bbeac6c19217f9174d7f9e0c" kindref="member">confidence</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>comparisons.push_back({cr,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">});<sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>1<sp/>sample</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_.detectPositionBias(comparisons);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.type,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583aa40a2d819ddd23fd34f00eba8b99a919" kindref="member">BiasType::POSITION_BIAS</ref>);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_significant);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>detectPositionBias<sp/>with<sp/>50/50<sp/>results<sp/>reports<sp/>no<sp/>significant<sp/>bias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>PositionBiasNoSignificantBias)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" kindref="compound">BiasDetectorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1aa642b6a98271d39820f40ea2dd521b83" kindref="member">min_samples_for_detection</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_.setConfig(cfg);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;ComparisonResult,<sp/>bool&gt;&gt;<sp/>comparisons;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref><sp/>cr;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a4533944c842acad34cf11e136534ba2f" kindref="member">winner</ref><sp/>=<sp/>(i<sp/>%<sp/>2<sp/>==<sp/>0)<sp/>?<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48a3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonResult::Winner::ANSWER_A</ref></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref>::Winner::<ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba27dfb553d196448243dfda23951ab396" kindref="member">ANSWER_B</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a858c4b61bbeac6c19217f9174d7f9e0c" kindref="member">confidence</ref><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>comparisons.push_back({cr,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_.detectPositionBias(comparisons);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_significant)</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;50/50<sp/>split<sp/>should<sp/>not<sp/>produce<sp/>significant<sp/>position<sp/>bias&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.p_value,<sp/>0.0);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.bias_magnitude,<sp/>1.0);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>detectLengthBias<sp/>with<sp/>insufficient<sp/>samples<sp/>returns<sp/>non-significant<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>LengthBiasInsufficientSamples)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;double,<sp/>size_t&gt;&gt;<sp/>evals<sp/>=<sp/>{{0.8,<sp/>100},<sp/>{0.7,<sp/>200}};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_.detectLengthBias(evals);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.type,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583a81f455665cc0ed29781923ba15022436" kindref="member">BiasType::LENGTH_BIAS</ref>);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_significant);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>detectLengthBias<sp/>with<sp/>uncorrelated<sp/>data<sp/>reports<sp/>no<sp/>significant<sp/>bias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>LengthBiasUncorrelated)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" kindref="compound">BiasDetectorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1aa642b6a98271d39820f40ea2dd521b83" kindref="member">min_samples_for_detection</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_.setConfig(cfg);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>scores<sp/>and<sp/>lengths<sp/>are<sp/>deliberately<sp/>independent<sp/>(constant<sp/>score,<sp/>varying<sp/>length)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>→<sp/>correlation<sp/>near<sp/>zero,<sp/>no<sp/>significant<sp/>length<sp/>bias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;double,<sp/>size_t&gt;&gt;<sp/>evals<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0.7,<sp/>50},<sp/><sp/>{0.7,<sp/>120},<sp/>{0.7,<sp/>80},<sp/><sp/>{0.7,<sp/>300},<sp/>{0.7,<sp/>200},</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0.7,<sp/>450},<sp/>{0.7,<sp/>30},<sp/><sp/>{0.7,<sp/>170},<sp/>{0.7,<sp/>90},<sp/><sp/>{0.7,<sp/>260},</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_.detectLengthBias(evals);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.type,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583a81f455665cc0ed29781923ba15022436" kindref="member">BiasType::LENGTH_BIAS</ref>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.p_value,<sp/>0.0);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.bias_magnitude,<sp/>1.0);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>analyzeAllBiases<sp/>with<sp/>empty<sp/>history<sp/>returns<sp/>empty<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>AnalyzeAllBiasesEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EvaluationResult&gt;<sp/>history;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>detector_.analyzeAllBiases(history);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>applyBiasMitigation:<sp/>non-significant<sp/>bias<sp/>leaves<sp/>confidence<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>BiasMitigationNoSignificantBias)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref><sp/>cr;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a4533944c842acad34cf11e136534ba2f" kindref="member">winner</ref><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48a3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonResult::Winner::ANSWER_A</ref>;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a858c4b61bbeac6c19217f9174d7f9e0c" kindref="member">confidence</ref><sp/>=<sp/>0.9;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result" kindref="compound">BiasDetectionResult</ref><sp/>bdr;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>bdr.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result_1a55f27af474674133dc347ccc5ade3085" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583aa40a2d819ddd23fd34f00eba8b99a919" kindref="member">BiasType::POSITION_BIAS</ref>;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>bdr.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result_1af79ef94b0cddc434b6a087231d3b08e1" kindref="member">is_significant</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>bdr.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result_1add91f4c89933cba1b0bfafde7bab4b70" kindref="member">bias_magnitude</ref><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mitigated<sp/>=<sp/>detector_.applyBiasMitigation(cr,<sp/>bdr);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(mitigated.confidence,<sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a858c4b61bbeac6c19217f9174d7f9e0c" kindref="member">confidence</ref>);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>applyBiasMitigation:<sp/>significant<sp/>position<sp/>bias<sp/>reduces<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__rag__ethics_8cpp_1a3528406c1db73604c369eb2fccee977d" kindref="member">TEST_F</ref>(<ref refid="class_bias_detector_test" kindref="compound">BiasDetectorTest</ref>,<sp/>BiasMitigationReducesConfidence)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref><sp/>cr;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a4533944c842acad34cf11e136534ba2f" kindref="member">winner</ref><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48a3dc48fa0f11923466f634303cca7dc88" kindref="member">ComparisonResult::Winner::ANSWER_A</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a858c4b61bbeac6c19217f9174d7f9e0c" kindref="member">confidence</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result" kindref="compound">BiasDetectionResult</ref><sp/>bdr;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>bdr.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result_1a55f27af474674133dc347ccc5ade3085" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583aa40a2d819ddd23fd34f00eba8b99a919" kindref="member">BiasType::POSITION_BIAS</ref>;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>bdr.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result_1af79ef94b0cddc434b6a087231d3b08e1" kindref="member">is_significant</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>bdr.<ref refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result_1add91f4c89933cba1b0bfafde7bab4b70" kindref="member">bias_magnitude</ref><sp/>=<sp/>0.4;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mitigated<sp/>=<sp/>detector_.applyBiasMitigation(cr,<sp/>bdr);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(mitigated.confidence,<sp/>cr.<ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a858c4b61bbeac6c19217f9174d7f9e0c" kindref="member">confidence</ref>)</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Significant<sp/>bias<sp/>mitigation<sp/>should<sp/>reduce<sp/>confidence&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_ethics.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2d0cf42536a21d3c31c910bb42d42af8" kind="dir">
+    <compoundname>include/llama_cpp</compoundname>
+    <innerfile refid="llama__cpp__plugin_8h">llama_cpp_plugin.h</innerfile>
+    <innerfile refid="llama__cpp__registrar_8h">llama_cpp_registrar.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llama_cpp/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structnlohmann_1_1adl__serializer_3_01themis_1_1observability_1_1_diagnostic_event_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>nlohmann::adl_serializer&lt; themis::observability::DiagnosticEvent &gt;</compoundname>
+    <includes refid="field__diagnostics__schema_8h" local="no">field_diagnostics_schema.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structnlohmann_1_1adl__serializer_3_01themis_1_1observability_1_1_diagnostic_event_01_4_1a40fe00c6bafd319ce6b0cd848784eb57" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void nlohmann::adl_serializer&lt; themis::observability::DiagnosticEvent &gt;::to_json</definition>
+        <argsstring>(json &amp;j, const themis::observability::DiagnosticEvent &amp;evt)</argsstring>
+        <name>to_json</name>
+        <qualifiedname>nlohmann::adl_serializer&lt; themis::observability::DiagnosticEvent &gt;::to_json</qualifiedname>
+        <param>
+          <type>json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_diagnostic_event" kindref="compound">themis::observability::DiagnosticEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="366" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="366" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="structnlohmann_1_1adl__serializer_3_01themis_1_1observability_1_1_diagnostic_event_01_4_1a84dfbf9f0b3b7c4235dbac6f98d431d3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void nlohmann::adl_serializer&lt; themis::observability::DiagnosticEvent &gt;::from_json</definition>
+        <argsstring>(const json &amp;j, themis::observability::DiagnosticEvent &amp;evt)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>nlohmann::adl_serializer&lt; themis::observability::DiagnosticEvent &gt;::from_json</qualifiedname>
+        <param>
+          <type>const json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1observability_1_1_diagnostic_event" kindref="compound">themis::observability::DiagnosticEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="369" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="369" bodyend="451"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/field_diagnostics_schema.h" line="365" column="1" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="365" bodyend="452"/>
+    <listofallmembers>
+      <member refid="structnlohmann_1_1adl__serializer_3_01themis_1_1observability_1_1_diagnostic_event_01_4_1a84dfbf9f0b3b7c4235dbac6f98d431d3" prot="public" virt="non-virtual"><scope>nlohmann::adl_serializer&lt; themis::observability::DiagnosticEvent &gt;</scope><name>from_json</name></member>
+      <member refid="structnlohmann_1_1adl__serializer_3_01themis_1_1observability_1_1_diagnostic_event_01_4_1a40fe00c6bafd319ce6b0cd848784eb57" prot="public" virt="non-virtual"><scope>nlohmann::adl_serializer&lt; themis::observability::DiagnosticEvent &gt;</scope><name>to_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

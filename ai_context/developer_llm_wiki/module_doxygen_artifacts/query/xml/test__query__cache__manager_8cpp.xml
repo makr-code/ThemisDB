@@ -1,0 +1,626 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__cache__manager_8cpp" kind="file" language="C++">
+    <compoundname>test_query_cache_manager.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="query__cache__manager_8h" local="yes">query/query_cache_manager.h</includes>
+    <includes refid="workload__cache__strategy_8h" local="yes">query/workload_cache_strategy.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>query/query_cache.h</label>
+        <link refid="query__cache_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>query/query_cache_manager.h</label>
+        <link refid="query__cache__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>query/workload_cache_strategy.h</label>
+        <link refid="workload__cache__strategy_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_query_cache_manager.cpp</label>
+        <link refid="test__query__cache__manager_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>algorithm</label>
+      </node>
+      <node id="19">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>cache/adaptive_query_cache.h</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="16">
+        <label>list</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="13">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_query_cache_manager_test" prot="public">QueryCacheManagerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1ac2d6cf8922b690285ed4a3cfaee14099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, Construction_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>Construction_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="46" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1af764d2e5e0414af6ea4c37d146cd89f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, GetConfig_ReturnsConfiguredValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GetConfig_ReturnsConfiguredValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="50" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1a6672ca35846d910a8c4e5510934ceff9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, Get_EmptyCache_ReturnsNullopt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>Get_EmptyCache_ReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="59" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1a8119a2ac9b63cc7009bcd53f51aadc4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, Get_WithParams_EmptyCache_ReturnsNullopt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>Get_WithParams_EmptyCache_ReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="64" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="64" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1a977ed82f0f0c2cf02da05dbc4f81bb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, PutThenGet_ReturnsCachedResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>PutThenGet_ReturnsCachedResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="74" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="74" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1acb6ca53221baa505198e95347cc5154d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, Put_DifferentQueries_IndependentEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>Put_DifferentQueries_IndependentEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="91" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="91" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1ae4ff45e433daa80f8a7c1aea0edc2052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, Invalidate_RemovesSpecificEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>Invalidate_RemovesSpecificEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="106" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="106" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1a4a1c0e079b1e7097ab0001ed82286d23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, Invalidate_OtherEntriesUnaffected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>Invalidate_OtherEntriesUnaffected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="121" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="121" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1a8b9d7dae9652b3252d4134df3d527b29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, InvalidateByDependency_RemovesMatchingEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidateByDependency_RemovesMatchingEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="138" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="138" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1a5d92e8f299b070515705a9dbd8773a01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, WarmCache_PrePopulatesEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>WarmCache_PrePopulatesEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="160" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1aac4248a813378b223b30b4812e93f168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCacheManagerDisabledTest, CachingDisabled_GetAlwaysMisses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryCacheManagerDisabledTest</type>
+        </param>
+        <param>
+          <type>CachingDisabled_GetAlwaysMisses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="177" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="177" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1a42e0bd5764b937e031aedcb536a63b23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, GetCurrentWorkload_DefaultIsUnknownOrKnown)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GetCurrentWorkload_DefaultIsUnknownOrKnown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="194" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="194" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cache__manager_8cpp_1ac097e61df473113456281e327a62bee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryCacheManagerTest, SetConfig_GetConfig_RoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SetConfig_GetConfig_RoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cache_manager.cpp" line="204" column="1" bodyfile="tests/query/test_query_cache_manager.cpp" bodystart="204" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for <ref refid="classthemis_1_1query_1_1_query_cache_manager" kindref="compound">QueryCacheManager</ref> (<ref refid="query__cache__manager_8cpp" kindref="compound">src/query/query_cache_manager.cpp</ref>). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para>Construction with default Config</para>
+</listitem><listitem><para>Construction with caching disabled → get always misses</para>
+</listitem><listitem><para>get on empty cache → nullopt (cache miss)</para>
+</listitem><listitem><para>put + get → hit returns stored result</para>
+</listitem><listitem><para>put with dependencies + invalidateByDependency removes entry</para>
+</listitem><listitem><para>invalidate (by query + params) removes specific entry</para>
+</listitem><listitem><para>warmCache pre-populates entries</para>
+</listitem><listitem><para>getCurrentWorkload (default UNKNOWN)</para>
+</listitem><listitem><para>getConfig / setConfig round-trip </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__cache__manager_8h" kindref="compound">query/query_cache_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="workload__cache__strategy_8h" kindref="compound">query/workload_cache_strategy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="class_query_cache_manager_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_query_cache_manager_test_1ad003f773b5607640c6cf718904a40bd6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">QueryCacheManager::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1ab3306a12c76399b7ec60f0769b355c9b" kindref="member">enable_caching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a952be67bfab62c96e29520394acb22fe" kindref="member">enable_workload_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>deterministic<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1abedf1393b9aa15bc0a5a8aea1c9081c6" kindref="member">enable_detailed_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_cache_manager_test_1a67dd74b5ad13f3a0dea8a6363c2591b9" kindref="member">manager_</ref><sp/>=<sp/>std::make_unique&lt;QueryCacheManager&gt;(cfg);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryCacheManager&gt;<sp/><ref refid="class_query_cache_manager_test_1a67dd74b5ad13f3a0dea8a6363c2591b9" kindref="member">manager_</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>Construction_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(manager_,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>GetConfig_ReturnsConfiguredValues)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>manager_-&gt;getConfig();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_caching);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cache<sp/>miss<sp/>on<sp/>empty<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>Get_EmptyCache_ReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>id<sp/>=<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>Get_WithParams_EmptyCache_ReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>params<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>42}};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>id<sp/>=<sp/>?&quot;</highlight><highlight class="normal">,<sp/>params);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>put<sp/>+<sp/>get<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>PutThenGet_ReturnsCachedResult)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>name<sp/>FROM<sp/>users<sp/>WHERE<sp/>id<sp/>=<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>params<sp/><sp/>=<sp/>nlohmann::json::object();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>result<sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref><sp/>chars;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>chars.<ref refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" kindref="member">result_size_bytes</ref><sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>chars.<ref refid="structthemis_1_1query_1_1_query_characteristics_1a66d6cfed1e35735f394f9ff5215fbee3" kindref="member">rows_returned</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>chars.<ref refid="structthemis_1_1query_1_1_query_characteristics_1a30f334fb33306f2cbe65b5832ad82764" kindref="member">execution_time_ms</ref><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager_-&gt;put(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>params,<sp/>result,<sp/>chars));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cached<sp/>=<sp/>manager_-&gt;get(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>params);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cached.has_value());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cached.value()[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>Put_DifferentQueries_IndependentEntries)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref><sp/>chars;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>chars.<ref refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" kindref="member">result_size_bytes</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;put(</highlight><highlight class="stringliteral">&quot;Q1&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object(),<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>1}},<sp/>chars);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;put(</highlight><highlight class="stringliteral">&quot;Q2&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object(),<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>2}},<sp/>chars);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;Q1&quot;</highlight><highlight class="normal">).value()[</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;Q2&quot;</highlight><highlight class="normal">).value()[</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">],<sp/>2);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>invalidate<sp/>(by<sp/>query<sp/>+<sp/>params)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>Invalidate_RemovesSpecificEntry)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>q<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>orders<sp/>WHERE<sp/>id<sp/>=<sp/>5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>params<sp/>=<sp/>nlohmann::json::object();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>res<sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;order_id&quot;</highlight><highlight class="normal">,<sp/>5}};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref><sp/>chars;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>chars.<ref refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" kindref="member">result_size_bytes</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;put(q,<sp/>params,<sp/>res,<sp/>chars);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager_-&gt;get(q).has_value());</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;invalidate(q,<sp/>params);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;get(q).has_value());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>Invalidate_OtherEntriesUnaffected)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref><sp/>chars;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>chars.<ref refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" kindref="member">result_size_bytes</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;put(</highlight><highlight class="stringliteral">&quot;Q_keep&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>nlohmann::json::object(),<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;keep&quot;</highlight><highlight class="normal">}},<sp/><sp/><sp/>chars);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;put(</highlight><highlight class="stringliteral">&quot;Q_remove&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object(),<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;remove&quot;</highlight><highlight class="normal">}},<sp/>chars);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;invalidate(</highlight><highlight class="stringliteral">&quot;Q_remove&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;Q_keep&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;Q_remove&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>invalidateByDependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>InvalidateByDependency_RemovesMatchingEntries)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref><sp/>chars;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>chars.<ref refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" kindref="member">result_size_bytes</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;put(</highlight><highlight class="stringliteral">&quot;Q_dep&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>nlohmann::json::object(),<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>1}},<sp/>chars,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;table_products&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;put(</highlight><highlight class="stringliteral">&quot;Q_other&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object(),<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>2}},<sp/>chars,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;table_orders&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>manager_-&gt;invalidateByDependency(</highlight><highlight class="stringliteral">&quot;table_products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(removed,<sp/>1u);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entry<sp/>dependent<sp/>on<sp/>table_products<sp/>should<sp/>be<sp/>gone</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;Q_dep&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unrelated<sp/>entry<sp/>should<sp/>still<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;Q_other&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>warmCache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>WarmCache_PrePopulatesEntries)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>nlohmann::json&gt;<sp/>warm_data;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>warm_data[</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/>1}};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>warm_data[</highlight><highlight class="stringliteral">&quot;SELECT<sp/>count(*)<sp/>FROM<sp/>t&quot;</highlight><highlight class="normal">]<sp/>=<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/>42}};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;warmCache(warm_data);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>pre-warmed<sp/>query<sp/>should<sp/>be<sp/>retrievable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>any_hit<sp/>=<sp/>manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">).has_value()<sp/>||</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;get(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>count(*)<sp/>FROM<sp/>t&quot;</highlight><highlight class="normal">).has_value();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(any_hit);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Caching<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__query__cache__manager_8cpp_1aac4248a813378b223b30b4812e93f168" kindref="member">TEST</ref>(QueryCacheManagerDisabledTest,<sp/>CachingDisabled_GetAlwaysMisses)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">QueryCacheManager::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1ab3306a12c76399b7ec60f0769b355c9b" kindref="member">enable_caching</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_cache_manager" kindref="compound">QueryCacheManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref><sp/>chars;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>chars.<ref refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" kindref="member">result_size_bytes</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.put(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object(),<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>1}},<sp/>chars);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.get(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getCurrentWorkload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>GetCurrentWorkload_DefaultIsUnknownOrKnown)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>wt<sp/>=<sp/>manager_-&gt;getCurrentWorkload();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WorkloadType<sp/>is<sp/>a<sp/>valid<sp/>enum<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)wt);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getConfig<sp/>/<sp/>setConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_cache_manager_test" kindref="compound">QueryCacheManagerTest</ref>,<sp/>SetConfig_GetConfig_RoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">QueryCacheManager::Config</ref><sp/>new_cfg;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.<ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1ab3306a12c76399b7ec60f0769b355c9b" kindref="member">enable_caching</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.<ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a952be67bfab62c96e29520394acb22fe" kindref="member">enable_workload_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.<ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1abedf1393b9aa15bc0a5a8aea1c9081c6" kindref="member">enable_detailed_stats</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.<ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config_1a5155dfe20aec4dbe98e1c4560329429e" kindref="member">stats_report_interval</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(600);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;setConfig(new_cfg);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>manager_-&gt;getConfig();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retrieved.enable_caching);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retrieved.enable_detailed_stats);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.stats_report_interval.count(),<sp/>600);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_cache_manager.cpp"/>
+  </compounddef>
+</doxygen>

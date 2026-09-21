@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_tier_thresholds" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TierThresholds</compoundname>
+    <includes refid="index__analyzer_8h" local="no">index_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_tier_thresholds_1a2ccacb3f7346b135dba91e0b568dfa98" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TierThresholds::reorganize_pct</definition>
+        <argsstring></argsstring>
+        <name>reorganize_pct</name>
+        <qualifiedname>themis::TierThresholds::reorganize_pct</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+<para>Fragmentation % triggering REORGANIZE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="63" column="12" bodyfile="include/storage/index_analyzer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tier_thresholds_1a992dfa255fef3295ff4365b654cf57c0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TierThresholds::partial_rebuild_pct</definition>
+        <argsstring></argsstring>
+        <name>partial_rebuild_pct</name>
+        <qualifiedname>themis::TierThresholds::partial_rebuild_pct</qualifiedname>
+        <initializer>= 20.0</initializer>
+        <briefdescription>
+<para>Fragmentation % triggering PARTIAL_REBUILD. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="64" column="12" bodyfile="include/storage/index_analyzer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tier_thresholds_1aee026fe9220bdeaa031195d7353b5e84" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TierThresholds::full_rebuild_pct</definition>
+        <argsstring></argsstring>
+        <name>full_rebuild_pct</name>
+        <qualifiedname>themis::TierThresholds::full_rebuild_pct</qualifiedname>
+        <initializer>= 35.0</initializer>
+        <briefdescription>
+<para>Fragmentation % triggering FULL_REBUILD. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="65" column="12" bodyfile="include/storage/index_analyzer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tier_thresholds_1af29ec46b5633524e3865b4652639b13e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::TierThresholds::stats_stale_hours</definition>
+        <argsstring></argsstring>
+        <name>stats_stale_hours</name>
+        <qualifiedname>themis::TierThresholds::stats_stale_hours</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Hours after which statistics are considered stale. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="66" column="14" bodyfile="include/storage/index_analyzer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_tier_thresholds_1ada76e2dc2c33eb6095294a1743335eda" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref></type>
+        <definition>static TierThresholds themis::TierThresholds::hot</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>hot</name>
+        <qualifiedname>themis::TierThresholds::hot</qualifiedname>
+        <briefdescription>
+<para>Defaults suitable for a hot-tier (NVMe) index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="69" column="27" bodyfile="include/storage/index_analyzer.h" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_tier_thresholds_1a2f2f46290169903005f272c083b65c49" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref></type>
+        <definition>static TierThresholds themis::TierThresholds::warm</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>warm</name>
+        <qualifiedname>themis::TierThresholds::warm</qualifiedname>
+        <briefdescription>
+<para>Defaults suitable for a warm-tier (SATA SSD) index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="73" column="27" bodyfile="include/storage/index_analyzer.h" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_tier_thresholds_1a39ade5e98883a0b6034c3f5ef66e889b" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref></type>
+        <definition>static TierThresholds themis::TierThresholds::cold</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cold</name>
+        <qualifiedname>themis::TierThresholds::cold</qualifiedname>
+        <briefdescription>
+<para>Defaults suitable for a cold-tier (object storage / archive) index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="77" column="27" bodyfile="include/storage/index_analyzer.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fragmentation and staleness thresholds for one storage tier. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thresholds are intentionally looser for warm/cold tiers because rebuild overhead is amortised over longer access intervals. </para>
+    </detaileddescription>
+    <location file="include/storage/index_analyzer.h" line="62" column="1" bodyfile="include/storage/index_analyzer.h" bodystart="62" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_tier_thresholds_1a39ade5e98883a0b6034c3f5ef66e889b" prot="public" virt="non-virtual"><scope>themis::TierThresholds</scope><name>cold</name></member>
+      <member refid="structthemis_1_1_tier_thresholds_1aee026fe9220bdeaa031195d7353b5e84" prot="public" virt="non-virtual"><scope>themis::TierThresholds</scope><name>full_rebuild_pct</name></member>
+      <member refid="structthemis_1_1_tier_thresholds_1ada76e2dc2c33eb6095294a1743335eda" prot="public" virt="non-virtual"><scope>themis::TierThresholds</scope><name>hot</name></member>
+      <member refid="structthemis_1_1_tier_thresholds_1a992dfa255fef3295ff4365b654cf57c0" prot="public" virt="non-virtual"><scope>themis::TierThresholds</scope><name>partial_rebuild_pct</name></member>
+      <member refid="structthemis_1_1_tier_thresholds_1a2ccacb3f7346b135dba91e0b568dfa98" prot="public" virt="non-virtual"><scope>themis::TierThresholds</scope><name>reorganize_pct</name></member>
+      <member refid="structthemis_1_1_tier_thresholds_1af29ec46b5633524e3865b4652639b13e" prot="public" virt="non-virtual"><scope>themis::TierThresholds</scope><name>stats_stale_hours</name></member>
+      <member refid="structthemis_1_1_tier_thresholds_1a2f2f46290169903005f272c083b65c49" prot="public" virt="non-virtual"><scope>themis::TierThresholds</scope><name>warm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_true_time_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::TrueTime::Config</compoundname>
+    <includes refid="truetime_8h" local="no">truetime.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_true_time_1_1_config_1aa17245b8e725fd3bf4785579fac91510" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::TrueTime::Config::base_uncertainty_us</definition>
+        <argsstring></argsstring>
+        <name>base_uncertainty_us</name>
+        <qualifiedname>themis::sharding::TrueTime::Config::base_uncertainty_us</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Base epsilon contribution in microseconds after successful sync. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="104" column="18" bodyfile="include/sharding/truetime.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_true_time_1_1_config_1a9f31322ea078ae10404c961af32a4fff" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::TrueTime::Config::max_drift_us</definition>
+        <argsstring></argsstring>
+        <name>max_drift_us</name>
+        <qualifiedname>themis::sharding::TrueTime::Config::max_drift_us</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+<para>Upper cap for uncertainty growth in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="108" column="18" bodyfile="include/sharding/truetime.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_true_time_1_1_config_1a5ec303bb1e96bbe675ea2e0291706b32" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::TrueTime::Config::sync_interval_s</definition>
+        <argsstring></argsstring>
+        <name>sync_interval_s</name>
+        <qualifiedname>themis::sharding::TrueTime::Config::sync_interval_s</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+<para>Periodic synchronization cadence in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="112" column="18" bodyfile="include/sharding/truetime.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_true_time_1_1_config_1aef74d78c3869447f0fe3e81a073886f1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::TrueTime::Config::ntp_servers</definition>
+        <argsstring></argsstring>
+        <name>ntp_servers</name>
+        <qualifiedname>themis::sharding::TrueTime::Config::ntp_servers</qualifiedname>
+        <briefdescription>
+<para>NTP server hostnames/addresses used for offset sampling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="116" column="21" bodyfile="include/sharding/truetime.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_true_time_1_1_config_1a3385f5a006f7b9cf87ca769ab4df4545" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::TrueTime::Config::enable_wait_optimization</definition>
+        <argsstring></argsstring>
+        <name>enable_wait_optimization</name>
+        <qualifiedname>themis::sharding::TrueTime::Config::enable_wait_optimization</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable chunked waiting for improved interruption responsiveness. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="120" column="14" bodyfile="include/sharding/truetime.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/truetime.h" line="101" column="5" bodyfile="include/sharding/truetime.h" bodystart="101" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_true_time_1_1_config_1aa17245b8e725fd3bf4785579fac91510" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime::Config</scope><name>base_uncertainty_us</name></member>
+      <member refid="structthemis_1_1sharding_1_1_true_time_1_1_config_1a3385f5a006f7b9cf87ca769ab4df4545" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime::Config</scope><name>enable_wait_optimization</name></member>
+      <member refid="structthemis_1_1sharding_1_1_true_time_1_1_config_1a9f31322ea078ae10404c961af32a4fff" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime::Config</scope><name>max_drift_us</name></member>
+      <member refid="structthemis_1_1sharding_1_1_true_time_1_1_config_1aef74d78c3869447f0fe3e81a073886f1" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime::Config</scope><name>ntp_servers</name></member>
+      <member refid="structthemis_1_1sharding_1_1_true_time_1_1_config_1a5ec303bb1e96bbe675ea2e0291706b32" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime::Config</scope><name>sync_interval_s</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_topology_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardTopology::Config</compoundname>
+    <includes refid="shard__topology_8h" local="no">shard_topology.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a981785d5aa33e3e85a3104933e980412" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardTopology::Config::metadata_endpoint</definition>
+        <argsstring></argsstring>
+        <name>metadata_endpoint</name>
+        <qualifiedname>themis::sharding::ShardTopology::Config::metadata_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="82" column="21" bodyfile="include/sharding/shard_topology.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a3363a05915a819f246bcf6dce7cf802f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardTopology::Config::cluster_name</definition>
+        <argsstring></argsstring>
+        <name>cluster_name</name>
+        <qualifiedname>themis::sharding::ShardTopology::Config::cluster_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="83" column="21" bodyfile="include/sharding/shard_topology.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a38608051650b96b10bb0424c3e340649" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ShardTopology::Config::refresh_interval_sec</definition>
+        <argsstring></argsstring>
+        <name>refresh_interval_sec</name>
+        <qualifiedname>themis::sharding::ShardTopology::Config::refresh_interval_sec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="84" column="18" bodyfile="include/sharding/shard_topology.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a765e434e8112a469e6ebc3328c643eba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardTopology::Config::enable_health_checks</definition>
+        <argsstring></argsstring>
+        <name>enable_health_checks</name>
+        <qualifiedname>themis::sharding::ShardTopology::Config::enable_health_checks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_topology.h" line="85" column="14" bodyfile="include/sharding/shard_topology.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_topology.h" line="81" column="5" bodyfile="include/sharding/shard_topology.h" bodystart="81" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a3363a05915a819f246bcf6dce7cf802f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology::Config</scope><name>cluster_name</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a765e434e8112a469e6ebc3328c643eba" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology::Config</scope><name>enable_health_checks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a981785d5aa33e3e85a3104933e980412" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology::Config</scope><name>metadata_endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a38608051650b96b10bb0424c3e340649" prot="public" virt="non-virtual"><scope>themis::sharding::ShardTopology::Config</scope><name>refresh_interval_sec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

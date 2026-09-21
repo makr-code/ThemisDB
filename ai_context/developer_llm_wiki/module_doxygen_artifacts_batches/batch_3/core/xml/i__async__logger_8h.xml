@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="i__async__logger_8h" kind="file" language="C++">
+    <compoundname>i_async_logger.h</compoundname>
+    <includes refid="i__logger_8h" local="yes">core/concerns/i_logger.h</includes>
+    <includes local="no">future</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/concerns/i_async_logger.h</label>
+        <link refid="i__async__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>core/concerns/i_logger.h</label>
+        <link refid="i__logger_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>core/concerns/lifecycle.h</label>
+        <link refid="lifecycle_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>future</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger" prot="public">themis::core::concerns::IAsyncLogger</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger" prot="public">themis::core::concerns::NoOpAsyncLogger</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 93/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="i__logger_8h" kindref="compound">core/concerns/i_logger.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger" kindref="compound">IAsyncLogger</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger" kindref="compound">ILogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Async<sp/>logging<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level,<sp/>std::string_view<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::async(std::launch::async,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>level,<sp/>msg<sp/>=<sp/>std::string(message)]<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" kindref="member">log</ref>(level,<sp/>msg);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a9b538d685c75a8672a14d8b398a33214" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a9b538d685c75a8672a14d8b398a33214" kindref="member">traceAsync</ref>(std::string_view<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a2d3e4144aa384b18849ab9a8abad74d6" kindref="member">Level::TRACE</ref>,<sp/>message);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a7637acfa28311accd92b46ed1f28ab54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a7637acfa28311accd92b46ed1f28ab54" kindref="member">debugAsync</ref>(std::string_view<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7adc30ec20708ef7b0f641ef78b7880a15" kindref="member">Level::DEBUG</ref>,<sp/>message);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1ae82b90b2238ecf39f6403ae1db56be7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1ae82b90b2238ecf39f6403ae1db56be7f" kindref="member">infoAsync</ref>(std::string_view<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">Level::INFO</ref>,<sp/>message);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a622ec31a01359a26493e3872ddc6a180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a622ec31a01359a26493e3872ddc6a180" kindref="member">warnAsync</ref>(std::string_view<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a32bd8a1db2275458673903bdb84cb277" kindref="member">Level::WARN</ref>,<sp/>message);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a076e42d247c3aebf4532115ad88861dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a076e42d247c3aebf4532115ad88861dd" kindref="member">errorAsync</ref>(std::string_view<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">Level::ERROR</ref>,<sp/>message);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1abab420a7a65bcdc253532722476ffa43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1abab420a7a65bcdc253532722476ffa43" kindref="member">criticalAsync</ref>(std::string_view<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">Level::CRITICAL</ref>,<sp/>message);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a5b6033bf67786be3c0e695cd027282d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a5b6033bf67786be3c0e695cd027282d1" kindref="member">logStructuredAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>message,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref>&amp;<sp/>fields<sp/>=<sp/>{})</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::async(std::launch::async,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>level,<sp/>msg<sp/>=<sp/>std::string(message),<sp/>f<sp/>=<sp/>fields]<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1ade28b8d3e27ba1f168c62afa7cc1b09e" kindref="member">logStructured</ref>(level,<sp/>msg,<sp/>f);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NoOpAsyncLogger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger" kindref="compound">NoOpAsyncLogger</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger" kindref="compound">IAsyncLogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ILogger<sp/>sync<sp/>methods<sp/>(all<sp/>no-ops)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a4e30dd930888061cb95aba72f4c38aa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a4e30dd930888061cb95aba72f4c38aa5" kindref="member">log</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a36558ff26792e7420cb8e7e74bed2fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a36558ff26792e7420cb8e7e74bed2fd5" kindref="member">trace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a0f9e7ed2f6d134998301360fd0df3335" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a0f9e7ed2f6d134998301360fd0df3335" kindref="member">debug</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a30c910444d9e22edd8e28a7c01e82cc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a30c910444d9e22edd8e28a7c01e82cc0" kindref="member">info</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a76d1b098e87ce67aff78bac3cc81e183" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a76d1b098e87ce67aff78bac3cc81e183" kindref="member">warn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a936baaba8af9353482058899b632dfc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a936baaba8af9353482058899b632dfc6" kindref="member">error</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a962d7faafdfe4b96b700cf04d0318164" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a962d7faafdfe4b96b700cf04d0318164" kindref="member">critical</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ac788cd6ccba45b77b88eb8c8d4f3200b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ac788cd6ccba45b77b88eb8c8d4f3200b" kindref="member">setLevel</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>level_<sp/>=<sp/>level;<sp/>}</highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ac796855a8f1b3936ff77bb8d80fb1190" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ac796855a8f1b3936ff77bb8d80fb1190" kindref="member">getLevel</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>level_;<sp/>}</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a7a2009645de97dc5ceaaca6285fb7f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a7a2009645de97dc5ceaaca6285fb7f9f" kindref="member">setPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a92bd41edce5c2e34aa1f95d05079b18f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a92bd41edce5c2e34aa1f95d05079b18f" kindref="member">flush</ref>()<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1af481e0cca737b7a7ebcc75f3b3220bc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1af481e0cca737b7a7ebcc75f3b3220bc0" kindref="member">shutdown</ref>()<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a28538bc36b260acd57612bcd7fb12ac2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a28538bc36b260acd57612bcd7fb12ac2" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IAsyncLogger<sp/>overrides<sp/>—<sp/>deferred<sp/>(no<sp/>real<sp/>thread<sp/>spawned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ae13478846fc558ea34bc45ee0bd85760" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ae13478846fc558ea34bc45ee0bd85760" kindref="member">logAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref>,<sp/>std::string_view)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::async(std::launch::deferred,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a87f65002b4d400585b7062ceda9ae8fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a87f65002b4d400585b7062ceda9ae8fc" kindref="member">traceAsync</ref>(std::string_view)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>noop_future();<sp/>}</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a265132ebd0427fcb1e2640cf5a1dd1fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a265132ebd0427fcb1e2640cf5a1dd1fb" kindref="member">debugAsync</ref>(std::string_view)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>noop_future();<sp/>}</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a4b12caf1f0f0def20e90d473cf096c6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a4b12caf1f0f0def20e90d473cf096c6b" kindref="member">infoAsync</ref>(std::string_view)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>noop_future();<sp/>}</highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a69c642a24636c68ab601c580e1299901" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a69c642a24636c68ab601c580e1299901" kindref="member">warnAsync</ref>(std::string_view)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>noop_future();<sp/>}</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a8b473f8d0a3cc65256278a664a2ba029" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a8b473f8d0a3cc65256278a664a2ba029" kindref="member">errorAsync</ref>(std::string_view)</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>noop_future();<sp/>}</highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a9fd8042e4320e4dda6c1b6e787fdeca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a9fd8042e4320e4dda6c1b6e787fdeca9" kindref="member">criticalAsync</ref>(std::string_view)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>noop_future();<sp/>}</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a578768f2ea9d2f36a2ec0e5e79ead409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;void&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a578768f2ea9d2f36a2ec0e5e79ead409" kindref="member">logStructuredAsync</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref>,<sp/>std::string_view,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>noop_future();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level_<sp/>=<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">Level::INFO</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::future&lt;void&gt;<sp/>noop_future()<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::async(std::launch::deferred,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/concerns/i_async_logger.h"/>
+  </compounddef>
+</doxygen>

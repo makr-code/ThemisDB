@@ -1,0 +1,366 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_auto_buffer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSAutoBufferConfig</compoundname>
+    <includes refid="ts__auto__buffer_8h" local="no">ts_auto_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a8c9117fde26d496e4f23cdf565fc5b6f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::max_points_per_buffer</definition>
+        <argsstring></argsstring>
+        <name>max_points_per_buffer</name>
+        <qualifiedname>themis::TSAutoBufferConfig::max_points_per_buffer</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="54" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a99dd7f053d8738479936a40554eb03a0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::max_total_points</definition>
+        <argsstring></argsstring>
+        <name>max_total_points</name>
+        <qualifiedname>themis::TSAutoBufferConfig::max_total_points</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="55" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a527659825a4cf9c7620b090ddb66ab2f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::TSAutoBufferConfig::flush_interval</definition>
+        <argsstring></argsstring>
+        <name>flush_interval</name>
+        <qualifiedname>themis::TSAutoBufferConfig::flush_interval</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="58" column="31" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a7c3ab87bb8609045c2ead18ddd824d14" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::TSAutoBufferConfig::max_memory_bytes</qualifiedname>
+        <initializer>= 100 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="61" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1aee80898913257645a65f74b9af1b3e39" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::max_memory_per_metric_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_per_metric_bytes</name>
+        <qualifiedname>themis::TSAutoBufferConfig::max_memory_per_metric_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="62" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1ac9194b2dfdcb4093d87aea8cc83de7e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TSAutoBufferConfig::enable_dedup</definition>
+        <argsstring></argsstring>
+        <name>enable_dedup</name>
+        <qualifiedname>themis::TSAutoBufferConfig::enable_dedup</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="65" column="10" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a4da80643fedf10dc334f0def89279abe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TSAutoBufferConfig::async_flush</definition>
+        <argsstring></argsstring>
+        <name>async_flush</name>
+        <qualifiedname>themis::TSAutoBufferConfig::async_flush</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="68" column="10" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a1907ca83f7d26ec1703c24087d0a26c5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::flush_batch_size</definition>
+        <argsstring></argsstring>
+        <name>flush_batch_size</name>
+        <qualifiedname>themis::TSAutoBufferConfig::flush_batch_size</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="69" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a585ed4e662cb2ff4c09f689cb77a21c0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::gorilla_batch_size</definition>
+        <argsstring></argsstring>
+        <name>gorilla_batch_size</name>
+        <qualifiedname>themis::TSAutoBufferConfig::gorilla_batch_size</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="72" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a5351697878620e8510cbcf42641bd49d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::max_buffer_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_buffer_bytes</name>
+        <qualifiedname>themis::TSAutoBufferConfig::max_buffer_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="75" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a2256d8b19e1bc3313c6ab1c26a82e1e8" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0f" kindref="member">TSStore::CompressionType</ref></type>
+        <definition>TSStore::CompressionType themis::TSAutoBufferConfig::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::TSAutoBufferConfig::compression</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa95f9c2f146f04d4ce9fed7eea8c703de" kindref="member">TSStore::CompressionType::Gorilla</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="78" column="30" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a83eb100055bf57e7dab329183df5c45c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::TSAutoBufferConfig::chunk_size_hours</definition>
+        <argsstring></argsstring>
+        <name>chunk_size_hours</name>
+        <qualifiedname>themis::TSAutoBufferConfig::chunk_size_hours</qualifiedname>
+        <initializer>= 24</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="79" column="9" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1ac1ff343851932c5ae59d5af6436f8af0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TSAutoBufferConfig::enable_adaptive_flush</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_flush</name>
+        <qualifiedname>themis::TSAutoBufferConfig::enable_adaptive_flush</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="82" column="10" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1aeeff4dd57eee514765ea0eda5b0a8a0a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSAutoBufferConfig::backpressure_slo_ms</definition>
+        <argsstring></argsstring>
+        <name>backpressure_slo_ms</name>
+        <qualifiedname>themis::TSAutoBufferConfig::backpressure_slo_ms</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="83" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1abe0832530550b9ab33d0ec66a2751a3b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSAutoBufferConfig::ewma_alpha</definition>
+        <argsstring></argsstring>
+        <name>ewma_alpha</name>
+        <qualifiedname>themis::TSAutoBufferConfig::ewma_alpha</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="84" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a252eb9e7f9252f9a0d857e315524670b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::adaptive_batch_min</definition>
+        <argsstring></argsstring>
+        <name>adaptive_batch_min</name>
+        <qualifiedname>themis::TSAutoBufferConfig::adaptive_batch_min</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="85" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1ac0c7a3f256b32ac2b2352f7c14c32d70" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::adaptive_batch_max</definition>
+        <argsstring></argsstring>
+        <name>adaptive_batch_max</name>
+        <qualifiedname>themis::TSAutoBufferConfig::adaptive_batch_max</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="86" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a6fcb1f3fbc8045309b865911cc57807e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::backpressure_high_watermark</definition>
+        <argsstring></argsstring>
+        <name>backpressure_high_watermark</name>
+        <qualifiedname>themis::TSAutoBufferConfig::backpressure_high_watermark</qualifiedname>
+        <initializer>= 8000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="87" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1ad92dee768174722a3971aa61145fa13e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferConfig::backpressure_low_watermark</definition>
+        <argsstring></argsstring>
+        <name>backpressure_low_watermark</name>
+        <qualifiedname>themis::TSAutoBufferConfig::backpressure_low_watermark</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="88" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a83e13a58a09cdd0c6d09a5d3e7b9b35f" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned themis::TSAutoBufferConfig::overdue_flush_multiplier</definition>
+        <argsstring></argsstring>
+        <name>overdue_flush_multiplier</name>
+        <qualifiedname>themis::TSAutoBufferConfig::overdue_flush_multiplier</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="93" column="14" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_config_1a70decab99f98c399a2dff643d69ff2a0" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> *</type>
+        <definition>TimeSeriesMetrics* themis::TSAutoBufferConfig::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::TSAutoBufferConfig::metrics</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="98" column="23" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for time series auto-batching. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::TSAutoBufferConfig</label>
+        <link refid="structthemis_1_1_t_s_auto_buffer_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::TimeSeriesMetrics</label>
+        <link refid="classthemis_1_1_time_series_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/ts_auto_buffer.h" line="52" column="1" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="52" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1ac0c7a3f256b32ac2b2352f7c14c32d70" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>adaptive_batch_max</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a252eb9e7f9252f9a0d857e315524670b" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>adaptive_batch_min</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a4da80643fedf10dc334f0def89279abe" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>async_flush</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a6fcb1f3fbc8045309b865911cc57807e" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>backpressure_high_watermark</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1ad92dee768174722a3971aa61145fa13e" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>backpressure_low_watermark</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1aeeff4dd57eee514765ea0eda5b0a8a0a" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>backpressure_slo_ms</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a83eb100055bf57e7dab329183df5c45c" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>chunk_size_hours</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a2256d8b19e1bc3313c6ab1c26a82e1e8" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>compression</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1ac1ff343851932c5ae59d5af6436f8af0" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>enable_adaptive_flush</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1ac9194b2dfdcb4093d87aea8cc83de7e8" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>enable_dedup</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1abe0832530550b9ab33d0ec66a2751a3b" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>ewma_alpha</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a1907ca83f7d26ec1703c24087d0a26c5" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>flush_batch_size</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a527659825a4cf9c7620b090ddb66ab2f" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>flush_interval</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a585ed4e662cb2ff4c09f689cb77a21c0" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>gorilla_batch_size</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a5351697878620e8510cbcf42641bd49d" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>max_buffer_bytes</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a7c3ab87bb8609045c2ead18ddd824d14" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1aee80898913257645a65f74b9af1b3e39" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>max_memory_per_metric_bytes</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a8c9117fde26d496e4f23cdf565fc5b6f" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>max_points_per_buffer</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a99dd7f053d8738479936a40554eb03a0" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>max_total_points</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a70decab99f98c399a2dff643d69ff2a0" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_config_1a83e13a58a09cdd0c6d09a5d3e7b9b35f" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferConfig</scope><name>overdue_flush_multiplier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

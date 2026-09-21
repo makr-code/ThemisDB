@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_h_l_c_timestamp" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HLCTimestamp</compoundname>
+    <includes refid="hlc_8h" local="no">hlc.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::HLCTimestamp::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::HLCTimestamp::value</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="40" column="14" bodyfile="include/storage/hlc.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_h_l_c_timestamp_1aa9b4da604350249a2d62b6431d79a03c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::HLCTimestamp::wall_clock_ms</definition>
+        <argsstring></argsstring>
+        <name>wall_clock_ms</name>
+        <qualifiedname>themis::HLCTimestamp::wall_clock_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="44" column="14" bodyfile="include/storage/hlc.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_h_l_c_timestamp_1a682f36b61a098082aa5c86bf36f18eae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::HLCTimestamp::logical_clock</definition>
+        <argsstring></argsstring>
+        <name>logical_clock</name>
+        <qualifiedname>themis::HLCTimestamp::logical_clock</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="45" column="14" bodyfile="include/storage/hlc.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::HLCTimestamp::LOGICAL_BITS</definition>
+        <argsstring></argsstring>
+        <name>LOGICAL_BITS</name>
+        <qualifiedname>themis::HLCTimestamp::LOGICAL_BITS</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="47" column="31" bodyfile="include/storage/hlc.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::HLCTimestamp::LOGICAL_MASK</definition>
+        <argsstring></argsstring>
+        <name>LOGICAL_MASK</name>
+        <qualifiedname>themis::HLCTimestamp::LOGICAL_MASK</qualifiedname>
+        <initializer>= (1ULL &lt;&lt; <ref refid="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" kindref="member">LOGICAL_BITS</ref>) - 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="48" column="31" bodyfile="include/storage/hlc.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_h_l_c_timestamp_1a97f24ae3c6b8e80048e3fc79e51ae4cd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::HLCTimestamp::MAX_LOGICAL</definition>
+        <argsstring></argsstring>
+        <name>MAX_LOGICAL</name>
+        <qualifiedname>themis::HLCTimestamp::MAX_LOGICAL</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" kindref="member">LOGICAL_MASK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="49" column="31" bodyfile="include/storage/hlc.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HLCTimestamp::HLCTimestamp</definition>
+        <argsstring>()=default</argsstring>
+        <name>HLCTimestamp</name>
+        <qualifiedname>themis::HLCTimestamp::HLCTimestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1ac55c37ecfd59320d16abaacc4d88cc9a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::HLCTimestamp::HLCTimestamp</definition>
+        <argsstring>(uint64_t v)</argsstring>
+        <name>HLCTimestamp</name>
+        <qualifiedname>themis::HLCTimestamp::HLCTimestamp</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="52" column="14" bodyfile="include/storage/hlc.h" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1a8d9aa10e50e26f54759655a791a6b3e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::HLCTimestamp::HLCTimestamp</definition>
+        <argsstring>(uint64_t physical_ms, uint32_t logical_cnt)</argsstring>
+        <name>HLCTimestamp</name>
+        <qualifiedname>themis::HLCTimestamp::HLCTimestamp</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>physical_ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>logical_cnt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Backwards-compatible constructor used by older tests: HLCTimestamp(physical, logical) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="60" column="5" bodyfile="include/storage/hlc.h" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1adea6279e1234d8beca3bf0859c1e7f5e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::HLCTimestamp::physical</definition>
+        <argsstring>() const</argsstring>
+        <name>physical</name>
+        <qualifiedname>themis::HLCTimestamp::physical</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Physical component (wall-clock milliseconds since Unix epoch) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="69" column="14" bodyfile="include/storage/hlc.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1af65c0774359a6383d8c3a0ba300ee58b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::HLCTimestamp::logical</definition>
+        <argsstring>() const</argsstring>
+        <name>logical</name>
+        <qualifiedname>themis::HLCTimestamp::logical</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Logical component (tie-breaker within the same millisecond) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="72" column="14" bodyfile="include/storage/hlc.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1afa9725a0ab52341dff59dd1e0c1de072" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::HLCTimestamp::getPhysicalTime</definition>
+        <argsstring>() const</argsstring>
+        <name>getPhysicalTime</name>
+        <qualifiedname>themis::HLCTimestamp::getPhysicalTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Backwards-compat wrapper names expected by tests </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="75" column="14" bodyfile="include/storage/hlc.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1afe6356238e8a05653b78f2bc4a4675e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::HLCTimestamp::getLogicalCounter</definition>
+        <argsstring>() const</argsstring>
+        <name>getLogicalCounter</name>
+        <qualifiedname>themis::HLCTimestamp::getLogicalCounter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="76" column="14" bodyfile="include/storage/hlc.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1a783c1cc583ab65c2ec6b900eb3b2b1fb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::HLCTimestamp::operator&lt;</definition>
+        <argsstring>(const HLCTimestamp &amp;o) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::HLCTimestamp::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="87" column="5" bodyfile="include/storage/hlc.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1add552ac018b5142247a3131daf3e35fd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::HLCTimestamp::operator&lt;=</definition>
+        <argsstring>(const HLCTimestamp &amp;o) const</argsstring>
+        <name>operator&lt;=</name>
+        <qualifiedname>themis::HLCTimestamp::operator&lt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="88" column="5" bodyfile="include/storage/hlc.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1a4fccc07d334d9f509917d66a672e28c5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::HLCTimestamp::operator&gt;</definition>
+        <argsstring>(const HLCTimestamp &amp;o) const</argsstring>
+        <name>operator&gt;</name>
+        <qualifiedname>themis::HLCTimestamp::operator&gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="89" column="10" bodyfile="include/storage/hlc.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1a7750c9d64c990a69fe7c3536ad6b47b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::HLCTimestamp::operator&gt;=</definition>
+        <argsstring>(const HLCTimestamp &amp;o) const</argsstring>
+        <name>operator&gt;=</name>
+        <qualifiedname>themis::HLCTimestamp::operator&gt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="90" column="10" bodyfile="include/storage/hlc.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1acb9f1d53308ea9f11a8d5a5cc8fb5b48" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::HLCTimestamp::operator==</definition>
+        <argsstring>(const HLCTimestamp &amp;o) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::HLCTimestamp::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="91" column="10" bodyfile="include/storage/hlc.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1a298ebdce331fd0b33cb4be16a2b230cc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::HLCTimestamp::operator!=</definition>
+        <argsstring>(const HLCTimestamp &amp;o) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::HLCTimestamp::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="92" column="10" bodyfile="include/storage/hlc.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1ac93e39e30bee08162f9553bfadf2a553" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HLCTimestamp::encodeToBytes</definition>
+        <argsstring>(uint8_t out[8]) const</argsstring>
+        <name>encodeToBytes</name>
+        <qualifiedname>themis::HLCTimestamp::encodeToBytes</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>out</declname>
+          <array>[8]</array>
+        </param>
+        <briefdescription>
+<para>Encode timestamp as 8 big-endian bytes for use in RocksDB keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Big-endian encoding ensures lexicographic key order matches chronological order, which is required for correct MVCC range scans. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="100" column="10" bodyfile="include/storage/hlc.h" bodystart="100" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1aff253bdb1e99934b284a3d38a7029a42" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::HLCTimestamp::encodeToString</definition>
+        <argsstring>() const</argsstring>
+        <name>encodeToString</name>
+        <qualifiedname>themis::HLCTimestamp::encodeToString</qualifiedname>
+        <briefdescription>
+<para>Encode to an 8-byte string (for key construction). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Produces a fixed-width, big-endian byte string that compares correctly with memcmp / RocksDB&apos;s default bytewise comparator. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="123" column="17" bodyfile="include/storage/hlc.h" bodystart="123" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1a17a7ccd500d8d9c0d411bace4eebf0b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::HLCTimestamp::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::HLCTimestamp::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Human-readable representation: &quot;&lt;physical_ms&gt;.&lt;logical&gt;&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="144" column="17" bodyfile="src/storage/hlc.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1af7764302af1bd082ae5319f9b5ee5f91" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref></type>
+        <definition>static HLCTimestamp themis::HLCTimestamp::from</definition>
+        <argsstring>(uint64_t physical_ms, uint32_t logical_counter)</argsstring>
+        <name>from</name>
+        <qualifiedname>themis::HLCTimestamp::from</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>physical_ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>logical_counter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build an <ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref> from physical and logical components </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="79" column="25" bodyfile="include/storage/hlc.h" bodystart="79" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1a69ac72af9151e9f57762832b85f4a65e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref></type>
+        <definition>static HLCTimestamp themis::HLCTimestamp::decodeFromBytes</definition>
+        <argsstring>(const uint8_t in[8])</argsstring>
+        <name>decodeFromBytes</name>
+        <qualifiedname>themis::HLCTimestamp::decodeFromBytes</qualifiedname>
+        <param>
+          <type>const uint8_t</type>
+          <declname>in</declname>
+          <array>[8]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode 8 big-endian bytes back into an <ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="109" column="25" bodyfile="include/storage/hlc.h" bodystart="109" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_h_l_c_timestamp_1a0a1f29002f98ea82a81caa5ee8031d13" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" kindref="member">HLCTimestamp</ref></type>
+        <definition>static HLCTimestamp themis::HLCTimestamp::decodeFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>decodeFromString</name>
+        <qualifiedname>themis::HLCTimestamp::decodeFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode from an 8-byte string produced by <ref refid="structthemis_1_1_h_l_c_timestamp_1aff253bdb1e99934b284a3d38a7029a42" kindref="member">encodeToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="134" column="25" bodyfile="include/storage/hlc.h" bodystart="134" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hybrid Logical <ref refid="test__storage__latency__bench_8cpp_1a19bfb27380067c74ae297dd7dad5fb37" kindref="member">Clock</ref> (HLC) Timestamp. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A compact 64-bit representation combining physical time and a logical counter:<itemizedlist>
+<listitem><para>Upper 44 bits: wall-clock milliseconds since Unix epoch (~557 years of range)</para>
+</listitem><listitem><para>Lower 20 bits: logical counter (up to 1,048,575 events per millisecond)</para>
+</listitem></itemizedlist>
+</para>
+<para>This layout guarantees:<itemizedlist>
+<listitem><para>Monotonically increasing values across all nodes that exchange messages</para>
+</listitem><listitem><para>Total ordering of events on a single node</para>
+</listitem><listitem><para>Efficient big-endian byte encoding for key-sorted MVCC version lookups</para>
+</listitem></itemizedlist>
+</para>
+<para>Based on: Kulkarni et al. (2014) &quot;Logical Physical Clocks and Consistent Snapshots
+in Globally Distributed Databases&quot; - HotDep &apos;14. </para>
+    </detaileddescription>
+    <location file="include/storage/hlc.h" line="39" column="1" bodyfile="include/storage/hlc.h" bodystart="39" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a69ac72af9151e9f57762832b85f4a65e" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>decodeFromBytes</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a0a1f29002f98ea82a81caa5ee8031d13" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>decodeFromString</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1ac93e39e30bee08162f9553bfadf2a553" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>encodeToBytes</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1aff253bdb1e99934b284a3d38a7029a42" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>encodeToString</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1af7764302af1bd082ae5319f9b5ee5f91" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>from</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1afe6356238e8a05653b78f2bc4a4675e1" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>getLogicalCounter</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1afa9725a0ab52341dff59dd1e0c1de072" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>getPhysicalTime</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1ac4814f2c2fc1a70b5c09345a265bb30f" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>HLCTimestamp</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1ac55c37ecfd59320d16abaacc4d88cc9a" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>HLCTimestamp</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a8d9aa10e50e26f54759655a791a6b3e8" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>HLCTimestamp</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1af65c0774359a6383d8c3a0ba300ee58b" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>logical</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a176b9451af9aad097d9bdbdc42155b2a" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>LOGICAL_BITS</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a682f36b61a098082aa5c86bf36f18eae" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>logical_clock</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a5b94e846f71e26393198b3716385bf34" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>LOGICAL_MASK</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a97f24ae3c6b8e80048e3fc79e51ae4cd" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>MAX_LOGICAL</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a298ebdce331fd0b33cb4be16a2b230cc" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a783c1cc583ab65c2ec6b900eb3b2b1fb" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1add552ac018b5142247a3131daf3e35fd" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>operator&lt;=</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1acb9f1d53308ea9f11a8d5a5cc8fb5b48" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a4fccc07d334d9f509917d66a672e28c5" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>operator&gt;</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a7750c9d64c990a69fe7c3536ad6b47b2" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>operator&gt;=</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1adea6279e1234d8beca3bf0859c1e7f5e" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>physical</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a17a7ccd500d8d9c0d411bace4eebf0b6" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>toString</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1a467d1dfd08cebd6d9acfd940b5229015" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>value</name></member>
+      <member refid="structthemis_1_1_h_l_c_timestamp_1aa9b4da604350249a2d62b6431d79a03c" prot="public" virt="non-virtual"><scope>themis::HLCTimestamp</scope><name>wall_clock_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

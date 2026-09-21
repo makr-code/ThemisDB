@@ -1,0 +1,609 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__projects__phase4__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_projects_phase4_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="project__versioning_8h" local="yes">projects/project_versioning.h</includes>
+    <includes refid="project__diff_8h" local="yes">projects/project_diff.h</includes>
+    <includes refid="project__lifecycle_8h" local="yes">projects/project_lifecycle.h</includes>
+    <includes refid="collaboration__manager_8h" local="yes">projects/collaboration_manager.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>projects/DocumentManager/document_manager.h</label>
+        <link refid="document__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>projects/collaboration_manager.h</label>
+        <link refid="collaboration__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>projects/project_audit_log.h</label>
+        <link refid="project__audit__log_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>projects/project_diff.h</label>
+        <link refid="project__diff_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>projects/project_lifecycle.h</label>
+        <link refid="project__lifecycle_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>projects/project_metrics.h</label>
+        <link refid="project__metrics_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>projects/project_versioning.h</label>
+        <link refid="project__versioning_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/projects/test_projects_phase4_hardening_focused.cpp</label>
+        <link refid="test__projects__phase4__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="26">
+        <label>chrono</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="27">
+        <label>filesystem</label>
+      </node>
+      <node id="22">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="15">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="14">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="25">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="12">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="13">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="28">
+        <label>thread</label>
+      </node>
+      <node id="23">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_projects_phase4_test" prot="public">ProjectsPhase4Test</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProjectsPhase4Test, PRH01_LifecycleRejectsEmptyProjectId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>PRH01_LifecycleRejectsEmptyProjectId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects_phase4_hardening_focused.cpp" line="49" column="1" bodyfile="tests/projects/test_projects_phase4_hardening_focused.cpp" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__projects__phase4__hardening__focused_8cpp_1af9e20a332a025912ebac9df0cf2aba26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProjectsPhase4Test, PRH02_LifecycleRejectsEmptyActor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>PRH02_LifecycleRejectsEmptyActor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects_phase4_hardening_focused.cpp" line="62" column="1" bodyfile="tests/projects/test_projects_phase4_hardening_focused.cpp" bodystart="62" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__projects__phase4__hardening__focused_8cpp_1ad96c6b0ae44fcff3431b0ba4fe1bdb24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProjectsPhase4Test, PRH03_SnapshotIntegrityValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>PRH03_SnapshotIntegrityValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects_phase4_hardening_focused.cpp" line="79" column="1" bodyfile="tests/projects/test_projects_phase4_hardening_focused.cpp" bodystart="79" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__projects__phase4__hardening__focused_8cpp_1a5ba30c9868c112539dbef4db5cffc7f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProjectsPhase4Test, PRH04_SnapshotRestoreDetectsCorruption)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>PRH04_SnapshotRestoreDetectsCorruption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects_phase4_hardening_focused.cpp" line="95" column="1" bodyfile="tests/projects/test_projects_phase4_hardening_focused.cpp" bodystart="95" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__projects__phase4__hardening__focused_8cpp_1a9617e352fc32bcc8f04ed60c0c275d3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProjectsPhase4Test, PRH05_LockContentionDiagnostics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>PRH05_LockContentionDiagnostics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects_phase4_hardening_focused.cpp" line="122" column="1" bodyfile="tests/projects/test_projects_phase4_hardening_focused.cpp" bodystart="122" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__projects__phase4__hardening__focused_8cpp_1a6833130fc56a6ab0f8109738684791d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProjectsPhase4Test, PRH06_CollaborationRejectsEmptyUserId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>PRH06_CollaborationRejectsEmptyUserId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects_phase4_hardening_focused.cpp" line="143" column="1" bodyfile="tests/projects/test_projects_phase4_hardening_focused.cpp" bodystart="143" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__projects__phase4__hardening__focused_8cpp_1ac25e23778d274fcc09767df17132861d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProjectsPhase4Test, PRH07_UnlockValidateLockerMatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>PRH07_UnlockValidateLockerMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects_phase4_hardening_focused.cpp" line="158" column="1" bodyfile="tests/projects/test_projects_phase4_hardening_focused.cpp" bodystart="158" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__projects__phase4__hardening__focused_8cpp_1aceee671317625369ed4762c3b508de15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProjectsPhase4Test, PRH08_ErrorMessageConsistency)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>PRH08_ErrorMessageConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects_phase4_hardening_focused.cpp" line="181" column="1" bodyfile="tests/projects/test_projects_phase4_hardening_focused.cpp" bodystart="181" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 edge-case hardening tests for projects module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: PRH-01..PRH-08 (Phase 4 Hardening) </para>
+</simplesect>
+<simplesect kind="note"><para>Focus: conflict-heavy merge, lifecycle edge cases, snapshot integrity, collaboration contention </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="project__versioning_8h" kindref="compound">projects/project_versioning.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="project__diff_8h" kindref="compound">projects/project_diff.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="project__lifecycle_8h" kindref="compound">projects/project_lifecycle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="collaboration__manager_8h" kindref="compound">projects/collaboration_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1projects" kindref="compound">themis::projects</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="class_projects_phase4_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_projects_phase4_test_1ac7c49270b5a8bf1949c22ee5dbd9afe5" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_projects_phase4_test_1a45c8aa6fe8f0c88b7656b48b6fa54088" kindref="member">tmp_dir_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_projects_p4_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_projects_phase4_test_1a45c8aa6fe8f0c88b7656b48b6fa54088" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_projects_phase4_test_1a45c8aa6fe8f0c88b7656b48b6fa54088" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/><ref refid="class_projects_phase4_test_1a45c8aa6fe8f0c88b7656b48b6fa54088" kindref="member">tmp_dir_</ref>.string();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_projects_phase4_test_1ae47b55360fe3235bef363ec6bcff0bfb" kindref="member">storage_</ref><sp/>=<sp/>std::make_shared&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_projects_phase4_test_1ae47b55360fe3235bef363ec6bcff0bfb" kindref="member">storage_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_projects_phase4_test_1a30fdb69ea2ca9d043bd46ed870665d49" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_projects_phase4_test_1ae47b55360fe3235bef363ec6bcff0bfb" kindref="member">storage_</ref>.reset();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_projects_phase4_test_1a45c8aa6fe8f0c88b7656b48b6fa54088" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_projects_phase4_test_1a45c8aa6fe8f0c88b7656b48b6fa54088" kindref="member">tmp_dir_</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_projects_phase4_test_1ae47b55360fe3235bef363ec6bcff0bfb" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRH-01:<sp/>Empty<sp/>project_id<sp/>validation<sp/>for<sp/>lifecycle<sp/>transitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" kindref="member">TEST_F</ref>(<ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref>,<sp/>PRH01_LifecycleRejectsEmptyProjectId)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_project_lifecycle" kindref="compound">ProjectLifecycle</ref><sp/>pl(storage_);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>to<sp/>initialize<sp/>with<sp/>empty<sp/>project<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>pl.initProject(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;actor&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(status.message.find(</highlight><highlight class="stringliteral">&quot;project_id&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>should<sp/>mention<sp/>empty<sp/>project_id<sp/>validation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRH-02:<sp/>Empty<sp/>actor<sp/>validation<sp/>for<sp/>audit<sp/>trail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" kindref="member">TEST_F</ref>(<ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref>,<sp/>PRH02_LifecycleRejectsEmptyActor)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_project_lifecycle" kindref="compound">ProjectLifecycle</ref><sp/>pl(storage_);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>valid<sp/>project</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>init_status<sp/>=<sp/>pl.initProject(</highlight><highlight class="stringliteral">&quot;test-proj&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(init_status.ok);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>transition<sp/>with<sp/>empty<sp/>actor<sp/>(no<sp/>audit<sp/>trail)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>trans_status<sp/>=<sp/>pl.activate(</highlight><highlight class="stringliteral">&quot;test-proj&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(trans_status.ok);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(trans_status.message.find(</highlight><highlight class="stringliteral">&quot;actor&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>should<sp/>mention<sp/>empty<sp/>actor<sp/>validation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRH-03:<sp/>Snapshot<sp/>checksum<sp/>integrity<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" kindref="member">TEST_F</ref>(<ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref>,<sp/>PRH03_SnapshotIntegrityValidation)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_project_versioning" kindref="compound">ProjectVersioning</ref><sp/>pv(storage_);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>valid<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>pv.createSnapshot(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>snapshot&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;SnapshotId&gt;(result));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap_id<sp/>=<sp/>std::get&lt;SnapshotId&gt;(result);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>snapshot<sp/>passes<sp/>integrity<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_intact<sp/>=<sp/>pv.verifySnapshot(snap_id);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(is_intact)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Newly<sp/>created<sp/>snapshot<sp/>should<sp/>pass<sp/>integrity<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRH-04:<sp/>Snapshot<sp/>restore<sp/>fails<sp/>on<sp/>corrupted<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" kindref="member">TEST_F</ref>(<ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref>,<sp/>PRH04_SnapshotRestoreDetectsCorruption)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_project_versioning" kindref="compound">ProjectVersioning</ref><sp/>pv(storage_);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>snapshot<sp/>with<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>create_result<sp/>=<sp/>pv.createSnapshot(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;snapshot&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;SnapshotId&gt;(create_result));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap_id<sp/>=<sp/>std::get&lt;SnapshotId&gt;(create_result);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrupt<sp/>snapshot<sp/>payload<sp/>without<sp/>updating<sp/>metadata<sp/>checksum.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>snap_uuid<sp/>=<sp/>snap_id.substr(5);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>data_key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;snap_data:&quot;</highlight><highlight class="normal"><sp/>+<sp/>snap_uuid;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>original_payload<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(storage_-&gt;get(data_key,<sp/>original_payload));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(storage_-&gt;put(data_key,<sp/>original_payload<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;corrupt&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_intact<sp/>=<sp/>pv.verifySnapshot(snap_id);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_intact)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Corrupted<sp/>snapshot<sp/>must<sp/>fail<sp/>integrity<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restore_status<sp/>=<sp/>pv.restoreSnapshot(snap_id,<sp/></highlight><highlight class="stringliteral">&quot;proj-restore&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(restore_status.ok);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(restore_status.message.find(</highlight><highlight class="stringliteral">&quot;checksum<sp/>mismatch&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Restore<sp/>should<sp/>reject<sp/>corrupted<sp/>snapshot<sp/>content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRH-05:<sp/>Lock<sp/>contention<sp/>with<sp/>detailed<sp/>diagnostic<sp/>messages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" kindref="member">TEST_F</ref>(<ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref>,<sp/>PRH05_LockContentionDiagnostics)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_collaboration_manager" kindref="compound">CollaborationManager</ref><sp/>cm(storage_);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>A<sp/>locks<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lock_a<sp/>=<sp/>cm.lockObject(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;obj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(lock_a.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;First<sp/>lock<sp/>should<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>B<sp/>tries<sp/>to<sp/>lock<sp/>same<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lock_b<sp/>=<sp/>cm.lockObject(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;obj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(lock_b.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Second<sp/>lock<sp/>should<sp/>fail&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>error<sp/>message<sp/>includes<sp/>both<sp/>locker<sp/>IDs<sp/>for<sp/>diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(lock_b.message.find(</highlight><highlight class="stringliteral">&quot;user-a&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>should<sp/>mention<sp/>holder<sp/>(user-a)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(lock_b.message.find(</highlight><highlight class="stringliteral">&quot;user-b&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>should<sp/>mention<sp/>requester<sp/>(user-b)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRH-06:<sp/>Permission<sp/>validation<sp/>rejects<sp/>empty<sp/>user<sp/>IDs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" kindref="member">TEST_F</ref>(<ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref>,<sp/>PRH06_CollaborationRejectsEmptyUserId)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_collaboration_manager" kindref="compound">CollaborationManager</ref><sp/>cm(storage_);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;User&gt;<sp/>users<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;valid-user&quot;</highlight><highlight class="normal">}};<sp/><sp/></highlight><highlight class="comment">//<sp/>Mixed<sp/>valid<sp/>and<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>cm.shareProject(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/>users,<sp/><ref refid="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102ad4b9e47f65b6e79b010582f15785867e" kindref="member">Permission::WRITE</ref>);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>reject<sp/>the<sp/>batch<sp/>due<sp/>to<sp/>empty<sp/>user<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(status.message.find(</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>should<sp/>mention<sp/>user<sp/>validation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRH-07:<sp/>Unlock<sp/>validation<sp/>prevents<sp/>wrong-locker<sp/>removal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" kindref="member">TEST_F</ref>(<ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref>,<sp/>PRH07_UnlockValidateLockerMatch)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_collaboration_manager" kindref="compound">CollaborationManager</ref><sp/>cm(storage_);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>A<sp/>locks<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lock<sp/>=<sp/>cm.lockObject(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;obj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(lock.ok);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>B<sp/>tries<sp/>to<sp/>unlock<sp/>(should<sp/>fail)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>wrong_unlock<sp/>=<sp/>cm.unlockObject(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;obj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(wrong_unlock.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Wrong<sp/>locker<sp/>should<sp/>not<sp/>be<sp/>able<sp/>to<sp/>unlock&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>message<sp/>should<sp/>clarify<sp/>the<sp/>mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(wrong_unlock.message.find(</highlight><highlight class="stringliteral">&quot;locker&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>should<sp/>mention<sp/>locker<sp/>mismatch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>A<sp/>can<sp/>unlock<sp/>(should<sp/>succeed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>correct_unlock<sp/>=<sp/>cm.unlockObject(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;obj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(correct_unlock.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Correct<sp/>locker<sp/>should<sp/>be<sp/>able<sp/>to<sp/>unlock&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRH-08:<sp/>Fail-safe<sp/>error<sp/>message<sp/>consistency<sp/>across<sp/>modules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__projects__phase4__hardening__focused_8cpp_1af7829369e95e738d9ee9c8f787cbafd4" kindref="member">TEST_F</ref>(<ref refid="class_projects_phase4_test" kindref="compound">ProjectsPhase4Test</ref>,<sp/>PRH08_ErrorMessageConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>error<sp/>messages<sp/>follow<sp/>consistent<sp/>format:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;&lt;FunctionName&gt;:<sp/>&lt;diagnostic<sp/>detail&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_project_lifecycle" kindref="compound">ProjectLifecycle</ref><sp/>pl(storage_);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_project_versioning" kindref="compound">ProjectVersioning</ref><sp/>pv(storage_);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_collaboration_manager" kindref="compound">CollaborationManager</ref><sp/>cm(storage_);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pl.initProject(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;owner&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>transition<sp/>validation<sp/>should<sp/>have<sp/>function<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lc_err<sp/>=<sp/>pl.activate(</highlight><highlight class="stringliteral">&quot;proj-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(lc_err.message.find(</highlight><highlight class="stringliteral">&quot;applyTransition:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Lifecycle<sp/>errors<sp/>should<sp/>include<sp/>function<sp/>name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>error<sp/>message<sp/>should<sp/>have<sp/>function<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pv_err<sp/>=<sp/>pv.createSnapshot(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;desc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::holds_alternative&lt;Status&gt;(pv_err));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::holds_alternative&lt;Status&gt;(pv_err))<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>std::get&lt;Status&gt;(pv_err);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(err.message.find(</highlight><highlight class="stringliteral">&quot;createSnapshot:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Versioning<sp/>errors<sp/>should<sp/>include<sp/>function<sp/>name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Collaboration<sp/>error<sp/>message<sp/>should<sp/>have<sp/>function<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cm_err<sp/>=<sp/>cm.lockObject(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;obj&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;locker&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(cm_err.message.find(</highlight><highlight class="stringliteral">&quot;lockObject:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Collaboration<sp/>errors<sp/>should<sp/>include<sp/>function<sp/>name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/projects/test_projects_phase4_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

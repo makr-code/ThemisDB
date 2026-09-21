@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_compression_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::CompressionResult</compoundname>
+    <includes refid="prior__round__compressor_8h" local="no">prior_round_compressor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a0a0bc2cc5caa6c00e2b4ddd39d51a8b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::CompressionResult::compressed_text</definition>
+        <argsstring></argsstring>
+        <name>compressed_text</name>
+        <qualifiedname>themis::plugins::ethics::CompressionResult::compressed_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="40" column="17" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a4e227148042230b5f5e8378b9906d5cf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::CompressionResult::original_tokens</definition>
+        <argsstring></argsstring>
+        <name>original_tokens</name>
+        <qualifiedname>themis::plugins::ethics::CompressionResult::original_tokens</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="41" column="17" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1aca7f9dc6d6d44dbfbbdd5a95eb23c5d1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::CompressionResult::compressed_tokens</definition>
+        <argsstring></argsstring>
+        <name>compressed_tokens</name>
+        <qualifiedname>themis::plugins::ethics::CompressionResult::compressed_tokens</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="42" column="17" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1af832585da44486a3075d2d844d519eb6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::CompressionResult::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::plugins::ethics::CompressionResult::compression_ratio</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>0.0–1.0; lower = more compressed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="43" column="17" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a944fbf966aac2cdd8214fe01bfa0be2b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::CompressionResult::estimated_dc_loss</definition>
+        <argsstring></argsstring>
+        <name>estimated_dc_loss</name>
+        <qualifiedname>themis::plugins::ethics::CompressionResult::estimated_dc_loss</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>ΔDC estimate (positive = information loss). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="44" column="17" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a0d86e3bc23d597f5fb6287455329d79d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::CompressionResult::coherence_anchors_intact</definition>
+        <argsstring></argsstring>
+        <name>coherence_anchors_intact</name>
+        <qualifiedname>themis::plugins::ethics::CompressionResult::coherence_anchors_intact</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="45" column="17" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/prior_round_compressor.h" line="39" column="1" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="39" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a0d86e3bc23d597f5fb6287455329d79d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CompressionResult</scope><name>coherence_anchors_intact</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a0a0bc2cc5caa6c00e2b4ddd39d51a8b9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CompressionResult</scope><name>compressed_text</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1aca7f9dc6d6d44dbfbbdd5a95eb23c5d1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CompressionResult</scope><name>compressed_tokens</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1af832585da44486a3075d2d844d519eb6" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CompressionResult</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a944fbf966aac2cdd8214fe01bfa0be2b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CompressionResult</scope><name>estimated_dc_loss</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a4e227148042230b5f5e8378b9906d5cf" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CompressionResult</scope><name>original_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

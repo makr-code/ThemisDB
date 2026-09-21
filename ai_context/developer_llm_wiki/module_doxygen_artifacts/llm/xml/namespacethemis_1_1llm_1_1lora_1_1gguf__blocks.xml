@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1gguf__blocks" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::gguf_blocks</compoundname>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block" prot="public">themis::llm::lora::gguf_blocks::Q4KBlock</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q8__0_block" prot="public">themis::llm::lora::gguf_blocks::Q8_0Block</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gguf_converter.h" line="148" column="1"/>
+  </compounddef>
+</doxygen>

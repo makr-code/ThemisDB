@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::pkcs11::Pkcs11Library</compoundname>
+    <includes refid="pkcs11__wrapper_8h" local="no">pkcs11_wrapper.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a92f4037772f70e172999c3b913b2dcb5" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::security::pkcs11::Pkcs11Library::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::handle_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="295" column="28" bodyfile="include/security/pkcs11_wrapper.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a744344a46474a868f2166d4a06db42f7" prot="private" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" kindref="member">CK_FUNCTION_LIST_PTR</ref></type>
+        <definition>CK_FUNCTION_LIST_PTR themis::security::pkcs11::Pkcs11Library::functions_</definition>
+        <argsstring></argsstring>
+        <name>functions_</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::functions_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="296" column="29" bodyfile="include/security/pkcs11_wrapper.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a7113cc9eb05a4fe69a5717e5768d6820" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::pkcs11::Pkcs11Library::lastError_</definition>
+        <argsstring></argsstring>
+        <name>lastError_</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::lastError_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="297" column="29" bodyfile="include/security/pkcs11_wrapper.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a26f5811759479aec5110bbc36711da24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::pkcs11::Pkcs11Library::Pkcs11Library</definition>
+        <argsstring>()=default</argsstring>
+        <name>Pkcs11Library</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::Pkcs11Library</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="159" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1ac3373c5b569cb470f4aa6cdb682cabe6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::pkcs11::Pkcs11Library::~Pkcs11Library</definition>
+        <argsstring>()</argsstring>
+        <name>~Pkcs11Library</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::~Pkcs11Library</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="161" column="5" bodyfile="include/security/pkcs11_wrapper.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1acd735d7ff2e0983526b1a0c8bd123db3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::pkcs11::Pkcs11Library::Pkcs11Library</definition>
+        <argsstring>(const Pkcs11Library &amp;)=delete</argsstring>
+        <name>Pkcs11Library</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::Pkcs11Library</qualifiedname>
+        <param>
+          <type>const Pkcs11Library &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="163" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a2feacd213667ccb5d7bc7a2e5cf9ca8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a26f5811759479aec5110bbc36711da24" kindref="member">Pkcs11Library</ref> &amp;</type>
+        <definition>Pkcs11Library &amp; themis::security::pkcs11::Pkcs11Library::operator=</definition>
+        <argsstring>(const Pkcs11Library &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a26f5811759479aec5110bbc36711da24" kindref="member">Pkcs11Library</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="164" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1ae70874d7c0ce24382e43499060cbf0e7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::pkcs11::Pkcs11Library::Pkcs11Library</definition>
+        <argsstring>(Pkcs11Library &amp;&amp;other) noexcept</argsstring>
+        <name>Pkcs11Library</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::Pkcs11Library</qualifiedname>
+        <param>
+          <type>Pkcs11Library &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="166" column="5" bodyfile="include/security/pkcs11_wrapper.h" bodystart="166" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1adcadb6400fdc7822a700ad46194a5502" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a26f5811759479aec5110bbc36711da24" kindref="member">Pkcs11Library</ref> &amp;</type>
+        <definition>Pkcs11Library &amp; themis::security::pkcs11::Pkcs11Library::operator=</definition>
+        <argsstring>(Pkcs11Library &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a26f5811759479aec5110bbc36711da24" kindref="member">Pkcs11Library</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="172" column="19" bodyfile="include/security/pkcs11_wrapper.h" bodystart="172" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a8ce35f0bfc6ca2a6ce01a017f27944b9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::pkcs11::Pkcs11Library::load</definition>
+        <argsstring>(const std::string &amp;path) noexcept</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::load</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load a PKCS#11 library and initialise it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem path to the shared library (e.g. &quot;/usr/lib/softhsm/libsofthsm2.so&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if the library cannot be loaded, C_GetFunctionList cannot be resolved, or C_Initialize fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="191" column="10" bodyfile="include/security/pkcs11_wrapper.h" bodystart="191" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1abcae46247b901cc823cdca6d88d1e0fb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::pkcs11::Pkcs11Library::unload</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::unload</qualifiedname>
+        <briefdescription>
+<para>Finalize the PKCS#11 library and unload it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe to call on an already-unloaded library. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="260" column="10" bodyfile="include/security/pkcs11_wrapper.h" bodystart="260" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a0afc27711560cfbf7a5d0e98d1a74870" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::pkcs11::Pkcs11Library::isLoaded</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isLoaded</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::isLoaded</qualifiedname>
+        <briefdescription>
+<para>Returns true if the library is loaded and functions_ is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="280" column="10" bodyfile="include/security/pkcs11_wrapper.h" bodystart="280" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1ae9f604fbdfc1cbf1ea8dc11eebc17fc8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" kindref="member">CK_FUNCTION_LIST_PTR</ref></type>
+        <definition>CK_FUNCTION_LIST_PTR themis::security::pkcs11::Pkcs11Library::functions</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>functions</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::functions</qualifiedname>
+        <briefdescription>
+<para>Return the resolved PKCS#11 function list pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>May be nullptr if the library has not been loaded successfully. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="287" column="26" bodyfile="include/security/pkcs11_wrapper.h" bodystart="287" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a7a209ce81868ffbef9088022e3862c5f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::security::pkcs11::Pkcs11Library::lastError</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastError</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Library::lastError</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the last error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="292" column="23" bodyfile="include/security/pkcs11_wrapper.h" bodystart="292" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII loader for a PKCS#11 shared library. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Loads the library with dlopen/LoadLibrary, resolves C_GetFunctionList, calls C_Initialize, and on destruction calls C_Finalize and unloads the library.</para>
+<para>Non-copyable; movable. </para>
+    </detaileddescription>
+    <location file="include/security/pkcs11_wrapper.h" line="157" column="1" bodyfile="include/security/pkcs11_wrapper.h" bodystart="157" bodyend="298"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1ae9f604fbdfc1cbf1ea8dc11eebc17fc8" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>functions</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a744344a46474a868f2166d4a06db42f7" prot="private" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>functions_</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a92f4037772f70e172999c3b913b2dcb5" prot="private" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>handle_</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a0afc27711560cfbf7a5d0e98d1a74870" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>isLoaded</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a7a209ce81868ffbef9088022e3862c5f" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>lastError</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a7113cc9eb05a4fe69a5717e5768d6820" prot="private" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a8ce35f0bfc6ca2a6ce01a017f27944b9" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>load</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a2feacd213667ccb5d7bc7a2e5cf9ca8a" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1adcadb6400fdc7822a700ad46194a5502" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1a26f5811759479aec5110bbc36711da24" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>Pkcs11Library</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1acd735d7ff2e0983526b1a0c8bd123db3" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>Pkcs11Library</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1ae70874d7c0ce24382e43499060cbf0e7" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>Pkcs11Library</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1abcae46247b901cc823cdca6d88d1e0fb" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>unload</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1ac3373c5b569cb470f4aa6cdb682cabe6" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Library</scope><name>~Pkcs11Library</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

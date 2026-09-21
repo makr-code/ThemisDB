@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1test_1_1_backoff_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::test::BackoffConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1test_1_1_backoff_config_1a8d74b97aa4cdb47d63ba875b2a7545e4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::transaction::test::BackoffConfig::base_ms</definition>
+        <argsstring></argsstring>
+        <name>base_ms</name>
+        <qualifiedname>themis::transaction::test::BackoffConfig::base_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="204" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1test_1_1_backoff_config_1a567e35050e29a227e43622e77fb880d6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::transaction::test::BackoffConfig::factor</definition>
+        <argsstring></argsstring>
+        <name>factor</name>
+        <qualifiedname>themis::transaction::test::BackoffConfig::factor</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="205" column="12" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1test_1_1_backoff_config_1a963572e08db6ee345801163790a7f49c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::transaction::test::BackoffConfig::jitter_pct</definition>
+        <argsstring></argsstring>
+        <name>jitter_pct</name>
+        <qualifiedname>themis::transaction::test::BackoffConfig::jitter_pct</qualifiedname>
+        <initializer>= 0.20</initializer>
+        <briefdescription>
+<para>±20% </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="206" column="12" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1test_1_1_backoff_config_1a0980439cb12bca2dd3af8d61881f94d4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::transaction::test::BackoffConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::transaction::test::BackoffConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="207" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="203" column="1" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="203" bodyend="208"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1test_1_1_backoff_config_1a8d74b97aa4cdb47d63ba875b2a7545e4" prot="public" virt="non-virtual"><scope>themis::transaction::test::BackoffConfig</scope><name>base_ms</name></member>
+      <member refid="structthemis_1_1transaction_1_1test_1_1_backoff_config_1a567e35050e29a227e43622e77fb880d6" prot="public" virt="non-virtual"><scope>themis::transaction::test::BackoffConfig</scope><name>factor</name></member>
+      <member refid="structthemis_1_1transaction_1_1test_1_1_backoff_config_1a963572e08db6ee345801163790a7f49c" prot="public" virt="non-virtual"><scope>themis::transaction::test::BackoffConfig</scope><name>jitter_pct</name></member>
+      <member refid="structthemis_1_1transaction_1_1test_1_1_backoff_config_1a0980439cb12bca2dd3af8d61881f94d4" prot="public" virt="non-virtual"><scope>themis::transaction::test::BackoffConfig</scope><name>max_retries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

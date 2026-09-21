@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_sca_n_n_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::ScaNNConfig</compoundname>
+    <includes refid="ann__index_8h" local="no">ann_index.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Metric</name>
+        <qualifiedname>themis::index::ScaNNConfig::Metric</qualifiedname>
+        <enumvalue id="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104ea7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="132" column="5" bodyfile="include/index/ann_index.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_sca_n_n_config_1adaf5b067f0150093948162c6b0838efe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::ScaNNConfig::num_leaves</definition>
+        <argsstring></argsstring>
+        <name>num_leaves</name>
+        <qualifiedname>themis::index::ScaNNConfig::num_leaves</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Target number of Voronoi cells. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="119" column="12" bodyfile="include/index/ann_index.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_sca_n_n_config_1ae4ba871f827a6e4756c6d49ee8d5932a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::ScaNNConfig::num_leaves_to_search</definition>
+        <argsstring></argsstring>
+        <name>num_leaves_to_search</name>
+        <qualifiedname>themis::index::ScaNNConfig::num_leaves_to_search</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Cells probed per query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="120" column="12" bodyfile="include/index/ann_index.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_sca_n_n_config_1a31c148d84753a58837538b9d2cf909a4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::ScaNNConfig::kmeans_iters</definition>
+        <argsstring></argsstring>
+        <name>kmeans_iters</name>
+        <qualifiedname>themis::index::ScaNNConfig::kmeans_iters</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>K-means training iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="121" column="12" bodyfile="include/index/ann_index.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_sca_n_n_config_1ae3446486bd5dbbb1390b55fe4a6fe8e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::ScaNNConfig::enable_ah</definition>
+        <argsstring></argsstring>
+        <name>enable_ah</name>
+        <qualifiedname>themis::index::ScaNNConfig::enable_ah</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable AH compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="124" column="12" bodyfile="include/index/ann_index.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_sca_n_n_config_1a083562ddc53f57d2bf74ca206261a5dc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::ScaNNConfig::pq_num_subspaces</definition>
+        <argsstring></argsstring>
+        <name>pq_num_subspaces</name>
+        <qualifiedname>themis::index::ScaNNConfig::pq_num_subspaces</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Number of PQ sub-spaces. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="125" column="12" bodyfile="include/index/ann_index.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_sca_n_n_config_1a7c8330933ff5f4f852d8bae2a05e8950" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::ScaNNConfig::pq_bits_per_subspace</definition>
+        <argsstring></argsstring>
+        <name>pq_bits_per_subspace</name>
+        <qualifiedname>themis::index::ScaNNConfig::pq_bits_per_subspace</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Bits per PQ centroid (→ 256 centroids). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="126" column="12" bodyfile="include/index/ann_index.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_sca_n_n_config_1ab3bb6b3212c5602424b66e03c70ebeff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::ScaNNConfig::reorder_num_neighbors</definition>
+        <argsstring></argsstring>
+        <name>reorder_num_neighbors</name>
+        <qualifiedname>themis::index::ScaNNConfig::reorder_num_neighbors</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Candidates re-scored with exact dist. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="129" column="12" bodyfile="include/index/ann_index.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_sca_n_n_config_1a009f2a10c3a5c2b6b49ec9fdbe451130" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104e" kindref="member">themis::index::ScaNNConfig::Metric</ref></type>
+        <definition>enum themis::index::ScaNNConfig::Metric themis::index::ScaNNConfig::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::index::ScaNNConfig::metric</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104ea7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">Metric::L2</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="132" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/ann_index.h" line="117" column="1" bodyfile="include/index/ann_index.h" bodystart="117" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1ae3446486bd5dbbb1390b55fe4a6fe8e9" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>enable_ah</name></member>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1a31c148d84753a58837538b9d2cf909a4" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>kmeans_iters</name></member>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104e" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>Metric</name></member>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1a009f2a10c3a5c2b6b49ec9fdbe451130" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>metric</name></member>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1adaf5b067f0150093948162c6b0838efe" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>num_leaves</name></member>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1ae4ba871f827a6e4756c6d49ee8d5932a" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>num_leaves_to_search</name></member>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1a7c8330933ff5f4f852d8bae2a05e8950" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>pq_bits_per_subspace</name></member>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1a083562ddc53f57d2bf74ca206261a5dc" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>pq_num_subspaces</name></member>
+      <member refid="structthemis_1_1index_1_1_sca_n_n_config_1ab3bb6b3212c5602424b66e03c70ebeff" prot="public" virt="non-virtual"><scope>themis::index::ScaNNConfig</scope><name>reorder_num_neighbors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

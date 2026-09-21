@@ -1,0 +1,492 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_secure_string" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::SecureString</compoundname>
+    <includes refid="secure__memory_8h" local="no">secure_memory.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_secure_string_1ad8cbff0255b64bb0b7d61396421aacad" prot="private" static="no" mutable="no">
+        <type>char *</type>
+        <definition>char* themis::auth::SecureString::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::auth::SecureString::data_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="180" column="16" bodyfile="include/auth/secure_memory.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_secure_string_1a265545f6f7b570412a89d9a1b6e60991" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::SecureString::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::auth::SecureString::size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="181" column="17" bodyfile="include/auth/secure_memory.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureString::SecureString</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>SecureString</name>
+        <qualifiedname>themis::auth::SecureString::SecureString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a482616c7e2ba9c13e0bed9639d8de05d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureString::SecureString</definition>
+        <argsstring>(const char *s)</argsstring>
+        <name>SecureString</name>
+        <qualifiedname>themis::auth::SecureString::SecureString</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Secure String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: assign(), std::strlen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="84" column="14" bodyfile="include/auth/secure_memory.h" bodystart="84" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a28bcc4fddbeb34ae7c838a3ac035f220" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureString::SecureString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>SecureString</name>
+        <qualifiedname>themis::auth::SecureString::SecureString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Secure String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: assign(), <ref refid="classthemis_1_1auth_1_1_secure_string_1aac187b1f21ed2e6d8c2e3d9a3b087412" kindref="member">data()</ref>, <ref refid="classthemis_1_1auth_1_1_secure_string_1a7f36825407c03039f92673e6de18ff03" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="96" column="14" bodyfile="include/auth/secure_memory.h" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1afc6b584f36ce9b04972e48ac160bbcd4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureString::SecureString</definition>
+        <argsstring>(const SecureString &amp;o)</argsstring>
+        <name>SecureString</name>
+        <qualifiedname>themis::auth::SecureString::SecureString</qualifiedname>
+        <param>
+          <type>const SecureString &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="101" column="5" bodyfile="include/auth/secure_memory.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1aa18c48a57dfb71b9344c830f94be44dd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" kindref="member">SecureString</ref> &amp;</type>
+        <definition>SecureString &amp; themis::auth::SecureString::operator=</definition>
+        <argsstring>(const SecureString &amp;o)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SecureString::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" kindref="member">SecureString</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="105" column="18" bodyfile="include/auth/secure_memory.h" bodystart="105" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a33f29e9e955f1f72477d0f531c9349b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" kindref="member">SecureString</ref> &amp;</type>
+        <definition>SecureString &amp; themis::auth::SecureString::operator=</definition>
+        <argsstring>(const char *s)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SecureString::operator=</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="113" column="18" bodyfile="include/auth/secure_memory.h" bodystart="113" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a6c6de3423ff4afecbbce5f9847aecb28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" kindref="member">SecureString</ref> &amp;</type>
+        <definition>SecureString &amp; themis::auth::SecureString::operator=</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SecureString::operator=</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="121" column="18" bodyfile="include/auth/secure_memory.h" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a971da90128e21e3cde019be816d5cbec" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureString::SecureString</definition>
+        <argsstring>(SecureString &amp;&amp;o) noexcept</argsstring>
+        <name>SecureString</name>
+        <qualifiedname>themis::auth::SecureString::SecureString</qualifiedname>
+        <param>
+          <type>SecureString &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="128" column="5" bodyfile="include/auth/secure_memory.h" bodystart="128" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1acd323e17938612cd879a6cfa357226f1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" kindref="member">SecureString</ref> &amp;</type>
+        <definition>SecureString &amp; themis::auth::SecureString::operator=</definition>
+        <argsstring>(SecureString &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SecureString::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" kindref="member">SecureString</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="134" column="18" bodyfile="include/auth/secure_memory.h" bodystart="134" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a8234cc48ff4abda932dd721ce5961193" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureString::~SecureString</definition>
+        <argsstring>()</argsstring>
+        <name>~SecureString</name>
+        <qualifiedname>themis::auth::SecureString::~SecureString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="145" column="5" bodyfile="include/auth/secure_memory.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1ad43c2e01f667bf235b453793ce1b7f22" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::auth::SecureString::c_str</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>c_str</name>
+        <qualifiedname>themis::auth::SecureString::c_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="147" column="16" bodyfile="include/auth/secure_memory.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1aac187b1f21ed2e6d8c2e3d9a3b087412" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * themis::auth::SecureString::data</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::auth::SecureString::data</qualifiedname>
+        <briefdescription>
+<para>Writable pointer for in-place cleansing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="148" column="16" bodyfile="include/auth/secure_memory.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a7f36825407c03039f92673e6de18ff03" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::SecureString::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::auth::SecureString::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="149" column="17" bodyfile="include/auth/secure_memory.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a30736f19f0bb1371ed9096250da520cc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureString::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::auth::SecureString::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="150" column="17" bodyfile="include/auth/secure_memory.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1adc5ca0d3bc4a89ec83db05b1a44354fb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureString::operator==</definition>
+        <argsstring>(const char *rhs) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::auth::SecureString::operator==</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="152" column="10" bodyfile="include/auth/secure_memory.h" bodystart="152" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a567fce09abe779167ecd96f4e366f530" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureString::operator==</definition>
+        <argsstring>(const std::string &amp;rhs) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::auth::SecureString::operator==</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="162" column="10" bodyfile="include/auth/secure_memory.h" bodystart="162" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1af7c6ac40c3a34ca3a949130ebf7428f1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureString::operator==</definition>
+        <argsstring>(const SecureString &amp;rhs) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::auth::SecureString::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" kindref="member">SecureString</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="168" column="10" bodyfile="include/auth/secure_memory.h" bodystart="168" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1ab22b925140b654b82838b0f1491576d9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureString::operator!=</definition>
+        <argsstring>(const char *rhs) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::auth::SecureString::operator!=</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="175" column="10" bodyfile="include/auth/secure_memory.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a398928a4b5b7b38db0a89ffa6d6ebec2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureString::operator!=</definition>
+        <argsstring>(const std::string &amp;rhs) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::auth::SecureString::operator!=</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="176" column="10" bodyfile="include/auth/secure_memory.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1ad190e99ee6d856ab0c232687a08cfe64" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureString::operator!=</definition>
+        <argsstring>(const SecureString &amp;rhs) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::auth::SecureString::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" kindref="member">SecureString</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="177" column="10" bodyfile="include/auth/secure_memory.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a5db193f13791c58ff86e33dbdc20af52" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SecureString::assign</definition>
+        <argsstring>(const char *src, std::size_t len)</argsstring>
+        <name>assign</name>
+        <qualifiedname>themis::auth::SecureString::assign</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Assign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::memcpy(), <ref refid="namespacethemis_1_1auth_1_1detail_1aa075aabc2e6ecf386e292c617bc6490f" kindref="member">detail::secure_mlock()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="189" column="10" bodyfile="include/auth/secure_memory.h" bodystart="189" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_string_1a519905962ccc6bcce59f3c2bda1b063c" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SecureString::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::auth::SecureString::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="200" column="10" bodyfile="include/auth/secure_memory.h" bodystart="200" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/secure_memory.h" line="74" column="1" bodyfile="include/auth/secure_memory.h" bodystart="74" bodyend="207"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a5db193f13791c58ff86e33dbdc20af52" prot="private" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>assign</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1ad43c2e01f667bf235b453793ce1b7f22" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>c_str</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1aac187b1f21ed2e6d8c2e3d9a3b087412" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>data</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1ad8cbff0255b64bb0b7d61396421aacad" prot="private" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>data_</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a30736f19f0bb1371ed9096250da520cc" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>empty</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1ab22b925140b654b82838b0f1491576d9" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a398928a4b5b7b38db0a89ffa6d6ebec2" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1ad190e99ee6d856ab0c232687a08cfe64" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1aa18c48a57dfb71b9344c830f94be44dd" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a33f29e9e955f1f72477d0f531c9349b2" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a6c6de3423ff4afecbbce5f9847aecb28" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1acd323e17938612cd879a6cfa357226f1" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1adc5ca0d3bc4a89ec83db05b1a44354fb" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a567fce09abe779167ecd96f4e366f530" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1af7c6ac40c3a34ca3a949130ebf7428f1" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a519905962ccc6bcce59f3c2bda1b063c" prot="private" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>release</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a8dca1ea65db538d12bbffeb729b11288" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>SecureString</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a482616c7e2ba9c13e0bed9639d8de05d" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>SecureString</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a28bcc4fddbeb34ae7c838a3ac035f220" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>SecureString</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1afc6b584f36ce9b04972e48ac160bbcd4" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>SecureString</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a971da90128e21e3cde019be816d5cbec" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>SecureString</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a7f36825407c03039f92673e6de18ff03" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>size</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a265545f6f7b570412a89d9a1b6e60991" prot="private" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>size_</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_string_1a8234cc48ff4abda932dd721ce5961193" prot="public" virt="non-virtual"><scope>themis::auth::SecureString</scope><name>~SecureString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

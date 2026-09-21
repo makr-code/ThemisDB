@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ai_1_1_c_a_i_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ai::CAIEvaluationResult</compoundname>
+    <includes refid="cai__ethics__integration_8h" local="no">cai_ethics_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af160052105d144e1a7ba38026d182b26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ai::CAIEvaluationResult::original_response</definition>
+        <argsstring></argsstring>
+        <name>original_response</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::original_response</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="27" column="17" bodyfile="include/ai/cai_ethics_integration.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af786f2e1b276a081a233a0da94d6fd25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ai::CAIEvaluationResult::revised_response</definition>
+        <argsstring></argsstring>
+        <name>revised_response</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::revised_response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="28" column="17" bodyfile="include/ai/cai_ethics_integration.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a458f2a50c835c156b5d61040ed746fbd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ai::CAIEvaluationResult::was_revised</definition>
+        <argsstring></argsstring>
+        <name>was_revised</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::was_revised</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="29" column="10" bodyfile="include/ai/cai_ethics_integration.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a5cc9b218dff78d321694fd5d5bbb3a45" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ai::CAIEvaluationResult::cai_iterations</definition>
+        <argsstring></argsstring>
+        <name>cai_iterations</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::cai_iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="30" column="10" bodyfile="include/ai/cai_ethics_integration.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a4d24d1479026c71c3b0b295de51c3444" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::ai::CAIEvaluationResult::cai_original_score</definition>
+        <argsstring></argsstring>
+        <name>cai_original_score</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::cai_original_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="31" column="11" bodyfile="include/ai/cai_ethics_integration.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a9bee2fb881cd1b9063f1b03adc0f4a74" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::ai::CAIEvaluationResult::cai_revised_score</definition>
+        <argsstring></argsstring>
+        <name>cai_revised_score</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::cai_revised_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="32" column="11" bodyfile="include/ai/cai_ethics_integration.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1f4d094f589bae70f7eda285c2d5d238" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ai::CAIEvaluationResult::violated_principles</definition>
+        <argsstring></argsstring>
+        <name>violated_principles</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::violated_principles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="33" column="17" bodyfile="include/ai/cai_ethics_integration.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a909f1cbca8ea23d1127e6faab2b8b239" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ai::CAIEvaluationResult::applied_principles</definition>
+        <argsstring></argsstring>
+        <name>applied_principles</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::applied_principles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="34" column="17" bodyfile="include/ai/cai_ethics_integration.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a020495fe9ca67bfcb08e357ceaf92143" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ai::CAIEvaluationResult::ethics_overall_score</definition>
+        <argsstring></argsstring>
+        <name>ethics_overall_score</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_overall_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="37" column="12" bodyfile="include/ai/cai_ethics_integration.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1ae286319ec88f0156522466e1d2c725c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ai::CAIEvaluationResult::ethics_decision_quality</definition>
+        <argsstring></argsstring>
+        <name>ethics_decision_quality</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_decision_quality</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="38" column="12" bodyfile="include/ai/cai_ethics_integration.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a3cd0fc51352f856e4f1f63a9172e3967" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ai::CAIEvaluationResult::ethics_consistency</definition>
+        <argsstring></argsstring>
+        <name>ethics_consistency</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_consistency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="39" column="12" bodyfile="include/ai/cai_ethics_integration.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1aa1dca94f73616504d9e379c5540f7295" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ai::CAIEvaluationResult::ethics_fairness</definition>
+        <argsstring></argsstring>
+        <name>ethics_fairness</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_fairness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="40" column="12" bodyfile="include/ai/cai_ethics_integration.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af327f4012d24075e3fdc7de14019b4cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ai::CAIEvaluationResult::ethics_alignment</definition>
+        <argsstring></argsstring>
+        <name>ethics_alignment</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_alignment</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="41" column="12" bodyfile="include/ai/cai_ethics_integration.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a71990b5087d9f502e2b7166ca07e80fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ai::CAIEvaluationResult::ethics_transparency</definition>
+        <argsstring></argsstring>
+        <name>ethics_transparency</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_transparency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="42" column="12" bodyfile="include/ai/cai_ethics_integration.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a2da37a418909098e92fe968fd4d4ce30" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ai::CAIEvaluationResult::ethics_framework_domains</definition>
+        <argsstring></argsstring>
+        <name>ethics_framework_domains</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_framework_domains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="43" column="17" bodyfile="include/ai/cai_ethics_integration.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1bc4eb365bc903c38ac663a74b86e686" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ai::CAIEvaluationResult::ethics_argument_chain_ids</definition>
+        <argsstring></argsstring>
+        <name>ethics_argument_chain_ids</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_argument_chain_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="44" column="17" bodyfile="include/ai/cai_ethics_integration.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1abb9a10133823e3f89fd82fcd6ae881f9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ai::CAIEvaluationResult::ethics_framework_principles</definition>
+        <argsstring></argsstring>
+        <name>ethics_framework_principles</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::ethics_framework_principles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="45" column="17" bodyfile="include/ai/cai_ethics_integration.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1adf4bc2bb9488a60fddc6d9f69c414e45" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ai::CAIEvaluationResult::total_latency</definition>
+        <argsstring></argsstring>
+        <name>total_latency</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::total_latency</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="53" column="31" bodyfile="include/ai/cai_ethics_integration.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a0f5e8fbe0ef10043cefe91d7f8091ef5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ai::CAIEvaluationResult::safety_score</definition>
+        <argsstring>() const</argsstring>
+        <name>safety_score</name>
+        <qualifiedname>themis::ai::CAIEvaluationResult::safety_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="48" column="12" bodyfile="include/ai/cai_ethics_integration.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/cai_ethics_integration.h" line="25" column="1" bodyfile="include/ai/cai_ethics_integration.h" bodystart="25" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a909f1cbca8ea23d1127e6faab2b8b239" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>applied_principles</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a5cc9b218dff78d321694fd5d5bbb3a45" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>cai_iterations</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a4d24d1479026c71c3b0b295de51c3444" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>cai_original_score</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a9bee2fb881cd1b9063f1b03adc0f4a74" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>cai_revised_score</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af327f4012d24075e3fdc7de14019b4cc" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_alignment</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1bc4eb365bc903c38ac663a74b86e686" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_argument_chain_ids</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a3cd0fc51352f856e4f1f63a9172e3967" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_consistency</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1ae286319ec88f0156522466e1d2c725c2" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_decision_quality</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1aa1dca94f73616504d9e379c5540f7295" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_fairness</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a2da37a418909098e92fe968fd4d4ce30" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_framework_domains</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1abb9a10133823e3f89fd82fcd6ae881f9" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_framework_principles</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a020495fe9ca67bfcb08e357ceaf92143" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_overall_score</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a71990b5087d9f502e2b7166ca07e80fe" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>ethics_transparency</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af160052105d144e1a7ba38026d182b26" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>original_response</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af786f2e1b276a081a233a0da94d6fd25" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>revised_response</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a0f5e8fbe0ef10043cefe91d7f8091ef5" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>safety_score</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1adf4bc2bb9488a60fddc6d9f69c414e45" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>total_latency</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1f4d094f589bae70f7eda285c2d5d238" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>violated_principles</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a458f2a50c835c156b5d61040ed746fbd" prot="public" virt="non-virtual"><scope>themis::ai::CAIEvaluationResult</scope><name>was_revised</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

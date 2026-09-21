@@ -1,0 +1,1247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_my_s_q_l_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::MySQLImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <includes refid="mysql__importer_8h" local="no">mysql_importer.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_table_schema" prot="private">themis::importers::MySQLImporter::TableSchema</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_my_s_q_l_importer_1_1_jdbc_config" prot="private">themis::importers::MySQLImporter::JdbcConfig</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a4afe5b060ffbf0d285af8efb2108114f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::MySQLImporter::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::importers::MySQLImporter::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="65" column="17" bodyfile="include/importers/mysql_importer.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a070a21bb230cc5da8e8816b28911d34c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::MySQLImporter::type_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>type_cache_mutex_</name>
+        <qualifiedname>themis::importers::MySQLImporter::type_cache_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects type_mapping_cache_ concurrent access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="68" column="24" bodyfile="include/importers/mysql_importer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a48233446b4c8e40e38d2fe86f0407021" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::MySQLImporter::metadata_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metadata_mutex_</name>
+        <qualifiedname>themis::importers::MySQLImporter::metadata_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects field_metadata_snapshot_ concurrent access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="69" column="24" bodyfile="include/importers/mysql_importer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a412d698d7a7c9bf668ae73d1deade37b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::MySQLImporter::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::importers::MySQLImporter::stats_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects connection_pool_stats_ concurrent access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="70" column="24" bodyfile="include/importers/mysql_importer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1ab0995aa5dfea813a84a97d4e04700f58" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::MySQLImporter::config_type_overrides_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_type_overrides_mutex_</name>
+        <qualifiedname>themis::importers::MySQLImporter::config_type_overrides_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects config_type_overrides_ concurrent access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="71" column="24" bodyfile="include/importers/mysql_importer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a83af02e52c06abda7318afd52a077bff" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, TableSchema &gt;</type>
+        <definition>std::map&lt;std::string, TableSchema&gt; themis::importers::MySQLImporter::schemas_</definition>
+        <argsstring></argsstring>
+        <name>schemas_</name>
+        <qualifiedname>themis::importers::MySQLImporter::schemas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="73" column="14" bodyfile="include/importers/mysql_importer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1acb2362ea67ad2a6688c7b5f15847f59e" prot="private" static="no" mutable="no">
+        <type>JdbcConfig</type>
+        <definition>JdbcConfig themis::importers::MySQLImporter::jdbc_config_</definition>
+        <argsstring></argsstring>
+        <name>jdbc_config_</name>
+        <qualifiedname>themis::importers::MySQLImporter::jdbc_config_</qualifiedname>
+        <briefdescription>
+<para>Parsed JDBC config from <ref refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a17088d995160ab414360f0633af6a15d" kindref="member">initialize()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="74" column="16" bodyfile="include/importers/mysql_importer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a081aa8b7e159b7e862ddbeba23b0b700" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::MySQLImporter::config_type_overrides_</definition>
+        <argsstring></argsstring>
+        <name>config_type_overrides_</name>
+        <qualifiedname>themis::importers::MySQLImporter::config_type_overrides_</qualifiedname>
+        <briefdescription>
+<para>Type overrides from <ref refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a17088d995160ab414360f0633af6a15d" kindref="member">initialize()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="75" column="14" bodyfile="include/importers/mysql_importer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a9b0250562c22aeeb5d28040ed8d4aac3" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::MySQLImporter::type_mapping_cache_</definition>
+        <argsstring></argsstring>
+        <name>type_mapping_cache_</name>
+        <qualifiedname>themis::importers::MySQLImporter::type_mapping_cache_</qualifiedname>
+        <briefdescription>
+<para>Cached type mappings (Phase 2A). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="76" column="14" bodyfile="include/importers/mysql_importer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a8a6b59a9d931aa257d23880edc17fc94" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::MySQLImporter::field_metadata_snapshot_</definition>
+        <argsstring></argsstring>
+        <name>field_metadata_snapshot_</name>
+        <qualifiedname>themis::importers::MySQLImporter::field_metadata_snapshot_</qualifiedname>
+        <briefdescription>
+<para>Metadata snapshot (Phase 2A). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="77" column="14" bodyfile="include/importers/mysql_importer.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1ab29c5343f83e9589bb7faa7a6f54e879" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::importers::MySQLImporter::connection_pool_stats_</definition>
+        <argsstring></argsstring>
+        <name>connection_pool_stats_</name>
+        <qualifiedname>themis::importers::MySQLImporter::connection_pool_stats_</qualifiedname>
+        <briefdescription>
+<para>Connection pool statistics (Phase 2A). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="78" column="14" bodyfile="include/importers/mysql_importer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a6f86533e78b49ea55d02dff5d55394a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::MySQLImporter::MySQLImporter</definition>
+        <argsstring>()</argsstring>
+        <name>MySQLImporter</name>
+        <qualifiedname>themis::importers::MySQLImporter::MySQLImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="27" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1aacfd5a69699700d05f20b1352fd7ff9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::MySQLImporter::~MySQLImporter</definition>
+        <argsstring>() override</argsstring>
+        <name>~MySQLImporter</name>
+        <qualifiedname>themis::importers::MySQLImporter::~MySQLImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="28" column="5" bodyfile="src/importers/mysql_importer.cpp" bodystart="181" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1afbb62daeb0661992158a814ae5ff3b88" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::MySQLImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::MySQLImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="31" column="16" bodyfile="include/importers/mysql_importer.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1ac45016301ada9a1e0b6fe8df47cab23a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::MySQLImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::MySQLImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="32" column="17" bodyfile="src/importers/mysql_importer.cpp" bodystart="189" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a17088d995160ab414360f0633af6a15d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::initialize</definition>
+        <argsstring>(const std::string &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::MySQLImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), empty(), THEMIS_INFO(), json::parse(), contains(), is_string(), parseJdbcUrl(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="33" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="199" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa71d43b1698d59b75e85ca9eb9cf3af5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::MySQLImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), push_back(), std::getline(), find(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="34" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="273" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a3c3840346def8a55d13a984c41c4e0f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::MySQLImporter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::MySQLImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Import Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), mysqlAuditLogEvent(), std::to_string(), permission_check(), addError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="35" column="17" bodyfile="src/importers/mysql_importer.cpp" bodystart="313" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1acf406222b8d84319daa9be21050f4a62" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::MySQLImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::MySQLImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="40" column="21" bodyfile="src/importers/mysql_importer.cpp" bodystart="426" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a0aa2b5992dcc0f959e2e5431190ccd23" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::MySQLImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::MySQLImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="44" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="489" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1ae2bb2182211a59927aef60eb49055c70" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MySQLImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::MySQLImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Source Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), file(), json::array(), std::getline(), empty(), size(), find(), stripMySQLComments(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="45" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="500" bodyend="548"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1abed66c2b23ae23f623dfded1108e89c6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::parseDumpFile</definition>
+        <argsstring>(const std::string &amp;file_path, const ImportOptions &amp;options, ImportStats &amp;stats, ProgressCallback &amp;callback)</argsstring>
+        <name>parseDumpFile</name>
+        <qualifiedname>themis::importers::MySQLImporter::parseDumpFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Parse Dump File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), addError(), mysqlAuditLogEvent(), std::to_string(), load(), PoolGuard(), <ref refid="namespacethemis_1_1importers_1a0ae5750de1e9aeb9bae6e163ec9726cb" kindref="member">streamReadLine()</ref>, find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="81" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="563" bodyend="806"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa2b92b1a0ac24ff8c5aa5e7508a30d9a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::parseCreateTable</definition>
+        <argsstring>(const std::string &amp;sql, TableSchema &amp;schema)</argsstring>
+        <name>parseCreateTable</name>
+        <qualifiedname>themis::importers::MySQLImporter::parseCreateTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Parse Create Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: table_regex(), std::regex_search(), str(), empty(), find(), position(), size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="83" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="815" bodyend="1001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1aecf5f488701f0aaa5f6fb04281975d95" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::parseInsert</definition>
+        <argsstring>(const std::string &amp;sql, const ImportOptions &amp;options, ImportStats &amp;stats, size_t line_number, std::unordered_set&lt; uint64_t &gt; &amp;delta_hashes)</argsstring>
+        <name>parseInsert</name>
+        <qualifiedname>themis::importers::MySQLImporter::parseInsert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>line_number</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; uint64_t &gt; &amp;</type>
+          <declname>delta_hashes</declname>
+        </param>
+        <briefdescription>
+<para>Parse Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">delta_hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: insert_regex(), std::regex_search(), simpleInsertFallback(), mysqlAuditLogEvent(), std::to_string(), addError(), str(), shouldImportTable(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="84" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="1013" bodyend="1186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1af5d26e7eba7276e49af4f30207756a7b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MySQLImporter::mapMySQLTypeToThemis</definition>
+        <argsstring>(const std::string &amp;mysql_type, const ImportOptions &amp;options) const</argsstring>
+        <name>mapMySQLTypeToThemis</name>
+        <qualifiedname>themis::importers::MySQLImporter::mapMySQLTypeToThemis</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mysql_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_type_overrides_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="89" column="17" bodyfile="src/importers/mysql_importer.cpp" bodystart="1188" bodyend="1371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a8119c57ae4f8cecb64a093be3eb13c75" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::shouldImportTable</definition>
+        <argsstring>(const std::string &amp;table_name, const ImportOptions &amp;options) const</argsstring>
+        <name>shouldImportTable</name>
+        <qualifiedname>themis::importers::MySQLImporter::shouldImportTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="91" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="1373" bodyend="1384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a53b01bd6fb9ca69cf7b810a26c40e61f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MySQLImporter::convertRowToEntity</definition>
+        <argsstring>(const TableSchema &amp;schema, const std::vector&lt; std::string &gt; &amp;values)</argsstring>
+        <name>convertRowToEntity</name>
+        <qualifiedname>themis::importers::MySQLImporter::convertRowToEntity</qualifiedname>
+        <param>
+          <type>const TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Convert Row To Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="98" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="1393" bodyend="1403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa7857b7a1597b30770c2c9fb3a4d6e29" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::MySQLImporter::parseInsertValues</definition>
+        <argsstring>(const std::string &amp;values_clause) const</argsstring>
+        <name>parseInsertValues</name>
+        <qualifiedname>themis::importers::MySQLImporter::parseInsertValues</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>values_clause</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="101" column="17" bodyfile="src/importers/mysql_importer.cpp" bodystart="1405" bodyend="1522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a1e137f5d716c767745c8a658eca53f33" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MySQLImporter::addError</definition>
+        <argsstring>(ImportStats &amp;stats, ImportErrorCode code, ImportErrorSeverity severity, const std::string &amp;message, const std::string &amp;location=&quot;&quot;) const</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::importers::MySQLImporter::addError</qualifiedname>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a7ab8f0c7a8a3d9ee85ae85e2dc82739f" kindref="member">ImportErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1ab84e8d97ff72a5766b99d350cbe478d0" kindref="member">ImportErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>location</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="110" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="1673" bodyend="1696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1aabfb51ed1454da4ea598e402090d92ba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MySQLImporter::emitMetric</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;metric, const std::map&lt; std::string, std::string &gt; &amp;labels, double value) const</argsstring>
+        <name>emitMetric</name>
+        <qualifiedname>themis::importers::MySQLImporter::emitMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="114" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="1698" bodyend="1705"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a00a6bcc4e353d9cf5fd1c2b418b7dfb8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MySQLImporter::emitSpan</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;operation, const std::map&lt; std::string, std::string &gt; &amp;attributes, double duration_seconds) const</argsstring>
+        <name>emitSpan</name>
+        <qualifiedname>themis::importers::MySQLImporter::emitSpan</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_seconds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="120" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="1707" bodyend="1714"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a60f226a91fd2d9a3fe72551c8bb0d942" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MySQLImporter::reportProgress</definition>
+        <argsstring>(ProgressCallback &amp;callback, const std::string &amp;stage, size_t current, size_t total)</argsstring>
+        <name>reportProgress</name>
+        <qualifiedname>themis::importers::MySQLImporter::reportProgress</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+<para>Report Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="126" column="10" bodyfile="src/importers/mysql_importer.cpp" bodystart="1724" bodyend="1729"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a6daf92477762cf1ed06b9dea7b61c4b7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MySQLImporter::parseJdbcUrl</definition>
+        <argsstring>(const std::string &amp;url, JdbcConfig &amp;out)</argsstring>
+        <name>parseJdbcUrl</name>
+        <qualifiedname>themis::importers::MySQLImporter::parseJdbcUrl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>JdbcConfig &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Parse Jdbc Url. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), substr(), find(), empty(), std::stoi(), THEMIS_WARN(), qs(), std::getline(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="95" column="17" bodyfile="src/importers/mysql_importer.cpp" bodystart="1535" bodyend="1613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1aec45518e3885e010e263c8560f0ed326" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MySQLImporter::unquoteIdentifier</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>unquoteIdentifier</name>
+        <qualifiedname>themis::importers::MySQLImporter::unquoteIdentifier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Unquote Identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_first_not_of(), find_last_not_of(), substr(), size(), front(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="104" column="24" bodyfile="src/importers/mysql_importer.cpp" bodystart="1621" bodyend="1639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a56d86dae74041ff1ab8d504ff7f96abb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MySQLImporter::stripMySQLComments</definition>
+        <argsstring>(const std::string &amp;sql)</argsstring>
+        <name>stripMySQLComments</name>
+        <qualifiedname>themis::importers::MySQLImporter::stripMySQLComments</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <briefdescription>
+<para>Strip My SQLComments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="107" column="24" bodyfile="src/importers/mysql_importer.cpp" bodystart="1647" bodyend="1671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a4a3726cc150737bcf72fd5e806219d48" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::MySQLImporter::computeRowHash</definition>
+        <argsstring>(const std::string &amp;tuple_str, const std::vector&lt; std::string &gt; &amp;values, const std::vector&lt; std::string &gt; &amp;key_columns, const std::vector&lt; std::string &gt; &amp;schema_columns)</argsstring>
+        <name>computeRowHash</name>
+        <qualifiedname>themis::importers::MySQLImporter::computeRowHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tuple_str</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>key_columns</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>schema_columns</declname>
+        </param>
+        <briefdescription>
+<para>Compute Row Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tuple_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), mysql_fnv1a64(), data(), size(), reserve(), emplace(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="130" column="21" bodyfile="src/importers/mysql_importer.cpp" bodystart="1751" bodyend="1781"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa2dcd79b0d84ec5cf4f33d2831db3c25" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; uint64_t &gt;</type>
+        <definition>std::unordered_set&lt; uint64_t &gt; themis::importers::MySQLImporter::loadDeltaHashes</definition>
+        <argsstring>(const std::string &amp;delta_hash_file)</argsstring>
+        <name>loadDeltaHashes</name>
+        <qualifiedname>themis::importers::MySQLImporter::loadDeltaHashes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>delta_hash_file</declname>
+        </param>
+        <briefdescription>
+<para>Load Delta Hashes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_hash_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: f(), std::getline(), empty(), insert(), std::stoull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="134" column="31" bodyfile="src/importers/mysql_importer.cpp" bodystart="1789" bodyend="1805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_my_s_q_l_importer_1a26436e84488621c1f4251d940adae588" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MySQLImporter::saveDeltaHashes</definition>
+        <argsstring>(const std::string &amp;delta_hash_file, const std::unordered_set&lt; uint64_t &gt; &amp;hashes)</argsstring>
+        <name>saveDeltaHashes</name>
+        <qualifiedname>themis::importers::MySQLImporter::saveDeltaHashes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>delta_hash_file</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; uint64_t &gt; &amp;</type>
+          <declname>hashes</declname>
+        </param>
+        <briefdescription>
+<para>Save Delta Hashes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_hash_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), std::snprintf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mysql_importer.h" line="135" column="17" bodyfile="src/importers/mysql_importer.cpp" bodystart="1813" bodyend="1824"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::MySQLImporter</label>
+        <link refid="classthemis_1_1importers_1_1_my_s_q_l_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::MySQLImporter</label>
+        <link refid="classthemis_1_1importers_1_1_my_s_q_l_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/mysql_importer.h" line="25" column="1" bodyfile="include/importers/mysql_importer.h" bodystart="25" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a1e137f5d716c767745c8a658eca53f33" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>addError</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a0aa2b5992dcc0f959e2e5431190ccd23" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a4afe5b060ffbf0d285af8efb2108114f" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a4a3726cc150737bcf72fd5e806219d48" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>computeRowHash</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a081aa8b7e159b7e862ddbeba23b0b700" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>config_type_overrides_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1ab0995aa5dfea813a84a97d4e04700f58" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>config_type_overrides_mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1ab29c5343f83e9589bb7faa7a6f54e879" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>connection_pool_stats_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a53b01bd6fb9ca69cf7b810a26c40e61f" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>convertRowToEntity</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aabfb51ed1454da4ea598e402090d92ba" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>emitMetric</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a00a6bcc4e353d9cf5fd1c2b418b7dfb8" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>emitSpan</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a8a6b59a9d931aa257d23880edc17fc94" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>field_metadata_snapshot_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1afbb62daeb0661992158a814ae5ff3b88" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1ae2bb2182211a59927aef60eb49055c70" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1ac45016301ada9a1e0b6fe8df47cab23a" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a3c3840346def8a55d13a984c41c4e0f5" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1acf406222b8d84319daa9be21050f4a62" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a17088d995160ab414360f0633af6a15d" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1acb2362ea67ad2a6688c7b5f15847f59e" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>jdbc_config_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa2dcd79b0d84ec5cf4f33d2831db3c25" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>loadDeltaHashes</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1af5d26e7eba7276e49af4f30207756a7b" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>mapMySQLTypeToThemis</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a48233446b4c8e40e38d2fe86f0407021" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>metadata_mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a6f86533e78b49ea55d02dff5d55394a6" prot="public" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>MySQLImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa2b92b1a0ac24ff8c5aa5e7508a30d9a" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>parseCreateTable</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1abed66c2b23ae23f623dfded1108e89c6" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>parseDumpFile</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aecf5f488701f0aaa5f6fb04281975d95" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>parseInsert</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa7857b7a1597b30770c2c9fb3a4d6e29" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>parseInsertValues</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a6daf92477762cf1ed06b9dea7b61c4b7" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>parseJdbcUrl</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a60f226a91fd2d9a3fe72551c8bb0d942" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>reportProgress</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a26436e84488621c1f4251d940adae588" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>saveDeltaHashes</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a83af02e52c06abda7318afd52a077bff" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>schemas_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a8119c57ae4f8cecb64a093be3eb13c75" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>shouldImportTable</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a412d698d7a7c9bf668ae73d1deade37b" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a56d86dae74041ff1ab8d504ff7f96abb" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>stripMySQLComments</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a070a21bb230cc5da8e8816b28911d34c" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>type_cache_mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a9b0250562c22aeeb5d28040ed8d4aac3" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>type_mapping_cache_</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aec45518e3885e010e263c8560f0ed326" prot="private" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>unquoteIdentifier</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa71d43b1698d59b75e85ca9eb9cf3af5" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::MySQLImporter</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aacfd5a69699700d05f20b1352fd7ff9d" prot="public" virt="non-virtual"><scope>themis::importers::MySQLImporter</scope><name>~MySQLImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

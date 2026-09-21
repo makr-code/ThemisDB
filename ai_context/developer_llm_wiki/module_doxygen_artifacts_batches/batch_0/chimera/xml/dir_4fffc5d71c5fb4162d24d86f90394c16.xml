@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4fffc5d71c5fb4162d24d86f90394c16" kind="dir">
+    <compoundname>tests/chimera</compoundname>
+    <innerfile refid="test__chimera__highcardinality__stress_8cpp">test_chimera_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__chimera__prepared__statements_8cpp">test_chimera_prepared_statements.cpp</innerfile>
+    <innerfile refid="test__chimera__streaming_8cpp">test_chimera_streaming.cpp</innerfile>
+    <innerfile refid="test__themisdb__adapter_8cpp">test_themisdb_adapter.cpp</innerfile>
+    <innerfile refid="themis__adapter__fallback_8cpp">themis_adapter_fallback.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/chimera/"/>
+  </compounddef>
+</doxygen>

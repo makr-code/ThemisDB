@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_t_t_l_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdaptiveTTLConfig</compoundname>
+    <includes refid="schema__manager_8h" local="no">schema_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_t_t_l_config_1a4e427440817eb7425fc951c7d5b564c5" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AdaptiveTTLConfig::min_ttl</definition>
+        <argsstring></argsstring>
+        <name>min_ttl</name>
+        <qualifiedname>themis::AdaptiveTTLConfig::min_ttl</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Minimum TTL used when mutation rate is very high. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="45" column="26" bodyfile="include/metadata/schema_manager.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AdaptiveTTLConfig::max_ttl</definition>
+        <argsstring></argsstring>
+        <name>max_ttl</name>
+        <qualifiedname>themis::AdaptiveTTLConfig::max_ttl</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+<para>Maximum TTL used when mutation rate is zero. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="46" column="26" bodyfile="include/metadata/schema_manager.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_t_t_l_config_1aa33c2d156d6c28be0d98690675c790d6" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AdaptiveTTLConfig::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themis::AdaptiveTTLConfig::window</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Sliding window for mutation rate measurement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="47" column="26" bodyfile="include/metadata/schema_manager.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_t_t_l_config_1aa8f01eadf1a433e0c34e2fbdfe14a52e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveTTLConfig::scale_factor</definition>
+        <argsstring></argsstring>
+        <name>scale_factor</name>
+        <qualifiedname>themis::AdaptiveTTLConfig::scale_factor</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+<para>Sensitivity: higher → TTL shrinks faster with rate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="48" column="12" bodyfile="include/metadata/schema_manager.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for adaptive TTL based on table mutation rate.</para>
+<para>Used with <ref refid="classthemis_1_1_schema_manager_1a00e070bf8920ad546ab13418fb76cad1" kindref="member">SchemaManager::enableAdaptiveTTL()</ref>. When adaptive TTL is enabled, the effective cache TTL is computed as: effective_ttl = clamp(base_ttl / (1 + scale_factor * rate), min_ttl, max_ttl) where rate = mutations per second observed within the measurement window. </para>
+    </detaileddescription>
+    <location file="include/metadata/schema_manager.h" line="44" column="1" bodyfile="include/metadata/schema_manager.h" bodystart="44" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" prot="public" virt="non-virtual"><scope>themis::AdaptiveTTLConfig</scope><name>max_ttl</name></member>
+      <member refid="structthemis_1_1_adaptive_t_t_l_config_1a4e427440817eb7425fc951c7d5b564c5" prot="public" virt="non-virtual"><scope>themis::AdaptiveTTLConfig</scope><name>min_ttl</name></member>
+      <member refid="structthemis_1_1_adaptive_t_t_l_config_1aa8f01eadf1a433e0c34e2fbdfe14a52e" prot="public" virt="non-virtual"><scope>themis::AdaptiveTTLConfig</scope><name>scale_factor</name></member>
+      <member refid="structthemis_1_1_adaptive_t_t_l_config_1aa33c2d156d6c28be0d98690675c790d6" prot="public" virt="non-virtual"><scope>themis::AdaptiveTTLConfig</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

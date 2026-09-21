@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ingestion__toolbox_8h" kind="file" language="C++">
+    <compoundname>ingestion_toolbox.h</compoundname>
+    <includes local="yes">ingestion/workflow_engine.h</includes>
+    <includes local="yes">ingestion/builtin_step_factories.h</includes>
+    <includes local="yes">ingestion/inference_backend.h</includes>
+    <includes local="yes">ingestion/base_entity.h</includes>
+    <includes local="yes">ingestion/extraction_context.h</includes>
+    <includes local="yes">ingestion/file_manifest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__toolbox__native__workloads_8cpp" local="yes">benchmarks/toolbox/bench_toolbox_native_workloads.cpp</includedby>
+    <includedby refid="content__toolbox__bridge_8h" local="yes">include/toolbox/content_toolbox_bridge.h</includedby>
+    <includedby refid="toolbox__builder_8h" local="yes">include/toolbox/toolbox_builder.h</includedby>
+    <includedby refid="toolbox__composite_8h" local="yes">include/toolbox/toolbox_composite.h</includedby>
+    <includedby refid="toolbox__registry_8h" local="yes">include/toolbox/toolbox_registry.h</includedby>
+    <includedby refid="toolbox__streaming_8h" local="yes">include/toolbox/toolbox_streaming.h</includedby>
+    <includedby refid="ingestion__toolbox_8cpp" local="yes">src/toolbox/ingestion_toolbox.cpp</includedby>
+    <includedby refid="test__toolbox__ingestion_8cpp" local="yes">tests/toolbox/test_toolbox_ingestion.cpp</includedby>
+    <includedby refid="test__toolbox__phase5_8cpp" local="yes">tests/toolbox/test_toolbox_phase5.cpp</includedby>
+    <includedby refid="test__toolbox__primitives_8cpp" local="yes">tests/toolbox/test_toolbox_primitives.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/toolbox/ingestion_toolbox.h</label>
+        <link refid="ingestion__toolbox_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>ingestion/base_entity.h</label>
+      </node>
+      <node id="3">
+        <label>ingestion/builtin_step_factories.h</label>
+      </node>
+      <node id="6">
+        <label>ingestion/extraction_context.h</label>
+      </node>
+      <node id="7">
+        <label>ingestion/file_manifest.h</label>
+      </node>
+      <node id="4">
+        <label>ingestion/inference_backend.h</label>
+      </node>
+      <node id="2">
+        <label>ingestion/workflow_engine.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/toolbox/bench_toolbox_native_workloads.cpp</label>
+        <link refid="bench__toolbox__native__workloads_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/toolbox/content_toolbox_bridge.h</label>
+        <link refid="content__toolbox__bridge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/toolbox/ingestion_toolbox.h</label>
+        <link refid="ingestion__toolbox_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/toolbox/toolbox_builder.h</label>
+        <link refid="toolbox__builder_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/toolbox/toolbox_composite.h</label>
+        <link refid="toolbox__composite_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/toolbox/toolbox_registry.h</label>
+        <link refid="toolbox__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/toolbox/toolbox_streaming.h</label>
+        <link refid="toolbox__streaming_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/toolbox/content_toolbox_bridge.cpp</label>
+        <link refid="content__toolbox__bridge_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/toolbox/ingestion_toolbox.cpp</label>
+        <link refid="ingestion__toolbox_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/toolbox/toolbox_builder.cpp</label>
+        <link refid="toolbox__builder_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/toolbox/toolbox_composite.cpp</label>
+        <link refid="toolbox__composite_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/toolbox/toolbox_registry.cpp</label>
+        <link refid="toolbox__registry_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/toolbox/toolbox_streaming.cpp</label>
+        <link refid="toolbox__streaming_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/toolbox/test_toolbox_contract_hardening_focused.cpp</label>
+        <link refid="test__toolbox__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/toolbox/test_toolbox_ingestion.cpp</label>
+        <link refid="test__toolbox__ingestion_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/toolbox/test_toolbox_phase5.cpp</label>
+        <link refid="test__toolbox__phase5_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/toolbox/test_toolbox_primitives.cpp</label>
+        <link refid="test__toolbox__primitives_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" prot="public">themis::toolbox::IngestionToolbox</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1toolbox">themis::toolbox</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/workflow_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/builtin_step_factories.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/inference_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/extraction_context.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/file_manifest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionToolbox<sp/>—<sp/>system-wide<sp/>access<sp/>point<sp/>for<sp/>ingestion<sp/>infrastructure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="class_ingestion_toolbox" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref>();</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1aba8d9f507e2d928765beb3f2e5c829ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1aba8d9f507e2d928765beb3f2e5c829ff" kindref="member">~IngestionToolbox</ref>();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ad0e25d886adfaff3ff9e8547459f9235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ad0e25d886adfaff3ff9e8547459f9235" kindref="member">IngestionToolbox</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a00a121f942de722f7174921a338f7e5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a00a121f942de722f7174921a338f7e5d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a010ed9bd23523b02b9051cda608350c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a010ed9bd23523b02b9051cda608350c9" kindref="member">IngestionToolbox</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a373a4f5030732c8bd8fa3fc30e836bb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Factory<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" kindref="member">IngestionToolbox</ref>&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">createDefault</ref>();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Dependency<sp/>injection<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a6c27ee57faf4a9df0f21890820ed4435" kindref="member">setWorkflowEngine</ref>(std::shared_ptr&lt;ingestion::WorkflowEngine&gt;<sp/>engine);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" kindref="member">setTextBackend</ref>(std::shared_ptr&lt;ingestion::ITextGenerationBackend&gt;<sp/>backend);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Accessors<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::WorkflowEngine&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" kindref="member">workflowEngine</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>ingestion::StepRegistry&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a472e6c5dc8b90dfeabc8ac75b2af69bb" kindref="member">stepRegistry</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::ITextGenerationBackend&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a108aad122de096def1394a6bd5c7ebf8" kindref="member">textBackend</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>High-level<sp/>convenience<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ingestion::BaseEntity&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">extractEntities</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>mime<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>filename<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;input.txt&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>ingestion::BaseEntitySet<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a19df1cedc0cdf6fecf649ade1e2b7572" kindref="member">extractEntitySet</ref>(</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>mime<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>filename<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;input.txt&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Prometheus<sp/>metrics<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a4961ad684b226fb60e1d48e34e4277ae" kindref="member">recordExtraction</ref>(std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>entity_count,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/>latency_ms,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ac0b1290261e7a9b2d061b85af49a312c" kindref="member">getMetricsText</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>toolbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/toolbox/ingestion_toolbox.h"/>
+  </compounddef>
+</doxygen>

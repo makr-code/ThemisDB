@@ -1,0 +1,1112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_oracle_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::OracleImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <includes refid="oracle__importer_8h" local="no">oracle_importer.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_oracle_importer_1_1_table_schema" prot="private">themis::importers::OracleImporter::TableSchema</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_oracle_importer_1a0014f6e9683ab4b7435fec6af32050b0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::OracleImporter::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::importers::OracleImporter::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="53" column="17" bodyfile="include/importers/oracle_importer.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_oracle_importer_1a570a7b3921d9182cec40d57541b4a333" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, TableSchema &gt;</type>
+        <definition>std::map&lt;std::string, TableSchema&gt; themis::importers::OracleImporter::schemas_</definition>
+        <argsstring></argsstring>
+        <name>schemas_</name>
+        <qualifiedname>themis::importers::OracleImporter::schemas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="54" column="14" bodyfile="include/importers/oracle_importer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a6de9c580041f762556e974b8d2c6a381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::OracleImporter::OracleImporter</definition>
+        <argsstring>()</argsstring>
+        <name>OracleImporter</name>
+        <qualifiedname>themis::importers::OracleImporter::OracleImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a271dcbc4ea586df9466c3c5e6a0d042c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::OracleImporter::~OracleImporter</definition>
+        <argsstring>() override</argsstring>
+        <name>~OracleImporter</name>
+        <qualifiedname>themis::importers::OracleImporter::~OracleImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="25" column="5" bodyfile="src/importers/oracle_importer.cpp" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1af8db9fd5b47baa4d89119b704adf7a0e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::OracleImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::OracleImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="28" column="16" bodyfile="include/importers/oracle_importer.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1ad08b980b92e64706a8ffcb4b6a85c64c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::OracleImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::OracleImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="29" column="17" bodyfile="src/importers/oracle_importer.cpp" bodystart="219" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1ab138c67dd17454b7331e1e895629d174" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::OracleImporter::initialize</definition>
+        <argsstring>(const std::string &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::OracleImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="30" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="229" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1ad0942e4dc00eb4ef4e86b406a5b3942a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::OracleImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::OracleImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), push_back(), std::getline(), find(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="31" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="243" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1ab8559cbc6c98fbdbf0f50b09e59a24aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::OracleImporter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::OracleImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Import Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), permission_check(), addError(), parseDumpFile(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="32" column="17" bodyfile="src/importers/oracle_importer.cpp" bodystart="284" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a6e382fb4fd126798fdd8e7e1a93e679f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::OracleImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::OracleImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="37" column="21" bodyfile="src/importers/oracle_importer.cpp" bodystart="365" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1ada2dc9c68cd4c507708ead5e9a4474a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::OracleImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::OracleImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="41" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="428" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1aee6bcf826accaba98de01eaf03c6b731" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::OracleImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::OracleImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Source Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), file(), json::array(), std::getline(), size(), THEMIS_WARN(), resize(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="42" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="439" bodyend="512"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1af78274ca873ca3d47552b5eb2ab77648" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::OracleImporter::parseDumpFile</definition>
+        <argsstring>(const std::string &amp;file_path, const ImportOptions &amp;options, ImportStats &amp;stats, ProgressCallback &amp;callback)</argsstring>
+        <name>parseDumpFile</name>
+        <qualifiedname>themis::importers::OracleImporter::parseDumpFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Parse Dump File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), addError(), std::to_string(), PoolGuard(), streamReadLineOracle(), find(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="65" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="527" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a85cd24abd037b7e7b3e799d0cb99c339" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::OracleImporter::parseCreateTable</definition>
+        <argsstring>(const std::string &amp;sql, TableSchema &amp;schema)</argsstring>
+        <name>parseCreateTable</name>
+        <qualifiedname>themis::importers::OracleImporter::parseCreateTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Parse Create Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: table_regex(), std::regex_search(), str(), empty(), find(), position(), size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="73" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="716" bodyend="908"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1ac6d35db22bae97ed24f6252874344c54" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::OracleImporter::parseInsert</definition>
+        <argsstring>(const std::string &amp;sql, const ImportOptions &amp;options, ImportStats &amp;stats, size_t line_number)</argsstring>
+        <name>parseInsert</name>
+        <qualifiedname>themis::importers::OracleImporter::parseInsert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>line_number</declname>
+        </param>
+        <briefdescription>
+<para>Parse Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: insert_regex(), std::regex_search(), simpleInsertFallbackOracle(), addError(), std::to_string(), str(), shouldImportTable(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="82" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="919" bodyend="1067"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a5be94870ea0d7e6a6480e8fcd2a6f675" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OracleImporter::mapOracleTypeToThemis</definition>
+        <argsstring>(const std::string &amp;oracle_type, const ImportOptions &amp;options) const</argsstring>
+        <name>mapOracleTypeToThemis</name>
+        <qualifiedname>themis::importers::OracleImporter::mapOracleTypeToThemis</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>oracle_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Map Oracle Type To Themis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">oracle_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="92" column="17" bodyfile="src/importers/oracle_importer.cpp" bodystart="1069" bodyend="1223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a7c1d96deb98f74cdbb852cd1d61d37f7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::OracleImporter::shouldImportTable</definition>
+        <argsstring>(const std::string &amp;table_name, const ImportOptions &amp;options) const</argsstring>
+        <name>shouldImportTable</name>
+        <qualifiedname>themis::importers::OracleImporter::shouldImportTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Should Import Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="100" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="1225" bodyend="1236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a4a439aebecb82965704c45526ade378d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::OracleImporter::convertRowToEntity</definition>
+        <argsstring>(const TableSchema &amp;schema, const std::vector&lt; std::string &gt; &amp;values)</argsstring>
+        <name>convertRowToEntity</name>
+        <qualifiedname>themis::importers::OracleImporter::convertRowToEntity</qualifiedname>
+        <param>
+          <type>const TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Convert Row To Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="109" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="1245" bodyend="1255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a1972739cf553bb30c60a373578250e75" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::OracleImporter::parseInsertValues</definition>
+        <argsstring>(const std::string &amp;values_clause) const</argsstring>
+        <name>parseInsertValues</name>
+        <qualifiedname>themis::importers::OracleImporter::parseInsertValues</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>values_clause</declname>
+        </param>
+        <briefdescription>
+<para>Parse Insert Values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values_clause</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="117" column="17" bodyfile="src/importers/oracle_importer.cpp" bodystart="1257" bodyend="1357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a2fc5a4f6fc34403382690362e978a5b7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::OracleImporter::addError</definition>
+        <argsstring>(ImportStats &amp;stats, ImportErrorCode code, ImportErrorSeverity severity, const std::string &amp;message, const std::string &amp;location=&quot;&quot;) const</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::importers::OracleImporter::addError</qualifiedname>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a7ab8f0c7a8a3d9ee85ae85e2dc82739f" kindref="member">ImportErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1ab84e8d97ff72a5766b99d350cbe478d0" kindref="member">ImportErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>location</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="135" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="1412" bodyend="1431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a641034d8738d5e041e72ce8e8b7f2eb7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::OracleImporter::emitMetric</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;metric, const std::map&lt; std::string, std::string &gt; &amp;labels, double value) const</argsstring>
+        <name>emitMetric</name>
+        <qualifiedname>themis::importers::OracleImporter::emitMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="139" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="1433" bodyend="1440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a20b096fdeeb02a2f54afff595cebec51" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::OracleImporter::emitSpan</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;operation, const std::map&lt; std::string, std::string &gt; &amp;attributes, double duration_seconds) const</argsstring>
+        <name>emitSpan</name>
+        <qualifiedname>themis::importers::OracleImporter::emitSpan</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_seconds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="145" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="1442" bodyend="1449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a301c5a49f6ecbc180ab8b72c1d315b10" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::OracleImporter::reportProgress</definition>
+        <argsstring>(ProgressCallback &amp;callback, const std::string &amp;stage, size_t current, size_t total)</argsstring>
+        <name>reportProgress</name>
+        <qualifiedname>themis::importers::OracleImporter::reportProgress</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+<para>Report Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="158" column="10" bodyfile="src/importers/oracle_importer.cpp" bodystart="1459" bodyend="1464"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a78c54429aacc1de3be72a04b9a84dd3c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OracleImporter::unquoteIdentifier</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>unquoteIdentifier</name>
+        <qualifiedname>themis::importers::OracleImporter::unquoteIdentifier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Identifier unquoting (strips double-quotes or returns plain identifiers as-is). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unquote Identifier.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_first_not_of(), find_last_not_of(), substr(), size(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="124" column="24" bodyfile="src/importers/oracle_importer.cpp" bodystart="1365" bodyend="1381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_oracle_importer_1a9b41548c4ec228533a639272123f4e23" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::OracleImporter::stripOracleComments</definition>
+        <argsstring>(const std::string &amp;sql)</argsstring>
+        <name>stripOracleComments</name>
+        <qualifiedname>themis::importers::OracleImporter::stripOracleComments</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <briefdescription>
+<para>Strip Oracle hint comments and regular block comments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Strip Oracle Comments.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SQL text with Oracle hint comments and block comments removed.</para>
+</simplesect>
+Handles Oracle hint and block comment forms using slash-star delimiters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/oracle_importer.h" line="132" column="24" bodyfile="src/importers/oracle_importer.cpp" bodystart="1389" bodyend="1410"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::OracleImporter</label>
+        <link refid="classthemis_1_1importers_1_1_oracle_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::OracleImporter</label>
+        <link refid="classthemis_1_1importers_1_1_oracle_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/oracle_importer.h" line="22" column="1" bodyfile="include/importers/oracle_importer.h" bodystart="22" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a2fc5a4f6fc34403382690362e978a5b7" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>addError</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1ada2dc9c68cd4c507708ead5e9a4474a9" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a0014f6e9683ab4b7435fec6af32050b0" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a4a439aebecb82965704c45526ade378d" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>convertRowToEntity</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a641034d8738d5e041e72ce8e8b7f2eb7" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>emitMetric</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a20b096fdeeb02a2f54afff595cebec51" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>emitSpan</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1af8db9fd5b47baa4d89119b704adf7a0e" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1aee6bcf826accaba98de01eaf03c6b731" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1ad08b980b92e64706a8ffcb4b6a85c64c" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1ab8559cbc6c98fbdbf0f50b09e59a24aa" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a6e382fb4fd126798fdd8e7e1a93e679f" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1ab138c67dd17454b7331e1e895629d174" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a5be94870ea0d7e6a6480e8fcd2a6f675" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>mapOracleTypeToThemis</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a6de9c580041f762556e974b8d2c6a381" prot="public" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>OracleImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a85cd24abd037b7e7b3e799d0cb99c339" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>parseCreateTable</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1af78274ca873ca3d47552b5eb2ab77648" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>parseDumpFile</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1ac6d35db22bae97ed24f6252874344c54" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>parseInsert</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a1972739cf553bb30c60a373578250e75" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>parseInsertValues</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a301c5a49f6ecbc180ab8b72c1d315b10" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>reportProgress</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a570a7b3921d9182cec40d57541b4a333" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>schemas_</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a7c1d96deb98f74cdbb852cd1d61d37f7" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>shouldImportTable</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a9b41548c4ec228533a639272123f4e23" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>stripOracleComments</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a78c54429aacc1de3be72a04b9a84dd3c" prot="private" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>unquoteIdentifier</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1ad0942e4dc00eb4ef4e86b406a5b3942a" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::OracleImporter</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_oracle_importer_1a271dcbc4ea586df9466c3c5e6a0d042c" prot="public" virt="non-virtual"><scope>themis::importers::OracleImporter</scope><name>~OracleImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

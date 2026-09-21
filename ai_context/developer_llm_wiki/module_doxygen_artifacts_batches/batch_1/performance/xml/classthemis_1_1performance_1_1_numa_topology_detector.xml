@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_numa_topology_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::NumaTopologyDetector</compoundname>
+    <includes refid="numa__topology_8h" local="no">numa_topology.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_numa_topology_detector_1a82c5d82037a22879ed302507596949e2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1performance_1_1_numa_topology" kindref="compound">NumaTopology</ref> &amp;</type>
+        <definition>const NumaTopology &amp; themis::performance::NumaTopologyDetector::detect</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::performance::NumaTopologyDetector::detect</qualifiedname>
+        <briefdescription>
+<para>Detect and return the system NUMA topology (cached singleton). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_topo_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="67" column="31" bodyfile="src/performance/numa_topology.cpp" bodystart="303" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_numa_topology_detector_1a4e15cbf23598ac37b8407f529743c97e" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::NumaTopologyDetector::invalidate_cache</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>invalidate_cache</name>
+        <qualifiedname>themis::performance::NumaTopologyDetector::invalidate_cache</qualifiedname>
+        <briefdescription>
+<para>Force re-detection (clears cached result). Only needed after hot-plug events; not required in normal operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_topo_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="73" column="17" bodyfile="src/performance/numa_topology.cpp" bodystart="320" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_numa_topology_detector_1ac6c58c043a93cf9b41809aee115b1d9e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::NumaTopologyDetector::NumaTopologyDetector</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NumaTopologyDetector</name>
+        <qualifiedname>themis::performance::NumaTopologyDetector::NumaTopologyDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="76" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_numa_topology_detector_1af39bb84b367e03a8939531b1692f0e86" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_numa_topology" kindref="compound">NumaTopology</ref></type>
+        <definition>NumaTopology themis::performance::NumaTopologyDetector::detect_impl</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>detect_impl</name>
+        <qualifiedname>themis::performance::NumaTopologyDetector::detect_impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_topology.h" line="78" column="25" bodyfile="src/performance/numa_topology.cpp" bodystart="330" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detects the NUMA topology of the current system. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Reads topology information from OS-provided interfaces:<itemizedlist>
+<listitem><para>Linux : /sys/devices/system/node/</para>
+</listitem><listitem><para>Windows: GetNumaNodeProcessorMaskEx / GetNumaAvailableMemoryNode</para>
+</listitem><listitem><para>macOS : sysctl hw.packages (limited; typically 1 node)</para>
+</listitem></itemizedlist>
+</para>
+<para>Results are cached after the first call. </para>
+    </detaileddescription>
+    <location file="include/performance/numa_topology.h" line="62" column="1" bodyfile="include/performance/numa_topology.h" bodystart="62" bodyend="79"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_numa_topology_detector_1a82c5d82037a22879ed302507596949e2" prot="public" virt="non-virtual"><scope>themis::performance::NumaTopologyDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1performance_1_1_numa_topology_detector_1af39bb84b367e03a8939531b1692f0e86" prot="private" virt="non-virtual"><scope>themis::performance::NumaTopologyDetector</scope><name>detect_impl</name></member>
+      <member refid="classthemis_1_1performance_1_1_numa_topology_detector_1a4e15cbf23598ac37b8407f529743c97e" prot="public" virt="non-virtual"><scope>themis::performance::NumaTopologyDetector</scope><name>invalidate_cache</name></member>
+      <member refid="classthemis_1_1performance_1_1_numa_topology_detector_1ac6c58c043a93cf9b41809aee115b1d9e" prot="private" virt="non-virtual"><scope>themis::performance::NumaTopologyDetector</scope><name>NumaTopologyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

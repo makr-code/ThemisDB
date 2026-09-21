@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_explain_mock_storage" kind="class" language="C++" prot="public">
+    <compoundname>ExplainMockStorage</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IStorageEngine</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_explain_mock_storage_1afff9c8b87b9cda0de0ccb5d1da149c97" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; ExplainMockStorage::open</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>open</name>
+        <qualifiedname>ExplainMockStorage::open</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="27" column="19" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_storage_1ac782000978543009c5cbcaa07b14e1cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ExplainMockStorage::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <qualifiedname>ExplainMockStorage::close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="28" column="25" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_storage_1affcc092403fe07e6c0fa4dc21017b269" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; ExplainMockStorage::put</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) override</argsstring>
+        <name>put</name>
+        <qualifiedname>ExplainMockStorage::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="29" column="19" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_storage_1a56bdf309d78f3818f238f6dc2a47dc46" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; ExplainMockStorage::get</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>get</name>
+        <qualifiedname>ExplainMockStorage::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="30" column="12" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_storage_1a44a0108c9ef7535d7b144c4594e3996d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; ExplainMockStorage::del</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>del</name>
+        <qualifiedname>ExplainMockStorage::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="33" column="19" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ExplainMockStorage</label>
+        <link refid="class_explain_mock_storage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IStorageEngine</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ExplainMockStorage</label>
+        <link refid="class_explain_mock_storage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IStorageEngine</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_explain.cpp" line="25" column="1" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="25" bodyend="34"/>
+    <listofallmembers>
+      <member refid="class_explain_mock_storage_1ac782000978543009c5cbcaa07b14e1cb" prot="public" virt="non-virtual"><scope>ExplainMockStorage</scope><name>close</name></member>
+      <member refid="class_explain_mock_storage_1a44a0108c9ef7535d7b144c4594e3996d" prot="public" virt="non-virtual"><scope>ExplainMockStorage</scope><name>del</name></member>
+      <member refid="class_explain_mock_storage_1a56bdf309d78f3818f238f6dc2a47dc46" prot="public" virt="non-virtual"><scope>ExplainMockStorage</scope><name>get</name></member>
+      <member refid="class_explain_mock_storage_1afff9c8b87b9cda0de0ccb5d1da149c97" prot="public" virt="non-virtual"><scope>ExplainMockStorage</scope><name>open</name></member>
+      <member refid="class_explain_mock_storage_1affcc092403fe07e6c0fa4dc21017b269" prot="public" virt="non-virtual"><scope>ExplainMockStorage</scope><name>put</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

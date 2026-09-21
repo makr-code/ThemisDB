@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_delta_applier" kind="class" language="C++" prot="public">
+    <compoundname>StubDeltaApplier</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_delta_applier_1ad66eea79faf1c7d2e1193ccb72324e8a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubDeltaApplier::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubDeltaApplier::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="86" column="24" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_delta_applier_1a7a0dbaa822cf1b81a55135e5c63ebd78" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; StubDeltaApplier::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>StubDeltaApplier::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="87" column="24" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_delta_applier_1a01a7df6f96eade3a3615f1701e7941c5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubDeltaApplier::applied_</definition>
+        <argsstring></argsstring>
+        <name>applied_</name>
+        <qualifiedname>StubDeltaApplier::applied_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="88" column="17" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_delta_applier_1a4d83889bb6520738be0f4c089675ba5c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubDeltaApplier::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>StubDeltaApplier::errors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="89" column="17" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_delta_applier_1a05bb4cd838feaaef692a07bc96216b98" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubDeltaApplier::StubDeltaApplier</definition>
+        <argsstring>()</argsstring>
+        <name>StubDeltaApplier</name>
+        <qualifiedname>StubDeltaApplier::StubDeltaApplier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="68" column="5" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_delta_applier_1a5248a7958161b9dc1dc497b698f05a91" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubDeltaApplier::apply</definition>
+        <argsstring>(const std::string &amp;key, int delta)</argsstring>
+        <name>apply</name>
+        <qualifiedname>StubDeltaApplier::apply</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>delta</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="70" column="10" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_delta_applier_1a1f1d148466b813d757418d73816d478e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StubDeltaApplier::get</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>StubDeltaApplier::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="76" column="9" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="76" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_delta_applier_1a8e329ad83c2d5901c0a20159f1c8f39b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubDeltaApplier::applied</definition>
+        <argsstring>() const</argsstring>
+        <name>applied</name>
+        <qualifiedname>StubDeltaApplier::applied</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="82" column="14" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_delta_applier_1a2d44bcf6108e403dcf89a48afb85011b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubDeltaApplier::errors</definition>
+        <argsstring>() const</argsstring>
+        <name>errors</name>
+        <qualifiedname>StubDeltaApplier::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="83" column="14" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub delta applier — applies incremental updates. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="66" column="1" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="66" bodyend="90"/>
+    <listofallmembers>
+      <member refid="class_stub_delta_applier_1a8e329ad83c2d5901c0a20159f1c8f39b" prot="public" virt="non-virtual"><scope>StubDeltaApplier</scope><name>applied</name></member>
+      <member refid="class_stub_delta_applier_1a01a7df6f96eade3a3615f1701e7941c5" prot="private" virt="non-virtual"><scope>StubDeltaApplier</scope><name>applied_</name></member>
+      <member refid="class_stub_delta_applier_1a5248a7958161b9dc1dc497b698f05a91" prot="public" virt="non-virtual"><scope>StubDeltaApplier</scope><name>apply</name></member>
+      <member refid="class_stub_delta_applier_1a2d44bcf6108e403dcf89a48afb85011b" prot="public" virt="non-virtual"><scope>StubDeltaApplier</scope><name>errors</name></member>
+      <member refid="class_stub_delta_applier_1a4d83889bb6520738be0f4c089675ba5c" prot="private" virt="non-virtual"><scope>StubDeltaApplier</scope><name>errors_</name></member>
+      <member refid="class_stub_delta_applier_1a1f1d148466b813d757418d73816d478e" prot="public" virt="non-virtual"><scope>StubDeltaApplier</scope><name>get</name></member>
+      <member refid="class_stub_delta_applier_1ad66eea79faf1c7d2e1193ccb72324e8a" prot="private" virt="non-virtual"><scope>StubDeltaApplier</scope><name>mu_</name></member>
+      <member refid="class_stub_delta_applier_1a7a0dbaa822cf1b81a55135e5c63ebd78" prot="private" virt="non-virtual"><scope>StubDeltaApplier</scope><name>state_</name></member>
+      <member refid="class_stub_delta_applier_1a05bb4cd838feaaef692a07bc96216b98" prot="public" virt="non-virtual"><scope>StubDeltaApplier</scope><name>StubDeltaApplier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

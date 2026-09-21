@@ -1,0 +1,754 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__bpmn__s_8cpp" kind="file" language="C++">
+    <compoundname>test_bpmn_s.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes refid="bpmn__serializer_8h" local="yes">process/bpmn_serializer.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>process/bpmn_serializer.h</label>
+        <link refid="bpmn__serializer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>process/process_common.h</label>
+        <link refid="process__common_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/process/test_bpmn_s.cpp</label>
+        <link refid="test__bpmn__s_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_dsgvo_violation" prot="public">DsgvoViolation</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__bpmn__s_8cpp_1a4f99e71396323f2ed2c52b764c007f17" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kBpmnSWithAnnotation</definition>
+        <argsstring></argsstring>
+        <name>kBpmnSWithAnnotation</name>
+        <initializer>                                       = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;definitions xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;
+             targetNamespace=&quot;http://themis.db/test&quot;&gt;
+  &lt;<ref refid="namespacethemis_1_1process" kindref="compound">process</ref> id=&quot;proc_dsgvo&quot; name=&quot;DSGVO Test Process&quot;&gt;
+    &lt;startEvent id=&quot;start&quot; name=&quot;Start&quot;/&gt;
+    &lt;userTask id=&quot;ht1&quot; name=&quot;Collect Personal Data&quot;&gt;
+      &lt;extensionElements&gt;
+        &lt;bpmns:SecurityAnnotation
+            xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;
+            dataCategory=&quot;personal&quot;
+            legalBasis=&quot;Art. 6(1)(e) DSGVO&quot;
+            retentionDays=&quot;365&quot;
+            requiresConsent=&quot;false&quot;/&gt;
+      &lt;/extensionElements&gt;
+    &lt;/userTask&gt;
+    &lt;endEvent id=&quot;end&quot; name=&quot;End&quot;/&gt;
+    &lt;sequenceFlow id=&quot;sf1&quot; sourceRef=&quot;start&quot; targetRef=&quot;ht1&quot;/&gt;
+    &lt;sequenceFlow id=&quot;sf2&quot; sourceRef=&quot;ht1&quot; targetRef=&quot;end&quot;/&gt;
+  &lt;/<ref refid="namespacethemis_1_1process" kindref="compound">process</ref>&gt;
+&lt;/definitions&gt;)&quot;</initializer>
+        <briefdescription>
+<para>Minimal BPMN 2.0 with one userTask carrying a BPMN-S SecurityAnnotation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="73" column="19" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__bpmn__s_8cpp_1a35f4fd3cfcbc3b870438e8b13f2204d1" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kBpmnNoAnnotation</definition>
+        <argsstring></argsstring>
+        <name>kBpmnNoAnnotation</name>
+        <initializer>                                    = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;definitions xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;
+             targetNamespace=&quot;http://themis.db/test&quot;&gt;
+  &lt;<ref refid="namespacethemis_1_1process" kindref="compound">process</ref> id=&quot;proc_plain&quot; name=&quot;Plain Process&quot;&gt;
+    &lt;startEvent id=&quot;s1&quot; name=&quot;Start&quot;/&gt;
+    &lt;task id=&quot;t1&quot; name=&quot;Do Something&quot;/&gt;
+    &lt;endEvent id=&quot;e1&quot; name=&quot;End&quot;/&gt;
+    &lt;sequenceFlow id=&quot;sf1&quot; sourceRef=&quot;s1&quot; targetRef=&quot;t1&quot;/&gt;
+    &lt;sequenceFlow id=&quot;sf2&quot; sourceRef=&quot;t1&quot; targetRef=&quot;e1&quot;/&gt;
+  &lt;/<ref refid="namespacethemis_1_1process" kindref="compound">process</ref>&gt;
+&lt;/definitions&gt;)&quot;</initializer>
+        <briefdescription>
+<para>BPMN 2.0 without any SecurityAnnotation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="95" column="19" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__bpmn__s_8cpp_1a37e43f52fb7e7051bbf894745173f8c4" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kBpmnPersonalNoLegalBasis</definition>
+        <argsstring></argsstring>
+        <name>kBpmnPersonalNoLegalBasis</name>
+        <initializer>                                            = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;definitions xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;
+             targetNamespace=&quot;http://themis.db/test&quot;&gt;
+  &lt;<ref refid="namespacethemis_1_1process" kindref="compound">process</ref> id=&quot;proc_violation&quot; name=&quot;Violation Test&quot;&gt;
+    &lt;userTask id=&quot;ht2&quot; name=&quot;Process Personal Data&quot;&gt;
+      &lt;extensionElements&gt;
+        &lt;bpmns:SecurityAnnotation xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;
+            dataCategory=&quot;personal&quot;
+            legalBasis=&quot;&quot;
+            requiresConsent=&quot;false&quot;/&gt;
+      &lt;/extensionElements&gt;
+    &lt;/userTask&gt;
+  &lt;/<ref refid="namespacethemis_1_1process" kindref="compound">process</ref>&gt;
+&lt;/definitions&gt;)&quot;</initializer>
+        <briefdescription>
+<para>Task with personal data but no legalBasis (should trigger violation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="108" column="19" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__bpmn__s_8cpp_1a72281e46a1ec879a24bae75b0d341caf" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kBpmnSensitiveWithBasis</definition>
+        <argsstring></argsstring>
+        <name>kBpmnSensitiveWithBasis</name>
+        <initializer>                                          = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;definitions xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;
+             targetNamespace=&quot;http://themis.db/test&quot;&gt;
+  &lt;<ref refid="namespacethemis_1_1process" kindref="compound">process</ref> id=&quot;proc_ok&quot; name=&quot;OK Test&quot;&gt;
+    &lt;userTask id=&quot;ht3&quot; name=&quot;Handle Sensitive Data&quot;&gt;
+      &lt;extensionElements&gt;
+        &lt;bpmns:SecurityAnnotation xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;
+            dataCategory=&quot;sensitive&quot;
+            legalBasis=&quot;Art. 6(1)(b) DSGVO&quot;
+            requiresConsent=&quot;false&quot;/&gt;
+      &lt;/extensionElements&gt;
+    &lt;/userTask&gt;
+  &lt;/<ref refid="namespacethemis_1_1process" kindref="compound">process</ref>&gt;
+&lt;/definitions&gt;)&quot;</initializer>
+        <briefdescription>
+<para>Task with sensitive data and a valid legalBasis (no violation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="124" column="19" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__bpmn__s_8cpp_1aa52ed4b534d01e5368b47509f64f0a0d" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kBpmnConsentNoArt6a</definition>
+        <argsstring></argsstring>
+        <name>kBpmnConsentNoArt6a</name>
+        <initializer>                                      = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;definitions xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;
+             targetNamespace=&quot;http://themis.db/test&quot;&gt;
+  &lt;<ref refid="namespacethemis_1_1process" kindref="compound">process</ref> id=&quot;proc_consent_viol&quot; name=&quot;Consent Violation&quot;&gt;
+    &lt;userTask id=&quot;ht4&quot; name=&quot;Consent Required Task&quot;&gt;
+      &lt;extensionElements&gt;
+        &lt;bpmns:SecurityAnnotation xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;
+            dataCategory=&quot;personal&quot;
+            legalBasis=&quot;Art. 6(1)(b) DSGVO&quot;
+            requiresConsent=&quot;true&quot;/&gt;
+      &lt;/extensionElements&gt;
+    &lt;/userTask&gt;
+  &lt;/<ref refid="namespacethemis_1_1process" kindref="compound">process</ref>&gt;
+&lt;/definitions&gt;)&quot;</initializer>
+        <briefdescription>
+<para>requiresConsent=true but no Art.6(1)(a) in legalBasis → violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="140" column="19" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__bpmn__s_8cpp_1aaeef425323529d413ef0ad80a8a95fb1" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kBpmnConsentWithArt6a</definition>
+        <argsstring></argsstring>
+        <name>kBpmnConsentWithArt6a</name>
+        <initializer>                                        = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;definitions xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;
+             targetNamespace=&quot;http://themis.db/test&quot;&gt;
+  &lt;<ref refid="namespacethemis_1_1process" kindref="compound">process</ref> id=&quot;proc_consent_ok&quot; name=&quot;Consent OK&quot;&gt;
+    &lt;userTask id=&quot;ht5&quot; name=&quot;Consent OK Task&quot;&gt;
+      &lt;extensionElements&gt;
+        &lt;bpmns:SecurityAnnotation xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;
+            dataCategory=&quot;personal&quot;
+            legalBasis=&quot;Art. 6(1)(a) DSGVO&quot;
+            requiresConsent=&quot;true&quot;/&gt;
+      &lt;/extensionElements&gt;
+    &lt;/userTask&gt;
+  &lt;/<ref refid="namespacethemis_1_1process" kindref="compound">process</ref>&gt;
+&lt;/definitions&gt;)&quot;</initializer>
+        <briefdescription>
+<para>requiresConsent=true with Art.6(1)(a) → no violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="156" column="19" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1ad7867cdfbc0339a57e27eb46d0bb2498" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_dsgvo_violation" kindref="compound">DsgvoViolation</ref> &gt;</type>
+        <definition>static std::vector&lt; DsgvoViolation &gt; checkDsgvoNodes</definition>
+        <argsstring>(const std::vector&lt; ProcessNodeInfo &gt; &amp;nodes)</argsstring>
+        <name>checkDsgvoNodes</name>
+        <param>
+          <type>const std::vector&lt; ProcessNodeInfo &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="41" column="20" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="41" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BpmnS, BMS01_AnnotationParsed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BpmnS</type>
+        </param>
+        <param>
+          <type>BMS01_AnnotationParsed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="176" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="176" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1a0102418aab4408635889da7e25aad24d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BpmnS, BMS02_NoAnnotationIsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BpmnS</type>
+        </param>
+        <param>
+          <type>BMS02_NoAnnotationIsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="196" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="196" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1a9cd6b8049a4c1dbffa7cfe37ccadd0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BpmnS, BMS03_PersonalDataNoLegalBasisIsViolation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BpmnS</type>
+        </param>
+        <param>
+          <type>BMS03_PersonalDataNoLegalBasisIsViolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="207" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="207" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1a0112911d31c0a00294c96e18af3109d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BpmnS, BMS04_SensitiveDataWithLegalBasisNoViolation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BpmnS</type>
+        </param>
+        <param>
+          <type>BMS04_SensitiveDataWithLegalBasisNoViolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="226" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="226" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1a881cf41d1077e7f95d798cca9685ffe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BpmnS, BMS05_ConsentRequiredWithoutArt6aIsViolation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BpmnS</type>
+        </param>
+        <param>
+          <type>BMS05_ConsentRequiredWithoutArt6aIsViolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="236" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="236" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1a5ac66ffb2f2ec18dc5db5e24f7fe1455" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BpmnS, BMS06_ConsentRequiredWithArt6aNoViolation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BpmnS</type>
+        </param>
+        <param>
+          <type>BMS06_ConsentRequiredWithArt6aNoViolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="255" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="255" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1aca69c60ca79b4485e9acf8e2e76be18d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BpmnS, BMS07_RetentionDaysParsed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BpmnS</type>
+        </param>
+        <param>
+          <type>BMS07_RetentionDaysParsed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="273" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="273" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="test__bpmn__s_8cpp_1a41729242f48f3512bdc61787e79326f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BpmnS, BMS08_ExportRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BpmnS</type>
+        </param>
+        <param>
+          <type>BMS08_ExportRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="290" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="290" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>test_bpmn_s.cpp</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>tests/process/</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>GTest<sp/>unit<sp/>tests<sp/>BMS-01..BMS-08<sp/>for<sp/>BPMN-S<sp/>DSGVO<sp/>security<sp/>profile</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>annotations<sp/>(Task<sp/>1:<sp/>Q4-2026<sp/>feature).</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>Tests<sp/>cover:</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BMS-01:<sp/>import<sp/>BPMN-S<sp/>XML<sp/>with<sp/>SecurityAnnotation<sp/>→<sp/>dsgvo_annotation<sp/>set</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BMS-02:<sp/>importXml<sp/>on<sp/>BPMN<sp/>without<sp/>SecurityAnnotation<sp/>→<sp/>dsgvo_annotation<sp/>null</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BMS-03:<sp/>dataCategory=&quot;personal&quot;,<sp/>legalBasis=&quot;&quot;<sp/>→<sp/>DSGVO<sp/>violation<sp/>detected</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BMS-04:<sp/>dataCategory=&quot;sensitive&quot;,<sp/>legalBasis=&quot;Art.<sp/>6(1)(b)&quot;<sp/>→<sp/>no<sp/>violation</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BMS-05:<sp/>requiresConsent=true,<sp/>legalBasis<sp/>missing<sp/>Art.6(1)(a)<sp/>→<sp/>violation</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BMS-06:<sp/>requiresConsent=true,<sp/>legalBasis=&quot;Art.<sp/>6(1)(a)<sp/>DSGVO&quot;<sp/>→<sp/>no<sp/>violation</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BMS-07:<sp/>retentionDays<sp/>attribute<sp/>parsed<sp/>correctly</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/><sp/><sp/>BMS-08:<sp/>exportXml<sp/>round-trip<sp/>preserves<sp/>DSGVO<sp/>annotation</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="bpmn__serializer_8h" kindref="compound">process/bpmn_serializer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DSGVO<sp/>compliance<sp/>check<sp/>helper<sp/>(unit-test<sp/>local<sp/>—<sp/>tests<sp/>compliance<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>on<sp/>ProcessNodeInfo<sp/>structs<sp/>directly<sp/>without<sp/>needing<sp/>a<sp/>live<sp/>ProcessGraphRag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>instance<sp/>or<sp/>RocksDB).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="struct_dsgvo_violation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_dsgvo_violation" kindref="compound">DsgvoViolation</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_dsgvo_violation_1aec03ae435e06411bcf6bbce0bc8459a5" kindref="member">message</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;DsgvoViolation&gt;<sp/>checkDsgvoNodes(</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProcessNodeInfo&gt;&amp;<sp/>nodes)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DsgvoViolation&gt;<sp/>violations<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>node<sp/>:<sp/>nodes)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!node.dsgvo_annotation.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ann<sp/>=<sp/>*node.dsgvo_annotation;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((ann.data_category<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;personal&quot;</highlight><highlight class="normal"><sp/>||<sp/>ann.data_category<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;sensitive&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>ann.legal_basis.empty())<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>violations.push_back(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Node<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>node.name<sp/>+</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>handles<sp/>personal<sp/>data<sp/>but<sp/>has<sp/>no<sp/>DSGVO<sp/>legal<sp/>basis&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ann.requires_consent<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ann.legal_basis.find(</highlight><highlight class="stringliteral">&quot;Art.<sp/>6(1)(a)&quot;</highlight><highlight class="normal">)<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>violations.push_back(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Node<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>node.name<sp/>+</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>requires<sp/>consent<sp/>but<sp/>legal_basis<sp/>does<sp/>not<sp/>cite<sp/>Art.<sp/>6(1)(a)&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>violations;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>XML<sp/>fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBpmnSWithAnnotation<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral">&lt;definitions<sp/>xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>targetNamespace=&quot;http://themis.db/test&quot;&gt;</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/>&lt;process<sp/>id=&quot;proc_dsgvo&quot;<sp/>name=&quot;DSGVO<sp/>Test<sp/>Process&quot;&gt;</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;startEvent<sp/>id=&quot;start&quot;<sp/>name=&quot;Start&quot;/&gt;</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;userTask<sp/>id=&quot;ht1&quot;<sp/>name=&quot;Collect<sp/>Personal<sp/>Data&quot;&gt;</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;extensionElements&gt;</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;bpmns:SecurityAnnotation</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dataCategory=&quot;personal&quot;</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>legalBasis=&quot;Art.<sp/>6(1)(e)<sp/>DSGVO&quot;</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>retentionDays=&quot;365&quot;</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requiresConsent=&quot;false&quot;/&gt;</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/extensionElements&gt;</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/userTask&gt;</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;endEvent<sp/>id=&quot;end&quot;<sp/>name=&quot;End&quot;/&gt;</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;sequenceFlow<sp/>id=&quot;sf1&quot;<sp/>sourceRef=&quot;start&quot;<sp/>targetRef=&quot;ht1&quot;/&gt;</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;sequenceFlow<sp/>id=&quot;sf2&quot;<sp/>sourceRef=&quot;ht1&quot;<sp/>targetRef=&quot;end&quot;/&gt;</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/>&lt;/process&gt;</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral">&lt;/definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBpmnNoAnnotation<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral">&lt;definitions<sp/>xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>targetNamespace=&quot;http://themis.db/test&quot;&gt;</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/>&lt;process<sp/>id=&quot;proc_plain&quot;<sp/>name=&quot;Plain<sp/>Process&quot;&gt;</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;startEvent<sp/>id=&quot;s1&quot;<sp/>name=&quot;Start&quot;/&gt;</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;task<sp/>id=&quot;t1&quot;<sp/>name=&quot;Do<sp/>Something&quot;/&gt;</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;endEvent<sp/>id=&quot;e1&quot;<sp/>name=&quot;End&quot;/&gt;</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;sequenceFlow<sp/>id=&quot;sf1&quot;<sp/>sourceRef=&quot;s1&quot;<sp/>targetRef=&quot;t1&quot;/&gt;</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;sequenceFlow<sp/>id=&quot;sf2&quot;<sp/>sourceRef=&quot;t1&quot;<sp/>targetRef=&quot;e1&quot;/&gt;</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/>&lt;/process&gt;</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral">&lt;/definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBpmnPersonalNoLegalBasis<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral">&lt;definitions<sp/>xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>targetNamespace=&quot;http://themis.db/test&quot;&gt;</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/>&lt;process<sp/>id=&quot;proc_violation&quot;<sp/>name=&quot;Violation<sp/>Test&quot;&gt;</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;userTask<sp/>id=&quot;ht2&quot;<sp/>name=&quot;Process<sp/>Personal<sp/>Data&quot;&gt;</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;extensionElements&gt;</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;bpmns:SecurityAnnotation<sp/>xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dataCategory=&quot;personal&quot;</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>legalBasis=&quot;&quot;</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requiresConsent=&quot;false&quot;/&gt;</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/extensionElements&gt;</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/userTask&gt;</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/>&lt;/process&gt;</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral">&lt;/definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBpmnSensitiveWithBasis<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral">&lt;definitions<sp/>xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>targetNamespace=&quot;http://themis.db/test&quot;&gt;</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/>&lt;process<sp/>id=&quot;proc_ok&quot;<sp/>name=&quot;OK<sp/>Test&quot;&gt;</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;userTask<sp/>id=&quot;ht3&quot;<sp/>name=&quot;Handle<sp/>Sensitive<sp/>Data&quot;&gt;</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;extensionElements&gt;</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;bpmns:SecurityAnnotation<sp/>xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dataCategory=&quot;sensitive&quot;</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>legalBasis=&quot;Art.<sp/>6(1)(b)<sp/>DSGVO&quot;</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requiresConsent=&quot;false&quot;/&gt;</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/extensionElements&gt;</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/userTask&gt;</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/>&lt;/process&gt;</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral">&lt;/definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBpmnConsentNoArt6a<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral">&lt;definitions<sp/>xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>targetNamespace=&quot;http://themis.db/test&quot;&gt;</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/>&lt;process<sp/>id=&quot;proc_consent_viol&quot;<sp/>name=&quot;Consent<sp/>Violation&quot;&gt;</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;userTask<sp/>id=&quot;ht4&quot;<sp/>name=&quot;Consent<sp/>Required<sp/>Task&quot;&gt;</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;extensionElements&gt;</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;bpmns:SecurityAnnotation<sp/>xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dataCategory=&quot;personal&quot;</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>legalBasis=&quot;Art.<sp/>6(1)(b)<sp/>DSGVO&quot;</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requiresConsent=&quot;true&quot;/&gt;</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/extensionElements&gt;</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/userTask&gt;</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/>&lt;/process&gt;</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral">&lt;/definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBpmnConsentWithArt6a<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral">&lt;definitions<sp/>xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>targetNamespace=&quot;http://themis.db/test&quot;&gt;</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"><sp/><sp/>&lt;process<sp/>id=&quot;proc_consent_ok&quot;<sp/>name=&quot;Consent<sp/>OK&quot;&gt;</highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;userTask<sp/>id=&quot;ht5&quot;<sp/>name=&quot;Consent<sp/>OK<sp/>Task&quot;&gt;</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;extensionElements&gt;</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;bpmns:SecurityAnnotation<sp/>xmlns:bpmns=&quot;http://bpmn-s.org/schema&quot;</highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dataCategory=&quot;personal&quot;</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>legalBasis=&quot;Art.<sp/>6(1)(a)<sp/>DSGVO&quot;</highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requiresConsent=&quot;true&quot;/&gt;</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/extensionElements&gt;</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/userTask&gt;</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/>&lt;/process&gt;</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral">&lt;/definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BMS-01:<sp/>SecurityAnnotation<sp/>is<sp/>parsed<sp/>and<sp/>dsgvo_annotation<sp/>is<sp/>populated.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" kindref="member">TEST</ref>(BpmnS,<sp/>BMS01_AnnotationParsed)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(kBpmnSWithAnnotation);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>the<sp/>userTask<sp/>node.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>ht1<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>result.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n.node_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ht1&quot;</highlight><highlight class="normal">)<sp/>{<sp/>ht1<sp/>=<sp/>&amp;n;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ht1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Node<sp/>&apos;ht1&apos;<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ht1-&gt;dsgvo_annotation.has_value())</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>dsgvo_annotation<sp/>to<sp/>be<sp/>populated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ann<sp/>=<sp/>*ht1-&gt;dsgvo_annotation;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ann.data_category,<sp/></highlight><highlight class="stringliteral">&quot;personal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ann.legal_basis,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Art.<sp/>6(1)(e)<sp/>DSGVO&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ann.requires_consent);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BMS-02:<sp/>BPMN<sp/>without<sp/>SecurityAnnotation<sp/>→<sp/>dsgvo_annotation<sp/>is<sp/>null.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" kindref="member">TEST</ref>(BpmnS,<sp/>BMS02_NoAnnotationIsNull)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(kBpmnNoAnnotation);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>result.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(n.dsgvo_annotation.has_value())</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Node<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>n.node_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>should<sp/>have<sp/>no<sp/>dsgvo_annotation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BMS-03:<sp/>personal<sp/>data<sp/>+<sp/>empty<sp/>legal<sp/>basis<sp/>→<sp/>violation<sp/>detected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" kindref="member">TEST</ref>(BpmnS,<sp/>BMS03_PersonalDataNoLegalBasisIsViolation)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(kBpmnPersonalNoLegalBasis);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>checkDsgvoNodes(result.nodes);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(violations.empty())</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>at<sp/>least<sp/>one<sp/>DSGVO<sp/>violation<sp/>for<sp/>personal<sp/>data<sp/>without<sp/>legal<sp/>basis&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>violations)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v.message.find(</highlight><highlight class="stringliteral">&quot;personal<sp/>data<sp/>but<sp/>has<sp/>no<sp/>DSGVO<sp/>legal<sp/>basis&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;personal<sp/>data<sp/>but<sp/>has<sp/>no<sp/>DSGVO<sp/>legal<sp/>basis&apos;<sp/>violation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BMS-04:<sp/>sensitive<sp/>data<sp/>+<sp/>valid<sp/>legal<sp/>basis<sp/>→<sp/>no<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" kindref="member">TEST</ref>(BpmnS,<sp/>BMS04_SensitiveDataWithLegalBasisNoViolation)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(kBpmnSensitiveWithBasis);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>checkDsgvoNodes(result.nodes);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(violations.empty())</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>no<sp/>DSGVO<sp/>violations<sp/>for<sp/>sensitive<sp/>data<sp/>with<sp/>legal<sp/>basis&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BMS-05:<sp/>requiresConsent=true<sp/>without<sp/>Art.6(1)(a)<sp/>→<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" kindref="member">TEST</ref>(BpmnS,<sp/>BMS05_ConsentRequiredWithoutArt6aIsViolation)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(kBpmnConsentNoArt6a);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>checkDsgvoNodes(result.nodes);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(violations.empty())</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>violation:<sp/>requires_consent=true<sp/>but<sp/>legalBasis<sp/>lacks<sp/>Art.6(1)(a)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>violations)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v.message.find(</highlight><highlight class="stringliteral">&quot;does<sp/>not<sp/>cite<sp/>Art.<sp/>6(1)(a)&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;does<sp/>not<sp/>cite<sp/>Art.<sp/>6(1)(a)&apos;<sp/>violation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BMS-06:<sp/>requiresConsent=true<sp/>with<sp/>Art.6(1)(a)<sp/>→<sp/>no<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" kindref="member">TEST</ref>(BpmnS,<sp/>BMS06_ConsentRequiredWithArt6aNoViolation)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(kBpmnConsentWithArt6a);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>checkDsgvoNodes(result.nodes);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>check<sp/>consent<sp/>violations<sp/>(other<sp/>violations<sp/>for<sp/>data_category<sp/>are<sp/>ok<sp/>here).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>consent_violation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>violations)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v.message.find(</highlight><highlight class="stringliteral">&quot;does<sp/>not<sp/>cite<sp/>Art.<sp/>6(1)(a)&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>consent_violation<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(consent_violation)</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>no<sp/>consent<sp/>violation<sp/>when<sp/>Art.<sp/>6(1)(a)<sp/>is<sp/>cited&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BMS-07:<sp/>retentionDays<sp/>attribute<sp/>is<sp/>parsed<sp/>to<sp/>optional&lt;int&gt;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" kindref="member">TEST</ref>(BpmnS,<sp/>BMS07_RetentionDaysParsed)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(kBpmnSWithAnnotation);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>ht1<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>result.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n.node_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ht1&quot;</highlight><highlight class="normal">)<sp/>{<sp/>ht1<sp/>=<sp/>&amp;n;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ht1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ht1-&gt;dsgvo_annotation.has_value());</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ht1-&gt;dsgvo_annotation-&gt;retention_days.has_value())</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>retention_days<sp/>to<sp/>be<sp/>parsed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*ht1-&gt;dsgvo_annotation-&gt;retention_days,<sp/>365);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BMS-08:<sp/>exportXml<sp/>emits<sp/>&lt;extensionElements&gt;&lt;bpmns:SecurityAnnotation<sp/>…/&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>the<sp/>resulting<sp/>XML<sp/>can<sp/>be<sp/>re-imported<sp/>with<sp/>annotation<sp/>intact.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__bpmn__s_8cpp_1a29e8a7454da4456ce0d58d653f0d5199" kindref="member">TEST</ref>(BpmnS,<sp/>BMS08_ExportRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Import</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>import1<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(kBpmnSWithAnnotation);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(import1.ok)<sp/>&lt;&lt;<sp/>import1.message;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>exported<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1ac3bfeeb7a85491b603a5bcb2a49680e6" kindref="member">BpmnSerializer::exportXml</ref>(</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import1.process_id,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import1.process_name,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import1.nodes,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import1.edges);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(exported.empty());</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>export<sp/>should<sp/>contain<sp/>BPMN-S<sp/>namespace<sp/>and<sp/>SecurityAnnotation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(exported.find(</highlight><highlight class="stringliteral">&quot;extensionElements&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exported<sp/>XML<sp/>should<sp/>contain<sp/>&lt;extensionElements&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(exported.find(</highlight><highlight class="stringliteral">&quot;SecurityAnnotation&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exported<sp/>XML<sp/>should<sp/>contain<sp/>SecurityAnnotation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(exported.find(</highlight><highlight class="stringliteral">&quot;dataCategory&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exported<sp/>XML<sp/>should<sp/>contain<sp/>dataCategory<sp/>attribute&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-import</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>import2<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">BpmnSerializer::importXml</ref>(exported);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(import2.ok)<sp/>&lt;&lt;<sp/>import2.message;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>ht1<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>import2.nodes)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n.node_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ht1&quot;</highlight><highlight class="normal">)<sp/>{<sp/>ht1<sp/>=<sp/>&amp;n;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ht1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Node<sp/>&apos;ht1&apos;<sp/>not<sp/>found<sp/>after<sp/>round-trip&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ht1-&gt;dsgvo_annotation.has_value())</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;dsgvo_annotation<sp/>lost<sp/>after<sp/>export/re-import&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ht1-&gt;dsgvo_annotation-&gt;data_category,<sp/></highlight><highlight class="stringliteral">&quot;personal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ht1-&gt;dsgvo_annotation-&gt;legal_basis,<sp/></highlight><highlight class="stringliteral">&quot;Art.<sp/>6(1)(e)<sp/>DSGVO&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/process/test_bpmn_s.cpp"/>
+  </compounddef>
+</doxygen>

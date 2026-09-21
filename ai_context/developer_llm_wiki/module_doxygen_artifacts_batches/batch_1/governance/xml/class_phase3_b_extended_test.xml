@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_phase3_b_extended_test" kind="class" language="C++" prot="public">
+    <compoundname>Phase3BExtendedTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_phase3_b_extended_test_1a79afe7b7814c7a169d9fcb7f2726b1bd" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_safe_access_validator" kindref="compound">SafeAccessValidator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SafeAccessValidator&gt; Phase3BExtendedTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>Phase3BExtendedTest::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase3b_extended_focused.cpp" line="38" column="21" bodyfile="tests/governance/test_governance_phase3b_extended_focused.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase3_b_extended_test_1a3d8709d7df4f604cf8d9a23df3de8276" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 Phase3BExtendedTest::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>Phase3BExtendedTest::rng_</qualifiedname>
+        <initializer>{<ref refid="class_phase3_b_extended_test_1a502f0dac20c4e9894e7e1bbc29215267" kindref="member">kSeed</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase3b_extended_focused.cpp" line="40" column="18" bodyfile="tests/governance/test_governance_phase3b_extended_focused.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_phase3_b_extended_test_1a502f0dac20c4e9894e7e1bbc29215267" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t Phase3BExtendedTest::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>Phase3BExtendedTest::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase3b_extended_focused.cpp" line="39" column="31" bodyfile="tests/governance/test_governance_phase3b_extended_focused.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_phase3_b_extended_test_1aabfcbe908b1b4e8bfd06e9a5271da7ca" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Phase3BExtendedTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Phase3BExtendedTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase3b_extended_focused.cpp" line="25" column="10" bodyfile="tests/governance/test_governance_phase3b_extended_focused.cpp" bodystart="25" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase3_b_extended_test_1ad945d9f84048f15ff62437aa1b873e5e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Phase3BExtendedTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Phase3BExtendedTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase3b_extended_focused.cpp" line="34" column="10" bodyfile="tests/governance/test_governance_phase3b_extended_focused.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Phase3BExtendedTest</label>
+        <link refid="class_phase3_b_extended_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Phase3BExtendedTest</label>
+        <link refid="class_phase3_b_extended_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_phase3b_extended_focused.cpp" line="23" column="1" bodyfile="tests/governance/test_governance_phase3b_extended_focused.cpp" bodystart="23" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_phase3_b_extended_test_1a502f0dac20c4e9894e7e1bbc29215267" prot="protected" virt="non-virtual"><scope>Phase3BExtendedTest</scope><name>kSeed</name></member>
+      <member refid="class_phase3_b_extended_test_1a3d8709d7df4f604cf8d9a23df3de8276" prot="protected" virt="non-virtual"><scope>Phase3BExtendedTest</scope><name>rng_</name></member>
+      <member refid="class_phase3_b_extended_test_1aabfcbe908b1b4e8bfd06e9a5271da7ca" prot="protected" virt="non-virtual"><scope>Phase3BExtendedTest</scope><name>SetUp</name></member>
+      <member refid="class_phase3_b_extended_test_1ad945d9f84048f15ff62437aa1b873e5e" prot="protected" virt="non-virtual"><scope>Phase3BExtendedTest</scope><name>TearDown</name></member>
+      <member refid="class_phase3_b_extended_test_1a79afe7b7814c7a169d9fcb7f2726b1bd" prot="protected" virt="non-virtual"><scope>Phase3BExtendedTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

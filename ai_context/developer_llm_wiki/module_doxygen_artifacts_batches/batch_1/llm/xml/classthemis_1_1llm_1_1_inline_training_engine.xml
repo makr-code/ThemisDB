@@ -1,0 +1,820 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_inline_training_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::InlineTrainingEngine</compoundname>
+    <includes refid="inline__training__engine_8h" local="no">inline_training_engine.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl" prot="public">themis::llm::InlineTrainingEngine::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inline_training_engine_1a652f8cb8f34db382b5020b14d84d4752" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_inline_training_engine_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::InlineTrainingEngine::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="322" column="21" bodyfile="include/llm/inline_training_engine.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inline_training_engine_1a44225a3db8861367fbd02c38a39390ee" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; rocksdb::DB &gt;</type>
+        <definition>std::shared_ptr&lt;rocksdb::DB&gt; themis::llm::InlineTrainingEngine::checkpoint_db_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_db_</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::checkpoint_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="325" column="21" bodyfile="include/llm/inline_training_engine.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1aff3b272440f153bd4f9f839efa7475c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InlineTrainingEngine::InlineTrainingEngine</definition>
+        <argsstring>(std::shared_ptr&lt; AdapterRegistry &gt; registry, std::shared_ptr&lt; TrainingDataIterator &gt; data_iterator, const InlineTrainingConfig &amp;config)</argsstring>
+        <name>InlineTrainingEngine</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::InlineTrainingEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> &gt;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_training_data_iterator" kindref="compound">TrainingDataIterator</ref> &gt;</type>
+          <declname>data_iterator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_inline_training_config" kindref="compound">InlineTrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="244" column="5" bodyfile="src/llm/inline_training_engine.cpp" bodystart="349" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a2b3b2dda75f7a9ffbf2a6deeec484f2c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InlineTrainingEngine::~InlineTrainingEngine</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~InlineTrainingEngine</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::~InlineTrainingEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="250" column="5" bodyfile="src/llm/inline_training_engine.cpp" bodystart="365" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a405da6d60cb112634b662264578d62d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InlineTrainingEngine::setGradientComputer</definition>
+        <argsstring>(GradientComputerFn fn)</argsstring>
+        <name>setGradientComputer</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::setGradientComputer</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1ad8d2463cbac93980b3d71ec4276ddd28" kindref="member">GradientComputerFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Gradient Computer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="256" column="10" bodyfile="src/llm/inline_training_engine.cpp" bodystart="407" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a73c10d8804d3e1756cdc55c34a88480b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InlineTrainingEngine::setGovernancePolicy</definition>
+        <argsstring>(std::shared_ptr&lt; governance::ModelGovernancePolicy &gt; policy)</argsstring>
+        <name>setGovernancePolicy</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::setGovernancePolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; governance::ModelGovernancePolicy &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Governance Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Public API – setGovernancePolicy (Gap 3) ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="262" column="10" bodyfile="src/llm/inline_training_engine.cpp" bodystart="382" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a4a6e47a156b411af18cb8398e877bb6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InlineTrainingEngine::setCheckpointDb</definition>
+        <argsstring>(std::shared_ptr&lt; rocksdb::DB &gt; db)</argsstring>
+        <name>setCheckpointDb</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::setCheckpointDb</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; rocksdb::DB &gt;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Set Checkpoint Db. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Public API – setCheckpointDb ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="269" column="10" bodyfile="src/llm/inline_training_engine.cpp" bodystart="394" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a1bb818becdf924689325946070ae89db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::llm::InlineTrainingEngine::train</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;base_model_path, const TrainingConfig &amp;training_config)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::train</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_training_config" kindref="compound">TrainingConfig</ref> &amp;</type>
+          <declname>training_config</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Public API – train ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">training_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">training_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), spdlog::error(), spdlog::warn(), checkExportPermission(), spdlog::info(), exchange(), store(), trainLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="278" column="20" bodyfile="src/llm/inline_training_engine.cpp" bodystart="422" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a72ada0f4baaae6706fe7abf77c428283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::llm::InlineTrainingEngine::resumeFromCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_path)</argsstring>
+        <name>resumeFromCheckpoint</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::resumeFromCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_path</declname>
+        </param>
+        <briefdescription>
+<para>Resume From Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Public API – resumeFromCheckpoint ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: exchange(), store(), spdlog::info(), loadCheckpoint(), lk(), trainLoop(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="289" column="20" bodyfile="src/llm/inline_training_engine.cpp" bodystart="508" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1ae8133c74e3bb74608d6272a13ff70a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_training_metrics" kindref="compound">TrainingMetrics</ref></type>
+        <definition>TrainingMetrics themis::llm::InlineTrainingEngine::evaluate</definition>
+        <argsstring>(const std::string &amp;adapter_path, const std::string &amp;base_model_path)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_path</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Public API – evaluate ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), runValidation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="297" column="21" bodyfile="src/llm/inline_training_engine.cpp" bodystart="552" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a3138228442a1f18b390efc74d6e552fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InlineTrainingEngine::stopTraining</definition>
+        <argsstring>()</argsstring>
+        <name>stopTraining</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::stopTraining</qualifiedname>
+        <briefdescription>
+<para>Stop Training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Public API – control ═══════════════════════════════════════════════════════════════════════════</para>
+<para>Calls: store(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="305" column="10" bodyfile="src/llm/inline_training_engine.cpp" bodystart="565" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a8060dda462c361e0dde7380d1c86e097" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InlineTrainingEngine::isTraining</definition>
+        <argsstring>() const</argsstring>
+        <name>isTraining</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::isTraining</qualifiedname>
+        <briefdescription>
+<para>Is Training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="311" column="10" bodyfile="src/llm/inline_training_engine.cpp" bodystart="570" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1ac516cb553c42e1d1b4ecc6ff79159e74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_training_state" kindref="compound">TrainingState</ref> &gt;</type>
+        <definition>std::optional&lt; TrainingState &gt; themis::llm::InlineTrainingEngine::getCurrentState</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentState</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::getCurrentState</qualifiedname>
+        <briefdescription>
+<para>Get Current State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="317" column="19" bodyfile="src/llm/inline_training_engine.cpp" bodystart="574" bodyend="580"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a64c8440751f635a9c3b278dbd611cf4a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::llm::InlineTrainingEngine::trainLoop</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;base_model_path, const TrainingConfig &amp;training_config)</argsstring>
+        <name>trainLoop</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::trainLoop</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_training_config" kindref="compound">TrainingConfig</ref> &amp;</type>
+          <declname>training_config</declname>
+        </param>
+        <briefdescription>
+<para>Train Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Private – trainLoop ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">training_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">training_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lk(), empty(), fs::create_directories(), runValidation(), spdlog::info(), load(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="335" column="20" bodyfile="src/llm/inline_training_engine.cpp" bodystart="591" bodyend="854"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1aee674817efd9e66dd405c51d494dbccb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InlineTrainingEngine::computeGradients</definition>
+        <argsstring>(const std::vector&lt; TrainingDataIterator::TrainingSample &gt; &amp;batch, std::vector&lt; float &gt; &amp;gradients)</argsstring>
+        <name>computeGradients</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::computeGradients</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_training_sample" kindref="compound">TrainingDataIterator::TrainingSample</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <briefdescription>
+<para>Compute Gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Private – computeGradients ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), clear(), lock(), fn(), assign(), size(), std::min(), std::sin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="347" column="10" bodyfile="src/llm/inline_training_engine.cpp" bodystart="863" bodyend="945"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a0ee46e91012ad34cc572ee2ddb2cbef1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InlineTrainingEngine::optimizerStep</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;parameters, const std::vector&lt; float &gt; &amp;gradients, int step)</argsstring>
+        <name>optimizerStep</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::optimizerStep</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Optimizer Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Private – optimizerStep ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), getLearningRate(), std::min(), size(), assign(), std::pow(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="359" column="10" bodyfile="src/llm/inline_training_engine.cpp" bodystart="955" bodyend="1039"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a12cb64860d8c046cb373a9e2aace4824" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::InlineTrainingEngine::getLearningRate</definition>
+        <argsstring>(int step) const</argsstring>
+        <name>getLearningRate</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::getLearningRate</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Get Learning Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="371" column="11" bodyfile="src/llm/inline_training_engine.cpp" bodystart="1045" bodyend="1080"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1ab1f8780ad70104129a54f60691744449" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InlineTrainingEngine::saveCheckpoint</definition>
+        <argsstring>(const std::string &amp;path, const TrainingState &amp;state)</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::saveCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_training_state" kindref="compound">TrainingState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Save Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Private – saveCheckpoint / loadCheckpoint ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: toJSON(), dump(), Put(), rocksdb::WriteOptions(), ok(), spdlog::info(), spdlog::warn(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="379" column="10" bodyfile="src/llm/inline_training_engine.cpp" bodystart="1089" bodyend="1127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1a35bdd12a82aa426b8886f194dc0181f0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_training_state" kindref="compound">TrainingState</ref></type>
+        <definition>TrainingState themis::llm::InlineTrainingEngine::loadCheckpoint</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadCheckpoint</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::loadCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Get(), rocksdb::ReadOptions(), ok(), json::parse(), <ref refid="structthemis_1_1llm_1_1_training_state_1a7736bcb0ca52c5eae00df2aafb41920c" kindref="member">TrainingState::fromJSON()</ref>, spdlog::info(), ifs(), is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="385" column="19" bodyfile="src/llm/inline_training_engine.cpp" bodystart="1136" bodyend="1172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inline_training_engine_1aeb1314b131683b79fa211b6ea3c747ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_training_metrics" kindref="compound">TrainingMetrics</ref></type>
+        <definition>TrainingMetrics themis::llm::InlineTrainingEngine::runValidation</definition>
+        <argsstring>()</argsstring>
+        <name>runValidation</name>
+        <qualifiedname>themis::llm::InlineTrainingEngine::runValidation</qualifiedname>
+        <briefdescription>
+<para>Run Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ Private – runValidation ═══════════════════════════════════════════════════════════════════════════</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getNextBatch(), has_value(), empty(), computeGradients(), std::sqrt(), size(), std::exp(), lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="392" column="21" bodyfile="src/llm/inline_training_engine.cpp" bodystart="1180" bodyend="1211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inline_training_engine.h" line="242" column="1" bodyfile="include/llm/inline_training_engine.h" bodystart="242" bodyend="393"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a44225a3db8861367fbd02c38a39390ee" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>checkpoint_db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1aee674817efd9e66dd405c51d494dbccb" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>computeGradients</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1ae8133c74e3bb74608d6272a13ff70a24" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1ac516cb553c42e1d1b4ecc6ff79159e74" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>getCurrentState</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a12cb64860d8c046cb373a9e2aace4824" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>getLearningRate</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a652f8cb8f34db382b5020b14d84d4752" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1aff3b272440f153bd4f9f839efa7475c2" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>InlineTrainingEngine</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a8060dda462c361e0dde7380d1c86e097" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>isTraining</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a35bdd12a82aa426b8886f194dc0181f0" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>loadCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a0ee46e91012ad34cc572ee2ddb2cbef1" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>optimizerStep</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a72ada0f4baaae6706fe7abf77c428283" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>resumeFromCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1aeb1314b131683b79fa211b6ea3c747ba" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>runValidation</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1ab1f8780ad70104129a54f60691744449" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a4a6e47a156b411af18cb8398e877bb6d" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>setCheckpointDb</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a73c10d8804d3e1756cdc55c34a88480b" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>setGovernancePolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a405da6d60cb112634b662264578d62d6" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>setGradientComputer</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a3138228442a1f18b390efc74d6e552fe" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>stopTraining</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a1bb818becdf924689325946070ae89db" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>train</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a64c8440751f635a9c3b278dbd611cf4a" prot="private" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>trainLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1_inline_training_engine_1a2b3b2dda75f7a9ffbf2a6deeec484f2c" prot="public" virt="non-virtual"><scope>themis::llm::InlineTrainingEngine</scope><name>~InlineTrainingEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

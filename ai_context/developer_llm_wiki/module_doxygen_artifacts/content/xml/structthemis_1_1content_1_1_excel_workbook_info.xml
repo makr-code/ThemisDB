@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_excel_workbook_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ExcelWorkbookInfo</compoundname>
+    <includes refid="office__processor_8h" local="no">office_processor.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet" prot="public">themis::content::ExcelWorkbookInfo::Sheet</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_excel_workbook_info_1aefad4c8241e72c2374226737130615d4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet" kindref="compound">Sheet</ref> &gt;</type>
+        <definition>std::vector&lt;Sheet&gt; themis::content::ExcelWorkbookInfo::sheets</definition>
+        <argsstring></argsstring>
+        <name>sheets</name>
+        <qualifiedname>themis::content::ExcelWorkbookInfo::sheets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="57" column="17" bodyfile="include/content/office_processor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_excel_workbook_info_1ae5df7d3d49209eeaa1520224e5ec9e32" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ExcelWorkbookInfo::defined_names</definition>
+        <argsstring></argsstring>
+        <name>defined_names</name>
+        <qualifiedname>themis::content::ExcelWorkbookInfo::defined_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="58" column="17" bodyfile="include/content/office_processor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/office_processor.h" line="49" column="1" bodyfile="include/content/office_processor.h" bodystart="49" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_excel_workbook_info_1ae5df7d3d49209eeaa1520224e5ec9e32" prot="public" virt="non-virtual"><scope>themis::content::ExcelWorkbookInfo</scope><name>defined_names</name></member>
+      <member refid="structthemis_1_1content_1_1_excel_workbook_info_1aefad4c8241e72c2374226737130615d4" prot="public" virt="non-virtual"><scope>themis::content::ExcelWorkbookInfo</scope><name>sheets</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

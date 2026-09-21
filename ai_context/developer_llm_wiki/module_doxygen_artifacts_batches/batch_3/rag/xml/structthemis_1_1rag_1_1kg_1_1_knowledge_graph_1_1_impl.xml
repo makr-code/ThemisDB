@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KnowledgeGraph::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl_1a9e0feebe210f965fd264d19d140f3c49" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::kg::KnowledgeGraph::Impl::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::Impl::mtx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_graph_retriever.cpp" line="124" column="49" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl_1a4862059b09c9ea210c6a93ec129bc487" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" kindref="compound">KGNode</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, KGNode&gt; themis::rag::kg::KnowledgeGraph::Impl::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::Impl::nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_graph_retriever.cpp" line="125" column="28" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl_1a9bec50eeaf3b89ee65f652ab5c743d0e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge" kindref="compound">KGEdge</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;KGEdge&gt; &gt; themis::rag::kg::KnowledgeGraph::Impl::adj</definition>
+        <argsstring></argsstring>
+        <name>adj</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::Impl::adj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_graph_retriever.cpp" line="127" column="24" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl_1a539dfe060268e4fc6f742e97619c4854" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::KnowledgeGraph::Impl::edge_count</definition>
+        <argsstring></argsstring>
+        <name>edge_count</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::Impl::edge_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_graph_retriever.cpp" line="128" column="12" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/knowledge_graph_retriever.cpp" line="123" column="1" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="123" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl_1a9bec50eeaf3b89ee65f652ab5c743d0e" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph::Impl</scope><name>adj</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl_1a539dfe060268e4fc6f742e97619c4854" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph::Impl</scope><name>edge_count</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl_1a9e0feebe210f965fd264d19d140f3c49" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph::Impl</scope><name>mtx</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl_1a4862059b09c9ea210c6a93ec129bc487" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph::Impl</scope><name>nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

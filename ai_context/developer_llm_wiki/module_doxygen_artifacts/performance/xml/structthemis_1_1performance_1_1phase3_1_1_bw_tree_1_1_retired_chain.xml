@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_retired_chain" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::phase3::BwTree::RetiredChain</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_retired_chain_1ad979ec2d4361a2c6b01936460087a126" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref> *</type>
+        <definition>BwTreePage* themis::performance::phase3::BwTree::RetiredChain::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>themis::performance::phase3::BwTree::RetiredChain::head</qualifiedname>
+        <briefdescription>
+<para>Head of the retired chain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="145" column="20" bodyfile="include/performance/phase3/bwtree.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_retired_chain_1af7b7170873623bda6b607b75fdae2be3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase3::BwTree::RetiredChain::retirement_epoch</definition>
+        <argsstring></argsstring>
+        <name>retirement_epoch</name>
+        <qualifiedname>themis::performance::phase3::BwTree::RetiredChain::retirement_epoch</qualifiedname>
+        <briefdescription>
+<para>Value of consolidation_epoch_ at retirement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="146" column="21" bodyfile="include/performance/phase3/bwtree.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One entry in the deferred-deletion list. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::performance::phase3::BwTree::RetiredChain</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::performance::phase3::BwTreePage</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/phase3/bwtree.h" line="144" column="5" bodyfile="include/performance/phase3/bwtree.h" bodystart="144" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_retired_chain_1ad979ec2d4361a2c6b01936460087a126" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BwTree::RetiredChain</scope><name>head</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_1_1_retired_chain_1af7b7170873623bda6b607b75fdae2be3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BwTree::RetiredChain</scope><name>retirement_epoch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

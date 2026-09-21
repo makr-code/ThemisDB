@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_hugging_face_exporter_test" kind="class" language="C++" prot="public">
+    <compoundname>HuggingFaceExporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_hugging_face_exporter_test_1ad58a5329e28ad72928734039418589d8" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HuggingFaceExporterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>HuggingFaceExporterTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_exporter.cpp" line="66" column="17" bodyfile="tests/exporters/test_huggingface_exporter.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hugging_face_exporter_test_1ae5a08b0bb27d0f8725da339fad6e6186" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; HuggingFaceExporterTest::test_entities_</definition>
+        <argsstring></argsstring>
+        <name>test_entities_</name>
+        <qualifiedname>HuggingFaceExporterTest::test_entities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_exporter.cpp" line="67" column="17" bodyfile="tests/exporters/test_huggingface_exporter.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_hugging_face_exporter_test_1a12300dc5512375b904a87a8c30face48" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HuggingFaceExporterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HuggingFaceExporterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_exporter.cpp" line="18" column="10" bodyfile="tests/exporters/test_huggingface_exporter.cpp" bodystart="18" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hugging_face_exporter_test_1abcbf51af977208aebc2193349226e537" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HuggingFaceExporterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HuggingFaceExporterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_exporter.cpp" line="25" column="10" bodyfile="tests/exporters/test_huggingface_exporter.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hugging_face_exporter_test_1a44a4d1e8e41c39993d7130693c68b614" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HuggingFaceExporterTest::createTestEntities</definition>
+        <argsstring>()</argsstring>
+        <name>createTestEntities</name>
+        <qualifiedname>HuggingFaceExporterTest::createTestEntities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_exporter.cpp" line="31" column="10" bodyfile="tests/exporters/test_huggingface_exporter.cpp" bodystart="31" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hugging_face_exporter_test_1ad2e88c6f7711592d68c554b3ff56002b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string HuggingFaceExporterTest::readFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readFile</name>
+        <qualifiedname>HuggingFaceExporterTest::readFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_exporter.cpp" line="47" column="17" bodyfile="tests/exporters/test_huggingface_exporter.cpp" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_hugging_face_exporter_test_1a70ff17c4292d9edd6438fe8446e758de" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; HuggingFaceExporterTest::readLines</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readLines</name>
+        <qualifiedname>HuggingFaceExporterTest::readLines</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_exporter.cpp" line="54" column="17" bodyfile="tests/exporters/test_huggingface_exporter.cpp" bodystart="54" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HuggingFaceExporterTest</label>
+        <link refid="class_hugging_face_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HuggingFaceExporterTest</label>
+        <link refid="class_hugging_face_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_huggingface_exporter.cpp" line="16" column="1" bodyfile="tests/exporters/test_huggingface_exporter.cpp" bodystart="16" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_hugging_face_exporter_test_1a44a4d1e8e41c39993d7130693c68b614" prot="protected" virt="non-virtual"><scope>HuggingFaceExporterTest</scope><name>createTestEntities</name></member>
+      <member refid="class_hugging_face_exporter_test_1ad2e88c6f7711592d68c554b3ff56002b" prot="protected" virt="non-virtual"><scope>HuggingFaceExporterTest</scope><name>readFile</name></member>
+      <member refid="class_hugging_face_exporter_test_1a70ff17c4292d9edd6438fe8446e758de" prot="protected" virt="non-virtual"><scope>HuggingFaceExporterTest</scope><name>readLines</name></member>
+      <member refid="class_hugging_face_exporter_test_1a12300dc5512375b904a87a8c30face48" prot="protected" virt="non-virtual"><scope>HuggingFaceExporterTest</scope><name>SetUp</name></member>
+      <member refid="class_hugging_face_exporter_test_1abcbf51af977208aebc2193349226e537" prot="protected" virt="non-virtual"><scope>HuggingFaceExporterTest</scope><name>TearDown</name></member>
+      <member refid="class_hugging_face_exporter_test_1ad58a5329e28ad72928734039418589d8" prot="protected" virt="non-virtual"><scope>HuggingFaceExporterTest</scope><name>test_dir_</name></member>
+      <member refid="class_hugging_face_exporter_test_1ae5a08b0bb27d0f8725da339fad6e6186" prot="protected" virt="non-virtual"><scope>HuggingFaceExporterTest</scope><name>test_entities_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

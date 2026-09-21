@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_capability_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::CapabilityCheckResult</compoundname>
+    <includes refid="importer__interface_8h" local="no">importer_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_capability_check_result_1ae4ebc394b4fd9cb1deed9458d4c477b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::CapabilityCheckResult::supported</definition>
+        <argsstring></argsstring>
+        <name>supported</name>
+        <qualifiedname>themis::importers::CapabilityCheckResult::supported</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="123" column="10" bodyfile="include/importers/importer_interface.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_capability_check_result_1a77f08245f8fba39228c39a3aa88aec3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::CapabilityCheckResult::fallback_path</definition>
+        <argsstring></argsstring>
+        <name>fallback_path</name>
+        <qualifiedname>themis::importers::CapabilityCheckResult::fallback_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="125" column="17" bodyfile="include/importers/importer_interface.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_capability_check_result_1a7ae3b915c34e873f945987b94794767b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::importers::CapabilityCheckResult::performance_delta</definition>
+        <argsstring></argsstring>
+        <name>performance_delta</name>
+        <qualifiedname>themis::importers::CapabilityCheckResult::performance_delta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="127" column="11" bodyfile="include/importers/importer_interface.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_capability_check_result_1af5223370f54543a4582e48f524704dd3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::CapabilityCheckResult::audit_message</definition>
+        <argsstring></argsstring>
+        <name>audit_message</name>
+        <qualifiedname>themis::importers::CapabilityCheckResult::audit_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="129" column="17" bodyfile="include/importers/importer_interface.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_capability_check_result_1a803940067e64d5fbe888f55688ad4782" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::CapabilityCheckResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::CapabilityCheckResult::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="131" column="10" bodyfile="include/importers/importer_interface.h" bodystart="131" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interface.h" line="122" column="1" bodyfile="include/importers/importer_interface.h" bodystart="122" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_capability_check_result_1af5223370f54543a4582e48f524704dd3" prot="public" virt="non-virtual"><scope>themis::importers::CapabilityCheckResult</scope><name>audit_message</name></member>
+      <member refid="structthemis_1_1importers_1_1_capability_check_result_1a77f08245f8fba39228c39a3aa88aec3e" prot="public" virt="non-virtual"><scope>themis::importers::CapabilityCheckResult</scope><name>fallback_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_capability_check_result_1a7ae3b915c34e873f945987b94794767b" prot="public" virt="non-virtual"><scope>themis::importers::CapabilityCheckResult</scope><name>performance_delta</name></member>
+      <member refid="structthemis_1_1importers_1_1_capability_check_result_1ae4ebc394b4fd9cb1deed9458d4c477b0" prot="public" virt="non-virtual"><scope>themis::importers::CapabilityCheckResult</scope><name>supported</name></member>
+      <member refid="structthemis_1_1importers_1_1_capability_check_result_1a803940067e64d5fbe888f55688ad4782" prot="public" virt="non-virtual"><scope>themis::importers::CapabilityCheckResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

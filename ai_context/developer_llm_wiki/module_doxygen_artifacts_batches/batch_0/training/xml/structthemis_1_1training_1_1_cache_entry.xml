@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_entry_1a5dd016949d95a3437c30cab550ae9828" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CacheEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::training::CacheEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="35" column="17" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_entry_1a4582609eb2cc15b4dbf19909ebbc28c2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::CacheEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::training::CacheEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="36" column="17" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_entry_1a37c2bd07f7f54800b03f1dde158d0dd7" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::training::CacheEntry::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::training::CacheEntry::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="37" column="43" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_entry_1a7cce8ba7cc8b92dbfb795c580d5a5962" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::training::CacheEntry::last_accessed</definition>
+        <argsstring></argsstring>
+        <name>last_accessed</name>
+        <qualifiedname>themis::training::CacheEntry::last_accessed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="38" column="43" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_entry_1ae7d5f8851ccb3dca86e0430a3fbd0d80" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CacheEntry::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::training::CacheEntry::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="39" column="12" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_entry_1a4a9923965fa9bdcd549abb7d0ab4cce8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CacheEntry::is_stale</definition>
+        <argsstring></argsstring>
+        <name>is_stale</name>
+        <qualifiedname>themis::training::CacheEntry::is_stale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="40" column="10" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/training/test_enrichment_cache.cpp" line="34" column="1" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="34" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_cache_entry_1ae7d5f8851ccb3dca86e0430a3fbd0d80" prot="public" virt="non-virtual"><scope>themis::training::CacheEntry</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_entry_1a37c2bd07f7f54800b03f1dde158d0dd7" prot="public" virt="non-virtual"><scope>themis::training::CacheEntry</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_entry_1a4582609eb2cc15b4dbf19909ebbc28c2" prot="public" virt="non-virtual"><scope>themis::training::CacheEntry</scope><name>data</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_entry_1a4a9923965fa9bdcd549abb7d0ab4cce8" prot="public" virt="non-virtual"><scope>themis::training::CacheEntry</scope><name>is_stale</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_entry_1a5dd016949d95a3437c30cab550ae9828" prot="public" virt="non-virtual"><scope>themis::training::CacheEntry</scope><name>key</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_entry_1a7cce8ba7cc8b92dbfb795c580d5a5962" prot="public" virt="non-virtual"><scope>themis::training::CacheEntry</scope><name>last_accessed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

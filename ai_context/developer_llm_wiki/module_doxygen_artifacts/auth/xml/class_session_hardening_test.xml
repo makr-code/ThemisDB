@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_session_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>SessionHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_session_hardening_test_1abde6488c62f1cad0c9ddf6f226ef5d4c" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionManager::SessionLimits</ref></type>
+        <definition>SessionManager::SessionLimits SessionHardeningTest::limits_</definition>
+        <argsstring></argsstring>
+        <name>limits_</name>
+        <qualifiedname>SessionHardeningTest::limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="333" column="35" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="333" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_session_hardening_test_1a40c777658f604f4da3bcda0bc90119b2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SessionHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SessionHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="334" column="10" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="334" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SessionHardeningTest</label>
+        <link refid="class_session_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SessionHardeningTest</label>
+        <link refid="class_session_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>limits_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::auth::SessionManager::SessionLimits</label>
+        <link refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="331" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="331" bodyend="339"/>
+    <listofallmembers>
+      <member refid="class_session_hardening_test_1abde6488c62f1cad0c9ddf6f226ef5d4c" prot="protected" virt="non-virtual"><scope>SessionHardeningTest</scope><name>limits_</name></member>
+      <member refid="class_session_hardening_test_1a40c777658f604f4da3bcda0bc90119b2" prot="protected" virt="non-virtual"><scope>SessionHardeningTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

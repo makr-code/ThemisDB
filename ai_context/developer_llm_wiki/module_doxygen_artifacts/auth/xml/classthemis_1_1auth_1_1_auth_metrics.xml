@@ -1,0 +1,1282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_auth_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AuthMetrics</compoundname>
+    <includes refid="auth__metrics_8h" local="no">auth_metrics.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config" prot="public">themis::auth::AuthMetrics::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1a3a7986d053fb91533a6ac38122703fe9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::AuthMetrics::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::AuthMetrics::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="311" column="12" bodyfile="include/auth/auth_metrics.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1aa465fe2f3c765adce238df81732d7c15" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::auth::AuthMetrics::total_attempts_</definition>
+        <argsstring></argsstring>
+        <name>total_attempts_</name>
+        <qualifiedname>themis::auth::AuthMetrics::total_attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="345" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="345" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1aed669318a5f4bbb0e9a41a06291d57a5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::auth::AuthMetrics::successful_auths_</definition>
+        <argsstring></argsstring>
+        <name>successful_auths_</name>
+        <qualifiedname>themis::auth::AuthMetrics::successful_auths_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="346" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="346" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1ab56990ce2055cff7e62b287390a3009d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::auth::AuthMetrics::failed_auths_</definition>
+        <argsstring></argsstring>
+        <name>failed_auths_</name>
+        <qualifiedname>themis::auth::AuthMetrics::failed_auths_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="347" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="347" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1a0dfd75ec14de7342afa22898fe864c16" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::auth::AuthMetrics::totp_drift_count_</definition>
+        <argsstring></argsstring>
+        <name>totp_drift_count_</name>
+        <qualifiedname>themis::auth::AuthMetrics::totp_drift_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="348" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="348" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1ace4c3c47d7bd666bf5a6499bd3cdaafc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::auth::AuthMetrics::credential_stuffing_total_</definition>
+        <argsstring></argsstring>
+        <name>credential_stuffing_total_</name>
+        <qualifiedname>themis::auth::AuthMetrics::credential_stuffing_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="349" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="349" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1a5f8ed2609f8c664f78d8100f5c0d9757" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::auth::AuthMetrics::ldap_pool_size_count_</definition>
+        <argsstring></argsstring>
+        <name>ldap_pool_size_count_</name>
+        <qualifiedname>themis::auth::AuthMetrics::ldap_pool_size_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="352" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="352" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1a8ffe8c4bcd86860dbdd63c01ee137122" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::auth::AuthMetrics::ldap_idle_connections_count_</definition>
+        <argsstring></argsstring>
+        <name>ldap_idle_connections_count_</name>
+        <qualifiedname>themis::auth::AuthMetrics::ldap_idle_connections_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="353" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="353" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_metrics_1a52872947e854b1d87d3879e72a3a2b8c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::auth::AuthMetrics::ldap_active_connections_count_</definition>
+        <argsstring></argsstring>
+        <name>ldap_active_connections_count_</name>
+        <qualifiedname>themis::auth::AuthMetrics::ldap_active_connections_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="354" column="17" bodyfile="include/auth/auth_metrics.h" bodystart="354" bodyend="354"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1aa801eb8c719c28c4fe72b0b296102ba4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthMetrics::AuthMetrics</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>AuthMetrics</name>
+        <qualifiedname>themis::auth::AuthMetrics::AuthMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a8b6c7be81f085b389421ca32417ebeb2" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="81" column="14" bodyfile="src/auth/auth_metrics.cpp" bodystart="124" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a0b4baf9c00bdacd20b9913bd0c657f44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthMetrics::~AuthMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AuthMetrics</name>
+        <qualifiedname>themis::auth::AuthMetrics::~AuthMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="84" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1aa42ed7ce4824bcf2ead554eb8e441cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordAuthAttempt</definition>
+        <argsstring>(AuthMethod method, bool success, double duration_ms=0.0)</argsstring>
+        <name>recordAuthAttempt</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordAuthAttempt</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585c" kindref="member">AuthMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Record Auth Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), authMethodToString(), Add(), Increment(), Observe(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="90" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="139" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordAuthSuccess</definition>
+        <argsstring>(AuthMethod method, double duration_ms)</argsstring>
+        <name>recordAuthSuccess</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordAuthSuccess</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585c" kindref="member">AuthMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Auth Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1auth_1_1_auth_metrics_1aa42ed7ce4824bcf2ead554eb8e441cda" kindref="member">recordAuthAttempt()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="97" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="177" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordAuthFailure</definition>
+        <argsstring>(AuthMethod method, int error_code, double duration_ms)</argsstring>
+        <name>recordAuthFailure</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordAuthFailure</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585c" kindref="member">AuthMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Auth Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1auth_1_1_auth_metrics_1aa42ed7ce4824bcf2ead554eb8e441cda" kindref="member">recordAuthAttempt()</ref>, <ref refid="classthemis_1_1auth_1_1_auth_metrics_1ab30e9af3ff5a0ca1a49ec4644a29ae8a" kindref="member">recordError()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="105" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="190" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a134721fc44196f64c040e56712f4a2a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordJWKSCacheHit</definition>
+        <argsstring>()</argsstring>
+        <name>recordJWKSCacheHit</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordJWKSCacheHit</qualifiedname>
+        <briefdescription>
+<para>Record JWKSCache Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: Add(), Increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="114" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="201" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a6e5bf00e9a6435078445e3f63a1813ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordJWKSCacheMiss</definition>
+        <argsstring>()</argsstring>
+        <name>recordJWKSCacheMiss</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordJWKSCacheMiss</qualifiedname>
+        <briefdescription>
+<para>Record JWKSCache Miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: Add(), Increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="119" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="211" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1af16a3328af75448c817ffe70885022cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordJWKSFetch</definition>
+        <argsstring>(double duration_ms, bool success)</argsstring>
+        <name>recordJWKSFetch</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordJWKSFetch</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record JWKSFetch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Add(), Increment(), Observe(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="126" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="223" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a8730fb60ec53178b6b21f31d9ea57d18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::setJWKSCacheSize</definition>
+        <argsstring>(int num_keys)</argsstring>
+        <name>setJWKSCacheSize</name>
+        <qualifiedname>themis::auth::AuthMetrics::setJWKSCacheSize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_keys</declname>
+        </param>
+        <briefdescription>
+<para>Set JWKSCache Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="132" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="238" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a19857bd891c01db7f27498d300ed39bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordRateLimitExceeded</definition>
+        <argsstring>(const std::string &amp;type)</argsstring>
+        <name>recordRateLimitExceeded</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordRateLimitExceeded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Record Rate Limit Exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Add(), Increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="142" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a53fb2d1bcce3e0c93731ff4cb503c5c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::setRateLimitTokens</definition>
+        <argsstring>(const std::string &amp;identifier, double tokens)</argsstring>
+        <name>setRateLimitTokens</name>
+        <qualifiedname>themis::auth::AuthMetrics::setRateLimitTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>identifier</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Set Rate Limit Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">identifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRateLimitTokens without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="149" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="265" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1aa51b7618568e40d4fdebcc4ab59e9a11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordAccountLockout</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>recordAccountLockout</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordAccountLockout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Account Lockout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Add(), Increment(), utils::Logger::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="159" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="275" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a30d74ad4b53c34b7b332372b00ad63c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordAccountUnlock</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>recordAccountUnlock</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordAccountUnlock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Account Unlock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Add(), Increment(), utils::Logger::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="165" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="287" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1af6c58e9e9dfbbe0a173496558f13e0c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::setLockedAccountCount</definition>
+        <argsstring>(int count)</argsstring>
+        <name>setLockedAccountCount</name>
+        <qualifiedname>themis::auth::AuthMetrics::setLockedAccountCount</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Set Locked Account Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="171" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="294" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1ab30e9af3ff5a0ca1a49ec4644a29ae8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordError</definition>
+        <argsstring>(int error_code)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordError</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Record Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="181" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="301" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a707278b560f0b4ce487295e154600f91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordErrorByCategory</definition>
+        <argsstring>(const std::string &amp;category)</argsstring>
+        <name>recordErrorByCategory</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordErrorByCategory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Record Error By Category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Add(), Increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="187" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="315" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a105fedaa4707e7cf01c338670f5a9d8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordTokenValidation</definition>
+        <argsstring>(AuthMethod method, double duration_ms)</argsstring>
+        <name>recordTokenValidation</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordTokenValidation</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585c" kindref="member">AuthMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Token Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: authMethodToString(), Add(), Observe(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="198" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="330" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1afde0b3cb5085ade9d06dde6998a15a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordRevokedTokenCheck</definition>
+        <argsstring>(bool was_revoked)</argsstring>
+        <name>recordRevokedTokenCheck</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordRevokedTokenCheck</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>was_revoked</declname>
+        </param>
+        <briefdescription>
+<para>Record Revoked Token Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">was_revoked</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="204" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="342" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a37963bfd3c502cecceebd6cd797bd880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordCredentialStuffingAttempt</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip, const std::string &amp;outcome)</argsstring>
+        <name>recordCredentialStuffingAttempt</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordCredentialStuffingAttempt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outcome</declname>
+        </param>
+        <briefdescription>
+<para>Record Credential Stuffing Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), Add(), Increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="216" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="372" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a10399d081d18c5a45915e16fd9ace327" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::recordTOTPDrift</definition>
+        <argsstring>(int step_offset)</argsstring>
+        <name>recordTOTPDrift</name>
+        <qualifiedname>themis::auth::AuthMetrics::recordTOTPDrift</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>step_offset</declname>
+        </param>
+        <briefdescription>
+<para>Record TOTPDrift. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="228" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="351" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a1527678e715058c6ab66cf83af622ddb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::AuthMetrics::getTOTPDriftCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTOTPDriftCount</name>
+        <qualifiedname>themis::auth::AuthMetrics::getTOTPDriftCount</qualifiedname>
+        <briefdescription>
+<para>Get TOTPDrift Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="234" column="14" bodyfile="src/auth/auth_metrics.cpp" bodystart="361" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1adab63bdb82f2fd59e8f3f497c0e85a9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::setLDAPPoolSize</definition>
+        <argsstring>(int count)</argsstring>
+        <name>setLDAPPoolSize</name>
+        <qualifiedname>themis::auth::AuthMetrics::setLDAPPoolSize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Set LDAPPool Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="244" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="413" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1ac4e82ab9ad59644828ac9d2d0aec0b68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::setLDAPIdleConnections</definition>
+        <argsstring>(int count)</argsstring>
+        <name>setLDAPIdleConnections</name>
+        <qualifiedname>themis::auth::AuthMetrics::setLDAPIdleConnections</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Set LDAPIdle Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="250" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="421" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1abf514fc3a339ad748b02865652ad68fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthMetrics::setLDAPActiveConnections</definition>
+        <argsstring>(int count)</argsstring>
+        <name>setLDAPActiveConnections</name>
+        <qualifiedname>themis::auth::AuthMetrics::setLDAPActiveConnections</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Set LDAPActive Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="256" column="10" bodyfile="src/auth/auth_metrics.cpp" bodystart="429" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::AuthMetrics::getTotalAttempts</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalAttempts</name>
+        <qualifiedname>themis::auth::AuthMetrics::getTotalAttempts</qualifiedname>
+        <briefdescription>
+<para>Get Total Attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="266" column="14" bodyfile="src/auth/auth_metrics.cpp" bodystart="392" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::AuthMetrics::getSuccessfulAuths</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessfulAuths</name>
+        <qualifiedname>themis::auth::AuthMetrics::getSuccessfulAuths</qualifiedname>
+        <briefdescription>
+<para>Get Successful Auths. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="272" column="14" bodyfile="src/auth/auth_metrics.cpp" bodystart="396" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::AuthMetrics::getFailedAuths</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailedAuths</name>
+        <qualifiedname>themis::auth::AuthMetrics::getFailedAuths</qualifiedname>
+        <briefdescription>
+<para>Get Failed Auths. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="278" column="14" bodyfile="src/auth/auth_metrics.cpp" bodystart="400" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::auth::AuthMetrics::getSuccessRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessRate</name>
+        <qualifiedname>themis::auth::AuthMetrics::getSuccessRate</qualifiedname>
+        <briefdescription>
+<para>Get Success Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="284" column="12" bodyfile="src/auth/auth_metrics.cpp" bodystart="404" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a44e782de3da060c6a969e08c99a2b953" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::AuthMetrics::getCredentialStuffingTotal</definition>
+        <argsstring>() const</argsstring>
+        <name>getCredentialStuffingTotal</name>
+        <qualifiedname>themis::auth::AuthMetrics::getCredentialStuffingTotal</qualifiedname>
+        <briefdescription>
+<para>Get Credential Stuffing Total. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="290" column="14" bodyfile="src/auth/auth_metrics.cpp" bodystart="388" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1abed58e7996cfa0568c91b1cbf8d20c39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::auth::AuthMetrics::getLDAPPoolSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getLDAPPoolSize</name>
+        <qualifiedname>themis::auth::AuthMetrics::getLDAPPoolSize</qualifiedname>
+        <briefdescription>
+<para>Get LDAPPool Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="296" column="9" bodyfile="src/auth/auth_metrics.cpp" bodystart="437" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a98f0f5086884672f34b64dc1bb7e999b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::auth::AuthMetrics::getLDAPIdleConnections</definition>
+        <argsstring>() const</argsstring>
+        <name>getLDAPIdleConnections</name>
+        <qualifiedname>themis::auth::AuthMetrics::getLDAPIdleConnections</qualifiedname>
+        <briefdescription>
+<para>Get LDAPIdle Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="302" column="9" bodyfile="src/auth/auth_metrics.cpp" bodystart="441" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1ad2698ee1e956c1c3fbc190b1d773cf5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::auth::AuthMetrics::getLDAPActiveConnections</definition>
+        <argsstring>() const</argsstring>
+        <name>getLDAPActiveConnections</name>
+        <qualifiedname>themis::auth::AuthMetrics::getLDAPActiveConnections</qualifiedname>
+        <briefdescription>
+<para>Get LDAPActive Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="308" column="9" bodyfile="src/auth/auth_metrics.cpp" bodystart="445" bodyend="447"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_metrics_1a194eac771d87b1ce0e86db40fb2668c5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthMetrics::authMethodToString</definition>
+        <argsstring>(AuthMethod method)</argsstring>
+        <name>authMethodToString</name>
+        <qualifiedname>themis::auth::AuthMetrics::authMethodToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585c" kindref="member">AuthMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Auth Method To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements authMethodToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="362" column="24" bodyfile="src/auth/auth_metrics.cpp" bodystart="455" bodyend="472"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_metrics.h" line="52" column="1" bodyfile="include/auth/auth_metrics.h" bodystart="52" bodyend="363"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a194eac771d87b1ce0e86db40fb2668c5" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>authMethodToString</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1aa801eb8c719c28c4fe72b0b296102ba4" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>AuthMetrics</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a3a7986d053fb91533a6ac38122703fe9" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1ace4c3c47d7bd666bf5a6499bd3cdaafc" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>credential_stuffing_total_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1ab56990ce2055cff7e62b287390a3009d" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>failed_auths_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a44e782de3da060c6a969e08c99a2b953" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getCredentialStuffingTotal</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1ac7b160c98da25e0c5062d421336101d4" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getFailedAuths</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1ad2698ee1e956c1c3fbc190b1d773cf5d" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getLDAPActiveConnections</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a98f0f5086884672f34b64dc1bb7e999b" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getLDAPIdleConnections</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1abed58e7996cfa0568c91b1cbf8d20c39" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getLDAPPoolSize</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1af3434dc03f21ec85e21259ac4eabd3d2" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getSuccessfulAuths</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a2de85d8b8289cc8fdbd88f93658821ad" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getSuccessRate</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a91e191a73b9230ca0d98d7133bccf0cf" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getTotalAttempts</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a1527678e715058c6ab66cf83af622ddb" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>getTOTPDriftCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a52872947e854b1d87d3879e72a3a2b8c" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>ldap_active_connections_count_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a8ffe8c4bcd86860dbdd63c01ee137122" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>ldap_idle_connections_count_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a5f8ed2609f8c664f78d8100f5c0d9757" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>ldap_pool_size_count_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1aa51b7618568e40d4fdebcc4ab59e9a11" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordAccountLockout</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a30d74ad4b53c34b7b332372b00ad63c2" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordAccountUnlock</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1aa42ed7ce4824bcf2ead554eb8e441cda" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordAuthAttempt</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1ac83faa449bb63b07322daf1718760c33" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordAuthFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a24124872a32e6b3c9bc1e738e85827bb" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordAuthSuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a37963bfd3c502cecceebd6cd797bd880" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordCredentialStuffingAttempt</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1ab30e9af3ff5a0ca1a49ec4644a29ae8a" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a707278b560f0b4ce487295e154600f91" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordErrorByCategory</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a134721fc44196f64c040e56712f4a2a4" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordJWKSCacheHit</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a6e5bf00e9a6435078445e3f63a1813ff" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordJWKSCacheMiss</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1af16a3328af75448c817ffe70885022cf" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordJWKSFetch</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a19857bd891c01db7f27498d300ed39bf" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordRateLimitExceeded</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1afde0b3cb5085ade9d06dde6998a15a69" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordRevokedTokenCheck</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a105fedaa4707e7cf01c338670f5a9d8c" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordTokenValidation</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a10399d081d18c5a45915e16fd9ace327" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>recordTOTPDrift</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a8730fb60ec53178b6b21f31d9ea57d18" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>setJWKSCacheSize</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1abf514fc3a339ad748b02865652ad68fa" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>setLDAPActiveConnections</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1ac4e82ab9ad59644828ac9d2d0aec0b68" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>setLDAPIdleConnections</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1adab63bdb82f2fd59e8f3f497c0e85a9a" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>setLDAPPoolSize</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1af6c58e9e9dfbbe0a173496558f13e0c9" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>setLockedAccountCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a53fb2d1bcce3e0c93731ff4cb503c5c1" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>setRateLimitTokens</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1aed669318a5f4bbb0e9a41a06291d57a5" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>successful_auths_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1aa465fe2f3c765adce238df81732d7c15" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>total_attempts_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a0dfd75ec14de7342afa22898fe864c16" prot="private" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>totp_drift_count_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_metrics_1a0b4baf9c00bdacd20b9913bd0c657f44" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics</scope><name>~AuthMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

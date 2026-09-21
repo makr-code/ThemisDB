@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacewave1__brc" kind="namespace" language="C++">
+    <compoundname>wave1_brc</compoundname>
+    <innerclass refid="structwave1__brc_1_1_brace_balance_probe" prot="public">wave1_brc::BraceBalanceProbe</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacewave1__brc_1ad6be66ce9446341f99e43831f3e926c8" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; <ref refid="structwave1__brc_1_1_brace_balance_probe" kindref="compound">BraceBalanceProbe</ref> &gt;</type>
+        <definition>const std::vector&lt;BraceBalanceProbe&gt; wave1_brc::kBraceProbes</definition>
+        <argsstring></argsstring>
+        <name>kBraceProbes</name>
+        <qualifiedname>wave1_brc::kBraceProbes</qualifiedname>
+        <initializer>                                      = {
+    {&quot;cross_shard_transaction.cpp&quot;,      1052, 1052},
+    {&quot;hardware_migration_manager.cpp&quot;,     68,   68},
+    {&quot;health_check.cpp&quot;,                   67,   67},
+    {&quot;metadata_snapshot.cpp&quot;,              59,   59},
+    {&quot;metadata_wal.cpp&quot;,                   38,   38},
+    {&quot;operational_metrics.cpp&quot;,           109,  109},
+    {&quot;paxos_consensus.cpp&quot;,               386,  386},
+    {&quot;paxos_snapshot.cpp&quot;,                110,  110},
+    {&quot;raft_state.cpp&quot;,                     57,   57},
+    {&quot;replica_consistency.cpp&quot;,            70,   70},
+    {&quot;slo_monitor.cpp&quot;,                   122,  122},
+    {&quot;stream_protocol.cpp&quot;,               276,  276},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Known-good brace counts captured from production sources at closure date. These are regression anchors: a future edit that skews the count will fail the assertion and must be accompanied by a deliberate documentation update. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="73" column="26" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="73" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="52" column="1"/>
+  </compounddef>
+</doxygen>

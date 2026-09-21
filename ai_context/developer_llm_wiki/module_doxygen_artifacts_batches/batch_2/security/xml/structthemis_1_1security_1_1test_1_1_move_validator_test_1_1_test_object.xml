@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object" kind="struct" language="C++" prot="protected">
+    <compoundname>themis::security::test::MoveValidatorTest::TestObject</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a0ac4d98cb523775a91b7add55ee482ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::security::test::MoveValidatorTest::TestObject::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::security::test::MoveValidatorTest::TestObject::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="27" column="17" bodyfile="tests/security/test_safe_move.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a3d97242d48e27f9ee928b4a3c77591c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::test::MoveValidatorTest::TestObject::moved_from</definition>
+        <argsstring></argsstring>
+        <name>moved_from</name>
+        <qualifiedname>themis::security::test::MoveValidatorTest::TestObject::moved_from</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="28" column="10" bodyfile="tests/security/test_safe_move.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a5e6269d2150c68c914f0c39766c5aa67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::MoveValidatorTest::TestObject::TestObject</definition>
+        <argsstring>()=default</argsstring>
+        <name>TestObject</name>
+        <qualifiedname>themis::security::test::MoveValidatorTest::TestObject::TestObject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a183fc023f618d9359020ef6390c1c116" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::MoveValidatorTest::TestObject::TestObject</definition>
+        <argsstring>(std::vector&lt; int &gt; d)</argsstring>
+        <name>TestObject</name>
+        <qualifiedname>themis::security::test::MoveValidatorTest::TestObject::TestObject</qualifiedname>
+        <param>
+          <type>std::vector&lt; int &gt;</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="31" column="5" bodyfile="tests/security/test_safe_move.cpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a3942f9db9e958b0bee2faa5a5dd4b9bf" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::MoveValidatorTest::TestObject::TestObject</definition>
+        <argsstring>(TestObject &amp;&amp;other) noexcept</argsstring>
+        <name>TestObject</name>
+        <qualifiedname>themis::security::test::MoveValidatorTest::TestObject::TestObject</qualifiedname>
+        <param>
+          <type>TestObject &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="33" column="5" bodyfile="tests/security/test_safe_move.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a31f2077d01cb1d7cca106110c8f97f0f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a5e6269d2150c68c914f0c39766c5aa67" kindref="member">TestObject</ref> &amp;</type>
+        <definition>TestObject &amp; themis::security::test::MoveValidatorTest::TestObject::operator=</definition>
+        <argsstring>(TestObject &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::test::MoveValidatorTest::TestObject::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a5e6269d2150c68c914f0c39766c5aa67" kindref="member">TestObject</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="38" column="16" bodyfile="tests/security/test_safe_move.cpp" bodystart="38" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1ab30042d2e558e13d33936c98b831b586" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::test::MoveValidatorTest::TestObject::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::security::test::MoveValidatorTest::TestObject::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="47" column="10" bodyfile="tests/security/test_safe_move.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_safe_move.cpp" line="26" column="3" bodyfile="tests/security/test_safe_move.cpp" bodystart="26" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a0ac4d98cb523775a91b7add55ee482ab" prot="public" virt="non-virtual"><scope>themis::security::test::MoveValidatorTest::TestObject</scope><name>data</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1ab30042d2e558e13d33936c98b831b586" prot="public" virt="non-virtual"><scope>themis::security::test::MoveValidatorTest::TestObject</scope><name>empty</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a3d97242d48e27f9ee928b4a3c77591c9" prot="public" virt="non-virtual"><scope>themis::security::test::MoveValidatorTest::TestObject</scope><name>moved_from</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a31f2077d01cb1d7cca106110c8f97f0f" prot="public" virt="non-virtual"><scope>themis::security::test::MoveValidatorTest::TestObject</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a5e6269d2150c68c914f0c39766c5aa67" prot="public" virt="non-virtual"><scope>themis::security::test::MoveValidatorTest::TestObject</scope><name>TestObject</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a183fc023f618d9359020ef6390c1c116" prot="public" virt="non-virtual"><scope>themis::security::test::MoveValidatorTest::TestObject</scope><name>TestObject</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_validator_test_1_1_test_object_1a3942f9db9e958b0bee2faa5a5dd4b9bf" prot="public" virt="non-virtual"><scope>themis::security::test::MoveValidatorTest::TestObject</scope><name>TestObject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

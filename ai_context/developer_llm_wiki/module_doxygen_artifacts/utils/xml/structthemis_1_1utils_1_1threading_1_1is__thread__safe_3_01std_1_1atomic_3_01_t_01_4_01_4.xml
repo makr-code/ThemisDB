@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1threading_1_1is__thread__safe_3_01std_1_1atomic_3_01_t_01_4_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::threading::is_thread_safe&lt; std::atomic&lt; T &gt; &gt;</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::false_type</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::true_type</basecompoundref>
+    <includes refid="thread__safety_8h" local="no">thread_safety.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::false_type</label>
+      </node>
+      <node id="3">
+        <label>std::true_type</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::threading::is_thread_safe&lt; std::atomic&lt; T &gt; &gt;</label>
+        <link refid="structthemis_1_1utils_1_1threading_1_1is__thread__safe_3_01std_1_1atomic_3_01_t_01_4_01_4"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::false_type</label>
+      </node>
+      <node id="3">
+        <label>std::true_type</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::threading::is_thread_safe&lt; std::atomic&lt; T &gt; &gt;</label>
+        <link refid="structthemis_1_1utils_1_1threading_1_1is__thread__safe_3_01std_1_1atomic_3_01_t_01_4_01_4"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/thread_safety.h" line="146" column="1" bodyfile="include/utils/thread_safety.h" bodystart="146" bodyend="146"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

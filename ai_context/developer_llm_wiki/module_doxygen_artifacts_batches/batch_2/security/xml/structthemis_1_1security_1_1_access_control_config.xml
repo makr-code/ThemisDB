@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControlConfig</compoundname>
+    <includes refid="access__control__manager_8h" local="no">access_control_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1a130e266b09d9df03f1dc0f60642d4bec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControlConfig::rbac_config_path</definition>
+        <argsstring></argsstring>
+        <name>rbac_config_path</name>
+        <qualifiedname>themis::security::AccessControlConfig::rbac_config_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="82" column="17" bodyfile="include/security/access_control_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1ab175649c98718213f2b890c747ce84c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControlConfig::user_role_store_path</definition>
+        <argsstring></argsstring>
+        <name>user_role_store_path</name>
+        <qualifiedname>themis::security::AccessControlConfig::user_role_store_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="83" column="17" bodyfile="include/security/access_control_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1a3ee4004b37097e69319e2b6f8642ec5c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControlConfig::enable_audit_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_audit_logging</name>
+        <qualifiedname>themis::security::AccessControlConfig::enable_audit_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="84" column="10" bodyfile="include/security/access_control_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1a95385a060c35a5037ad770bb0f342c3b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControlConfig::fail_closed</definition>
+        <argsstring></argsstring>
+        <name>fail_closed</name>
+        <qualifiedname>themis::security::AccessControlConfig::fail_closed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="85" column="10" bodyfile="include/security/access_control_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1a43af24e046097064f3f7d1c8d7b308a3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2" kindref="member">AuthorizationFailureMode</ref></type>
+        <definition>AuthorizationFailureMode themis::security::AccessControlConfig::failure_mode</definition>
+        <argsstring></argsstring>
+        <name>failure_mode</name>
+        <qualifiedname>themis::security::AccessControlConfig::failure_mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2ae2a5e3081b1d16414412c3b8258a9270" kindref="member">AuthorizationFailureMode::DenyOnError</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="86" column="30" bodyfile="include/security/access_control_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1aac07492bab7143452ac63ca9cc92bea2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControlConfig::fail_open_reason</definition>
+        <argsstring></argsstring>
+        <name>fail_open_reason</name>
+        <qualifiedname>themis::security::AccessControlConfig::fail_open_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="87" column="17" bodyfile="include/security/access_control_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1a498288e5fb13abc22015034887789ddb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControlConfig::enable_resource_wildcards</definition>
+        <argsstring></argsstring>
+        <name>enable_resource_wildcards</name>
+        <qualifiedname>themis::security::AccessControlConfig::enable_resource_wildcards</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="88" column="10" bodyfile="include/security/access_control_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1a9521afbb46f829a6436337d53e707a99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControlConfig::abac_policy_path</definition>
+        <argsstring></argsstring>
+        <name>abac_policy_path</name>
+        <qualifiedname>themis::security::AccessControlConfig::abac_policy_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="91" column="17" bodyfile="include/security/access_control_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1ad8fa1d4c3b3b45bd08c16685618db63c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControlConfig::enable_abac</definition>
+        <argsstring></argsstring>
+        <name>enable_abac</name>
+        <qualifiedname>themis::security::AccessControlConfig::enable_abac</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="92" column="10" bodyfile="include/security/access_control_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1a4ebbe2e651e5769190630b4d4b527c35" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControlConfig::enable_zero_trust</definition>
+        <argsstring></argsstring>
+        <name>enable_zero_trust</name>
+        <qualifiedname>themis::security::AccessControlConfig::enable_zero_trust</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="95" column="10" bodyfile="include/security/access_control_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1aad29a9a42dcd1e640bfb4259c730012f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControlConfig::rls_policy_path</definition>
+        <argsstring></argsstring>
+        <name>rls_policy_path</name>
+        <qualifiedname>themis::security::AccessControlConfig::rls_policy_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="97" column="17" bodyfile="include/security/access_control_manager.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1a80b45b376e0dab1370bd0a702b66b4bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControlConfig::enable_rls</definition>
+        <argsstring></argsstring>
+        <name>enable_rls</name>
+        <qualifiedname>themis::security::AccessControlConfig::enable_rls</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="98" column="10" bodyfile="include/security/access_control_manager.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_config_1aabf94709a98ac7e45b76282ac6a0ac43" prot="public" static="no" mutable="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref>(const <ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref> &amp;, const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;AccessDecision(const SecurityContext&amp;, const std::string&amp;, const std::string&amp;)&gt; themis::security::AccessControlConfig::custom_authorizer</definition>
+        <argsstring></argsstring>
+        <name>custom_authorizer</name>
+        <qualifiedname>themis::security::AccessControlConfig::custom_authorizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="101" column="9" bodyfile="include/security/access_control_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control_manager.h" line="81" column="1" bodyfile="include/security/access_control_manager.h" bodystart="81" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1a9521afbb46f829a6436337d53e707a99" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>abac_policy_path</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1aabf94709a98ac7e45b76282ac6a0ac43" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>custom_authorizer</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1ad8fa1d4c3b3b45bd08c16685618db63c" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>enable_abac</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1a3ee4004b37097e69319e2b6f8642ec5c" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>enable_audit_logging</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1a498288e5fb13abc22015034887789ddb" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>enable_resource_wildcards</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1a80b45b376e0dab1370bd0a702b66b4bc" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>enable_rls</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1a4ebbe2e651e5769190630b4d4b527c35" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>enable_zero_trust</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1a95385a060c35a5037ad770bb0f342c3b" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>fail_closed</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1aac07492bab7143452ac63ca9cc92bea2" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>fail_open_reason</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1a43af24e046097064f3f7d1c8d7b308a3" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>failure_mode</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1a130e266b09d9df03f1dc0f60642d4bec" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>rbac_config_path</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1aad29a9a42dcd1e640bfb4259c730012f" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>rls_policy_path</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_config_1ab175649c98718213f2b890c747ce84c6" prot="public" virt="non-virtual"><scope>themis::security::AccessControlConfig</scope><name>user_role_store_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

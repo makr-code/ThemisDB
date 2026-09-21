@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_distributed_token_blacklist_test" kind="class" language="C++" prot="public">
+    <compoundname>DistributedTokenBlacklistTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_distributed_token_blacklist_test_1a57bde9f8b74e0e4a78cb07ab788b3f0e" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path DistributedTokenBlacklistTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>DistributedTokenBlacklistTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_distributed_blacklist.cpp" line="46" column="14" bodyfile="tests/auth/test_auth_distributed_blacklist.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_distributed_token_blacklist_test_1a94a1d4720baa1113b024bfe6a11ebebc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedTokenBlacklistTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DistributedTokenBlacklistTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_distributed_blacklist.cpp" line="48" column="10" bodyfile="tests/auth/test_auth_distributed_blacklist.cpp" bodystart="48" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_distributed_token_blacklist_test_1af2e1cfa58e24c9730f8cb0574ab35c99" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedTokenBlacklistTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DistributedTokenBlacklistTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_distributed_blacklist.cpp" line="56" column="10" bodyfile="tests/auth/test_auth_distributed_blacklist.cpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_distributed_token_blacklist_test_1aeb5341c89fd95b742913dfacdbc74f20" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config" kindref="compound">DistributedBlacklistConfig</ref></type>
+        <definition>DistributedBlacklistConfig DistributedTokenBlacklistTest::singleNodeConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>singleNodeConfig</name>
+        <qualifiedname>DistributedTokenBlacklistTest::singleNodeConfig</qualifiedname>
+        <briefdescription>
+<para>Build a minimal single-node config (no cluster sync). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_distributed_blacklist.cpp" line="61" column="32" bodyfile="tests/auth/test_auth_distributed_blacklist.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_distributed_token_blacklist_test_1acdeb3f964081ce075c451fe0629c594c" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>static std::chrono::system_clock::time_point DistributedTokenBlacklistTest::future</definition>
+        <argsstring>(int seconds)</argsstring>
+        <name>future</name>
+        <qualifiedname>DistributedTokenBlacklistTest::future</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>seconds</declname>
+        </param>
+        <briefdescription>
+<para>Time-point helper: now + seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_distributed_blacklist.cpp" line="72" column="50" bodyfile="tests/auth/test_auth_distributed_blacklist.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_distributed_token_blacklist_test_1af28c10564213f703fcab42c2b033fd98" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>static std::chrono::system_clock::time_point DistributedTokenBlacklistTest::past</definition>
+        <argsstring>(int seconds)</argsstring>
+        <name>past</name>
+        <qualifiedname>DistributedTokenBlacklistTest::past</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>seconds</declname>
+        </param>
+        <briefdescription>
+<para>Time-point helper: now - seconds (already expired). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_distributed_blacklist.cpp" line="78" column="50" bodyfile="tests/auth/test_auth_distributed_blacklist.cpp" bodystart="78" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DistributedTokenBlacklistTest</label>
+        <link refid="class_distributed_token_blacklist_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DistributedTokenBlacklistTest</label>
+        <link refid="class_distributed_token_blacklist_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_distributed_blacklist.cpp" line="44" column="1" bodyfile="tests/auth/test_auth_distributed_blacklist.cpp" bodystart="44" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_distributed_token_blacklist_test_1a57bde9f8b74e0e4a78cb07ab788b3f0e" prot="protected" virt="non-virtual"><scope>DistributedTokenBlacklistTest</scope><name>db_path_</name></member>
+      <member refid="class_distributed_token_blacklist_test_1acdeb3f964081ce075c451fe0629c594c" prot="protected" virt="non-virtual"><scope>DistributedTokenBlacklistTest</scope><name>future</name></member>
+      <member refid="class_distributed_token_blacklist_test_1af28c10564213f703fcab42c2b033fd98" prot="protected" virt="non-virtual"><scope>DistributedTokenBlacklistTest</scope><name>past</name></member>
+      <member refid="class_distributed_token_blacklist_test_1a94a1d4720baa1113b024bfe6a11ebebc" prot="protected" virt="non-virtual"><scope>DistributedTokenBlacklistTest</scope><name>SetUp</name></member>
+      <member refid="class_distributed_token_blacklist_test_1aeb5341c89fd95b742913dfacdbc74f20" prot="protected" virt="non-virtual"><scope>DistributedTokenBlacklistTest</scope><name>singleNodeConfig</name></member>
+      <member refid="class_distributed_token_blacklist_test_1af2e1cfa58e24c9730f8cb0574ab35c99" prot="protected" virt="non-virtual"><scope>DistributedTokenBlacklistTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

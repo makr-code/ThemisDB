@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_training_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::TrainingResult</compoundname>
+    <includes refid="incremental__lora__trainer_8h" local="no">incremental_lora_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1a50fe12a2cc4cba24f96580969cabfd39" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::TrainingResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::TrainingResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="123" column="10" bodyfile="include/training/incremental_lora_trainer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1ae162a04f2474095dc54e0e733b77a63e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingResult::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::training::TrainingResult::version</qualifiedname>
+        <briefdescription>
+<para>Version identifier (e.g., &quot;legal_v1.1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="124" column="17" bodyfile="include/training/incremental_lora_trainer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1a88f0a5d98fe7fb6051d73a5e086db2aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingResult::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::training::TrainingResult::adapter_id</qualifiedname>
+        <briefdescription>
+<para>Adapter ID in storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="125" column="17" bodyfile="include/training/incremental_lora_trainer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1ab2fee420821020c88e10570a608444cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::TrainingResult::training_loss</definition>
+        <argsstring></argsstring>
+        <name>training_loss</name>
+        <qualifiedname>themis::training::TrainingResult::training_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="126" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1ae1ae44d848b7d11caf9ff92a67f25959" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::TrainingResult::validation_loss</definition>
+        <argsstring></argsstring>
+        <name>validation_loss</name>
+        <qualifiedname>themis::training::TrainingResult::validation_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="127" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1a2121341a403aae8facb0ce71fa742bfe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::TrainingResult::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::training::TrainingResult::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="128" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1aefac0a0ec38e3eb2ba992a36b6c52b17" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::TrainingResult::samples_trained</definition>
+        <argsstring></argsstring>
+        <name>samples_trained</name>
+        <qualifiedname>themis::training::TrainingResult::samples_trained</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="129" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1a382b2167cc3597c19c6e4e43e6d397da" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::TrainingResult::training_time_seconds</definition>
+        <argsstring></argsstring>
+        <name>training_time_seconds</name>
+        <qualifiedname>themis::training::TrainingResult::training_time_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="130" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1a5978ee180289b7db2032982c386541be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::training::TrainingResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="131" column="17" bodyfile="include/training/incremental_lora_trainer.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_result_1a1c70c71f127933b83a866bb3ee545edc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::training::TrainingResult::gpus_used</definition>
+        <argsstring></argsstring>
+        <name>gpus_used</name>
+        <qualifiedname>themis::training::TrainingResult::gpus_used</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Number of GPUs used during training. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="132" column="9" bodyfile="include/training/incremental_lora_trainer.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_training_result_1aa0a855651e431d964d21a429be278bfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingResult::TrainingResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>TrainingResult</name>
+        <qualifiedname>themis::training::TrainingResult::TrainingResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="134" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Training result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/incremental_lora_trainer.h" line="122" column="1" bodyfile="include/training/incremental_lora_trainer.h" bodystart="122" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_training_result_1a2121341a403aae8facb0ce71fa742bfe" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1a88f0a5d98fe7fb6051d73a5e086db2aa" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1a5978ee180289b7db2032982c386541be" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1a1c70c71f127933b83a866bb3ee545edc" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>gpus_used</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1aefac0a0ec38e3eb2ba992a36b6c52b17" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>samples_trained</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1a50fe12a2cc4cba24f96580969cabfd39" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1ab2fee420821020c88e10570a608444cc" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>training_loss</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1a382b2167cc3597c19c6e4e43e6d397da" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>training_time_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1aa0a855651e431d964d21a429be278bfb" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>TrainingResult</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1ae1ae44d848b7d11caf9ff92a67f25959" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>validation_loss</name></member>
+      <member refid="structthemis_1_1training_1_1_training_result_1ae162a04f2474095dc54e0e733b77a63e" prot="public" virt="non-virtual"><scope>themis::training::TrainingResult</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

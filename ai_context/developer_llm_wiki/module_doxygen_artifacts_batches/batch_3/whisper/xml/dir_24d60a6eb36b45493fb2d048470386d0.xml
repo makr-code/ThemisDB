@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_24d60a6eb36b45493fb2d048470386d0" kind="dir">
+    <compoundname>benchmarks/whisper</compoundname>
+    <innerfile refid="bench__whisper__transcription_8cpp">bench_whisper_transcription.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/whisper/"/>
+  </compounddef>
+</doxygen>

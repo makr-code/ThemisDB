@@ -1,0 +1,624 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorIngestionBridge</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ingestion::ITensorDecompositionBackend</basecompoundref>
+    <includes refid="tensor__ingestion__bridge_8h" local="no">tensor_ingestion_bridge.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a22dcd2a237839723ad8e3c5f3e2d43dc" prot="private" static="no" mutable="no">
+        <type>storage::TensorTrainDecomposer</type>
+        <definition>storage::TensorTrainDecomposer themis::tensor::TensorIngestionBridge::decomposer_</definition>
+        <argsstring></argsstring>
+        <name>decomposer_</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::decomposer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="138" column="36" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a52a7c1c7b86d69c2468033a7b4dc4c23" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::tensor::TensorIngestionBridge::default_epsilon_</definition>
+        <argsstring></argsstring>
+        <name>default_epsilon_</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::default_epsilon_</qualifiedname>
+        <initializer>{0.01}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="140" column="21" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1afc4641772acb3213dc44e822f3f84b1d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::tensor::TensorIngestionBridge::default_max_rank_</definition>
+        <argsstring></argsstring>
+        <name>default_max_rank_</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::default_max_rank_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="141" column="17" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a065ecf2d60e31cc1dc503eb00aa6bd22" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::tensor::TensorIngestionBridge::default_min_kappa_</definition>
+        <argsstring></argsstring>
+        <name>default_min_kappa_</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::default_min_kappa_</qualifiedname>
+        <initializer>{1.3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="142" column="21" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a640c26db9132aa9447b8cf0eb2d9f59e" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; long long &gt;</type>
+        <definition>std::atomic&lt;long long&gt; themis::tensor::TensorIngestionBridge::decompose_count_</definition>
+        <argsstring></argsstring>
+        <name>decompose_count_</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::decompose_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="144" column="25" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a6c96d49cbbe4f4f5f037789cdb3ad22f" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; long long &gt;</type>
+        <definition>std::atomic&lt;long long&gt; themis::tensor::TensorIngestionBridge::kappa_skip_count_</definition>
+        <argsstring></argsstring>
+        <name>kappa_skip_count_</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::kappa_skip_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="145" column="25" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a571b79dbaf096d6396b695ed0b737408" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::tensor::TensorIngestionBridge::pending_decompositions_</definition>
+        <argsstring></argsstring>
+        <name>pending_decompositions_</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::pending_decompositions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Track in-flight decomposition operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="148" column="25" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a373338b6a18d9c29b124c8eaaedd4b75" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorIngestionBridge::TensorIngestionBridge</definition>
+        <argsstring>(double default_epsilon=0.01, std::size_t default_max_rank=0, double default_min_kappa=1.3)</argsstring>
+        <name>TensorIngestionBridge</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::TensorIngestionBridge</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>default_epsilon</declname>
+          <defval>0.01</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>default_max_rank</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>default_min_kappa</declname>
+          <defval>1.3</defval>
+        </param>
+        <briefdescription>
+<para>Construct with optional global configuration overrides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configuration can be overridden per-call via the <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a3e11ac4f970a815b04b4da2561ae424f" kindref="member">decompose()</ref></computeroutput> arguments. These settings serve as defaults when the ingestion step config does not specify values.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>default_epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Default ε for TT-SVD (default: 0.01). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>default_max_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Default bond-dimension cap (0 = no cap). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>default_min_kappa</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Default κ-gate threshold (default: 1.3). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="54" column="14" bodyfile="src/tensor/tensor_ingestion_bridge.cpp" bodystart="39" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a45ec16c39842f44feda749689ca059ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorIngestionBridge::~TensorIngestionBridge</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~TensorIngestionBridge</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::~TensorIngestionBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a72fd7804ca39393fef4291b3bee57087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorIngestionBridge::TensorIngestionBridge</definition>
+        <argsstring>(const TensorIngestionBridge &amp;)=delete</argsstring>
+        <name>TensorIngestionBridge</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::TensorIngestionBridge</qualifiedname>
+        <param>
+          <type>const TensorIngestionBridge &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a54d7913c42cb4be5b2783167c0d81c10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a373338b6a18d9c29b124c8eaaedd4b75" kindref="member">TensorIngestionBridge</ref> &amp;</type>
+        <definition>TensorIngestionBridge &amp; themis::tensor::TensorIngestionBridge::operator=</definition>
+        <argsstring>(const TensorIngestionBridge &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a373338b6a18d9c29b124c8eaaedd4b75" kindref="member">TensorIngestionBridge</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="62" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a609b7085b5ad92f4da12e3b175d0aa21" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorIngestionBridge::TensorIngestionBridge</definition>
+        <argsstring>(TensorIngestionBridge &amp;&amp;) noexcept=delete</argsstring>
+        <name>TensorIngestionBridge</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::TensorIngestionBridge</qualifiedname>
+        <param>
+          <type>TensorIngestionBridge &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1ade54039c4752210eb70d5d7704bbd101" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a373338b6a18d9c29b124c8eaaedd4b75" kindref="member">TensorIngestionBridge</ref> &amp;</type>
+        <definition>TensorIngestionBridge &amp; themis::tensor::TensorIngestionBridge::operator=</definition>
+        <argsstring>(TensorIngestionBridge &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a373338b6a18d9c29b124c8eaaedd4b75" kindref="member">TensorIngestionBridge</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="64" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a49bf8d8cedc0df71ab6a1c63a202e604" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorIngestionBridge::setEpsilon</definition>
+        <argsstring>(double eps) noexcept</argsstring>
+        <name>setEpsilon</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::setEpsilon</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>eps</declname>
+        </param>
+        <briefdescription>
+<para>Override the default reconstruction error tolerance ε. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="69" column="10" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a94b96e81f8d62bd742ef5ac8fca57364" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorIngestionBridge::setMaxRank</definition>
+        <argsstring>(std::size_t rank) noexcept</argsstring>
+        <name>setMaxRank</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::setMaxRank</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>rank</declname>
+        </param>
+        <briefdescription>
+<para>Override the default bond-dimension cap (0 = no cap). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="71" column="10" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1ae324de83b44467865a81c5a5a628d2c6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorIngestionBridge::setMinKappa</definition>
+        <argsstring>(double kappa) noexcept</argsstring>
+        <name>setMinKappa</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::setMinKappa</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>kappa</declname>
+        </param>
+        <briefdescription>
+<para>Override the default κ-gate threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="73" column="10" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a3e11ac4f970a815b04b4da2561ae424f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ingestion::TensorCoreRecord</type>
+        <definition>ingestion::TensorCoreRecord themis::tensor::TensorIngestionBridge::decompose</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, const std::string &amp;chunk_id, const std::string &amp;source_file_id, double epsilon=0.0, std::size_t max_rank=0) override</argsstring>
+        <name>decompose</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::decompose</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_file_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_rank</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Decompose a dense embedding into TT-format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompose.</para>
+<para>Infers mode-shapes automatically (balanced 2D factorisation) and delegates to <computeroutput>TensorTrainDecomposer::decompose()</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dense float32 vector produced by <computeroutput>chunk_embed</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier linking result to the chunk. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_file_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SHA-256 of the source file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Relative error ε (overrides <computeroutput>default_epsilon_</computeroutput> when &gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bond cap (overrides <computeroutput>default_max_rank_</computeroutput> when &gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <computeroutput>TensorCoreRecord</computeroutput>. <computeroutput>serialized_train</computeroutput> is empty on error (caller should log the warning in <computeroutput>ctx.warnings</computeroutput>).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_file_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="92" column="34" bodyfile="src/tensor/tensor_ingestion_bridge.cpp" bodystart="174" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1ace1140241b22d7ba0d9e2a649ad4e5d7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorIngestionBridge::shouldDecompose</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, double min_kappa=1.3) const override</argsstring>
+        <name>shouldDecompose</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::shouldDecompose</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_kappa</declname>
+          <defval>1.3</defval>
+        </param>
+        <briefdescription>
+<para>κ-gate: returns true when estimated compression ratio ≥ <computeroutput>min_kappa</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs a pilot TT-decomposition with a coarser tolerance (pilot_eps = epsilon / 5, min 0.05) to quickly estimate the achievable compression ratio without the full cost.</para>
+<para>For embeddings with dim ≤ 1024, the full embedding is used for the pilot. For dim &gt; 1024, a random projection to 1024 elements is used to keep the pilot cost bounded. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="110" column="11" bodyfile="src/tensor/tensor_ingestion_bridge.cpp" bodystart="83" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a4d2e8b0bd0066f89c4262ce34b9d36ab" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorIngestionBridge::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Returns true — <computeroutput>TensorTrainDecomposer</computeroutput> is always available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="115" column="11" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a1289ae673c6adceefc062c04441d4804" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorIngestionBridge::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="118" column="18" bodyfile="src/tensor/tensor_ingestion_bridge.cpp" bodystart="254" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a7e9b5e0823c4b84aa5c65f3d8c153722" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>long long</type>
+        <definition>long long themis::tensor::TensorIngestionBridge::decomposeCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>decomposeCount</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::decomposeCount</qualifiedname>
+        <briefdescription>
+<para>Return the total number of attempted decompositions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Count of <ref refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a3e11ac4f970a815b04b4da2561ae424f" kindref="member">decompose()</ref> calls, including κ-gated decisions. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="126" column="16" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a85c7c00a26a2fa249e6f2e4f68a7ede7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>long long</type>
+        <definition>long long themis::tensor::TensorIngestionBridge::kappaSkipCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>kappaSkipCount</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::kappaSkipCount</qualifiedname>
+        <briefdescription>
+<para>Return the total number of κ-gate skips. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Count of embeddings rejected before full decomposition. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="133" column="16" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="133" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a04fac431bdf966ebf38e51424d490fb7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt; std::size_t &gt; themis::tensor::TensorIngestionBridge::inferModeShape</definition>
+        <argsstring>(std::size_t n)</argsstring>
+        <name>inferModeShape</name>
+        <qualifiedname>themis::tensor::TensorIngestionBridge::inferModeShape</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Infer Mode Shape. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Infer a balanced 2D mode-shape for a vector of length <computeroutput>n</computeroutput>. Returns {rows, cols} such that rows * cols == n and |rows - cols| is minimised. Pads n to the next perfect product when necessary.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_ingestion_bridge.h" line="153" column="24" bodyfile="src/tensor/tensor_ingestion_bridge.cpp" bodystart="64" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Production implementation of <computeroutput>ingestion::ITensorDecompositionBackend</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps <computeroutput>storage::TensorTrainDecomposer</computeroutput> and performs:<orderedlist>
+<listitem><para><bold>κ-gate</bold> (<computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1ace1140241b22d7ba0d9e2a649ad4e5d7" kindref="member">shouldDecompose</ref></computeroutput>) — cheap pilot decomposition to check whether the data is worth compressing.</para>
+</listitem><listitem><para><bold>Mode-shape inference</bold> — an embedding of length <computeroutput>d</computeroutput> is reshaped into a 2D tensor (√d × √d when d is a perfect square, otherwise into a pair of factors maximally balanced in size). This gives order-2 TT-cores which are mathematically equivalent to the AdaLoRA SVD format (see <computeroutput>ADALORA_TT_BRIDGE_RESEARCH.md §2.3</computeroutput>).</para>
+</listitem><listitem><para><bold>Provenance</bold> — the resulting <computeroutput>TensorCoreRecord</computeroutput> metadata includes <computeroutput>epsilon</computeroutput>, <computeroutput>max_rank</computeroutput>, and <computeroutput>mode_shape</computeroutput> to allow faithful reconstruction and auditing by downstream consumers (FITKO, eJustice). </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ingestion::ITensorDecompositionBackend</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::TensorIngestionBridge</label>
+        <link refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ingestion::ITensorDecompositionBackend</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::TensorIngestionBridge</label>
+        <link refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_ingestion_bridge.h" line="41" column="1" bodyfile="include/tensor/tensor_ingestion_bridge.h" bodystart="41" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a3e11ac4f970a815b04b4da2561ae424f" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>decompose</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a640c26db9132aa9447b8cf0eb2d9f59e" prot="private" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>decompose_count_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a7e9b5e0823c4b84aa5c65f3d8c153722" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>decomposeCount</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a22dcd2a237839723ad8e3c5f3e2d43dc" prot="private" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>decomposer_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a52a7c1c7b86d69c2468033a7b4dc4c23" prot="private" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>default_epsilon_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1afc4641772acb3213dc44e822f3f84b1d" prot="private" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>default_max_rank_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a065ecf2d60e31cc1dc503eb00aa6bd22" prot="private" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>default_min_kappa_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a1289ae673c6adceefc062c04441d4804" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>description</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a04fac431bdf966ebf38e51424d490fb7" prot="private" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>inferModeShape</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a4d2e8b0bd0066f89c4262ce34b9d36ab" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a6c96d49cbbe4f4f5f037789cdb3ad22f" prot="private" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>kappa_skip_count_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a85c7c00a26a2fa249e6f2e4f68a7ede7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>kappaSkipCount</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a54d7913c42cb4be5b2783167c0d81c10" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1ade54039c4752210eb70d5d7704bbd101" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a571b79dbaf096d6396b695ed0b737408" prot="private" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>pending_decompositions_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a49bf8d8cedc0df71ab6a1c63a202e604" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>setEpsilon</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a94b96e81f8d62bd742ef5ac8fca57364" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>setMaxRank</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1ae324de83b44467865a81c5a5a628d2c6" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>setMinKappa</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1ace1140241b22d7ba0d9e2a649ad4e5d7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>shouldDecompose</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a373338b6a18d9c29b124c8eaaedd4b75" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>TensorIngestionBridge</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a72fd7804ca39393fef4291b3bee57087" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>TensorIngestionBridge</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a609b7085b5ad92f4da12e3b175d0aa21" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>TensorIngestionBridge</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_ingestion_bridge_1a45ec16c39842f44feda749689ca059ed" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIngestionBridge</scope><name>~TensorIngestionBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PMemPool::Stats</compoundname>
+    <includes refid="pmem__storage_8h" local="no">pmem_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1aafc0c915d7eec41bd1934d2815b9e7a3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemPool::Stats::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Stats::total_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total pool capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="165" column="16" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a9ba599f20fa21185c7a24924b849346d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemPool::Stats::used_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_bytes</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Stats::used_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Bytes currently allocated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="166" column="16" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a4dd1723ae1b0b551a6b3a0cde000703d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemPool::Stats::free_bytes</definition>
+        <argsstring></argsstring>
+        <name>free_bytes</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Stats::free_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Bytes available for allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="167" column="16" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a406124e5a8002d6fe15eda138c9bcff0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::Stats::alloc_count</definition>
+        <argsstring></argsstring>
+        <name>alloc_count</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Stats::alloc_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative allocation calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="168" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a92f358aac7fbf932ae9b6859a1c3af54" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::Stats::free_count</definition>
+        <argsstring></argsstring>
+        <name>free_count</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Stats::free_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative free calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="169" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a5039cdab56ed6099c12fb2bbb7a555c9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::Stats::flush_count</definition>
+        <argsstring></argsstring>
+        <name>flush_count</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Stats::flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative clwb/clflush calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="170" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a91e303bd61beaab187af07c885b73b34" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemPool::Stats::is_dax</definition>
+        <argsstring></argsstring>
+        <name>is_dax</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Stats::is_dax</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when using DAX mmap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="171" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a649c86d77ad0a32281e055fa7ec392b6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemPool::Stats::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Stats::is_healthy</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>False after unrecoverable error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="172" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics exposed via <ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1abc8ccfece6fc21e902e4a34170499402" kindref="member">get_stats()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmem_storage.h" line="164" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="164" bodyend="173"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a406124e5a8002d6fe15eda138c9bcff0" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Stats</scope><name>alloc_count</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a5039cdab56ed6099c12fb2bbb7a555c9" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Stats</scope><name>flush_count</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a4dd1723ae1b0b551a6b3a0cde000703d" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Stats</scope><name>free_bytes</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a92f358aac7fbf932ae9b6859a1c3af54" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Stats</scope><name>free_count</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a91e303bd61beaab187af07c885b73b34" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Stats</scope><name>is_dax</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a649c86d77ad0a32281e055fa7ec392b6" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Stats</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1aafc0c915d7eec41bd1934d2815b9e7a3" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Stats</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats_1a9ba599f20fa21185c7a24924b849346d" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Stats</scope><name>used_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

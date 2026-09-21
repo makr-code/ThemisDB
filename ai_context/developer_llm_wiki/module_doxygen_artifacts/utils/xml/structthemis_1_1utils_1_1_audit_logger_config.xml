@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_logger_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::AuditLoggerConfig</compoundname>
+    <includes refid="audit__logger_8h" local="no">audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a8eedf8bdb4c9c27e96cc0d46f8612f55" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLoggerConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="174" column="10" bodyfile="include/utils/audit_logger.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1ad9044de4d9f16acdc5ae3f4e58d7ae6b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLoggerConfig::encrypt_then_sign</definition>
+        <argsstring></argsstring>
+        <name>encrypt_then_sign</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::encrypt_then_sign</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="175" column="10" bodyfile="include/utils/audit_logger.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a097ff7c865b3aace2fffb3b1753ec450" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::log_path</definition>
+        <argsstring></argsstring>
+        <name>log_path</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::log_path</qualifiedname>
+        <initializer>= &quot;data/logs/audit.jsonl&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="176" column="17" bodyfile="include/utils/audit_logger.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a4026a56259af111d07bd4751cef4a193" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::key_id</qualifiedname>
+        <initializer>= &quot;saga_log&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="177" column="17" bodyfile="include/utils/audit_logger.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a48f97636c244f8d4f2f8c4e283c70f1f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLoggerConfig::enable_hash_chain</definition>
+        <argsstring></argsstring>
+        <name>enable_hash_chain</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::enable_hash_chain</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="180" column="10" bodyfile="include/utils/audit_logger.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1ad3b383e9bb454a024adf91f7d8fbf6ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::chain_state_file</definition>
+        <argsstring></argsstring>
+        <name>chain_state_file</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::chain_state_file</qualifiedname>
+        <initializer>= &quot;data/logs/audit_chain.json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="181" column="17" bodyfile="include/utils/audit_logger.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a218c03c784181469301d92b26422091f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLoggerConfig::enable_siem</definition>
+        <argsstring></argsstring>
+        <name>enable_siem</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::enable_siem</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="184" column="10" bodyfile="include/utils/audit_logger.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a4c86966167508a7e6af89c2e0cf7e243" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::siem_type</definition>
+        <argsstring></argsstring>
+        <name>siem_type</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::siem_type</qualifiedname>
+        <initializer>= &quot;syslog&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="185" column="17" bodyfile="include/utils/audit_logger.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a9931c919bd0a7568cabccbecae84f7c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::siem_format</definition>
+        <argsstring></argsstring>
+        <name>siem_format</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::siem_format</qualifiedname>
+        <initializer>= &quot;json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="186" column="17" bodyfile="include/utils/audit_logger.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a9544ff25a2f316a03c9b01220ef023ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::siem_host</definition>
+        <argsstring></argsstring>
+        <name>siem_host</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::siem_host</qualifiedname>
+        <initializer>= &quot;localhost&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="187" column="17" bodyfile="include/utils/audit_logger.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a1f3560fd04580cd9ee5455ded898fe08" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::utils::AuditLoggerConfig::siem_port</definition>
+        <argsstring></argsstring>
+        <name>siem_port</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::siem_port</qualifiedname>
+        <initializer>= 514</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="188" column="14" bodyfile="include/utils/audit_logger.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a3c2f47091f714605c9b07fd6d39f7f31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::splunk_token</definition>
+        <argsstring></argsstring>
+        <name>splunk_token</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::splunk_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="189" column="17" bodyfile="include/utils/audit_logger.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1ac9b65efdc9dcdd873811e386e9d33db3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::elastic_index</definition>
+        <argsstring></argsstring>
+        <name>elastic_index</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::elastic_index</qualifiedname>
+        <initializer>= &quot;themisdb-audit&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="190" column="17" bodyfile="include/utils/audit_logger.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a048729ce53570575331f052d77af0799" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::siem_ca_bundle_path</definition>
+        <argsstring></argsstring>
+        <name>siem_ca_bundle_path</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::siem_ca_bundle_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Path to a CA bundle file (PEM) used for TLS verification when siem_type is &quot;splunk&quot;. If empty, libcurl uses its system default bundle. Set this explicitly in production to pin the expected CA. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="194" column="17" bodyfile="include/utils/audit_logger.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1ad0327c9a05a89174923ae9f5142bfc5a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLoggerConfig::enable_task_scheduler_audit</definition>
+        <argsstring></argsstring>
+        <name>enable_task_scheduler_audit</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::enable_task_scheduler_audit</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="197" column="10" bodyfile="include/utils/audit_logger.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1abe1ee6c13eb513ee7551c4848f43b373" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLoggerConfig::enable_anomaly_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_anomaly_detection</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::enable_anomaly_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="198" column="10" bodyfile="include/utils/audit_logger.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1af562f34b41fd738875025347576c68fb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::AuditLoggerConfig::anomaly_threshold</definition>
+        <argsstring></argsstring>
+        <name>anomaly_threshold</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::anomaly_threshold</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="199" column="12" bodyfile="include/utils/audit_logger.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a32ea5dd38b64174ffcab116f15404029" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLoggerConfig::enable_fsync</definition>
+        <argsstring></argsstring>
+        <name>enable_fsync</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::enable_fsync</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>fdatasync after each write for crash durability </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="202" column="10" bodyfile="include/utils/audit_logger.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a10873dfbdea51d576a51f58608ce6fa8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLoggerConfig::max_file_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_file_size_bytes</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::max_file_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>rotate when file reaches this size (0 = disabled) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="203" column="14" bodyfile="include/utils/audit_logger.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1a45d59bd4befe35fddb482d3e80de6c5b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLoggerConfig::max_rotated_files</definition>
+        <argsstring></argsstring>
+        <name>max_rotated_files</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::max_rotated_files</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>number of rotated log files to keep </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="204" column="12" bodyfile="include/utils/audit_logger.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1af59f3fae4d904c18985ba284cd06bb07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerConfig::secondary_log_path</definition>
+        <argsstring></argsstring>
+        <name>secondary_log_path</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::secondary_log_path</qualifiedname>
+        <briefdescription>
+<para>mirror path for redundancy (empty = disabled) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="205" column="17" bodyfile="include/utils/audit_logger.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_config_1ad515ac5c50f7787352850dd013f721de" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLoggerConfig::max_queued_events</definition>
+        <argsstring></argsstring>
+        <name>max_queued_events</name>
+        <qualifiedname>themis::utils::AuditLoggerConfig::max_queued_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of hash-chain entries accepted before rejecting further writes with AUDIT_BUFFER_OVERFLOW (fail-closed). 0 = unlimited. Note: this bounds the chain entry counter (entry_count_), not an in-memory queue; it is most useful for preventing unbounded disk fill in long-running deployments without log rotation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="212" column="12" bodyfile="include/utils/audit_logger.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="173" column="1" bodyfile="include/utils/audit_logger.h" bodystart="173" bodyend="213"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1af562f34b41fd738875025347576c68fb" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>anomaly_threshold</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1ad3b383e9bb454a024adf91f7d8fbf6ed" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>chain_state_file</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1ac9b65efdc9dcdd873811e386e9d33db3" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>elastic_index</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1abe1ee6c13eb513ee7551c4848f43b373" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>enable_anomaly_detection</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a32ea5dd38b64174ffcab116f15404029" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>enable_fsync</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a48f97636c244f8d4f2f8c4e283c70f1f" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>enable_hash_chain</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a218c03c784181469301d92b26422091f" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>enable_siem</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1ad0327c9a05a89174923ae9f5142bfc5a" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>enable_task_scheduler_audit</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a8eedf8bdb4c9c27e96cc0d46f8612f55" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1ad9044de4d9f16acdc5ae3f4e58d7ae6b" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>encrypt_then_sign</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a4026a56259af111d07bd4751cef4a193" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a097ff7c865b3aace2fffb3b1753ec450" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>log_path</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a10873dfbdea51d576a51f58608ce6fa8" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>max_file_size_bytes</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1ad515ac5c50f7787352850dd013f721de" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>max_queued_events</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a45d59bd4befe35fddb482d3e80de6c5b" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>max_rotated_files</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1af59f3fae4d904c18985ba284cd06bb07" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>secondary_log_path</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a048729ce53570575331f052d77af0799" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>siem_ca_bundle_path</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a9931c919bd0a7568cabccbecae84f7c8" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>siem_format</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a9544ff25a2f316a03c9b01220ef023ee" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>siem_host</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a1f3560fd04580cd9ee5455ded898fe08" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>siem_port</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a4c86966167508a7e6af89c2e0cf7e243" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>siem_type</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_config_1a3c2f47091f714605c9b07fd6d39f7f31" prot="public" virt="non-virtual"><scope>themis::utils::AuditLoggerConfig</scope><name>splunk_token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

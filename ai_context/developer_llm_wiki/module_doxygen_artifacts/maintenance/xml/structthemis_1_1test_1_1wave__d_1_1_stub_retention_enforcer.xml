@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubRetentionEnforcer</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a4113a7fdece8f12e5a4442f5a9e9606e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubRetentionEnforcer::checked_</definition>
+        <argsstring></argsstring>
+        <name>checked_</name>
+        <qualifiedname>themis::test::wave_d::StubRetentionEnforcer::checked_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="101" column="17" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1afd8969ca539009e0f1d814f32b1d80cb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubRetentionEnforcer::evicted_</definition>
+        <argsstring></argsstring>
+        <name>evicted_</name>
+        <qualifiedname>themis::test::wave_d::StubRetentionEnforcer::evicted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="102" column="17" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1af07e449988798d65efa7ed60a79b4d06" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubRetentionEnforcer::violations_</definition>
+        <argsstring></argsstring>
+        <name>violations_</name>
+        <qualifiedname>themis::test::wave_d::StubRetentionEnforcer::violations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="103" column="17" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1ad136802012d8c578af1bee318bb8422d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubRetentionEnforcer::enforce</definition>
+        <argsstring>(uint64_t record_id, uint64_t age_ms, uint64_t ttl_ms)</argsstring>
+        <name>enforce</name>
+        <qualifiedname>themis::test::wave_d::StubRetentionEnforcer::enforce</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>record_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>age_ms</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="83" column="10" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="83" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1aeee901257f0b64a419c03b9a74dac621" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubRetentionEnforcer::checked</definition>
+        <argsstring>() const</argsstring>
+        <name>checked</name>
+        <qualifiedname>themis::test::wave_d::StubRetentionEnforcer::checked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="96" column="10" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a2e922dac641c2aaeca11174fa2ee5e21" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubRetentionEnforcer::evicted</definition>
+        <argsstring>() const</argsstring>
+        <name>evicted</name>
+        <qualifiedname>themis::test::wave_d::StubRetentionEnforcer::evicted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="97" column="10" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a0ed97e9379cf020ca5dd638827defff1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubRetentionEnforcer::violations</definition>
+        <argsstring>() const</argsstring>
+        <name>violations</name>
+        <qualifiedname>themis::test::wave_d::StubRetentionEnforcer::violations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="98" column="10" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="98" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="82" column="1" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="82" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1aeee901257f0b64a419c03b9a74dac621" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubRetentionEnforcer</scope><name>checked</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a4113a7fdece8f12e5a4442f5a9e9606e" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubRetentionEnforcer</scope><name>checked_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1ad136802012d8c578af1bee318bb8422d" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubRetentionEnforcer</scope><name>enforce</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a2e922dac641c2aaeca11174fa2ee5e21" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubRetentionEnforcer</scope><name>evicted</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1afd8969ca539009e0f1d814f32b1d80cb" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubRetentionEnforcer</scope><name>evicted_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1a0ed97e9379cf020ca5dd638827defff1" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubRetentionEnforcer</scope><name>violations</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer_1af07e449988798d65efa7ed60a79b4d06" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubRetentionEnforcer</scope><name>violations_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

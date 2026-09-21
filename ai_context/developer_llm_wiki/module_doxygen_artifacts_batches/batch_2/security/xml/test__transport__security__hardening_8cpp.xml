@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__transport__security__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_transport_security_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="vault__key__provider_8h" local="yes">security/vault_key_provider.h</includes>
+    <includes refid="vcc__pki__client_8h" local="yes">security/vcc_pki_client.h</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>key_provider.h</label>
+        <link refid="include_2security_2key__provider_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>security/signing.h</label>
+        <link refid="signing_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>security/signing_provider.h</label>
+        <link refid="signing__provider_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>security/vault_key_provider.h</label>
+        <link refid="vault__key__provider_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>security/vcc_pki_client.h</label>
+        <link refid="vcc__pki__client_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_transport_security_hardening.cpp</label>
+        <link refid="test__transport__security__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>curl/curl.h</label>
+      </node>
+      <node id="19">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="21">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>security/key_provider.h</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>themis/base/interfaces/security_interface.h</label>
+      </node>
+      <node id="11">
+        <label>tuple</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VaultTransportSecurityHardeningTest, RejectsRemoteHttpEndpoint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VaultTransportSecurityHardeningTest</type>
+        </param>
+        <param>
+          <type>RejectsRemoteHttpEndpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_transport_security_hardening.cpp" line="8" column="1" bodyfile="tests/security/test_transport_security_hardening.cpp" bodystart="8" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__hardening_8cpp_1a6cf5a9c6ff00abfa7fceae2c91f00074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VaultTransportSecurityHardeningTest, RejectsDisabledTlsVerificationForRemoteEndpoint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VaultTransportSecurityHardeningTest</type>
+        </param>
+        <param>
+          <type>RejectsDisabledTlsVerificationForRemoteEndpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_transport_security_hardening.cpp" line="16" column="1" bodyfile="tests/security/test_transport_security_hardening.cpp" bodystart="16" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__hardening_8cpp_1ade62b3b7c7c6b498eef1124ee977db7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VaultTransportSecurityHardeningTest, AllowsLoopbackHttpForLocalDevelopment)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VaultTransportSecurityHardeningTest</type>
+        </param>
+        <param>
+          <type>AllowsLoopbackHttpForLocalDevelopment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_transport_security_hardening.cpp" line="25" column="1" bodyfile="tests/security/test_transport_security_hardening.cpp" bodystart="25" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__hardening_8cpp_1ac04b9c37672b0a050f63e427e90635c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VaultTransportSecurityHardeningTest, RejectsNonPositiveTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VaultTransportSecurityHardeningTest</type>
+        </param>
+        <param>
+          <type>RejectsNonPositiveTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_transport_security_hardening.cpp" line="34" column="1" bodyfile="tests/security/test_transport_security_hardening.cpp" bodystart="34" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__hardening_8cpp_1a0473cc71bcc98824955fafd3f136df7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VccTransportSecurityHardeningTest, RejectsRemoteHttpEndpoint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VccTransportSecurityHardeningTest</type>
+        </param>
+        <param>
+          <type>RejectsRemoteHttpEndpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_transport_security_hardening.cpp" line="43" column="1" bodyfile="tests/security/test_transport_security_hardening.cpp" bodystart="43" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__hardening_8cpp_1a2075650a3775bfcf4a3474f0d4403325" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VccTransportSecurityHardeningTest, RejectsDisabledTlsVerificationForRemoteEndpoint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VccTransportSecurityHardeningTest</type>
+        </param>
+        <param>
+          <type>RejectsDisabledTlsVerificationForRemoteEndpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_transport_security_hardening.cpp" line="49" column="1" bodyfile="tests/security/test_transport_security_hardening.cpp" bodystart="49" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__hardening_8cpp_1aa0ed611981fa77ecd7ba886e5f2f7230" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VccTransportSecurityHardeningTest, AllowsLoopbackHttpForLocalDevelopment)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VccTransportSecurityHardeningTest</type>
+        </param>
+        <param>
+          <type>AllowsLoopbackHttpForLocalDevelopment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_transport_security_hardening.cpp" line="56" column="1" bodyfile="tests/security/test_transport_security_hardening.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__hardening_8cpp_1a11e6684f84479d6a4c615e46fd3a5ca4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VccTransportSecurityHardeningTest, RejectsNonPositiveTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VccTransportSecurityHardeningTest</type>
+        </param>
+        <param>
+          <type>RejectsNonPositiveTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_transport_security_hardening.cpp" line="62" column="1" bodyfile="tests/security/test_transport_security_hardening.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vault__key__provider_8h" kindref="compound">security/vault_key_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vcc__pki__client_8h" kindref="compound">security/vcc_pki_client.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><ref refid="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" kindref="member">TEST</ref>(VaultTransportSecurityHardeningTest,<sp/>RejectsRemoteHttpEndpoint)<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config" kindref="compound">themis::VaultKeyProvider::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" kindref="member">vault_addr</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://vault.example.com:8200&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" kindref="member">vault_token</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;s.test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1_vault_key_provider" kindref="compound">themis::VaultKeyProvider</ref><sp/>provider(cfg);<sp/>},<sp/><ref refid="classthemis_1_1_key_operation_exception" kindref="compound">themis::KeyOperationException</ref>);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" kindref="member">TEST</ref>(VaultTransportSecurityHardeningTest,<sp/>RejectsDisabledTlsVerificationForRemoteEndpoint)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config" kindref="compound">themis::VaultKeyProvider::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" kindref="member">vault_addr</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://vault.example.com:8200&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" kindref="member">vault_token</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;s.test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a5d88c1abf2f912335d79b27da8302eb5" kindref="member">verify_ssl</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1_vault_key_provider" kindref="compound">themis::VaultKeyProvider</ref><sp/>provider(cfg);<sp/>},<sp/><ref refid="classthemis_1_1_key_operation_exception" kindref="compound">themis::KeyOperationException</ref>);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" kindref="member">TEST</ref>(VaultTransportSecurityHardeningTest,<sp/>AllowsLoopbackHttpForLocalDevelopment)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config" kindref="compound">themis::VaultKeyProvider::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" kindref="member">vault_addr</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://127.0.0.1:8200&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" kindref="member">vault_token</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;s.test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a5d88c1abf2f912335d79b27da8302eb5" kindref="member">verify_ssl</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/><ref refid="classthemis_1_1_vault_key_provider" kindref="compound">themis::VaultKeyProvider</ref><sp/>provider(cfg);<sp/>});</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" kindref="member">TEST</ref>(VaultTransportSecurityHardeningTest,<sp/>RejectsNonPositiveTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config" kindref="compound">themis::VaultKeyProvider::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" kindref="member">vault_addr</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://vault.example.com:8200&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" kindref="member">vault_token</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;s.test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a681744665f24f30d0041a726485706c2" kindref="member">request_timeout_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1_vault_key_provider" kindref="compound">themis::VaultKeyProvider</ref><sp/>provider(cfg);<sp/>},<sp/><ref refid="classthemis_1_1_key_operation_exception" kindref="compound">themis::KeyOperationException</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" kindref="member">TEST</ref>(VccTransportSecurityHardeningTest,<sp/>RejectsRemoteHttpEndpoint)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_l_s_config" kindref="compound">themis::TLSConfig</ref><sp/>tls_config;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">themis::VCCPKIClient</ref><sp/>client(</highlight><highlight class="stringliteral">&quot;http://pki.example.com&quot;</highlight><highlight class="normal">,<sp/>tls_config,<sp/>5000);<sp/>},</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" kindref="member">TEST</ref>(VccTransportSecurityHardeningTest,<sp/>RejectsDisabledTlsVerificationForRemoteEndpoint)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_l_s_config" kindref="compound">themis::TLSConfig</ref><sp/>tls_config;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>tls_config.<ref refid="structthemis_1_1_t_l_s_config_1afb61d2bd3d104554c3a5813e9aca3f68" kindref="member">verify_server</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">themis::VCCPKIClient</ref><sp/>client(</highlight><highlight class="stringliteral">&quot;https://pki.example.com&quot;</highlight><highlight class="normal">,<sp/>tls_config,<sp/>5000);<sp/>},</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" kindref="member">TEST</ref>(VccTransportSecurityHardeningTest,<sp/>AllowsLoopbackHttpForLocalDevelopment)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_l_s_config" kindref="compound">themis::TLSConfig</ref><sp/>tls_config;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>tls_config.<ref refid="structthemis_1_1_t_l_s_config_1afb61d2bd3d104554c3a5813e9aca3f68" kindref="member">verify_server</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">themis::VCCPKIClient</ref><sp/>client(</highlight><highlight class="stringliteral">&quot;http://127.0.0.1:9443&quot;</highlight><highlight class="normal">,<sp/>tls_config,<sp/>5000);<sp/>});</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__transport__security__hardening_8cpp_1ab764c3a82fc550676fa5268f12feee96" kindref="member">TEST</ref>(VccTransportSecurityHardeningTest,<sp/>RejectsNonPositiveTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_l_s_config" kindref="compound">themis::TLSConfig</ref><sp/>tls_config;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">themis::VCCPKIClient</ref><sp/>client(</highlight><highlight class="stringliteral">&quot;https://pki.example.com&quot;</highlight><highlight class="normal">,<sp/>tls_config,<sp/>0);<sp/>},</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_transport_security_hardening.cpp"/>
+  </compounddef>
+</doxygen>

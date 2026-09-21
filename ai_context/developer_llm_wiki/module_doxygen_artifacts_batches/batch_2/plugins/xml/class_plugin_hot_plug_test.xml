@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_hot_plug_test" kind="class" language="C++" prot="public">
+    <compoundname>PluginHotPlugTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_plugin_hot_plug_test_1a042a47ed0318ae63720c0ff7daeb99ef" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginHotPlugTest::test_plugin_dir</definition>
+        <argsstring></argsstring>
+        <name>test_plugin_dir</name>
+        <qualifiedname>PluginHotPlugTest::test_plugin_dir</qualifiedname>
+        <initializer>= &quot;./test_hot_plug_plugins&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_plug.cpp" line="16" column="17" bodyfile="tests/plugins/test_plugin_hot_plug.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_hot_plug_test_1abd18aadd6abe2f9cc138a4db25b66884" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">themis::plugins::PluginManager</ref> *</type>
+        <definition>themis::plugins::PluginManager* PluginHotPlugTest::manager</definition>
+        <argsstring></argsstring>
+        <name>manager</name>
+        <qualifiedname>PluginHotPlugTest::manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_plug.cpp" line="17" column="36" bodyfile="tests/plugins/test_plugin_hot_plug.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_plugin_hot_plug_test_1ad47f2b6ff42cc4729997a7dc55596df5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginHotPlugTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PluginHotPlugTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_plug.cpp" line="19" column="10" bodyfile="tests/plugins/test_plugin_hot_plug.cpp" bodystart="19" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_hot_plug_test_1a21d3e5895d7ae6b3bf0ad441f6418a70" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginHotPlugTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PluginHotPlugTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_plug.cpp" line="32" column="10" bodyfile="tests/plugins/test_plugin_hot_plug.cpp" bodystart="32" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_hot_plug_test_1a57b38072e06b1f085899a2e99379fa9e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginHotPlugTest::createTestManifest</definition>
+        <argsstring>(const std::string &amp;name, bool auto_load=false)</argsstring>
+        <name>createTestManifest</name>
+        <qualifiedname>PluginHotPlugTest::createTestManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_load</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_plug.cpp" line="45" column="10" bodyfile="tests/plugins/test_plugin_hot_plug.cpp" bodystart="45" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_hot_plug_test_1ab912cf1fb54a27b95a7cffac9309a6e2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginHotPlugTest::modifyManifest</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>modifyManifest</name>
+        <qualifiedname>PluginHotPlugTest::modifyManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_plug.cpp" line="79" column="10" bodyfile="tests/plugins/test_plugin_hot_plug.cpp" bodystart="79" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_hot_plug_test_1ac8d0609ca027ccf033aadd2dcd96cdc6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginHotPlugTest::deleteManifest</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>deleteManifest</name>
+        <qualifiedname>PluginHotPlugTest::deleteManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_plug.cpp" line="104" column="10" bodyfile="tests/plugins/test_plugin_hot_plug.cpp" bodystart="104" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PluginHotPlugTest</label>
+        <link refid="class_plugin_hot_plug_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PluginHotPlugTest</label>
+        <link refid="class_plugin_hot_plug_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>manager</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginManager</label>
+        <link refid="classthemis_1_1plugins_1_1_plugin_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_hot_plug.cpp" line="14" column="1" bodyfile="tests/plugins/test_plugin_hot_plug.cpp" bodystart="14" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_plugin_hot_plug_test_1a57b38072e06b1f085899a2e99379fa9e" prot="protected" virt="non-virtual"><scope>PluginHotPlugTest</scope><name>createTestManifest</name></member>
+      <member refid="class_plugin_hot_plug_test_1ac8d0609ca027ccf033aadd2dcd96cdc6" prot="protected" virt="non-virtual"><scope>PluginHotPlugTest</scope><name>deleteManifest</name></member>
+      <member refid="class_plugin_hot_plug_test_1abd18aadd6abe2f9cc138a4db25b66884" prot="protected" virt="non-virtual"><scope>PluginHotPlugTest</scope><name>manager</name></member>
+      <member refid="class_plugin_hot_plug_test_1ab912cf1fb54a27b95a7cffac9309a6e2" prot="protected" virt="non-virtual"><scope>PluginHotPlugTest</scope><name>modifyManifest</name></member>
+      <member refid="class_plugin_hot_plug_test_1ad47f2b6ff42cc4729997a7dc55596df5" prot="protected" virt="non-virtual"><scope>PluginHotPlugTest</scope><name>SetUp</name></member>
+      <member refid="class_plugin_hot_plug_test_1a21d3e5895d7ae6b3bf0ad441f6418a70" prot="protected" virt="non-virtual"><scope>PluginHotPlugTest</scope><name>TearDown</name></member>
+      <member refid="class_plugin_hot_plug_test_1a042a47ed0318ae63720c0ff7daeb99ef" prot="protected" virt="non-virtual"><scope>PluginHotPlugTest</scope><name>test_plugin_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_retry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::RetryConfig</compoundname>
+    <includes refid="voice__error__handler_8h" local="no">voice_error_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_retry_config_1a8e8d8af763890ec7596cd7cc9f52c878" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::RetryConfig::max_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_attempts</name>
+        <qualifiedname>themis::voice::RetryConfig::max_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="126" column="12" bodyfile="include/voice/voice_error_handler.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_retry_config_1a1dd9b17c313b75d04df9353b0d923629" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::RetryConfig::initial_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>initial_delay_ms</name>
+        <qualifiedname>themis::voice::RetryConfig::initial_delay_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="127" column="13" bodyfile="include/voice/voice_error_handler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_retry_config_1a5747ed83ed42b88a9b3f936fbc8f1ed4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::RetryConfig::backoff_multiplier</definition>
+        <argsstring></argsstring>
+        <name>backoff_multiplier</name>
+        <qualifiedname>themis::voice::RetryConfig::backoff_multiplier</qualifiedname>
+        <initializer>= 2.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="128" column="11" bodyfile="include/voice/voice_error_handler.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_retry_config_1a6f10a62cd93fdd9b8883b8e580ac0f11" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::RetryConfig::max_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_delay_ms</name>
+        <qualifiedname>themis::voice::RetryConfig::max_delay_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="129" column="13" bodyfile="include/voice/voice_error_handler.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_retry_config_1a95c1f1d88d68965f73e3ae7b9dc9f142" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::RetryConfig::jitter</definition>
+        <argsstring></argsstring>
+        <name>jitter</name>
+        <qualifiedname>themis::voice::RetryConfig::jitter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="130" column="10" bodyfile="include/voice/voice_error_handler.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_retry_config_1a12e42c1b333cfd0e26cbc05f4ab933aa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref> &gt;</type>
+        <definition>std::vector&lt;VoiceErrorCode&gt; themis::voice::RetryConfig::retryable_errors</definition>
+        <argsstring></argsstring>
+        <name>retryable_errors</name>
+        <qualifiedname>themis::voice::RetryConfig::retryable_errors</qualifiedname>
+        <initializer>                             = {
+    <ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a547ba52b62f9302ee1b6950111c36f9f" kindref="member">VoiceErrorCode::NETWORK_ERROR</ref>,
+    <ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a070a0fb40f6c308ab544b227660aadff" kindref="member">VoiceErrorCode::TIMEOUT</ref>,
+    <ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a73c5530f88bc1217b624b702d4f44804" kindref="member">VoiceErrorCode::STORAGE_FAILED</ref>
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="131" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="131" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_error_handler.h" line="125" column="1" bodyfile="include/voice/voice_error_handler.h" bodystart="125" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_retry_config_1a5747ed83ed42b88a9b3f936fbc8f1ed4" prot="public" virt="non-virtual"><scope>themis::voice::RetryConfig</scope><name>backoff_multiplier</name></member>
+      <member refid="structthemis_1_1voice_1_1_retry_config_1a1dd9b17c313b75d04df9353b0d923629" prot="public" virt="non-virtual"><scope>themis::voice::RetryConfig</scope><name>initial_delay_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_retry_config_1a95c1f1d88d68965f73e3ae7b9dc9f142" prot="public" virt="non-virtual"><scope>themis::voice::RetryConfig</scope><name>jitter</name></member>
+      <member refid="structthemis_1_1voice_1_1_retry_config_1a8e8d8af763890ec7596cd7cc9f52c878" prot="public" virt="non-virtual"><scope>themis::voice::RetryConfig</scope><name>max_attempts</name></member>
+      <member refid="structthemis_1_1voice_1_1_retry_config_1a6f10a62cd93fdd9b8883b8e580ac0f11" prot="public" virt="non-virtual"><scope>themis::voice::RetryConfig</scope><name>max_delay_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_retry_config_1a12e42c1b333cfd0e26cbc05f4ab933aa" prot="public" virt="non-virtual"><scope>themis::voice::RetryConfig</scope><name>retryable_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

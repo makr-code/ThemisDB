@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_audit_logger_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::AuditLoggerConfig</compoundname>
+    <includes refid="process__audit__logger_8h" local="no">process_audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_logger_config_1a4c24c0a5262952b5cf2f887625498e33" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditLoggerConfig::backend_type</definition>
+        <argsstring></argsstring>
+        <name>backend_type</name>
+        <qualifiedname>themis::process::AuditLoggerConfig::backend_type</qualifiedname>
+        <initializer>= &quot;rocksdb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_audit_logger.h" line="26" column="15" bodyfile="include/process/process_audit_logger.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_logger_config_1aab376f3fac53b9eae18ff731e72b8cb2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::AuditLoggerConfig::snapshot_interval_entries</definition>
+        <argsstring></argsstring>
+        <name>snapshot_interval_entries</name>
+        <qualifiedname>themis::process::AuditLoggerConfig::snapshot_interval_entries</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_audit_logger.h" line="27" column="12" bodyfile="include/process/process_audit_logger.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_logger_config_1a31b236e5977b37dc65b3a964d67ed6de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditLoggerConfig::storage_path</definition>
+        <argsstring></argsstring>
+        <name>storage_path</name>
+        <qualifiedname>themis::process::AuditLoggerConfig::storage_path</qualifiedname>
+        <initializer>= &quot;./audit&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_audit_logger.h" line="28" column="15" bodyfile="include/process/process_audit_logger.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for audit logger. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_audit_logger.h" line="25" column="1" bodyfile="include/process/process_audit_logger.h" bodystart="25" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_audit_logger_config_1a4c24c0a5262952b5cf2f887625498e33" prot="public" virt="non-virtual"><scope>themis::process::AuditLoggerConfig</scope><name>backend_type</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_logger_config_1aab376f3fac53b9eae18ff731e72b8cb2" prot="public" virt="non-virtual"><scope>themis::process::AuditLoggerConfig</scope><name>snapshot_interval_entries</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_logger_config_1a31b236e5977b37dc65b3a964d67ed6de" prot="public" virt="non-virtual"><scope>themis::process::AuditLoggerConfig</scope><name>storage_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

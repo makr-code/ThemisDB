@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</compoundname>
+    <includes refid="plugin__security_8h" local="no">plugin_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a87ee975ddd5bc7b0ec6d28c9d7726ded" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="197" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1aec137d5ddc2861066d06c5a3a6d1d430" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428" kindref="member">VerificationLevel</ref></type>
+        <definition>VerificationLevel themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::level_achieved</definition>
+        <argsstring></argsstring>
+        <name>level_achieved</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::level_achieved</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428a403f9c776cbf8204aa09b8b96c481d6e" kindref="member">VerificationLevel::LEVEL_1_HASH_ONLY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="198" column="27" bodyfile="include/acceleration/plugin_security.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a64e62ebf3d262aeae21791129e837e7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="199" column="21" bodyfile="include/acceleration/plugin_security.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1aec8de5d33bf0f4833b6d9b3f3310967b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::hash_verified</definition>
+        <argsstring></argsstring>
+        <name>hash_verified</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::hash_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="202" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1aa28ad1de2439cc5236031f4c16af7a4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::embedded_signature_verified</definition>
+        <argsstring></argsstring>
+        <name>embedded_signature_verified</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::embedded_signature_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="203" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a6820466faf0687ca34d26203f4d4111e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::platform_signature_verified</definition>
+        <argsstring></argsstring>
+        <name>platform_signature_verified</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::platform_signature_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="204" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a31a96521e23333f6701ad9ac69849e23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::certificate_chain_verified</definition>
+        <argsstring></argsstring>
+        <name>certificate_chain_verified</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::certificate_chain_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="205" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1aec9af923c23c6737f58f825c8d280c6e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::certificate_not_revoked</definition>
+        <argsstring></argsstring>
+        <name>certificate_not_revoked</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::certificate_not_revoked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="206" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a0c8f2ae04f8f410026b554ac73114d3f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::issuer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="209" column="21" bodyfile="include/acceleration/plugin_security.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a0f5d3ed1309a549c36b0bdf9ed7fc8d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::subject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="210" column="21" bodyfile="include/acceleration/plugin_security.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a07f074e3abd6ecad9f91099d8418649c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::valid_from</definition>
+        <argsstring></argsstring>
+        <name>valid_from</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::valid_from</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="211" column="47" bodyfile="include/acceleration/plugin_security.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a99a72ca5c657fbbaf56c6428f7bf28b6" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::valid_until</definition>
+        <argsstring></argsstring>
+        <name>valid_until</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::valid_until</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="212" column="47" bodyfile="include/acceleration/plugin_security.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1adb361c713e528a86efa7fdeef4b6d784" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::is_themisdb_official</definition>
+        <argsstring></argsstring>
+        <name>is_themisdb_official</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult::is_themisdb_official</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="213" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/plugin_security.h" line="196" column="5" bodyfile="include/acceleration/plugin_security.h" bodystart="196" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a31a96521e23333f6701ad9ac69849e23" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>certificate_chain_verified</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1aec9af923c23c6737f58f825c8d280c6e" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>certificate_not_revoked</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1aa28ad1de2439cc5236031f4c16af7a4e" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>embedded_signature_verified</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a64e62ebf3d262aeae21791129e837e7b" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1aec8de5d33bf0f4833b6d9b3f3310967b" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>hash_verified</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1adb361c713e528a86efa7fdeef4b6d784" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>is_themisdb_official</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a0c8f2ae04f8f410026b554ac73114d3f" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1aec137d5ddc2861066d06c5a3a6d1d430" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>level_achieved</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a87ee975ddd5bc7b0ec6d28c9d7726ded" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>passed</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a6820466faf0687ca34d26203f4d4111e" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>platform_signature_verified</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a0f5d3ed1309a549c36b0bdf9ed7fc8d0" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>subject</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a07f074e3abd6ecad9f91099d8418649c" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>valid_from</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result_1a99a72ca5c657fbbaf56c6428f7bf28b6" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</scope><name>valid_until</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

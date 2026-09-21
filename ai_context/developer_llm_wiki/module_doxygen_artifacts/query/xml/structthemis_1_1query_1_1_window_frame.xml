@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_window_frame" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::WindowFrame</compoundname>
+    <includes refid="window__evaluator_8h" local="no">window_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_window_frame_1a409611b193f48c95439024cd19673b41" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a14ef782220160ff9792a3840f140e86f" kindref="member">WindowFrameType</ref></type>
+        <definition>WindowFrameType themis::query::WindowFrame::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::WindowFrame::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a14ef782220160ff9792a3840f140e86fa01036ddcc971d02f6c32c3da31a119f2" kindref="member">WindowFrameType::RANGE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="102" column="21" bodyfile="include/query/window_evaluator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_window_frame_1ab4cb4f5eff109b619656108036384339" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_window_frame_bound" kindref="compound">WindowFrameBound</ref></type>
+        <definition>WindowFrameBound themis::query::WindowFrame::start</definition>
+        <argsstring></argsstring>
+        <name>start</name>
+        <qualifiedname>themis::query::WindowFrame::start</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_window_frame_bound_1a60cff90b5b9a630b48f3700bbf7a3d1d" kindref="member">WindowFrameBound::unboundedPreceding</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="103" column="22" bodyfile="include/query/window_evaluator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_window_frame_1a2463867d97710a0f699804ca455f679d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_window_frame_bound" kindref="compound">WindowFrameBound</ref></type>
+        <definition>WindowFrameBound themis::query::WindowFrame::end</definition>
+        <argsstring></argsstring>
+        <name>end</name>
+        <qualifiedname>themis::query::WindowFrame::end</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_window_frame_bound_1ac118c3e4e4bd2ab0ade63f4beca53ae8" kindref="member">WindowFrameBound::currentRow</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="104" column="22" bodyfile="include/query/window_evaluator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_window_frame_1ab4e3b72d15a77cd1f20c689f044be07a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::WindowFrame::WindowFrame</definition>
+        <argsstring>()=default</argsstring>
+        <name>WindowFrame</name>
+        <qualifiedname>themis::query::WindowFrame::WindowFrame</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_window_frame_1ac83d98b228ca5011a2c6c24fdbe851ad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::WindowFrame::WindowFrame</definition>
+        <argsstring>(WindowFrameType t, WindowFrameBound s, WindowFrameBound e)</argsstring>
+        <name>WindowFrame</name>
+        <qualifiedname>themis::query::WindowFrame::WindowFrame</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a14ef782220160ff9792a3840f140e86f" kindref="member">WindowFrameType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_window_frame_bound" kindref="compound">WindowFrameBound</ref></type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_window_frame_bound" kindref="compound">WindowFrameBound</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/window_evaluator.h" line="109" column="5" bodyfile="include/query/window_evaluator.h" bodystart="109" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::WindowFrame</label>
+        <link refid="structthemis_1_1query_1_1_window_frame"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>end</edgelabel>
+          <edgelabel>start</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::WindowFrameBound</label>
+        <link refid="structthemis_1_1query_1_1_window_frame_bound"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/window_evaluator.h" line="101" column="1" bodyfile="include/query/window_evaluator.h" bodystart="101" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_window_frame_1a2463867d97710a0f699804ca455f679d" prot="public" virt="non-virtual"><scope>themis::query::WindowFrame</scope><name>end</name></member>
+      <member refid="structthemis_1_1query_1_1_window_frame_1ab4cb4f5eff109b619656108036384339" prot="public" virt="non-virtual"><scope>themis::query::WindowFrame</scope><name>start</name></member>
+      <member refid="structthemis_1_1query_1_1_window_frame_1a409611b193f48c95439024cd19673b41" prot="public" virt="non-virtual"><scope>themis::query::WindowFrame</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_window_frame_1ab4e3b72d15a77cd1f20c689f044be07a" prot="public" virt="non-virtual"><scope>themis::query::WindowFrame</scope><name>WindowFrame</name></member>
+      <member refid="structthemis_1_1query_1_1_window_frame_1ac83d98b228ca5011a2c6c24fdbe851ad" prot="public" virt="non-virtual"><scope>themis::query::WindowFrame</scope><name>WindowFrame</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

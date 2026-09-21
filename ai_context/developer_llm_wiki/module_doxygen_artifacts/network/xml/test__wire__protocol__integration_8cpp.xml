@@ -1,0 +1,752 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wire__protocol__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_wire_protocol_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="wire__protocol__server_8h" local="yes">network/wire_protocol_server.h</includes>
+    <includes refid="wire__protocol__helpers_8h" local="yes">network/wire_protocol_helpers.h</includes>
+    <includes local="yes">timeseries/tsstore.h</includes>
+    <includes local="yes">timeseries/continuous_agg.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>network/qos_manager.h</label>
+        <link refid="qos__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>network/wire_protocol_helpers.h</label>
+        <link refid="wire__protocol__helpers_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>network/wire_protocol_server.h</label>
+        <link refid="wire__protocol__server_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_wire_protocol_integration.cpp</label>
+        <link refid="test__wire__protocol__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="5">
+        <label>boost/asio/thread_pool.hpp</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>cstring</label>
+      </node>
+      <node id="10">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>thread</label>
+      </node>
+      <node id="24">
+        <label>timeseries/continuous_agg.h</label>
+      </node>
+      <node id="23">
+        <label>timeseries/tsstore.h</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolHelpers, ProtobufVarintParsing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolHelpers</type>
+        </param>
+        <param>
+          <type>ProtobufVarintParsing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="12" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="12" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1aae01241c19a437d8fa86586d0a16ae3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolHelpers, ProtobufVarintSerialization)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolHelpers</type>
+        </param>
+        <param>
+          <type>ProtobufVarintSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="41" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="41" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1a7aa5905a2c40c01e6f8a53352b222217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolHelpers, TimeSeriesQueryRequestParsing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolHelpers</type>
+        </param>
+        <param>
+          <type>TimeSeriesQueryRequestParsing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="69" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="69" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1a2098f008e00021460afb71e3b9f87b69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolHelpers, TimeSeriesQueryResponseSerialization)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolHelpers</type>
+        </param>
+        <param>
+          <type>TimeSeriesQueryResponseSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="98" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="98" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1ab61cabf3e3d9d6cd4da81c8b05e8c10d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolIntegration, ServerInstantiationWithTSStore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolIntegration</type>
+        </param>
+        <param>
+          <type>ServerInstantiationWithTSStore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="156" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="156" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1a8e79b85320de42842e609d3563b28f4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolIntegration, TimeseriesQueryFlowDocumentation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolIntegration</type>
+        </param>
+        <param>
+          <type>TimeseriesQueryFlowDocumentation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="177" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="177" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1a6a9ad8aaa382bb6814113dced641dc7e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t testCrc32Update</definition>
+        <argsstring>(uint32_t crc, const uint8_t *data, size_t len)</argsstring>
+        <name>testCrc32Update</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>crc</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="242" column="17" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="242" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1a1329108281118778d5430c446a6cdb97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolChecksum, EmptyInputGivesKnownValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolChecksum</type>
+        </param>
+        <param>
+          <type>EmptyInputGivesKnownValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="294" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="294" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1ac141e8af7ea470395112fce98742fdaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolChecksum, KnownVector_123456789)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolChecksum</type>
+        </param>
+        <param>
+          <type>KnownVector_123456789</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="300" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="300" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1a5802dd707e3f93dd17158ce850862afd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolChecksum, ChainedBuffersMatchSinglePass)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolChecksum</type>
+        </param>
+        <param>
+          <type>ChainedBuffersMatchSinglePass</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="306" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="306" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1afef43f02d108b9fa8add3b9772bbbb5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolChecksum, TamperedDataFailsVerification)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolChecksum</type>
+        </param>
+        <param>
+          <type>TamperedDataFailsVerification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="324" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="324" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__integration_8cpp_1a8c42cc9eee89bff494a0ac9778bc92b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DISABLED_Stub_wireprotocolintegration, OldStubRemoved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DISABLED_Stub_wireprotocolintegration</type>
+        </param>
+        <param>
+          <type>OldStubRemoved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_integration.cpp" line="338" column="1" bodyfile="tests/network/test_wire_protocol_integration.cpp" bodystart="338" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wire__protocol__server_8h" kindref="compound">network/wire_protocol_server.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wire__protocol__helpers_8h" kindref="compound">network/wire_protocol_helpers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;timeseries/tsstore.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;timeseries/continuous_agg.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>protobuf<sp/>parser<sp/>with<sp/>varint<sp/>encoding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolHelpers,<sp/>ProtobufVarintParsing)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>small<sp/>varint<sp/>(1<sp/>byte)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data<sp/>=<sp/>{0x00};<sp/><sp/></highlight><highlight class="comment">//<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser" kindref="compound">ProtobufParser</ref><sp/>parser(data);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>value<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(parser.readVarint(value));</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/>0);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data<sp/>=<sp/>{0x01};<sp/><sp/></highlight><highlight class="comment">//<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser" kindref="compound">ProtobufParser</ref><sp/>parser(data);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>value<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(parser.readVarint(value));</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/>1);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>multi-byte<sp/>varint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data<sp/>=<sp/>{0xAC,<sp/>0x02};<sp/><sp/></highlight><highlight class="comment">//<sp/>300</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser" kindref="compound">ProtobufParser</ref><sp/>parser(data);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>value<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(parser.readVarint(value));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/>300);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>protobuf<sp/>serializer<sp/>with<sp/>varint<sp/>encoding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolHelpers,<sp/>ProtobufVarintSerialization)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer" kindref="compound">ProtobufSerializer</ref><sp/>serializer;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint</ref>(0);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ad6bd58e05028614723080b7fe925c547" kindref="member">data</ref>();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(data.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(data[0],<sp/>0x00);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer" kindref="compound">ProtobufSerializer</ref><sp/>serializer;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint</ref>(1);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ad6bd58e05028614723080b7fe925c547" kindref="member">data</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(data.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(data[0],<sp/>0x01);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer" kindref="compound">ProtobufSerializer</ref><sp/>serializer;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint</ref>(300);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ad6bd58e05028614723080b7fe925c547" kindref="member">data</ref>();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(data.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(data[0],<sp/>0xAC);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(data[1],<sp/>0x02);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>TimeSeriesQueryRequest<sp/>parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolHelpers,<sp/>TimeSeriesQueryRequestParsing)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>simple<sp/>request:<sp/>collection=&quot;cpu_usage&quot;,<sp/>start_time_ns=1000,<sp/>end_time_ns=2000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer" kindref="compound">ProtobufSerializer</ref><sp/>serializer;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Field<sp/>1:<sp/>collection<sp/>(string,<sp/>length-delimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac6371b877b5be5d846f528e1262b06b6" kindref="member">writeTag</ref>(1,<sp/>2);<sp/><sp/></highlight><highlight class="comment">//<sp/>field<sp/>1,<sp/>wire<sp/>type<sp/>2<sp/>(length-delimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1a5496c7873ab0b490935639346d06318c" kindref="member">writeString</ref>(</highlight><highlight class="stringliteral">&quot;cpu_usage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Field<sp/>2:<sp/>start_time_ns<sp/>(varint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac6371b877b5be5d846f528e1262b06b6" kindref="member">writeTag</ref>(2,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>field<sp/>2,<sp/>wire<sp/>type<sp/>0<sp/>(varint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint</ref>(1000);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Field<sp/>3:<sp/>end_time_ns<sp/>(varint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac6371b877b5be5d846f528e1262b06b6" kindref="member">writeTag</ref>(3,<sp/>0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint</ref>(2000);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>serializer.<ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ad6bd58e05028614723080b7fe925c547" kindref="member">data</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>it<sp/>back</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_time_series_query_request" kindref="compound">TimeSeriesQueryRequest</ref><sp/>request;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="structthemis_1_1network_1_1_time_series_query_request_1a20914996544203e970c712c2d3dc1f22" kindref="member">TimeSeriesQueryRequest::parse</ref>(data,<sp/>request));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(request.<ref refid="structthemis_1_1network_1_1_time_series_query_request_1a68efe4d099d76e1af8d9617566ed0177" kindref="member">collection</ref>,<sp/></highlight><highlight class="stringliteral">&quot;cpu_usage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(request.<ref refid="structthemis_1_1network_1_1_time_series_query_request_1ab575b46f60661789036828e361838095" kindref="member">start_time_ns</ref>,<sp/>1000);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(request.<ref refid="structthemis_1_1network_1_1_time_series_query_request_1a23670f3098eaab759691cd0bd8556361" kindref="member">end_time_ns</ref>,<sp/>2000);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(request.<ref refid="structthemis_1_1network_1_1_time_series_query_request_1ab0025c07354c5f2bdd708c029e145ff3" kindref="member">aggregation</ref>,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(request.<ref refid="structthemis_1_1network_1_1_time_series_query_request_1a1bf2b7be51ad0adaa68ac2b369c5f476" kindref="member">bucket_size_ns</ref>,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>TimeSeriesQueryResponse<sp/>serialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolHelpers,<sp/>TimeSeriesQueryResponseSerialization)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_time_series_query_response" kindref="compound">TimeSeriesQueryResponse</ref><sp/>response;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>response.<ref refid="structthemis_1_1network_1_1_time_series_query_response_1a919ac74a000d7993c8be080a16a850a2" kindref="member">query_time_us</ref><sp/>=<sp/>1234;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_time_series_bucket" kindref="compound">TimeSeriesBucket</ref><sp/>bucket;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>bucket.<ref refid="structthemis_1_1network_1_1_time_series_bucket_1af8281be67f22b039f32d1d0d3f9e7c71" kindref="member">timestamp_ns</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>bucket.<ref refid="structthemis_1_1network_1_1_time_series_bucket_1abd5541a4213afa000466292b578319ab" kindref="member">value</ref><sp/>=<sp/>42.5;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>bucket.<ref refid="structthemis_1_1network_1_1_time_series_bucket_1a48ea2968c83180d3b5ace66e3c605900" kindref="member">count</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>bucket.<ref refid="structthemis_1_1network_1_1_time_series_bucket_1af9e52fdd975e89cfc11f1100b047dd08" kindref="member">min</ref><sp/>=<sp/>40.0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>bucket.<ref refid="structthemis_1_1network_1_1_time_series_bucket_1ad819b1d56eacd1675feb05fbd31e203c" kindref="member">max</ref><sp/>=<sp/>45.0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>response.<ref refid="structthemis_1_1network_1_1_time_series_query_response_1a0d4a317ef7f2598d3c96c183cf81b5bd" kindref="member">buckets</ref>.push_back(bucket);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>response.<ref refid="structthemis_1_1network_1_1_time_series_query_response_1a568a653b7e9da3f2193abe19ea6673eb" kindref="member">stats</ref>.<ref refid="structthemis_1_1network_1_1_time_series_stats_1ab23389e46afe832347b35eb9b7e6270c" kindref="member">total_data_points</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>response.<ref refid="structthemis_1_1network_1_1_time_series_query_response_1a568a653b7e9da3f2193abe19ea6673eb" kindref="member">stats</ref>.<ref refid="structthemis_1_1network_1_1_time_series_stats_1ae08eb0394c2119aa209fa2f7bbeab29d" kindref="member">buckets_returned</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>response.<ref refid="structthemis_1_1network_1_1_time_series_query_response_1a568a653b7e9da3f2193abe19ea6673eb" kindref="member">stats</ref>.<ref refid="structthemis_1_1network_1_1_time_series_stats_1a8e9c5c58030a4ee994f11e638401829f" kindref="member">data_density</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>response.<ref refid="structthemis_1_1network_1_1_time_series_query_response_1afdce166d01dfced192301cef8d090be3" kindref="member">serialize</ref>();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>non-empty<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(data.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>it<sp/>back<sp/>to<sp/>verify<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser" kindref="compound">ProtobufParser</ref><sp/>parser(data);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_bucket<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_query_time<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_stats<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!parser.atEnd())<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>field_number<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>wire_type<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(parser.readTag(field_number,<sp/>wire_type));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(field_number<sp/>==<sp/>1)<sp/>{<sp/><sp/></highlight><highlight class="comment">//<sp/>buckets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_bucket<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>bucket_data;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(parser.readLengthDelimited(bucket_data));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(field_number<sp/>==<sp/>2)<sp/>{<sp/><sp/></highlight><highlight class="comment">//<sp/>query_time_us</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_query_time<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>time<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(parser.readVarint(time));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(time,<sp/>1234);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(field_number<sp/>==<sp/>3)<sp/>{<sp/><sp/></highlight><highlight class="comment">//<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_stats<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>stats_data;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(parser.readLengthDelimited(stats_data));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(parser.skipField(wire_type));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_bucket);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_query_time);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_stats);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>test<sp/>to<sp/>verify<sp/>wire<sp/>protocol<sp/>server<sp/>can<sp/>be<sp/>instantiated<sp/>with<sp/>TSStore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolIntegration,<sp/>ServerInstantiationWithTSStore)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">themis::network::WireProtocolServer::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a37b70fb6dec7e8baaf74999300a037b5" kindref="member">port</ref><sp/>=<sp/>18766;<sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>different<sp/>port<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>with<sp/>nullptr<sp/>for<sp/>all<sp/>dependencies<sp/>(minimal<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>server<sp/>=<sp/>std::make_unique&lt;themis::network::WireProtocolServer&gt;(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>secondary_index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>graph_index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>vector_index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>tx_manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>ts_store</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>agg_manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(server,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server-&gt;isRunning());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>to<sp/>document<sp/>the<sp/>timeseries<sp/>query<sp/>flow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolIntegration,<sp/>TimeseriesQueryFlowDocumentation)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>documents<sp/>the<sp/>complete<sp/>flow<sp/>for<sp/>TIMESERIES_QUERY<sp/>(OpCode<sp/>0x51):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CLIENT<sp/>SIDE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Client<sp/>creates<sp/>TimeSeriesQueryRequest<sp/>with:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>collection:<sp/>&quot;cpu_usage&quot;<sp/>(metric<sp/>name)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>start_time_ns:<sp/>1704067200000000000<sp/>(nanoseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>end_time_ns:<sp/>1704153600000000000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>aggregation:<sp/>0<sp/>(AVG),<sp/>1<sp/>(SUM),<sp/>2<sp/>(MIN),<sp/>3<sp/>(MAX),<sp/>4<sp/>(COUNT)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>bucket_size_ns:<sp/>3600000000000<sp/>(1<sp/>hour<sp/>in<sp/>nanoseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Client<sp/>serializes<sp/>request<sp/>to<sp/>protobuf<sp/>wire<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Client<sp/>builds<sp/>wire<sp/>frame:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>Magic:<sp/>0x544D4442<sp/>(&quot;TMDB&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>Version:<sp/>0x01</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>OpCode:<sp/>0x51<sp/>(TIMESERIES_QUERY)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>Flags:<sp/>0x0000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>-<sp/>PayloadSize:<sp/>&lt;size<sp/>of<sp/>serialized<sp/>request&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Client<sp/>sends<sp/>wire<sp/>frame<sp/>+<sp/>payload<sp/>to<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SERVER<sp/>SIDE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>Server<sp/>reads<sp/>header<sp/>(12<sp/>bytes)<sp/>in<sp/>asyncReadHeader()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>6.<sp/>Server<sp/>extracts<sp/>payload<sp/>size<sp/>and<sp/>reads<sp/>payload<sp/>in<sp/>asyncReadPayload()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>7.<sp/>Server<sp/>calls<sp/>handleMessage()<sp/>which<sp/>dispatches<sp/>to<sp/>handleTimeseriesQuery()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>8.<sp/>handleTimeseriesQuery():</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>a.<sp/>Parses<sp/>TimeSeriesQueryRequest<sp/>from<sp/>payload_buffer_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>b.<sp/>Validates<sp/>collection<sp/>name<sp/>and<sp/>timestamps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>c.<sp/>Converts<sp/>ns<sp/>timestamps<sp/>to<sp/>ms<sp/>(TSStore<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>d.<sp/>Builds<sp/>TSStore::QueryOptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>e.<sp/>Decides<sp/>between<sp/>query()<sp/>or<sp/>aggregate()<sp/>based<sp/>on<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>f.<sp/>If<sp/>aggregation<sp/>requested:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Calls<sp/>ts_store_-&gt;aggregate()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Creates<sp/>buckets<sp/>with<sp/>aggregated<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>g.<sp/>If<sp/>raw<sp/>query:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Calls<sp/>ts_store_-&gt;query()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Converts<sp/>each<sp/>DataPoint<sp/>to<sp/>TimeSeriesBucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>h.<sp/>Builds<sp/>TimeSeriesQueryResponse<sp/>with<sp/>buckets<sp/>and<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>i.<sp/>Serializes<sp/>response<sp/>to<sp/>protobuf<sp/>wire<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>j.<sp/>Builds<sp/>wire<sp/>frame<sp/>response<sp/>with<sp/>OpCode<sp/>0x21<sp/>(QUERY_RESULT)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>k.<sp/>Calls<sp/>asyncWriteResponse()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>9.<sp/>Server<sp/>sends<sp/>response<sp/>back<sp/>to<sp/>client</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CLIENT<sp/>SIDE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10.<sp/>Client<sp/>receives<sp/>wire<sp/>frame<sp/>+<sp/>payload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>11.<sp/>Client<sp/>deserializes<sp/>TimeSeriesQueryResponse</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>12.<sp/>Client<sp/>processes<sp/>buckets<sp/>with<sp/>timestamp_ns,<sp/>value,<sp/>count,<sp/>min,<sp/>max</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Complete<sp/>timeseries<sp/>query<sp/>flow<sp/>documented<sp/>with<sp/>production<sp/>implementation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CRC32<sp/>checksum<sp/>verification<sp/>–<sp/>documents<sp/>the<sp/>wire-frame<sp/>checksum<sp/>algorithm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Standalone<sp/>CRC32<sp/>(ISO-HDLC)<sp/>implementation<sp/>mirroring<sp/>the<sp/>one<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>wire_protocol_server.cpp.<sp/><sp/>Used<sp/>to<sp/>verify<sp/>the<sp/>checksum<sp/>verification<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>independently<sp/>of<sp/>the<sp/>full<sp/>server<sp/>stack.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>testCrc32Update(uint32_t<sp/>crc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>kTable[256]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000,<sp/>0x77073096,<sp/>0xEE0E612C,<sp/>0x990951BA,<sp/>0x076DC419,<sp/>0x706AF48F,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xE963A535,<sp/>0x9E6495A3,<sp/>0x0EDB8832,<sp/>0x79DCB8A4,<sp/>0xE0D5E91E,<sp/>0x97D2D988,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x09B64C2B,<sp/>0x7EB17CBD,<sp/>0xE7B82D07,<sp/>0x90BF1D91,<sp/>0x1DB71064,<sp/>0x6AB020F2,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xF3B97148,<sp/>0x84BE41DE,<sp/>0x1ADAD47D,<sp/>0x6DDDE4EB,<sp/>0xF4D4B551,<sp/>0x83D385C7,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x136C9856,<sp/>0x646BA8C0,<sp/>0xFD62F97A,<sp/>0x8A65C9EC,<sp/>0x14015C4F,<sp/>0x63066CD9,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xFA0F3D63,<sp/>0x8D080DF5,<sp/>0x3B6E20C8,<sp/>0x4C69105E,<sp/>0xD56041E4,<sp/>0xA2677172,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x3C03E4D1,<sp/>0x4B04D447,<sp/>0xD20D85FD,<sp/>0xA50AB56B,<sp/>0x35B5A8FA,<sp/>0x42B2986C,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xDBBBC9D6,<sp/>0xACBCF940,<sp/>0x32D86CE3,<sp/>0x45DF5C75,<sp/>0xDCD60DCF,<sp/>0xABD13D59,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x26D930AC,<sp/>0x51DE003A,<sp/>0xC8D75180,<sp/>0xBFD06116,<sp/>0x21B4F4B5,<sp/>0x56B3C423,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xCFBA9599,<sp/>0xB8BDA50F,<sp/>0x2802B89E,<sp/>0x5F058808,<sp/>0xC60CD9B2,<sp/>0xB10BE924,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x2F6F7C87,<sp/>0x58684C11,<sp/>0xC1611DAB,<sp/>0xB6662D3D,<sp/>0x76DC4190,<sp/>0x01DB7106,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x98D220BC,<sp/>0xEFD5102A,<sp/>0x71B18589,<sp/>0x06B6B51F,<sp/>0x9FBFE4A5,<sp/>0xE8B8D433,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x7807C9A2,<sp/>0x0F00F934,<sp/>0x9609A88E,<sp/>0xE10E9818,<sp/>0x7F6A0DBB,<sp/>0x086D3D2D,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x91646C97,<sp/>0xE6635C01,<sp/>0x6B6B51F4,<sp/>0x1C6C6162,<sp/>0x856530D8,<sp/>0xF262004E,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x6C0695ED,<sp/>0x1B01A57B,<sp/>0x8208F4C1,<sp/>0xF50FC457,<sp/>0x65B0D9C6,<sp/>0x12B7E950,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x8BBEB8EA,<sp/>0xFCB9887C,<sp/>0x62DD1DDF,<sp/>0x15DA2D49,<sp/>0x8CD37CF3,<sp/>0xFBD44C65,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x4DB26158,<sp/>0x3AB551CE,<sp/>0xA3BC0074,<sp/>0xD4BB30E2,<sp/>0x4ADFA541,<sp/>0x3DD895D7,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xA4D1C46D,<sp/>0xD3D6F4FB,<sp/>0x4369E96A,<sp/>0x346ED9FC,<sp/>0xAD678846,<sp/>0xDA60B8D0,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x44042D73,<sp/>0x33031DE5,<sp/>0xAA0A4C5F,<sp/>0xDD0D7CC9,<sp/>0x5005713C,<sp/>0x270241AA,</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xBE0B1010,<sp/>0xC90C2086,<sp/>0x5768B525,<sp/>0x206F85B3,<sp/>0xB966D409,<sp/>0xCE61E49F,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x5EDEF90E,<sp/>0x29D9C998,<sp/>0xB0D09822,<sp/>0xC7D7A8B4,<sp/>0x59B33D17,<sp/>0x2EB40D81,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xB7BD5C3B,<sp/>0xC0BA6CAD,<sp/>0xEDB88320,<sp/>0x9ABFB3B6,<sp/>0x03B6E20C,<sp/>0x74B1D29A,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xEAD54739,<sp/>0x9DD277AF,<sp/>0x04DB2615,<sp/>0x73DC1683,<sp/>0xE3630B12,<sp/>0x94643B84,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x0D6D6A3E,<sp/>0x7A6A5AA8,<sp/>0xE40ECF0B,<sp/>0x9309FF9D,<sp/>0x0A00AE27,<sp/>0x7D079EB1,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xF00F9344,<sp/>0x8708A3D2,<sp/>0x1E01F268,<sp/>0x6906C2FE,<sp/>0xF762575D,<sp/>0x806567CB,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x196C3671,<sp/>0x6E6B06E7,<sp/>0xFED41B76,<sp/>0x89D32BE0,<sp/>0x10DA7A5A,<sp/>0x67DD4ACC,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xF9B9DF6F,<sp/>0x8EBEEFF9,<sp/>0x17B7BE43,<sp/>0x60B08ED5,<sp/>0xD6D6A3E8,<sp/>0xA1D1937E,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x38D8C2C4,<sp/>0x4FDFF252,<sp/>0xD1BB67F1,<sp/>0xA6BC5767,<sp/>0x3FB506DD,<sp/>0x48B2364B,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xD80D2BDA,<sp/>0xAF0A1B4C,<sp/>0x36034AF6,<sp/>0x41047A60,<sp/>0xDF60EFC3,<sp/>0xA867DF55,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x316E8EEF,<sp/>0x4669BE79,<sp/>0xCB61B38C,<sp/>0xBC66831A,<sp/>0x256FD2A0,<sp/>0x5268E236,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xCC0C7795,<sp/>0xBB0B4703,<sp/>0x220216B9,<sp/>0x5505262F,<sp/>0xC5BA3BBE,<sp/>0xB2BD0B28,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x2BB45A92,<sp/>0x5CB36A04,<sp/>0xC2D7FFA7,<sp/>0xB5D0CF31,<sp/>0x2CD99E8B,<sp/>0x5BDEAE1D,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x9B64C2B0,<sp/>0xEC63F226,<sp/>0x756AA39C,<sp/>0x026D930A,<sp/>0x9C0906A9,<sp/>0xEB0E363F,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x72076785,<sp/>0x05005713,<sp/>0x95BF4A82,<sp/>0xE2B87A14,<sp/>0x7BB12BAE,<sp/>0x0CB61B38,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x92D28E9B,<sp/>0xE5D5BE0D,<sp/>0x7CDCEFB7,<sp/>0x0BDBDF21,<sp/>0x86D3D2D4,<sp/>0xF1D4E242,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x68DDB3F8,<sp/>0x1FDA836E,<sp/>0x81BE16CD,<sp/>0xF6B9265B,<sp/>0x6FB077E1,<sp/>0x18B74777,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x88085AE6,<sp/>0xFF0F6A70,<sp/>0x66063BCA,<sp/>0x11010B5C,<sp/>0x8F659EFF,<sp/>0xF862AE69,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x616BFFD3,<sp/>0x166CCF45,<sp/>0xA00AE278,<sp/>0xD70DD2EE,<sp/>0x4E048354,<sp/>0x3903B3C2,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xA7672661,<sp/>0xD06016F7,<sp/>0x4969474D,<sp/>0x3E6E77DB,<sp/>0xAED16A4A,<sp/>0xD9D65ADC,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x40DF0B66,<sp/>0x37D83BF0,<sp/>0xA9BCAE53,<sp/>0xDEBB9EC5,<sp/>0x47B2CF7F,<sp/>0x30B5FFE9,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xBDBDF21C,<sp/>0xCABAC28A,<sp/>0x53B39330,<sp/>0x24B4A3A6,<sp/>0xBAD03605,<sp/>0xCDD706B3,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x54DE5729,<sp/>0x23D967BF,<sp/>0xB3667A2E,<sp/>0xC4614AB8,<sp/>0x5D681B02,<sp/>0x2A6F2B94,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xB40BBE37,<sp/>0xC30C8EA1,<sp/>0x5A05DF1B,<sp/>0x2D02EF8D</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>crc<sp/>=<sp/>~crc;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>len;<sp/>++i)</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>crc<sp/>=<sp/>kTable[(crc<sp/>^<sp/>data[i])<sp/>&amp;<sp/>0xFF]<sp/>^<sp/>(crc<sp/>&gt;&gt;<sp/>8);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>~crc;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolChecksum,<sp/>EmptyInputGivesKnownValue)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRC32(&quot;&quot;)<sp/>==<sp/>0x00000000<sp/>(the<sp/>CRC32<sp/>of<sp/>an<sp/>empty<sp/>byte<sp/>sequence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>empty[1]<sp/>=<sp/>{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>valid<sp/>pointer;<sp/>len=0<sp/>so<sp/>loop<sp/>body<sp/>never<sp/>executes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(testCrc32Update(0,<sp/>empty,<sp/>0),<sp/>0x00000000u);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolChecksum,<sp/>KnownVector_123456789)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRC32<sp/>of<sp/>the<sp/>ASCII<sp/>string<sp/>&quot;123456789&quot;<sp/>is<sp/>the<sp/>well-known<sp/>check<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>data[]<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;1&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;2&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;3&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;4&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;5&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;6&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;7&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;8&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(testCrc32Update(0,<sp/>data,<sp/>9),<sp/>0xCBF43926u);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolChecksum,<sp/>ChainedBuffersMatchSinglePass)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRC32(AB)<sp/>==<sp/>CRC32(A)<sp/>then<sp/>CRC32(B)<sp/>with<sp/>previous<sp/>result<sp/>as<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>header[]<sp/>=<sp/>{0x54,<sp/>0x4D,<sp/>0x44,<sp/>0x42,<sp/>0x01,<sp/>0x01,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>4};</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>payload[]<sp/>=<sp/>{0x0A,<sp/>0x0B,<sp/>0x0C,<sp/>0x0D};</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single-pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>combined[16];</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(combined,<sp/>header,<sp/>12);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(combined<sp/>+<sp/>12,<sp/>payload,<sp/>4);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>single<sp/>=<sp/>testCrc32Update(0,<sp/>combined,<sp/>16);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chained</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>chained<sp/>=<sp/>testCrc32Update(0,<sp/>header,<sp/>12);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>chained<sp/>=<sp/>testCrc32Update(chained,<sp/>payload,<sp/>4);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(single,<sp/>chained);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(WireProtocolChecksum,<sp/>TamperedDataFailsVerification)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>checksum<sp/>over<sp/>&quot;good&quot;<sp/>data,<sp/>then<sp/>verify<sp/>it<sp/>fails<sp/>against<sp/>&quot;bad&quot;<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>good[]<sp/>=<sp/>{0x54,<sp/>0x4D,<sp/>0x44,<sp/>0x42,<sp/>0x01,<sp/>0x01,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x04,</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x0A,<sp/>0x0B,<sp/>0x0C,<sp/>0x0D};</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>expected<sp/>=<sp/>testCrc32Update(0,<sp/>good,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(good));</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>tampered[</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(good)];</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(tampered,<sp/>good,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(good));</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>tampered[12]<sp/>^=<sp/>0xFF;<sp/><sp/></highlight><highlight class="comment">//<sp/>Flip<sp/>byte<sp/>in<sp/>payload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>actual<sp/>=<sp/>testCrc32Update(0,<sp/>tampered,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(tampered));</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(actual,<sp/>expected);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><ref refid="test__wire__protocol__integration_8cpp_1a95d8fa3e27f5d526b68f02c713ce636b" kindref="member">TEST</ref>(DISABLED_Stub_wireprotocolintegration,<sp/>OldStubRemoved)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;This<sp/>stub<sp/>has<sp/>been<sp/>replaced<sp/>with<sp/>real<sp/>tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_wire_protocol_integration.cpp"/>
+  </compounddef>
+</doxygen>

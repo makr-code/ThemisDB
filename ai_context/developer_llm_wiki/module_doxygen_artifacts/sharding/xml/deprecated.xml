@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="deprecated" kind="page">
+    <compoundname>deprecated</compoundname>
+    <title>Deprecated List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a6fe32e72ed97a0f9af3628074a9d2776" kindref="member">themis::sharding::MTLSClient::get</ref>  (const std::string &amp;endpoint, const std::string &amp;path)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000001"/>v2.0: Direct connection creation via <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> is being phased out in favor of <ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool" kindref="compound">EndpointConnectionPool</ref> with injected <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory" kindref="compound">MTLSConnectionFactory</ref>. Use the connection pool API instead: <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a56a1eb45f2b77c158db302596d70ab86" kindref="member">MTLSConnectionPoolManager::getConnection()</ref>. This method remains for backward compatibility but will be removed in v3.0. Transition guide: See <ref refid="mtls__connection__factory_8h" kindref="compound">include/sharding/mtls_connection_factory.h</ref>  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a4330a7181f79ffbc9beb19b16b44620b" kindref="member">themis::sharding::MTLSClient::post</ref>  (const std::string &amp;endpoint, const std::string &amp;path, const nlohmann::json &amp;body)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000002"/>v2.0: See <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client_1a6fe32e72ed97a0f9af3628074a9d2776" kindref="member">get()</ref> for migration details. Transition to <ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool" kindref="compound">EndpointConnectionPool</ref> with <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory" kindref="compound">MTLSConnectionFactory</ref>. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="deprecated"/>
+  </compounddef>
+</doxygen>

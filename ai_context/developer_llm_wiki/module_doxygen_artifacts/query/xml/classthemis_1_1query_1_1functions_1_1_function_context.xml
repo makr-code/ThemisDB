@@ -1,0 +1,1037 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_function_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::FunctionContext</compoundname>
+    <includes refid="function__registry_8h" local="no">function_registry.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1functions_1_1_function_context_1ae7bc58296af1cd856294a25ef60cf231" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themis::query::functions::FunctionContext::DocumentLoader = std::function&lt;nlohmann::json(const std::string&amp;, const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DocumentLoader</name>
+        <qualifiedname>themis::query::functions::FunctionContext::DocumentLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="146" column="5" bodyfile="include/query/functions/function_registry.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1functions_1_1_function_context_1a33017af2c0c39cc27a8c85efd138bc89" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; nlohmann::json &gt;( const std::string &amp;collection, const std::function&lt; bool(const nlohmann::json &amp;)&gt; &amp;predicate)&gt;</type>
+        <definition>using themis::query::functions::FunctionContext::CollectionScanner = std::function&lt;std::vector&lt;nlohmann::json&gt;(
+       const std::string&amp; collection,
+       const std::function&lt;bool(const nlohmann::json&amp;)&gt;&amp; predicate)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CollectionScanner</name>
+        <qualifiedname>themis::query::functions::FunctionContext::CollectionScanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="203" column="5" bodyfile="include/query/functions/function_registry.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json(const std::string &amp;model_id)&gt;</type>
+        <definition>using themis::query::functions::FunctionContext::AdminModelLoadFn = std::function&lt;nlohmann::json(const std::string&amp; model_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AdminModelLoadFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::AdminModelLoadFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="224" column="5" bodyfile="include/query/functions/function_registry.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json()&gt;</type>
+        <definition>using themis::query::functions::FunctionContext::AdminModelListFn = std::function&lt;nlohmann::json()&gt;</definition>
+        <argsstring></argsstring>
+        <name>AdminModelListFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::AdminModelListFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="226" column="5" bodyfile="include/query/functions/function_registry.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" prot="public" static="no">
+        <type>std::function&lt; std::string(const nlohmann::json &amp;task_config)&gt;</type>
+        <definition>using themis::query::functions::FunctionContext::RegisterTaskFn = std::function&lt;std::string(const nlohmann::json&amp; task_config)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RegisterTaskFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::RegisterTaskFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="248" column="5" bodyfile="include/query/functions/function_registry.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json()&gt;</type>
+        <definition>using themis::query::functions::FunctionContext::ListTasksFn = std::function&lt;nlohmann::json()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ListTasksFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::ListTasksFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="250" column="5" bodyfile="include/query/functions/function_registry.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;task_id)&gt;</type>
+        <definition>using themis::query::functions::FunctionContext::CancelTaskFn = std::function&lt;bool(const std::string&amp; task_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CancelTaskFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::CancelTaskFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="252" column="5" bodyfile="include/query/functions/function_registry.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1a676ae098548e81379172f89e0e0e87bb" prot="private" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::FunctionContext::current_doc_</definition>
+        <argsstring></argsstring>
+        <name>current_doc_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::current_doc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="282" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1aaddcbf0bb89a636130e9294dbf56d797" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::unordered_map&lt;std::string, nlohmann::json&gt; themis::query::functions::FunctionContext::variables_</definition>
+        <argsstring></argsstring>
+        <name>variables_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::variables_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="283" column="24" bodyfile="include/query/functions/function_registry.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1a99f005235e1d9da5c8887b33f32caeca" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ae7bc58296af1cd856294a25ef60cf231" kindref="member">DocumentLoader</ref></type>
+        <definition>DocumentLoader themis::query::functions::FunctionContext::doc_loader_</definition>
+        <argsstring></argsstring>
+        <name>doc_loader_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::doc_loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="284" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1af8b7bb0a40d6ac7cf56d039bde9dae09" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::FunctionContext::user_id_</definition>
+        <argsstring></argsstring>
+        <name>user_id_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::user_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="285" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1a53a325e3a71257d885ab84a97bcaaeeb" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1adb85a5093dceeb884c6b226f8f8f0dc8" kindref="member">themis::GraphIndexManager</ref> *</type>
+        <definition>themis::GraphIndexManager* themis::query::functions::FunctionContext::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::graph_mgr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="286" column="31" bodyfile="include/query/functions/function_registry.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1ab66341fa9fd8d2f316bf18dfeb21a3b9" prot="private" static="no" mutable="no">
+        <type>themis::GraphAnalytics *</type>
+        <definition>themis::GraphAnalytics* themis::query::functions::FunctionContext::graph_analytics_</definition>
+        <argsstring></argsstring>
+        <name>graph_analytics_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::graph_analytics_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="287" column="28" bodyfile="include/query/functions/function_registry.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1a295b5b6ef867b30e64af656b6cf35b2e" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">themis::SecondaryIndexManager</ref> *</type>
+        <definition>themis::SecondaryIndexManager* themis::query::functions::FunctionContext::secondary_idx_mgr_</definition>
+        <argsstring></argsstring>
+        <name>secondary_idx_mgr_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::secondary_idx_mgr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="288" column="35" bodyfile="include/query/functions/function_registry.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1aae5415dd85c2f7f1af71473edbbd5fed" prot="private" static="no" mutable="no">
+        <type>themis::ProcessMining *</type>
+        <definition>themis::ProcessMining* themis::query::functions::FunctionContext::process_mining_</definition>
+        <argsstring></argsstring>
+        <name>process_mining_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::process_mining_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="289" column="27" bodyfile="include/query/functions/function_registry.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1a9cb62a3ffdb157f83daebd7ab76b477b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33017af2c0c39cc27a8c85efd138bc89" kindref="member">CollectionScanner</ref></type>
+        <definition>CollectionScanner themis::query::functions::FunctionContext::collection_scanner_</definition>
+        <argsstring></argsstring>
+        <name>collection_scanner_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::collection_scanner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="290" column="23" bodyfile="include/query/functions/function_registry.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1adf2cbfe48a5ac42bfd55cd546539ab3c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" kindref="member">AdminModelLoadFn</ref></type>
+        <definition>AdminModelLoadFn themis::query::functions::FunctionContext::admin_model_load_fn_</definition>
+        <argsstring></argsstring>
+        <name>admin_model_load_fn_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::admin_model_load_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="291" column="22" bodyfile="include/query/functions/function_registry.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1adc066525b14c8591d0eb35930333292e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" kindref="member">AdminModelListFn</ref></type>
+        <definition>AdminModelListFn themis::query::functions::FunctionContext::admin_model_list_fn_</definition>
+        <argsstring></argsstring>
+        <name>admin_model_list_fn_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::admin_model_list_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="292" column="22" bodyfile="include/query/functions/function_registry.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1a2ec6e7cd6a437846ed85a16640ac4384" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" kindref="member">RegisterTaskFn</ref></type>
+        <definition>RegisterTaskFn themis::query::functions::FunctionContext::register_task_fn_</definition>
+        <argsstring></argsstring>
+        <name>register_task_fn_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::register_task_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="293" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1a631fc24c575073279d2489f33b7e2477" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" kindref="member">ListTasksFn</ref></type>
+        <definition>ListTasksFn themis::query::functions::FunctionContext::list_tasks_fn_</definition>
+        <argsstring></argsstring>
+        <name>list_tasks_fn_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::list_tasks_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="294" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_context_1aabc7d9534b1a1813531ac5872ecd3424" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" kindref="member">CancelTaskFn</ref></type>
+        <definition>CancelTaskFn themis::query::functions::FunctionContext::cancel_task_fn_</definition>
+        <argsstring></argsstring>
+        <name>cancel_task_fn_</name>
+        <qualifiedname>themis::query::functions::FunctionContext::cancel_task_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="295" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a7e52c8d82bb295f26993251051a4901e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::FunctionContext::FunctionContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>FunctionContext</name>
+        <qualifiedname>themis::query::functions::FunctionContext::FunctionContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="118" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1ac2ecff97c60f2727b54d2240d028da53" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::FunctionContext::FunctionContext</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>FunctionContext</name>
+        <qualifiedname>themis::query::functions::FunctionContext::FunctionContext</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="119" column="14" bodyfile="include/query/functions/function_registry.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a6d350c583226f44efc6dd8cccb170f89" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const nlohmann::json &amp;</type>
+        <definition>const nlohmann::json &amp; themis::query::functions::FunctionContext::currentDocument</definition>
+        <argsstring>() const</argsstring>
+        <name>currentDocument</name>
+        <qualifiedname>themis::query::functions::FunctionContext::currentDocument</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="122" column="26" bodyfile="include/query/functions/function_registry.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a50cbfd274b8335355ef12519b38babe8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setCurrentDocument</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>setCurrentDocument</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setCurrentDocument</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Set Current Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setCurrentDocument without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="128" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a9878dbfc31663a26a74b3b1477f52cba" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::FunctionContext::getVariable</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getVariable</name>
+        <qualifiedname>themis::query::functions::FunctionContext::getVariable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="131" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1aaeae2735f0c4bea6b9bf0f0ac8bd95ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setVariable</definition>
+        <argsstring>(const std::string &amp;name, const nlohmann::json &amp;value)</argsstring>
+        <name>setVariable</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setVariable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setVariable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="141" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1ac8a0aa6bdded022e9ca562e6661e80d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setDocumentLoader</definition>
+        <argsstring>(DocumentLoader loader)</argsstring>
+        <name>setDocumentLoader</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setDocumentLoader</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ae7bc58296af1cd856294a25ef60cf231" kindref="member">DocumentLoader</ref></type>
+          <declname>loader</declname>
+        </param>
+        <briefdescription>
+<para>Set Document Loader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">loader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="152" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a83625123a028c161976eb320897b0402" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::FunctionContext::loadDocument</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;key) const</argsstring>
+        <name>loadDocument</name>
+        <qualifiedname>themis::query::functions::FunctionContext::loadDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="153" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="153" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1ac3d11ea05fae14428922620af3bb2119" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::query::functions::FunctionContext::userId</definition>
+        <argsstring>() const</argsstring>
+        <name>userId</name>
+        <qualifiedname>themis::query::functions::FunctionContext::userId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="161" column="23" bodyfile="include/query/functions/function_registry.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1afc62d8fd4fc8da71dad31f91d37ca872" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setUserId</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>setUserId</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setUserId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Set User Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setUserId without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="167" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a4eada5f57bc006933724125983a2b05d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setGraphIndexManager</definition>
+        <argsstring>(themis::GraphIndexManager *mgr)</argsstring>
+        <name>setGraphIndexManager</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setGraphIndexManager</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1adb85a5093dceeb884c6b226f8f8f0dc8" kindref="member">themis::GraphIndexManager</ref> *</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set Graph Index Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setGraphIndexManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="174" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1acdb8428404a7eb9c42a85f058ab2e6bd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1adb85a5093dceeb884c6b226f8f8f0dc8" kindref="member">themis::GraphIndexManager</ref> *</type>
+        <definition>themis::GraphIndexManager * themis::query::functions::FunctionContext::getGraphIndexManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getGraphIndexManager</name>
+        <qualifiedname>themis::query::functions::FunctionContext::getGraphIndexManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="175" column="31" bodyfile="include/query/functions/function_registry.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1ab379e5e7274340fe8e6060614976af42" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setGraphAnalytics</definition>
+        <argsstring>(themis::GraphAnalytics *analytics)</argsstring>
+        <name>setGraphAnalytics</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setGraphAnalytics</qualifiedname>
+        <param>
+          <type>themis::GraphAnalytics *</type>
+          <declname>analytics</declname>
+        </param>
+        <briefdescription>
+<para>Set Graph Analytics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">analytics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setGraphAnalytics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="182" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a8ebbd486d1ad0f8996438457d3dfe5af" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::GraphAnalytics *</type>
+        <definition>themis::GraphAnalytics * themis::query::functions::FunctionContext::getGraphAnalytics</definition>
+        <argsstring>() const</argsstring>
+        <name>getGraphAnalytics</name>
+        <qualifiedname>themis::query::functions::FunctionContext::getGraphAnalytics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="183" column="28" bodyfile="include/query/functions/function_registry.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a79317431155a6f13375ce251b73d5ca4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setSecondaryIndexManager</definition>
+        <argsstring>(themis::SecondaryIndexManager *mgr)</argsstring>
+        <name>setSecondaryIndexManager</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setSecondaryIndexManager</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">themis::SecondaryIndexManager</ref> *</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set Secondary Index Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSecondaryIndexManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="190" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a353ead611689270e4f6ba9dcacf4a92b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">themis::SecondaryIndexManager</ref> *</type>
+        <definition>themis::SecondaryIndexManager * themis::query::functions::FunctionContext::getSecondaryIndexManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getSecondaryIndexManager</name>
+        <qualifiedname>themis::query::functions::FunctionContext::getSecondaryIndexManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="191" column="35" bodyfile="include/query/functions/function_registry.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a5a7cbc553dc917eee2bbbeef6c0293e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setProcessMining</definition>
+        <argsstring>(themis::ProcessMining *pm)</argsstring>
+        <name>setProcessMining</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setProcessMining</qualifiedname>
+        <param>
+          <type>themis::ProcessMining *</type>
+          <declname>pm</declname>
+        </param>
+        <briefdescription>
+<para>Set Process Mining. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">pm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setProcessMining without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="198" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1adaf6e6561609d4efabff435bc13a0ad4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::ProcessMining *</type>
+        <definition>themis::ProcessMining * themis::query::functions::FunctionContext::getProcessMining</definition>
+        <argsstring>() const</argsstring>
+        <name>getProcessMining</name>
+        <qualifiedname>themis::query::functions::FunctionContext::getProcessMining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="199" column="27" bodyfile="include/query/functions/function_registry.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1afdec15d4870a96424511b5eeb1882cab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setCollectionScanner</definition>
+        <argsstring>(CollectionScanner scanner)</argsstring>
+        <name>setCollectionScanner</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setCollectionScanner</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33017af2c0c39cc27a8c85efd138bc89" kindref="member">CollectionScanner</ref></type>
+          <declname>scanner</declname>
+        </param>
+        <briefdescription>
+<para>Set Collection Scanner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scanner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="211" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a530e7c317eba6d2c9db8da85d1358534" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt; nlohmann::json &gt; themis::query::functions::FunctionContext::scanCollection</definition>
+        <argsstring>(const std::string &amp;collection, const std::function&lt; bool(const nlohmann::json &amp;)&gt; &amp;predicate) const</argsstring>
+        <name>scanCollection</name>
+        <qualifiedname>themis::query::functions::FunctionContext::scanCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; bool(const nlohmann::json &amp;)&gt; &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="212" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="212" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a898c3b2c439a7d3f0cfc2edf55c9491e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setAdminModelLoadFn</definition>
+        <argsstring>(AdminModelLoadFn fn)</argsstring>
+        <name>setAdminModelLoadFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setAdminModelLoadFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" kindref="member">AdminModelLoadFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Admin Model Load Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="233" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="233" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1ab3b7d6492a68f7ff68aee6c1f0f563aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setAdminModelListFn</definition>
+        <argsstring>(AdminModelListFn fn)</argsstring>
+        <name>setAdminModelListFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setAdminModelListFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" kindref="member">AdminModelListFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Admin Model List Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="240" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a14911556c62780849de3475772a6375a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" kindref="member">AdminModelLoadFn</ref> &amp;</type>
+        <definition>const AdminModelLoadFn &amp; themis::query::functions::FunctionContext::adminModelLoadFn</definition>
+        <argsstring>() const</argsstring>
+        <name>adminModelLoadFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::adminModelLoadFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="242" column="28" bodyfile="include/query/functions/function_registry.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a33cd33ff0df87038722428dd8a6ceae5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" kindref="member">AdminModelListFn</ref> &amp;</type>
+        <definition>const AdminModelListFn &amp; themis::query::functions::FunctionContext::adminModelListFn</definition>
+        <argsstring>() const</argsstring>
+        <name>adminModelListFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::adminModelListFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="244" column="28" bodyfile="include/query/functions/function_registry.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a3d26fc36057ab377f2dd6c99eb199669" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setRegisterTaskFn</definition>
+        <argsstring>(RegisterTaskFn fn)</argsstring>
+        <name>setRegisterTaskFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setRegisterTaskFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" kindref="member">RegisterTaskFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Register Task Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="259" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a99ff351ac6e609fe1f76b60778ca8fa9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setListTasksFn</definition>
+        <argsstring>(ListTasksFn fn)</argsstring>
+        <name>setListTasksFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setListTasksFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" kindref="member">ListTasksFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set List Tasks Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="266" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a0ce29c1b7b88e4f5587430b3d744ca04" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::FunctionContext::setCancelTaskFn</definition>
+        <argsstring>(CancelTaskFn fn)</argsstring>
+        <name>setCancelTaskFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::setCancelTaskFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" kindref="member">CancelTaskFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Cancel Task Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="273" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="273" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a4356be279aa84b4388d7e3d8e9254f6c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" kindref="member">RegisterTaskFn</ref> &amp;</type>
+        <definition>const RegisterTaskFn &amp; themis::query::functions::FunctionContext::registerTaskFn</definition>
+        <argsstring>() const</argsstring>
+        <name>registerTaskFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::registerTaskFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="275" column="26" bodyfile="include/query/functions/function_registry.h" bodystart="275" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a6ea891f1253c95f4ebd1dbe651cbbc8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" kindref="member">ListTasksFn</ref> &amp;</type>
+        <definition>const ListTasksFn &amp; themis::query::functions::FunctionContext::listTasksFn</definition>
+        <argsstring>() const</argsstring>
+        <name>listTasksFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::listTasksFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="277" column="23" bodyfile="include/query/functions/function_registry.h" bodystart="277" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_context_1a76e0bd768a301ec2ea8544197cc80346" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" kindref="member">CancelTaskFn</ref> &amp;</type>
+        <definition>const CancelTaskFn &amp; themis::query::functions::FunctionContext::cancelTaskFn</definition>
+        <argsstring>() const</argsstring>
+        <name>cancelTaskFn</name>
+        <qualifiedname>themis::query::functions::FunctionContext::cancelTaskFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="279" column="24" bodyfile="include/query/functions/function_registry.h" bodystart="279" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/function_registry.h" line="116" column="1" bodyfile="include/query/functions/function_registry.h" bodystart="116" bodyend="296"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1adc066525b14c8591d0eb35930333292e" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>admin_model_list_fn_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1adf2cbfe48a5ac42bfd55cd546539ab3c" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>admin_model_load_fn_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>AdminModelListFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33cd33ff0df87038722428dd8a6ceae5" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>adminModelListFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>AdminModelLoadFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a14911556c62780849de3475772a6375a" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>adminModelLoadFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1aabc7d9534b1a1813531ac5872ecd3424" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>cancel_task_fn_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>CancelTaskFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a76e0bd768a301ec2ea8544197cc80346" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>cancelTaskFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a9cb62a3ffdb157f83daebd7ab76b477b" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>collection_scanner_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33017af2c0c39cc27a8c85efd138bc89" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>CollectionScanner</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a676ae098548e81379172f89e0e0e87bb" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>current_doc_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a6d350c583226f44efc6dd8cccb170f89" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>currentDocument</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a99f005235e1d9da5c8887b33f32caeca" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>doc_loader_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1ae7bc58296af1cd856294a25ef60cf231" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>DocumentLoader</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a7e52c8d82bb295f26993251051a4901e" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>FunctionContext</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac2ecff97c60f2727b54d2240d028da53" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>FunctionContext</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8ebbd486d1ad0f8996438457d3dfe5af" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>getGraphAnalytics</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1acdb8428404a7eb9c42a85f058ab2e6bd" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>getGraphIndexManager</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1adaf6e6561609d4efabff435bc13a0ad4" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>getProcessMining</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a353ead611689270e4f6ba9dcacf4a92b" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>getSecondaryIndexManager</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a9878dbfc31663a26a74b3b1477f52cba" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>getVariable</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1ab66341fa9fd8d2f316bf18dfeb21a3b9" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>graph_analytics_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53a325e3a71257d885ab84a97bcaaeeb" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>graph_mgr_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a631fc24c575073279d2489f33b7e2477" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>list_tasks_fn_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>ListTasksFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a6ea891f1253c95f4ebd1dbe651cbbc8e" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>listTasksFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a83625123a028c161976eb320897b0402" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>loadDocument</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1aae5415dd85c2f7f1af71473edbbd5fed" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>process_mining_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a2ec6e7cd6a437846ed85a16640ac4384" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>register_task_fn_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>RegisterTaskFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a4356be279aa84b4388d7e3d8e9254f6c" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>registerTaskFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a530e7c317eba6d2c9db8da85d1358534" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>scanCollection</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a295b5b6ef867b30e64af656b6cf35b2e" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>secondary_idx_mgr_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1ab3b7d6492a68f7ff68aee6c1f0f563aa" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setAdminModelListFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a898c3b2c439a7d3f0cfc2edf55c9491e" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setAdminModelLoadFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a0ce29c1b7b88e4f5587430b3d744ca04" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setCancelTaskFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1afdec15d4870a96424511b5eeb1882cab" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setCollectionScanner</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a50cbfd274b8335355ef12519b38babe8" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setCurrentDocument</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac8a0aa6bdded022e9ca562e6661e80d2" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setDocumentLoader</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1ab379e5e7274340fe8e6060614976af42" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setGraphAnalytics</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a4eada5f57bc006933724125983a2b05d" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setGraphIndexManager</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a99ff351ac6e609fe1f76b60778ca8fa9" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setListTasksFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a5a7cbc553dc917eee2bbbeef6c0293e5" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setProcessMining</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a3d26fc36057ab377f2dd6c99eb199669" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setRegisterTaskFn</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1a79317431155a6f13375ce251b73d5ca4" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setSecondaryIndexManager</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1afc62d8fd4fc8da71dad31f91d37ca872" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setUserId</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1aaeae2735f0c4bea6b9bf0f0ac8bd95ec" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>setVariable</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1af8b7bb0a40d6ac7cf56d039bde9dae09" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>user_id_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac3d11ea05fae14428922620af3bb2119" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>userId</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_context_1aaddcbf0bb89a636130e9294dbf56d797" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionContext</scope><name>variables_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_anomaly_detector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IAnomalyDetector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1_anomaly_detector" prot="public" virt="non-virtual">themis::AnomalyDetector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1_i_q_r_detector" prot="public" virt="non-virtual">themis::IQRDetector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1_z_score_detector" prot="public" virt="non-virtual">themis::ZScoreDetector</derivedcompoundref>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_anomaly_detector_1ad81c6af8e83d4c6bbd46f9afa8cf7203" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IAnomalyDetector::~IAnomalyDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAnomalyDetector</name>
+        <qualifiedname>themis::IAnomalyDetector::~IAnomalyDetector</qualifiedname>
+        <briefdescription>
+<para>IAnomaly Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="74" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_anomaly_detector_1a2c826bc2b6c5184e9bcd5d2c9399f33a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_anomaly_point" kindref="compound">AnomalyPoint</ref> &gt;</type>
+        <definition>virtual std::vector&lt; AnomalyPoint &gt; themis::IAnomalyDetector::detect</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points, const AnomalyConfig &amp;cfg) const =0</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::IAnomalyDetector::detect</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_anomaly_detector_1af2b6272a0004fa0a0cb48db5f6a7c1af">detect</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_i_q_r_detector_1a3e0d5c2484c0c2fa9faf30f7c4c0b5f9">detect</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_z_score_detector_1a3f9543ed1f037cc5ea26286bc2574779">detect</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_anomaly_config" kindref="compound">AnomalyConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Detect anomalous data points in <computeroutput>points</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input series (order is preserved; sorting not required). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detection configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Subset of <computeroutput>points</computeroutput> that are considered anomalous, annotated with the detection score and method name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="84" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Common interface for time-series anomaly detectors. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::AnomalyDetector</label>
+        <link refid="classthemis_1_1_anomaly_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::IAnomalyDetector</label>
+        <link refid="classthemis_1_1_i_anomaly_detector"/>
+      </node>
+      <node id="3">
+        <label>themis::IQRDetector</label>
+        <link refid="classthemis_1_1_i_q_r_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::ZScoreDetector</label>
+        <link refid="classthemis_1_1_z_score_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/timeseries/anomaly_detection.h" line="68" column="1" bodyfile="include/timeseries/anomaly_detection.h" bodystart="68" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_anomaly_detector_1a2c826bc2b6c5184e9bcd5d2c9399f33a" prot="public" virt="pure-virtual"><scope>themis::IAnomalyDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1_i_anomaly_detector_1ad81c6af8e83d4c6bbd46f9afa8cf7203" prot="public" virt="virtual"><scope>themis::IAnomalyDetector</scope><name>~IAnomalyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

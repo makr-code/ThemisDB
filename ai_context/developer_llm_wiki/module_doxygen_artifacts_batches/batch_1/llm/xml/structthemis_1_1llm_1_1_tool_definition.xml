@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_tool_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ToolDefinition</compoundname>
+    <includes refid="json__schema__converter_8h" local="no">json_schema_converter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tool_definition_1a18e678d2a46a5c2bb0f920ad6c0040cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ToolDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::ToolDefinition::name</qualifiedname>
+        <briefdescription>
+<para>Function / tool name (must be non-empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="25" column="17" bodyfile="include/llm/json_schema_converter.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tool_definition_1a12991459c5db86ee2b8dd948035b2296" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ToolDefinition::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::ToolDefinition::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="26" column="17" bodyfile="include/llm/json_schema_converter.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tool_definition_1a8ea4129b8e818402a0746b92744ee28e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ToolDefinition::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::llm::ToolDefinition::parameters</qualifiedname>
+        <briefdescription>
+<para>JSON Schema for the argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="27" column="10" bodyfile="include/llm/json_schema_converter.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/json_schema_converter.h" line="24" column="1" bodyfile="include/llm/json_schema_converter.h" bodystart="24" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_tool_definition_1a12991459c5db86ee2b8dd948035b2296" prot="public" virt="non-virtual"><scope>themis::llm::ToolDefinition</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_tool_definition_1a18e678d2a46a5c2bb0f920ad6c0040cb" prot="public" virt="non-virtual"><scope>themis::llm::ToolDefinition</scope><name>name</name></member>
+      <member refid="structthemis_1_1llm_1_1_tool_definition_1a8ea4129b8e818402a0746b92744ee28e" prot="public" virt="non-virtual"><scope>themis::llm::ToolDefinition</scope><name>parameters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

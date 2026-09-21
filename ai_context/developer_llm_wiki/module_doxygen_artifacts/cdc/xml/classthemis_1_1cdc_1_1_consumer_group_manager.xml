@@ -1,0 +1,1499 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_consumer_group_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::ConsumerGroupManager</compoundname>
+    <includes refid="consumer__group_8h" local="no">consumer_group.h</includes>
+    <innerclass refid="structthemis_1_1cdc_1_1_consumer_group_manager_1_1_in_flight_record" prot="private">themis::cdc::ConsumerGroupManager::InFlightRecord</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a64ec4b34c08dfd92ed79575b54c47f68" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::cdc::ConsumerGroupManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="280" column="32" bodyfile="include/cdc/consumer_group.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a14c7ac74d2d4ae7cc41f9e29f1249761" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::cdc::ConsumerGroupManager::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="281" column="33" bodyfile="include/cdc/consumer_group.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_consumer_group_manager_1afadce5c69aebfbd24de6c080f4b5b33d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::ConsumerGroupManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="282" column="34" bodyfile="include/cdc/consumer_group.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_consumer_group_manager_1af27c83f54ada3a718ec41c9f6437b2db" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::vector&lt; InFlightRecord &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, std::vector&lt;InFlightRecord&gt; &gt; &gt; themis::cdc::ConsumerGroupManager::inflight_</definition>
+        <argsstring></argsstring>
+        <name>inflight_</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::inflight_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="338" column="2" bodyfile="include/cdc/consumer_group.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a6d7f47c980012f49483507a1c0fedc12" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::ConsumerGroupManager::GROUP_KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>GROUP_KEY_PREFIX</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::GROUP_KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;cdc_group:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="284" column="33" bodyfile="include/cdc/consumer_group.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a7bf93a7257dfd951455ee72075e6d39a" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::ConsumerGroupManager::CONFIG_SUFFIX</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_SUFFIX</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::CONFIG_SUFFIX</qualifiedname>
+        <initializer>= &quot;:config&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="285" column="33" bodyfile="include/cdc/consumer_group.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a7990b27d448be4371e6f42da97f7b610" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::ConsumerGroupManager::OFFSET_SUFFIX</definition>
+        <argsstring></argsstring>
+        <name>OFFSET_SUFFIX</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::OFFSET_SUFFIX</qualifiedname>
+        <initializer>= &quot;:offset&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="286" column="33" bodyfile="include/cdc/consumer_group.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a5ba634324101d433de9a64dcb94732bc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::ConsumerGroupManager::ConsumerGroupManager</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>ConsumerGroupManager</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::ConsumerGroupManager</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="104" column="14" bodyfile="src/cdc/consumer_group.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a1d4c5b1cd571b71555f7e33989b2bfef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::ConsumerGroupManager::~ConsumerGroupManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConsumerGroupManager</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::~ConsumerGroupManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1ae09aff82323805bb3d75f5bd38340738" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::ConsumerGroupManager::ConsumerGroupManager</definition>
+        <argsstring>(const ConsumerGroupManager &amp;)=delete</argsstring>
+        <name>ConsumerGroupManager</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::ConsumerGroupManager</qualifiedname>
+        <param>
+          <type>const ConsumerGroupManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a7d026a27db52f5146842fd603d16789a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a5ba634324101d433de9a64dcb94732bc" kindref="member">ConsumerGroupManager</ref> &amp;</type>
+        <definition>ConsumerGroupManager &amp; themis::cdc::ConsumerGroupManager::operator=</definition>
+        <argsstring>(const ConsumerGroupManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a5ba634324101d433de9a64dcb94732bc" kindref="member">ConsumerGroupManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="111" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1afb4275ae731f45e818c9d3675c04b237" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::ConsumerGroupManager::ConsumerGroupManager</definition>
+        <argsstring>(ConsumerGroupManager &amp;&amp;)=delete</argsstring>
+        <name>ConsumerGroupManager</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::ConsumerGroupManager</qualifiedname>
+        <param>
+          <type>ConsumerGroupManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1ac91ee3ad26a248ae43417687f72a01a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a5ba634324101d433de9a64dcb94732bc" kindref="member">ConsumerGroupManager</ref> &amp;</type>
+        <definition>ConsumerGroupManager &amp; themis::cdc::ConsumerGroupManager::operator=</definition>
+        <argsstring>(ConsumerGroupManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a5ba634324101d433de9a64dcb94732bc" kindref="member">ConsumerGroupManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="113" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a87c6ce8e1144edef9c24ab876caccf7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ConsumerGroupManager::createGroup</definition>
+        <argsstring>(const ConsumerGroupConfig &amp;config)</argsstring>
+        <name>createGroup</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::createGroup</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Group. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), writeConfigLocked(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="123" column="10" bodyfile="src/cdc/consumer_group.cpp" bodystart="210" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a5aea672156afeeae3b3bf066b79ac4ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ConsumerGroupManager::deleteGroup</definition>
+        <argsstring>(const std::string &amp;group_id)</argsstring>
+        <name>deleteGroup</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::deleteGroup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Group. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error::dbOperationFailed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), Delete(), makeConfigKey(), makeOffsetKey(), ok(), IsNotFound(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="129" column="10" bodyfile="src/cdc/consumer_group.cpp" bodystart="230" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a6e9ea7242b3a2c97df7baa928c957945" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::ConsumerGroupManager::groupExists</definition>
+        <argsstring>(const std::string &amp;group_id) const</argsstring>
+        <name>groupExists</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::groupExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Group Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="136" column="10" bodyfile="src/cdc/consumer_group.cpp" bodystart="263" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a026ba51dcc92a2c03b22363314a1e80c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref></type>
+        <definition>ConsumerGroupConfig themis::cdc::ConsumerGroupManager::getGroupConfig</definition>
+        <argsstring>(const std::string &amp;group_id) const</argsstring>
+        <name>getGroupConfig</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::getGroupConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Group Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="143" column="25" bodyfile="src/cdc/consumer_group.cpp" bodystart="287" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a6cc143664af4ee51eda9cd2244ce942a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_consumer_group_info" kindref="compound">ConsumerGroupInfo</ref></type>
+        <definition>ConsumerGroupInfo themis::cdc::ConsumerGroupManager::getGroupInfo</definition>
+        <argsstring>(const std::string &amp;group_id) const</argsstring>
+        <name>getGroupInfo</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::getGroupInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Group Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="150" column="23" bodyfile="src/cdc/consumer_group.cpp" bodystart="300" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a6511f5f642c1b4ffe54299252ac4543f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::cdc::ConsumerGroupManager::listGroups</definition>
+        <argsstring>() const</argsstring>
+        <name>listGroups</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::listGroups</qualifiedname>
+        <briefdescription>
+<para>List Groups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="156" column="17" bodyfile="src/cdc/consumer_group.cpp" bodystart="317" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a62fe8bc5e09da7791fe895970cc62597" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ConsumerGroupManager::getCommittedOffset</definition>
+        <argsstring>(const std::string &amp;group_id) const</argsstring>
+        <name>getCommittedOffset</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::getCommittedOffset</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Committed Offset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="167" column="14" bodyfile="src/cdc/consumer_group.cpp" bodystart="363" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a91642e346767739b1283fae02f535037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ConsumerGroupManager::commitOffset</definition>
+        <argsstring>(const std::string &amp;group_id, uint64_t sequence)</argsstring>
+        <name>commitOffset</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::commitOffset</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Commit Offset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), readConfigLocked(), readOffsetLocked(), writeOffsetLocked(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="174" column="10" bodyfile="src/cdc/consumer_group.cpp" bodystart="386" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a834e13871a1ca18c01861a4c12bbe728" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::ConsumerGroupManager::getConsumerPartition</definition>
+        <argsstring>(const std::string &amp;group_id, const std::string &amp;consumer_id) const</argsstring>
+        <name>getConsumerPartition</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::getConsumerPartition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Consumer Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="186" column="14" bodyfile="src/cdc/consumer_group.cpp" bodystart="411" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a41a58cbb0b2dbafdff43855ae37dd92b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::ConsumerGroupManager::consumerHandlesKey</definition>
+        <argsstring>(const std::string &amp;group_id, const std::string &amp;consumer_id, const std::string &amp;event_key) const</argsstring>
+        <name>consumerHandlesKey</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::consumerHandlesKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_key</declname>
+        </param>
+        <briefdescription>
+<para>Consumer Handles Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="196" column="10" bodyfile="src/cdc/consumer_group.cpp" bodystart="426" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a51c503f6fe48d423193e2d884c5e5544" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::ConsumerGroupManager::getPartitionForKey</definition>
+        <argsstring>(const std::string &amp;group_id, const std::string &amp;key) const</argsstring>
+        <name>getPartitionForKey</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::getPartitionForKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get Partition For Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="206" column="14" bodyfile="src/cdc/consumer_group.cpp" bodystart="445" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a396d4d524ef0d7707331d7d2c67336b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::ConsumerGroupManager::fetchEvents</definition>
+        <argsstring>(const std::string &amp;group_id, const std::string &amp;consumer_id, const Changefeed &amp;changefeed, size_t limit=100) const</argsstring>
+        <name>fetchEvents</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::fetchEvents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &amp;</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="213" column="17" bodyfile="src/cdc/consumer_group.cpp" bodystart="464" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a2b15aff82d410b64c79254b704cb0553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::ConsumerGroupManager::fetchEventsAtLeastOnce</definition>
+        <argsstring>(const std::string &amp;group_id, const std::string &amp;consumer_id, const Changefeed &amp;changefeed, size_t limit=100, uint32_t ack_timeout_ms=30000)</argsstring>
+        <name>fetchEventsAtLeastOnce</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::fetchEventsAtLeastOnce</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &amp;</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ack_timeout_ms</declname>
+          <defval>30000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="223" column="17" bodyfile="src/cdc/consumer_group.cpp" bodystart="522" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a4326164ab4393c242baadda2a68ddeaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ConsumerGroupManager::acknowledgeEvents</definition>
+        <argsstring>(const std::string &amp;group_id, const std::string &amp;consumer_id, uint64_t up_to_sequence)</argsstring>
+        <name>acknowledgeEvents</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::acknowledgeEvents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>up_to_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Acknowledge Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">up_to_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">up_to_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), readConfigLocked(), find(), end(), erase(), std::remove_if(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="236" column="10" bodyfile="src/cdc/consumer_group.cpp" bodystart="649" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a471cc6408206c4764f8159c20363a1d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::ConsumerGroupManager::getInFlightCount</definition>
+        <argsstring>(const std::string &amp;group_id, const std::string &amp;consumer_id) const</argsstring>
+        <name>getInFlightCount</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::getInFlightCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <briefdescription>
+<para>Get In Flight Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="246" column="12" bodyfile="src/cdc/consumer_group.cpp" bodystart="684" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a40cd41bc46e784be785bd2e4e15e4b54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_in_flight_stats" kindref="compound">InFlightStats</ref></type>
+        <definition>InFlightStats themis::cdc::ConsumerGroupManager::getInFlightStats</definition>
+        <argsstring>(const std::string &amp;group_id, const std::string &amp;consumer_id, uint32_t ack_timeout_ms=30000) const</argsstring>
+        <name>getInFlightStats</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::getInFlightStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ack_timeout_ms</declname>
+          <defval>30000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="249" column="19" bodyfile="src/cdc/consumer_group.cpp" bodystart="702" bodyend="738"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a433e267245dc9c7d422953b4327ce460" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::ConsumerGroupManager::fnv1a32</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>fnv1a32</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::fnv1a32</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>-----------------------------------------------------<mdash/> Static helpers (also useful for unit testing) -----------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fnv1a32.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements fnv1a32 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="259" column="21" bodyfile="src/cdc/consumer_group.cpp" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1af4cca441f5b65d9b7bdf874f009a9525" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::ConsumerGroupManager::partitionForKey</definition>
+        <argsstring>(const std::string &amp;key, uint32_t partition_count)</argsstring>
+        <name>partitionForKey</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::partitionForKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>partition_count</declname>
+        </param>
+        <briefdescription>
+<para>Partition For Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a433e267245dc9c7d422953b4327ce460" kindref="member">fnv1a32()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="267" column="21" bodyfile="src/cdc/consumer_group.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1aa799f7e6526f668a42621f6fd58b7f9c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::ConsumerGroupManager::partitionForConsumer</definition>
+        <argsstring>(const std::string &amp;consumer_id, uint32_t partition_count)</argsstring>
+        <name>partitionForConsumer</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::partitionForConsumer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>partition_count</declname>
+        </param>
+        <briefdescription>
+<para>Partition For Consumer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a433e267245dc9c7d422953b4327ce460" kindref="member">fnv1a32()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="276" column="21" bodyfile="src/cdc/consumer_group.cpp" bodystart="66" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1ac4dff1ed9a0018be0094e4d1a913301f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::ConsumerGroupManager::makeConfigKey</definition>
+        <argsstring>(const std::string &amp;group_id) const</argsstring>
+        <name>makeConfigKey</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::makeConfigKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Make Config Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="293" column="17" bodyfile="src/cdc/consumer_group.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a6724ee1ff152290dc8e8ade6de39bdab" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::ConsumerGroupManager::makeOffsetKey</definition>
+        <argsstring>(const std::string &amp;group_id) const</argsstring>
+        <name>makeOffsetKey</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::makeOffsetKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Make Offset Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="299" column="17" bodyfile="src/cdc/consumer_group.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1add6fdd9770af30cbb511a974de483908" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref></type>
+        <definition>ConsumerGroupConfig themis::cdc::ConsumerGroupManager::readConfigLocked</definition>
+        <argsstring>(const std::string &amp;group_id) const</argsstring>
+        <name>readConfigLocked</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::readConfigLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Internal helpers (caller must hold mutex_). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="306" column="25" bodyfile="src/cdc/consumer_group.cpp" bodystart="100" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1af98249981703b7bd3457e42d96295cb8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ConsumerGroupManager::readOffsetLocked</definition>
+        <argsstring>(const std::string &amp;group_id) const</argsstring>
+        <name>readOffsetLocked</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::readOffsetLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Read Offset Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="312" column="25" bodyfile="src/cdc/consumer_group.cpp" bodystart="125" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1aa015b413754e3b69b1be060f3e6352d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ConsumerGroupManager::writeConfigLocked</definition>
+        <argsstring>(const ConsumerGroupConfig &amp;config)</argsstring>
+        <name>writeConfigLocked</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::writeConfigLocked</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Write Config Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::dbOperationFailed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: toJson(), dump(), Put(), makeConfigKey(), ok(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="317" column="25" bodyfile="src/cdc/consumer_group.cpp" bodystart="160" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_consumer_group_manager_1a46804b5e3a7a3ce0864a27847b49a6d4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ConsumerGroupManager::writeOffsetLocked</definition>
+        <argsstring>(const std::string &amp;group_id, uint64_t sequence)</argsstring>
+        <name>writeOffsetLocked</name>
+        <qualifiedname>themis::cdc::ConsumerGroupManager::writeOffsetLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Write Offset Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CDCException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(), Put(), makeOffsetKey(), ok(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="323" column="25" bodyfile="src/cdc/consumer_group.cpp" bodystart="183" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/consumer_group.h" line="102" column="1" bodyfile="include/cdc/consumer_group.h" bodystart="102" bodyend="339"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a4326164ab4393c242baadda2a68ddeaf" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>acknowledgeEvents</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a14c7ac74d2d4ae7cc41f9e29f1249761" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a91642e346767739b1283fae02f535037" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>commitOffset</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a7bf93a7257dfd951455ee72075e6d39a" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>CONFIG_SUFFIX</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a5ba634324101d433de9a64dcb94732bc" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>ConsumerGroupManager</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1ae09aff82323805bb3d75f5bd38340738" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>ConsumerGroupManager</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1afb4275ae731f45e818c9d3675c04b237" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>ConsumerGroupManager</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a41a58cbb0b2dbafdff43855ae37dd92b" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>consumerHandlesKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a87c6ce8e1144edef9c24ab876caccf7d" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>createGroup</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a64ec4b34c08dfd92ed79575b54c47f68" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a5aea672156afeeae3b3bf066b79ac4ff" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>deleteGroup</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a396d4d524ef0d7707331d7d2c67336b1" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>fetchEvents</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a2b15aff82d410b64c79254b704cb0553" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>fetchEventsAtLeastOnce</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a433e267245dc9c7d422953b4327ce460" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>fnv1a32</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a62fe8bc5e09da7791fe895970cc62597" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>getCommittedOffset</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a834e13871a1ca18c01861a4c12bbe728" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>getConsumerPartition</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a026ba51dcc92a2c03b22363314a1e80c" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>getGroupConfig</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a6cc143664af4ee51eda9cd2244ce942a" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>getGroupInfo</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a471cc6408206c4764f8159c20363a1d0" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>getInFlightCount</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a40cd41bc46e784be785bd2e4e15e4b54" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>getInFlightStats</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a51c503f6fe48d423193e2d884c5e5544" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>getPartitionForKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a6d7f47c980012f49483507a1c0fedc12" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>GROUP_KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a6e9ea7242b3a2c97df7baa928c957945" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>groupExists</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1af27c83f54ada3a718ec41c9f6437b2db" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>inflight_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a6511f5f642c1b4ffe54299252ac4543f" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>listGroups</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1ac4dff1ed9a0018be0094e4d1a913301f" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>makeConfigKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a6724ee1ff152290dc8e8ade6de39bdab" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>makeOffsetKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1afadce5c69aebfbd24de6c080f4b5b33d" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a7990b27d448be4371e6f42da97f7b610" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>OFFSET_SUFFIX</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a7d026a27db52f5146842fd603d16789a" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1ac91ee3ad26a248ae43417687f72a01a2" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1aa799f7e6526f668a42621f6fd58b7f9c" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>partitionForConsumer</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1af4cca441f5b65d9b7bdf874f009a9525" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>partitionForKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1add6fdd9770af30cbb511a974de483908" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>readConfigLocked</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1af98249981703b7bd3457e42d96295cb8" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>readOffsetLocked</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1aa015b413754e3b69b1be060f3e6352d1" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>writeConfigLocked</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a46804b5e3a7a3ce0864a27847b49a6d4" prot="private" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>writeOffsetLocked</name></member>
+      <member refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a1d4c5b1cd571b71555f7e33989b2bfef" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupManager</scope><name>~ConsumerGroupManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

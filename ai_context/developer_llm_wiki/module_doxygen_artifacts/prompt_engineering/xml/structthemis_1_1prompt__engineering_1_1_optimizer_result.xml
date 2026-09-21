@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_optimizer_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::OptimizerResult</compoundname>
+    <includes refid="prompt__optimizer_8h" local="no">prompt_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimizer_result_1a9a0fac5eb9af280fdbd75dfb22d7ded0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::OptimizerResult::optimized_prompt</definition>
+        <argsstring></argsstring>
+        <name>optimized_prompt</name>
+        <qualifiedname>themis::prompt_engineering::OptimizerResult::optimized_prompt</qualifiedname>
+        <briefdescription>
+<para>Final optimized prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="37" column="17" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimizer_result_1aafd9d8d7510684c4570d40d654fee0c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::OptimizerResult::final_score</definition>
+        <argsstring></argsstring>
+        <name>final_score</name>
+        <qualifiedname>themis::prompt_engineering::OptimizerResult::final_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Final evaluation score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="38" column="12" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimizer_result_1a9a5a33276aaa77940ea5ebe1aafbb5ec" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::OptimizerResult::iterations</definition>
+        <argsstring></argsstring>
+        <name>iterations</name>
+        <qualifiedname>themis::prompt_engineering::OptimizerResult::iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of iterations performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="39" column="12" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimizer_result_1adb9614adda0a2424e9e138f3b1ade4f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::OptimizerResult::converged</definition>
+        <argsstring></argsstring>
+        <name>converged</name>
+        <qualifiedname>themis::prompt_engineering::OptimizerResult::converged</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether optimization converged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="40" column="10" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimizer_result_1a1aba0b129f60686210db50ae018f6708" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::prompt_engineering::OptimizerResult::score_history</definition>
+        <argsstring></argsstring>
+        <name>score_history</name>
+        <qualifiedname>themis::prompt_engineering::OptimizerResult::score_history</qualifiedname>
+        <briefdescription>
+<para>Score at each iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="41" column="17" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimizer_result_1aeb406717497a670b94229a768b04b1cc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::OptimizerResult::prompt_history</definition>
+        <argsstring></argsstring>
+        <name>prompt_history</name>
+        <qualifiedname>themis::prompt_engineering::OptimizerResult::prompt_history</qualifiedname>
+        <briefdescription>
+<para>Prompt at each iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="42" column="17" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimizer_result_1a4e1feef79dd3934c9fba0f4bc2dda989" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::OptimizerResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::prompt_engineering::OptimizerResult::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="43" column="20" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Internal result of prompt optimization (renamed to avoid conflict with <ref refid="self__improvement__orchestrator_8h" kindref="compound">self_improvement_orchestrator.h</ref>). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_optimizer.h" line="36" column="1" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="36" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimizer_result_1adb9614adda0a2424e9e138f3b1ade4f4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizerResult</scope><name>converged</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimizer_result_1aafd9d8d7510684c4570d40d654fee0c2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizerResult</scope><name>final_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimizer_result_1a9a5a33276aaa77940ea5ebe1aafbb5ec" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizerResult</scope><name>iterations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimizer_result_1a4e1feef79dd3934c9fba0f4bc2dda989" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizerResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimizer_result_1a9a0fac5eb9af280fdbd75dfb22d7ded0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizerResult</scope><name>optimized_prompt</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimizer_result_1aeb406717497a670b94229a768b04b1cc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizerResult</scope><name>prompt_history</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimizer_result_1a1aba0b129f60686210db50ae018f6708" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizerResult</scope><name>score_history</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::LoRAEnhancedRetrieverFactory</compoundname>
+    <includes refid="lora__enhanced__retriever_8h" local="no">lora_enhanced_retriever.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1a9f98c9573209c4ec98549a83134a9601" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" kindref="compound">LoRAEnhancedRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; LoRAEnhancedRetriever &gt; themis::rag::LoRAEnhancedRetrieverFactory::createLightweight</definition>
+        <argsstring>()</argsstring>
+        <name>createLightweight</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetrieverFactory::createLightweight</qualifiedname>
+        <briefdescription>
+<para>Lightweight: top-20 re-rank, low LoRA weight (0.2), no domain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="210" column="28" bodyfile="src/rag/lora_enhanced_retriever.cpp" bodystart="232" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1aa41c4a60c47a9861b975b84f1ab585b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" kindref="compound">LoRAEnhancedRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; LoRAEnhancedRetriever &gt; themis::rag::LoRAEnhancedRetrieverFactory::createBalanced</definition>
+        <argsstring>(const std::string &amp;domain=&quot;&quot;)</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetrieverFactory::createBalanced</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Balanced: top-50 re-rank, moderate LoRA weight (0.35), optional domain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="215" column="28" bodyfile="src/rag/lora_enhanced_retriever.cpp" bodystart="242" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1ab5de5dd8a11d51a67c739d01fdb34bee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" kindref="compound">LoRAEnhancedRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; LoRAEnhancedRetriever &gt; themis::rag::LoRAEnhancedRetrieverFactory::createDomainSpecific</definition>
+        <argsstring>(const std::string &amp;domain)</argsstring>
+        <name>createDomainSpecific</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetrieverFactory::createDomainSpecific</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Domain-specific: top-50 re-rank, high LoRA weight (0.5), explicit domain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="221" column="28" bodyfile="src/rag/lora_enhanced_retriever.cpp" bodystart="253" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" kindref="compound">LoRAEnhancedRetriever</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/lora_enhanced_retriever.h" line="205" column="1" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="205" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1aa41c4a60c47a9861b975b84f1ab585b7" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetrieverFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1ab5de5dd8a11d51a67c739d01fdb34bee" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetrieverFactory</scope><name>createDomainSpecific</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1a9f98c9573209c4ec98549a83134a9601" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetrieverFactory</scope><name>createLightweight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

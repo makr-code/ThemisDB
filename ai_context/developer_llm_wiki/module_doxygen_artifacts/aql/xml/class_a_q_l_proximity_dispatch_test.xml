@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_proximity_dispatch_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLProximityDispatchTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_proximity_dispatch_test_1a9c605e204ffa179db8e0792cd9afe42f" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AQLProximityDispatchTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>AQLProximityDispatchTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_proximity_dispatch.cpp" line="46" column="17" bodyfile="tests/aql/test_aql_proximity_dispatch.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_proximity_dispatch_test_1ae46cf8c58c029d3a9768c9e5666c65b0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; AQLProximityDispatchTest::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>AQLProximityDispatchTest::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_proximity_dispatch.cpp" line="47" column="21" bodyfile="tests/aql/test_aql_proximity_dispatch.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; AQLProximityDispatchTest::sec</definition>
+        <argsstring></argsstring>
+        <name>sec</name>
+        <qualifiedname>AQLProximityDispatchTest::sec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_proximity_dispatch.cpp" line="47" column="40" bodyfile="tests/aql/test_aql_proximity_dispatch.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_proximity_dispatch_test_1a6a539f61d5b5aca654ae8480685418c3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::unique_ptr&lt;QueryEngine&gt; AQLProximityDispatchTest::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>AQLProximityDispatchTest::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_proximity_dispatch.cpp" line="47" column="60" bodyfile="tests/aql/test_aql_proximity_dispatch.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_q_l_proximity_dispatch_test_1a17b37c1d26628d4d686d86c290c612a7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLProximityDispatchTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLProximityDispatchTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_proximity_dispatch.cpp" line="18" column="10" bodyfile="tests/aql/test_aql_proximity_dispatch.cpp" bodystart="18" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_proximity_dispatch_test_1a32538b7977972767829e239c2b12a238" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLProximityDispatchTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AQLProximityDispatchTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_proximity_dispatch.cpp" line="45" column="10" bodyfile="tests/aql/test_aql_proximity_dispatch.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLProximityDispatchTest</label>
+        <link refid="class_a_q_l_proximity_dispatch_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLProximityDispatchTest</label>
+        <link refid="class_a_q_l_proximity_dispatch_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_proximity_dispatch.cpp" line="16" column="1" bodyfile="tests/aql/test_aql_proximity_dispatch.cpp" bodystart="16" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_proximity_dispatch_test_1ae46cf8c58c029d3a9768c9e5666c65b0" prot="protected" virt="non-virtual"><scope>AQLProximityDispatchTest</scope><name>db</name></member>
+      <member refid="class_a_q_l_proximity_dispatch_test_1a9c605e204ffa179db8e0792cd9afe42f" prot="protected" virt="non-virtual"><scope>AQLProximityDispatchTest</scope><name>db_path_</name></member>
+      <member refid="class_a_q_l_proximity_dispatch_test_1a6a539f61d5b5aca654ae8480685418c3" prot="protected" virt="non-virtual"><scope>AQLProximityDispatchTest</scope><name>engine</name></member>
+      <member refid="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" prot="protected" virt="non-virtual"><scope>AQLProximityDispatchTest</scope><name>sec</name></member>
+      <member refid="class_a_q_l_proximity_dispatch_test_1a17b37c1d26628d4d686d86c290c612a7" prot="protected" virt="non-virtual"><scope>AQLProximityDispatchTest</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_proximity_dispatch_test_1a32538b7977972767829e239c2b12a238" prot="protected" virt="non-virtual"><scope>AQLProximityDispatchTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::SelfConsistencyEvaluator::ConsistencyResult</compoundname>
+    <includes refid="claim__extractor_8h" local="no">claim_extractor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1afe258c555754ea69c0333ad4c99c8043" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::SelfConsistencyEvaluator::ConsistencyResult::consistency_score</definition>
+        <argsstring></argsstring>
+        <name>consistency_score</name>
+        <qualifiedname>themis::rag::SelfConsistencyEvaluator::ConsistencyResult::consistency_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="99" column="16" bodyfile="include/rag/claim_extractor.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1a4db6b4e9e0e579d8e6b0d1e658322097" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::SelfConsistencyEvaluator::ConsistencyResult::agreements</definition>
+        <argsstring></argsstring>
+        <name>agreements</name>
+        <qualifiedname>themis::rag::SelfConsistencyEvaluator::ConsistencyResult::agreements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="100" column="21" bodyfile="include/rag/claim_extractor.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1a072d930921fb2b6490347043cb6c9ab8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::SelfConsistencyEvaluator::ConsistencyResult::disagreements</definition>
+        <argsstring></argsstring>
+        <name>disagreements</name>
+        <qualifiedname>themis::rag::SelfConsistencyEvaluator::ConsistencyResult::disagreements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="101" column="21" bodyfile="include/rag/claim_extractor.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1a1eda049b7a3fce0476d630df6fc075a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SelfConsistencyEvaluator::ConsistencyResult::consensus_answer</definition>
+        <argsstring></argsstring>
+        <name>consensus_answer</name>
+        <qualifiedname>themis::rag::SelfConsistencyEvaluator::ConsistencyResult::consensus_answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="102" column="21" bodyfile="include/rag/claim_extractor.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1a0d81181644a99ea8d68f8f23b838e058" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::SelfConsistencyEvaluator::ConsistencyResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::SelfConsistencyEvaluator::ConsistencyResult::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="103" column="16" bodyfile="include/rag/claim_extractor.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of self-consistency evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/claim_extractor.h" line="98" column="5" bodyfile="include/rag/claim_extractor.h" bodystart="98" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1a4db6b4e9e0e579d8e6b0d1e658322097" prot="public" virt="non-virtual"><scope>themis::rag::SelfConsistencyEvaluator::ConsistencyResult</scope><name>agreements</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1a0d81181644a99ea8d68f8f23b838e058" prot="public" virt="non-virtual"><scope>themis::rag::SelfConsistencyEvaluator::ConsistencyResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1a1eda049b7a3fce0476d630df6fc075a5" prot="public" virt="non-virtual"><scope>themis::rag::SelfConsistencyEvaluator::ConsistencyResult</scope><name>consensus_answer</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1afe258c555754ea69c0333ad4c99c8043" prot="public" virt="non-virtual"><scope>themis::rag::SelfConsistencyEvaluator::ConsistencyResult</scope><name>consistency_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_consistency_evaluator_1_1_consistency_result_1a072d930921fb2b6490347043cb6c9ab8" prot="public" virt="non-virtual"><scope>themis::rag::SelfConsistencyEvaluator::ConsistencyResult</scope><name>disagreements</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

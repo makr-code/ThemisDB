@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::DistributedTimeCoordinator</compoundname>
+    <includes refid="distributed__time__coordinator_8h" local="no">distributed_time_coordinator.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval" prot="public">themisdb::sharding::DistributedTimeCoordinator::TimeInterval</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_config" prot="public">themisdb::sharding::DistributedTimeCoordinator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1ac66e3bb76e9d027d22dfa6a4da1a8382" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsensusModule&gt; themisdb::sharding::DistributedTimeCoordinator::consensus_</definition>
+        <argsstring></argsstring>
+        <name>consensus_</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::consensus_</qualifiedname>
+        <briefdescription>
+<para>Consensus backend used for log-index timestamps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="127" column="21" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a45070f45bce95ebe5a2ebfbee259c0a9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::DistributedTimeCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::config_</qualifiedname>
+        <briefdescription>
+<para>Runtime time-coordination configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="128" column="12" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a92e63ef6581ab132ed9412d37c545f45" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::DistributedTimeCoordinator::DistributedTimeCoordinator</definition>
+        <argsstring>(std::shared_ptr&lt; ConsensusModule &gt; consensus, const Config &amp;config)</argsstring>
+        <name>DistributedTimeCoordinator</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::DistributedTimeCoordinator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+          <declname>consensus</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct <ref refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator" kindref="compound">DistributedTimeCoordinator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct distributed time coordinator with explicit config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>consensus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to consensus module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration settings </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="61" column="14" bodyfile="src/sharding/distributed_time_coordinator.cpp" bodystart="22" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a0d7da3c4e9b0463e5f65fabd2b60507a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::DistributedTimeCoordinator::DistributedTimeCoordinator</definition>
+        <argsstring>(std::shared_ptr&lt; ConsensusModule &gt; consensus)</argsstring>
+        <name>DistributedTimeCoordinator</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::DistributedTimeCoordinator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+          <declname>consensus</declname>
+        </param>
+        <briefdescription>
+<para>Construct coordinator with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct distributed time coordinator with default config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>consensus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared consensus module instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="70" column="14" bodyfile="src/sharding/distributed_time_coordinator.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1aa42084c2b2e2abb74240709e5f3d24d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval" kindref="compound">TimeInterval</ref></type>
+        <definition>DistributedTimeCoordinator::TimeInterval themisdb::sharding::DistributedTimeCoordinator::now</definition>
+        <argsstring>() const</argsstring>
+        <name>now</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::now</qualifiedname>
+        <briefdescription>
+<para>Get current time with logical ordering guarantee. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Return current logical time interval derived from consensus log index.</para>
+<para><simplesect kind="return"><para><ref refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval" kindref="compound">TimeInterval</ref> with logical timestamp and uncertainty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="78" column="18" bodyfile="src/sharding/distributed_time_coordinator.cpp" bodystart="39" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a33739248a2161525c26cfefc2fd21423" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::DistributedTimeCoordinator::getSnapshotTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>getSnapshotTimestamp</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::getSnapshotTimestamp</qualifiedname>
+        <briefdescription>
+<para>Get timestamp for transaction snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Return snapshot timestamp mapped to current committed log index.</para>
+<para>Uses the current commit index as basis for causal ordering. This ensures all reads see consistent data as of this point.</para>
+<para><simplesect kind="return"><para>Snapshot timestamp based on commit index </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="88" column="13" bodyfile="src/sharding/distributed_time_coordinator.cpp" bodystart="53" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1abdf4137e964cacd717e3a280af887d0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::DistributedTimeCoordinator::getCommitTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>getCommitTimestamp</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::getCommitTimestamp</qualifiedname>
+        <briefdescription>
+<para>Get timestamp for transaction commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Return commit timestamp mapped to next prospective log index.</para>
+<para>Uses next available log index to ensure causality. This ensures commit timestamp &gt; snapshot timestamp (external consistency).</para>
+<para><simplesect kind="return"><para>Commit timestamp based on next log index </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="98" column="13" bodyfile="src/sharding/distributed_time_coordinator.cpp" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a78bbe5dfe0dbb9e8771f63191dd5de52" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::DistributedTimeCoordinator::definitelyBefore</definition>
+        <argsstring>(int64_t ts1, int64_t ts2) const</argsstring>
+        <name>definitelyBefore</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::definitelyBefore</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>ts1</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ts2</declname>
+        </param>
+        <briefdescription>
+<para>Check if timestamp T1 definitely happened before T2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ts1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First timestamp </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ts2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second timestamp </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if ts1 + uncertainty &lt; ts2 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="106" column="10" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1acab77a141594858de33032d6f365eb48" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::DistributedTimeCoordinator::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::isLeader</qualifiedname>
+        <briefdescription>
+<para>Check whether this node is the current Raft leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Linearizable reads must only be served by the leader. Returns true if the underlying <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> reports leadership. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="116" column="10" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1acd14c58f8f334aae5bc35b2019f4b73a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::DistributedTimeCoordinator::getCurrentLogIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLogIndex</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::getCurrentLogIndex</qualifiedname>
+        <briefdescription>
+<para>Get current log index (basis for timestamps). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Return current last log index from consensus backend.</para>
+<para><simplesect kind="return"><para>Current log index from consensus module </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="124" column="14" bodyfile="src/sharding/distributed_time_coordinator.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed Time Coordinator using Consensus Log Index. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides logically consistent timestamps for MVCC by using the consensus log index as the source of truth for causal ordering.</para>
+<para>This design replaces Google Spanner-style <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> (NTP-based) with a consensus-based approach that is:<itemizedlist>
+<listitem><para>Fully deterministic (no external dependencies)</para>
+</listitem><listitem><para>Production-ready (no NTP stub implementation)</para>
+</listitem><listitem><para>Easily testable (mock consensus module)</para>
+</listitem><listitem><para>Causally consistent (log index guarantees ordering) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/distributed_time_coordinator.h" line="37" column="1" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="37" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a45070f45bce95ebe5a2ebfbee259c0a9" prot="private" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1ac66e3bb76e9d027d22dfa6a4da1a8382" prot="private" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>consensus_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a78bbe5dfe0dbb9e8771f63191dd5de52" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>definitelyBefore</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a92e63ef6581ab132ed9412d37c545f45" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>DistributedTimeCoordinator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a0d7da3c4e9b0463e5f65fabd2b60507a" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>DistributedTimeCoordinator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1abdf4137e964cacd717e3a280af887d0a" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>getCommitTimestamp</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1acd14c58f8f334aae5bc35b2019f4b73a" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>getCurrentLogIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1a33739248a2161525c26cfefc2fd21423" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>getSnapshotTimestamp</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1acab77a141594858de33032d6f365eb48" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>isLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator_1aa42084c2b2e2abb74240709e5f3d24d7" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator</scope><name>now</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

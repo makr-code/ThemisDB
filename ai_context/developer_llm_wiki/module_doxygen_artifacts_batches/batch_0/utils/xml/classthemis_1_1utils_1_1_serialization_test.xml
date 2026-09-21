@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_serialization_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::SerializationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_test_1a65c02af344cbbcb7504e7955fe988fd1" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder" kindref="compound">Serialization::Encoder</ref></type>
+        <definition>Serialization::Encoder themis::utils::SerializationTest::encoder</definition>
+        <argsstring></argsstring>
+        <name>encoder</name>
+        <qualifiedname>themis::utils::SerializationTest::encoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_serialization.cpp" line="22" column="28" bodyfile="tests/utils/test_serialization.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_test_1a6420098523f453203a5e83984519ee6b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SerializationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::utils::SerializationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_serialization.cpp" line="24" column="10" bodyfile="tests/utils/test_serialization.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::SerializationTest</label>
+        <link refid="classthemis_1_1utils_1_1_serialization_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::utils::Serialization::Encoder</label>
+        <link refid="classthemis_1_1utils_1_1_serialization_1_1_encoder"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SerializationTest</label>
+        <link refid="classthemis_1_1utils_1_1_serialization_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>encoder</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_serialization.cpp" line="20" column="1" bodyfile="tests/utils/test_serialization.cpp" bodystart="20" bodyend="27"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_serialization_test_1a65c02af344cbbcb7504e7955fe988fd1" prot="protected" virt="non-virtual"><scope>themis::utils::SerializationTest</scope><name>encoder</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_test_1a6420098523f453203a5e83984519ee6b" prot="protected" virt="non-virtual"><scope>themis::utils::SerializationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,820 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_vector_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::VectorApiHandler</compoundname>
+    <includes refid="vector__api__handler_8h" local="no">vector_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_vector_api_handler_1a8e70ce2d29e3480a0f639ec50d89902a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::VectorApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::VectorApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="115" column="21" bodyfile="include/server/vector_api_handler.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_vector_api_handler_1a7e1ca1fb8bf5ebeafbf1b8ab90c9c148" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::server::VectorApiHandler::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::server::VectorApiHandler::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="116" column="21" bodyfile="include/server/vector_api_handler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_vector_api_handler_1aeb09da5080893f3dddffb9e2c6f2b556" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;<ref refid="classthemis_1_1_auth_middleware" kindref="compound">::themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::AuthMiddleware&gt; themis::server::VectorApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::VectorApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="117" column="21" bodyfile="include/server/vector_api_handler.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_vector_api_handler_1a316b117a03988bc748d5cf1d2661b1fb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; themis::server::VectorApiHandler::field_encryption_</definition>
+        <argsstring></argsstring>
+        <name>field_encryption_</name>
+        <qualifiedname>themis::server::VectorApiHandler::field_encryption_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="118" column="21" bodyfile="include/server/vector_api_handler.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_vector_api_handler_1a37b66964bac14df832f277c515979fdc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::server::VectorApiHandler::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::server::VectorApiHandler::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="119" column="21" bodyfile="include/server/vector_api_handler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1ac42de452f8394d70ccf31fb39a4bb2ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::VectorApiHandler::VectorApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; VectorIndexManager &gt; vector_index, std::shared_ptr&lt;::themis::AuthMiddleware &gt; auth, std::shared_ptr&lt; FieldEncryption &gt; field_encryption=nullptr, std::shared_ptr&lt; KeyProvider &gt; key_provider=nullptr)</argsstring>
+        <name>VectorApiHandler</name>
+        <qualifiedname>themis::server::VectorApiHandler::VectorApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;<ref refid="classthemis_1_1_auth_middleware" kindref="compound">::themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+          <declname>field_encryption</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+          <declname>key_provider</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="43" column="5" bodyfile="src/server/vector_api_handler.cpp" bodystart="77" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1a6df223f5f1c3650a27cad0fbf0a1e6e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleSearch</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSearch</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleSearch</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), isBodyWithinLimit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="56" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="98" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1ad41a23da2a8ac7af61769f2e58c29a71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleBatchInsert</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBatchInsert</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleBatchInsert</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), isBodyWithinLimit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="63" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="270" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1acedb04040823a41833adb0bca5729031" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleDeleteByFilter</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleDeleteByFilter</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleDeleteByFilter</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete By Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), body(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="70" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="504" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1a7ad22fecb362b0b66f900e0e98f72ccd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleIndexSave</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleIndexSave</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleIndexSave</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Index Save. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), value(), saveIndex(), makeErrorResponse(), makeResponse(), dump(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="77" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="592" bodyend="621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1af18f9af27e0fd1004c0053b0cf060c3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleIndexLoad</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleIndexLoad</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleIndexLoad</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Index Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), contains(), makeErrorResponse(), loadIndex(), makeResponse(), dump(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="84" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="629" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1a09c7b9f6ff7356b02fba5a2a4e52d34e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleIndexConfigGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleIndexConfigGet</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleIndexConfigGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Index <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getMetric(), getObjectName(), getDimension(), getEfSearch(), getM(), getEfConstruction(), isHnswEnabled(), makeResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="91" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="671" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1af9031f7d76d3fee2e2c7df12b12ee7af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleIndexConfigPut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleIndexConfigPut</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleIndexConfigPut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Index <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), contains(), makeErrorResponse(), setEfSearch(), makeResponse(), dump(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="98" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="707" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1aa2e510863abff9c4aedd0553de5f9ae3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleIndexStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleIndexStats</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleIndexStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Index Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getMetric(), getObjectName(), getDimension(), getVectorCount(), getEfSearch(), getM(), getEfConstruction(), isHnswEnabled(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="105" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="749" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1a63931570b0be8d2288583ad1849d3d3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::handleIncrementalReindex</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleIncrementalReindex</name>
+        <qualifiedname>themis::server::VectorApiHandler::handleIncrementalReindex</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Incremental Reindex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), body(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="112" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="786" bodyend="845"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1a1ebb544f39b3b057640c3997690e6768" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::VectorApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="129" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="855" bodyend="864"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1a687c38c673c1e22ab2557be41707fd2c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VectorApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::VectorApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="138" column="20" bodyfile="src/server/vector_api_handler.cpp" bodystart="874" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1adbbfb92581a95bd401d6e19177a9abd3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; http::response&lt; http::string_body &gt; &gt;</type>
+        <definition>std::optional&lt; http::response&lt; http::string_body &gt; &gt; themis::server::VectorApiHandler::requireAccess</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;permission, const std::string &amp;resource, const std::string &amp;path)</argsstring>
+        <name>requireAccess</name>
+        <qualifiedname>themis::server::VectorApiHandler::requireAccess</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>permission</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Require Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="149" column="19" bodyfile="src/server/vector_api_handler.cpp" bodystart="894" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_vector_api_handler_1a2ff93a8b4e61f21a430517ce42cd53b6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_auth_context" kindref="compound">AuthContext</ref></type>
+        <definition>AuthContext themis::server::VectorApiHandler::extractAuthContext</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>extractAuthContext</name>
+        <qualifiedname>themis::server::VectorApiHandler::extractAuthContext</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Extract Auth Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="160" column="17" bodyfile="src/server/vector_api_handler.cpp" bodystart="929" bodyend="952"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/vector_api_handler.h" line="41" column="1" bodyfile="include/server/vector_api_handler.h" bodystart="41" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1aeb09da5080893f3dddffb9e2c6f2b556" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a2ff93a8b4e61f21a430517ce42cd53b6" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>extractAuthContext</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a316b117a03988bc748d5cf1d2661b1fb" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>field_encryption_</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1ad41a23da2a8ac7af61769f2e58c29a71" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleBatchInsert</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1acedb04040823a41833adb0bca5729031" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleDeleteByFilter</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a63931570b0be8d2288583ad1849d3d3e" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleIncrementalReindex</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a09c7b9f6ff7356b02fba5a2a4e52d34e" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleIndexConfigGet</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1af9031f7d76d3fee2e2c7df12b12ee7af" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleIndexConfigPut</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1af18f9af27e0fd1004c0053b0cf060c3a" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleIndexLoad</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a7ad22fecb362b0b66f900e0e98f72ccd" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleIndexSave</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1aa2e510863abff9c4aedd0553de5f9ae3" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleIndexStats</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a6df223f5f1c3650a27cad0fbf0a1e6e3" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>handleSearch</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a37b66964bac14df832f277c515979fdc" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a1ebb544f39b3b057640c3997690e6768" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a687c38c673c1e22ab2557be41707fd2c" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1adbbfb92581a95bd401d6e19177a9abd3" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>requireAccess</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a8e70ce2d29e3480a0f639ec50d89902a" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1a7e1ca1fb8bf5ebeafbf1b8ab90c9c148" prot="private" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_vector_api_handler_1ac42de452f8394d70ccf31fb39a4bb2ca" prot="public" virt="non-virtual"><scope>themis::server::VectorApiHandler</scope><name>VectorApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

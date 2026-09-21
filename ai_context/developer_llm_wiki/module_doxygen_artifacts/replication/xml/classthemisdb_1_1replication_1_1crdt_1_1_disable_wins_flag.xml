@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::DisableWinsFlag</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a75dc609ac6bd248ccb5f9555d94a952e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::crdt::DisableWinsFlag::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>themisdb::replication::crdt::DisableWinsFlag::enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="688" column="14" bodyfile="include/replication/crdt_types.h" bodystart="688" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1af1896a0600891a6bd467306fd9d046f2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::DisableWinsFlag::ts_enable_</definition>
+        <argsstring></argsstring>
+        <name>ts_enable_</name>
+        <qualifiedname>themisdb::replication::crdt::DisableWinsFlag::ts_enable_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="689" column="14" bodyfile="include/replication/crdt_types.h" bodystart="689" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1aa309458b5da669aed33f50eb6d7b445f" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::DisableWinsFlag::ts_disable_</definition>
+        <argsstring></argsstring>
+        <name>ts_disable_</name>
+        <qualifiedname>themisdb::replication::crdt::DisableWinsFlag::ts_disable_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="690" column="14" bodyfile="include/replication/crdt_types.h" bodystart="690" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a6930f2962e5313d48a1be06244bd327a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::DisableWinsFlag::global_ts_</definition>
+        <argsstring></argsstring>
+        <name>global_ts_</name>
+        <qualifiedname>themisdb::replication::crdt::DisableWinsFlag::global_ts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="691" column="14" bodyfile="include/replication/crdt_types.h" bodystart="691" bodyend="691"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a9eca0d680ee8c9a916b91f9400b7ad36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::DisableWinsFlag::enable</definition>
+        <argsstring>()</argsstring>
+        <name>enable</name>
+        <qualifiedname>themisdb::replication::crdt::DisableWinsFlag::enable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="666" column="10" bodyfile="include/replication/crdt_types.h" bodystart="666" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a4f9550cf190edfaac77344c3155c17c4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::DisableWinsFlag::disable</definition>
+        <argsstring>()</argsstring>
+        <name>disable</name>
+        <qualifiedname>themisdb::replication::crdt::DisableWinsFlag::disable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="667" column="10" bodyfile="include/replication/crdt_types.h" bodystart="667" bodyend="667"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a83da27394e8cd58fff8722b73c46735e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::crdt::DisableWinsFlag::value</definition>
+        <argsstring>() const</argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::replication::crdt::DisableWinsFlag::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="669" column="10" bodyfile="include/replication/crdt_types.h" bodystart="669" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a01335d7b66eb7ad04b920771e0b5d02d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::DisableWinsFlag::merge</definition>
+        <argsstring>(const DisableWinsFlag &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::DisableWinsFlag::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag" kindref="compound">DisableWinsFlag</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="674" column="10" bodyfile="include/replication/crdt_types.h" bodystart="674" bodyend="685"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Disable-Wins Flag (DW-Flag). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a9eca0d680ee8c9a916b91f9400b7ad36" kindref="member">enable()</ref> and <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a4f9550cf190edfaac77344c3155c17c4" kindref="member">disable()</ref> are called concurrently on different nodes, the merged value is <emphasis>disabled</emphasis>. </para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="664" column="1" bodyfile="include/replication/crdt_types.h" bodystart="664" bodyend="692"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a4f9550cf190edfaac77344c3155c17c4" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::DisableWinsFlag</scope><name>disable</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a9eca0d680ee8c9a916b91f9400b7ad36" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::DisableWinsFlag</scope><name>enable</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a75dc609ac6bd248ccb5f9555d94a952e" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::DisableWinsFlag</scope><name>enabled_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a6930f2962e5313d48a1be06244bd327a" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::DisableWinsFlag</scope><name>global_ts_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a01335d7b66eb7ad04b920771e0b5d02d" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::DisableWinsFlag</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1aa309458b5da669aed33f50eb6d7b445f" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::DisableWinsFlag</scope><name>ts_disable_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1af1896a0600891a6bd467306fd9d046f2" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::DisableWinsFlag</scope><name>ts_enable_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag_1a83da27394e8cd58fff8722b73c46735e" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::DisableWinsFlag</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

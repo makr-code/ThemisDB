@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security_1_1_0d203040265172017376166217257151271074126155252332" kind="namespace" language="C++">
+    <compoundname>themis::security::@203040265172017376166217257151271074126155252332</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/intent_classifier.cpp" line="50" column="1"/>
+  </compounddef>
+</doxygen>

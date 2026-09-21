@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_lock_manager_1_1_lock_request" kind="struct" language="C++" prot="private">
+    <compoundname>themis::LockManager::LockRequest</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_request_1ac00e72430ea410d45bd7f3554ecd3c00" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+        <definition>TransactionId themis::LockManager::LockRequest::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::LockManager::LockRequest::txn_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="242" column="23" bodyfile="include/transaction/lock_manager.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_request_1a81b2d591e0f5b70f144c875cc5617052" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+        <definition>LockType themis::LockManager::LockRequest::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::LockManager::LockRequest::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="243" column="23" bodyfile="include/transaction/lock_manager.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_request_1a9ef8db9f97a025ca3b3213253869b2ce" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LockManager::LockRequest::granted</definition>
+        <argsstring></argsstring>
+        <name>granted</name>
+        <qualifiedname>themis::LockManager::LockRequest::granted</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="244" column="23" bodyfile="include/transaction/lock_manager.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_request_1aed264cb6ab430120c426d7fc26099e2c" prot="public" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::LockManager::LockRequest::cv</definition>
+        <argsstring></argsstring>
+        <name>cv</name>
+        <qualifiedname>themis::LockManager::LockRequest::cv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="246" column="33" bodyfile="include/transaction/lock_manager.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_lock_manager_1_1_lock_request_1ad6b07f594c8c91686634839eed6a3ab5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::LockManager::LockRequest::LockRequest</definition>
+        <argsstring>(TransactionId t, LockType lt)</argsstring>
+        <name>LockRequest</name>
+        <qualifiedname>themis::LockManager::LockRequest::LockRequest</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+          <declname>lt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="248" column="9" bodyfile="include/transaction/lock_manager.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/lock_manager.h" line="241" column="5" bodyfile="include/transaction/lock_manager.h" bodystart="241" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_request_1aed264cb6ab430120c426d7fc26099e2c" prot="public" virt="non-virtual"><scope>themis::LockManager::LockRequest</scope><name>cv</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_request_1a9ef8db9f97a025ca3b3213253869b2ce" prot="public" virt="non-virtual"><scope>themis::LockManager::LockRequest</scope><name>granted</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_request_1ad6b07f594c8c91686634839eed6a3ab5" prot="public" virt="non-virtual"><scope>themis::LockManager::LockRequest</scope><name>LockRequest</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_request_1ac00e72430ea410d45bd7f3554ecd3c00" prot="public" virt="non-virtual"><scope>themis::LockManager::LockRequest</scope><name>txn_id</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_request_1a81b2d591e0f5b70f144c875cc5617052" prot="public" virt="non-virtual"><scope>themis::LockManager::LockRequest</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

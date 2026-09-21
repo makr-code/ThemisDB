@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bbr__congestion__control_8h" kind="file" language="C++">
+    <compoundname>bbr_congestion_control.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bbr__congestion__control_8cpp" local="yes">src/network/bbr_congestion_control.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/bbr_congestion_control.h</label>
+        <link refid="bbr__congestion__control_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/bbr_congestion_control.h</label>
+        <link refid="bbr__congestion__control_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/bbr_congestion_control.cpp</label>
+        <link refid="bbr__congestion__control_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1network_1_1_bbr_config" prot="public">themis::network::BbrConfig</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_congestion_diagnostics" prot="public">themis::network::CongestionDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_bbr_congestion_controller" prot="public">themis::network::BbrCongestionController</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>BBRv2 congestion control configuration and diagnostics interface for ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Interface-Stable </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>–<sp/>BBRv2<sp/>Congestion<sp/>Control<sp/>Configuration<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>a<sp/>platform-abstracted<sp/>API<sp/>for<sp/>configuring<sp/>and<sp/>observing<sp/>BBRv2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>congestion<sp/>control<sp/>on<sp/>TCP<sp/>(and<sp/>QUIC)<sp/>connections<sp/>managed<sp/>by<sp/>ThemisDB.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BBRv2<sp/>(Bottleneck<sp/>Bandwidth<sp/>and<sp/>Round-Trip<sp/>Propagation<sp/>Time,<sp/>v2)<sp/>is<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>model-based<sp/>congestion<sp/>control<sp/>algorithm<sp/>that<sp/>achieves<sp/>high<sp/>throughput<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>low<sp/>latency<sp/>without<sp/>relying<sp/>on<sp/>packet<sp/>loss<sp/>as<sp/>the<sp/>primary<sp/>congestion<sp/>signal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>interface<sp/>exposes:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Per-connection<sp/>BBR<sp/>mode<sp/>selection<sp/>(BBR,<sp/>BBRv2,<sp/>CUBIC<sp/>fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Read-only<sp/>BBR<sp/>diagnostic<sp/>state<sp/>(bandwidth<sp/>estimate,<sp/>inflight,<sp/>cwnd)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Tunable<sp/>parameters<sp/>for<sp/>the<sp/>probing<sp/>phases<sp/>(where<sp/>the<sp/>kernel<sp/>permits)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>A<sp/>diagnostic<sp/>snapshot<sp/>suitable<sp/>for<sp/>operator<sp/>telemetry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Platform<sp/>notes:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Linux<sp/>≥<sp/>5.17:<sp/>BBRv2<sp/>available<sp/>as<sp/>&quot;bbr2&quot;<sp/>via<sp/>TCP_CONGESTION<sp/>sockopt.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Linux<sp/>4.9–5.16:<sp/>BBRv1<sp/>only<sp/>(&quot;bbr&quot;).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>All<sp/>other<sp/>platforms<sp/>/<sp/>non-Linux:<sp/>read-only<sp/>diagnostics<sp/>return<sp/>zeroes;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>setCongestionAlgorithm()<sp/>is<sp/>a<sp/>no-op<sp/>that<sp/>returns<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Guarded<sp/>by<sp/>THEMIS_ENABLE_BBR<sp/>for<sp/>the<sp/>configurable<sp/>path;<sp/>the<sp/>diagnostic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>structs<sp/>and<sp/>enums<sp/>are<sp/>always<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Congestion<sp/>algorithm<sp/>selector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa07600c7c7de3ffe91d95ad7557bb9593" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa07600c7c7de3ffe91d95ad7557bb9593" kindref="member">BBRv1</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa9c337a7034fc7bc073b5873dd6f4b7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa9c337a7034fc7bc073b5873dd6f4b7c5" kindref="member">BBRv2</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aaccd681e34e5e40fbce74618c3ccffcff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aaccd681e34e5e40fbce74618c3ccffcff" kindref="member">CUBIC</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa6a824f25245565fc6929f1932c241ceb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa6a824f25245565fc6929f1932c241ceb" kindref="member">RENO</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aafa177138f94a7ea01f549b1aa7893d03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aafa177138f94a7ea01f549b1aa7893d03" kindref="member">SYSTEM</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BBR-specific<sp/>tuning<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1network_1_1_bbr_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_bbr_config_1a6f4e11edc2f319dab769eab28e4e2000" kindref="member">BbrConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1network_1_1_bbr_config_1ad7195b98f37b7d839507275914317266" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_bbr_config_1ad7195b98f37b7d839507275914317266" kindref="member">probe_bw_cwnd_gain</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1network_1_1_bbr_config_1a62b5e7ffa8769c087fc6667b149fae9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_bbr_config_1a62b5e7ffa8769c087fc6667b149fae9c" kindref="member">probe_bw_pacing_gain</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1network_1_1_bbr_config_1a34074d8b4feb9c3d0a7b6c2732983880" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_bbr_config_1a34074d8b4feb9c3d0a7b6c2732983880" kindref="member">probe_rtt_duration_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1network_1_1_bbr_config_1ab4ffb8b60684acabf8488ada64e3a217" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_bbr_config_1ab4ffb8b60684acabf8488ada64e3a217" kindref="member">probe_rtt_cwnd_gain</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1network_1_1_bbr_config_1ae4148e526f9ccb52887d7e522bffcd7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_bbr_config_1ae4148e526f9ccb52887d7e522bffcd7b" kindref="member">enable_ecn</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1network_1_1_bbr_config_1a6f4e11edc2f319dab769eab28e4e2000" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_bbr_config_1a6f4e11edc2f319dab769eab28e4e2000" kindref="member">BbrConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BBR<sp/>diagnostic<sp/>state<sp/>(read-only<sp/>snapshot<sp/>from<sp/>the<sp/>kernel)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1network_1_1_congestion_diagnostics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_congestion_diagnostics" kindref="compound">CongestionDiagnostics</ref><sp/>{</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1network_1_1_congestion_diagnostics_1a062e9cdb45fbd2f2ea67857d08052d24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1a062e9cdb45fbd2f2ea67857d08052d24" kindref="member">algorithm</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1network_1_1_congestion_diagnostics_1abfbb46ea81724a3752fdc121416c1249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1abfbb46ea81724a3752fdc121416c1249" kindref="member">bandwidth_bps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1network_1_1_congestion_diagnostics_1a5aa59e1b6972f93114bc4528be98daed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1a5aa59e1b6972f93114bc4528be98daed" kindref="member">min_rtt_us</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1network_1_1_congestion_diagnostics_1ab4840a0f03dfd841ce72211db7ff8ae1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1ab4840a0f03dfd841ce72211db7ff8ae1" kindref="member">srtt_us</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1network_1_1_congestion_diagnostics_1af75f688764cb442839b4701c004378e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1af75f688764cb442839b4701c004378e1" kindref="member">cwnd_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1network_1_1_congestion_diagnostics_1a100e7961423e31a9f69f0d1f57f6a6f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1a100e7961423e31a9f69f0d1f57f6a6f8" kindref="member">inflight_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1network_1_1_congestion_diagnostics_1abbcb6c2610be2f486f185b9e6711f51f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1abbcb6c2610be2f486f185b9e6711f51f" kindref="member">pacing_rate_bps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1network_1_1_congestion_diagnostics_1a0c5347b93d07ef5775fc53dea89506e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1a0c5347b93d07ef5775fc53dea89506e4" kindref="member">rto_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1network_1_1_congestion_diagnostics_1aae1d66bbf02d7aad722b3604a9729c81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1aae1d66bbf02d7aad722b3604a9729c81" kindref="member">fast_retransmit_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1network_1_1_congestion_diagnostics_1acb6ebf3ae54ca1f5e7a60926a99ec572" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1acb6ebf3ae54ca1f5e7a60926a99ec572" kindref="member">has_loss</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1network_1_1_congestion_diagnostics_1a1a7afe643ff90b09ceaa3f167754237c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics_1a1a7afe643ff90b09ceaa3f167754237c" kindref="member">has_ecn_congestion</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BbrCongestionController</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1network_1_1_bbr_congestion_controller" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref><sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>socket_fd,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref><sp/>algorithm<sp/>=<sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aafa177138f94a7ea01f549b1aa7893d03" kindref="member">CongestionAlgorithm::SYSTEM</ref>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="classthemis_1_1network_1_1_bbr_congestion_controller_1adfb56d30a72436b022eec04a10cee1ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1adfb56d30a72436b022eec04a10cee1ba" kindref="member">~BbrCongestionController</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1network_1_1_bbr_congestion_controller_1af2ece779879e1f5e1784c65836f1df5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1af2ece779879e1f5e1784c65836f1df5b" kindref="member">BbrCongestionController</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1network_1_1_bbr_congestion_controller_1abb9b4c73cf5ef5bcc1b6aad653b24b48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1abb9b4c73cf5ef5bcc1b6aad653b24b48" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1network_1_1_bbr_congestion_controller_1aad4356b98a3b8ea8160d03692963f25b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1aad4356b98a3b8ea8160d03692963f25b" kindref="member">BbrCongestionController</ref>(<ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1network_1_1_bbr_congestion_controller_1af63b091c119f7f14add9ddb8f3744a47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1afc9811fa5252532b69bb51f2bf597c91" kindref="member">setCongestionAlgorithm</ref>(<ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref><sp/>algorithm)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1ad28a5e8ae8ad063694f9d72155a428b8" kindref="member">applyConfig</ref>(const<sp/><ref refid="structthemis_1_1network_1_1_bbr_config" kindref="compound">BbrConfig</ref>&amp;<sp/>cfg)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_congestion_diagnostics" kindref="compound">CongestionDiagnostics</ref><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1aff8bced53778a34743e6aca15cf04f09" kindref="member">getDiagnostics</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a49803cbf3ca62c84273f646a1aac0bb7" kindref="member">getActiveAlgorithmName</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capability<sp/>queries<sp/>(static)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1ab91c5d5847203556a9ba181051bee3a3" kindref="member">isBBRv2Available</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1aa3463cfb9df672244894f5ae2160d06c" kindref="member">isBBRv1Available</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a6bf76c0140e9a371d88605e826446d68" kindref="member">algorithmToKernelName</ref>(<ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref><sp/>algorithm)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>socket_fd_{-1};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref><sp/>active_algorithm_{<ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aafa177138f94a7ea01f549b1aa7893d03" kindref="member">CongestionAlgorithm::SYSTEM</ref>};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/bbr_congestion_control.h"/>
+  </compounddef>
+</doxygen>

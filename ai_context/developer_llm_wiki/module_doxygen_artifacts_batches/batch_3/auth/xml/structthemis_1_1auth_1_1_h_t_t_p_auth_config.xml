@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_h_t_t_p_auth_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::HTTPAuthConfig</compoundname>
+    <includes refid="http__auth__async_8h" local="no">http_auth_async.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1a6703bf1df5c13ac91353c0849990aaf1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::HTTPAuthConfig::request_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_seconds</name>
+        <qualifiedname>themis::auth::HTTPAuthConfig::request_timeout_seconds</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="61" column="9" bodyfile="include/auth/http_auth_async.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1a90fe3c7462ab6cf9c9f8b63882b13c24" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::HTTPAuthConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::auth::HTTPAuthConfig::max_retries</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="63" column="9" bodyfile="include/auth/http_auth_async.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1af9a5908a1590fee3dcc2dc30b2d8f215" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::HTTPAuthConfig::retry_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_backoff_ms</name>
+        <qualifiedname>themis::auth::HTTPAuthConfig::retry_backoff_ms</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="65" column="9" bodyfile="include/auth/http_auth_async.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1a38ca2d8cf2620c9ee99ee150e2111570" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::HTTPAuthConfig::enable_http2</definition>
+        <argsstring></argsstring>
+        <name>enable_http2</name>
+        <qualifiedname>themis::auth::HTTPAuthConfig::enable_http2</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="67" column="10" bodyfile="include/auth/http_auth_async.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1a6245e50d2efc5fb1907c15deb8c609c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::HTTPAuthConfig::verify_ssl_certs</definition>
+        <argsstring></argsstring>
+        <name>verify_ssl_certs</name>
+        <qualifiedname>themis::auth::HTTPAuthConfig::verify_ssl_certs</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="69" column="10" bodyfile="include/auth/http_auth_async.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/http_auth_async.h" line="60" column="1" bodyfile="include/auth/http_auth_async.h" bodystart="60" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1a38ca2d8cf2620c9ee99ee150e2111570" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthConfig</scope><name>enable_http2</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1a90fe3c7462ab6cf9c9f8b63882b13c24" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1a6703bf1df5c13ac91353c0849990aaf1" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthConfig</scope><name>request_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1af9a5908a1590fee3dcc2dc30b2d8f215" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthConfig</scope><name>retry_backoff_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config_1a6245e50d2efc5fb1907c15deb8c609c5" prot="public" virt="non-virtual"><scope>themis::auth::HTTPAuthConfig</scope><name>verify_ssl_certs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1056 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__api__key__authenticator_8cpp" kind="file" language="C++">
+    <compoundname>test_api_key_authenticator.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/api_key_authenticator.h</includes>
+    <includes local="yes">auth/auth_error.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/api/test_api_key_authenticator.cpp</label>
+        <link refid="test__api__key__authenticator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>auth/api_key_authenticator.h</label>
+      </node>
+      <node id="4">
+        <label>auth/auth_error.h</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, HashSecret_ProducesSHA256Hex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>HashSecret_ProducesSHA256Hex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="46" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="46" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a5d824c948a7dc24687c523914b390c21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, HashSecret_DifferentSecretsDifferentHashes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>HashSecret_DifferentSecretsDifferentHashes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="53" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="53" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a40b74e7f8c19d0ed7746d47fb2f9f346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, HashSecret_EmptyStringIsValid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>HashSecret_EmptyStringIsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="59" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="59" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a62e70a0adbaaffaa9cec1b126272a975" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, CreateCredential_SetsAllFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>CreateCredential_SetsAllFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="69" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="69" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a2eab071a31ec12ca4f77f322a1b00571" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, CreateCredential_DefaultNoExpiry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>CreateCredential_DefaultNoExpiry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="84" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a7d33a7eadd86fa9135f2ad183bef3c03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AddCredential_RejectsEmptyKeyId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AddCredential_RejectsEmptyKeyId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="95" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1afa108806f754ed5653ebd686f1439ee6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AddCredential_RejectsBadHashLength)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AddCredential_RejectsBadHashLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="102" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="102" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a10863a10f734cc12356e52fcc57ebcf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AddCredential_AcceptsValidCredential)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AddCredential_AcceptsValidCredential</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="109" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="109" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a48a29d6de9e514d947c62f071dbb2751" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AddCredential_ReplacesExisting)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AddCredential_ReplacesExisting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="115" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a7b52119d5b601a6d7abae7c934bcd4a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, RemoveCredential_RemovesExisting)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>RemoveCredential_RemovesExisting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="129" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a2318e23af2ffa449cda8633d3d8f0efe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, RemoveCredential_NoopForUnknown)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>RemoveCredential_NoopForUnknown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="137" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a945141d3b134653372b1475d51a6d072" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_SuccessReturnsCorrectClaims)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_SuccessReturnsCorrectClaims</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="146" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="146" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1afd489eb3c8e0620d8dc8459cca21487c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_NoScopesOrRoles)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_NoScopesOrRoles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="159" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1af6a5acdf40f59391865622949505c163" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_EmptyKeyIdThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_EmptyKeyIdThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="172" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="172" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a1b9e568ac66d818d33c1698a1c999453" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_EmptySecretThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_EmptySecretThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="178" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="178" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1aa7f0a2744666829cc3d9ee252380597e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_UnknownKeyIdThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_UnknownKeyIdThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="184" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="184" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1ab4e8c7911d69c0ca463635a24c7b9121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_WrongSecretThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_WrongSecretThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="194" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="194" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a771d7d4862dc9668f679353ab63155d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_InactiveKeyThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_InactiveKeyThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="205" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="205" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a15c956337cd7dd574c1512d098d565f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_ExpiredKeyThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_ExpiredKeyThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="218" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="218" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a35e2d967d3be9c51eabcf9ab48f167e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_FutureKeyNotExpired)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_FutureKeyNotExpired</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="231" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="231" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1ae87c1da0e0de91d190b7805d243a68bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_ExpiryCheckDisabled_ExpiredKeySucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_ExpiryCheckDisabled_ExpiredKeySucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="239" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="239" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a268e2714430df2dbd576a2c84052d919" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_KeyIdTooLongThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_KeyIdTooLongThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="251" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="251" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a525c6ef3fc60c9729805ca4a8ebe895b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, Authenticate_SecretTooLongThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_SecretTooLongThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="262" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="262" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a304c43220bf47406ad4b25071b09907c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AuthenticateCombined_Success)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AuthenticateCombined_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="279" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="279" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a7d5c5d70fb801305dbbde906326db9fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AuthenticateCombined_NoDotThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AuthenticateCombined_NoDotThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="286" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="286" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1abd0808bf1e2a813038a8b46ad63f0221" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AuthenticateCombined_LeadingDotThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AuthenticateCombined_LeadingDotThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="291" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="291" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1ab8e808eeea04cf04e77c7a703a83b1cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AuthenticateCombined_TrailingDotThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AuthenticateCombined_TrailingDotThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="296" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="296" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1af529e3d68f775eb04897516c33abe6df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyAuthenticatorTest, AuthenticateCombined_SplitsOnFirstDot)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AuthenticateCombined_SplitsOnFirstDot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="301" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="301" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a21d35c87183b9008635ef89784784fcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyClaimsTest, IsExpired_NoExpiry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_NoExpiry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="315" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="315" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a569b178376615a288830f766e490ad9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyClaimsTest, IsExpired_FutureExpiry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_FutureExpiry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="320" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="320" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a7541fc621e1e8fd2875138a2f83ee548" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyClaimsTest, IsExpired_PastExpiry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_PastExpiry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="326" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="326" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1af833ba3619fcbeacbea66966463e3885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyClaimsTest, HasScope_Present)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyClaimsTest</type>
+        </param>
+        <param>
+          <type>HasScope_Present</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="332" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="332" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1a13823983dec3613eb837731940121f62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyClaimsTest, HasScope_Absent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyClaimsTest</type>
+        </param>
+        <param>
+          <type>HasScope_Absent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="339" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="339" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__key__authenticator_8cpp_1ab332734781abbf65e0c4906b42538b4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ApiKeyClaimsTest, HasScope_EmptyScopes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ApiKeyClaimsTest</type>
+        </param>
+        <param>
+          <type>HasScope_EmptyScopes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_authenticator.cpp" line="345" column="1" bodyfile="tests/api/test_api_key_authenticator.cpp" bodystart="345" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 87/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/api_key_authenticator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/auth_error.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::auth;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">ApiKeyCredential<sp/>makeCredential(</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>secret<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>scopes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;data:read&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;data:write&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>roles<sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant-1&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ApiKeyAuthenticator::createCredential(</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key_id,<sp/>secret,<sp/>principal,<sp/>scopes,<sp/>roles,<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>hashSecret</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>HashSecret_ProducesSHA256Hex)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>hash<sp/>=<sp/>ApiKeyAuthenticator::hashSecret(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256(&quot;hello&quot;)<sp/>=<sp/>2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hash.size(),<sp/>64u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hash,<sp/></highlight><highlight class="stringliteral">&quot;2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>HashSecret_DifferentSecretsDifferentHashes)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>h1<sp/>=<sp/>ApiKeyAuthenticator::hashSecret(</highlight><highlight class="stringliteral">&quot;secret-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>h2<sp/>=<sp/>ApiKeyAuthenticator::hashSecret(</highlight><highlight class="stringliteral">&quot;secret-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(h1,<sp/>h2);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>HashSecret_EmptyStringIsValid)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256<sp/>of<sp/>empty<sp/>string<sp/>is<sp/>deterministic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>hash<sp/>=<sp/>ApiKeyAuthenticator::hashSecret(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hash.size(),<sp/>64u);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>createCredential</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>CreateCredential_SetsAllFields)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>ApiKeyAuthenticator::createCredential(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sk_live_abc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;raw-secret&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob@example.com&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cred.key_id,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sk_live_abc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cred.principal,<sp/></highlight><highlight class="stringliteral">&quot;bob@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cred.tenant_id,<sp/></highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cred.scopes,<sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cred.roles,<sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;{</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cred.active);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cred.secret_hash.size(),<sp/>64u);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cred.secret_hash,<sp/>ApiKeyAuthenticator::hashSecret(</highlight><highlight class="stringliteral">&quot;raw-secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>CreateCredential_DefaultNoExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>ApiKeyAuthenticator::createCredential(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point<sp/>epoch{};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cred.expires_at,<sp/>epoch);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>addCredential<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AddCredential_RejectsEmptyKeyId)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyCredential<sp/>cred<sp/>=<sp/>makeCredential();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>cred.key_id.clear();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(auth.addCredential(cred),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AddCredential_RejectsBadHashLength)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyCredential<sp/>cred<sp/>=<sp/>makeCredential();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>cred.secret_hash<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tooshort&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(auth.addCredential(cred),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AddCredential_AcceptsValidCredential)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(auth.addCredential(makeCredential()));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(auth.credentialCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AddCredential_ReplacesExisting)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(makeCredential(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(makeCredential(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(auth.credentialCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>replacement,<sp/>&quot;s1&quot;<sp/>must<sp/>no<sp/>longer<sp/>authenticate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(auth.authenticate(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(auth.authenticate(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>removeCredential</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>RemoveCredential_RemovesExisting)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(makeCredential());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(auth.credentialCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.removeCredential(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(auth.credentialCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>RemoveCredential_NoopForUnknown)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(auth.removeCredential(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>authenticate<sp/>–<sp/>success<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_SuccessReturnsCorrectClaims)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(makeCredential());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>auth.authenticate(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.key_id,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.principal,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.tenant_id,<sp/></highlight><highlight class="stringliteral">&quot;tenant-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.scopes,<sp/><sp/><sp/><sp/>(std::vector&lt;std::string&gt;{</highlight><highlight class="stringliteral">&quot;data:read&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;data:write&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.roles,<sp/><sp/><sp/><sp/><sp/>(std::vector&lt;std::string&gt;{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_NoScopesOrRoles)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>ApiKeyAuthenticator::createCredential(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(cred);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>auth.authenticate(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.scopes.empty());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.roles.empty());</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>authenticate<sp/>–<sp/>failure<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_EmptyKeyIdThrows)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(makeCredential());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(auth.authenticate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_EmptySecretThrows)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(makeCredential());</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(auth.authenticate(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_UnknownKeyIdThrows)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth.authenticate(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthException&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.error().code(),<sp/>AuthErrorCode::API_KEY_INVALID);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_WrongSecretThrows)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(makeCredential());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth.authenticate(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;wrong-secret&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthException&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.error().code(),<sp/>AuthErrorCode::API_KEY_SECRET_MISMATCH);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_InactiveKeyThrows)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>makeCredential();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>cred.active<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(cred);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth.authenticate(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthException&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.error().code(),<sp/>AuthErrorCode::API_KEY_INACTIVE);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_ExpiredKeyThrows)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>makeCredential();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>cred.expires_at<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/>std::chrono::seconds(1);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(cred);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth.authenticate(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthException&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.error().code(),<sp/>AuthErrorCode::API_KEY_EXPIRED);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_FutureKeyNotExpired)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>makeCredential();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>cred.expires_at<sp/>=<sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(cred);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(auth.authenticate(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_ExpiryCheckDisabled_ExpiredKeySucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.check_expiry<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth(cfg);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>makeCredential();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cred.expires_at<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/>std::chrono::seconds(1);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(cred);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw<sp/>even<sp/>though<sp/>the<sp/>key<sp/>is<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(auth.authenticate(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_KeyIdTooLongThrows)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_key_id_length<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth(cfg);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth.authenticate(</highlight><highlight class="stringliteral">&quot;this-is-much-longer-than-10-chars&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AuthException</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>Authenticate_SecretTooLongThrows)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_secret_length<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth(cfg);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>makeCredential();</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(cred);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth.authenticate(</highlight><highlight class="stringliteral">&quot;sk_live_test123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;this-is-longer-than-5&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AuthException</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>authenticateCombined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AuthenticateCombined_Success)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(makeCredential());</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>auth.authenticateCombined(</highlight><highlight class="stringliteral">&quot;sk_live_test123.super-secret&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.principal,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AuthenticateCombined_NoDotThrows)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(auth.authenticateCombined(</highlight><highlight class="stringliteral">&quot;nodothere&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AuthenticateCombined_LeadingDotThrows)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(auth.authenticateCombined(</highlight><highlight class="stringliteral">&quot;.secret&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AuthenticateCombined_TrailingDotThrows)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(auth.authenticateCombined(</highlight><highlight class="stringliteral">&quot;keyid.&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyAuthenticatorTest,<sp/>AuthenticateCombined_SplitsOnFirstDot)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Secret<sp/>itself<sp/>may<sp/>contain<sp/>dots;<sp/>only<sp/>the<sp/>first<sp/>dot<sp/>is<sp/>the<sp/>separator.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyAuthenticator<sp/>auth;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cred<sp/>=<sp/>ApiKeyAuthenticator::createCredential(</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sk&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sec.ret.with.dots&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;principal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>auth.addCredential(cred);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>auth.authenticateCombined(</highlight><highlight class="stringliteral">&quot;sk.sec.ret.with.dots&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.principal,<sp/></highlight><highlight class="stringliteral">&quot;principal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ApiKeyClaims<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyClaimsTest,<sp/>IsExpired_NoExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.isExpired());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyClaimsTest,<sp/>IsExpired_FutureExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.expires_at<sp/>=<sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::hours(1);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.isExpired());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyClaimsTest,<sp/>IsExpired_PastExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.expires_at<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/>std::chrono::seconds(1);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.isExpired());</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyClaimsTest,<sp/>HasScope_Present)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.scopes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;data:read&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;data:write&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.hasScope(</highlight><highlight class="stringliteral">&quot;data:read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.hasScope(</highlight><highlight class="stringliteral">&quot;data:write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyClaimsTest,<sp/>HasScope_Absent)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.scopes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;data:read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.hasScope(</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><ref refid="test__api__key__authenticator_8cpp_1a5c729c2f0baa7be0a87862e54d73d4aa" kindref="member">TEST</ref>(ApiKeyClaimsTest,<sp/>HasScope_EmptyScopes)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>ApiKeyClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.hasScope(</highlight><highlight class="stringliteral">&quot;data:read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/api/test_api_key_authenticator.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a2d051535b837057f8794330cf003218b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionPipelineConfig::ErrorHandlingConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::strategy</qualifiedname>
+        <briefdescription>
+<para>Strategy: fail_fast, graceful, retry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="224" column="21" bodyfile="include/llm/vision_config.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1ad9f6f5ed282e62488b4aed590057e8e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionPipelineConfig::ErrorHandlingConfig::retry_enabled</definition>
+        <argsstring></argsstring>
+        <name>retry_enabled</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::retry_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="225" column="14" bodyfile="include/llm/vision_config.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1abfccc57730db9e875fa8dfe9c25f893b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::VisionPipelineConfig::ErrorHandlingConfig::max_retry_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_retry_attempts</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::max_retry_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="226" column="13" bodyfile="include/llm/vision_config.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a3ef85fe26a8bcd6d0c5d3e60043d11ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionPipelineConfig::ErrorHandlingConfig::backoff_strategy</definition>
+        <argsstring></argsstring>
+        <name>backoff_strategy</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::backoff_strategy</qualifiedname>
+        <briefdescription>
+<para>Backoff: linear, exponential, fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="227" column="21" bodyfile="include/llm/vision_config.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a2c097535c3101d8ea8d6b366b6484dd6" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::VisionPipelineConfig::ErrorHandlingConfig::initial_delay</definition>
+        <argsstring></argsstring>
+        <name>initial_delay</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::initial_delay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="228" column="35" bodyfile="include/llm/vision_config.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a43931974b81d857c4b378b87b061032c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::VisionPipelineConfig::ErrorHandlingConfig::max_delay</definition>
+        <argsstring></argsstring>
+        <name>max_delay</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::max_delay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="229" column="35" bodyfile="include/llm/vision_config.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a1f0b0d855b8d466374ca7d6dd24e459f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionPipelineConfig::ErrorHandlingConfig::use_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>use_cpu_fallback</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::use_cpu_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="230" column="14" bodyfile="include/llm/vision_config.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a29c5fb725000bed54d50b957fd2a2b41" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionPipelineConfig::ErrorHandlingConfig::use_smaller_model</definition>
+        <argsstring></argsstring>
+        <name>use_smaller_model</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::use_smaller_model</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="231" column="14" bodyfile="include/llm/vision_config.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a72241733235f868d32642df0cdb834e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionPipelineConfig::ErrorHandlingConfig::return_error_response</definition>
+        <argsstring></argsstring>
+        <name>return_error_response</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::ErrorHandlingConfig::return_error_response</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="232" column="14" bodyfile="include/llm/vision_config.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="223" column="5" bodyfile="include/llm/vision_config.h" bodystart="223" bodyend="233"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a3ef85fe26a8bcd6d0c5d3e60043d11ba" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>backoff_strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a2c097535c3101d8ea8d6b366b6484dd6" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>initial_delay</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a43931974b81d857c4b378b87b061032c" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>max_delay</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1abfccc57730db9e875fa8dfe9c25f893b" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>max_retry_attempts</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1ad9f6f5ed282e62488b4aed590057e8e5" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>retry_enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a72241733235f868d32642df0cdb834e9" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>return_error_response</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a2d051535b837057f8794330cf003218b" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a1f0b0d855b8d466374ca7d6dd24e459f" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>use_cpu_fallback</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_error_handling_config_1a29c5fb725000bed54d50b957fd2a2b41" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::ErrorHandlingConfig</scope><name>use_smaller_model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

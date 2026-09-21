@@ -1,0 +1,670 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__process__community__detector_8cpp" kind="file" language="C++">
+    <compoundname>test_process_community_detector.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes refid="process__community__detector_8h" local="yes">process/process_community_detector.h</includes>
+    <includes refid="process__model__manager_8h" local="yes">process/process_model_manager.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>process/process_community_detector.h</label>
+        <link refid="process__community__detector_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>process/process_model_manager.h</label>
+        <link refid="process__model__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/process/test_process_community_detector.cpp</label>
+        <link refid="test__process__community__detector_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>filesystem</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="11">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="5">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_process_community_detector_test" prot="public">ProcessCommunityDetectorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD01_EmptyGraph)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD01_EmptyGraph</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="76" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="76" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1a7ee164b9ca953d9cb9583b331c24331e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD02_SingleNode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD02_SingleNode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="86" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="86" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1a9b0ecf0974a800d5af12a02f3db9095e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD03_TwoDisconnectedNodes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD03_TwoDisconnectedNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="99" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="99" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1ae39649097639156260e46927e43dcf2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD04_LinearChain)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD04_LinearChain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="112" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="112" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1adfca911e4134c89d3ce4b7243281df2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD05_TwoCliques)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD05_TwoCliques</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="133" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="133" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1a07693e000344daf651ea6846359051eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD06_HigherResolutionMoreCommunities)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD06_HigherResolutionMoreCommunities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="158" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="158" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1a94f7ae178e67ae688156622b6e05c429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD07_PersistAndLoad)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD07_PersistAndLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="183" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="183" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1af8ec062adf8a6e91b3b854f01d2f35c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD08_CommunityIdsUnique)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD08_CommunityIdsUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="206" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="206" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1a8d63472df064d0de3927f4b3afaf0fb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD09_GenerateReportNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD09_GenerateReportNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="229" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="229" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1a8a9eb19bdf3a31f4f11b2b2e694a4ef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD10_PerformanceTwentyNodes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD10_PerformanceTwentyNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="242" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="242" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1a49558d3953836279c36d0c406ee5f9d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD11_GenerateReport_IncludesModularityAndCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD11_GenerateReport_IncludesModularityAndCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="267" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="267" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__community__detector_8cpp_1a34b12c64f15fcc04acda540fc9d1616b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessCommunityDetectorTest, LCD12_GenerateReport_EllipsisForLargeCommunit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>LCD12_GenerateReport_EllipsisForLargeCommunit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="294" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="294" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>test_process_community_detector.cpp</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>tests/process/</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>GTest<sp/>unit<sp/>tests<sp/>LCD-01<sp/>..<sp/>LCD-10<sp/>for<sp/>ProcessCommunityDetector.</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__community__detector_8h" kindref="compound">process/process_community_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__model__manager_8h" kindref="compound">process/process_model_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/><sp/><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="class_process_community_detector_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_process_community_detector_test_1a9238a9fad2dcf401301b7cf7355487ec" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1ae89c22f10a01fa03950e23e56ea5d56a" kindref="member">db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/test_community_detector&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_process_community_detector_test_1ae89c22f10a01fa03950e23e56ea5d56a" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_process_community_detector_test_1ae89c22f10a01fa03950e23e56ea5d56a" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_background_jobs<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1a562656860e27f58a4492187aac41ba03" kindref="member">db_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_process_community_detector_test_1a562656860e27f58a4492187aac41ba03" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::registerProcessEdgeTypes();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1a330ecfcb5f9a6e9a3d39c34183b1b6b2" kindref="member">mgr_</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessModelManager&gt;(*<ref refid="class_process_community_detector_test_1a562656860e27f58a4492187aac41ba03" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1a10d5e0dc2e2cfbdb144b8c4d961e9317" kindref="member">detector_</ref><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessCommunityDetector&gt;(*<ref refid="class_process_community_detector_test_1a562656860e27f58a4492187aac41ba03" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_process_community_detector_test_1a5e32cce3db1ad64b153bc17fb1ddf4a4" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1a10d5e0dc2e2cfbdb144b8c4d961e9317" kindref="member">detector_</ref>.reset();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1a330ecfcb5f9a6e9a3d39c34183b1b6b2" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1a562656860e27f58a4492187aac41ba03" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_process_community_detector_test_1ae89c22f10a01fa03950e23e56ea5d56a" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_process_community_detector_test_1aec93066f0aff9f3c8b821780c71fd402" kindref="member">saveModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;<sp/>nodes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;<sp/>edges)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">themis::process::ProcessModelRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a72f4aec96ca2f648f178f409d4244774" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a1d53df2f4efa62f9ba57360ad96174c5" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a13dd4e8a8db9ce53fff1d6bb44a074ca" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a814c6661c9a25fb16172544b0d2e2e88" kindref="member">normalized</ref><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;nodes&quot;</highlight><highlight class="normal">,<sp/>nodes},<sp/>{</highlight><highlight class="stringliteral">&quot;edges&quot;</highlight><highlight class="normal">,<sp/>edges}};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1a330ecfcb5f9a6e9a3d39c34183b1b6b2" kindref="member">mgr_</ref>-&gt;save(rec);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_process_community_detector_test_1ae89c22f10a01fa03950e23e56ea5d56a" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_community_detector_test_1a562656860e27f58a4492187aac41ba03" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessModelManager&gt;<sp/><ref refid="class_process_community_detector_test_1a330ecfcb5f9a6e9a3d39c34183b1b6b2" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessCommunityDetector&gt;<sp/><ref refid="class_process_community_detector_test_1a10d5e0dc2e2cfbdb144b8c4d961e9317" kindref="member">detector_</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-01:<sp/>Empty<sp/>graph<sp/>→<sp/>0<sp/>communities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD01_EmptyGraph)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_empty&quot;</highlight><highlight class="normal">,<sp/>json::array(),<sp/>json::array());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(comms.empty());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-02:<sp/>Single<sp/>node<sp/>→<sp/>1<sp/>community</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD02_SingleNode)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_single&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array({<ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Start&quot;</highlight><highlight class="normal">}}}),</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_single&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(comms.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(comms[0].node_ids.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-03:<sp/>Two<sp/>disconnected<sp/>nodes<sp/>→<sp/>2<sp/>communities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD03_TwoDisconnectedNodes)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_disconnected&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array({<ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">}}}),</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_disconnected&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(comms.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-04:<sp/>Linear<sp/>chain<sp/>of<sp/>5<sp/>nodes<sp/>→<sp/>1-2<sp/>communities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD04_LinearChain)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nodes.push_back({{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)},</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Node&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)}});</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges.push_back({{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)},</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>+<sp/>1)}});</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_chain&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_chain&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(comms.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(comms.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-05:<sp/>Two<sp/>cliques<sp/>connected<sp/>by<sp/>single<sp/>edge<sp/>→<sp/>2<sp/>communities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD05_TwoCliques)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clique<sp/>A:<sp/>a1-a2-a3<sp/>(all<sp/>pairs<sp/>connected)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clique<sp/>B:<sp/>b1-b2-b3<sp/>(all<sp/>pairs<sp/>connected)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bridge:<sp/>a3<sp/>→<sp/>b1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A1&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A2&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A3&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B1&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B2&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B3&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b2&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b3&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b3&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">}}<sp/><sp/></highlight><highlight class="comment">//<sp/>bridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_cliques&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_cliques&quot;</highlight><highlight class="normal">,<sp/>2.0f);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>two<sp/>dense<sp/>cliques<sp/>should<sp/>form<sp/>distinct<sp/>communities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(comms.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-06:<sp/>Resolution<sp/>&gt;<sp/>1.0<sp/>produces<sp/>≥<sp/>communities<sp/>as<sp/>resolution<sp/>==<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD06_HigherResolutionMoreCommunities)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>6-node<sp/>two-clique<sp/>graph<sp/>from<sp/>LCD-05</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A1&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A2&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;A3&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B1&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B2&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;B3&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b2&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b3&quot;</highlight><highlight class="normal">}},<sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b3&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_res&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms_1<sp/><sp/><sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_res&quot;</highlight><highlight class="normal">,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms_high<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_res&quot;</highlight><highlight class="normal">,<sp/>2.0f);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>resolution<sp/>should<sp/>produce<sp/>at<sp/>least<sp/>as<sp/>many<sp/>communities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(comms_high.size(),<sp/>comms_1.size());</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-07:<sp/>persistCommunities<sp/>+<sp/>loadCommunities<sp/>roundtrip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD07_PersistAndLoad)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_rtrip&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array({<ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Alpha&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Beta&quot;</highlight><highlight class="normal">}}}),</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::array());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_rtrip&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(comms.empty());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(detector_-&gt;persistCommunities(</highlight><highlight class="stringliteral">&quot;m_rtrip&quot;</highlight><highlight class="normal">,<sp/>comms));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>detector_-&gt;loadCommunities(</highlight><highlight class="stringliteral">&quot;m_rtrip&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.size(),<sp/>comms.size());</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>lc<sp/>:<sp/>loaded)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(lc.community_id.empty());</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(lc.node_ids.empty());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-08:<sp/>Community<sp/>IDs<sp/>are<sp/>unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD08_CommunityIdsUnique)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>6;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nodes.push_back({{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">+std::to_string(i)},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">+std::to_string(i)}});</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_unique&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_unique&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>ids<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>ids.reserve(comms.size());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>comms)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ids.push_back(c.community_id);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unique_ids<sp/>=<sp/>std::set&lt;std::string&gt;(ids.begin(),<sp/>ids.end());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ids.size(),<sp/>unique_ids.size());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-09:<sp/>generateReport<sp/>returns<sp/>non-empty<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD09_GenerateReportNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">themis::process::ProcessCommunity</ref><sp/>c;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aecdcb9127a0a2838a34a370dcfa29527" kindref="member">community_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;community_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aa11edf4723fb9e9cefe0aa34ebdbe580" kindref="member">node_ids</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>report<sp/>=<sp/>detector_-&gt;generateReport(c,<sp/></highlight><highlight class="stringliteral">&quot;model_x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.empty());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-10:<sp/>detect()<sp/>on<sp/>a<sp/>20-node<sp/>graph<sp/>completes<sp/>in<sp/>&lt;<sp/>500<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD10_PerformanceTwentyNodes)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>nodes<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/>edges<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nodes.push_back({{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">+std::to_string(i)},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">+std::to_string(i)}});</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>19;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges.push_back({{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">+std::to_string(i)},</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">+std::to_string(i+1)}});</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>saveModel(</highlight><highlight class="stringliteral">&quot;m_perf20&quot;</highlight><highlight class="normal">,<sp/>nodes,<sp/>edges);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comms<sp/>=<sp/>detector_-&gt;detect(</highlight><highlight class="stringliteral">&quot;m_perf20&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dt<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0).count();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dt,<sp/>500)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;detect()<sp/>took<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dt<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms<sp/>for<sp/>20-node<sp/>graph&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(comms.empty());</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-11:<sp/>generateReport<sp/>includes<sp/>node<sp/>count<sp/>and<sp/>modularity<sp/>score<sp/>(stub<sp/>#238)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD11_GenerateReport_IncludesModularityAndCount)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">themis::process::ProcessCommunity</ref><sp/>c;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aecdcb9127a0a2838a34a370dcfa29527" kindref="member">community_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;community_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aa11edf4723fb9e9cefe0aa34ebdbe580" kindref="member">node_ids</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n5&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1a1c74212696e9dd730bf6a76ef78f17f6" kindref="member">label</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;n1;<sp/>n2;<sp/>n3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1a7c2db9fea6f4d09acaefadc9ed553299" kindref="member">modularity_score</ref><sp/>=<sp/>0.1234f;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>report_en<sp/>=<sp/>detector_-&gt;generateReport(c,<sp/></highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>contain<sp/>node<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(report_en.find(</highlight><highlight class="stringliteral">&quot;5&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Report<sp/>must<sp/>mention<sp/>the<sp/>node<sp/>count<sp/>(5).<sp/>Report:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>report_en;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>contain<sp/>modularity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(report_en.find(</highlight><highlight class="stringliteral">&quot;modularity&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;English<sp/>report<sp/>must<sp/>contain<sp/>&apos;modularity&apos;.<sp/>Report:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>report_en;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>contain<sp/>the<sp/>community_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(report_en.find(</highlight><highlight class="stringliteral">&quot;community_0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>German<sp/>variant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>report_de<sp/>=<sp/>detector_-&gt;generateReport(c,<sp/></highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(report_de.find(</highlight><highlight class="stringliteral">&quot;Modularität&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;German<sp/>report<sp/>must<sp/>contain<sp/>&apos;Modularität&apos;.<sp/>Report:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>report_de;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LCD-12:<sp/>generateReport<sp/>lists<sp/>all<sp/>nodes<sp/>(up<sp/>to<sp/>10)<sp/>with<sp/>ellipsis<sp/>beyond<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="test__process__community__detector_8cpp_1af284c5635feeb19c7a2a1e072aecaa4c" kindref="member">TEST_F</ref>(<ref refid="class_process_community_detector_test" kindref="compound">ProcessCommunityDetectorTest</ref>,<sp/>LCD12_GenerateReport_EllipsisForLargeCommunit)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">themis::process::ProcessCommunity</ref><sp/>c;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aecdcb9127a0a2838a34a370dcfa29527" kindref="member">community_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;community_1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>15;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aa11edf4723fb9e9cefe0aa34ebdbe580" kindref="member">node_ids</ref>.push_back(</highlight><highlight class="stringliteral">&quot;node_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1a7c2db9fea6f4d09acaefadc9ed553299" kindref="member">modularity_score</ref><sp/>=<sp/>0.05f;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>report<sp/>=<sp/>detector_-&gt;generateReport(c,<sp/></highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ellipsis<sp/>must<sp/>appear<sp/>because<sp/>&gt;10<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(report.find(</highlight><highlight class="stringliteral">&quot;more&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Report<sp/>should<sp/>contain<sp/>ellipsis<sp/>for<sp/>communities<sp/>with<sp/>&gt;10<sp/>nodes.<sp/>Report:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>report;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>10<sp/>nodes<sp/>should<sp/>be<sp/>listed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(report.find(</highlight><highlight class="stringliteral">&quot;node_0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(report.find(</highlight><highlight class="stringliteral">&quot;node_9&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/process/test_process_community_detector.cpp"/>
+  </compounddef>
+</doxygen>

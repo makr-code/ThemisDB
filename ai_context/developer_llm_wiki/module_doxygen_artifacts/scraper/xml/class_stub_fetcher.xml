@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_fetcher" kind="class" language="C++" prot="public">
+    <compoundname>StubFetcher</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_fetcher_1a4a6e8e18e69a41b44b5d9a5208f582d1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubFetcher::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>StubFetcher::ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="56" column="17" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_fetcher_1ab2ed1a9c992bf4dc5fddc43318d860f6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_fetch_record" kindref="compound">FetchRecord</ref></type>
+        <definition>FetchRecord StubFetcher::fetch</definition>
+        <argsstring>(const std::string &amp;url) noexcept</argsstring>
+        <name>fetch</name>
+        <qualifiedname>StubFetcher::fetch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="50" column="17" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_fetcher_1a39b30c0e8ea186cf22e35455e9c8ec55" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubFetcher::totalOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalOps</name>
+        <qualifiedname>StubFetcher::totalOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="54" column="14" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="48" column="1" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="48" bodyend="57"/>
+    <listofallmembers>
+      <member refid="class_stub_fetcher_1ab2ed1a9c992bf4dc5fddc43318d860f6" prot="public" virt="non-virtual"><scope>StubFetcher</scope><name>fetch</name></member>
+      <member refid="class_stub_fetcher_1a4a6e8e18e69a41b44b5d9a5208f582d1" prot="private" virt="non-virtual"><scope>StubFetcher</scope><name>ops_</name></member>
+      <member refid="class_stub_fetcher_1a39b30c0e8ea186cf22e35455e9c8ec55" prot="public" virt="non-virtual"><scope>StubFetcher</scope><name>totalOps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

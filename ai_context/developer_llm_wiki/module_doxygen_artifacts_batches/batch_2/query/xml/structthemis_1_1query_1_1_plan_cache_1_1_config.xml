@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_plan_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PlanCache::Config</compoundname>
+    <includes refid="plan__cache_8h" local="no">plan_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_config_1a73c287f9f371279eca6ed2500fbbf893" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::query::PlanCache::Config::max_entries</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="70" column="16" bodyfile="include/query/plan_cache.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_config_1addd688302c6e1cc1651b05b0cf693293" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::PlanCache::Config::max_plan_age</definition>
+        <argsstring></argsstring>
+        <name>max_plan_age</name>
+        <qualifiedname>themis::query::PlanCache::Config::max_plan_age</qualifiedname>
+        <initializer>{86400}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="72" column="30" bodyfile="include/query/plan_cache.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_config_1a6a38a4193e701c8cd69a090073f219fa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::PlanCache::Config::statistics_drift_factor</definition>
+        <argsstring></argsstring>
+        <name>statistics_drift_factor</name>
+        <qualifiedname>themis::query::PlanCache::Config::statistics_drift_factor</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="74" column="16" bodyfile="include/query/plan_cache.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_config_1a22b76d7ad1579b8f847c242e9c904e97" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::Config::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::query::PlanCache::Config::max_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="76" column="16" bodyfile="include/query/plan_cache.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_config_1acb3078921b45c14c4f309094f093c953" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::PlanCache::Config::memory_eviction_threshold</definition>
+        <argsstring></argsstring>
+        <name>memory_eviction_threshold</name>
+        <qualifiedname>themis::query::PlanCache::Config::memory_eviction_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="78" column="16" bodyfile="include/query/plan_cache.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_config_1a962dedffef2ea566759f7c35cebf354f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::Config::max_consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>max_consecutive_failures</name>
+        <qualifiedname>themis::query::PlanCache::Config::max_consecutive_failures</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="80" column="16" bodyfile="include/query/plan_cache.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_config_1a6ee00a58582b9fb61b8d57c58e6d9b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::query::PlanCache::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="82" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/plan_cache.h" line="69" column="5" bodyfile="include/query/plan_cache.h" bodystart="69" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_config_1a6ee00a58582b9fb61b8d57c58e6d9b35" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_config_1a962dedffef2ea566759f7c35cebf354f" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Config</scope><name>max_consecutive_failures</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_config_1a73c287f9f371279eca6ed2500fbbf893" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Config</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_config_1a22b76d7ad1579b8f847c242e9c904e97" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Config</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_config_1addd688302c6e1cc1651b05b0cf693293" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Config</scope><name>max_plan_age</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_config_1acb3078921b45c14c4f309094f093c953" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Config</scope><name>memory_eviction_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_config_1a6a38a4193e701c8cd69a090073f219fa" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Config</scope><name>statistics_drift_factor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

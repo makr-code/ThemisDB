@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1json__util" kind="namespace" language="C++">
+    <compoundname>themis::json_util</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1json__util_1ab32fc2f8b5e98ae5b5b7d4f2b0b889e9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt; T &gt; themis::json_util::safeGet</definition>
+        <argsstring>(const nlohmann::json &amp;j, std::string_view key) noexcept</argsstring>
+        <name>safeGet</name>
+        <qualifiedname>themis::json_util::safeGet</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Try to read <computeroutput>j[key]</computeroutput> as type T. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The value wrapped in std::optional, or std::nullopt if the key is absent or the stored value cannot be converted to T. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/json_helpers.h" line="32" column="23" bodyfile="include/utils/json_helpers.h" bodystart="32" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1json__util_1a43df318c98db8a3c80924b0e181adcac" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T themis::json_util::getOrDefault</definition>
+        <argsstring>(const nlohmann::json &amp;j, std::string_view key, T default_value) noexcept</argsstring>
+        <name>getOrDefault</name>
+        <qualifiedname>themis::json_util::getOrDefault</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>default_value</declname>
+        </param>
+        <briefdescription>
+<para>Return <computeroutput>j[key]</computeroutput> as type T, or <computeroutput>default_value</computeroutput> when the key is absent or the value cannot be converted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/json_helpers.h" line="56" column="11" bodyfile="include/utils/json_helpers.h" bodystart="56" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1json__util_1aa95c5ad83b9281aba0ac4506dee0c3a6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T themis::json_util::requireField</definition>
+        <argsstring>(const nlohmann::json &amp;j, std::string_view key)</argsstring>
+        <name>requireField</name>
+        <qualifiedname>themis::json_util::requireField</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Return <computeroutput>j[key]</computeroutput> as type T. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the key is absent. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the stored value cannot be converted to T. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/json_helpers.h" line="76" column="11" bodyfile="include/utils/json_helpers.h" bodystart="76" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1json__util_1ad2c0a9d9a11250b2a27db72b0cdcaae5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T themis::json_util::getNestedOrDefault</definition>
+        <argsstring>(const nlohmann::json &amp;j, std::initializer_list&lt; std::string_view &gt; keys, T default_value) noexcept</argsstring>
+        <name>getNestedOrDefault</name>
+        <qualifiedname>themis::json_util::getNestedOrDefault</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>std::initializer_list&lt; std::string_view &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>default_value</declname>
+        </param>
+        <briefdescription>
+<para>Traverse a sequence of keys into a nested JSON object and return the leaf value as T, or <computeroutput>default_value</computeroutput> on any failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: getNestedOrDefault&lt;int&gt;(j, {&quot;server&quot;, &quot;port&quot;}, 8080) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/json_helpers.h" line="105" column="11" bodyfile="include/utils/json_helpers.h" bodystart="105" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1json__util_1a5a26a50d7b7fb004e46270046a28a95e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::json_util::getOrDefaultStr</definition>
+        <argsstring>(const nlohmann::json &amp;j, std::string_view key, std::string default_value={}) noexcept</argsstring>
+        <name>getOrDefaultStr</name>
+        <qualifiedname>themis::json_util::getOrDefaultStr</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>default_value</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Return <computeroutput>j[key]</computeroutput> as std::string or <computeroutput>default_value</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Provided because <computeroutput><ref refid="namespacethemis_1_1json__util_1a43df318c98db8a3c80924b0e181adcac" kindref="member">getOrDefault</ref>(j, key, "literal")</computeroutput> would otherwise deduce T as <computeroutput>const char*</computeroutput> rather than <computeroutput>std::string</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/json_helpers.h" line="135" column="21" bodyfile="include/utils/json_helpers.h" bodystart="135" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1json__util_1a76180fbb120ce53ca5de2363b5b26de5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::json_util::safeObject</definition>
+        <argsstring>(const nlohmann::json &amp;j, std::string_view key) noexcept</argsstring>
+        <name>safeObject</name>
+        <qualifiedname>themis::json_util::safeObject</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Return <computeroutput>j[key]</computeroutput> if it is a JSON object, otherwise return an empty JSON object. Useful to silently ignore missing configuration blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/json_helpers.h" line="151" column="24" bodyfile="include/utils/json_helpers.h" bodystart="151" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1json__util_1a9c5a7ff6d36c26fbac44807700800aad" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::json_util::safeArray</definition>
+        <argsstring>(const nlohmann::json &amp;j, std::string_view key) noexcept</argsstring>
+        <name>safeArray</name>
+        <qualifiedname>themis::json_util::safeArray</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Return <computeroutput>j[key]</computeroutput> if it is a JSON array, otherwise return an empty JSON array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/json_helpers.h" line="172" column="24" bodyfile="include/utils/json_helpers.h" bodystart="172" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/json_helpers.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

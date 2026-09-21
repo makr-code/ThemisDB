@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::streaming::StreamedDocument</compoundname>
+    <includes refid="streaming__retriever_8h" local="no">streaming_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a14a83b6e67452367e9789a3c01f1d46a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::streaming::StreamedDocument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::rag::streaming::StreamedDocument::id</qualifiedname>
+        <briefdescription>
+<para>Unique document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="30" column="17" bodyfile="include/rag/streaming_retriever.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1abfb01d594950da1559fee2ed6c240475" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::streaming::StreamedDocument::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::rag::streaming::StreamedDocument::content</qualifiedname>
+        <briefdescription>
+<para>Document text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="31" column="17" bodyfile="include/rag/streaming_retriever.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1ae85379e31b5c488299f0cd1392d1bd89" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::streaming::StreamedDocument::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::streaming::StreamedDocument::relevance_score</qualifiedname>
+        <briefdescription>
+<para>Semantic similarity to the query (0–1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="32" column="17" bodyfile="include/rag/streaming_retriever.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a9882582fd6617a9d93ceea5daa417dc5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::StreamedDocument::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>themis::rag::streaming::StreamedDocument::token_count</qualifiedname>
+        <briefdescription>
+<para>Estimated token count for this document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="33" column="17" bodyfile="include/rag/streaming_retriever.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single document chunk that can be streamed to a caller. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/streaming_retriever.h" line="29" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="29" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1abfb01d594950da1559fee2ed6c240475" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamedDocument</scope><name>content</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a14a83b6e67452367e9789a3c01f1d46a" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamedDocument</scope><name>id</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1ae85379e31b5c488299f0cd1392d1bd89" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamedDocument</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document_1a9882582fd6617a9d93ceea5daa417dc5" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamedDocument</scope><name>token_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

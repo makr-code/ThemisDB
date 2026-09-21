@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_dry_run_migration_test" kind="class" language="C++" prot="public">
+    <compoundname>DryRunMigrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; DryRunMigrationTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>DryRunMigrationTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="59" column="28" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dry_run_migration_test_1a1365c0a59063417fb9143f50efc0b5d0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; DryRunMigrationTest::idx_mgr_</definition>
+        <argsstring></argsstring>
+        <name>idx_mgr_</name>
+        <qualifiedname>DryRunMigrationTest::idx_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="60" column="21" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dry_run_migration_test_1ad6617ea474cd4df1f0279c889f52f4f5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SchemaManager&gt; DryRunMigrationTest::schema_</definition>
+        <argsstring></argsstring>
+        <name>schema_</name>
+        <qualifiedname>DryRunMigrationTest::schema_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="61" column="29" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_dry_run_migration_test_1a633d009d2ee07cfdc10883f55719a0fd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DryRunMigrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DryRunMigrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="25" column="10" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="25" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dry_run_migration_test_1a28751a7d56e1ed17f797316e86170c53" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DryRunMigrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DryRunMigrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="36" column="10" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dry_run_migration_test_1a6cdde2a6806093e17eaa54e5fccb5f14" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref></type>
+        <definition>SchemaManager::TableSchema DryRunMigrationTest::makeSchema</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; std::string &gt; &amp;columns) const</argsstring>
+        <name>makeSchema</name>
+        <qualifiedname>DryRunMigrationTest::makeSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <briefdescription>
+<para>Build a simple TableSchema with given name and column names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="43" column="32" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="43" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DryRunMigrationTest</label>
+        <link refid="class_dry_run_migration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DryRunMigrationTest</label>
+        <link refid="class_dry_run_migration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_schema_version_dryrun.cpp" line="23" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="23" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" prot="protected" virt="non-virtual"><scope>DryRunMigrationTest</scope><name>db_</name></member>
+      <member refid="class_dry_run_migration_test_1a1365c0a59063417fb9143f50efc0b5d0" prot="protected" virt="non-virtual"><scope>DryRunMigrationTest</scope><name>idx_mgr_</name></member>
+      <member refid="class_dry_run_migration_test_1a6cdde2a6806093e17eaa54e5fccb5f14" prot="protected" virt="non-virtual"><scope>DryRunMigrationTest</scope><name>makeSchema</name></member>
+      <member refid="class_dry_run_migration_test_1ad6617ea474cd4df1f0279c889f52f4f5" prot="protected" virt="non-virtual"><scope>DryRunMigrationTest</scope><name>schema_</name></member>
+      <member refid="class_dry_run_migration_test_1a633d009d2ee07cfdc10883f55719a0fd" prot="protected" virt="non-virtual"><scope>DryRunMigrationTest</scope><name>SetUp</name></member>
+      <member refid="class_dry_run_migration_test_1a28751a7d56e1ed17f797316e86170c53" prot="protected" virt="non-virtual"><scope>DryRunMigrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

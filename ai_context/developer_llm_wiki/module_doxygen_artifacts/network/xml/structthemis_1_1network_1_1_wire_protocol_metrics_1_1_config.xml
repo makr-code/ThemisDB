@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolMetrics::Config</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_config_1a46738c266403d56a83da5c0fc3d2f6c9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolMetrics::Config::max_samples</definition>
+        <argsstring></argsstring>
+        <name>max_samples</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::Config::max_samples</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+<para>Sliding-window size for latency samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="108" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_config_1a177b357c67e2ee5df7fddbb6139d1462" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::network::WireProtocolMetrics::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="109" column="23" bodyfile="include/network/wire_protocol_performance.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="107" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="107" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_config_1a177b357c67e2ee5df7fddbb6139d1462" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_config_1a46738c266403d56a83da5c0fc3d2f6c9" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::Config</scope><name>max_samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

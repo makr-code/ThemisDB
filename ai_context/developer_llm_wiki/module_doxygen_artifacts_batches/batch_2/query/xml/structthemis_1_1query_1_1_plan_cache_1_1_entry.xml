@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_plan_cache_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::query::PlanCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_entry_1a9be20818cc043bc7ec72178ed326be33" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan" kindref="compound">CachedPlan</ref></type>
+        <definition>CachedPlan themis::query::PlanCache::Entry::plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <qualifiedname>themis::query::PlanCache::Entry::plan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="223" column="20" bodyfile="include/query/plan_cache.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_entry_1a61341ea0a901eab698940f9e5932ca4d" prot="public" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;::iterator</type>
+        <definition>std::list&lt;std::string&gt;::iterator themis::query::PlanCache::Entry::lru_it</definition>
+        <argsstring></argsstring>
+        <name>lru_it</name>
+        <qualifiedname>themis::query::PlanCache::Entry::lru_it</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="224" column="30" bodyfile="include/query/plan_cache.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::OptimizerCostModel::SerializationAdvice</label>
+        <link refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice"/>
+      </node>
+      <node id="2">
+        <label>themis::query::PlanCache::CachedPlan</label>
+        <link refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>plan</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>statistics_snapshot</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::query::PlanCache::Entry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>plan</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::query::PlanCache::Statistics</label>
+        <link refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics"/>
+      </node>
+      <node id="3">
+        <label>themis::query::QueryOptimizer::Plan</label>
+        <link refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>serialization_advice</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>scope_bounds</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::query::QueryOptimizer::Plan::ScopeBounds</label>
+        <link refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/plan_cache.h" line="222" column="5" bodyfile="include/query/plan_cache.h" bodystart="222" bodyend="225"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_entry_1a61341ea0a901eab698940f9e5932ca4d" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Entry</scope><name>lru_it</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_entry_1a9be20818cc043bc7ec72178ed326be33" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Entry</scope><name>plan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

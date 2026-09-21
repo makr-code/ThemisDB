@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_deadlock_predictor_1_1_lock_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DeadlockPredictor::LockPattern</compoundname>
+    <includes refid="deadlock__predictor_8h" local="no">deadlock_predictor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_lock_pattern_1af152694ff82aa04337170b904e99281b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::DeadlockPredictor::LockPattern::keys</definition>
+        <argsstring></argsstring>
+        <name>keys</name>
+        <qualifiedname>themis::DeadlockPredictor::LockPattern::keys</qualifiedname>
+        <briefdescription>
+<para>Keys acquired (in order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="32" column="29" bodyfile="include/transaction/deadlock_predictor.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_lock_pattern_1a9189be5d42ccac301a160d44d7ff8abc" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::DeadlockPredictor::LockPattern::hold_time</definition>
+        <argsstring></argsstring>
+        <name>hold_time</name>
+        <qualifiedname>themis::DeadlockPredictor::LockPattern::hold_time</qualifiedname>
+        <briefdescription>
+<para>Total lock hold duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="33" column="42" bodyfile="include/transaction/deadlock_predictor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_lock_pattern_1a394d9c20ff9f11862df890826085ee96" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::DeadlockPredictor::LockPattern::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::DeadlockPredictor::LockPattern::frequency</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Times this exact pattern was seen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="34" column="42" bodyfile="include/transaction/deadlock_predictor.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_deadlock_predictor_1_1_lock_pattern_1a29bd6d1ad0163e6d2de159b638d1bf19" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DeadlockPredictor::LockPattern::was_deadlocked</definition>
+        <argsstring></argsstring>
+        <name>was_deadlocked</name>
+        <qualifiedname>themis::DeadlockPredictor::LockPattern::was_deadlocked</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Pattern led to a deadlock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/deadlock_predictor.h" line="35" column="42" bodyfile="include/transaction/deadlock_predictor.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/deadlock_predictor.h" line="31" column="5" bodyfile="include/transaction/deadlock_predictor.h" bodystart="31" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_lock_pattern_1a394d9c20ff9f11862df890826085ee96" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::LockPattern</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_lock_pattern_1a9189be5d42ccac301a160d44d7ff8abc" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::LockPattern</scope><name>hold_time</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_lock_pattern_1af152694ff82aa04337170b904e99281b" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::LockPattern</scope><name>keys</name></member>
+      <member refid="structthemis_1_1_deadlock_predictor_1_1_lock_pattern_1a29bd6d1ad0163e6d2de159b638d1bf19" prot="public" virt="non-virtual"><scope>themis::DeadlockPredictor::LockPattern</scope><name>was_deadlocked</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

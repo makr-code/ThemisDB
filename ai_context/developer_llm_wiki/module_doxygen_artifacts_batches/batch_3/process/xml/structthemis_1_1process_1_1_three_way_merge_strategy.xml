@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_three_way_merge_strategy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ThreeWayMergeStrategy</compoundname>
+    <includes refid="conflict__resolution__plugin_8h" local="no">conflict_resolution_plugin.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_three_way_merge_strategy_1a6fd5e9fd7196fe7b4a5b8afbc0934131" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref></type>
+        <definition>static ConflictResolutionResult themis::process::ThreeWayMergeStrategy::resolve</definition>
+        <argsstring>(const ModelVersion &amp;local, const ModelVersion &amp;remote, const ModelVersion &amp;base) noexcept</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::process::ThreeWayMergeStrategy::resolve</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &amp;</type>
+          <declname>base</declname>
+        </param>
+        <briefdescription>
+<para>Resolve conflict using 3-way merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local model version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote model version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base model version (common ancestor) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with MERGED strategy and merged_model, or UNRESOLVED if merge impossible </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="265" column="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Built-in conflict resolution strategy: 3-Way Merge. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Performs structural merge of BPMN/CMMN models using base, local, and remote versions. Requires base version to be present in <ref refid="structthemis_1_1process_1_1_conflict_context" kindref="compound">ConflictContext</ref>. </para>
+    </detaileddescription>
+    <location file="include/process/conflict_resolution_plugin.h" line="257" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="257" bodyend="270"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_three_way_merge_strategy_1a6fd5e9fd7196fe7b4a5b8afbc0934131" prot="public" virt="non-virtual"><scope>themis::process::ThreeWayMergeStrategy</scope><name>resolve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardFKConstraint</compoundname>
+    <includes refid="cross__shard__fk__validator_8h" local="no">cross_shard_fk_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a7f34b5f07dbbdad132917fa0170c2a4d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardFKConstraint::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::sharding::CrossShardFKConstraint::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable constraint name used in violation messages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="62" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1afa631cfb7558e58bb4991c3d592859b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardFKConstraint::child_table</definition>
+        <argsstring></argsstring>
+        <name>child_table</name>
+        <qualifiedname>themisdb::sharding::CrossShardFKConstraint::child_table</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Table that owns the foreign-key column. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="65" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a506c94a7ceb886964ceca1438e5fbf6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardFKConstraint::child_column</definition>
+        <argsstring></argsstring>
+        <name>child_column</name>
+        <qualifiedname>themisdb::sharding::CrossShardFKConstraint::child_column</qualifiedname>
+        <briefdescription>
+<para>Column in <computeroutput>child_table</computeroutput> that holds the foreign-key value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="68" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a74fcc8a1ff32c895edd37db97af2f20b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardFKConstraint::parent_table</definition>
+        <argsstring></argsstring>
+        <name>parent_table</name>
+        <qualifiedname>themisdb::sharding::CrossShardFKConstraint::parent_table</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Table that is referenced (parent / owner of the key). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="71" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a6ab528a2d3450ab49784bd85bf20c70c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardFKConstraint::parent_column</definition>
+        <argsstring></argsstring>
+        <name>parent_column</name>
+        <qualifiedname>themisdb::sharding::CrossShardFKConstraint::parent_column</qualifiedname>
+        <briefdescription>
+<para>Column in <computeroutput>parent_table</computeroutput> that is referenced (typically the PK). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="74" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1aaeb3943d861379f91bb1e8117dfdae1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardFKConstraint::parent_shard_id</definition>
+        <argsstring></argsstring>
+        <name>parent_shard_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardFKConstraint::parent_shard_id</qualifiedname>
+        <briefdescription>
+<para>Optional shard-routing hint for the parent table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When non-empty the validator queries only this shard for parent-key existence checks. When empty, the validator queries every shard registered via <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a6c97e6ce0da0d7a8864e6e5bfff6fe67" kindref="member">CrossShardForeignKeyValidator::setAllShardIds()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="83" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1adc393a31dfc1dec2baf102bfa0259f40" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardFKConstraint::deferrable</definition>
+        <argsstring></argsstring>
+        <name>deferrable</name>
+        <qualifiedname>themisdb::sharding::CrossShardFKConstraint::deferrable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>When true the constraint is checked only in eventual-consistency mode (post-commit scan) and does <bold>not</bold> block the prepare phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use for cross-region or high-latency parent shards where a synchronous round-trip during prepare is unacceptable. Violations are still reported via <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" kindref="member">CrossShardForeignKeyValidator::validate()</ref> but the caller must decide whether to abort or accept eventual consistency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="94" column="10" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Defines a single cross-shard foreign-key constraint. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A constraint links a <emphasis>child</emphasis> column (the FK) to a <emphasis>parent</emphasis> column (the referenced key, usually the primary key) and carries the enforcement policy. </para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_fk_validator.h" line="60" column="1" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="60" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a506c94a7ceb886964ceca1438e5fbf6c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardFKConstraint</scope><name>child_column</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1afa631cfb7558e58bb4991c3d592859b2" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardFKConstraint</scope><name>child_table</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1adc393a31dfc1dec2baf102bfa0259f40" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardFKConstraint</scope><name>deferrable</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a7f34b5f07dbbdad132917fa0170c2a4d" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardFKConstraint</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a6ab528a2d3450ab49784bd85bf20c70c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardFKConstraint</scope><name>parent_column</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1aaeb3943d861379f91bb1e8117dfdae1b" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardFKConstraint</scope><name>parent_shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a74fcc8a1ff32c895edd37db97af2f20b" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardFKConstraint</scope><name>parent_table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

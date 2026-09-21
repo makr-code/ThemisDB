@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_query_engine" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IQueryEngine</compoundname>
+    <includes refid="query__interface_8h" local="no">query_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_query_engine_1af01e272f13bd21a19ee1fc5fc9af412c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IQueryEngine::~IQueryEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IQueryEngine</name>
+        <qualifiedname>themis::IQueryEngine::~IQueryEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="74" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_query_engine_1a30201dc2170dbd95175cd2eb1ae12539" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>virtual Result&lt; std::string &gt; themis::IQueryEngine::execute</definition>
+        <argsstring>(const std::string &amp;query)=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::IQueryEngine::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;std::string&gt; with query output or error details</para>
+</simplesect>
+<simplesect kind="note"><para>Legacy signature returning <ref refid="structthemis_1_1_query_result" kindref="compound">QueryResult</ref> is deprecated. Implementations should migrate to Result&lt;std::string&gt;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="85" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_query_engine_1a556ceadc323862eb806fdff2e5eb7a94" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>virtual Result&lt; std::string &gt; themis::IQueryEngine::execute</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;bind_vars_json)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::IQueryEngine::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bind_vars_json</declname>
+        </param>
+        <briefdescription>
+<para>Execute a query with named bind variables. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AQL query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bind_vars_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Named bind variables as a JSON object string (e.g. <computeroutput>{"@col":"users","limit":10}</computeroutput>). Pass <computeroutput>"{}"</computeroutput> or an empty string when there are no bind variables. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-encoded result string, or error.</para>
+</simplesect>
+<simplesect kind="note"><para>The default implementation calls the single-argument <computeroutput><ref refid="classthemis_1_1_i_query_engine_1a30201dc2170dbd95175cd2eb1ae12539" kindref="member">execute()</ref></computeroutput> overload and emits a warning when non-empty bind variables are supplied, because they cannot be forwarded. Engine implementations that natively support bind variables should override this method. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="102" column="21" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_query_engine_1a324234623e208f7924acf78137f85d6b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::IQueryEngine::validate</definition>
+        <argsstring>(const std::string &amp;query) const =0</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::IQueryEngine::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Validate a query without executing it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success if valid, error with details otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="119" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_query_engine_1a5f047c849091184c90eac5fc8c7315be" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1_i_expression_evaluator" kindref="compound">IExpressionEvaluator</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::unique_ptr&lt; IExpressionEvaluator &gt; &gt; themis::IQueryEngine::createExpressionEvaluator</definition>
+        <argsstring>() const =0</argsstring>
+        <name>createExpressionEvaluator</name>
+        <qualifiedname>themis::IQueryEngine::createExpressionEvaluator</qualifiedname>
+        <briefdescription>
+<para>Create an expression evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Result&lt;std::unique_ptr&lt;IExpressionEvaluator&gt;&gt; with evaluator or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="126" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_query_engine_1aff8050af92d9d9f2c00dd5bd500abc08" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>virtual Result&lt; std::string &gt; themis::IQueryEngine::explainQuery</definition>
+        <argsstring>(const std::string &amp;query) const =0</argsstring>
+        <name>explainQuery</name>
+        <qualifiedname>themis::IQueryEngine::explainQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Generate execution plan explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;std::string&gt; with execution plan or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="134" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for query engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides abstract interface for query parsing, validation, and execution without depending on concrete query engine implementations. </para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/query_interface.h" line="72" column="1" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="72" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_query_engine_1a5f047c849091184c90eac5fc8c7315be" prot="public" virt="pure-virtual"><scope>themis::IQueryEngine</scope><name>createExpressionEvaluator</name></member>
+      <member refid="classthemis_1_1_i_query_engine_1a30201dc2170dbd95175cd2eb1ae12539" prot="public" virt="pure-virtual"><scope>themis::IQueryEngine</scope><name>execute</name></member>
+      <member refid="classthemis_1_1_i_query_engine_1a556ceadc323862eb806fdff2e5eb7a94" prot="public" virt="virtual"><scope>themis::IQueryEngine</scope><name>execute</name></member>
+      <member refid="classthemis_1_1_i_query_engine_1aff8050af92d9d9f2c00dd5bd500abc08" prot="public" virt="pure-virtual"><scope>themis::IQueryEngine</scope><name>explainQuery</name></member>
+      <member refid="classthemis_1_1_i_query_engine_1a324234623e208f7924acf78137f85d6b" prot="public" virt="pure-virtual"><scope>themis::IQueryEngine</scope><name>validate</name></member>
+      <member refid="classthemis_1_1_i_query_engine_1af01e272f13bd21a19ee1fc5fc9af412c" prot="public" virt="virtual"><scope>themis::IQueryEngine</scope><name>~IQueryEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

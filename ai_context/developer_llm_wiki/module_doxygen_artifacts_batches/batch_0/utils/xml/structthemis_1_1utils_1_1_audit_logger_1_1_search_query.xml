@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_logger_1_1_search_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::AuditLogger::SearchQuery</compoundname>
+    <includes refid="audit__logger_8h" local="no">audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a087df0782ed5e5ac8324eb66434bf694" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::utils::AuditLogger::SearchQuery::from</definition>
+        <argsstring></argsstring>
+        <name>from</name>
+        <qualifiedname>themis::utils::AuditLogger::SearchQuery::from</qualifiedname>
+        <briefdescription>
+<para>Only return entries at or after this timestamp (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="417" column="23" bodyfile="include/utils/audit_logger.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a7b66d27b9a8a27ec9b4cd52f6a96dea6" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::utils::AuditLogger::SearchQuery::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>themis::utils::AuditLogger::SearchQuery::to</qualifiedname>
+        <briefdescription>
+<para>Only return entries before this timestamp (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="419" column="23" bodyfile="include/utils/audit_logger.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a9e9fe2cb9b834ef2523ed817ac34e1b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::SearchQuery::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::utils::AuditLogger::SearchQuery::user_id</qualifiedname>
+        <briefdescription>
+<para>Filter by user_id field (empty = any). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="421" column="21" bodyfile="include/utils/audit_logger.h" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a50fda75dec3d6d471ec50c0bc3fd6ddc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::SearchQuery::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::utils::AuditLogger::SearchQuery::action</qualifiedname>
+        <briefdescription>
+<para>Filter by action/event type keyword (empty = any). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="423" column="21" bodyfile="include/utils/audit_logger.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a6540c4cabd58b93c3cc86013f4fbe1de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::SearchQuery::resource_prefix</definition>
+        <argsstring></argsstring>
+        <name>resource_prefix</name>
+        <qualifiedname>themis::utils::AuditLogger::SearchQuery::resource_prefix</qualifiedname>
+        <briefdescription>
+<para>Filter by resource field prefix (empty = any). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="425" column="21" bodyfile="include/utils/audit_logger.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1ac7501d65ec5c095a5583d26420ba623d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::SearchQuery::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::utils::AuditLogger::SearchQuery::max_results</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum number of results to return (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="427" column="16" bodyfile="include/utils/audit_logger.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Search criteria for audit log queries. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="415" column="5" bodyfile="include/utils/audit_logger.h" bodystart="415" bodyend="428"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a50fda75dec3d6d471ec50c0bc3fd6ddc" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::SearchQuery</scope><name>action</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a087df0782ed5e5ac8324eb66434bf694" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::SearchQuery</scope><name>from</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1ac7501d65ec5c095a5583d26420ba623d" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::SearchQuery</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a6540c4cabd58b93c3cc86013f4fbe1de" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::SearchQuery</scope><name>resource_prefix</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a7b66d27b9a8a27ec9b4cd52f6a96dea6" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::SearchQuery</scope><name>to</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_search_query_1a9e9fe2cb9b834ef2523ed817ac34e1b3" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::SearchQuery</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_hybrid_search_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedHybridSearch::Config</compoundname>
+    <includes refid="distributed__hybrid__search_8h" local="no">distributed_hybrid_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_config_1ae7a942cf2f4e18cbe9a8f901c8426c3a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedHybridSearch::Config::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::DistributedHybridSearch::Config::k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum number of globally merged results to return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="79" column="16" bodyfile="include/search/distributed_hybrid_search.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_config_1ab043b98a05201430b83a0f5d530dba75" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::DistributedHybridSearch::Config::rrf_k</definition>
+        <argsstring></argsstring>
+        <name>rrf_k</name>
+        <qualifiedname>themis::DistributedHybridSearch::Config::rrf_k</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+<para>RRF smoothing constant for cross-shard rank fusion (default 60). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="82" column="16" bodyfile="include/search/distributed_hybrid_search.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_config_1afe5230c0be6fb6c370ead1c5d151a858" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::DistributedHybridSearch::Config::shard_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>shard_timeout_ms</name>
+        <qualifiedname>themis::DistributedHybridSearch::Config::shard_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Per-shard request timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="85" column="18" bodyfile="include/search/distributed_hybrid_search.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_config_1a3bc92d10d4a6e6ba8c365abe12244037" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedHybridSearch::Config::max_concurrent_shards</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_shards</name>
+        <qualifiedname>themis::DistributedHybridSearch::Config::max_concurrent_shards</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum number of shards queried concurrently. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="88" column="16" bodyfile="include/search/distributed_hybrid_search.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_config_1adbf8a097320c2cd5eb9f929531fe7edb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedHybridSearch::Config::skip_failed_shards</definition>
+        <argsstring></argsstring>
+        <name>skip_failed_shards</name>
+        <qualifiedname>themis::DistributedHybridSearch::Config::skip_failed_shards</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, failed shards are skipped; results come from surviving shards only. When false, any shard failure causes <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> to return an empty result vector. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="93" column="14" bodyfile="include/search/distributed_hybrid_search.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_config_1ac76a7a48c5e52fbd6aeddb98568dca79" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedHybridSearch::Config::local_shard_id</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id</name>
+        <qualifiedname>themis::DistributedHybridSearch::Config::local_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shard ID of this node. Results from this shard come from the local <computeroutput><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref></computeroutput> instance, not via the network. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="97" column="21" bodyfile="include/search/distributed_hybrid_search.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_config_1ad5b53116edc353378fff6ba2dcbc1e6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedHybridSearch::Config::search_endpoint</definition>
+        <argsstring></argsstring>
+        <name>search_endpoint</name>
+        <qualifiedname>themis::DistributedHybridSearch::Config::search_endpoint</qualifiedname>
+        <initializer>= &quot;/search/hybrid&quot;</initializer>
+        <briefdescription>
+<para>HTTP endpoint on each shard that accepts hybrid search POST requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="100" column="21" bodyfile="include/search/distributed_hybrid_search.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/distributed_hybrid_search.h" line="77" column="5" bodyfile="include/search/distributed_hybrid_search.h" bodystart="77" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ae7a942cf2f4e18cbe9a8f901c8426c3a" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::Config</scope><name>k</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ac76a7a48c5e52fbd6aeddb98568dca79" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::Config</scope><name>local_shard_id</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1a3bc92d10d4a6e6ba8c365abe12244037" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::Config</scope><name>max_concurrent_shards</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ab043b98a05201430b83a0f5d530dba75" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::Config</scope><name>rrf_k</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ad5b53116edc353378fff6ba2dcbc1e6a" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::Config</scope><name>search_endpoint</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1afe5230c0be6fb6c370ead1c5d151a858" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::Config</scope><name>shard_timeout_ms</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1adbf8a097320c2cd5eb9f929531fe7edb" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::Config</scope><name>skip_failed_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

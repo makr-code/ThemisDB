@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ShardLatencyHistogram::LatencyQuantiles</compoundname>
+    <includes refid="wave__d__high__cardinality__metrics_8h" local="no">wave_d_high_cardinality_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1a3496feb0c24839dce0157fba55f03a09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ShardLatencyHistogram::LatencyQuantiles::p50</definition>
+        <argsstring></argsstring>
+        <name>p50</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::LatencyQuantiles::p50</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="73" column="16" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1af071dd493dbcaf361777c93e56e74695" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ShardLatencyHistogram::LatencyQuantiles::p95</definition>
+        <argsstring></argsstring>
+        <name>p95</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::LatencyQuantiles::p95</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="74" column="16" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1a69670573378ff692ae6f8d96bc58007c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ShardLatencyHistogram::LatencyQuantiles::p99</definition>
+        <argsstring></argsstring>
+        <name>p99</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::LatencyQuantiles::p99</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="75" column="16" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get quantile latencies for a specific shard and operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returns the p50, p95, p99 latencies observed for the given shard and operation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Struct with p50, p95, p99 fields (in milliseconds). Returns zeros if no observations. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/observability/wave_d_high_cardinality_metrics.h" line="72" column="5" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="72" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1a3496feb0c24839dce0157fba55f03a09" prot="public" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram::LatencyQuantiles</scope><name>p50</name></member>
+      <member refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1af071dd493dbcaf361777c93e56e74695" prot="public" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram::LatencyQuantiles</scope><name>p95</name></member>
+      <member refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles_1a69670573378ff692ae6f8d96bc58007c" prot="public" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram::LatencyQuantiles</scope><name>p99</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

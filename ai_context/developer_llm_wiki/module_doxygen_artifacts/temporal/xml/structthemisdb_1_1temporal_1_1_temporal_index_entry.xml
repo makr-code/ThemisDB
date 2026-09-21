@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_temporal_index_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalIndexEntry</compoundname>
+    <includes refid="temporal__index_8h" local="no">temporal_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_entry_1a772957637ebec26011a9106b7cc6fc26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalIndexEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="38" column="17" bodyfile="include/temporal/temporal_index.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_entry_1a7390f5ca8c5251030d990dfe7d11487b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref></type>
+        <definition>TimeRange themisdb::temporal::TemporalIndexEntry::range</definition>
+        <argsstring></argsstring>
+        <name>range</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexEntry::range</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="39" column="15" bodyfile="include/temporal/temporal_index.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_entry_1a66e08676f8eacd4997a9e38a24378e94" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalIndexEntry::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexEntry::payload</qualifiedname>
+        <briefdescription>
+<para>Optional denormalized columns for covering index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="40" column="20" bodyfile="include/temporal/temporal_index.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A single entry stored inside the temporal index. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::TemporalIndexEntry</label>
+        <link refid="structthemisdb_1_1temporal_1_1_temporal_index_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>range</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::TimeRange</label>
+        <link refid="structthemisdb_1_1temporal_1_1_time_range"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/temporal_index.h" line="37" column="1" bodyfile="include/temporal/temporal_index.h" bodystart="37" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_entry_1a772957637ebec26011a9106b7cc6fc26" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexEntry</scope><name>key</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_entry_1a66e08676f8eacd4997a9e38a24378e94" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexEntry</scope><name>payload</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_entry_1a7390f5ca8c5251030d990dfe7d11487b" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexEntry</scope><name>range</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

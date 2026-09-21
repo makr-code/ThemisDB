@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_adaptive_retrieval_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::AdaptiveRetrievalParams</compoundname>
+    <includes refid="adaptive__retrieval_8h" local="no">adaptive_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_params_1adbdb4279d0ae0f197f2f6d58245ddb92" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::AdaptiveRetrievalParams::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalParams::top_k</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Recommended number of documents to retrieve. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="104" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_params_1adb81aaa12469e6ce1e68752957a41627" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::AdaptiveRetrievalParams::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalParams::similarity_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Recommended minimum similarity for candidate inclusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="107" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_params_1a0616b0ecf578b17c347c6a684d3eda09" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_complexity_analysis" kindref="compound">ComplexityAnalysis</ref></type>
+        <definition>ComplexityAnalysis themis::rag::AdaptiveRetrievalParams::analysis</definition>
+        <argsstring></argsstring>
+        <name>analysis</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalParams::analysis</qualifiedname>
+        <briefdescription>
+<para>The complexity analysis that drove these parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="110" column="24" bodyfile="include/rag/adaptive_retrieval.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retrieval parameters computed by <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a1898637f5f2da541c63775623f095606" kindref="member">AdaptiveRetrieval::computeParams()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::AdaptiveRetrievalParams</label>
+        <link refid="structthemis_1_1rag_1_1_adaptive_retrieval_params"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>analysis</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::ComplexityAnalysis</label>
+        <link refid="structthemis_1_1rag_1_1_complexity_analysis"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/adaptive_retrieval.h" line="102" column="1" bodyfile="include/rag/adaptive_retrieval.h" bodystart="102" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1a0616b0ecf578b17c347c6a684d3eda09" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalParams</scope><name>analysis</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1adb81aaa12469e6ce1e68752957a41627" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalParams</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1adbdb4279d0ae0f197f2f6d58245ddb92" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalParams</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

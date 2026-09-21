@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_graph_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUGraphCache</compoundname>
+    <includes refid="graph__cache_8h" local="no">graph_cache.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" prot="public">themis::gpu::GPUGraphCache::Stats</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1af47d48e03fa3066b7a03a948a7fe8050" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUGraphCache::kMaxEntries</definition>
+        <argsstring></argsstring>
+        <name>kMaxEntries</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::kMaxEntries</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Maximum number of captured graphs kept in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="103" column="29" bodyfile="include/themis/gpu/graph_cache.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a797a9c3a44fba3e136ad6645a4b5b268" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUGraphCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="156" column="24" bodyfile="include/themis/gpu/graph_cache.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a2c26f96f82a5842e9b1278661c08898c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref>, <ref refid="structthemis_1_1gpu_1_1_graph_entry" kindref="compound">GraphEntry</ref>, <ref refid="structthemis_1_1gpu_1_1_query_shape_hash" kindref="compound">QueryShapeHash</ref> &gt;</type>
+        <definition>std::unordered_map&lt;QueryShape, GraphEntry, QueryShapeHash&gt; themis::gpu::GPUGraphCache::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="157" column="24" bodyfile="include/themis/gpu/graph_cache.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1adec6532ed657b5edd52950d3e5e4e5b5" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUGraphCache::access_counter_</definition>
+        <argsstring></argsstring>
+        <name>access_counter_</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::access_counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="158" column="14" bodyfile="include/themis/gpu/graph_cache.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a0973571f60de1c8491f3198b5f492744" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUGraphCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="159" column="14" bodyfile="include/themis/gpu/graph_cache.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1ad21014f8626a91bfa8cfe8a26383a04e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1gpu_1_1_graph_entry" kindref="compound">GraphEntry</ref> *</type>
+        <definition>const GraphEntry * themis::gpu::GPUGraphCache::lookup</definition>
+        <argsstring>(const QueryShape &amp;shape)</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::lookup</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref> &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Look up a shape in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On a hit, increments the entry&apos;s replay counter and last_access stamp, then returns a pointer to the entry (valid until the next mutating call on this cache object). Returns nullptr on a miss. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="126" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a95478bb89e10eae24346c13ff81fb926" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUGraphCache::capture</definition>
+        <argsstring>(const QueryShape &amp;shape)</argsstring>
+        <name>capture</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::capture</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref> &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Capture (record) a new graph entry for <computeroutput>shape</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If an entry for <computeroutput>shape</computeroutput> already exists its capture_count is incremented (idempotent). Otherwise a new entry is inserted, evicting the LRU entry first if the cache is full. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="135" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a9db4fd1897166520bcf5d4a3cdca86d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUGraphCache::invalidate</definition>
+        <argsstring>(const QueryShape &amp;shape)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::invalidate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref> &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Remove the entry for <computeroutput>shape</computeroutput>, if present. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>In a production CUDA build this would also call cudaGraphExecDestroy / cudaGraphDestroy to release device resources. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="143" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a9fbf02d3ac49292a10f2ed16ca21b72b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUGraphCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all entries from the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="148" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a6606ebc4065567721d8fd2033c8f43e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUGraphCache::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="150" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1af50758af0085e827c8d6585093b4ca7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUGraphCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="151" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a656ba94fcdfd7b8cd3ce2e6c73f0943b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUGraphCache::evictLRU</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::gpu::GPUGraphCache::evictLRU</qualifiedname>
+        <briefdescription>
+<para>Remove the least-recently-used entry (O(n), n ≤ 32). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="154" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread safety: all public methods are mutex-protected. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/graph_cache.h" line="100" column="1" bodyfile="include/themis/gpu/graph_cache.h" bodystart="100" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1adec6532ed657b5edd52950d3e5e4e5b5" prot="private" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>access_counter_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a95478bb89e10eae24346c13ff81fb926" prot="public" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>capture</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a9fbf02d3ac49292a10f2ed16ca21b72b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a2c26f96f82a5842e9b1278661c08898c" prot="private" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a656ba94fcdfd7b8cd3ce2e6c73f0943b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1af50758af0085e827c8d6585093b4ca7a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a9db4fd1897166520bcf5d4a3cdca86d1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1af47d48e03fa3066b7a03a948a7fe8050" prot="public" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>kMaxEntries</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1ad21014f8626a91bfa8cfe8a26383a04e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a797a9c3a44fba3e136ad6645a4b5b268" prot="private" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a6606ebc4065567721d8fd2033c8f43e7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a0973571f60de1c8491f3198b5f492744" prot="private" virt="non-virtual"><scope>themis::gpu::GPUGraphCache</scope><name>stats_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

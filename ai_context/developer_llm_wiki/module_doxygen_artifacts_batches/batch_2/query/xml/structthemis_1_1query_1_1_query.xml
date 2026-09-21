@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::Query</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_query_1_1_traversal_node" prot="public">themis::query::Query::TraversalNode</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1ad25827fb908cb9817dc41d0689c4840d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_with_node" kindref="compound">WithNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WithNode&gt; themis::query::Query::with_clause</definition>
+        <argsstring></argsstring>
+        <name>with_clause</name>
+        <qualifiedname>themis::query::Query::with_clause</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="748" column="21" bodyfile="include/query/aql_parser.h" bodystart="748" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1abce5ae9bd8761c1a9f4fa660290662d3" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_for_node" kindref="compound">ForNode</ref></type>
+        <definition>ForNode themis::query::Query::for_node</definition>
+        <argsstring></argsstring>
+        <name>for_node</name>
+        <qualifiedname>themis::query::Query::for_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="749" column="13" bodyfile="include/query/aql_parser.h" bodystart="749" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1a14651cb68246414939defd7bec5b023c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_for_node" kindref="compound">ForNode</ref> &gt;</type>
+        <definition>std::vector&lt;ForNode&gt; themis::query::Query::for_nodes</definition>
+        <argsstring></argsstring>
+        <name>for_nodes</name>
+        <qualifiedname>themis::query::Query::for_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="750" column="17" bodyfile="include/query/aql_parser.h" bodystart="750" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1a638d008e962b647e8026ebcc09ea2800" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_filter_node" kindref="compound">FilterNode</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;FilterNode&gt; &gt; themis::query::Query::filters</definition>
+        <argsstring></argsstring>
+        <name>filters</name>
+        <qualifiedname>themis::query::Query::filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="751" column="17" bodyfile="include/query/aql_parser.h" bodystart="751" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1a109962e8203ea25e57fdea2ae478ec2e" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_sort_node" kindref="compound">SortNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SortNode&gt; themis::query::Query::sort</definition>
+        <argsstring></argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::query::Query::sort</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="752" column="21" bodyfile="include/query/aql_parser.h" bodystart="752" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1aa15d493584fbb83c5d4c0ff5ce5d9ab9" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_limit_node" kindref="compound">LimitNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LimitNode&gt; themis::query::Query::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::Query::limit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="753" column="21" bodyfile="include/query/aql_parser.h" bodystart="753" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1a4f55d154e97946b909081e577515f12a" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_return_node" kindref="compound">ReturnNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ReturnNode&gt; themis::query::Query::return_node</definition>
+        <argsstring></argsstring>
+        <name>return_node</name>
+        <qualifiedname>themis::query::Query::return_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="754" column="21" bodyfile="include/query/aql_parser.h" bodystart="754" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1a52171399ec76db90b8ecf5fe53928ace" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_let_node" kindref="compound">LetNode</ref> &gt;</type>
+        <definition>std::vector&lt;LetNode&gt; themis::query::Query::let_nodes</definition>
+        <argsstring></argsstring>
+        <name>let_nodes</name>
+        <qualifiedname>themis::query::Query::let_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="755" column="17" bodyfile="include/query/aql_parser.h" bodystart="755" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1ad77a2def81f9defaf6d6dfca11e1a069" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_collect_node" kindref="compound">CollectNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CollectNode&gt; themis::query::Query::collect</definition>
+        <argsstring></argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::query::Query::collect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="756" column="21" bodyfile="include/query/aql_parser.h" bodystart="756" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1aac5d8addf1ba0bbfa077e2d9f5ec30c0" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_search_clause_node" kindref="compound">SearchClauseNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SearchClauseNode&gt; themis::query::Query::search_clause</definition>
+        <argsstring></argsstring>
+        <name>search_clause</name>
+        <qualifiedname>themis::query::Query::search_clause</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="757" column="21" bodyfile="include/query/aql_parser.h" bodystart="757" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_1ac7fe872db5cf5ade539f2f77c8794854" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query_1_1_traversal_node" kindref="compound">TraversalNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TraversalNode&gt; themis::query::Query::traversal</definition>
+        <argsstring></argsstring>
+        <name>traversal</name>
+        <qualifiedname>themis::query::Query::traversal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="797" column="21" bodyfile="include/query/aql_parser.h" bodystart="797" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_1a701a5623751c375ef0832089f2f324f4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::Query::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::Query::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="799" column="20" bodyfile="include/query/aql_parser.h" bodystart="799" bodyend="851"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::ForNode</label>
+        <link refid="structthemis_1_1query_1_1_for_node"/>
+      </node>
+      <node id="1">
+        <label>themis::query::Query</label>
+        <link refid="structthemis_1_1query_1_1_query"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>for_node</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="747" column="1" bodyfile="include/query/aql_parser.h" bodystart="747" bodyend="852"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_1ad77a2def81f9defaf6d6dfca11e1a069" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>collect</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1a638d008e962b647e8026ebcc09ea2800" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>filters</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1abce5ae9bd8761c1a9f4fa660290662d3" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>for_node</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1a14651cb68246414939defd7bec5b023c" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>for_nodes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1a52171399ec76db90b8ecf5fe53928ace" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>let_nodes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1aa15d493584fbb83c5d4c0ff5ce5d9ab9" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1a4f55d154e97946b909081e577515f12a" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>return_node</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1aac5d8addf1ba0bbfa077e2d9f5ec30c0" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>search_clause</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1a109962e8203ea25e57fdea2ae478ec2e" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>sort</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1a701a5623751c375ef0832089f2f324f4" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1ac7fe872db5cf5ade539f2f77c8794854" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>traversal</name></member>
+      <member refid="structthemis_1_1query_1_1_query_1ad25827fb908cb9817dc41d0689c4840d" prot="public" virt="non-virtual"><scope>themis::query::Query</scope><name>with_clause</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

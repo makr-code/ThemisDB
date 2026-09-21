@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_forecast_point" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ForecastPoint</compoundname>
+    <includes refid="forecasting_8h" local="no">forecasting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_point_1a6c5f12ed347a5a1658951205d6ccb43e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ForecastPoint::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themisdb::analytics::ForecastPoint::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>projected timestamp </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="215" column="13" bodyfile="include/analytics/forecasting.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_point_1a4fc95a62f589a67f0036bdb660516aac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastPoint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::analytics::ForecastPoint::value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="216" column="13" bodyfile="include/analytics/forecasting.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_point_1a8bef49cfa08aff248dc420f4802135fc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastPoint::lower</definition>
+        <argsstring></argsstring>
+        <name>lower</name>
+        <qualifiedname>themisdb::analytics::ForecastPoint::lower</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>confidence interval lower bound </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="217" column="13" bodyfile="include/analytics/forecasting.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_point_1a1421263796a996945e2898b633e8aa87" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastPoint::upper</definition>
+        <argsstring></argsstring>
+        <name>upper</name>
+        <qualifiedname>themisdb::analytics::ForecastPoint::upper</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>confidence interval upper bound </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="218" column="13" bodyfile="include/analytics/forecasting.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/forecasting.h" line="214" column="1" bodyfile="include/analytics/forecasting.h" bodystart="214" bodyend="219"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_point_1a8bef49cfa08aff248dc420f4802135fc" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastPoint</scope><name>lower</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_point_1a6c5f12ed347a5a1658951205d6ccb43e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastPoint</scope><name>timestamp_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_point_1a1421263796a996945e2898b633e8aa87" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastPoint</scope><name>upper</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_point_1a4fc95a62f589a67f0036bdb660516aac" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastPoint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

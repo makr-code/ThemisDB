@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::BlockchainIntegrityVerifier::IntegrityProof</compoundname>
+    <includes refid="blockchain__integrity_8h" local="no">blockchain_integrity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof_1a96038992bded53b5ace8312577c59ddb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::BlockchainIntegrityVerifier::IntegrityProof::merkle_root</definition>
+        <argsstring></argsstring>
+        <name>merkle_root</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::IntegrityProof::merkle_root</qualifiedname>
+        <briefdescription>
+<para>Hex-encoded SHA-256 root. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="26" column="21" bodyfile="include/importers/blockchain_integrity.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof_1a90505cdb2e05b8c1c51d1cfb03933f36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::BlockchainIntegrityVerifier::IntegrityProof::blockchain_tx_hash</definition>
+        <argsstring></argsstring>
+        <name>blockchain_tx_hash</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::IntegrityProof::blockchain_tx_hash</qualifiedname>
+        <briefdescription>
+<para>On-chain transaction hash (if anchored). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="27" column="21" bodyfile="include/importers/blockchain_integrity.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof_1aaab7d915aa856f1376378bb5ce152d68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::BlockchainIntegrityVerifier::IntegrityProof::timestamp_rfc3339</definition>
+        <argsstring></argsstring>
+        <name>timestamp_rfc3339</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::IntegrityProof::timestamp_rfc3339</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="28" column="21" bodyfile="include/importers/blockchain_integrity.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof_1a9ecc46c12fd69f8a1ce3df5fcd0fa3c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::BlockchainIntegrityVerifier::IntegrityProof::smart_contract_address</definition>
+        <argsstring></argsstring>
+        <name>smart_contract_address</name>
+        <qualifiedname>themis::importers::BlockchainIntegrityVerifier::IntegrityProof::smart_contract_address</qualifiedname>
+        <briefdescription>
+<para>EVM contract address (if anchored). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/blockchain_integrity.h" line="29" column="21" bodyfile="include/importers/blockchain_integrity.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/blockchain_integrity.h" line="25" column="5" bodyfile="include/importers/blockchain_integrity.h" bodystart="25" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof_1a90505cdb2e05b8c1c51d1cfb03933f36" prot="public" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::IntegrityProof</scope><name>blockchain_tx_hash</name></member>
+      <member refid="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof_1a96038992bded53b5ace8312577c59ddb" prot="public" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::IntegrityProof</scope><name>merkle_root</name></member>
+      <member refid="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof_1a9ecc46c12fd69f8a1ce3df5fcd0fa3c1" prot="public" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::IntegrityProof</scope><name>smart_contract_address</name></member>
+      <member refid="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof_1aaab7d915aa856f1376378bb5ce152d68" prot="public" virt="non-virtual"><scope>themis::importers::BlockchainIntegrityVerifier::IntegrityProof</scope><name>timestamp_rfc3339</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

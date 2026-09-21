@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status" kind="struct" language="C++" prot="public">
+    <compoundname>llm::AdapterDeploymentManager::DeploymentStatus</compoundname>
+    <includes refid="adapter__deployment__manager_8h" local="no">adapter_deployment_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1ae5aa6b77b1dd42f8c7806e82043aff9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterDeploymentManager::DeploymentStatus::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>llm::AdapterDeploymentManager::DeploymentStatus::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="289" column="21" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1a63794f6fe349fb34cc8237b5bc1d8183" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterDeploymentManager::DeploymentStatus::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>llm::AdapterDeploymentManager::DeploymentStatus::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="290" column="21" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1ae0f2e9923e95f068ffd84d00f68e4db6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterDeploymentManager::DeploymentStatus::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>llm::AdapterDeploymentManager::DeploymentStatus::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="291" column="21" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1a9b37bb87635c3bc103d95f21b2888eef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterDeploymentManager::DeploymentStatus::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>llm::AdapterDeploymentManager::DeploymentStatus::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="292" column="21" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1a03e1f7717f0ed3d38f2688c00de3d5c8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t llm::AdapterDeploymentManager::DeploymentStatus::deployed_at_timestamp</definition>
+        <argsstring></argsstring>
+        <name>deployed_at_timestamp</name>
+        <qualifiedname>llm::AdapterDeploymentManager::DeploymentStatus::deployed_at_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="293" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1aea75bdf75256b6515b6f96f2ce617ee2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t llm::AdapterDeploymentManager::DeploymentStatus::requests_served</definition>
+        <argsstring></argsstring>
+        <name>requests_served</name>
+        <qualifiedname>llm::AdapterDeploymentManager::DeploymentStatus::requests_served</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="294" column="16" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1ae87820568269db39e7579f591d0d3023" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float llm::AdapterDeploymentManager::DeploymentStatus::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>llm::AdapterDeploymentManager::DeploymentStatus::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="295" column="15" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1a7d610408b79527daa1905990aee610ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterDeploymentManager::DeploymentStatus::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>llm::AdapterDeploymentManager::DeploymentStatus::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="301" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="288" column="5" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="288" bodyend="302"/>
+    <listofallmembers>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1ae5aa6b77b1dd42f8c7806e82043aff9d" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::DeploymentStatus</scope><name>adapter_id</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1ae87820568269db39e7579f591d0d3023" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::DeploymentStatus</scope><name>avg_latency_ms</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1a03e1f7717f0ed3d38f2688c00de3d5c8" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::DeploymentStatus</scope><name>deployed_at_timestamp</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1aea75bdf75256b6515b6f96f2ce617ee2" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::DeploymentStatus</scope><name>requests_served</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1a63794f6fe349fb34cc8237b5bc1d8183" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::DeploymentStatus</scope><name>shard_id</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1ae0f2e9923e95f068ffd84d00f68e4db6" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::DeploymentStatus</scope><name>status</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1a7d610408b79527daa1905990aee610ae" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::DeploymentStatus</scope><name>toJSON</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_deployment_status_1a9b37bb87635c3bc103d95f21b2888eef" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::DeploymentStatus</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

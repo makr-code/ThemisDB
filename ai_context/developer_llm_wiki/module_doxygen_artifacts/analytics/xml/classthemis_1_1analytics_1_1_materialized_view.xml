@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_materialized_view" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::MaterializedView</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition" prot="public">themis::analytics::MaterializedView::Definition</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl" prot="public">themis::analytics::MaterializedView::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_materialized_view_1a8a3f5f62e3711f6bf32866a6bca82058" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition" kindref="compound">Definition</ref></type>
+        <definition>Definition themis::analytics::MaterializedView::definition_</definition>
+        <argsstring></argsstring>
+        <name>definition_</name>
+        <qualifiedname>themis::analytics::MaterializedView::definition_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="496" column="16" bodyfile="include/analytics/olap.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_materialized_view_1a27d68adadbb391c5f2df16434ad4e4d2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1_materialized_view_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::analytics::MaterializedView::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::analytics::MaterializedView::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="498" column="21" bodyfile="include/analytics/olap.h" bodystart="498" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1af9c1537e03511b35fc1dc64b725b8110" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::MaterializedView::MaterializedView</definition>
+        <argsstring>(const Definition &amp;def)</argsstring>
+        <name>MaterializedView</name>
+        <qualifiedname>themis::analytics::MaterializedView::MaterializedView</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition" kindref="compound">Definition</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="457" column="5" bodyfile="src/analytics/olap.cpp" bodystart="1826" bodyend="1826"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1a6ee0a919007c52a8cea390741f258beb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::MaterializedView::~MaterializedView</definition>
+        <argsstring>()</argsstring>
+        <name>~MaterializedView</name>
+        <qualifiedname>themis::analytics::MaterializedView::~MaterializedView</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="458" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1a65dade03942f6826772951d9ec7063e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1analytics_1_1_materialized_view_1_1_definition" kindref="compound">Definition</ref> &amp;</type>
+        <definition>const Definition &amp; themis::analytics::MaterializedView::definition</definition>
+        <argsstring>() const</argsstring>
+        <name>definition</name>
+        <qualifiedname>themis::analytics::MaterializedView::definition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="460" column="22" bodyfile="include/analytics/olap.h" bodystart="460" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1a587ff2963e2b6077c27cac11b3f7be8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::MaterializedView::refresh</definition>
+        <argsstring>()</argsstring>
+        <name>refresh</name>
+        <qualifiedname>themis::analytics::MaterializedView::refresh</qualifiedname>
+        <briefdescription>
+<para>Refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::debug(), std::chrono::high_resolution_clock::now(), execute(), lk(), std::move(), std::chrono::system_clock::now(), count(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="466" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1834" bodyend="1860"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1a88683f5ac64e72afa5ecef2976b6ffaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::MaterializedView::incrementalRefresh</definition>
+        <argsstring>(const std::vector&lt; std::unordered_map&lt; std::string, std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &gt; &gt; &amp;changes)</argsstring>
+        <name>incrementalRefresh</name>
+        <qualifiedname>themis::analytics::MaterializedView::incrementalRefresh</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::unordered_map&lt; std::string, std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &gt; &gt; &amp;</type>
+          <declname>changes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="467" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1862" bodyend="1880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1a2a7bc81409f5352dbcec558836d24dfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::MaterializedView::query</definition>
+        <argsstring>(const std::vector&lt; Filter &gt; &amp;filters={}, const std::vector&lt; Sort &gt; &amp;sorts={}, std::optional&lt; int64_t &gt; limit=std::nullopt)</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::analytics::MaterializedView::query</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_sort" kindref="compound">Sort</ref> &gt; &amp;</type>
+          <declname>sorts</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; int64_t &gt;</type>
+          <declname>limit</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sorts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), size(), std::to_string(), std::chrono::high_resolution_clock::now(), lk(), <ref refid="classthemis_1_1analytics_1_1_materialized_view_1a587ff2963e2b6077c27cac11b3f7be8b" kindref="member">refresh()</ref>, empty(), filter_in_sets(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="472" column="16" bodyfile="src/analytics/olap.cpp" bodystart="1890" bodyend="2141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1aec013e5121ffa85461c87fab1f9d5aae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::analytics::MaterializedView::lastRefreshTime</definition>
+        <argsstring>() const</argsstring>
+        <name>lastRefreshTime</name>
+        <qualifiedname>themis::analytics::MaterializedView::lastRefreshTime</qualifiedname>
+        <briefdescription>
+<para>Last Refresh Time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="483" column="43" bodyfile="src/analytics/olap.cpp" bodystart="2143" bodyend="2146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1accb285bdba7dd905517778c94e4986a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::MaterializedView::rowCount</definition>
+        <argsstring>() const</argsstring>
+        <name>rowCount</name>
+        <qualifiedname>themis::analytics::MaterializedView::rowCount</qualifiedname>
+        <briefdescription>
+<para>Row Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="488" column="13" bodyfile="src/analytics/olap.cpp" bodystart="2148" bodyend="2151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_materialized_view_1a73fb9c02319455a5a9e7443a60e998ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::MaterializedView::isStale</definition>
+        <argsstring>() const</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::analytics::MaterializedView::isStale</qualifiedname>
+        <briefdescription>
+<para>Is Stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="493" column="10" bodyfile="src/analytics/olap.cpp" bodystart="2153" bodyend="2167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="438" column="1" bodyfile="include/analytics/olap.h" bodystart="438" bodyend="499"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1a65dade03942f6826772951d9ec7063e7" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>definition</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1a8a3f5f62e3711f6bf32866a6bca82058" prot="private" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>definition_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1a27d68adadbb391c5f2df16434ad4e4d2" prot="private" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1a88683f5ac64e72afa5ecef2976b6ffaa" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>incrementalRefresh</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1a73fb9c02319455a5a9e7443a60e998ab" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>isStale</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1aec013e5121ffa85461c87fab1f9d5aae" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>lastRefreshTime</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1af9c1537e03511b35fc1dc64b725b8110" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>MaterializedView</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1a2a7bc81409f5352dbcec558836d24dfb" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>query</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1a587ff2963e2b6077c27cac11b3f7be8b" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>refresh</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1accb285bdba7dd905517778c94e4986a6" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>rowCount</name></member>
+      <member refid="classthemis_1_1analytics_1_1_materialized_view_1a6ee0a919007c52a8cea390741f258beb" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView</scope><name>~MaterializedView</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

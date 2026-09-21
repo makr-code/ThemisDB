@@ -1,0 +1,566 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1config" kind="namespace" language="C++">
+    <compoundname>themis::config</compoundname>
+    <innerclass refid="structthemis_1_1config_1_1_audit_entry" prot="public">themis::config::AuditEntry</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_audit_log" prot="public">themis::config::ConfigAuditLog</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_config_encrypted_blob" prot="public">themis::config::ConfigEncryptedBlob</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_encrypted_store" prot="public">themis::config::ConfigEncryptedStore</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_encryption_exception" prot="public">themis::config::ConfigEncryptionException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_exception" prot="public">themis::config::ConfigException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_file_watcher" prot="public">themis::config::ConfigFileWatcher</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_key_not_found_exception" prot="public">themis::config::ConfigKeyNotFoundException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_metrics_exporter" prot="public">themis::config::ConfigMetricsExporter</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_not_found_exception" prot="public">themis::config::ConfigNotFoundException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_path_resolver" prot="public">themis::config::ConfigPathResolver</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_permission_exception" prot="public">themis::config::ConfigPermissionException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_schema_validator" prot="public">themis::config::ConfigSchemaValidator</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_invalid_path_exception" prot="public">themis::config::InvalidPathException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_l_r_u_cache_with_t_t_l" prot="public">themis::config::LRUCacheWithTTL</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_mapping_not_found_exception" prot="public">themis::config::MappingNotFoundException</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_path_mapping_metadata" prot="public">themis::config::PathMappingMetadata</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_schema_validation_exception" prot="public">themis::config::SchemaValidationException</innerclass>
+    <innernamespace refid="namespacethemis_1_1config_1_1bench">themis::config::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config_1_1test">themis::config::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4c" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>ConfigFailureClass</name>
+        <qualifiedname>themis::config::ConfigFailureClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca41ecc5ed813e532ce57a4312fc75d332" prot="public">
+          <name>MalformedInput</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Input is structurally malformed (bad format, size violation, encoding). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca636bc5ca1e0ceb3e4c67067618d7ae09" prot="public">
+          <name>InvalidConfig</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>File/store is structurally valid but config/schema is semantically invalid. This includes validation failures, schema mismatches, unsupported constraints. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca38c300f4fc9ce8a77aad4a30de05cad8" prot="public">
+          <name>NotFound</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The requested config path or key does not exist. May be treated as either an error or a structured absence depending on context. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca4d4909e99ce0cd6596ff6c104c3f7149" prot="public">
+          <name>StorageDegraded</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>File/store backend is unreachable or returned an unexpected error. Treated as fail-closed: callers MUST use last-known-good config or deny access. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca05f6ffa53682f5ecd6164f8a3524733a" prot="public">
+          <name>ConfigurationError</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The config module received an internally inconsistent state that prevents a deterministic resolution or validation outcome. Example: circular schema references, conflicting watcher signals. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>Unclassified internal error; always fail-closed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4ca4b33a686be73bb172407d73b26356275" prot="public">
+          <name>PermissionDenied</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Caller lacks sufficient permissions to access the requested config. This covers both filesystem permissions and encrypted-store authentication. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical failure classes for config operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every <ref refid="classthemis_1_1config_1_1_config_exception" kindref="compound">ConfigException</ref> thrown by a config component must carry one of these classes (encoded as the high-level ConfigErrorCode category) so that callers can apply uniform policy regardless of the underlying adapter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="116" column="1" bodyfile="include/config/config_contract.h" bodystart="116" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConfigEnvironment</name>
+        <qualifiedname>themis::config::ConfigEnvironment</qualifiedname>
+        <enumvalue id="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0abfeddf560ff988c07141df6135a9bfcf" prot="public">
+          <name>DEV</name>
+          <briefdescription>
+<para>Development environment (overlay root: config/dev/). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0ab8a1431064f351dbef92871d02bab8cf" prot="public">
+          <name>STAGING</name>
+          <briefdescription>
+<para>Staging environment (overlay root: config/staging/). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0ac8074bb318fb85693233e64acc64c1ed" prot="public">
+          <name>PROD</name>
+          <briefdescription>
+<para>Production environment (no overlay; default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="36" column="1" bodyfile="include/config/config_path_resolver.h" bodystart="36" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a5052fc3e6905a461be80ef6dc5632d0b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxConfigFileSizeBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxConfigFileSizeBytes</name>
+        <qualifiedname>themis::config::kMaxConfigFileSizeBytes</qualifiedname>
+        <initializer>= 100 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted config file size in bytes (100 MiB). Files exceeding this limit are rejected before parsing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="49" column="30" bodyfile="include/config/config_contract.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1afcf605977d48a86c5d0c3512f85d8129" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxConfigPathBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxConfigPathBytes</name>
+        <qualifiedname>themis::config::kMaxConfigPathBytes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted config path length in UTF-8 bytes (4 KiB). Paths exceeding this limit are rejected with CONFIG_INVALID_PATH. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="53" column="30" bodyfile="include/config/config_contract.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a8c013bb58ba4c735d05360799227ef93" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxSchemaSizeBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxSchemaSizeBytes</name>
+        <qualifiedname>themis::config::kMaxSchemaSizeBytes</qualifiedname>
+        <initializer>= 10 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted JSON Schema document size in bytes (10 MiB). Schemas exceeding this limit are rejected before validation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="57" column="30" bodyfile="include/config/config_contract.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1abaf5f6d7c7549f1e048d5c6cba974739" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxConfigKeyBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxConfigKeyBytes</name>
+        <qualifiedname>themis::config::kMaxConfigKeyBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted config key length in UTF-8 bytes (256 bytes). Keys exceeding this limit cause CONFIG_INVALID_KEY errors. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="61" column="30" bodyfile="include/config/config_contract.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a67b3b3e42e52ede28935184967b766e0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxConfigValueBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxConfigValueBytes</name>
+        <qualifiedname>themis::config::kMaxConfigValueBytes</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted config value length in UTF-8 bytes (1 MiB). Values exceeding this limit cause CONFIG_VALUE_OVERFLOW errors. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="65" column="30" bodyfile="include/config/config_contract.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a020cf48973c1151d3567c29ef81b672a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxConfigTopLevelKeys</definition>
+        <argsstring></argsstring>
+        <name>kMaxConfigTopLevelKeys</name>
+        <qualifiedname>themis::config::kMaxConfigTopLevelKeys</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of top-level keys in a config document. Documents exceeding this count cause CONFIG_STRUCTURE_TOO_LARGE. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="69" column="30" bodyfile="include/config/config_contract.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a6d361ec4bff90d20a3b2b713442112f5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxConfigNestingDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxConfigNestingDepth</name>
+        <qualifiedname>themis::config::kMaxConfigNestingDepth</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum nesting depth for config objects and arrays. Nested structures exceeding this depth cause CONFIG_NESTING_TOO_DEEP. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="73" column="30" bodyfile="include/config/config_contract.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::config::kFileWatcherDefaultPollInterval</definition>
+        <argsstring></argsstring>
+        <name>kFileWatcherDefaultPollInterval</name>
+        <qualifiedname>themis::config::kFileWatcherDefaultPollInterval</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>File watcher polling interval (configurable; default 5 seconds). Actual watcher implementations must honor a bounded polling interval to prevent excessive system resource consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="85" column="39" bodyfile="include/config/config_contract.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1ac5645535ecde04e2620a3bddf0407bea" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::config::kFileWatcherMaxPollInterval</definition>
+        <argsstring></argsstring>
+        <name>kFileWatcherMaxPollInterval</name>
+        <qualifiedname>themis::config::kFileWatcherMaxPollInterval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Absolute maximum watcher polling interval before raising a diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="88" column="39" bodyfile="include/config/config_contract.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a008be0f9518536b045f64f07f2b80135" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::config::kFileWatcherMinPollInterval</definition>
+        <argsstring></argsstring>
+        <name>kFileWatcherMinPollInterval</name>
+        <qualifiedname>themis::config::kFileWatcherMinPollInterval</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Minimum watcher polling interval to prevent CPU thrashing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="91" column="44" bodyfile="include/config/config_contract.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1aa6ca424dcf2a6c25de1cd50bb7475da2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::config::kEncryptedStoreRotationInterval</definition>
+        <argsstring></argsstring>
+        <name>kEncryptedStoreRotationInterval</name>
+        <qualifiedname>themis::config::kEncryptedStoreRotationInterval</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Encrypted-store key rotation check interval (default 24 hours). Rotation candidates are evaluated every interval; no in-flight rotations block client access. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="95" column="37" bodyfile="include/config/config_contract.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a52af1fd77350f255f01d6ed5e42ae3b3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::config::kConfigCacheMaxStaleness</definition>
+        <argsstring></argsstring>
+        <name>kConfigCacheMaxStaleness</name>
+        <qualifiedname>themis::config::kConfigCacheMaxStaleness</qualifiedname>
+        <initializer>{120}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum staleness of cached config state that is still considered authoritative when the primary source (file/store) is temporarily unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="99" column="39" bodyfile="include/config/config_contract.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1af8fb1f5fb8ac10c958d29569b096b7b2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxValidationErrorsCollected</definition>
+        <argsstring></argsstring>
+        <name>kMaxValidationErrorsCollected</name>
+        <qualifiedname>themis::config::kMaxValidationErrorsCollected</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of distinct validation errors collected before short-circuiting. Validators that hit this limit must stop and report the collected errors. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="195" column="30" bodyfile="include/config/config_contract.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1aa07fc50d53433180b64566e25cfcdd5d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::config::kJsonSchemaDraftVersion</definition>
+        <argsstring></argsstring>
+        <name>kJsonSchemaDraftVersion</name>
+        <qualifiedname>themis::config::kJsonSchemaDraftVersion</qualifiedname>
+        <initializer>= &quot;draft7-subset&quot;</initializer>
+        <briefdescription>
+<para>Supported JSON Schema Draft version in use (Draft 7 subset). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="198" column="29" bodyfile="include/config/config_contract.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a6f2d4fe90c1e392544934d4b38eac985" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::config::kFileWatcherOperationTimeout</definition>
+        <argsstring></argsstring>
+        <name>kFileWatcherOperationTimeout</name>
+        <qualifiedname>themis::config::kFileWatcherOperationTimeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>File watcher timeout for internal operations (e.g., stat, open, read). If an operation exceeds this timeout, it is logged and retried next cycle. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="214" column="44" bodyfile="include/config/config_contract.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1ad81ef97b99c382f4a9cc2a9faef35410" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::config::kEncryptionAlgorithm</definition>
+        <argsstring></argsstring>
+        <name>kEncryptionAlgorithm</name>
+        <qualifiedname>themis::config::kEncryptionAlgorithm</qualifiedname>
+        <initializer>= &quot;AES-256-GCM&quot;</initializer>
+        <briefdescription>
+<para>Encryption algorithm in use: AES-256 in GCM mode (256-bit key). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="228" column="29" bodyfile="include/config/config_contract.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a57be132421a244a077fbc559fad6e664" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kGcmAuthTagBytes</definition>
+        <argsstring></argsstring>
+        <name>kGcmAuthTagBytes</name>
+        <qualifiedname>themis::config::kGcmAuthTagBytes</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>GCM authentication tag length in bytes (must be 16 for full security). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="231" column="30" bodyfile="include/config/config_contract.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1aca63f5fc2be27b0cd1ae9a4c78ae859f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kGcmIvBytes</definition>
+        <argsstring></argsstring>
+        <name>kGcmIvBytes</name>
+        <qualifiedname>themis::config::kGcmIvBytes</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+<para>GCM IV (Initialization Vector) length in bytes (typically 12 bytes, 96 bits). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="234" column="30" bodyfile="include/config/config_contract.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a801dd1931ed9cfa116e18481c7efe189" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxEncryptionKeyRotationHistorySize</definition>
+        <argsstring></argsstring>
+        <name>kMaxEncryptionKeyRotationHistorySize</name>
+        <qualifiedname>themis::config::kMaxEncryptionKeyRotationHistorySize</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of old encryption keys retained during rotation. Older keys are securely zeroed after this many generations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="238" column="30" bodyfile="include/config/config_contract.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a9a39dff907e5fd9172b8d908d163a169" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxAuditEventTypeCardinality</definition>
+        <argsstring></argsstring>
+        <name>kMaxAuditEventTypeCardinality</name>
+        <qualifiedname>themis::config::kMaxAuditEventTypeCardinality</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of distinct audit event types tracked in metrics. After this limit, overflow events are batched under a generic &quot;audit_event_overflow&quot; counter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="252" column="30" bodyfile="include/config/config_contract.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1af04d4606cfc9bc1bd20abfd94b98ac8e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::config::kMaxMetricsLabelCardinality</definition>
+        <argsstring></argsstring>
+        <name>kMaxMetricsLabelCardinality</name>
+        <qualifiedname>themis::config::kMaxMetricsLabelCardinality</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum metrics label cardinality before aggregation to prevent memory exhaustion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="255" column="30" bodyfile="include/config/config_contract.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1config_1a927f81c064021d57d3343cf860a40060" prot="public" static="yes" mutable="no">
+        <type>const bool</type>
+        <definition>const bool themis::config::kLegacyCategoryCountersBootstrapped</definition>
+        <argsstring></argsstring>
+        <name>kLegacyCategoryCountersBootstrapped</name>
+        <qualifiedname>themis::config::kLegacyCategoryCountersBootstrapped</qualifiedname>
+        <initializer>                                                      = []() {
+    (void)<ref refid="classthemis_1_1config_1_1_config_path_resolver_1aa2b8aa9ffdde9640653af3592247ef61" kindref="member">ConfigPathResolver::legacyFallbackCategories</ref>();
+    return true;
+}()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="1253" column="19" bodyfile="src/config/config_path_resolver.cpp" bodystart="1253" bodyend="1256"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1config_1a6de6b576068c726f95cc6caf83bd79c5" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::config::isFailClosedClass</definition>
+        <argsstring>(ConfigFailureClass fc) noexcept</argsstring>
+        <name>isFailClosedClass</name>
+        <qualifiedname>themis::config::isFailClosedClass</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1config_1ae86b961044cb5e7bf32f89edfbf03f4c" kindref="member">ConfigFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given failure class mandates fail-closed denial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this predicate in catch blocks to decide whether to use a fallback or cache:</para>
+<para><programlisting><codeline><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resolver-&gt;resolve(path);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ConfigException&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1config_1a6de6b576068c726f95cc6caf83bd79c5" kindref="member">isFailClosedClass</ref>(classifyError(ex.error().code())))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hard<sp/>denial<sp/>—<sp/>use<sp/>last-known-good<sp/>or<sp/>deny<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Structurally-invalid<sp/>input<sp/>—<sp/>also<sp/>deny</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_contract.h" line="177" column="24" bodyfile="include/config/config_contract.h" bodystart="177" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1config_1a34e98dae7ecbcbc7ea4f7dcd72333817" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>static std::chrono::system_clock::time_point themis::config::parseDate</definition>
+        <argsstring>(const std::string &amp;iso_date)</argsstring>
+        <name>parseDate</name>
+        <qualifiedname>themis::config::parseDate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iso_date</declname>
+        </param>
+        <briefdescription>
+<para>Helper to create a date from ISO string (YYYY-MM-DD). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">iso_date</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ss(), std::get_time(), std::chrono::system_clock::from_time_t(), std::mktime(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config/config_path_resolver.cpp" line="415" column="46" bodyfile="src/config/config_path_resolver.cpp" bodystart="415" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/config_audit_log.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

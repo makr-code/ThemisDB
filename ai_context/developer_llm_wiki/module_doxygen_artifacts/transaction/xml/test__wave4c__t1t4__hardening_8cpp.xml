@@ -1,0 +1,665 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave4c__t1t4__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_wave4c_t1t4_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="lock__manager_8h" local="yes">transaction/lock_manager.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>transaction/lock_manager.h</label>
+        <link refid="lock__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/transaction/test_wave4c_t1t4_hardening.cpp</label>
+        <link refid="test__wave4c__t1t4__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="14">
+        <label>fstream</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>list</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>sstream</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" prot="public" static="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>using ms = std::chrono::milliseconds</definition>
+        <argsstring></argsstring>
+        <name>ms</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="26" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__wave4c__t1t4__hardening_8cpp_1a2a429a9bfa37a4f99bfc3dbe1678c443" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kDTMSourcePath</definition>
+        <argsstring></argsstring>
+        <name>kDTMSourcePath</name>
+        <initializer>                             =
+THEMIS_ROOT_DIR &quot;/src/<ref refid="namespacethemis_1_1transaction" kindref="compound">transaction</ref>/distributed_transaction_manager.cpp&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="49" column="19" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__wave4c__t1t4__hardening_8cpp_1a5ea2fabb8a3a06835c02b60a818dcfb8" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kGTMSourcePath</definition>
+        <argsstring></argsstring>
+        <name>kGTMSourcePath</name>
+        <initializer>                             =
+THEMIS_ROOT_DIR &quot;/src/<ref refid="namespacethemis_1_1transaction" kindref="compound">transaction</ref>/global_transaction_manager.cpp&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="185" column="19" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT1StubNote, Phase2BridgeHasStubNoteComment)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT1StubNote</type>
+        </param>
+        <param>
+          <type>Phase2BridgeHasStubNoteComment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="52" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1a20fc606459a56b9d23eabdf59910f2f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT1StubNote, Phase2BridgeDocumentsActivation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT1StubNote</type>
+        </param>
+        <param>
+          <type>Phase2BridgeDocumentsActivation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="57" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1afd0664db1a442c0e415d510e6685f060" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT1StubNote, Phase2BridgeDocumentsProductionDelta)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT1StubNote</type>
+        </param>
+        <param>
+          <type>Phase2BridgeDocumentsProductionDelta</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="62" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1adeb47d2a948f75b996f06b1e1a0bf6c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT1StubNote, Phase2BridgeDocumentsRemovalPlan)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT1StubNote</type>
+        </param>
+        <param>
+          <type>Phase2BridgeDocumentsRemovalPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="67" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1aeb06c65f1d53848b000c8e76f593e0d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT2UpgradeDeadlock, SingleUpgradeSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT2UpgradeDeadlock</type>
+        </param>
+        <param>
+          <type>SingleUpgradeSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="76" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="76" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1a91a102d3b9db440f6dbd14dc0403e24f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT2UpgradeDeadlock, MutualUpgradeReturnsDeniedNotTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT2UpgradeDeadlock</type>
+        </param>
+        <param>
+          <type>MutualUpgradeReturnsDeniedNotTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="91" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="91" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1adb0494132520d5438d0369e56e458212" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT2UpgradeDeadlock, ThreeConcurrentUpgraders_NoHang)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT2UpgradeDeadlock</type>
+        </param>
+        <param>
+          <type>ThreeConcurrentUpgraders_NoHang</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="151" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="151" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1aeb538490555a3fcd426ccbcd395f7409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT3GTMPhase2, SnapshotPatternPresent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT3GTMPhase2</type>
+        </param>
+        <param>
+          <type>SnapshotPatternPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="188" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="188" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1a8cad5ea0ac17663ea350367a3314ab8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT3GTMPhase2, Phase2CalledOutsideLock)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT3GTMPhase2</type>
+        </param>
+        <param>
+          <type>Phase2CalledOutsideLock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="193" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="193" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1a0fbbfc355336b4dc28ccf34eaf54b16e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT4PredicateLockDrop, SuccessUnderCapacity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT4PredicateLockDrop</type>
+        </param>
+        <param>
+          <type>SuccessUnderCapacity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="206" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="206" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1ae8cad6c32320216bc426a8849e11370c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT4PredicateLockDrop, DropIncrementsCounter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT4PredicateLockDrop</type>
+        </param>
+        <param>
+          <type>DropIncrementsCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="217" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="217" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1af03ce45250d639e8ee169fd36153afb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT4PredicateLockDrop, MultipleDropsAccumulate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT4PredicateLockDrop</type>
+        </param>
+        <param>
+          <type>MultipleDropsAccumulate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="234" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="234" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave4c__t1t4__hardening_8cpp_1a03c22a49643b3c9738fedbc251f93279" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave4CT4PredicateLockDrop, CounterReflectsOnlyDrops)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave4CT4PredicateLockDrop</type>
+        </param>
+        <param>
+          <type>CounterReflectsOnlyDrops</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp" line="251" column="1" bodyfile="tests/transaction/test_wave4c_t1t4_hardening.cpp" bodystart="251" bodyend="265"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave 4-C T1–T4 hardening regression tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coverage: T1 — STUB/SIMULATION NOTE present in <ref refid="distributed__transaction__manager_8cpp" kindref="compound">distributed_transaction_manager.cpp</ref> T2 — Mutual upgrade deadlock detected promptly (not via timeout) T3 — GTM Phase-2 runs outside global mutex (non-blocking) T4 — Predicate lock drop increments counter + emits THEMIS_WARN</para>
+<para>Labels: wave_c release_critical </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lock__manager_8h" kindref="compound">transaction/lock_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref><sp/>=<sp/>std::chrono::milliseconds;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>T1<sp/>—<sp/>STUB/SIMULATION<sp/>NOTE<sp/>documentation<sp/>in<sp/>source<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reads<sp/>lines<sp/>from<sp/>a<sp/>file<sp/>and<sp/>returns<sp/>true<sp/>if<sp/>the<sp/>given<sp/>substring<sp/>is<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fileContainsString(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>needle)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>f(path);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!f.is_open())<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(f,<sp/>line))<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(line.find(needle)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kDTMSourcePath<sp/>=</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_ROOT_DIR<sp/></highlight><highlight class="stringliteral">&quot;/src/transaction/distributed_transaction_manager.cpp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT1StubNote,<sp/>Phase2BridgeHasStubNoteComment)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fileContainsString(kDTMSourcePath,<sp/></highlight><highlight class="stringliteral">&quot;STUB/SIMULATION<sp/>NOTE&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>STUB/SIMULATION<sp/>NOTE<sp/>comment<sp/>in<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kDTMSourcePath;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT1StubNote,<sp/>Phase2BridgeDocumentsActivation)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fileContainsString(kDTMSourcePath,<sp/></highlight><highlight class="stringliteral">&quot;Activation:&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;Activation:&apos;<sp/>field<sp/>in<sp/>STUB/SIMULATION<sp/>NOTE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT1StubNote,<sp/>Phase2BridgeDocumentsProductionDelta)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fileContainsString(kDTMSourcePath,<sp/></highlight><highlight class="stringliteral">&quot;Production<sp/>Delta:&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;Production<sp/>Delta:&apos;<sp/>field<sp/>in<sp/>STUB/SIMULATION<sp/>NOTE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT1StubNote,<sp/>Phase2BridgeDocumentsRemovalPlan)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fileContainsString(kDTMSourcePath,<sp/></highlight><highlight class="stringliteral">&quot;Removal<sp/>Plan:&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;Removal<sp/>Plan:&apos;<sp/>field<sp/>in<sp/>STUB/SIMULATION<sp/>NOTE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>T2<sp/>—<sp/>Mutual<sp/>lock-upgrade<sp/>deadlock<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT2UpgradeDeadlock,<sp/>SingleUpgradeSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;row:single_upgrade&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">LockManager::TransactionId</ref><sp/>txA<sp/>=<sp/>101;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(txA,<sp/>key,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{500});</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r1.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab67c1ff48455b8e56f5d29ffc1608f1e" kindref="member">upgradeLock</ref>(txA,<sp/>key,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{500});</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r2.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Single-holder<sp/>upgrade<sp/>must<sp/>succeed<sp/>immediately&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" kindref="member">releaseAllLocks</ref>(txA);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT2UpgradeDeadlock,<sp/>MutualUpgradeReturnsDeniedNotTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>transactions<sp/>each<sp/>hold<sp/>SHARED;<sp/>both<sp/>try<sp/>to<sp/>upgrade<sp/>→<sp/>deadlock<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>immediately<sp/>(one<sp/>of<sp/>them<sp/>gets<sp/>DENIED/DEADLOCK<sp/>without<sp/>waiting<sp/>for<sp/>timeout).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;row:mutual_upgrade&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">LockManager::TransactionId</ref><sp/>txA<sp/>=<sp/>201;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">LockManager::TransactionId</ref><sp/>txB<sp/>=<sp/>202;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>acquire<sp/>SHARED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(txA,<sp/>key,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{500}).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(txB,<sp/>key,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{500}).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;LockStatus&gt;<sp/>statusA{<ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;LockStatus&gt;<sp/>statusB{<ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>doneA{</highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/>doneB{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>upgradeA<sp/>=<sp/>[&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>statusA.store(lm.<ref refid="classthemis_1_1_lock_manager_1ab67c1ff48455b8e56f5d29ffc1608f1e" kindref="member">upgradeLock</ref>(txA,<sp/>key,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{5000}).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doneA.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>upgradeB<sp/>=<sp/>[&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>statusB.store(lm.<ref refid="classthemis_1_1_lock_manager_1ab67c1ff48455b8e56f5d29ffc1608f1e" kindref="member">upgradeLock</ref>(txB,<sp/>key,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{5000}).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doneB.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>tA(upgradeA);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>tB(upgradeB);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>should<sp/>finish<sp/>well<sp/>within<sp/>2<sp/>seconds<sp/>(deadlock<sp/>detected,<sp/>not<sp/>5s<sp/>timeout)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deadline<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>+<sp/>std::chrono::seconds(2);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!doneA.load()<sp/>||<sp/>!doneB.load())<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>&gt;<sp/>deadline)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(<ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{20});</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>tA.join();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>tB.join();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(doneA.load()<sp/>&amp;&amp;<sp/>doneB.load())</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Both<sp/>upgrade<sp/>attempts<sp/>should<sp/>complete<sp/>(not<sp/>hang<sp/>until<sp/>5s<sp/>timeout)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>must<sp/>have<sp/>been<sp/>denied<sp/>(deadlock)<sp/>or<sp/>the<sp/>other<sp/>granted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>oneGranted<sp/>=<sp/>(statusA<sp/>==<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>)<sp/>||<sp/>(statusB<sp/>==<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>oneDenied<sp/><sp/>=<sp/>(statusA<sp/>==<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba66d5e0b0ce726b4aeb4ddf6c25b6c12b" kindref="member">LockStatus::DENIED</ref>)<sp/><sp/>||<sp/>(statusB<sp/>==<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba66d5e0b0ce726b4aeb4ddf6c25b6c12b" kindref="member">LockStatus::DENIED</ref>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(oneGranted<sp/>||<sp/>oneDenied)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>at<sp/>least<sp/>one<sp/>GRANTED<sp/>and/or<sp/>one<sp/>DENIED<sp/>in<sp/>mutual<sp/>upgrade<sp/>scenario&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>important<sp/>assertion:<sp/>neither<sp/>should<sp/>have<sp/>TIMED_OUT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>anyTimeout<sp/>=<sp/>(statusA<sp/>==<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" kindref="member">LockStatus::TIMEOUT</ref>)<sp/>||<sp/>(statusB<sp/>==<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" kindref="member">LockStatus::TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(anyTimeout)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Mutual<sp/>upgrade<sp/>deadlock<sp/>should<sp/>be<sp/>detected<sp/>without<sp/>waiting<sp/>for<sp/>full<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" kindref="member">releaseAllLocks</ref>(txA);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" kindref="member">releaseAllLocks</ref>(txB);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT2UpgradeDeadlock,<sp/>ThreeConcurrentUpgraders_NoHang)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Three<sp/>transactions<sp/>holding<sp/>SHARED;<sp/>all<sp/>try<sp/>upgrade<sp/>concurrently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verifies<sp/>system<sp/>doesn&apos;t<sp/>hang<sp/>even<sp/>with<sp/>3+<sp/>upgraders.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;row:three_upgraders&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">LockManager::TransactionId</ref><sp/>txA<sp/>=<sp/>301,<sp/>txB<sp/>=<sp/>302,<sp/>txC<sp/>=<sp/>303;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(txA,<sp/>key,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{500}).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(txB,<sp/>key,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{500}).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(txC,<sp/>key,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{500}).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>doneA{</highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/>doneB{</highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/>doneC{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>upA<sp/>=<sp/>[&amp;]{<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab67c1ff48455b8e56f5d29ffc1608f1e" kindref="member">upgradeLock</ref>(txA,<sp/>key,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{2000});<sp/>doneA.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/>};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>upB<sp/>=<sp/>[&amp;]{<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab67c1ff48455b8e56f5d29ffc1608f1e" kindref="member">upgradeLock</ref>(txB,<sp/>key,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{2000});<sp/>doneB.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>upC<sp/>=<sp/>[&amp;]{<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab67c1ff48455b8e56f5d29ffc1608f1e" kindref="member">upgradeLock</ref>(txC,<sp/>key,<sp/><ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>{2000});<sp/>doneC.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/>};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>tA(upA),<sp/>tB(upB),<sp/>tC(upC);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>tA.join();<sp/>tB.join();<sp/>tC.join();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(doneA.load()<sp/>&amp;&amp;<sp/>doneB.load()<sp/>&amp;&amp;<sp/>doneC.load())</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>upgrade<sp/>threads<sp/>should<sp/>complete<sp/>without<sp/>hanging&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" kindref="member">releaseAllLocks</ref>(txA);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" kindref="member">releaseAllLocks</ref>(txB);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" kindref="member">releaseAllLocks</ref>(txC);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>T3<sp/>—<sp/>GTM<sp/>Phase-2<sp/>runs<sp/>outside<sp/>global<sp/>lock<sp/>(non-regression)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>GTM<sp/>Phase-2<sp/>patch<sp/>is<sp/>validated<sp/>via<sp/>source<sp/>inspection<sp/>(file-contains<sp/>check)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>since<sp/>GTM<sp/>requires<sp/>full<sp/>RocksDB/network<sp/>stack.<sp/><sp/>The<sp/>test<sp/>confirms<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>snapshot-then-release<sp/>pattern<sp/>is<sp/>present<sp/>in<sp/>the<sp/>source.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kGTMSourcePath<sp/>=</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_ROOT_DIR<sp/></highlight><highlight class="stringliteral">&quot;/src/transaction/global_transaction_manager.cpp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT3GTMPhase2,<sp/>SnapshotPatternPresent)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fileContainsString(kGTMSourcePath,<sp/></highlight><highlight class="stringliteral">&quot;rec_snapshot&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>snapshot<sp/>variable<sp/>in<sp/>global_transaction_manager.cpp<sp/>(T3<sp/>pattern)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT3GTMPhase2,<sp/>Phase2CalledOutsideLock)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>snapshot-then-release<sp/>pattern<sp/>uses<sp/>.unlock()<sp/>before<sp/>runPhase2<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>source<sp/>contains<sp/>the<sp/>unlock<sp/>+<sp/>runPhase2<sp/>sequence.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fileContainsString(kGTMSourcePath,<sp/></highlight><highlight class="stringliteral">&quot;runPhase2&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>runPhase2<sp/>call<sp/>in<sp/>global_transaction_manager.cpp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fileContainsString(kGTMSourcePath,<sp/></highlight><highlight class="stringliteral">&quot;no<sp/>mutex<sp/>held<sp/>during<sp/>RPC&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>unlock<sp/>comment<sp/>before<sp/>runPhase2<sp/>in<sp/>global_transaction_manager.cpp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>T4<sp/>—<sp/>Predicate<sp/>lock<sp/>drop<sp/>counter<sp/>+<sp/>THEMIS_WARN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT4PredicateLockDrop,<sp/>SuccessUnderCapacity)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1acb9429186456ffd99d4d3209767d1899" kindref="member">setPredicateLockingEnabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1aaa532614d5bc06d110ecbe81b55caed0" kindref="member">setMaxPredicateLocks</ref>(10);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;z&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Predicate<sp/>lock<sp/>should<sp/>succeed<sp/>when<sp/>under<sp/>capacity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1ad7754099c5ab8b5434560861ed68d08c" kindref="member">predicateLockDropCount</ref>(),<sp/>0u)</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Drop<sp/>counter<sp/>must<sp/>remain<sp/>0<sp/>when<sp/>lock<sp/>succeeds&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT4PredicateLockDrop,<sp/>DropIncrementsCounter)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1acb9429186456ffd99d4d3209767d1899" kindref="member">setPredicateLockingEnabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1aaa532614d5bc06d110ecbe81b55caed0" kindref="member">setMaxPredicateLocks</ref>(1);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>lock<sp/>fills<sp/>capacity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(10,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(first);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1ad7754099c5ab8b5434560861ed68d08c" kindref="member">predicateLockDropCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>lock<sp/>should<sp/>be<sp/>dropped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>second<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(11,<sp/></highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;z&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(second)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Lock<sp/>should<sp/>be<sp/>dropped<sp/>when<sp/>at<sp/>capacity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1ad7754099c5ab8b5434560861ed68d08c" kindref="member">predicateLockDropCount</ref>(),<sp/>1u)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Drop<sp/>counter<sp/>must<sp/>be<sp/>incremented<sp/>on<sp/>capacity<sp/>reject&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT4PredicateLockDrop,<sp/>MultipleDropsAccumulate)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1acb9429186456ffd99d4d3209767d1899" kindref="member">setPredicateLockingEnabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1aaa532614d5bc06d110ecbe81b55caed0" kindref="member">setMaxPredicateLocks</ref>(2);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Three<sp/>more<sp/>attempts<sp/>—<sp/>all<sp/>should<sp/>drop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(3,<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(4,<sp/></highlight><highlight class="stringliteral">&quot;g&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;h&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(5,<sp/></highlight><highlight class="stringliteral">&quot;i&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;j&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1ad7754099c5ab8b5434560861ed68d08c" kindref="member">predicateLockDropCount</ref>(),<sp/>3u)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Each<sp/>capacity-reject<sp/>must<sp/>increment<sp/>drop<sp/>counter<sp/>by<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__wave4c__t1t4__hardening_8cpp_1a5e38e98e5d8323072a4f1688fe630d0f" kindref="member">TEST</ref>(Wave4CT4PredicateLockDrop,<sp/>CounterReflectsOnlyDrops)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1acb9429186456ffd99d4d3209767d1899" kindref="member">setPredicateLockingEnabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1aaa532614d5bc06d110ecbe81b55caed0" kindref="member">setMaxPredicateLocks</ref>(5);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>successful,<sp/>2<sp/>drops</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>100),<sp/></highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;z&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(200,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a116a60f7df17fde24315683faa4e48b7" kindref="member">acquirePredicateLock</ref>(201,<sp/></highlight><highlight class="stringliteral">&quot;x2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;y2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1ad7754099c5ab8b5434560861ed68d08c" kindref="member">predicateLockDropCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/transaction/test_wave4c_t1t4_hardening.cpp"/>
+  </compounddef>
+</doxygen>

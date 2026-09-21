@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_time_series_safe_iterator_test" kind="class" language="C++" prot="public">
+    <compoundname>TimeSeriesSafeIteratorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="class_time_series_safe_iterator_test_1af708eddf03b52d6dabdd93c8a4857e50" prot="protected" static="no">
+        <type>themis::analytics::TimeSeries</type>
+        <definition>using TimeSeriesSafeIteratorTest::TS = themis::analytics::TimeSeries</definition>
+        <argsstring></argsstring>
+        <name>TS</name>
+        <qualifiedname>TimeSeriesSafeIteratorTest::TS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="299" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_time_series_safe_iterator_test_1a384edbc524fb59be14afa235da823fba" prot="protected" static="no">
+        <type>themis::analytics::TimeWindow</type>
+        <definition>using TimeSeriesSafeIteratorTest::TW = themis::analytics::TimeWindow</definition>
+        <argsstring></argsstring>
+        <name>TW</name>
+        <qualifiedname>TimeSeriesSafeIteratorTest::TW</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="300" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_time_series_safe_iterator_test_1a81f283611c7f4efe341933b7515ea956" prot="protected" static="no">
+        <type>themis::analytics::TimePoint</type>
+        <definition>using TimeSeriesSafeIteratorTest::TP = themis::analytics::TimePoint</definition>
+        <argsstring></argsstring>
+        <name>TP</name>
+        <qualifiedname>TimeSeriesSafeIteratorTest::TP</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="301" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="301" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_time_series_safe_iterator_test_1af890d6b9af7b4d27d6a62d38a855e0bf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_time_series_safe_iterator_test_1af708eddf03b52d6dabdd93c8a4857e50" kindref="member">TS</ref></type>
+        <definition>TS TimeSeriesSafeIteratorTest::make_series</definition>
+        <argsstring>(int n)</argsstring>
+        <name>make_series</name>
+        <qualifiedname>TimeSeriesSafeIteratorTest::make_series</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="303" column="8" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="303" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TimeSeriesSafeIteratorTest</label>
+        <link refid="class_time_series_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TimeSeriesSafeIteratorTest</label>
+        <link refid="class_time_series_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="297" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="297" bodyend="310"/>
+    <listofallmembers>
+      <member refid="class_time_series_safe_iterator_test_1af890d6b9af7b4d27d6a62d38a855e0bf" prot="protected" virt="non-virtual"><scope>TimeSeriesSafeIteratorTest</scope><name>make_series</name></member>
+      <member refid="class_time_series_safe_iterator_test_1a81f283611c7f4efe341933b7515ea956" prot="protected" virt="non-virtual"><scope>TimeSeriesSafeIteratorTest</scope><name>TP</name></member>
+      <member refid="class_time_series_safe_iterator_test_1af708eddf03b52d6dabdd93c8a4857e50" prot="protected" virt="non-virtual"><scope>TimeSeriesSafeIteratorTest</scope><name>TS</name></member>
+      <member refid="class_time_series_safe_iterator_test_1a384edbc524fb59be14afa235da823fba" prot="protected" virt="non-virtual"><scope>TimeSeriesSafeIteratorTest</scope><name>TW</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

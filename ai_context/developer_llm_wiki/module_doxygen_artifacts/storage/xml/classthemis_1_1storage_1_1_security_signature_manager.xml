@@ -1,0 +1,480 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_security_signature_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::SecuritySignatureManager</compoundname>
+    <includes refid="security__signature__manager_8h" local="no">security_signature_manager.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_options" prot="public">themis::storage::SecuritySignatureManager::Options</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result" prot="public">themis::storage::SecuritySignatureManager::VerifyAllResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_security_signature_manager_1a14c8f849d296311d211ae4b6d9700102" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::storage::SecuritySignatureManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="116" column="21" bodyfile="include/storage/security_signature_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_security_signature_manager_1a6adfa818204949e3d32b56d289bdcabc" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::use_fallback_memory_store_</definition>
+        <argsstring></argsstring>
+        <name>use_fallback_memory_store_</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::use_fallback_memory_store_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="117" column="10" bodyfile="include/storage/security_signature_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_security_signature_manager_1aeb135861f7296f5ffd9c30b58a142b8e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::storage::SecuritySignatureManager::mem_store_</definition>
+        <argsstring></argsstring>
+        <name>mem_store_</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::mem_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="118" column="24" bodyfile="include/storage/security_signature_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_security_signature_manager_1acdca0a3c95f0976ffa6b83642db6ce30" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::storage::SecuritySignatureManager::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;security_sig:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="119" column="33" bodyfile="include/storage/security_signature_manager.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1ac89eb562cec163d3c3ede4e7292e45fe" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SecuritySignatureManager::SecuritySignatureManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db)</argsstring>
+        <name>SecuritySignatureManager</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::SecuritySignatureManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Create a signature manager backed by RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Persistent RocksDB wrapper. When null, the manager stays unavailable and all mutating operations fail closed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="48" column="14" bodyfile="src/storage/security_signature_manager.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1a5f569d3210cd8085c0d36064a9bf4fac" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SecuritySignatureManager::SecuritySignatureManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, Options options)</argsstring>
+        <name>SecuritySignatureManager</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::SecuritySignatureManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_options" kindref="compound">Options</ref></type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Create a signature manager backed by RocksDB with explicit fallback policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Persistent RocksDB wrapper. When null and <computeroutput>options.allow_in_memory_fallback</computeroutput> is <computeroutput>false</computeroutput>, the manager stays unavailable and all mutating operations fail closed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Construction-time fallback policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="57" column="14" bodyfile="src/storage/security_signature_manager.cpp" bodystart="27" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1a940e4a58a2b2fbbfa89f4a7cee9ec0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::storeSignature</definition>
+        <argsstring>(const SecuritySignature &amp;sig)</argsstring>
+        <name>storeSignature</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::storeSignature</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_security_signature" kindref="compound">SecuritySignature</ref> &amp;</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+<para>Store or update a security signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store Signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), serialize(), THEMIS_ERROR(), put(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="63" column="10" bodyfile="src/storage/security_signature_manager.cpp" bodystart="57" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1a9f70f59f34a2e79505eadb78531796d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_security_signature" kindref="compound">SecuritySignature</ref> &gt;</type>
+        <definition>std::optional&lt; SecuritySignature &gt; themis::storage::SecuritySignatureManager::getSignature</definition>
+        <argsstring>(const std::string &amp;resource_id)</argsstring>
+        <name>getSignature</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::getSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a signature by resource_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeKey(), find(), end(), THEMIS_ERROR(), get(), <ref refid="structthemis_1_1storage_1_1_security_signature_1a9e34000a03acd8565f82a4ffe9738b95" kindref="member">SecuritySignature::deserialize()</ref>, THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="66" column="19" bodyfile="src/storage/security_signature_manager.cpp" bodystart="85" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1aa1f87638ccdf2df8e2dc0ce0932d3977" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::deleteSignature</definition>
+        <argsstring>(const std::string &amp;resource_id)</argsstring>
+        <name>deleteSignature</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::deleteSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete a signature by resource_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), erase(), THEMIS_ERROR(), del(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="69" column="10" bodyfile="src/storage/security_signature_manager.cpp" bodystart="119" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1ada72653a991a88ffffffc349c427c29b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_security_signature" kindref="compound">SecuritySignature</ref> &gt;</type>
+        <definition>std::vector&lt; SecuritySignature &gt; themis::storage::SecuritySignatureManager::listAllSignatures</definition>
+        <argsstring>()</argsstring>
+        <name>listAllSignatures</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::listAllSignatures</qualifiedname>
+        <briefdescription>
+<para>List all stored signatures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>List All Signatures.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1storage_1_1_security_signature_1a9e34000a03acd8565f82a4ffe9738b95" kindref="member">SecuritySignature::deserialize()</ref>, has_value(), push_back(), THEMIS_ERROR(), makePrefixRange(), iterateRange(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="72" column="17" bodyfile="src/storage/security_signature_manager.cpp" bodystart="141" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1ae6af09aac9d2c7f230cd606610e7949e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::verifyFile</definition>
+        <argsstring>(const std::string &amp;file_path, const std::string &amp;resource_id)</argsstring>
+        <name>verifyFile</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::verifyFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify a file against stored signature Returns true if hash matches, false if mismatch or signature missing</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1storage_1_1_security_signature_manager_1a6971bbbd564c486c926b0b6c1f2eeecc" kindref="member">computeFileHash()</ref>, empty(), <ref refid="classthemis_1_1storage_1_1_security_signature_manager_1a9f70f59f34a2e79505eadb78531796d8" kindref="member">getSignature()</ref>, has_value(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="78" column="10" bodyfile="src/storage/security_signature_manager.cpp" bodystart="250" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1a997de4165600842ddb6f71f821c6f074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result" kindref="compound">VerifyAllResult</ref></type>
+        <definition>SecuritySignatureManager::VerifyAllResult themis::storage::SecuritySignatureManager::verifyAll</definition>
+        <argsstring>()</argsstring>
+        <name>verifyAll</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::verifyAll</qualifiedname>
+        <briefdescription>
+<para>Verify All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify all stored signatures by iterating over all document keys and checking each file&apos;s SHA256 hash against its stored signature. Uses <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a6cb4ae3afef4dc92fed50fb5f0d5ac75" kindref="member">RocksDBWrapper::iterateRange</ref> under the hood when RocksDB is available.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1storage_1_1_security_signature_1a9e34000a03acd8565f82a4ffe9738b95" kindref="member">SecuritySignature::deserialize()</ref>, has_value(), <ref refid="classthemis_1_1storage_1_1_security_signature_manager_1ae6af09aac9d2c7f230cd606610e7949e" kindref="member">verifyFile()</ref>, push_back(), THEMIS_ERROR(), makePrefixRange(), iterateRange(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="97" column="21" bodyfile="src/storage/security_signature_manager.cpp" bodystart="283" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1a8a8cba5fd1f8403a58ca86e655e23294" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::isUsingFallbackMemoryStore</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isUsingFallbackMemoryStore</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::isUsingFallbackMemoryStore</qualifiedname>
+        <briefdescription>
+<para>Return whether the manager is currently using the explicit in-memory fallback store. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="106" column="11" bodyfile="include/storage/security_signature_manager.h" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1ac966442dc6dc8be0509e4ce10d44076e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::hasPersistentBackend</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasPersistentBackend</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::hasPersistentBackend</qualifiedname>
+        <briefdescription>
+<para>Return whether a persistent RocksDB backend is available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="111" column="11" bodyfile="include/storage/security_signature_manager.h" bodystart="111" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1a6971bbbd564c486c926b0b6c1f2eeecc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignatureManager::computeFileHash</definition>
+        <argsstring>(const std::string &amp;file_path)</argsstring>
+        <name>computeFileHash</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::computeFileHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA256 hash of a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute File Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), buffer(), SHA256(), data(), size(), snprintf(), std::string(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="100" column="24" bodyfile="src/storage/security_signature_manager.cpp" bodystart="180" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1aab168aa068fe60deaa32f04c9af326b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignatureManager::normalizeResourceId</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>normalizeResourceId</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::normalizeResourceId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Normalize resource identifier (resolve relative paths, symlinks). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalize Resource Id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: p(), fs::exists(), fs::weakly_canonical(), generic_string(), substr(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="103" column="24" bodyfile="src/storage/security_signature_manager.cpp" bodystart="219" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1a4d9f9126f55fad1aff67f24654d01fef" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignatureManager::makeKey</definition>
+        <argsstring>(const std::string &amp;resource_id) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="121" column="17" bodyfile="src/storage/security_signature_manager.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_security_signature_manager_1a16343cf2e7cba37b0244013c368dc729" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; themis::storage::SecuritySignatureManager::makePrefixRange</definition>
+        <argsstring>()</argsstring>
+        <name>makePrefixRange</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::makePrefixRange</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the [start_key, end_key) range that covers all keys with KEY_PREFIX. end_key is KEY_PREFIX with the last byte incremented (e.g. &quot;security_sig;&quot; when KEY_PREFIX == &quot;security_sig:&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="126" column="22" bodyfile="src/storage/security_signature_manager.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Manager for security signatures stored in RocksDB Provides CRUD operations and file verification capabilities </para>
+    </detaileddescription>
+    <location file="include/storage/security_signature_manager.h" line="27" column="1" bodyfile="include/storage/security_signature_manager.h" bodystart="27" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a6971bbbd564c486c926b0b6c1f2eeecc" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>computeFileHash</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a14c8f849d296311d211ae4b6d9700102" prot="private" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1aa1f87638ccdf2df8e2dc0ce0932d3977" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>deleteSignature</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a9f70f59f34a2e79505eadb78531796d8" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>getSignature</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1ac966442dc6dc8be0509e4ce10d44076e" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>hasPersistentBackend</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a8a8cba5fd1f8403a58ca86e655e23294" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>isUsingFallbackMemoryStore</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1acdca0a3c95f0976ffa6b83642db6ce30" prot="private" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1ada72653a991a88ffffffc349c427c29b" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>listAllSignatures</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a4d9f9126f55fad1aff67f24654d01fef" prot="private" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a16343cf2e7cba37b0244013c368dc729" prot="private" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>makePrefixRange</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1aeb135861f7296f5ffd9c30b58a142b8e" prot="private" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>mem_store_</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1aab168aa068fe60deaa32f04c9af326b2" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>normalizeResourceId</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1ac89eb562cec163d3c3ede4e7292e45fe" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>SecuritySignatureManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a5f569d3210cd8085c0d36064a9bf4fac" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>SecuritySignatureManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a940e4a58a2b2fbbfa89f4a7cee9ec0f3" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>storeSignature</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a6adfa818204949e3d32b56d289bdcabc" prot="private" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>use_fallback_memory_store_</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1a997de4165600842ddb6f71f821c6f074" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>verifyAll</name></member>
+      <member refid="classthemis_1_1storage_1_1_security_signature_manager_1ae6af09aac9d2c7f230cd606610e7949e" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager</scope><name>verifyFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

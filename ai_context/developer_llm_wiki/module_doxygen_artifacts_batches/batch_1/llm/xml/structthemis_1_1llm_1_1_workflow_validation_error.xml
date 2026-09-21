@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_workflow_validation_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::WorkflowValidationError</compoundname>
+    <includes refid="workflow__definition_8h" local="no">workflow_definition.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_validation_error_1ab146d28195882d14a500a8d46fa79d2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WorkflowValidationError::step_id</definition>
+        <argsstring></argsstring>
+        <name>step_id</name>
+        <qualifiedname>themis::llm::WorkflowValidationError::step_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="111" column="17" bodyfile="include/llm/workflow_definition.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_validation_error_1a6128fb343b72287d22146ac74e94877a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WorkflowValidationError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::llm::WorkflowValidationError::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="112" column="17" bodyfile="include/llm/workflow_definition.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/workflow_definition.h" line="110" column="1" bodyfile="include/llm/workflow_definition.h" bodystart="110" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_workflow_validation_error_1a6128fb343b72287d22146ac74e94877a" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowValidationError</scope><name>message</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_validation_error_1ab146d28195882d14a500a8d46fa79d2c" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowValidationError</scope><name>step_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

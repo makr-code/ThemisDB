@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_llm_reranker" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ILlmReranker</compoundname>
+    <includes refid="llm__reranker__interface_8h" local="no">llm_reranker_interface.h</includes>
+    <innerclass refid="structthemis_1_1_i_llm_reranker_1_1_config" prot="public">themis::ILlmReranker::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_i_llm_reranker_1aa638928653d5f2cc4280ce05b1c62a7c" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>using themis::ILlmReranker::LlmBackend = std::function&lt;std::string(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmBackend</name>
+        <qualifiedname>themis::ILlmReranker::LlmBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/search/llm_reranker_interface.h" line="14" column="5" bodyfile="include/themis/search/llm_reranker_interface.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_llm_reranker_1a661b8812e5d9065f4415d0811a2f64c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ILlmReranker::~ILlmReranker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILlmReranker</name>
+        <qualifiedname>themis::ILlmReranker::~ILlmReranker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/search/llm_reranker_interface.h" line="26" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_llm_reranker_1ab872d0e8d67023f9b47e200878ea5df9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::ILlmReranker::setBackend</definition>
+        <argsstring>(LlmBackend backend)=0</argsstring>
+        <name>setBackend</name>
+        <qualifiedname>themis::ILlmReranker::setBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_i_llm_reranker_1aa638928653d5f2cc4280ce05b1c62a7c" kindref="member">LlmBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/search/llm_reranker_interface.h" line="27" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_llm_reranker_1a06531816da557902da237a302a6f3043" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_llm_rerank_result" kindref="compound">LlmRerankResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; LlmRerankResult &gt; themis::ILlmReranker::rerank</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; LlmRerankCandidate &gt; &amp;candidates) const =0</argsstring>
+        <name>rerank</name>
+        <qualifiedname>themis::ILlmReranker::rerank</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_llm_rerank_candidate" kindref="compound">LlmRerankCandidate</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/search/llm_reranker_interface.h" line="28" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_llm_reranker_1a850888196adb1dbac620dd6db85322e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="structthemis_1_1_i_llm_reranker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>virtual const Config &amp; themis::ILlmReranker::getConfig</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::ILlmReranker::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/search/llm_reranker_interface.h" line="30" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/search/llm_reranker_interface.h" line="12" column="1" bodyfile="include/themis/search/llm_reranker_interface.h" bodystart="12" bodyend="31"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_llm_reranker_1a850888196adb1dbac620dd6db85322e8" prot="public" virt="pure-virtual"><scope>themis::ILlmReranker</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_i_llm_reranker_1aa638928653d5f2cc4280ce05b1c62a7c" prot="public" virt="non-virtual"><scope>themis::ILlmReranker</scope><name>LlmBackend</name></member>
+      <member refid="classthemis_1_1_i_llm_reranker_1a06531816da557902da237a302a6f3043" prot="public" virt="pure-virtual"><scope>themis::ILlmReranker</scope><name>rerank</name></member>
+      <member refid="classthemis_1_1_i_llm_reranker_1ab872d0e8d67023f9b47e200878ea5df9" prot="public" virt="pure-virtual"><scope>themis::ILlmReranker</scope><name>setBackend</name></member>
+      <member refid="classthemis_1_1_i_llm_reranker_1a661b8812e5d9065f4415d0811a2f64c4" prot="public" virt="virtual"><scope>themis::ILlmReranker</scope><name>~ILlmReranker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

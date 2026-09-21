@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::bench::TensorPipelineFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a7ee9a354b506c7945ae9e057e336d5a8" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer" kindref="compound">TensorMidLayer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorMidLayer&gt; themis::tensor::bench::TensorPipelineFixture::mid_layer_</definition>
+        <argsstring></argsstring>
+        <name>mid_layer_</name>
+        <qualifiedname>themis::tensor::bench::TensorPipelineFixture::mid_layer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="78" column="21" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a9541acf62d0eda390a8f9d551c4b6f3d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_adapter_repository" kindref="compound">AdapterRepository</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdapterRepository&gt; themis::tensor::bench::TensorPipelineFixture::adapter_repo_</definition>
+        <argsstring></argsstring>
+        <name>adapter_repo_</name>
+        <qualifiedname>themis::tensor::bench::TensorPipelineFixture::adapter_repo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="79" column="21" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1aa3aa6dd395952e162297f79fb2988810" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorFingerprintGraph&gt; themis::tensor::bench::TensorPipelineFixture::fingerprint_graph_</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_graph_</name>
+        <qualifiedname>themis::tensor::bench::TensorPipelineFixture::fingerprint_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="80" column="21" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a01c73364113349a7e0b8ebb387a21439" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::bench::TensorPipelineFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::tensor::bench::TensorPipelineFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="23" column="10" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="23" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a90868e3c201b85dbcf9ba2b609c2c0e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::bench::TensorPipelineFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::tensor::bench::TensorPipelineFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="35" column="10" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a277112e6cc7240d346d80f28dcef7941" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_train_core" kindref="compound">TensorTrainCore</ref></type>
+        <definition>static TensorTrainCore themis::tensor::bench::TensorPipelineFixture::makeSyntheticTrain</definition>
+        <argsstring>(std::uint32_t seed)</argsstring>
+        <name>makeSyntheticTrain</name>
+        <qualifiedname>themis::tensor::bench::TensorPipelineFixture::makeSyntheticTrain</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="40" column="28" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="40" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1affb8925a63e05e5744ab633217c288a1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::bench::TensorPipelineFixture::populateAdapters</definition>
+        <argsstring>(int count)</argsstring>
+        <name>populateAdapters</name>
+        <qualifiedname>themis::tensor::bench::TensorPipelineFixture::populateAdapters</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="68" column="10" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="68" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::bench::TensorPipelineFixture</label>
+        <link refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::bench::TensorPipelineFixture</label>
+        <link refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="21" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="21" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a9541acf62d0eda390a8f9d551c4b6f3d" prot="protected" virt="non-virtual"><scope>themis::tensor::bench::TensorPipelineFixture</scope><name>adapter_repo_</name></member>
+      <member refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1aa3aa6dd395952e162297f79fb2988810" prot="protected" virt="non-virtual"><scope>themis::tensor::bench::TensorPipelineFixture</scope><name>fingerprint_graph_</name></member>
+      <member refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a277112e6cc7240d346d80f28dcef7941" prot="protected" virt="non-virtual"><scope>themis::tensor::bench::TensorPipelineFixture</scope><name>makeSyntheticTrain</name></member>
+      <member refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a7ee9a354b506c7945ae9e057e336d5a8" prot="protected" virt="non-virtual"><scope>themis::tensor::bench::TensorPipelineFixture</scope><name>mid_layer_</name></member>
+      <member refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1affb8925a63e05e5744ab633217c288a1" prot="protected" virt="non-virtual"><scope>themis::tensor::bench::TensorPipelineFixture</scope><name>populateAdapters</name></member>
+      <member refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a01c73364113349a7e0b8ebb387a21439" prot="public" virt="non-virtual"><scope>themis::tensor::bench::TensorPipelineFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture_1a90868e3c201b85dbcf9ba2b609c2c0e7" prot="public" virt="non-virtual"><scope>themis::tensor::bench::TensorPipelineFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

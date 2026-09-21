@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::QueryPatternTracker::QueryPattern</compoundname>
+    <includes refid="adaptive__index_8h" local="no">adaptive_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a24978e6599b285bf7108bc791db41e92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::QueryPatternTracker::QueryPattern::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="30" column="21" bodyfile="include/index/adaptive_index.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a64c0d73c4c3dec9e788acb6d92511071" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::QueryPatternTracker::QueryPattern::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="31" column="21" bodyfile="include/index/adaptive_index.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1ae7da25e1244e03c2fb5afde8bf81e9b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::QueryPatternTracker::QueryPattern::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="32" column="21" bodyfile="include/index/adaptive_index.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a054eb631e03db9b07717267afaa7a4d2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::QueryPatternTracker::QueryPattern::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="33" column="17" bodyfile="include/index/adaptive_index.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a7f50b24b81ae7baa11773dc7d0777afb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::QueryPatternTracker::QueryPattern::total_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_time_ms</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::total_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="34" column="17" bodyfile="include/index/adaptive_index.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a1297e1eaae1de8fd2f672b5c3f66ffc1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::QueryPatternTracker::QueryPattern::last_seen_ms</definition>
+        <argsstring></argsstring>
+        <name>last_seen_ms</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::last_seen_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="35" column="17" bodyfile="include/index/adaptive_index.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a02fa6379e503ddec927fc151751dcc62" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::QueryPatternTracker::QueryPattern::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="38" column="17" bodyfile="include/index/adaptive_index.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1ac2f1c9ba9fa1b6b1f7bdc552940039f0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::QueryPatternTracker::QueryPattern::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="39" column="17" bodyfile="include/index/adaptive_index.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a325937bec098b967a87a3249fd10fca9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::QueryPatternTracker::QueryPattern::avg_cache_miss_penalty_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_cache_miss_penalty_ms</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::avg_cache_miss_penalty_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="40" column="16" bodyfile="include/index/adaptive_index.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1aaf6625f6edd54b35d29c3c4ae37fd6ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::QueryPatternTracker::QueryPattern::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="46" column="24" bodyfile="src/index/adaptive_index.cpp" bodystart="134" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1aa3dcdf14a4c6ddbd8165f270dbe988fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" kindref="compound">QueryPattern</ref></type>
+        <definition>QueryPatternTracker::QueryPattern themis::QueryPatternTracker::QueryPattern::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::QueryPatternTracker::QueryPattern::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="52" column="29" bodyfile="src/index/adaptive_index.cpp" bodystart="152" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/adaptive_index.h" line="29" column="5" bodyfile="include/index/adaptive_index.h" bodystart="29" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a325937bec098b967a87a3249fd10fca9" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>avg_cache_miss_penalty_ms</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1ac2f1c9ba9fa1b6b1f7bdc552940039f0" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a02fa6379e503ddec927fc151751dcc62" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a24978e6599b285bf7108bc791db41e92" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>collection</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a054eb631e03db9b07717267afaa7a4d2" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>count</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a64c0d73c4c3dec9e788acb6d92511071" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>field</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1aa3dcdf14a4c6ddbd8165f270dbe988fa" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a1297e1eaae1de8fd2f672b5c3f66ffc1" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>last_seen_ms</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1ae7da25e1244e03c2fb5afde8bf81e9b1" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>operation</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1aaf6625f6edd54b35d29c3c4ae37fd6ce" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a7f50b24b81ae7baa11773dc7d0777afb" prot="public" virt="non-virtual"><scope>themis::QueryPatternTracker::QueryPattern</scope><name>total_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

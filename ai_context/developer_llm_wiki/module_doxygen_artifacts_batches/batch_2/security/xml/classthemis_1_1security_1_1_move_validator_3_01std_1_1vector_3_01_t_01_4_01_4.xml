@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;</compoundname>
+    <includes refid="safe__move_8h" local="no">safe_move.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4_1a93669c8dd4b824e23c37ed4d27015240" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;::validatePreMove</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;vec)</argsstring>
+        <name>validatePreMove</name>
+        <qualifiedname>themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;::validatePreMove</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Validate Pre Move. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validatePreMove without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="394" column="15" bodyfile="include/security/safe_move.h" bodystart="394" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4_1ae6d46ab530c9bda275494be676d8f01e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;::validatePostMove</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;vec)</argsstring>
+        <name>validatePostMove</name>
+        <qualifiedname>themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;::validatePostMove</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Validate Post Move. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validatePostMove without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="403" column="15" bodyfile="include/security/safe_move.h" bodystart="403" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4_1a7341451deb72f96f709b309c6037f612" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;::validateMoveDestination</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;vec)</argsstring>
+        <name>validateMoveDestination</name>
+        <qualifiedname>themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;::validateMoveDestination</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Validate Move Destination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validateMoveDestination without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="413" column="15" bodyfile="include/security/safe_move.h" bodystart="413" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Specialization for std::vector move validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/security/safe_move.h" line="387" column="1" bodyfile="include/security/safe_move.h" bodystart="387" bodyend="416"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4_1a7341451deb72f96f709b309c6037f612" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;</scope><name>validateMoveDestination</name></member>
+      <member refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4_1ae6d46ab530c9bda275494be676d8f01e" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;</scope><name>validatePostMove</name></member>
+      <member refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4_1a93669c8dd4b824e23c37ed4d27015240" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;</scope><name>validatePreMove</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_calibration_manager_1_1_platt_parameters" kind="struct" language="C++" prot="private">
+    <compoundname>themis::rag::judge::CalibrationManager::PlattParameters</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_manager_1_1_platt_parameters_1adf96705cec5743259bfc1991b784249c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CalibrationManager::PlattParameters::A</definition>
+        <argsstring></argsstring>
+        <name>A</name>
+        <qualifiedname>themis::rag::judge::CalibrationManager::PlattParameters::A</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="207" column="16" bodyfile="include/rag/calibration_manager.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_manager_1_1_platt_parameters_1a4615d79e2692bced7e0800927b6f8deb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CalibrationManager::PlattParameters::B</definition>
+        <argsstring></argsstring>
+        <name>B</name>
+        <qualifiedname>themis::rag::judge::CalibrationManager::PlattParameters::B</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="208" column="16" bodyfile="include/rag/calibration_manager.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/calibration_manager.h" line="206" column="5" bodyfile="include/rag/calibration_manager.h" bodystart="206" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_manager_1_1_platt_parameters_1adf96705cec5743259bfc1991b784249c" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationManager::PlattParameters</scope><name>A</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_manager_1_1_platt_parameters_1a4615d79e2692bced7e0800927b6f8deb" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationManager::PlattParameters</scope><name>B</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

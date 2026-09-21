@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::metrics::Histogram</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1metrics_1_1_metric" prot="public" virt="non-virtual">themis::acceleration::metrics::Metric</basecompoundref>
+    <includes refid="metrics__collector_8h" local="no">metrics_collector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1ab60e4e56243ad5851ccaa224cdeb6985" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::metrics::Histogram::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects histogram data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="225" column="24" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1aec207bdb51e6f12ff3d2ac116306da86" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::acceleration::metrics::Histogram::buckets_</definition>
+        <argsstring></argsstring>
+        <name>buckets_</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::buckets_</qualifiedname>
+        <briefdescription>
+<para>Sorted bucket boundaries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="226" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a05edebb98a4c3f78c6d99f6ffd5e4e81" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::acceleration::metrics::Histogram::counts_</definition>
+        <argsstring></argsstring>
+        <name>counts_</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::counts_</qualifiedname>
+        <briefdescription>
+<para>Observation counts per bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="227" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a1489726da08969926c5cfd0f24b1385e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::metrics::Histogram::sum_</definition>
+        <argsstring></argsstring>
+        <name>sum_</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::sum_</qualifiedname>
+        <briefdescription>
+<para>Sum of all observations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="228" column="12" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a5799ef61c7aa49e1de3fbc9e6ecaebd9" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::metrics::Histogram::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::count_</qualifiedname>
+        <briefdescription>
+<para>Total observation count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="229" column="14" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a698869ddd4df937e5508bf91a1be24e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::metrics::Histogram::Histogram</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;description, const std::vector&lt; double &gt; &amp;buckets={0.001, 0.01, 0.1, 1.0, 10.0})</argsstring>
+        <name>Histogram</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::Histogram</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>buckets</declname>
+          <defval>{0.001, 0.01, 0.1, 1.0, 10.0}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="137" column="5" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="137" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1acf167690dbc1df9c720a3f81b15a2c39" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::Histogram::observe</definition>
+        <argsstring>(double value)</argsstring>
+        <name>observe</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::observe</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Observe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="150" column="10" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="150" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a419a910c07e4f525077caaa7f9330cd2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::acceleration::metrics::Histogram::sum</definition>
+        <argsstring>() const</argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::sum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="172" column="12" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="172" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a4c079ab1e52a131c8a599a5ab55fe3d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::metrics::Histogram::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="182" column="14" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="182" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a9eb09c28cca74ed74f913957806427f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::acceleration::metrics::Histogram::mean</definition>
+        <argsstring>() const</argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::mean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="192" column="12" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="192" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a81e93b2e9b4fbfca5042500aeb2f4f3e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::metrics::Histogram::serialize</definition>
+        <argsstring>() const override</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::acceleration::metrics::Histogram::serialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a8cdabb43320e11cc5d67c7e4282bc5dc">serialize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="202" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="202" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::metrics::Histogram</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::metrics::Metric</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_metric"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::metrics::Histogram</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::metrics::Metric</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_metric"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/metrics/metrics_collector.h" line="135" column="1" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="135" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1aec207bdb51e6f12ff3d2ac116306da86" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>buckets_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a4c079ab1e52a131c8a599a5ab55fe3d0" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>count</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a5799ef61c7aa49e1de3fbc9e6ecaebd9" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>count_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a05edebb98a4c3f78c6d99f6ffd5e4e81" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>counts_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a3bc275d1d5af3a7bc61cd2958e8ea61f" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>description</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a7ca704d465091be7595cf8c1c55551f9" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>description_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a698869ddd4df937e5508bf91a1be24e4" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>Histogram</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a9eb09c28cca74ed74f913957806427f0" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>mean</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1abf86806255be20a34f305660c88f4e0a" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>Metric</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1ab60e4e56243ad5851ccaa224cdeb6985" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1aadcf4365f60491c6a8cd6a8bc18ff92c" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a75b611abc18c4e4c5f0efdbcd23d1b56" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>name_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1acf167690dbc1df9c720a3f81b15a2c39" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>observe</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a81e93b2e9b4fbfca5042500aeb2f4f3e" prot="public" virt="virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a419a910c07e4f525077caaa7f9330cd2" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>sum</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram_1a1489726da08969926c5cfd0f24b1385e" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>sum_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a3c861bacfc74e9c3667a2e4eefd12e32" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1ab9cfe5ad6c6a599f5bb842fdb6e539cc" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>type_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a429231908c192821685e910b57e7ab5d" prot="public" virt="virtual"><scope>themis::acceleration::metrics::Histogram</scope><name>~Metric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

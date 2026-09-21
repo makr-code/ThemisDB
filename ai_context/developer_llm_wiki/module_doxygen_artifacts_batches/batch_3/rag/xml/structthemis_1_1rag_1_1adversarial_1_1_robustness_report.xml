@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::RobustnessReport</compoundname>
+    <includes refid="adversarial__tester_8h" local="no">adversarial_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a1a1460e6c5a3de8e738c5839241602b1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::adversarial::RobustnessReport::robustness_score</definition>
+        <argsstring></argsstring>
+        <name>robustness_score</name>
+        <qualifiedname>themis::rag::adversarial::RobustnessReport::robustness_score</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Aggregate score in [0, 1]. Higher is more robust. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="94" column="12" bodyfile="include/rag/adversarial_tester.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a999dbd8bffd1f6f6c4a77535e7478b27" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::adversarial::RobustnessReport::vulnerabilities</definition>
+        <argsstring></argsstring>
+        <name>vulnerabilities</name>
+        <qualifiedname>themis::rag::adversarial::RobustnessReport::vulnerabilities</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of each detected vulnerability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="97" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1ae97c3587dbe85fdc15ae14481ee07995" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example" kindref="compound">AdversarialExample</ref> &gt;</type>
+        <definition>std::vector&lt;AdversarialExample&gt; themis::rag::adversarial::RobustnessReport::failing_examples</definition>
+        <argsstring></argsstring>
+        <name>failing_examples</name>
+        <qualifiedname>themis::rag::adversarial::RobustnessReport::failing_examples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>All adversarial query examples that caused score instability (does not include sycophancy examples, which have their own field). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="101" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1ad0dac157b22f97d5df91e1bb874f269f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result" kindref="compound">PoisoningResult</ref> &gt;</type>
+        <definition>std::vector&lt;PoisoningResult&gt; themis::rag::adversarial::RobustnessReport::poisoning_results</definition>
+        <argsstring></argsstring>
+        <name>poisoning_results</name>
+        <qualifiedname>themis::rag::adversarial::RobustnessReport::poisoning_results</qualifiedname>
+        <briefdescription>
+<para>Per-document poisoning results (one entry per poisoned document). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="104" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1af2f4f6f47e6580d17eee691ddb578d70" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::adversarial::RobustnessReport::prompt_injection_attempts</definition>
+        <argsstring></argsstring>
+        <name>prompt_injection_attempts</name>
+        <qualifiedname>themis::rag::adversarial::RobustnessReport::prompt_injection_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of prompt-injection payloads submitted during testing. These are attempts, not confirmed successful injections. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="108" column="12" bodyfile="include/rag/adversarial_tester.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a1926265122363bd747f591fa308ee441" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::adversarial::RobustnessReport::context_overflow_detected</definition>
+        <argsstring></argsstring>
+        <name>context_overflow_detected</name>
+        <qualifiedname>themis::rag::adversarial::RobustnessReport::context_overflow_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether context-overflow degraded quality beyond the threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="111" column="10" bodyfile="include/rag/adversarial_tester.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a9644ef4b481f14a28710c0933ee9cbef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::adversarial::RobustnessReport::sycophancy_detected</definition>
+        <argsstring></argsstring>
+        <name>sycophancy_detected</name>
+        <qualifiedname>themis::rag::adversarial::RobustnessReport::sycophancy_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether sycophantic framing shifted scores beyond the threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="114" column="10" bodyfile="include/rag/adversarial_tester.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full robustness report returned by <ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0f1eb423ab4b3d954855964955a7e440" kindref="member">AdversarialTester::testRobustness()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/adversarial_tester.h" line="92" column="1" bodyfile="include/rag/adversarial_tester.h" bodystart="92" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a1926265122363bd747f591fa308ee441" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RobustnessReport</scope><name>context_overflow_detected</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1ae97c3587dbe85fdc15ae14481ee07995" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RobustnessReport</scope><name>failing_examples</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1ad0dac157b22f97d5df91e1bb874f269f" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RobustnessReport</scope><name>poisoning_results</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1af2f4f6f47e6580d17eee691ddb578d70" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RobustnessReport</scope><name>prompt_injection_attempts</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a1a1460e6c5a3de8e738c5839241602b1" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RobustnessReport</scope><name>robustness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a9644ef4b481f14a28710c0933ee9cbef" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RobustnessReport</scope><name>sycophancy_detected</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a999dbd8bffd1f6f6c4a77535e7478b27" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::RobustnessReport</scope><name>vulnerabilities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

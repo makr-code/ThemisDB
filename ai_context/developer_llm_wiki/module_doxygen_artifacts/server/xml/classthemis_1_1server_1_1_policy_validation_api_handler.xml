@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_policy_validation_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PolicyValidationApiHandler</compoundname>
+    <includes refid="policy__validation__api__handler_8h" local="no">policy_validation_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_validation_api_handler_1abc8f3de1230055833cb0738b8758142c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::governance::PolicyValidator &gt;</type>
+        <definition>std::shared_ptr&lt;themis::governance::PolicyValidator&gt; themis::server::PolicyValidationApiHandler::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="72" column="21" bodyfile="include/server/policy_validation_api_handler.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_validation_api_handler_1ab140d66f99c59cd0b59cfca21e257b7e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::PolicyValidationApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="73" column="21" bodyfile="include/server/policy_validation_api_handler.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_validation_api_handler_1a4c9ab823e0970b0a3414c7ddcff83177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PolicyValidationApiHandler::PolicyValidationApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::governance::PolicyValidator &gt; validator, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>PolicyValidationApiHandler</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::PolicyValidationApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::governance::PolicyValidator &gt;</type>
+          <declname>validator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="30" column="5" bodyfile="src/server/policy_validation_api_handler.cpp" bodystart="20" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_validation_api_handler_1a5d16eabecb2438f3d63b3628cbd332b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyValidationApiHandler::handleValidateRuleset</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleValidateRuleset</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::handleValidateRuleset</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Validate Ruleset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), validateRuleset(), makeResponse(), toJson(), dump(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="40" column="20" bodyfile="src/server/policy_validation_api_handler.cpp" bodystart="38" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_validation_api_handler_1a27dd252189bd276ff0cd497ebada871c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyValidationApiHandler::handleValidateSingleRule</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleValidateSingleRule</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::handleValidateSingleRule</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Validate Single Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), themis::governance::PolicyRule::fromJson(), validateSingleRule(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="49" column="20" bodyfile="src/server/policy_validation_api_handler.cpp" bodystart="68" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_validation_api_handler_1a52ca752f358861b6e15c8630f3c1dd4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyValidationApiHandler::handleGetValidationReport</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetValidationReport</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::handleGetValidationReport</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Validation Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), validateRuleset(), makeResponse(), toJson(), dump(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="58" column="20" bodyfile="src/server/policy_validation_api_handler.cpp" bodystart="108" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_validation_api_handler_1ae35161f639e1dc513ceceefda18c24c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyValidationApiHandler::handleGetMetrics</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetMetrics</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::handleGetMetrics</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), calculateEffectiveness(), nlohmann::json::array(), push_back(), toJson(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="67" column="20" bodyfile="src/server/policy_validation_api_handler.cpp" bodystart="138" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_validation_api_handler_1a2b3cfd7bf347aa3cbd2476fbe126ffdd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::PolicyValidationApiHandler::checkAuth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_role) const</argsstring>
+        <name>checkAuth</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::checkAuth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_role</declname>
+        </param>
+        <briefdescription>
+<para>Check Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="81" column="10" bodyfile="src/server/policy_validation_api_handler.cpp" bodystart="172" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_validation_api_handler_1a052d7063acf0013530aeff4a06bd50f8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyValidationApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="90" column="20" bodyfile="src/server/policy_validation_api_handler.cpp" bodystart="219" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_validation_api_handler_1ae4913a9601ecab82dd6ac4e27310a8af" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyValidationApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::PolicyValidationApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_validation_api_handler.h" line="103" column="20" bodyfile="src/server/policy_validation_api_handler.cpp" bodystart="233" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/policy_validation_api_handler.h" line="28" column="1" bodyfile="include/server/policy_validation_api_handler.h" bodystart="28" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1ab140d66f99c59cd0b59cfca21e257b7e" prot="private" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1a2b3cfd7bf347aa3cbd2476fbe126ffdd" prot="private" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>checkAuth</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1ae35161f639e1dc513ceceefda18c24c9" prot="public" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>handleGetMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1a52ca752f358861b6e15c8630f3c1dd4f" prot="public" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>handleGetValidationReport</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1a5d16eabecb2438f3d63b3628cbd332b4" prot="public" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>handleValidateRuleset</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1a27dd252189bd276ff0cd497ebada871c" prot="public" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>handleValidateSingleRule</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1ae4913a9601ecab82dd6ac4e27310a8af" prot="private" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1a052d7063acf0013530aeff4a06bd50f8" prot="private" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1a4c9ab823e0970b0a3414c7ddcff83177" prot="public" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>PolicyValidationApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_validation_api_handler_1abc8f3de1230055833cb0738b8758142c" prot="private" virt="non-virtual"><scope>themis::server::PolicyValidationApiHandler</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

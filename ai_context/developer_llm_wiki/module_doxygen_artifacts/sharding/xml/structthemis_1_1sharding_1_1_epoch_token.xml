@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_epoch_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::EpochToken</compoundname>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_token_1a6ef478d4c8d264a96f2e58d7e6859a83" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ad5d3d2b12301f99467d09da6704fb04c" kindref="member">EpochNumber</ref></type>
+        <definition>EpochNumber themis::sharding::EpochToken::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::sharding::EpochToken::epoch</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="58" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_token_1ad91aa7f4b13d3670ad1dc06c79564135" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref></type>
+        <definition>NodeId themis::sharding::EpochToken::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::sharding::EpochToken::issuer</qualifiedname>
+        <briefdescription>
+<para>Node that issued this token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="59" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_token_1ada6e8b996cc21b2d568f6d96a2b727ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::EpochToken::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::EpochToken::shard_id</qualifiedname>
+        <briefdescription>
+<para>Target shard scope. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="60" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_token_1a45f46eb3472573b076d3391f1ffd1e54" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::EpochToken::issued_at</definition>
+        <argsstring></argsstring>
+        <name>issued_at</name>
+        <qualifiedname>themis::sharding::EpochToken::issued_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="61" column="43" bodyfile="include/sharding/epoch_fencing.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_epoch_token_1ac4217460c4312cb3b6a85ff25dd14ea0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::EpochToken::isValid</definition>
+        <argsstring>(EpochNumber current_epoch) const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::sharding::EpochToken::isValid</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1ad5d3d2b12301f99467d09da6704fb04c" kindref="member">EpochNumber</ref></type>
+          <declname>current_epoch</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if this token is usable with the given current epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="64" column="11" bodyfile="include/sharding/epoch_fencing.h" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_epoch_token_1a1a04594273d2426d5ce83bff194cbc77" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::EpochToken::operator==</definition>
+        <argsstring>(const EpochToken &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::sharding::EpochToken::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_epoch_token" kindref="compound">EpochToken</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="68" column="10" bodyfile="include/sharding/epoch_fencing.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable fencing token carried with every write RPC. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A peer rejects any request whose epoch is strictly less than its own current epoch. The token is cheaply copyable and trivially serialisable. </para>
+    </detaileddescription>
+    <location file="include/sharding/epoch_fencing.h" line="57" column="1" bodyfile="include/sharding/epoch_fencing.h" bodystart="57" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_epoch_token_1a6ef478d4c8d264a96f2e58d7e6859a83" prot="public" virt="non-virtual"><scope>themis::sharding::EpochToken</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_token_1a45f46eb3472573b076d3391f1ffd1e54" prot="public" virt="non-virtual"><scope>themis::sharding::EpochToken</scope><name>issued_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_token_1ad91aa7f4b13d3670ad1dc06c79564135" prot="public" virt="non-virtual"><scope>themis::sharding::EpochToken</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_token_1ac4217460c4312cb3b6a85ff25dd14ea0" prot="public" virt="non-virtual"><scope>themis::sharding::EpochToken</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_token_1a1a04594273d2426d5ce83bff194cbc77" prot="public" virt="non-virtual"><scope>themis::sharding::EpochToken</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_token_1ada6e8b996cc21b2d568f6d96a2b727ce" prot="public" virt="non-virtual"><scope>themis::sharding::EpochToken</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

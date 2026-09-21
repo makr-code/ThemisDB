@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUKernelValidator::Stats</compoundname>
+    <includes refid="kernel__validator_8h" local="no">kernel_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1a59fcb85f489c03343029899ff6b9c1b6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUKernelValidator::Stats::registered_count</definition>
+        <argsstring></argsstring>
+        <name>registered_count</name>
+        <qualifiedname>themis::gpu::GPUKernelValidator::Stats::registered_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/kernel_validator.h" line="149" column="16" bodyfile="include/themis/gpu/kernel_validator.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1af52ec01b21e12f8f87c6cb398ab7a942" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUKernelValidator::Stats::total_validations</definition>
+        <argsstring></argsstring>
+        <name>total_validations</name>
+        <qualifiedname>themis::gpu::GPUKernelValidator::Stats::total_validations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/kernel_validator.h" line="150" column="16" bodyfile="include/themis/gpu/kernel_validator.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1aaf6b96f758256ba4d2f6291759c370fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUKernelValidator::Stats::ok_count</definition>
+        <argsstring></argsstring>
+        <name>ok_count</name>
+        <qualifiedname>themis::gpu::GPUKernelValidator::Stats::ok_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/kernel_validator.h" line="151" column="16" bodyfile="include/themis/gpu/kernel_validator.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1a1626685a0aed6811f6a4b30a35c4f75b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUKernelValidator::Stats::unknown_kernel_count</definition>
+        <argsstring></argsstring>
+        <name>unknown_kernel_count</name>
+        <qualifiedname>themis::gpu::GPUKernelValidator::Stats::unknown_kernel_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/kernel_validator.h" line="152" column="16" bodyfile="include/themis/gpu/kernel_validator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1a62fb03b2048518699f1b25c0b48656ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUKernelValidator::Stats::checksum_mismatch_count</definition>
+        <argsstring></argsstring>
+        <name>checksum_mismatch_count</name>
+        <qualifiedname>themis::gpu::GPUKernelValidator::Stats::checksum_mismatch_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/kernel_validator.h" line="153" column="16" bodyfile="include/themis/gpu/kernel_validator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1a65cbd5b207f593f1b6000a1633125c1c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUKernelValidator::Stats::empty_blob_count</definition>
+        <argsstring></argsstring>
+        <name>empty_blob_count</name>
+        <qualifiedname>themis::gpu::GPUKernelValidator::Stats::empty_blob_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/kernel_validator.h" line="154" column="16" bodyfile="include/themis/gpu/kernel_validator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/kernel_validator.h" line="148" column="5" bodyfile="include/themis/gpu/kernel_validator.h" bodystart="148" bodyend="155"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1a62fb03b2048518699f1b25c0b48656ed" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelValidator::Stats</scope><name>checksum_mismatch_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1a65cbd5b207f593f1b6000a1633125c1c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelValidator::Stats</scope><name>empty_blob_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1aaf6b96f758256ba4d2f6291759c370fc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelValidator::Stats</scope><name>ok_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1a59fcb85f489c03343029899ff6b9c1b6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelValidator::Stats</scope><name>registered_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1af52ec01b21e12f8f87c6cb398ab7a942" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelValidator::Stats</scope><name>total_validations</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_kernel_validator_1_1_stats_1a1626685a0aed6811f6a4b30a35c4f75b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelValidator::Stats</scope><name>unknown_kernel_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_state_save_restore_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::StateSaveRestoreTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_state_save_restore_test_1a1b1aeed0c22301951b9d144fdc54ecbe" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HotReloadManager &gt;</type>
+        <definition>std::unique_ptr&lt;HotReloadManager&gt; themis::modules::StateSaveRestoreTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::modules::StateSaveRestoreTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="402" column="21" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_state_save_restore_test_1a8ceed6c640c8a32422f93fd6832c0e7d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModuleLoader &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleLoader&gt; themis::modules::StateSaveRestoreTest::loader_</definition>
+        <argsstring></argsstring>
+        <name>loader_</name>
+        <qualifiedname>themis::modules::StateSaveRestoreTest::loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="403" column="25" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="403" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_state_save_restore_test_1a6768acebb884ea47a14e840c332909af" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::StateSaveRestoreTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::modules::StateSaveRestoreTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="392" column="10" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="392" bodyend="400"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::StateSaveRestoreTest</label>
+        <link refid="classthemis_1_1modules_1_1_state_save_restore_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::StateSaveRestoreTest</label>
+        <link refid="classthemis_1_1modules_1_1_state_save_restore_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_reload_regression.cpp" line="390" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="390" bodyend="404"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_state_save_restore_test_1a8ceed6c640c8a32422f93fd6832c0e7d" prot="protected" virt="non-virtual"><scope>themis::modules::StateSaveRestoreTest</scope><name>loader_</name></member>
+      <member refid="classthemis_1_1modules_1_1_state_save_restore_test_1a1b1aeed0c22301951b9d144fdc54ecbe" prot="protected" virt="non-virtual"><scope>themis::modules::StateSaveRestoreTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1modules_1_1_state_save_restore_test_1a6768acebb884ea47a14e840c332909af" prot="protected" virt="non-virtual"><scope>themis::modules::StateSaveRestoreTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

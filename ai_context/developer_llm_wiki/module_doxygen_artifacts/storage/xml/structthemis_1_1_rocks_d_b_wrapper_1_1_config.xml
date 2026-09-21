@@ -1,0 +1,1289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RocksDBWrapper::Config</compoundname>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <innerclass refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1_1_db_path" prot="public">themis::RocksDBWrapper::Config::DbPath</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9af" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WritePolicy</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::WritePolicy</qualifiedname>
+        <enumvalue id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afad49125a3717732759320fe08db32a2f8" prot="public">
+          <name>WriteCommitted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afac52cbba54f596ff7eda73e1829e09bc5" prot="public">
+          <name>WritePrepared</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afaff8b7d9f9111d998e08b778c53f26fbf" prot="public">
+          <name>WriteUnprepared</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="223" column="9" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="223" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChecksumType</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::ChecksumType</qualifiedname>
+        <enumvalue id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abfa19c122b00447f21a2938e2602d53ceab" prot="public">
+          <name>CRC32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abfa3e1ed64413c552ca4f1d1997a0a7ef26" prot="public">
+          <name>XXH3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="251" column="9" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="251" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MergeOperatorPreset</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::MergeOperatorPreset</qualifiedname>
+        <enumvalue id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5da6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5da4ff680812786f0396e64c15b04711f2d" prot="public">
+          <name>SequenceU64Increment</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="260" column="9" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="260" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aac7b570e259673885921721d3e43aef4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::Config::db_path</definition>
+        <argsstring></argsstring>
+        <name>db_path</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::db_path</qualifiedname>
+        <initializer>= &quot;./data/rocksdb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="108" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8b02d7f473489953f11e0b6f183bd149" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::Config::wal_dir</definition>
+        <argsstring></argsstring>
+        <name>wal_dir</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::wal_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="110" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4530a4d5d195f49d7220aee0160e853b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1_1_db_path" kindref="compound">DbPath</ref> &gt;</type>
+        <definition>std::vector&lt;DbPath&gt; themis::RocksDBWrapper::Config::db_paths</definition>
+        <argsstring></argsstring>
+        <name>db_paths</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::db_paths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="112" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad6081a14708c0bdde685de2490be4d47" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::read_only</definition>
+        <argsstring></argsstring>
+        <name>read_only</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::read_only</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="118" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9f7602d4738f192191261a5768826143" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::memtable_size_mb</definition>
+        <argsstring></argsstring>
+        <name>memtable_size_mb</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::memtable_size_mb</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="124" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aafc6288f91766d2d39057f0a0e88d3b3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::block_cache_size_mb</definition>
+        <argsstring></argsstring>
+        <name>block_cache_size_mb</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::block_cache_size_mb</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="125" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a259ddbe43090e82b6a1c6dd32635ac44" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::block_cache_shard_bits</definition>
+        <argsstring></argsstring>
+        <name>block_cache_shard_bits</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::block_cache_shard_bits</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="126" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5bc4e69c18c41f1a864f2c34d39c5f79" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::cache_index_and_filter_blocks</definition>
+        <argsstring></argsstring>
+        <name>cache_index_and_filter_blocks</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::cache_index_and_filter_blocks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="127" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad433a5f8bfc376360dc3fb95de06fe72" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::pin_l0_filter_and_index_blocks_in_cache</definition>
+        <argsstring></argsstring>
+        <name>pin_l0_filter_and_index_blocks_in_cache</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::pin_l0_filter_and_index_blocks_in_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="128" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3120003d0c8630b05ec0bdbbc926f67f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::partition_filters</definition>
+        <argsstring></argsstring>
+        <name>partition_filters</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::partition_filters</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="129" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac3e6b18326d9e8763f6de506bbaa9010" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::RocksDBWrapper::Config::high_pri_pool_ratio</definition>
+        <argsstring></argsstring>
+        <name>high_pri_pool_ratio</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::high_pri_pool_ratio</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="130" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a1f5488ef74c4b34f4424eaf6d405c6c0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::bloom_bits_per_key</definition>
+        <argsstring></argsstring>
+        <name>bloom_bits_per_key</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::bloom_bits_per_key</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="131" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adc4f26507263cbaa4de37217fbb6e357" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_wal</definition>
+        <argsstring></argsstring>
+        <name>enable_wal</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_wal</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="132" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae30db4b39dcca5f181385bdb1018326d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_blobdb</definition>
+        <argsstring></argsstring>
+        <name>enable_blobdb</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_blobdb</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="133" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac9e7cc86be35b0e3eb67d81471e1ad8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_statistics</definition>
+        <argsstring></argsstring>
+        <name>enable_statistics</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_statistics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="134" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7db76263164cfbf2d6aefff033ecc18c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::blob_size_threshold</definition>
+        <argsstring></argsstring>
+        <name>blob_size_threshold</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::blob_size_threshold</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="135" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8472be97835a1f2eabcdba354cf404c0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::max_background_jobs</definition>
+        <argsstring></argsstring>
+        <name>max_background_jobs</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::max_background_jobs</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="136" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a300f80fcb9073540954a0f02a50b72b8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::max_background_compactions</definition>
+        <argsstring></argsstring>
+        <name>max_background_compactions</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::max_background_compactions</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="139" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af4deed9aedfdf9e1763dfb7ee3dad220" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::max_background_flushes</definition>
+        <argsstring></argsstring>
+        <name>max_background_flushes</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::max_background_flushes</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="140" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9daf884e28efc25cce9e537bf57cf33a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::max_subcompactions</definition>
+        <argsstring></argsstring>
+        <name>max_subcompactions</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::max_subcompactions</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="141" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a88744d5ac71f6242e2f7e4db13afeff7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::background_threads_high</definition>
+        <argsstring></argsstring>
+        <name>background_threads_high</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::background_threads_high</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="142" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a89b7f7b0cb8bdd675bf48db9a549dfd0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::background_threads_low</definition>
+        <argsstring></argsstring>
+        <name>background_threads_low</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::background_threads_low</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="143" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adb223694d1b55d20c2364109d59cc706" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_high_parallel_tuning</definition>
+        <argsstring></argsstring>
+        <name>enable_high_parallel_tuning</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_high_parallel_tuning</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="144" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3dda0982fe374a4d2b546524038744aa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::high_parallel_thread_threshold</definition>
+        <argsstring></argsstring>
+        <name>high_parallel_thread_threshold</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::high_parallel_thread_threshold</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="145" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ace1fbb99e835c036a7da4f79c151bf4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::use_universal_compaction</definition>
+        <argsstring></argsstring>
+        <name>use_universal_compaction</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::use_universal_compaction</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="148" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a27d84bcfee644ed3214d4faeb4ea0834" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::dynamic_level_bytes</definition>
+        <argsstring></argsstring>
+        <name>dynamic_level_bytes</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::dynamic_level_bytes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="149" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aee7b7b8f03ae854455df9d884da3cdd9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::Config::target_file_size_base_mb</definition>
+        <argsstring></argsstring>
+        <name>target_file_size_base_mb</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::target_file_size_base_mb</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="150" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2c0ed374a8bc79df32bb4a628d3acfad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::Config::max_bytes_for_level_base_mb</definition>
+        <argsstring></argsstring>
+        <name>max_bytes_for_level_base_mb</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::max_bytes_for_level_base_mb</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="151" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe1fd789914ad79f0eab27c76d8707e5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::max_write_buffer_number</definition>
+        <argsstring></argsstring>
+        <name>max_write_buffer_number</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::max_write_buffer_number</qualifiedname>
+        <initializer>= 6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="156" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a00496626ddd90db9300403d4e68540c2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::min_write_buffer_number_to_merge</definition>
+        <argsstring></argsstring>
+        <name>min_write_buffer_number_to_merge</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::min_write_buffer_number_to_merge</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="157" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2cd680125de7d7119e6196ae8b185ea2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::db_write_buffer_size_mb</definition>
+        <argsstring></argsstring>
+        <name>db_write_buffer_size_mb</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::db_write_buffer_size_mb</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="160" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a429eea40b79c2de93f8a29b35f9131d1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::level0_file_num_compaction_trigger</definition>
+        <argsstring></argsstring>
+        <name>level0_file_num_compaction_trigger</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::level0_file_num_compaction_trigger</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="163" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9687a4a7f59b6a68bab0a7e93f47256c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::level0_slowdown_writes_trigger</definition>
+        <argsstring></argsstring>
+        <name>level0_slowdown_writes_trigger</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::level0_slowdown_writes_trigger</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="164" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a19c540d2a87dad2de88e78d3137a3a4b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::level0_stop_writes_trigger</definition>
+        <argsstring></argsstring>
+        <name>level0_stop_writes_trigger</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::level0_stop_writes_trigger</qualifiedname>
+        <initializer>= 36</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="165" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aef584594e719a8cdbd3503adf150d6b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::allow_concurrent_memtable_write</definition>
+        <argsstring></argsstring>
+        <name>allow_concurrent_memtable_write</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::allow_concurrent_memtable_write</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="167" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad963c66f8b7080b5a234dcfc9f2b7959" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_pipelined_write</definition>
+        <argsstring></argsstring>
+        <name>enable_pipelined_write</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_pipelined_write</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="168" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe314fcd291e6411839d35838da88621" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::allow_unordered_write</definition>
+        <argsstring></argsstring>
+        <name>allow_unordered_write</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::allow_unordered_write</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="169" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9db1897ef0f00f30436b86546523f915" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::disable_wal_for_benchmark</definition>
+        <argsstring></argsstring>
+        <name>disable_wal_for_benchmark</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::disable_wal_for_benchmark</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="170" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a99b068ea8b8c04bc5078268910b3fd24" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::use_direct_reads</definition>
+        <argsstring></argsstring>
+        <name>use_direct_reads</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::use_direct_reads</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="173" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1acf2bd00b892ec480dd7bf42baf501e8b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::use_direct_io_for_flush_and_compaction</definition>
+        <argsstring></argsstring>
+        <name>use_direct_io_for_flush_and_compaction</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::use_direct_io_for_flush_and_compaction</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="174" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5d1467521c64329f4019f84738861fe5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_nvme_optimizations</definition>
+        <argsstring></argsstring>
+        <name>enable_nvme_optimizations</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_nvme_optimizations</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="182" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad7f5e1f1330669daffd595c008b9f2af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::Config::nvme_device_path</definition>
+        <argsstring></argsstring>
+        <name>nvme_device_path</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::nvme_device_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="185" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3536c8f66a879eb7c23c2e5be3e5e9a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::RocksDBWrapper::Config::nvme_io_uring_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>nvme_io_uring_queue_depth</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::nvme_io_uring_queue_depth</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="187" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2ca0151d862757f3d71b760d09cbc833" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::nvme_enable_io_uring</definition>
+        <argsstring></argsstring>
+        <name>nvme_enable_io_uring</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::nvme_enable_io_uring</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="189" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a93f3eb07ca1a3c7903a693de26346b31" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::nvme_enable_zns</definition>
+        <argsstring></argsstring>
+        <name>nvme_enable_zns</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::nvme_enable_zns</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="191" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abbaa777b7310a4a3a4cb7bd567f20b5d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_async_io</definition>
+        <argsstring></argsstring>
+        <name>enable_async_io</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_async_io</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="196" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a726ab386df0c85cc3636985005658e94" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::async_io_readahead_size_mb</definition>
+        <argsstring></argsstring>
+        <name>async_io_readahead_size_mb</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::async_io_readahead_size_mb</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="197" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad6f7376f2dd8c54e1299dfde68fcf94d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::async_io_multiget_batch_size</definition>
+        <argsstring></argsstring>
+        <name>async_io_multiget_batch_size</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::async_io_multiget_batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="198" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab5667cc2f2588f94aabf737ee4630b2b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::async_io_num_threads</definition>
+        <argsstring></argsstring>
+        <name>async_io_num_threads</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::async_io_num_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="199" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a375216a162e93676a02eee00f7b36cb8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_cpu_prefetch</definition>
+        <argsstring></argsstring>
+        <name>enable_cpu_prefetch</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_cpu_prefetch</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="206" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2081ba9219c2e8858b2979577dc4da93" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::prefetch_distance</definition>
+        <argsstring></argsstring>
+        <name>prefetch_distance</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::prefetch_distance</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="207" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a267627421c4845bd839458b147bf305b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::prefetch_min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>prefetch_min_batch_size</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::prefetch_min_batch_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="208" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad598c4a96b419c948d13927bc647b51a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::Config::compression_default</definition>
+        <argsstring></argsstring>
+        <name>compression_default</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::compression_default</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="212" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab142b9b8ebb7fdfdff90750d5fb8ae74" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::Config::compression_bottommost</definition>
+        <argsstring></argsstring>
+        <name>compression_bottommost</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::compression_bottommost</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="213" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a74d25a9d499b210095d4603f8b5c68c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::wal_enabled</definition>
+        <argsstring></argsstring>
+        <name>wal_enabled</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::wal_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="215" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abb8a1c3d614de059603fa65b53d67489" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::create_if_missing</definition>
+        <argsstring></argsstring>
+        <name>create_if_missing</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::create_if_missing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="216" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8708f67372f68bdb864a9cf85c4ec602" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_ttl</definition>
+        <argsstring></argsstring>
+        <name>enable_ttl</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_ttl</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="219" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af863d09b97bd922c0f569c7b850a4c6a" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::RocksDBWrapper::Config::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::ttl_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="220" column="17" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5b1285f374510549efd247d9b39d9f7f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9af" kindref="member">WritePolicy</ref></type>
+        <definition>WritePolicy themis::RocksDBWrapper::Config::write_policy</definition>
+        <argsstring></argsstring>
+        <name>write_policy</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::write_policy</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afaff8b7d9f9111d998e08b778c53f26fbf" kindref="member">WritePolicy::WriteUnprepared</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="228" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a81526f1331492f3e4ec25476848e1ec7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::two_write_queues</definition>
+        <argsstring></argsstring>
+        <name>two_write_queues</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::two_write_queues</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="229" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a471294b12fb943f9757b6a02e4011420" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::Config::wp_commit_cache_bits</definition>
+        <argsstring></argsstring>
+        <name>wp_commit_cache_bits</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::wp_commit_cache_bits</qualifiedname>
+        <initializer>= 23</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="230" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a891740bbc63c6c85481338adfc19fa6b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::paranoid_checks</definition>
+        <argsstring></argsstring>
+        <name>paranoid_checks</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::paranoid_checks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="235" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2fb77d41b1bb5b600fdb6a7d1f2de75c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::verify_checksums_on_read</definition>
+        <argsstring></argsstring>
+        <name>verify_checksums_on_read</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::verify_checksums_on_read</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="236" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a86303b0e661c2471c2437681d6c386f3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::verify_checksums_in_compaction</definition>
+        <argsstring></argsstring>
+        <name>verify_checksums_in_compaction</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::verify_checksums_in_compaction</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="237" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a629dbd1282fb88f92db72bb6d6b732dc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::force_sync_on_write</definition>
+        <argsstring></argsstring>
+        <name>force_sync_on_write</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::force_sync_on_write</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="238" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af276c5d994ce9e5abe4bb5f3b4af16b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::disable_mmap_reads</definition>
+        <argsstring></argsstring>
+        <name>disable_mmap_reads</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::disable_mmap_reads</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="239" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae756b7d1d0cfd38362152aa1c1f4e003" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::disable_mmap_writes</definition>
+        <argsstring></argsstring>
+        <name>disable_mmap_writes</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::disable_mmap_writes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="240" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a51257cf42afb9c73968cc627fb40e229" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::Config::wal_bytes_per_sync</definition>
+        <argsstring></argsstring>
+        <name>wal_bytes_per_sync</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::wal_bytes_per_sync</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="248" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7b0cf1bd79f43da4902802ce592cb1e4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abf" kindref="member">ChecksumType</ref></type>
+        <definition>ChecksumType themis::RocksDBWrapper::Config::checksum_type</definition>
+        <argsstring></argsstring>
+        <name>checksum_type</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::checksum_type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abfa3e1ed64413c552ca4f1d1997a0a7ef26" kindref="member">ChecksumType::XXH3</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="255" column="22" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7e121bdb28a11a81c92dd9d916c6da7b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5d" kindref="member">MergeOperatorPreset</ref></type>
+        <definition>MergeOperatorPreset themis::RocksDBWrapper::Config::merge_operator_preset</definition>
+        <argsstring></argsstring>
+        <name>merge_operator_preset</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::merge_operator_preset</qualifiedname>
+        <initializer>                                      =
+<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5da6adf97f83acf6453d4a6a4b1070f3754" kindref="member">MergeOperatorPreset::None</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="264" column="29" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab2b2f2d10e024e342dc1d46841e15074" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::Config::enable_blob_streaming</definition>
+        <argsstring></argsstring>
+        <name>enable_blob_streaming</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::enable_blob_streaming</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="274" column="14" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a54b1c8988acba3ad7f8c036d568a0ea0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::blob_streaming_threshold_bytes</definition>
+        <argsstring></argsstring>
+        <name>blob_streaming_threshold_bytes</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::blob_streaming_threshold_bytes</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="277" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4261c0270382519562e410f3021acdfe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RocksDBWrapper::Config::blob_chunk_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>blob_chunk_size_bytes</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::blob_chunk_size_bytes</qualifiedname>
+        <initializer>= 131072</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="279" column="16" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a76ed9debd332159be1919e5426c6ebe7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RocksDBWrapper::Config::blob_streaming_threads</definition>
+        <argsstring></argsstring>
+        <name>blob_streaming_threads</name>
+        <qualifiedname>themis::RocksDBWrapper::Config::blob_streaming_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="282" column="13" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="107" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="107" bodyend="283"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aef584594e719a8cdbd3503adf150d6b4" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>allow_concurrent_memtable_write</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe314fcd291e6411839d35838da88621" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>allow_unordered_write</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad6f7376f2dd8c54e1299dfde68fcf94d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>async_io_multiget_batch_size</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab5667cc2f2588f94aabf737ee4630b2b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>async_io_num_threads</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a726ab386df0c85cc3636985005658e94" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>async_io_readahead_size_mb</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a88744d5ac71f6242e2f7e4db13afeff7" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>background_threads_high</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a89b7f7b0cb8bdd675bf48db9a549dfd0" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>background_threads_low</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4261c0270382519562e410f3021acdfe" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>blob_chunk_size_bytes</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7db76263164cfbf2d6aefff033ecc18c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>blob_size_threshold</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a76ed9debd332159be1919e5426c6ebe7" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>blob_streaming_threads</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a54b1c8988acba3ad7f8c036d568a0ea0" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>blob_streaming_threshold_bytes</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a259ddbe43090e82b6a1c6dd32635ac44" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>block_cache_shard_bits</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aafc6288f91766d2d39057f0a0e88d3b3" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>block_cache_size_mb</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a1f5488ef74c4b34f4424eaf6d405c6c0" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>bloom_bits_per_key</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5bc4e69c18c41f1a864f2c34d39c5f79" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>cache_index_and_filter_blocks</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7b0cf1bd79f43da4902802ce592cb1e4" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>checksum_type</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abf" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>ChecksumType</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab142b9b8ebb7fdfdff90750d5fb8ae74" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>compression_bottommost</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad598c4a96b419c948d13927bc647b51a" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>compression_default</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abb8a1c3d614de059603fa65b53d67489" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>create_if_missing</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aac7b570e259673885921721d3e43aef4" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>db_path</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4530a4d5d195f49d7220aee0160e853b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>db_paths</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2cd680125de7d7119e6196ae8b185ea2" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>db_write_buffer_size_mb</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af276c5d994ce9e5abe4bb5f3b4af16b4" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>disable_mmap_reads</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae756b7d1d0cfd38362152aa1c1f4e003" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>disable_mmap_writes</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9db1897ef0f00f30436b86546523f915" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>disable_wal_for_benchmark</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a27d84bcfee644ed3214d4faeb4ea0834" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>dynamic_level_bytes</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abbaa777b7310a4a3a4cb7bd567f20b5d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_async_io</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab2b2f2d10e024e342dc1d46841e15074" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_blob_streaming</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae30db4b39dcca5f181385bdb1018326d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_blobdb</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a375216a162e93676a02eee00f7b36cb8" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_cpu_prefetch</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adb223694d1b55d20c2364109d59cc706" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_high_parallel_tuning</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5d1467521c64329f4019f84738861fe5" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_nvme_optimizations</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad963c66f8b7080b5a234dcfc9f2b7959" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_pipelined_write</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac9e7cc86be35b0e3eb67d81471e1ad8c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_statistics</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8708f67372f68bdb864a9cf85c4ec602" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_ttl</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adc4f26507263cbaa4de37217fbb6e357" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>enable_wal</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a629dbd1282fb88f92db72bb6d6b732dc" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>force_sync_on_write</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3dda0982fe374a4d2b546524038744aa" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>high_parallel_thread_threshold</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac3e6b18326d9e8763f6de506bbaa9010" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>high_pri_pool_ratio</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a429eea40b79c2de93f8a29b35f9131d1" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>level0_file_num_compaction_trigger</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9687a4a7f59b6a68bab0a7e93f47256c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>level0_slowdown_writes_trigger</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a19c540d2a87dad2de88e78d3137a3a4b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>level0_stop_writes_trigger</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a300f80fcb9073540954a0f02a50b72b8" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>max_background_compactions</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af4deed9aedfdf9e1763dfb7ee3dad220" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>max_background_flushes</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8472be97835a1f2eabcdba354cf404c0" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>max_background_jobs</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2c0ed374a8bc79df32bb4a628d3acfad" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>max_bytes_for_level_base_mb</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9daf884e28efc25cce9e537bf57cf33a" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>max_subcompactions</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe1fd789914ad79f0eab27c76d8707e5" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>max_write_buffer_number</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9f7602d4738f192191261a5768826143" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>memtable_size_mb</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7e121bdb28a11a81c92dd9d916c6da7b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>merge_operator_preset</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>MergeOperatorPreset</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a00496626ddd90db9300403d4e68540c2" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>min_write_buffer_number_to_merge</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad7f5e1f1330669daffd595c008b9f2af" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>nvme_device_path</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2ca0151d862757f3d71b760d09cbc833" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>nvme_enable_io_uring</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a93f3eb07ca1a3c7903a693de26346b31" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>nvme_enable_zns</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3536c8f66a879eb7c23c2e5be3e5e9a7" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>nvme_io_uring_queue_depth</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a891740bbc63c6c85481338adfc19fa6b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>paranoid_checks</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3120003d0c8630b05ec0bdbbc926f67f" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>partition_filters</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad433a5f8bfc376360dc3fb95de06fe72" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>pin_l0_filter_and_index_blocks_in_cache</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2081ba9219c2e8858b2979577dc4da93" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>prefetch_distance</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a267627421c4845bd839458b147bf305b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>prefetch_min_batch_size</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad6081a14708c0bdde685de2490be4d47" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>read_only</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aee7b7b8f03ae854455df9d884da3cdd9" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>target_file_size_base_mb</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af863d09b97bd922c0f569c7b850a4c6a" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>ttl_seconds</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a81526f1331492f3e4ec25476848e1ec7" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>two_write_queues</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1acf2bd00b892ec480dd7bf42baf501e8b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>use_direct_io_for_flush_and_compaction</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a99b068ea8b8c04bc5078268910b3fd24" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>use_direct_reads</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ace1fbb99e835c036a7da4f79c151bf4e" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>use_universal_compaction</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a86303b0e661c2471c2437681d6c386f3" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>verify_checksums_in_compaction</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2fb77d41b1bb5b600fdb6a7d1f2de75c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>verify_checksums_on_read</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a51257cf42afb9c73968cc627fb40e229" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>wal_bytes_per_sync</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8b02d7f473489953f11e0b6f183bd149" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>wal_dir</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a74d25a9d499b210095d4603f8b5c68c9" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>wal_enabled</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a471294b12fb943f9757b6a02e4011420" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>wp_commit_cache_bits</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5b1285f374510549efd247d9b39d9f7f" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>write_policy</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9af" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::Config</scope><name>WritePolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

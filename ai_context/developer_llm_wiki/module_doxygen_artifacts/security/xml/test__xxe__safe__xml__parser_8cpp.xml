@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__xxe__safe__xml__parser_8cpp" kind="file" language="C++">
+    <compoundname>test_xxe_safe_xml_parser.cpp</compoundname>
+    <includes refid="xxe__safe__xml__parser_8h" local="yes">security/xxe_safe_xml_parser.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>security/xxe_safe_xml_parser.h</label>
+        <link refid="xxe__safe__xml__parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_xxe_safe_xml_parser.cpp</label>
+        <link refid="test__xxe__safe__xml__parser_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>pugixml.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__xxe__safe__xml__parser_8cpp_1a39fa54588182b91c6f7956eeb52bceda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(XxeSafeXmlParserTest, ParsesSimpleXml)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>XxeSafeXmlParserTest</type>
+        </param>
+        <param>
+          <type>ParsesSimpleXml</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_xxe_safe_xml_parser.cpp" line="5" column="1" bodyfile="tests/security/test_xxe_safe_xml_parser.cpp" bodystart="5" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="test__xxe__safe__xml__parser_8cpp_1a1ba6241537029c72bb918936d5f9d3c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(XxeSafeXmlParserTest, RejectsDoctypeWithExternalEntity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>XxeSafeXmlParserTest</type>
+        </param>
+        <param>
+          <type>RejectsDoctypeWithExternalEntity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_xxe_safe_xml_parser.cpp" line="13" column="1" bodyfile="tests/security/test_xxe_safe_xml_parser.cpp" bodystart="13" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="xxe__safe__xml__parser_8h" kindref="compound">security/xxe_safe_xml_parser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><ref refid="test__xxe__safe__xml__parser_8cpp_1a39fa54588182b91c6f7956eeb52bceda" kindref="member">TEST</ref>(XxeSafeXmlParserTest,<sp/>ParsesSimpleXml)<sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1security_1a0db9044fc2bd6a6fbdddadadac4fcf79" kindref="member">themis::security::parseXmlSafe</ref>(</highlight><highlight class="stringliteral">&quot;&lt;root&gt;&lt;child&gt;value&lt;/child&gt;&lt;/root&gt;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unit-test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success)<sp/>&lt;&lt;<sp/>result.error_message;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.document);</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(result.document.first_child().name(),<sp/></highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1security_1a01ac9db5a9df606164b87e8ec14e07d2" kindref="member">themis::security::validateNoExternalEntities</ref>(result.document));</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="test__xxe__safe__xml__parser_8cpp_1a39fa54588182b91c6f7956eeb52bceda" kindref="member">TEST</ref>(XxeSafeXmlParserTest,<sp/>RejectsDoctypeWithExternalEntity)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1security_1a0db9044fc2bd6a6fbdddadadac4fcf79" kindref="member">themis::security::parseXmlSafe</ref>(</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;?xml<sp/>version=\&quot;1.0\&quot;?&gt;&lt;!DOCTYPE<sp/>root<sp/>[&lt;!ENTITY<sp/>xxe<sp/>SYSTEM<sp/>\&quot;file:///etc/passwd\&quot;&gt;]&gt;&lt;root&gt;&amp;xxe;&lt;/root&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unit-test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_xxe_safe_xml_parser.cpp"/>
+  </compounddef>
+</doxygen>

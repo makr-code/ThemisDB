@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_to_t_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ToTConfig</compoundname>
+    <includes refid="tree__of__thoughts_8h" local="no">tree_of_thoughts.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_config_1acfd96b336bf67f94c1399a9b1ccf8fdc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ToTConfig::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::prompt_engineering::ToTConfig::max_depth</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum tree depth before forcing a final answer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="64" column="22" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_config_1a25dd09e5ca1229eab2528269483306eb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ToTConfig::branching_factor</definition>
+        <argsstring></argsstring>
+        <name>branching_factor</name>
+        <qualifiedname>themis::prompt_engineering::ToTConfig::branching_factor</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Number of child thoughts generated per node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="65" column="22" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_config_1a5bf7752204b0e22a78654d4dbfe6a826" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ToTConfig::beam_width</definition>
+        <argsstring></argsstring>
+        <name>beam_width</name>
+        <qualifiedname>themis::prompt_engineering::ToTConfig::beam_width</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Beam width used when strategy == BEAM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="66" column="22" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_config_1a7d1229c458449531b8050f90a24bc46b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a607bf84f0c1e03c06ad9bffd59440f07" kindref="member">ToTSearchStrategy</ref></type>
+        <definition>ToTSearchStrategy themis::prompt_engineering::ToTConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::prompt_engineering::ToTConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1prompt__engineering_1a607bf84f0c1e03c06ad9bffd59440f07a838fea3c1a3e8dd6c22fe9605a701668" kindref="member">ToTSearchStrategy::BFS</ref></initializer>
+        <briefdescription>
+<para>Default search strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="67" column="23" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_config_1ad4ece0bce64e249205c4ce7fb96bc7a5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ToTConfig::prune_threshold</definition>
+        <argsstring></argsstring>
+        <name>prune_threshold</name>
+        <qualifiedname>themis::prompt_engineering::ToTConfig::prune_threshold</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Prune nodes with score &lt;= this value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="68" column="22" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_config_1afd0bc07d4423e39c15073db0285dcd13" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ToTConfig::verbose</definition>
+        <argsstring></argsstring>
+        <name>verbose</name>
+        <qualifiedname>themis::prompt_engineering::ToTConfig::verbose</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Emit intermediate thoughts to result log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="69" column="22" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the <ref refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder" kindref="compound">TreeOfThoughtsBuilder</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/tree_of_thoughts.h" line="63" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="63" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_config_1a5bf7752204b0e22a78654d4dbfe6a826" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTConfig</scope><name>beam_width</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_config_1a25dd09e5ca1229eab2528269483306eb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTConfig</scope><name>branching_factor</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_config_1acfd96b336bf67f94c1399a9b1ccf8fdc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTConfig</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_config_1ad4ece0bce64e249205c4ce7fb96bc7a5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTConfig</scope><name>prune_threshold</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_config_1a7d1229c458449531b8050f90a24bc46b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_config_1afd0bc07d4423e39c15073db0285dcd13" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTConfig</scope><name>verbose</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

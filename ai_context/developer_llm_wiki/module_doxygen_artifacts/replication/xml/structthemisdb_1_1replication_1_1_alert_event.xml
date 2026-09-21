@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_alert_event" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::AlertEvent</compoundname>
+    <includes refid="lag__alert__manager_8h" local="no">lag_alert_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1replication_1_1_alert_event_1a594b95a923dcd5468d2385f88a78632d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Level</name>
+        <qualifiedname>themisdb::replication::AlertEvent::Level</qualifiedname>
+        <enumvalue id="structthemisdb_1_1replication_1_1_alert_event_1a594b95a923dcd5468d2385f88a78632da320f86f60f25459ba5550e000b2c3929" prot="public">
+          <name>ALERT</name>
+          <briefdescription>
+<para>Warning-level: lag exceeded alert threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_alert_event_1a594b95a923dcd5468d2385f88a78632da99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Error-level: lag exceeded critical threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_alert_event_1a594b95a923dcd5468d2385f88a78632da36d31c88e39d3eb841007cbe5c9272dd" prot="public">
+          <name>FAILOVER</name>
+          <briefdescription>
+<para>Failover initiated due to sustained critical lag. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="93" column="5" bodyfile="include/replication/lag_alert_manager.h" bodystart="93" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_alert_event_1a679a2d83e9af4e5f365e3b0386f89aad" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_alert_event_1a594b95a923dcd5468d2385f88a78632d" kindref="member">Level</ref></type>
+        <definition>Level themisdb::replication::AlertEvent::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themisdb::replication::AlertEvent::level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="99" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_alert_event_1afcca5e543521f63ffaaffc9fdb12941b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::AlertEvent::replica_id</definition>
+        <argsstring></argsstring>
+        <name>replica_id</name>
+        <qualifiedname>themisdb::replication::AlertEvent::replica_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="100" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_alert_event_1aab49fb7ad2b485477a5674782074f77b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::AlertEvent::lag_ms</definition>
+        <argsstring></argsstring>
+        <name>lag_ms</name>
+        <qualifiedname>themisdb::replication::AlertEvent::lag_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="101" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_alert_event_1a2557d7c971d1e0288ad72f400819df85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::AlertEvent::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themisdb::replication::AlertEvent::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="102" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_alert_event_1ab84fdeb82a3108dc5c008dd8072f53a3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::AlertEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themisdb::replication::AlertEvent::timestamp_ms</qualifiedname>
+        <briefdescription>
+<para>Unix epoch milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="103" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Event describing a lag alert condition. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/lag_alert_manager.h" line="92" column="1" bodyfile="include/replication/lag_alert_manager.h" bodystart="92" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_alert_event_1aab49fb7ad2b485477a5674782074f77b" prot="public" virt="non-virtual"><scope>themisdb::replication::AlertEvent</scope><name>lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_alert_event_1a594b95a923dcd5468d2385f88a78632d" prot="public" virt="non-virtual"><scope>themisdb::replication::AlertEvent</scope><name>Level</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_alert_event_1a679a2d83e9af4e5f365e3b0386f89aad" prot="public" virt="non-virtual"><scope>themisdb::replication::AlertEvent</scope><name>level</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_alert_event_1a2557d7c971d1e0288ad72f400819df85" prot="public" virt="non-virtual"><scope>themisdb::replication::AlertEvent</scope><name>message</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_alert_event_1afcca5e543521f63ffaaffc9fdb12941b" prot="public" virt="non-virtual"><scope>themisdb::replication::AlertEvent</scope><name>replica_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_alert_event_1ab84fdeb82a3108dc5c008dd8072f53a3" prot="public" virt="non-virtual"><scope>themisdb::replication::AlertEvent</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

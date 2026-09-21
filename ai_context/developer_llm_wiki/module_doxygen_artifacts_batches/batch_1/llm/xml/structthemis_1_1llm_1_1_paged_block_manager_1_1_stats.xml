@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PagedBlockManager::Stats</compoundname>
+    <includes refid="paged__block__manager_8h" local="no">paged_block_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1ab6fdd2206db0543835b8bff822408eff" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::PagedBlockManager::Stats::num_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_blocks</name>
+        <qualifiedname>themis::llm::PagedBlockManager::Stats::num_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="45" column="13" bodyfile="include/llm/paged_block_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1a47dc565dc76b28c4a70e8768d79dc4b6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::PagedBlockManager::Stats::num_free_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_free_blocks</name>
+        <qualifiedname>themis::llm::PagedBlockManager::Stats::num_free_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="46" column="13" bodyfile="include/llm/paged_block_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1a8c8aa2a56fde5210640b2839c1b0fe78" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::PagedBlockManager::Stats::num_allocated_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_allocated_blocks</name>
+        <qualifiedname>themis::llm::PagedBlockManager::Stats::num_allocated_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="47" column="13" bodyfile="include/llm/paged_block_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1afab5491395ece44fcb4e953798866d92" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedBlockManager::Stats::total_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_memory_bytes</name>
+        <qualifiedname>themis::llm::PagedBlockManager::Stats::total_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="48" column="16" bodyfile="include/llm/paged_block_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1a2811a8a86b5e40278acffb2c945b0aad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedBlockManager::Stats::used_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_memory_bytes</name>
+        <qualifiedname>themis::llm::PagedBlockManager::Stats::used_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="49" column="16" bodyfile="include/llm/paged_block_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1a598ff669106b11e5cd2ccb741e78fb6d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PagedBlockManager::Stats::fragmentation_ratio</definition>
+        <argsstring></argsstring>
+        <name>fragmentation_ratio</name>
+        <qualifiedname>themis::llm::PagedBlockManager::Stats::fragmentation_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="50" column="16" bodyfile="include/llm/paged_block_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_block_manager.h" line="44" column="5" bodyfile="include/llm/paged_block_manager.h" bodystart="44" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1a598ff669106b11e5cd2ccb741e78fb6d" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager::Stats</scope><name>fragmentation_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1a8c8aa2a56fde5210640b2839c1b0fe78" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager::Stats</scope><name>num_allocated_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1ab6fdd2206db0543835b8bff822408eff" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager::Stats</scope><name>num_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1a47dc565dc76b28c4a70e8768d79dc4b6" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager::Stats</scope><name>num_free_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1afab5491395ece44fcb4e953798866d92" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager::Stats</scope><name>total_memory_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats_1a2811a8a86b5e40278acffb2c945b0aad" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager::Stats</scope><name>used_memory_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

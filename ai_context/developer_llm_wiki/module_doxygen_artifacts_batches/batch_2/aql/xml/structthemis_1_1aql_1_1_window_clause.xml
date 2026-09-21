@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_window_clause" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::WindowClause</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_window_clause_1a6a40d45d4a9def1d4912cd906905f1a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::WindowClause::partition_expr</definition>
+        <argsstring></argsstring>
+        <name>partition_expr</name>
+        <qualifiedname>themis::aql::WindowClause::partition_expr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="68" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_window_clause_1a4a692ee2a25ad0a42e9f800792f40434" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::WindowClause::window_spec</definition>
+        <argsstring></argsstring>
+        <name>window_spec</name>
+        <qualifiedname>themis::aql::WindowClause::window_spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="69" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/aql/aql_query_builder.cpp" line="67" column="1" bodyfile="src/aql/aql_query_builder.cpp" bodystart="67" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_window_clause_1a6a40d45d4a9def1d4912cd906905f1a7" prot="public" virt="non-virtual"><scope>themis::aql::WindowClause</scope><name>partition_expr</name></member>
+      <member refid="structthemis_1_1aql_1_1_window_clause_1a4a692ee2a25ad0a42e9f800792f40434" prot="public" virt="non-virtual"><scope>themis::aql::WindowClause</scope><name>window_spec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

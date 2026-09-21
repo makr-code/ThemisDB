@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_source_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::SourceConfig</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::SourceConfig::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::ingestion::SourceConfig::source_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for this source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="225" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755f" kindref="member">SourceType</ref></type>
+        <definition>SourceType themis::ingestion::SourceConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::ingestion::SourceConfig::type</qualifiedname>
+        <briefdescription>
+<para>Type of data source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="226" column="16" bodyfile="include/ingestion/ingestion_manager.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::SourceConfig::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>themis::ingestion::SourceConfig::location</qualifiedname>
+        <briefdescription>
+<para>Location (URL, path, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="227" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::SourceConfig::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::ingestion::SourceConfig::priority</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Priority (higher = more important, 1-10). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="228" column="9" bodyfile="include/ingestion/ingestion_manager.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SourceConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::ingestion::SourceConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether this source is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="229" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::ingestion::SourceConfig::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>themis::ingestion::SourceConfig::options</qualifiedname>
+        <briefdescription>
+<para>Additional options. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="230" column="24" bodyfile="include/ingestion/ingestion_manager.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Source configuration for data ingestion. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="224" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="224" bodyend="231"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceConfig</scope><name>location</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceConfig</scope><name>options</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceConfig</scope><name>priority</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceConfig</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

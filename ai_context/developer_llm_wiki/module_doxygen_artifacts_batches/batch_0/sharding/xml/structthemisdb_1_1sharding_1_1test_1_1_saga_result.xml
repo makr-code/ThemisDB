@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1test_1_1_saga_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::SagaResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1test_1_1_saga_result_1a6993417a25609f68534e6ded3fe09538" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::SagaResult::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themisdb::sharding::test::SagaResult::succeeded</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="573" column="35" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="573" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1test_1_1_saga_result_1a4ea51c087b7acf01dc7f767e7ecf57b2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::test::SagaResult::steps_completed</definition>
+        <argsstring></argsstring>
+        <name>steps_completed</name>
+        <qualifiedname>themisdb::sharding::test::SagaResult::steps_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="574" column="35" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="574" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1test_1_1_saga_result_1ab923669c69125146735ded788adf2a4c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::test::SagaResult::compensations_run</definition>
+        <argsstring></argsstring>
+        <name>compensations_run</name>
+        <qualifiedname>themisdb::sharding::test::SagaResult::compensations_run</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="575" column="35" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="575" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1test_1_1_saga_result_1a4bab6252f3c94d672b25a56293301302" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::test::SagaResult::compensation_order</definition>
+        <argsstring></argsstring>
+        <name>compensation_order</name>
+        <qualifiedname>themisdb::sharding::test::SagaResult::compensation_order</qualifiedname>
+        <briefdescription>
+<para>names in execution order </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="576" column="22" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="576" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="572" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="572" bodyend="577"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1test_1_1_saga_result_1a4bab6252f3c94d672b25a56293301302" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SagaResult</scope><name>compensation_order</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1test_1_1_saga_result_1ab923669c69125146735ded788adf2a4c" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SagaResult</scope><name>compensations_run</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1test_1_1_saga_result_1a4ea51c087b7acf01dc7f767e7ecf57b2" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SagaResult</scope><name>steps_completed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1test_1_1_saga_result_1a6993417a25609f68534e6ded3fe09538" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SagaResult</scope><name>succeeded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

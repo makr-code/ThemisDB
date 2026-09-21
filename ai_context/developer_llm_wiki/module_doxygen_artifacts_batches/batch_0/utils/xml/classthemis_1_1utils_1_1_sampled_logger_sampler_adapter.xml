@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::SampledLoggerSamplerAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_i_structured_log_sampler" prot="public" virt="non-virtual">themis::utils::IStructuredLogSampler</basecompoundref>
+    <includes refid="utils__adapters_8h" local="no">utils_adapters.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a56e7dd24c3f3f5af42cefba1050409b2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_sampled_logger" kindref="compound">SampledLogger</ref></type>
+        <definition>SampledLogger themis::utils::SampledLoggerSamplerAdapter::sampler_</definition>
+        <argsstring></argsstring>
+        <name>sampler_</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::sampler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="175" column="26" bodyfile="include/utils/utils_adapters.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1ac15f787908601f16c0586d4f5e848bae" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref></type>
+        <definition>SampledLoggerConfig themis::utils::SampledLoggerSamplerAdapter::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="176" column="26" bodyfile="include/utils/utils_adapters.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1ac5d824a195385764114d26a0199b01aa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::SampledLoggerSamplerAdapter::sampled_</definition>
+        <argsstring></argsstring>
+        <name>sampled_</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::sampled_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="177" column="18" bodyfile="include/utils/utils_adapters.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a92c54d78eb275cd403ed49a1a8e0507f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::SampledLoggerSamplerAdapter::dropped_</definition>
+        <argsstring></argsstring>
+        <name>dropped_</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="178" column="18" bodyfile="include/utils/utils_adapters.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a701a5a029157050dfd0743a199e8cc46" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::utils::SampledLoggerSamplerAdapter::targetRate_</definition>
+        <argsstring></argsstring>
+        <name>targetRate_</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::targetRate_</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="179" column="18" bodyfile="include/utils/utils_adapters.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a1457a1bb9fcf0bbc5e964f5b0e37bfd7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::utils::SampledLoggerSamplerAdapter::callCounter_</definition>
+        <argsstring></argsstring>
+        <name>callCounter_</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::callCounter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="180" column="17" bodyfile="include/utils/utils_adapters.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a4412b6a2b2497244000f215f77a4e0b2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::SampledLoggerSamplerAdapter::SampledLoggerSamplerAdapter</definition>
+        <argsstring>(std::shared_ptr&lt; Logger &gt; underlying, SampledLoggerConfig cfg={})</argsstring>
+        <name>SampledLoggerSamplerAdapter</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::SampledLoggerSamplerAdapter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref> &gt;</type>
+          <declname>underlying</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>underlying</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref> instance to delegate sampled entries to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial sampling configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="158" column="14" bodyfile="src/utils/utils_adapters.cpp" bodystart="286" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a698996aea98546ad46a8d74c1c2ac115" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::SampledLoggerSamplerAdapter::shouldSample</definition>
+        <argsstring>(const LogEntry &amp;entry) noexcept override</argsstring>
+        <name>shouldSample</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::shouldSample</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_structured_log_sampler_1a644b50af6f72d23b0abf880ee3fc428a">shouldSample</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_log_entry" kindref="compound">LogEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Decide whether <computeroutput>entry</computeroutput> should be emitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true — caller should emit the log entry. </para>
+</simplesect>
+<simplesect kind="return"><para>false — caller should suppress the log entry.</para>
+</simplesect>
+noexcept: never throws; must not abort the caller.</para>
+<para>Security contract: returns true unconditionally for Security-class entries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="162" column="10" bodyfile="src/utils/utils_adapters.cpp" bodystart="294" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a9802f82d11aca5268cd940e2c3c8d26d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::SampledLoggerSamplerAdapter::recordDecision</definition>
+        <argsstring>(const LogEntry &amp;entry, bool sampled) noexcept override</argsstring>
+        <name>recordDecision</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::recordDecision</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_structured_log_sampler_1ab4cb2dacbc9a9c3a2524f66654f6e9fb">recordDecision</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_log_entry" kindref="compound">LogEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sampled</declname>
+        </param>
+        <briefdescription>
+<para>Provide feedback on whether <computeroutput>entry</computeroutput> was actually emitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adaptive rate-limiting implementations use this to adjust future rates.</para>
+<para>noexcept: never throws; must not abort the caller. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="164" column="10" bodyfile="src/utils/utils_adapters.cpp" bodystart="323" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a145ffe9837e55f47db87ab3757f6b7d8" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::utils::SampledLoggerSamplerAdapter::currentRate</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>currentRate</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::currentRate</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_structured_log_sampler_1a1dd0b906d61a5634469b575ba1c6b88f">currentRate</reimplements>
+        <briefdescription>
+<para>Current effective sampling rate as a fraction in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>noexcept. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="166" column="12" bodyfile="src/utils/utils_adapters.cpp" bodystart="331" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1acdebfe0a61c3fdeb16130ce2e57cdc35" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::SampledLoggerSamplerAdapter::setTargetRate</definition>
+        <argsstring>(double rate) noexcept override</argsstring>
+        <name>setTargetRate</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::setTargetRate</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_structured_log_sampler_1aeb92660c5a577370e37b0af76ef5778b">setTargetRate</reimplements>
+        <param>
+          <type>double</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+<para>Request a new target sampling rate (fraction in [0.0, 1.0]). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>noexcept. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="168" column="10" bodyfile="src/utils/utils_adapters.cpp" bodystart="335" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1ab877412abbb752e5c9d2ecdb0d8666f9" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::SampledLoggerSamplerAdapter::sampledCount</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>sampledCount</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::sampledCount</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_structured_log_sampler_1a6e2219e30102412a490fec08e151b5e1">sampledCount</reimplements>
+        <briefdescription>
+<para>Total number of log entries passed to <ref refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a698996aea98546ad46a8d74c1c2ac115" kindref="member">shouldSample()</ref> that were sampled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>noexcept. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="170" column="12" bodyfile="src/utils/utils_adapters.cpp" bodystart="345" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1abf5e8b4dc76bd6c477642bb62c2c6762" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::SampledLoggerSamplerAdapter::droppedCount</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>droppedCount</name>
+        <qualifiedname>themis::utils::SampledLoggerSamplerAdapter::droppedCount</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_structured_log_sampler_1a43b222b89896806fe577910f90396b65">droppedCount</reimplements>
+        <briefdescription>
+<para>Total number of log entries passed to <ref refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a698996aea98546ad46a8d74c1c2ac115" kindref="member">shouldSample()</ref> that were dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>noexcept. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="172" column="12" bodyfile="src/utils/utils_adapters.cpp" bodystart="349" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_i_structured_log_sampler" kindref="compound">IStructuredLogSampler</ref> adapter backed by <ref refid="classthemis_1_1utils_1_1_sampled_logger" kindref="compound">SampledLogger</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Security-class entries (<ref refid="namespacethemis_1_1utils_1ab5e8042d31a3cddab9b1c845096e068fa2fae32629d4ef4fc6341f1751b405e45" kindref="member">EventClass::Security</ref>) always return true from <ref refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a698996aea98546ad46a8d74c1c2ac115" kindref="member">shouldSample()</ref>, bypassing the underlying rate limiter entirely.</para>
+<para>All interface methods are noexcept as required by the interface contract. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::IStructuredLogSampler</label>
+        <link refid="classthemis_1_1utils_1_1_i_structured_log_sampler"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SampledLoggerSamplerAdapter</label>
+        <link refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::IStructuredLogSampler</label>
+        <link refid="classthemis_1_1utils_1_1_i_structured_log_sampler"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SampledLoggerSamplerAdapter</label>
+        <link refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/utils_adapters.h" line="152" column="1" bodyfile="include/utils/utils_adapters.h" bodystart="152" bodyend="181"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a1457a1bb9fcf0bbc5e964f5b0e37bfd7" prot="private" virt="non-virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>callCounter_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1ac15f787908601f16c0586d4f5e848bae" prot="private" virt="non-virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a145ffe9837e55f47db87ab3757f6b7d8" prot="public" virt="virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>currentRate</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a92c54d78eb275cd403ed49a1a8e0507f" prot="private" virt="non-virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>dropped_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1abf5e8b4dc76bd6c477642bb62c2c6762" prot="public" virt="virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>droppedCount</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a9802f82d11aca5268cd940e2c3c8d26d" prot="public" virt="virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>recordDecision</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1ac5d824a195385764114d26a0199b01aa" prot="private" virt="non-virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>sampled_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1ab877412abbb752e5c9d2ecdb0d8666f9" prot="public" virt="virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>sampledCount</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a4412b6a2b2497244000f215f77a4e0b2" prot="public" virt="non-virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>SampledLoggerSamplerAdapter</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a56e7dd24c3f3f5af42cefba1050409b2" prot="private" virt="non-virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>sampler_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1acdebfe0a61c3fdeb16130ce2e57cdc35" prot="public" virt="virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>setTargetRate</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a698996aea98546ad46a8d74c1c2ac115" prot="public" virt="virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>shouldSample</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter_1a701a5a029157050dfd0743a199e8cc46" prot="private" virt="non-virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>targetRate_</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_structured_log_sampler_1a2e2b6a713206f97bbce440d8ed30f6ed" prot="public" virt="virtual"><scope>themis::utils::SampledLoggerSamplerAdapter</scope><name>~IStructuredLogSampler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

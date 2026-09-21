@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::ConvergenceMarkerEngine</compoundname>
+    <includes refid="convergence__marker__engine_8h" local="no">convergence_marker_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a7940524318d9a3d61fbd66475d60af2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::ConvergenceMarkerEngine::ConvergenceMarkerEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>ConvergenceMarkerEngine</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarkerEngine::ConvergenceMarkerEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1aa9f69fc8739e24c6d1e4e218b7d704d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker" kindref="compound">ConvergenceMarker</ref> &gt;</type>
+        <definition>std::vector&lt; ConvergenceMarker &gt; themis::plugins::ethics::ConvergenceMarkerEngine::detectConvergences</definition>
+        <argsstring>(const std::vector&lt; DiscourseRoundOutput &gt; &amp;round_outputs, const std::vector&lt; SchoolTension &gt; &amp;tensions={}) const</argsstring>
+        <name>detectConvergences</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarkerEngine::detectConvergences</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &gt; &amp;</type>
+          <declname>round_outputs</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" kindref="compound">SchoolTension</ref> &gt; &amp;</type>
+          <declname>tensions</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="47" column="17" bodyfile="src/ethics_ai/convergence_marker_engine.cpp" bodystart="50" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a8215937ea1c7a59d7aead272261d54c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ConvergenceMarkerEngine::buildConvergencePreamble</definition>
+        <argsstring>(const std::vector&lt; ConvergenceMarker &gt; &amp;markers, int max_tokens=250) const</argsstring>
+        <name>buildConvergencePreamble</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarkerEngine::buildConvergencePreamble</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker" kindref="compound">ConvergenceMarker</ref> &gt; &amp;</type>
+          <declname>markers</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+          <defval>250</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="51" column="17" bodyfile="src/ethics_ai/convergence_marker_engine.cpp" bodystart="133" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a4033c81e69d468cfa311f9189a4e5c64" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ConvergenceMarkerEngine::convergenceTypeLabel</definition>
+        <argsstring>(ConvergenceType type) noexcept</argsstring>
+        <name>convergenceTypeLabel</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarkerEngine::convergenceTypeLabel</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4" kindref="member">ConvergenceType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Convergence Type Label. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="61" column="24" bodyfile="src/ethics_ai/convergence_marker_engine.cpp" bodystart="34" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a936b8b36b0b294dc4881fbfae5bb3ed0" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::ConvergenceMarkerEngine::countTokens</definition>
+        <argsstring>(const std::string &amp;text) noexcept</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarkerEngine::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="70" column="16" bodyfile="src/ethics_ai/convergence_marker_engine.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/convergence_marker_engine.h" line="43" column="1" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="43" bodyend="71"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a8215937ea1c7a59d7aead272261d54c1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarkerEngine</scope><name>buildConvergencePreamble</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a7940524318d9a3d61fbd66475d60af2f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarkerEngine</scope><name>ConvergenceMarkerEngine</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a4033c81e69d468cfa311f9189a4e5c64" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarkerEngine</scope><name>convergenceTypeLabel</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a936b8b36b0b294dc4881fbfae5bb3ed0" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarkerEngine</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1aa9f69fc8739e24c6d1e4e218b7d704d7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarkerEngine</scope><name>detectConvergences</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

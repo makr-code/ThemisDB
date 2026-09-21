@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_ranger_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::RangerClient</compoundname>
+    <includes refid="ranger__adapter_8h" local="no">ranger_adapter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ranger_client_1abc8706d48559a41bc4123ef31c1a2111" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_ranger_client_config" kindref="compound">RangerClientConfig</ref></type>
+        <definition>RangerClientConfig themis::server::RangerClient::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::server::RangerClient::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="70" column="24" bodyfile="include/server/ranger_adapter.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ranger_client_1a8e9c70f9b6679744d209f9cbd4af094e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RangerClient::RangerClient</definition>
+        <argsstring>(RangerClientConfig cfg)</argsstring>
+        <name>RangerClient</name>
+        <qualifiedname>themis::server::RangerClient::RangerClient</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1_ranger_client_config" kindref="compound">RangerClientConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Ranger Client. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="47" column="14" bodyfile="src/server/ranger_adapter.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ranger_client_1ace369ac843fd409d4110851a4b7817bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; json &gt; themis::server::RangerClient::fetchPolicies</definition>
+        <argsstring>(std::string *err=nullptr) const</argsstring>
+        <name>fetchPolicies</name>
+        <qualifiedname>themis::server::RangerClient::fetchPolicies</qualifiedname>
+        <param>
+          <type>std::string *</type>
+          <declname>err</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="51" column="19" bodyfile="src/server/ranger_adapter.cpp" bodystart="56" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ranger_client_1a853b6b9f75ace86ec6a61b7ab7f5b04b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">themis::PolicyEngine::Policy</ref> &gt;</type>
+        <definition>std::vector&lt; themis::PolicyEngine::Policy &gt; themis::server::RangerClient::convertFromRanger</definition>
+        <argsstring>(const nlohmann::json &amp;rangerJson)</argsstring>
+        <name>convertFromRanger</name>
+        <qualifiedname>themis::server::RangerClient::convertFromRanger</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>rangerJson</declname>
+        </param>
+        <briefdescription>
+<para>Convert From Ranger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rangerJson</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="58" column="24" bodyfile="src/server/ranger_adapter.cpp" bodystart="174" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ranger_client_1ad4fab6c27c375c47d88beb79f5c40c1d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::RangerClient::convertToRanger</definition>
+        <argsstring>(const std::vector&lt; themis::PolicyEngine::Policy &gt; &amp;policies, const std::string &amp;service_name)</argsstring>
+        <name>convertToRanger</name>
+        <qualifiedname>themis::server::RangerClient::convertToRanger</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">themis::PolicyEngine::Policy</ref> &gt; &amp;</type>
+          <declname>policies</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_name</declname>
+        </param>
+        <briefdescription>
+<para>Convert To Ranger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">service_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the service. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">service_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the service. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(), empty(), json::object(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="66" column="27" bodyfile="src/server/ranger_adapter.cpp" bodystart="254" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/ranger_adapter.h" line="40" column="1" bodyfile="include/server/ranger_adapter.h" bodystart="40" bodyend="71"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_ranger_client_1abc8706d48559a41bc4123ef31c1a2111" prot="private" virt="non-virtual"><scope>themis::server::RangerClient</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1server_1_1_ranger_client_1a853b6b9f75ace86ec6a61b7ab7f5b04b" prot="public" virt="non-virtual"><scope>themis::server::RangerClient</scope><name>convertFromRanger</name></member>
+      <member refid="classthemis_1_1server_1_1_ranger_client_1ad4fab6c27c375c47d88beb79f5c40c1d" prot="public" virt="non-virtual"><scope>themis::server::RangerClient</scope><name>convertToRanger</name></member>
+      <member refid="classthemis_1_1server_1_1_ranger_client_1ace369ac843fd409d4110851a4b7817bf" prot="public" virt="non-virtual"><scope>themis::server::RangerClient</scope><name>fetchPolicies</name></member>
+      <member refid="classthemis_1_1server_1_1_ranger_client_1a8e9c70f9b6679744d209f9cbd4af094e" prot="public" virt="non-virtual"><scope>themis::server::RangerClient</scope><name>RangerClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

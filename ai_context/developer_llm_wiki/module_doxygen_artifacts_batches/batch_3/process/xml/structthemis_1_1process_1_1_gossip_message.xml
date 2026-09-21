@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_gossip_message" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::GossipMessage</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_gossip_message_1a60c495a5791bafe7e87b11ff86869071" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::GossipMessage::sender_id</definition>
+        <argsstring></argsstring>
+        <name>sender_id</name>
+        <qualifiedname>themis::process::GossipMessage::sender_id</qualifiedname>
+        <briefdescription>
+<para>Sender shard ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="477" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_gossip_message_1ad3353c79ac046768cf05874084d0efc2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_gossip_version_vector" kindref="compound">GossipVersionVector</ref></type>
+        <definition>GossipVersionVector themis::process::GossipMessage::version_vector</definition>
+        <argsstring></argsstring>
+        <name>version_vector</name>
+        <qualifiedname>themis::process::GossipMessage::version_vector</qualifiedname>
+        <briefdescription>
+<para>Version vector of sender&apos;s knowledge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="480" column="25" bodyfile="include/process/federated_consensus_contract.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_gossip_message_1a922d1edea637eae5864b129b8a9798d8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ConsensusLogEntry&gt; themis::process::GossipMessage::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::process::GossipMessage::entries</qualifiedname>
+        <briefdescription>
+<para>Log entries not yet seen by receiver. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="483" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="483" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_gossip_message_1acdea84e7aefc6f4c1d5d34941084eda7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::GossipMessage::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::GossipMessage::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="486" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Gossip push/pull message for anti-entropy. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::process::GossipMessage</label>
+        <link refid="structthemis_1_1process_1_1_gossip_message"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version_vector</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::GossipVersionVector</label>
+        <link refid="structthemis_1_1process_1_1_gossip_version_vector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/federated_consensus_contract.h" line="475" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="475" bodyend="487"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_gossip_message_1a922d1edea637eae5864b129b8a9798d8" prot="public" virt="non-virtual"><scope>themis::process::GossipMessage</scope><name>entries</name></member>
+      <member refid="structthemis_1_1process_1_1_gossip_message_1a60c495a5791bafe7e87b11ff86869071" prot="public" virt="non-virtual"><scope>themis::process::GossipMessage</scope><name>sender_id</name></member>
+      <member refid="structthemis_1_1process_1_1_gossip_message_1acdea84e7aefc6f4c1d5d34941084eda7" prot="public" virt="non-virtual"><scope>themis::process::GossipMessage</scope><name>trace_id</name></member>
+      <member refid="structthemis_1_1process_1_1_gossip_message_1ad3353c79ac046768cf05874084d0efc2" prot="public" virt="non-virtual"><scope>themis::process::GossipMessage</scope><name>version_vector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

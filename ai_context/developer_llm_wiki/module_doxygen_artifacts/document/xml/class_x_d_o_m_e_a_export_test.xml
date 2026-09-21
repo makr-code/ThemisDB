@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_x_d_o_m_e_a_export_test" kind="class" language="C++" prot="public">
+    <compoundname>XDOMEAExportTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_x_d_o_m_e_a_export_test_1a2d0dfb62905433c0aeed3333fc78e58d" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector" kindref="compound">InMemoryXDOMEAConnector</ref></type>
+        <definition>InMemoryXDOMEAConnector XDOMEAExportTest::connector_</definition>
+        <argsstring></argsstring>
+        <name>connector_</name>
+        <qualifiedname>XDOMEAExportTest::connector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_xdomea_focused.cpp" line="464" column="29" bodyfile="tests/document/test_document_xdomea_focused.cpp" bodystart="464" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>XDOMEAExportTest</label>
+        <link refid="class_x_d_o_m_e_a_export_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>XDOMEAExportTest</label>
+        <link refid="class_x_d_o_m_e_a_export_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>connector_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::document::IXDOMEAConnector</label>
+        <link refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryXDOMEAConnector</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_xdomea_focused.cpp" line="462" column="1" bodyfile="tests/document/test_document_xdomea_focused.cpp" bodystart="462" bodyend="465"/>
+    <listofallmembers>
+      <member refid="class_x_d_o_m_e_a_export_test_1a2d0dfb62905433c0aeed3333fc78e58d" prot="protected" virt="non-virtual"><scope>XDOMEAExportTest</scope><name>connector_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

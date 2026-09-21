@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_kafka_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::KafkaBatch</compoundname>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_batch_1aa4f85d78bbc91b28ce9f8d4467b05012" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_kafka_record" kindref="compound">KafkaRecord</ref> &gt;</type>
+        <definition>std::vector&lt;KafkaRecord&gt; themis::importers::KafkaBatch::records</definition>
+        <argsstring></argsstring>
+        <name>records</name>
+        <qualifiedname>themis::importers::KafkaBatch::records</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="104" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_kafka_batch_1a17d5a7b0173ead90240dbb833e815eda" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::KafkaBatch::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::importers::KafkaBatch::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="106" column="30" bodyfile="include/importers/importer_interfaces.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_kafka_batch_1a6a235c24b6553f1048077cdef576d1a1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::importers::KafkaBatch::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::importers::KafkaBatch::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="107" column="30" bodyfile="include/importers/importer_interfaces.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interfaces.h" line="103" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="103" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_kafka_batch_1a17d5a7b0173ead90240dbb833e815eda" prot="public" virt="non-virtual"><scope>themis::importers::KafkaBatch</scope><name>empty</name></member>
+      <member refid="structthemis_1_1importers_1_1_kafka_batch_1aa4f85d78bbc91b28ce9f8d4467b05012" prot="public" virt="non-virtual"><scope>themis::importers::KafkaBatch</scope><name>records</name></member>
+      <member refid="structthemis_1_1importers_1_1_kafka_batch_1a6a235c24b6553f1048077cdef576d1a1" prot="public" virt="non-virtual"><scope>themis::importers::KafkaBatch</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

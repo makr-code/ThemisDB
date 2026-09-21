@@ -1,0 +1,1036 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__temporal__cdc_8cpp" kind="file" language="C++">
+    <compoundname>test_temporal_cdc.cpp</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="temporal__cdc_8h" local="yes">temporal/temporal_cdc.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>temporal/temporal_cdc.h</label>
+        <link refid="temporal__cdc_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/temporal/test_temporal_cdc.cpp</label>
+        <link refid="test__temporal__cdc_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>cstdio</label>
+      </node>
+      <node id="18">
+        <label>cstdlib</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>fstream</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>limits</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_temporal_c_d_c_test" prot="public">TemporalCDCTest</innerclass>
+    <innerclass refid="class_c_d_c_persistent_log_test" prot="public">CDCPersistentLogTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, Subscribe_ReturnsNonEmptySubId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>Subscribe_ReturnsNonEmptySubId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="35" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a7c9a29f50cc1575a552cba403ac14a4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, SubscriptionCount_AfterSubscribe_IsOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>SubscriptionCount_AfterSubscribe_IsOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="40" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1aa2fb5f5021f6cf9459c0d049da27b3c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, Unsubscribe_ValidId_ReturnsTrue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>Unsubscribe_ValidId_ReturnsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="45" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1ae18a647f80a49dc3e8bfed9768f68046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, Unsubscribe_InvalidId_ReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>Unsubscribe_InvalidId_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="50" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1aa077fbcfac68b69bdfc903a317000e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, SubscriptionCount_AfterUnsubscribe_IsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>SubscriptionCount_AfterUnsubscribe_IsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="54" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a3b099177e9878d6271440309712948b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, PublishEvent_DeliveresToSubscriber)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>PublishEvent_DeliveresToSubscriber</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="62" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a0f9373e5a0bc6cb9f194ba4bb99d36e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, PublishEvent_DoesNotDeliverToWrongTable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>PublishEvent_DoesNotDeliverToWrongTable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="72" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="72" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a19384e8770011509a5d35404501b691b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, PublishEvent_WildcardSubscriber_ReceivesAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>PublishEvent_WildcardSubscriber_ReceivesAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="81" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="81" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1aec38992f0fb16c90eaf2a0fbedaab0a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, ReplayChanges_ReturnsMatchingEvents)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayChanges_ReturnsMatchingEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="94" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="94" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a9d8582e3641d40e31a8f8be9b627519f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, ReplayChanges_EmptyRange_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayChanges_EmptyRange_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="103" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1ae142ca1e0002bd5c04e8754e3ea40be9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, ReplayChanges_AllTables_ReturnsAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayChanges_AllTables_ReturnsAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="110" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1aa2ae6597af1b37b56c08be7cc4b06e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, LogSize_AfterPublish_Increases)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>LogSize_AfterPublish_Increases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="121" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a670c84cfe643c0617473faf0fb8b4a86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, TotalPublished_Increments)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>TotalPublished_Increments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="127" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a28240512e98a9d70c4682eb55385e0e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, ClearLog_EmptiesLog)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>ClearLog_EmptiesLog</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="134" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="134" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a396f048833840b26cee4eb821cdfe784" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, ChangeEvent_ToJson_FromJson_RoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>ChangeEvent_ToJson_FromJson_RoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="144" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="144" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1af450c6b90e217f9993aef9349d58e4cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, RingBuffer_Overflow_OldestEvicted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>RingBuffer_Overflow_OldestEvicted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="169" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="169" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a329f28a609f2111689cafc32741d6a05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, SubscriptionCount_MultipleSubscriptions_IsCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>SubscriptionCount_MultipleSubscriptions_IsCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="185" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="185" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a956e240be0f07e424ea34ffba94adc1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, Unsubscribe_ReducesCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>Unsubscribe_ReducesCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="192" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="192" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a38cedb73327b2351313778ce3b936e95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, PublishEvent_MultipleSubscribers_AllReceive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>PublishEvent_MultipleSubscribers_AllReceive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="201" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="201" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a2021b89d7b6283d558ccc607f21f13ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, ReplayChanges_TimeRangeFilter_ExcludesOutOfRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayChanges_TimeRangeFilter_ExcludesOutOfRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="211" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="211" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a9561c8cf4c4ca1d9b160edd87a5358fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalCDCTest, ClearLog_SubscriptionsIntact)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref></type>
+        </param>
+        <param>
+          <type>ClearLog_SubscriptionsIntact</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="217" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="217" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a1aace2932573177d61515df795372c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCPersistentLogTest, CDCPL_01_OpenAndClose)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref></type>
+        </param>
+        <param>
+          <type>CDCPL_01_OpenAndClose</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="282" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="282" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a7b4eb376947cc56771ac439eaef9375d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCPersistentLogTest, CDCPL_02_AppendAndReplay)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref></type>
+        </param>
+        <param>
+          <type>CDCPL_02_AppendAndReplay</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="290" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="290" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1acd958149329ac20e359ac17a3bf39c94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCPersistentLogTest, CDCPL_03_TotalEventsCounter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref></type>
+        </param>
+        <param>
+          <type>CDCPL_03_TotalEventsCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="304" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="304" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a2027f5d14ad55d0c74195cced56a5771" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCPersistentLogTest, CDCPL_04_TotalBytesWritten)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref></type>
+        </param>
+        <param>
+          <type>CDCPL_04_TotalBytesWritten</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="314" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="314" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1ab17dabadd280a5b2c20ce0753a711405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCPersistentLogTest, CDCPL_05_AppendBeforeOpenThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref></type>
+        </param>
+        <param>
+          <type>CDCPL_05_AppendBeforeOpenThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="322" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="322" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1af6d12684583674460d0249e6452e5a31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCPersistentLogTest, CDCPL_06_ReplaySegmentByIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref></type>
+        </param>
+        <param>
+          <type>CDCPL_06_ReplaySegmentByIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="327" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="327" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1abbeebc55f909107fa0714b96364f2345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCPersistentLogTest, CDCPL_07_ReplaySegmentOutOfRangeThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref></type>
+        </param>
+        <param>
+          <type>CDCPL_07_ReplaySegmentOutOfRangeThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="341" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="341" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__cdc_8cpp_1a9d55239105cd97d71c33c32f3bc123c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCPersistentLogTest, CDCPL_08_IdempotentOpen)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref></type>
+        </param>
+        <param>
+          <type>CDCPL_08_IdempotentOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="351" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="351" bodyend="364"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__cdc_8h" kindref="compound">temporal/temporal_cdc.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">themisdb::temporal</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="class_temporal_c_d_c_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c" kindref="compound">TemporalCDC</ref><sp/><ref refid="class_temporal_c_d_c_test_1a0a7a208c06303401a5adcc656c65c192" kindref="member">cdc</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/><ref refid="class_temporal_c_d_c_test_1ad0879b9b24ec1a2ab93269e5fcb8f3c0" kindref="member">makeEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entity_id,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>ts<sp/>=<sp/>1000)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1ace0fdf3fc6639079df0541a776d93032" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>type;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a9049d67b7c4bd38be5bed52f4b93cc36" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>table;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a029ac9b0426a46e7b5ddbe8dd13df133" kindref="member">entity_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>entity_id;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" kindref="member">after_value</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>entity_id}};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" kindref="member">transaction_time</ref><sp/>=<sp/>ts;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1aa5a789d1381180cc9587e04eed9f2d70" kindref="member">valid_from</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ts;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a281eb2f9d2548a2859edeb4f566ac8a2" kindref="member">valid_to</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>kMaxTimestamp;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>subscribe<sp/>/<sp/>unsubscribe<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>Subscribe_ReturnsNonEmptySubId)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>SubscriptionCount_AfterSubscribe_IsOne)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.subscriptionCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>Unsubscribe_ValidId_ReturnsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cdc.unsubscribe(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>Unsubscribe_InvalidId_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cdc.unsubscribe(</highlight><highlight class="stringliteral">&quot;nonexistent-sub-id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>SubscriptionCount_AfterUnsubscribe_IsZero)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.unsubscribe(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.subscriptionCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>publishEvent<sp/>/<sp/>delivery<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>PublishEvent_DeliveresToSubscriber)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChangeEvent&gt;<sp/>received;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;received](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;<sp/>ev)<sp/>{<sp/>received.push_back(ev);<sp/>});</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(received.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received[0].entity_id,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>PublishEvent_DoesNotDeliverToWrongTable)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChangeEvent&gt;<sp/>received;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;received](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;<sp/>ev)<sp/>{<sp/>received.push_back(ev);<sp/>});</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(received.empty());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>PublishEvent_WildcardSubscriber_ReceivesAll)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChangeEvent&gt;<sp/>received;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>table_name<sp/>=<sp/>wildcard<sp/>(all<sp/>tables)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;received](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;<sp/>ev)<sp/>{<sp/>received.push_back(ev);<sp/>});</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>replayChanges<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>ReplayChanges_ReturnsMatchingEvents)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>500));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">ChangeType::UPDATE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>1000));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord1&quot;</highlight><highlight class="normal">,<sp/>1200));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>cdc.replayChanges(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>{400,<sp/>1500});</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>ReplayChanges_EmptyRange_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>1000));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>cdc.replayChanges(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>{2000,<sp/>3000});</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(events.empty());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>ReplayChanges_AllTables_ReturnsAll)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>1000));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord1&quot;</highlight><highlight class="normal">,<sp/>1100));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>table_name<sp/>→<sp/>all<sp/>tables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>cdc.replayChanges(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>{0,<sp/>kMaxTimestamp});</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>log<sp/>metrics<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>LogSize_AfterPublish_Increases)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.logSize(),<sp/>0u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.logSize(),<sp/>1u);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>TotalPublished_Increments)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.totalPublished(),<sp/>0u);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.totalPublished(),<sp/>2u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>ClearLog_EmptiesLog)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.logSize(),<sp/>2u);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.clearLog();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.logSize(),<sp/>0u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>ChangeEvent<sp/>serialization<sp/>round-trip<sp/>─────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>ChangeEvent_ToJson_FromJson_RoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/>original;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1ace0fdf3fc6639079df0541a776d93032" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">ChangeType::UPDATE</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a9049d67b7c4bd38be5bed52f4b93cc36" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a029ac9b0426a46e7b5ddbe8dd13df133" kindref="member">entity_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;emp42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1ad199339d22d8c545627f5a6df16ea13f" kindref="member">before_value</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>30}};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" kindref="member">after_value</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>31}};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" kindref="member">transaction_time</ref><sp/>=<sp/>123456789;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1aa5a789d1381180cc9587e04eed9f2d70" kindref="member">valid_from</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100000;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a281eb2f9d2548a2859edeb4f566ac8a2" kindref="member">valid_to</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>kMaxTimestamp;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a105d98cb3c100ee51434b81dbfd6282b" kindref="member">user_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1aa92e6d141596d848a0ba8e47f00f730d" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event_1a1b3d25a138b522a5afc068133e38a5fb" kindref="member">ChangeEvent::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.table_name,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a9049d67b7c4bd38be5bed52f4b93cc36" kindref="member">table_name</ref>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.entity_id,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a029ac9b0426a46e7b5ddbe8dd13df133" kindref="member">entity_id</ref>);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.transaction_time,<sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" kindref="member">transaction_time</ref>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.before_value,<sp/><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1ad199339d22d8c545627f5a6df16ea13f" kindref="member">before_value</ref>);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.after_value,<sp/><sp/><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" kindref="member">after_value</ref>);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.user_id,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>original.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a105d98cb3c100ee51434b81dbfd6282b" kindref="member">user_id</ref>);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>ring-buffer<sp/>overflow<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>RingBuffer_Overflow_OldestEvicted)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c" kindref="compound">TemporalCDC</ref><sp/>small_cdc{4};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>9;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>small_cdc.<ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9303e67bc5d3f90b7d1d1d3fe6c57603" kindref="member">publishEvent</ref>(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;entity&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1000<sp/>+<sp/>i)));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(small_cdc.<ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a8b4ebc56aee2095428338a855e87867c" kindref="member">logSize</ref>(),<sp/>4u);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(small_cdc.<ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a23782dc9ac2c6172934301e5a9995868" kindref="member">totalPublished</ref>(),<sp/>9u);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Additional<sp/>edge-case<sp/>tests<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>SubscriptionCount_MultipleSubscriptions_IsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.subscriptionCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>Unsubscribe_ReducesCount)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id1<sp/>=<sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{});</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cdc.subscriptionCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.unsubscribe(id1);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.subscriptionCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>PublishEvent_MultipleSubscribers_AllReceive)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>counter{0};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{<sp/>++counter;<sp/>});</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{<sp/>++counter;<sp/>});</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{<sp/>++counter;<sp/>});</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ord1&quot;</highlight><highlight class="normal">,<sp/>1000));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.load(),<sp/>3);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>ReplayChanges_TimeRangeFilter_ExcludesOutOfRange)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>100));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>cdc.replayChanges(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>{200,<sp/>300});</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(events.empty());</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_temporal_c_d_c_test" kindref="compound">TemporalCDCTest</ref>,<sp/>ClearLog_SubscriptionsIntact)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>delivered<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)<sp/>{<sp/>++delivered;<sp/>});</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/>1000));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cdc.logSize(),<sp/>1u);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.clearLog();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.logSize(),<sp/>0u);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subscription<sp/>must<sp/>still<sp/>be<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>cdc.publishEvent(makeEvent(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/>2000));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(delivered,<sp/>2);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cdc.logSize(),<sp/>1u);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDCPersistentLog<sp/>tests<sp/>(CDCPL-01<sp/>..<sp/>CDCPL-08)<sp/>—<sp/>v1.8.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">std::string<sp/>makeTempDir()<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path<sp/>base<sp/>=<sp/>fs::temp_directory_path();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;<sp/>attempt<sp/>&lt;<sp/>32;<sp/>++attempt)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stamp<sp/>=<sp/>std::chrono::steady_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path<sp/>candidate<sp/>=</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base<sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;themisdb_wal_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(stamp)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(attempt));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::create_directories(candidate,<sp/>ec))<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>candidate.string();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path<sp/>fallback<sp/>=<sp/>base<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themisdb_wal_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(fallback,<sp/>ec);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fallback.string();</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="class_c_d_c_persistent_log_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_c_d_c_persistent_log_test_1ac725e909e2157a7bfcef3bbe1d2ab79a" kindref="member">tmp_dir_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_c_d_c_persistent_log_test_1a6545171071f2cb72bbd342cd72cec5ef" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_persistent_log_test_1ac725e909e2157a7bfcef3bbe1d2ab79a" kindref="member">tmp_dir_</ref><sp/>=<sp/>makeTempDir();</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_c_d_c_persistent_log_test_1ac961c31633d9e5ffbe58e7fa8bb6a4a5" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_c_d_c_persistent_log_test_1ac725e909e2157a7bfcef3bbe1d2ab79a" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/><ref refid="class_c_d_c_persistent_log_test_1a88a776b5a66e98a6417f16ac21759708" kindref="member">makeEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1ace0fdf3fc6639079df0541a776d93032" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a9049d67b7c4bd38be5bed52f4b93cc36" kindref="member">table_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>table;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a029ac9b0426a46e7b5ddbe8dd13df133" kindref="member">entity_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a5385681de898046f34ad1b9710b28bbe" kindref="member">after_value</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>key}};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemisdb_1_1temporal_1_1_change_event_1a3fb10d95dceb8a218c2f94f6021abbfb" kindref="member">transaction_time</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref>,<sp/>CDCPL_01_OpenAndClose)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(log.open());</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.isOpen());</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>log.close();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(log.isOpen());</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref>,<sp/>CDCPL_02_AppendAndReplay)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>log.open();</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>log.append(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;o1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>log.append(makeEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;o2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>log.close();</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log2(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>log2.open();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>log2.replayAll();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>log2.close();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref>,<sp/>CDCPL_03_TotalEventsCounter)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>log.open();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.append(makeEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.totalEventsAppended(),<sp/>5u);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>log.close();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref>,<sp/>CDCPL_04_TotalBytesWritten)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>log.open();</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>log.append(makeEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(log.totalBytesWritten(),<sp/>0u);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>log.close();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref>,<sp/>CDCPL_05_AppendBeforeOpenThrows)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(log.append(makeEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">)),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref>,<sp/>CDCPL_06_ReplaySegmentByIndex)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;seg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>log.open();</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>log.append(makeEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>log.close();</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log2(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;seg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>log2.open();</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>log2.replaySegment(0);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>log2.close();</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].entity_id,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref>,<sp/>CDCPL_07_ReplaySegmentOutOfRangeThrows)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;seg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>log.open();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>log.close();</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log2(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;seg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>log2.open();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(log2.replaySegment(99),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>log2.close();</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="test__temporal__cdc_8cpp_1ab47633e7f728326ab4490c23c1e96f80" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_persistent_log_test" kindref="compound">CDCPersistentLogTest</ref>,<sp/>CDCPL_08_IdempotentOpen)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>log.open();</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(log.open());<sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>open<sp/>should<sp/>be<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>log.append(makeEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>log.close();</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref>(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">).<ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log_1a396980b64d5c7bf90dcd2cb8a8f89bfb" kindref="member">replayAll</ref>();</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can&apos;t<sp/>replay<sp/>after<sp/>construction<sp/>without<sp/>open<sp/>—<sp/>check<sp/>via<sp/>open.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" kindref="compound">CDCPersistentLog</ref><sp/>log2(tmp_dir_,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>log2.open();</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev2<sp/>=<sp/>log2.replayAll();</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>log2.close();</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev2.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/temporal/test_temporal_cdc.cpp"/>
+  </compounddef>
+</doxygen>

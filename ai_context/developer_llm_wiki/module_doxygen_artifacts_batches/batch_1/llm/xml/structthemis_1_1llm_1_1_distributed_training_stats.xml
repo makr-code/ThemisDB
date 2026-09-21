@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_distributed_training_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DistributedTrainingStats</compoundname>
+    <includes refid="distributed__training__coordinator_8h" local="no">distributed_training_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1adb37e40236d8e29324ad6d369a926421" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingStats::total_steps_completed</definition>
+        <argsstring></argsstring>
+        <name>total_steps_completed</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::total_steps_completed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="281" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1ab2e6535efbc06972659b760a6c096bb0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingStats::total_gradient_syncs</definition>
+        <argsstring></argsstring>
+        <name>total_gradient_syncs</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::total_gradient_syncs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="282" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a29f48d4c2d6abd142aa7a7ce7a218c07" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DistributedTrainingStats::total_bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_sent</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::total_bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="285" column="12" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a20780605b8434dbe1888456458b84bf9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DistributedTrainingStats::total_bytes_received</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_received</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::total_bytes_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="286" column="12" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a787f0e10e5bab153e087db9b404100f4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingStats::avg_sync_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_sync_time_ms</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::avg_sync_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="287" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1abdf255ffa0352883ee6909c38b73756d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingStats::max_sync_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_sync_time_ms</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::max_sync_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="288" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a9d2888a0ad12253f0e7eabeec17b82ff" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingStats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::compression_ratio</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="291" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a1f139fd1747cfb95f490107db03a0928" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingStats::bandwidth_saved_gb</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_saved_gb</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::bandwidth_saved_gb</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="292" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a5e19fd6c7236f300d265574de7a305a2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingStats::total_retries</definition>
+        <argsstring></argsstring>
+        <name>total_retries</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::total_retries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="295" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a5cb7a9e442e08bf6de402240a616f8e4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingStats::shard_failures</definition>
+        <argsstring></argsstring>
+        <name>shard_failures</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::shard_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="296" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a0bb214aa58784021eb6b7112e7821105" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingStats::successful_recoveries</definition>
+        <argsstring></argsstring>
+        <name>successful_recoveries</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::successful_recoveries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="297" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1aeca77b4c5bbd4c5a75ad895e203ac998" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingStats::effective_speedup</definition>
+        <argsstring></argsstring>
+        <name>effective_speedup</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::effective_speedup</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="300" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a53a3afb00d8d1aec010d6aeeed48b9e0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingStats::communication_overhead_pct</definition>
+        <argsstring></argsstring>
+        <name>communication_overhead_pct</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::communication_overhead_pct</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="301" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1ae7fb0c8cc82b7c35c9aef9a49a8da971" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingStats::byzantine_detections</definition>
+        <argsstring></argsstring>
+        <name>byzantine_detections</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::byzantine_detections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="304" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1ab1808d479bce83f3785202587fe5726e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingStats::byzantine_shards_excluded</definition>
+        <argsstring></argsstring>
+        <name>byzantine_shards_excluded</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::byzantine_shards_excluded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="305" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1afe169d938c9e76f5f01b53fd3291046e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt;std::string, int&gt; themis::llm::DistributedTrainingStats::per_shard_detection_count</definition>
+        <argsstring></argsstring>
+        <name>per_shard_detection_count</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::per_shard_detection_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="306" column="14" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a657eb1bf2a0e5e7d067f762d67083413" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingStats::avg_anomaly_score</definition>
+        <argsstring></argsstring>
+        <name>avg_anomaly_score</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::avg_anomaly_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="307" column="11" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_stats_1a28dbf24f7f7de8c116d3ff494d7fdca1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::DistributedTrainingStats::gradient_norm_history</definition>
+        <argsstring></argsstring>
+        <name>gradient_norm_history</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::gradient_norm_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="308" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_distributed_training_stats_1a74e5a97e3882db58a45aad7574ae531b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::DistributedTrainingStats::~DistributedTrainingStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedTrainingStats</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::~DistributedTrainingStats</qualifiedname>
+        <briefdescription>
+<para>Distributed Training Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="280" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_distributed_training_stats_1a40c891bcbef40acda91d6eac16f75238" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::DistributedTrainingStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::DistributedTrainingStats::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="314" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="585" bodyend="606"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/distributed_training_coordinator.h" line="275" column="1" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="275" bodyend="315"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a657eb1bf2a0e5e7d067f762d67083413" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>avg_anomaly_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a787f0e10e5bab153e087db9b404100f4" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>avg_sync_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a1f139fd1747cfb95f490107db03a0928" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>bandwidth_saved_gb</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1ae7fb0c8cc82b7c35c9aef9a49a8da971" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>byzantine_detections</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1ab1808d479bce83f3785202587fe5726e" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>byzantine_shards_excluded</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a53a3afb00d8d1aec010d6aeeed48b9e0" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>communication_overhead_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a9d2888a0ad12253f0e7eabeec17b82ff" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1aeca77b4c5bbd4c5a75ad895e203ac998" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>effective_speedup</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a28dbf24f7f7de8c116d3ff494d7fdca1" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>gradient_norm_history</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1abdf255ffa0352883ee6909c38b73756d" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>max_sync_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1afe169d938c9e76f5f01b53fd3291046e" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>per_shard_detection_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a5cb7a9e442e08bf6de402240a616f8e4" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>shard_failures</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a0bb214aa58784021eb6b7112e7821105" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>successful_recoveries</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a40c891bcbef40acda91d6eac16f75238" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a20780605b8434dbe1888456458b84bf9" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>total_bytes_received</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a29f48d4c2d6abd142aa7a7ce7a218c07" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>total_bytes_sent</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1ab2e6535efbc06972659b760a6c096bb0" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>total_gradient_syncs</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a5e19fd6c7236f300d265574de7a305a2" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>total_retries</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1adb37e40236d8e29324ad6d369a926421" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>total_steps_completed</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_stats_1a74e5a97e3882db58a45aad7574ae531b" prot="public" virt="virtual"><scope>themis::llm::DistributedTrainingStats</scope><name>~DistributedTrainingStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

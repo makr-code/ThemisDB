@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <innerclass refid="classthemis_1_1test_1_1_chaos_scenario" prot="public">themis::test::ChaosScenario</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_corruption_injector" prot="public">themis::test::CorruptionInjector</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_crash_injector" prot="public">themis::test::CrashInjector</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_fault_injector" prot="public">themis::test::FaultInjector</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_fault_orchestrator" prot="public">themis::test::FaultOrchestrator</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_network_injector" prot="public">themis::test::NetworkInjector</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_r_a_i_d_simulator" prot="public">themis::test::RAIDSimulator</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_shard_failure_injector" prot="public">themis::test::ShardFailureInjector</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_timeout_injector" prot="public">themis::test::TimeoutInjector</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RAIDMode</name>
+        <qualifiedname>themis::test::RAIDMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0faaff0a57a9f35820e5136fdfca99dc809" prot="public">
+          <name>STRIPE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0fa72a92ae9c1d172cdda196686278fbfc6" prot="public">
+          <name>MIRROR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0faaeef6f4aa155fd52d4dbea5ff3cd930a" prot="public">
+          <name>PARITY</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0fa3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>RAID mode enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="14" column="1" bodyfile="tests/utils/raid_simulator.h" bodystart="14" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1a0ff5e4430b75ef7484b1e5bc5039a958" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::wait_for_clock_advance_ms</definition>
+        <argsstring>()</argsstring>
+        <name>wait_for_clock_advance_ms</name>
+        <qualifiedname>themis::test::wait_for_clock_advance_ms</qualifiedname>
+        <briefdescription>
+<para>Spin-wait until the system_clock millisecond counter advances by ≥1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call this function when the code under test derives a unique identifier or ordering guarantee from the current wall-clock millisecond (e.g. a snapshot ID generated as <computeroutput>duration_cast&lt;milliseconds&gt;(now()).count()</computeroutput>). Using this helper instead of <computeroutput>sleep_for(N ms)</computeroutput> eliminates the blind delay: on fast machines the spin completes in &lt; 1 ms; on slow CI agents it waits exactly as long as needed.</para>
+<para><simplesect kind="note"><para>The function has a built-in safety timeout of 500 ms. If the OS clock fails to advance within that window (highly unusual), the function returns without a guarantee — the calling test will then naturally fail or pass on its own assertions. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_stability.h" line="77" column="13" bodyfile="tests/utils/test_stability.h" bodystart="77" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a27ffc405806d5b2eb729d7b28c13405a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::poll_until</definition>
+        <argsstring>(const std::function&lt; bool()&gt; &amp;predicate, std::chrono::steady_clock::duration timeout=std::chrono::seconds(5))</argsstring>
+        <name>poll_until</name>
+        <qualifiedname>themis::test::poll_until</qualifiedname>
+        <param>
+          <type>const std::function&lt; bool()&gt; &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>std::chrono::steady_clock::duration</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(5)</defval>
+        </param>
+        <briefdescription>
+<para>Deadline-bounded poll for an arbitrary predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls <computeroutput>predicate</computeroutput> repeatedly (with yield between calls) until either the predicate returns true or the <computeroutput>timeout</computeroutput> elapses. Replaces fixed-duration <computeroutput>sleep_for()</computeroutput> calls that guard asynchronous side-effects.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable returning bool; must be side-effect-free in terms of test state (can be called multiple times). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait. A value of zero means a single evaluation with no waiting — the predicate is called exactly once and the result is returned immediately. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if <computeroutput>predicate</computeroutput> returned true before the deadline. </para>
+</simplesect>
+<simplesect kind="return"><para>false if the deadline elapsed without the predicate becoming true. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_stability.h" line="108" column="13" bodyfile="tests/utils/test_stability.h" bodystart="108" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/utils/fault_injector.cpp" line="12" column="1"/>
+  </compounddef>
+</doxygen>

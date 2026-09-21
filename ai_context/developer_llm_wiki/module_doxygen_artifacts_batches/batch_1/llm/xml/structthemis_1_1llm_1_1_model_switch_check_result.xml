@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_switch_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelSwitchCheckResult</compoundname>
+    <includes refid="model__switch__workflow_8h" local="no">model_switch_workflow.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CheckKind</name>
+        <qualifiedname>themis::llm::ModelSwitchCheckResult::CheckKind</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a364f34b96ef7b9954df09f81942f0197" prot="public">
+          <name>RATCHET_MATRIX</name>
+          <briefdescription>
+<para>Ratchet compatibility matrix lookup. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a29330223e96b4290e236a247aec153fd" prot="public">
+          <name>ARCHITECTURE</name>
+          <briefdescription>
+<para>Model architecture compatibility. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a6f4fc6fd17d53eb082e66edde1deffea" prot="public">
+          <name>TOKENIZER</name>
+          <briefdescription>
+<para>Tokenizer compatibility. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25aeddefab900830ce7a66826cb8f927f17" prot="public">
+          <name>LAYER_DIMENSIONS</name>
+          <briefdescription>
+<para>Hidden size / layer count compatibility. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a6053e8ee689ab6bf9f4fdd3fc363f962" prot="public">
+          <name>QUANTIZATION</name>
+          <briefdescription>
+<para>Quantization format compatibility. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a5012d827c86b4ba73e552dd214d557d0" prot="public">
+          <name>REBUILD_POLICY</name>
+          <briefdescription>
+<para>Rebuild policy evaluation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25abee7e5067f59d1c645f380fedf2a3792" prot="public">
+          <name>PROMPT_FORMAT</name>
+          <briefdescription>
+<para>Prompt/chat template compatibility. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="162" column="5" bodyfile="include/llm/model_switch_workflow.h" bodystart="162" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_check_result_1a81b789768ca3478329d4993c916e7bbc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25" kindref="member">CheckKind</ref></type>
+        <definition>CheckKind themis::llm::ModelSwitchCheckResult::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::llm::ModelSwitchCheckResult::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="172" column="15" bodyfile="include/llm/model_switch_workflow.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_check_result_1a1809b47f95aeea1cd4667542d3791950" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelSwitchCheckResult::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::llm::ModelSwitchCheckResult::passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="173" column="10" bodyfile="include/llm/model_switch_workflow.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_check_result_1a89e0fdd4af9dac1051eb6e970f8d608e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelSwitchCheckResult::rebuild_required</definition>
+        <argsstring></argsstring>
+        <name>rebuild_required</name>
+        <qualifiedname>themis::llm::ModelSwitchCheckResult::rebuild_required</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Check triggers rebuild but does not fail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="174" column="10" bodyfile="include/llm/model_switch_workflow.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_check_result_1a1e610ff92af8ca61341a3b53acdd2512" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchCheckResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::llm::ModelSwitchCheckResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="175" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_switch_workflow.h" line="161" column="1" bodyfile="include/llm/model_switch_workflow.h" bodystart="161" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchCheckResult</scope><name>CheckKind</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_check_result_1a81b789768ca3478329d4993c916e7bbc" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchCheckResult</scope><name>kind</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_check_result_1a1e610ff92af8ca61341a3b53acdd2512" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchCheckResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_check_result_1a1809b47f95aeea1cd4667542d3791950" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchCheckResult</scope><name>passed</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_check_result_1a89e0fdd4af9dac1051eb6e970f8d608e" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchCheckResult</scope><name>rebuild_required</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

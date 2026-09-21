@@ -1,0 +1,672 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_sse_connection_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::SseConnectionManager</compoundname>
+    <includes refid="sse__connection__manager_8h" local="no">sse_connection_manager.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config" prot="public">themis::server::SseConnectionManager::ConnectionConfig</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats" prot="public">themis::server::SseConnectionManager::ConnectionStats</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection" prot="private">themis::server::SseConnectionManager::Connection</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1a0a8a19752ae4941a3d564e2670b2ae92" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Changefeed &gt;</type>
+        <definition>std::shared_ptr&lt;Changefeed&gt; themis::server::SseConnectionManager::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::server::SseConnectionManager::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="141" column="21" bodyfile="include/server/sse_connection_manager.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1a13c39231c278d9924ebf1779e4713fe9" prot="private" static="no" mutable="no">
+        <type>boost::asio::io_context &amp;</type>
+        <definition>boost::asio::io_context&amp; themis::server::SseConnectionManager::ioc_</definition>
+        <argsstring></argsstring>
+        <name>ioc_</name>
+        <qualifiedname>themis::server::SseConnectionManager::ioc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="142" column="29" bodyfile="include/server/sse_connection_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1af9cfd30c2b0b162fadfe22273f390a90" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config" kindref="compound">ConnectionConfig</ref></type>
+        <definition>ConnectionConfig themis::server::SseConnectionManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::SseConnectionManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="143" column="22" bodyfile="include/server/sse_connection_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1a1fdca27f273e11340ff8661da79b1763" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::SseConnectionManager::connections_mutex_</definition>
+        <argsstring></argsstring>
+        <name>connections_mutex_</name>
+        <qualifiedname>themis::server::SseConnectionManager::connections_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="145" column="31" bodyfile="include/server/sse_connection_manager.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1a06b1f02be24e979e1bef2e55a6f219f5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, std::shared_ptr&lt; Connection &gt; &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, std::shared_ptr&lt;Connection&gt; &gt; themis::server::SseConnectionManager::connections_</definition>
+        <argsstring></argsstring>
+        <name>connections_</name>
+        <qualifiedname>themis::server::SseConnectionManager::connections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="146" column="24" bodyfile="include/server/sse_connection_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1ac411114c911ab4b0cfdb8da0eea8c293" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::SseConnectionManager::next_conn_id_</definition>
+        <argsstring></argsstring>
+        <name>next_conn_id_</name>
+        <qualifiedname>themis::server::SseConnectionManager::next_conn_id_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="147" column="17" bodyfile="include/server/sse_connection_manager.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1ae99fdc915eb54417298685c2627b4a26" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; boost::asio::steady_timer &gt;</type>
+        <definition>std::unique_ptr&lt;boost::asio::steady_timer&gt; themis::server::SseConnectionManager::poll_timer_</definition>
+        <argsstring></argsstring>
+        <name>poll_timer_</name>
+        <qualifiedname>themis::server::SseConnectionManager::poll_timer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="150" column="21" bodyfile="include/server/sse_connection_manager.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1a39ae694de0a821923dddf6e3c5573349" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::SseConnectionManager::poll_timer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>poll_timer_mutex_</name>
+        <qualifiedname>themis::server::SseConnectionManager::poll_timer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="151" column="24" bodyfile="include/server/sse_connection_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1af6f7fedac55a41807ba440843c43c5c0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::server::SseConnectionManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::server::SseConnectionManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="152" column="17" bodyfile="include/server/sse_connection_manager.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1a4fa2a614de06fa626bdbdbe7aa97619c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::SseConnectionManager::total_events_sent_</definition>
+        <argsstring></argsstring>
+        <name>total_events_sent_</name>
+        <qualifiedname>themis::server::SseConnectionManager::total_events_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="155" column="17" bodyfile="include/server/sse_connection_manager.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1ae669c699052ddb1fc129b4145dfbbc53" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::SseConnectionManager::total_heartbeats_sent_</definition>
+        <argsstring></argsstring>
+        <name>total_heartbeats_sent_</name>
+        <qualifiedname>themis::server::SseConnectionManager::total_heartbeats_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="156" column="17" bodyfile="include/server/sse_connection_manager.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1a96e0384f6007205361728600f736ca7f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::SseConnectionManager::total_disconnects_</definition>
+        <argsstring></argsstring>
+        <name>total_disconnects_</name>
+        <qualifiedname>themis::server::SseConnectionManager::total_disconnects_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="157" column="17" bodyfile="include/server/sse_connection_manager.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sse_connection_manager_1a793b24c9681f2acb9fa5067b37327ed3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::SseConnectionManager::total_dropped_events_</definition>
+        <argsstring></argsstring>
+        <name>total_dropped_events_</name>
+        <qualifiedname>themis::server::SseConnectionManager::total_dropped_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="158" column="17" bodyfile="include/server/sse_connection_manager.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1ad0bf200e55c19ee9912fe89fca9dd179" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SseConnectionManager::SseConnectionManager</definition>
+        <argsstring>(std::shared_ptr&lt; Changefeed &gt; changefeed, boost::asio::io_context &amp;ioc)</argsstring>
+        <name>SseConnectionManager</name>
+        <qualifiedname>themis::server::SseConnectionManager::SseConnectionManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Changefeed &gt;</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>boost::asio::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <briefdescription>
+<para>Sse Connection Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ioc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="58" column="14" bodyfile="src/server/sse_connection_manager.cpp" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1a4fd2edd58b94a82c21de413dbe6bb828" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SseConnectionManager::SseConnectionManager</definition>
+        <argsstring>(std::shared_ptr&lt; Changefeed &gt; changefeed, boost::asio::io_context &amp;ioc, const ConnectionConfig &amp;config)</argsstring>
+        <name>SseConnectionManager</name>
+        <qualifiedname>themis::server::SseConnectionManager::SseConnectionManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Changefeed &gt;</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>boost::asio::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config" kindref="compound">ConnectionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Sse Connection Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ioc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="70" column="14" bodyfile="src/server/sse_connection_manager.cpp" bodystart="20" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1a617b462e2f9bd60145bc963482f2cd4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SseConnectionManager::~SseConnectionManager</definition>
+        <argsstring>()</argsstring>
+        <name>~SseConnectionManager</name>
+        <qualifiedname>themis::server::SseConnectionManager::~SseConnectionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="76" column="5" bodyfile="src/server/sse_connection_manager.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1a58a1907ccfd6f98516cfa01941463ec4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::SseConnectionManager::registerConnection</definition>
+        <argsstring>(uint64_t from_seq, const std::string &amp;key_prefix=&quot;&quot;, const std::set&lt; Changefeed::ChangeEventType &gt; &amp;event_types={})</argsstring>
+        <name>registerConnection</name>
+        <qualifiedname>themis::server::SseConnectionManager::registerConnection</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_seq</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_prefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::set&lt; Changefeed::ChangeEventType &gt; &amp;</type>
+          <declname>event_types</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Register Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), THEMIS_INFO(), size(), backgroundPollTask(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="78" column="14" bodyfile="src/server/sse_connection_manager.cpp" bodystart="59" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1a8457ff3cd2e0d9e77aa560f216ad8b02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SseConnectionManager::unregisterConnection</definition>
+        <argsstring>(uint64_t conn_id)</argsstring>
+        <name>unregisterConnection</name>
+        <qualifiedname>themis::server::SseConnectionManager::unregisterConnection</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>conn_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conn.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), extract(), empty(), mapped(), store(), THEMIS_INFO(), unlock(), timer_lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="88" column="10" bodyfile="src/server/sse_connection_manager.cpp" bodystart="105" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1ae3a380ad2aa824cc9dc304a99b0def44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; Changefeed::ChangeEvent &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::server::SseConnectionManager::pollRawEvents</definition>
+        <argsstring>(uint64_t conn_id, size_t max_events=100)</argsstring>
+        <name>pollRawEvents</name>
+        <qualifiedname>themis::server::SseConnectionManager::pollRawEvents</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>conn_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_events</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Poll Raw Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), load(), std::chrono::steady_clock::now(), count(), std::min(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="90" column="17" bodyfile="src/server/sse_connection_manager.cpp" bodystart="217" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1a4e62f1db3b0d1c6e035e3a81651c137c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::server::SseConnectionManager::pollEvents</definition>
+        <argsstring>(uint64_t conn_id, size_t max_events=100)</argsstring>
+        <name>pollEvents</name>
+        <qualifiedname>themis::server::SseConnectionManager::pollEvents</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>conn_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_events</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Poll Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), load(), std::chrono::steady_clock::now(), count(), std::min(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="92" column="17" bodyfile="src/server/sse_connection_manager.cpp" bodystart="141" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1a50e37622c4ae7915c09316a1e835c8e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::SseConnectionManager::needsHeartbeat</definition>
+        <argsstring>(uint64_t conn_id) const</argsstring>
+        <name>needsHeartbeat</name>
+        <qualifiedname>themis::server::SseConnectionManager::needsHeartbeat</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>conn_id</declname>
+        </param>
+        <briefdescription>
+<para>Needs Heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connections_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="99" column="10" bodyfile="src/server/sse_connection_manager.cpp" bodystart="278" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1a6d0220dd8a2fdc679d4a911eb652b1d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SseConnectionManager::recordHeartbeat</definition>
+        <argsstring>(uint64_t conn_id)</argsstring>
+        <name>recordHeartbeat</name>
+        <qualifiedname>themis::server::SseConnectionManager::recordHeartbeat</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>conn_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conn.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="105" column="10" bodyfile="src/server/sse_connection_manager.cpp" bodystart="303" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1ae1a863dd169e40e5677673e696bfc0a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats" kindref="compound">ConnectionStats</ref></type>
+        <definition>SseConnectionManager::ConnectionStats themis::server::SseConnectionManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::server::SseConnectionManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connections_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="111" column="21" bodyfile="src/server/sse_connection_manager.cpp" bodystart="313" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1acd0450d85ffe97797e1cd88362f04849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SseConnectionManager::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::server::SseConnectionManager::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(), lock(), store(), clear(), unlock(), timer_lock(), cancel(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="116" column="10" bodyfile="src/server/sse_connection_manager.cpp" bodystart="334" bodyend="358"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sse_connection_manager_1ae925276ed5c1f67a0442bd757260b3f7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SseConnectionManager::backgroundPollTask</definition>
+        <argsstring>()</argsstring>
+        <name>backgroundPollTask</name>
+        <qualifiedname>themis::server::SseConnectionManager::backgroundPollTask</qualifiedname>
+        <briefdescription>
+<para>Background Poll Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_WARN(), lock(), reserve(), size(), load(), push_back(), empty(), listEvents(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="139" column="10" bodyfile="src/server/sse_connection_manager.cpp" bodystart="364" bodyend="502"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/sse_connection_manager.h" line="33" column="1" bodyfile="include/server/sse_connection_manager.h" bodystart="33" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1ae925276ed5c1f67a0442bd757260b3f7" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>backgroundPollTask</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a0a8a19752ae4941a3d564e2670b2ae92" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1af9cfd30c2b0b162fadfe22273f390a90" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a06b1f02be24e979e1bef2e55a6f219f5" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>connections_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a1fdca27f273e11340ff8661da79b1763" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>connections_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1ae1a863dd169e40e5677673e696bfc0a9" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a13c39231c278d9924ebf1779e4713fe9" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>ioc_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a50e37622c4ae7915c09316a1e835c8e9" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>needsHeartbeat</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1ac411114c911ab4b0cfdb8da0eea8c293" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>next_conn_id_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1ae99fdc915eb54417298685c2627b4a26" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>poll_timer_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a39ae694de0a821923dddf6e3c5573349" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>poll_timer_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a4e62f1db3b0d1c6e035e3a81651c137c" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>pollEvents</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1ae3a380ad2aa824cc9dc304a99b0def44" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>pollRawEvents</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a6d0220dd8a2fdc679d4a911eb652b1d1" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>recordHeartbeat</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a58a1907ccfd6f98516cfa01941463ec4" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>registerConnection</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1af6f7fedac55a41807ba440843c43c5c0" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1acd0450d85ffe97797e1cd88362f04849" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1ad0bf200e55c19ee9912fe89fca9dd179" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>SseConnectionManager</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a4fd2edd58b94a82c21de413dbe6bb828" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>SseConnectionManager</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a96e0384f6007205361728600f736ca7f" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>total_disconnects_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a793b24c9681f2acb9fa5067b37327ed3" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>total_dropped_events_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a4fa2a614de06fa626bdbdbe7aa97619c" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>total_events_sent_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1ae669c699052ddb1fc129b4145dfbbc53" prot="private" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>total_heartbeats_sent_</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a8457ff3cd2e0d9e77aa560f216ad8b02" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>unregisterConnection</name></member>
+      <member refid="classthemis_1_1server_1_1_sse_connection_manager_1a617b462e2f9bd60145bc963482f2cd4d" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager</scope><name>~SseConnectionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

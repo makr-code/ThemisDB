@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_aql_fulltext_score_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpAqlFulltextScoreTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_aql_fulltext_score_test_1a19e88f1deb25711fee7771a376d42bd1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpAqlFulltextScoreTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="83" column="21" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_score_test_1ab34c561e96fb63cea8f4c268f35522f1" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpAqlFulltextScoreTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="84" column="21" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_score_test_1a55f03e7eb2f31f2c67a8370568744d7f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpAqlFulltextScoreTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="85" column="21" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_score_test_1a3677bafd75071d0b2a2fa57de845f8e1" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpAqlFulltextScoreTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="86" column="21" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_score_test_1a0c983436fb2f6c2e2fa2a8efb8d7e24e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpAqlFulltextScoreTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="87" column="21" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_score_test_1a41e95d67b1f6a6fb29197958e94db23d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpAqlFulltextScoreTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="88" column="21" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_aql_fulltext_score_test_1a7ec23e0408fe426d26de6457e85a57b8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlFulltextScoreTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="25" column="10" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="25" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_fulltext_score_test_1af9fb1ec2fb00a2fcc04776d2fb71fbba" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlFulltextScoreTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="57" column="10" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_fulltext_score_test_1a6889eb59cddb785ce954119da6b658b4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpAqlFulltextScoreTest::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>post</name>
+        <qualifiedname>HttpAqlFulltextScoreTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_score.cpp" line="64" column="20" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="64" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpAqlFulltextScoreTest</label>
+        <link refid="class_http_aql_fulltext_score_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpAqlFulltextScoreTest</label>
+        <link refid="class_http_aql_fulltext_score_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_aql_fulltext_score.cpp" line="23" column="1" bodyfile="tests/network/test_http_aql_fulltext_score.cpp" bodystart="23" bodyend="89"/>
+    <listofallmembers>
+      <member refid="class_http_aql_fulltext_score_test_1a3677bafd75071d0b2a2fa57de845f8e1" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_aql_fulltext_score_test_1a6889eb59cddb785ce954119da6b658b4" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>post</name></member>
+      <member refid="class_http_aql_fulltext_score_test_1a55f03e7eb2f31f2c67a8370568744d7f" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_aql_fulltext_score_test_1a19e88f1deb25711fee7771a376d42bd1" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>server_</name></member>
+      <member refid="class_http_aql_fulltext_score_test_1a7ec23e0408fe426d26de6457e85a57b8" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>SetUp</name></member>
+      <member refid="class_http_aql_fulltext_score_test_1ab34c561e96fb63cea8f4c268f35522f1" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>storage_</name></member>
+      <member refid="class_http_aql_fulltext_score_test_1af9fb1ec2fb00a2fcc04776d2fb71fbba" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>TearDown</name></member>
+      <member refid="class_http_aql_fulltext_score_test_1a41e95d67b1f6a6fb29197958e94db23d" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_aql_fulltext_score_test_1a0c983436fb2f6c2e2fa2a8efb8d7e24e" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextScoreTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

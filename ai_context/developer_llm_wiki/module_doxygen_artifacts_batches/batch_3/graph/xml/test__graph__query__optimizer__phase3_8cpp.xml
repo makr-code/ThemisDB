@@ -1,0 +1,1223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__graph__query__optimizer__phase3_8cpp" kind="file" language="C++">
+    <compoundname>test_graph_query_optimizer_phase3.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="graph__query__optimizer_8h" local="yes">graph/graph_query_optimizer.h</includes>
+    <includes refid="graph__plan__cache_8h" local="yes">graph/graph_plan_cache.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="19">
+        <label>graph/graph_plan_cache.h</label>
+        <link refid="graph__plan__cache_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>graph/graph_query_optimizer.h</label>
+        <link refid="graph__query__optimizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_graph_query_optimizer_phase3.cpp</label>
+        <link refid="test__graph__query__optimizer__phase3_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>algorithm</label>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="23">
+        <label>filesystem</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>index/graph_analytics.h</label>
+      </node>
+      <node id="4">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="13">
+        <label>list</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="21">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_optimizer_phase3_test" prot="public">OptimizerPhase3Test</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, PlanCache_InitiallyEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>PlanCache_InitiallyEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="78" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1ab951a6d02f41dc13c18ab241de8bbf04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, PlanCache_PopulatesOnOptimize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>PlanCache_PopulatesOnOptimize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="82" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1ac8965f0f19ef8d632f25747811991867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, PlanCache_SetAndGetMaxSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>PlanCache_SetAndGetMaxSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="89" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a0acce48e920576bdf1a4fd47428b375a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, PlanCache_LRUEvictionAtCapacity)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>PlanCache_LRUEvictionAtCapacity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="94" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a5233506e425b3cc961c4ba353e358261" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, PlanCache_ClearEmptiesCache)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>PlanCache_ClearEmptiesCache</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="104" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="104" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1ac4c52de8d719f31ab70bf84dcfdf4cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, PlanCache_TTLConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>PlanCache_TTLConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="111" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a791606c326bc5428ab42c594bcf40e1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, PlanCache_ZeroTTLMeansNoExpiry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>PlanCache_ZeroTTLMeansNoExpiry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="116" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="116" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a332a88d8b50a35684c934cba361885f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, Metrics_InitialCountersAreZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>Metrics_InitialCountersAreZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="125" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="125" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1aed3275881c9910cae52017216dc0ea34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, Metrics_TotalQueriesIncrementAfterBFS)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>Metrics_TotalQueriesIncrementAfterBFS</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="133" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="133" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a13751faae3f16670ca5e94e7adc92676" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, Metrics_AvgExecutionTimePlausible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>Metrics_AvgExecutionTimePlausible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="141" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="141" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1ae7391c5d555cba6862d74bd9a2738499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, Metrics_ErrorRateIsZeroOnSuccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>Metrics_ErrorRateIsZeroOnSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="148" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a03d17d706aef1a8598b2acb8fdadaa34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, Metrics_LatencyHistogramRecordsData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>Metrics_LatencyHistogramRecordsData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="155" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="155" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a4b89eefc82bd784291dfdc3d0cb1db17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, CostModel_DefaultEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>CostModel_DefaultEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="170" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1aa8f62db8fa8c7b96e5583939cf44b7ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, CostModel_CanDisableAndReenable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>CostModel_CanDisableAndReenable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="174" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="174" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1aec9365845e86b83c05db49e99296caf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, CostModel_ExportProducesNonEmptyJSON)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>CostModel_ExportProducesNonEmptyJSON</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="181" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="181" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a30f4119cc55a77fc341c6f65233b5ed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, CostModel_ImportRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>CostModel_ImportRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="189" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="189" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a84f03e64ec29347d6c5848705f95c19b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, CostModel_ImportMalformedReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>CostModel_ImportMalformedReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="197" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="197" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1ae8109840fd8f18d3916cb219d111f20c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, CostModel_AlgorithmModelsAvailable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>CostModel_AlgorithmModelsAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="201" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="201" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a89d477394901854aebd270ff92703dfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, Calibration_ReportFromEmptyHistory)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>Calibration_ReportFromEmptyHistory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="210" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="210" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1abb40383ecf1a75db1844586ea8c6803a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, Calibration_ReportPopulatedAfterExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>Calibration_ReportPopulatedAfterExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="215" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="215" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a887a97db4658ad925159d43b757e3ce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, RateLimiter_DefaultIsZeroNoLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>RateLimiter_DefaultIsZeroNoLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="229" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="229" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a7c1ea4ccf2e056d3f408ad50f8272dc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OptimizerPhase3Test, RateLimiter_SetAndGet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>RateLimiter_SetAndGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="233" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="233" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphLRUPlanCacheTest, BasicPutAndGet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphLRUPlanCacheTest</type>
+        </param>
+        <param>
+          <type>BasicPutAndGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="244" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="244" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a1bde294ca9fc98c798e1d53d67396d12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphLRUPlanCacheTest, MissReturnsNullopt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphLRUPlanCacheTest</type>
+        </param>
+        <param>
+          <type>MissReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="252" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="252" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a6d5a2be2e1d12a1681061874e40773f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphLRUPlanCacheTest, LRUEvictionEnforcedAtCapacity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphLRUPlanCacheTest</type>
+        </param>
+        <param>
+          <type>LRUEvictionEnforcedAtCapacity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="257" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="257" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a85c6319b0b79d5676c8321ce138c3d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphLRUPlanCacheTest, TTLExpiry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphLRUPlanCacheTest</type>
+        </param>
+        <param>
+          <type>TTLExpiry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="271" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="271" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a4fa68460d80a3c5c9c9e1f4a124d5c1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphLRUPlanCacheTest, MetricsHitRatioAccurate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphLRUPlanCacheTest</type>
+        </param>
+        <param>
+          <type>MetricsHitRatioAccurate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="279" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="279" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a9b12fae5f77463b7fc212e7f4aebf3c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphLRUPlanCacheTest, PurgeExpired)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphLRUPlanCacheTest</type>
+        </param>
+        <param>
+          <type>PurgeExpired</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="290" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="290" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a7cbbb56ff6154aba968ae07d0f0ebb5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphAdvancedCostModelTest, InitialStateIsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphAdvancedCostModelTest</type>
+        </param>
+        <param>
+          <type>InitialStateIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="304" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="304" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1adee9ca542f977dd19dbc09382b525116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphAdvancedCostModelTest, FirstObservationSetsEMA)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphAdvancedCostModelTest</type>
+        </param>
+        <param>
+          <type>FirstObservationSetsEMA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="311" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="311" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a97d1d208eee815100ef20349514dec75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphAdvancedCostModelTest, EMAConvergesOverTime)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphAdvancedCostModelTest</type>
+        </param>
+        <param>
+          <type>EMAConvergesOverTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="318" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="318" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1ac4317a4029fe0db4b60f493062fdefc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphAdvancedCostModelTest, ConfidenceGrowsToOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphAdvancedCostModelTest</type>
+        </param>
+        <param>
+          <type>ConfidenceGrowsToOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="326" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="326" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a7a45adc9abb768bcff1eb96e9e4058e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphAdvancedCostModelTest, BlendedEstimateUsesTheoryWhenNoData)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphAdvancedCostModelTest</type>
+        </param>
+        <param>
+          <type>BlendedEstimateUsesTheoryWhenNoData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="334" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="334" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1aeafbede17532bfa4b474292a21213745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphAdvancedCostModelTest, BlendedEstimateUsesEMAWhenConfident)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphAdvancedCostModelTest</type>
+        </param>
+        <param>
+          <type>BlendedEstimateUsesEMAWhenConfident</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="340" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="340" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1a2bd034e156ab609f12ef384156e8cb8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphAdvancedCostModelTest, P99LessThanOrEqualP50PlusSlack)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphAdvancedCostModelTest</type>
+        </param>
+        <param>
+          <type>P99LessThanOrEqualP50PlusSlack</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="349" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="349" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__query__optimizer__phase3_8cpp_1ae05d2a7b18e3dbd2ecd96bbbeb0bca7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphAdvancedCostModelTest, ResetClearsAllState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphAdvancedCostModelTest</type>
+        </param>
+        <param>
+          <type>ResetClearsAllState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer_phase3.cpp" line="357" column="1" bodyfile="tests/graph/test_graph_query_optimizer_phase3.cpp" bodystart="357" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__query__optimizer_8h" kindref="compound">graph/graph_query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__plan__cache_8h" kindref="compound">graph/graph_plan_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">themis::graph</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>optimizer<sp/>with<sp/>a<sp/>small,<sp/>well-known<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_optimizer_phase3_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_optimizer_phase3_test_1a64b594ecd2f824433ea16ccba91e9d86" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1a2cc22d8f0c46d6b3a610ef3d0c1ad91a" kindref="member">test_db_path_</ref><sp/>=<sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_opt_p3_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_optimizer_phase3_test_1a2cc22d8f0c46d6b3a610ef3d0c1ad91a" kindref="member">test_db_path_</ref>,<sp/>ec);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_optimizer_phase3_test_1a2cc22d8f0c46d6b3a610ef3d0c1ad91a" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_background_jobs<sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.compression_default<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lz4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.compression_bottommost<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1aecaee47396d31ef7be1ed888d87d95bf" kindref="member">db_</ref><sp/><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_optimizer_phase3_test_1aecaee47396d31ef7be1ed888d87d95bf" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1a9eca7d2f7ba87d3c131a376f1c51c1c3" kindref="member">mgr_</ref><sp/>=<sp/>std::make_unique&lt;GraphIndexManager&gt;(*<ref refid="class_optimizer_phase3_test_1aecaee47396d31ef7be1ed888d87d95bf" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1aa8f6e1478f77e408274fc78801262890" kindref="member">opt_</ref><sp/>=<sp/>std::make_unique&lt;GraphQueryOptimizer&gt;(*<ref refid="class_optimizer_phase3_test_1a9eca7d2f7ba87d3c131a376f1c51c1c3" kindref="member">mgr_</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1ad409829010f557e9ad017c7856e6be5a" kindref="member">buildGraph</ref>();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_optimizer_phase3_test_1a23fb2d04e54d50b19843a406c3172891" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1aa8f6e1478f77e408274fc78801262890" kindref="member">opt_</ref>.reset();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1a9eca7d2f7ba87d3c131a376f1c51c1c3" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1aecaee47396d31ef7be1ed888d87d95bf" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_optimizer_phase3_test_1a2cc22d8f0c46d6b3a610ef3d0c1ad91a" kindref="member">test_db_path_</ref>,<sp/>ec);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_optimizer_phase3_test_1ad409829010f557e9ad017c7856e6be5a" kindref="member">buildGraph</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>-&gt;<sp/>C<sp/>-&gt;<sp/>D,<sp/><sp/>A<sp/>-&gt;<sp/>C<sp/>(shortcut)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addEdge<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>from,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>to)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/>from);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/>to);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_weight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1a9eca7d2f7ba87d3c131a376f1c51c1c3" kindref="member">mgr_</ref>-&gt;addEdge(e);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_optimizer_phase3_test_1a2cc22d8f0c46d6b3a610ef3d0c1ad91a" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1aecaee47396d31ef7be1ed888d87d95bf" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphIndexManager&gt;<sp/><sp/><sp/><ref refid="class_optimizer_phase3_test_1a9eca7d2f7ba87d3c131a376f1c51c1c3" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphQueryOptimizer&gt;<sp/><ref refid="class_optimizer_phase3_test_1aa8f6e1478f77e408274fc78801262890" kindref="member">opt_</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-01<sp/>Group<sp/>1:<sp/>Plan<sp/>cache<sp/>–<sp/>size,<sp/>insert,<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>PlanCache_InitiallyEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>opt_-&gt;getPlanCacheSize());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>PlanCache_PopulatesOnOptimize)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>opt_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>should<sp/>have<sp/>at<sp/>least<sp/>one<sp/>entry<sp/>after<sp/>a<sp/>plan<sp/>is<sp/>generated.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(opt_-&gt;getPlanCacheSize(),<sp/>0u);<sp/></highlight><highlight class="comment">//<sp/>cache<sp/>may<sp/>or<sp/>may<sp/>not<sp/>cache;<sp/>just<sp/>check<sp/>it&apos;s<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>PlanCache_SetAndGetMaxSize)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;setPlanCacheMaxSize(128);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(128u,<sp/>opt_-&gt;getPlanCacheMaxSize());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>PlanCache_LRUEvictionAtCapacity)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;setPlanCacheMaxSize(2);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>3<sp/>different<sp/>plans<sp/>to<sp/>trigger<sp/>eviction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>must<sp/>not<sp/>exceed<sp/>the<sp/>configured<sp/>limit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(opt_-&gt;getPlanCacheSize(),<sp/>2u);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>PlanCache_ClearEmptiesCache)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;setPlanCacheMaxSize(16);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;clearPlanCache();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>opt_-&gt;getPlanCacheSize());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>PlanCache_TTLConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;setPlanCacheTTL(std::chrono::milliseconds{500});</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::chrono::milliseconds{500},<sp/>opt_-&gt;getPlanCacheTTL());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>PlanCache_ZeroTTLMeansNoExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;setPlanCacheTTL(std::chrono::milliseconds{0});</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::chrono::milliseconds{0},<sp/>opt_-&gt;getPlanCacheTTL());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-01<sp/>Group<sp/>2:<sp/>Metrics<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>Metrics_InitialCountersAreZero)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>=<sp/>opt_-&gt;getQueryMetrics();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>m.total_queries.load());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>m.failed_queries.load());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>m.plan_cache_hits.load());</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>m.plan_cache_misses.load());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>Metrics_TotalQueriesIncrementAfterBFS)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref><sp/>c;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;executeBFS(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>c);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>=<sp/>opt_-&gt;getQueryMetrics();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(m.total_queries.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>Metrics_AvgExecutionTimePlausible)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref><sp/>c;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;executeBFS(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>c);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(opt_-&gt;getQueryMetrics().avgExecutionTimeMs(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>Metrics_ErrorRateIsZeroOnSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref><sp/>c;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;executeBFS(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>c);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0.0,<sp/>opt_-&gt;getQueryMetrics().errorRate());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>Metrics_LatencyHistogramRecordsData)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref><sp/>c;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>opt_-&gt;executeBFS(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>c);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/><sp/><sp/>=<sp/>opt_-&gt;getQueryMetrics();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p50<sp/>=<sp/>m.latency_histogram.percentileMs(0.50);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(p50,<sp/>0.0);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-01<sp/>Group<sp/>3:<sp/>Adaptive<sp/>cost<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>CostModel_DefaultEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(opt_-&gt;isAdaptiveLearningEnabled());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>CostModel_CanDisableAndReenable)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;enableAdaptiveLearning(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(opt_-&gt;isAdaptiveLearningEnabled());</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;enableAdaptiveLearning(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(opt_-&gt;isAdaptiveLearningEnabled());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>CostModel_ExportProducesNonEmptyJSON)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref><sp/>c;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;executeBFS(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>c);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="test__graph__edge__encryption_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>opt_-&gt;exportCostModel();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="test__graph__edge__encryption_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>.empty());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>CostModel_ImportRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref><sp/>c;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;executeBFS(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>c);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="test__graph__edge__encryption_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>opt_-&gt;exportCostModel();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(opt_-&gt;importCostModel(<ref refid="test__graph__edge__encryption_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>));</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>CostModel_ImportMalformedReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(opt_-&gt;importCostModel(</highlight><highlight class="stringliteral">&quot;{invalid<sp/>json[[[&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>CostModel_AlgorithmModelsAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>models<sp/>=<sp/>opt_-&gt;getAlgorithmCostModels();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(models.empty());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-01<sp/>Group<sp/>4:<sp/>Calibration<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>Calibration_ReportFromEmptyHistory)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>opt_-&gt;calibrateFromHistory();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>report.total_samples);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>Calibration_ReportPopulatedAfterExecution)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref><sp/>c;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>opt_-&gt;executeBFS(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>c);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>opt_-&gt;calibrateFromHistory();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(report.total_samples,<sp/>1u);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-01<sp/>Group<sp/>5:<sp/>Rate<sp/>limiter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>RateLimiter_DefaultIsZeroNoLimit)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>opt_-&gt;getMaxQueriesPerSecond());</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a7323c88f4305a22261cb014fc4d8e907" kindref="member">TEST_F</ref>(<ref refid="class_optimizer_phase3_test" kindref="compound">OptimizerPhase3Test</ref>,<sp/>RateLimiter_SetAndGet)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;setMaxQueriesPerSecond(100);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(100u,<sp/>opt_-&gt;getMaxQueriesPerSecond());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>opt_-&gt;setMaxQueriesPerSecond(0);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>opt_-&gt;getMaxQueriesPerSecond());</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-01<sp/>Group<sp/>6:<sp/>GraphLRUPlanCache<sp/>standalone<sp/>utility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphLRUPlanCacheTest,<sp/>BasicPutAndGet)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache" kindref="compound">GraphLRUPlanCache&lt;std::string, int&gt;</ref><sp/>cache(10);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>42);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(42,<sp/>*v);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphLRUPlanCacheTest,<sp/>MissReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache" kindref="compound">GraphLRUPlanCache&lt;std::string, int&gt;</ref><sp/>cache(10);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cache.get(</highlight><highlight class="stringliteral">&quot;missing&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphLRUPlanCacheTest,<sp/>LRUEvictionEnforcedAtCapacity)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache" kindref="compound">GraphLRUPlanCache&lt;std::string, int&gt;</ref><sp/>cache(3);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>&quot;a&quot;<sp/>to<sp/>make<sp/>it<sp/>MRU;<sp/>&quot;b&quot;<sp/>becomes<sp/>LRU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">,<sp/>4);<sp/></highlight><highlight class="comment">//<sp/>evicts<sp/>&quot;b&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cache.get(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cache.get(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cache.get(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cache.get(</highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphLRUPlanCacheTest,<sp/>TTLExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache" kindref="compound">GraphLRUPlanCache&lt;std::string, int&gt;</ref><sp/>cache(10,<sp/>std::chrono::milliseconds{50});</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a146f6f86a57a8dc210b10fab3f646706" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>99);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cache.get(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds{80});</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cache.get(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">).has_value());<sp/></highlight><highlight class="comment">//<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphLRUPlanCacheTest,<sp/>MetricsHitRatioAccurate)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache" kindref="compound">GraphLRUPlanCache&lt;std::string, int&gt;</ref><sp/>cache(10);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>m<sp/>=<sp/>cache.metrics();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>m.hits);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>m.misses);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(0.5,<sp/>m.hitRatio(),<sp/>1e-9);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphLRUPlanCacheTest,<sp/>PurgeExpired)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache" kindref="compound">GraphLRUPlanCache&lt;std::string, int&gt;</ref><sp/>cache(10,<sp/>std::chrono::milliseconds{30});</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a146f6f86a57a8dc210b10fab3f646706" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds{60});</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>purged<sp/>=<sp/>cache.purgeExpired();</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>purged);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.size());</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-01<sp/>Group<sp/>7:<sp/>GraphAdvancedCostModel<sp/>standalone</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphAdvancedCostModelTest,<sp/>InitialStateIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" kindref="compound">GraphAdvancedCostModel</ref><sp/>m;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0.0,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a8c7b9b4cd4dc34822ba51fbd8f87da31" kindref="member">emaCostMs</ref>());</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0.0,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a0018b95a06ca38aeaafb775406242b07" kindref="member">confidence</ref>());</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afee330891186aff6d4cb044c10cd50cb" kindref="member">execCount</ref>());</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphAdvancedCostModelTest,<sp/>FirstObservationSetsEMA)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" kindref="compound">GraphAdvancedCostModel</ref><sp/>m;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a6c797ac8f442dd4a76af4d5a40f34ae5" kindref="member">observe</ref>(20.0);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(20.0,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a8c7b9b4cd4dc34822ba51fbd8f87da31" kindref="member">emaCostMs</ref>(),<sp/>1e-9);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afee330891186aff6d4cb044c10cd50cb" kindref="member">execCount</ref>());</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphAdvancedCostModelTest,<sp/>EMAConvergesOverTime)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" kindref="compound">GraphAdvancedCostModel</ref><sp/>m;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a6c797ac8f442dd4a76af4d5a40f34ae5" kindref="member">observe</ref>(10.0);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(10.0,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a8c7b9b4cd4dc34822ba51fbd8f87da31" kindref="member">emaCostMs</ref>(),<sp/>0.5);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphAdvancedCostModelTest,<sp/>ConfidenceGrowsToOne)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" kindref="compound">GraphAdvancedCostModel</ref><sp/>m;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a6c797ac8f442dd4a76af4d5a40f34ae5" kindref="member">observe</ref>(1.0);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(1.0,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a0018b95a06ca38aeaafb775406242b07" kindref="member">confidence</ref>(),<sp/>1e-6);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphAdvancedCostModelTest,<sp/>BlendedEstimateUsesTheoryWhenNoData)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" kindref="compound">GraphAdvancedCostModel</ref><sp/>m;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>confidence<sp/>=<sp/>0<sp/>→<sp/>blended<sp/>=<sp/>0<sp/>*<sp/>ema<sp/>+<sp/>1<sp/>*<sp/>theoretical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(50.0,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a5c55cee49643a9b9987fe40fcdef955d" kindref="member">blendedEstimate</ref>(50.0),<sp/>1e-9);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphAdvancedCostModelTest,<sp/>BlendedEstimateUsesEMAWhenConfident)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" kindref="compound">GraphAdvancedCostModel</ref><sp/>m;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a6c797ac8f442dd4a76af4d5a40f34ae5" kindref="member">observe</ref>(10.0);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>confidence<sp/>≈<sp/>1<sp/>→<sp/>blended<sp/>≈<sp/>ema<sp/>=<sp/>10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(10.0,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a5c55cee49643a9b9987fe40fcdef955d" kindref="member">blendedEstimate</ref>(999.0),<sp/>0.1);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphAdvancedCostModelTest,<sp/>P99LessThanOrEqualP50PlusSlack)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" kindref="compound">GraphAdvancedCostModel</ref><sp/>m;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a6c797ac8f442dd4a76af4d5a40f34ae5" kindref="member">observe</ref>(5.0);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ae3940c27350c0e7723d303bf6b8d1f1d" kindref="member">p50Ms</ref>(),<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1af222910dcc0ed7034bd800fe07246e6d" kindref="member">p99Ms</ref>()<sp/>+<sp/>1.0);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="test__graph__query__optimizer__phase3_8cpp_1a30463c1e24643b9beed44671c4b88934" kindref="member">TEST</ref>(GraphAdvancedCostModelTest,<sp/>ResetClearsAllState)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model" kindref="compound">GraphAdvancedCostModel</ref><sp/>m;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a6c797ac8f442dd4a76af4d5a40f34ae5" kindref="member">observe</ref>(100.0);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ad5bb326778079459725bb8ce2b8ad6b8" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0.0,<sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a8c7b9b4cd4dc34822ba51fbd8f87da31" kindref="member">emaCostMs</ref>());</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afee330891186aff6d4cb044c10cd50cb" kindref="member">execCount</ref>());</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/><sp/>m.<ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1af2c12db86d5a4327b80e538438fec959" kindref="member">histogram</ref>().<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a4aafef4deb4be69c0da9f380aebea70b" kindref="member">total</ref>());</highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_graph_query_optimizer_phase3.cpp"/>
+  </compounddef>
+</doxygen>

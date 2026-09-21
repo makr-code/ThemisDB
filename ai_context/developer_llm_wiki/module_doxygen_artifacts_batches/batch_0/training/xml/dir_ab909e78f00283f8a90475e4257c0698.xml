@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ab909e78f00283f8a90475e4257c0698" kind="dir">
+    <compoundname>src/training/examples</compoundname>
+    <innerfile refid="database__optimizer__labeler_8cpp">database_optimizer_labeler.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/examples/"/>
+  </compounddef>
+</doxygen>

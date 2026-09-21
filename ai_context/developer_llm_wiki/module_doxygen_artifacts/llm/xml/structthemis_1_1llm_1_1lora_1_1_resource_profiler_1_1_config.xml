@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ResourceProfiler::Config</compoundname>
+    <includes refid="resource__profiler_8h" local="no">resource_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a2ef77367cf749aacba6dca508e24988b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ResourceProfiler::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="138" column="14" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1af763ae5e3971b6f6806e5a03cbe661c4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::ResourceProfiler::Config::snapshot_interval_steps</definition>
+        <argsstring></argsstring>
+        <name>snapshot_interval_steps</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Config::snapshot_interval_steps</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="139" column="13" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1ac9a67c9939ee498a82fe5c18d6938fd7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ResourceProfiler::Config::log_to_file</definition>
+        <argsstring></argsstring>
+        <name>log_to_file</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Config::log_to_file</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="140" column="14" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a2cb769997b9f77954fb6ce9c93f0d5bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ResourceProfiler::Config::log_file</definition>
+        <argsstring></argsstring>
+        <name>log_file</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Config::log_file</qualifiedname>
+        <initializer>= &quot;resource_profile.jsonl&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="141" column="21" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a8c1948297c4b2c60257e7d692423876c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ResourceProfiler::Config::verbose_logging</definition>
+        <argsstring></argsstring>
+        <name>verbose_logging</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Config::verbose_logging</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="142" column="14" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a339e43f85b286c4e6817aecd6c15453a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ResourceProfiler::Config::enable_alerts</definition>
+        <argsstring></argsstring>
+        <name>enable_alerts</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Config::enable_alerts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="145" column="14" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1abafda9ac695870c43fdaa9b2f70c5c50" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceProfiler::Config::gpu_memory_alert_threshold</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_alert_threshold</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Config::gpu_memory_alert_threshold</qualifiedname>
+        <initializer>= 0.90f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="146" column="15" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a44194e591a769fbda997cfa1def7ebe2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::ResourceProfiler::Config::gpu_utilization_alert_threshold</definition>
+        <argsstring></argsstring>
+        <name>gpu_utilization_alert_threshold</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::Config::gpu_utilization_alert_threshold</qualifiedname>
+        <initializer>= 0.95f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="147" column="15" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/resource_profiler.h" line="137" column="5" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="137" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a339e43f85b286c4e6817aecd6c15453a" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Config</scope><name>enable_alerts</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a2ef77367cf749aacba6dca508e24988b" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1abafda9ac695870c43fdaa9b2f70c5c50" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Config</scope><name>gpu_memory_alert_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a44194e591a769fbda997cfa1def7ebe2" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Config</scope><name>gpu_utilization_alert_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a2cb769997b9f77954fb6ce9c93f0d5bb" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Config</scope><name>log_file</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1ac9a67c9939ee498a82fe5c18d6938fd7" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Config</scope><name>log_to_file</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1af763ae5e3971b6f6806e5a03cbe661c4" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Config</scope><name>snapshot_interval_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config_1a8c1948297c4b2c60257e7d692423876c" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler::Config</scope><name>verbose_logging</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

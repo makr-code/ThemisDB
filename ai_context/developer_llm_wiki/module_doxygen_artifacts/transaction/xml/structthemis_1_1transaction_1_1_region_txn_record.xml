@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_region_txn_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::RegionTxnRecord</compoundname>
+    <includes refid="global__transaction__manager_8h" local="no">global_transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_region_txn_record_1afcc3269b06934fead989ea0612dd10ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::RegionTxnRecord::region_id</definition>
+        <argsstring></argsstring>
+        <name>region_id</name>
+        <qualifiedname>themis::transaction::RegionTxnRecord::region_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="123" column="17" bodyfile="include/transaction/global_transaction_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_region_txn_record_1a41e3b075b642fed8258675c9deab5bdf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::RegionTxnRecord::voted</definition>
+        <argsstring></argsstring>
+        <name>voted</name>
+        <qualifiedname>themis::transaction::RegionTxnRecord::voted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true = COMMIT vote </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="124" column="17" bodyfile="include/transaction/global_transaction_manager.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_region_txn_record_1a8a071594b2085981505105d61cdbb11d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::RegionTxnRecord::phase2_acked</definition>
+        <argsstring></argsstring>
+        <name>phase2_acked</name>
+        <qualifiedname>themis::transaction::RegionTxnRecord::phase2_acked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="125" column="17" bodyfile="include/transaction/global_transaction_manager.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/global_transaction_manager.h" line="122" column="1" bodyfile="include/transaction/global_transaction_manager.h" bodystart="122" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_region_txn_record_1a8a071594b2085981505105d61cdbb11d" prot="public" virt="non-virtual"><scope>themis::transaction::RegionTxnRecord</scope><name>phase2_acked</name></member>
+      <member refid="structthemis_1_1transaction_1_1_region_txn_record_1afcc3269b06934fead989ea0612dd10ce" prot="public" virt="non-virtual"><scope>themis::transaction::RegionTxnRecord</scope><name>region_id</name></member>
+      <member refid="structthemis_1_1transaction_1_1_region_txn_record_1a41e3b075b642fed8258675c9deab5bdf" prot="public" virt="non-virtual"><scope>themis::transaction::RegionTxnRecord</scope><name>voted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

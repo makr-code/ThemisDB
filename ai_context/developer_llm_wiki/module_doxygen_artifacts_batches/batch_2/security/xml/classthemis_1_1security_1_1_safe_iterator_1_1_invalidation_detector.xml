@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SafeIterator::InvalidationDetector</compoundname>
+    <includes refid="safe__iterator_8h" local="no">safe_iterator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a65e7421a4b33da71ac61359e064c4f6d" prot="private" static="no" mutable="no">
+        <type>const void *</type>
+        <definition>const void* themis::security::SafeIterator::InvalidationDetector::container_ptr_</definition>
+        <argsstring></argsstring>
+        <name>container_ptr_</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::container_ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="101" column="16" bodyfile="include/security/safe_iterator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1aa9a2480b0ff80944b149ad200b402a74" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::SafeIterator::InvalidationDetector::initial_size_</definition>
+        <argsstring></argsstring>
+        <name>initial_size_</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::initial_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="102" column="12" bodyfile="include/security/safe_iterator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a1409ccbb3ce60d502552fd49b844b870" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::SafeIterator::InvalidationDetector::strict_mode_</definition>
+        <argsstring></argsstring>
+        <name>strict_mode_</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::strict_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="103" column="10" bodyfile="include/security/safe_iterator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a8d0419602abcbafac04cf5205b4e8bd9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::security::SafeIterator::InvalidationDetector::modification_detected_</definition>
+        <argsstring></argsstring>
+        <name>modification_detected_</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::modification_detected_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="104" column="17" bodyfile="include/security/safe_iterator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a890f74e1380da9caf3a215fd0a51f562" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Container</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>themis::security::SafeIterator::InvalidationDetector::InvalidationDetector</definition>
+        <argsstring>(const Container &amp;container, bool strict=false)</argsstring>
+        <name>InvalidationDetector</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::InvalidationDetector</qualifiedname>
+        <param>
+          <type>const Container &amp;</type>
+          <declname>container</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strict</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="45" column="14" bodyfile="include/security/safe_iterator.h" bodystart="45" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a484f48b2709a6f1a81273be63a518ab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SafeIterator::InvalidationDetector::~InvalidationDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~InvalidationDetector</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::~InvalidationDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a4cfdacfd3f64a50017aea37ec92e7aa5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SafeIterator::InvalidationDetector::check</definition>
+        <argsstring>()</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::check</qualifiedname>
+        <briefdescription>
+<para>Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="62" column="10" bodyfile="include/security/safe_iterator.h" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a2886caa06a6d406f7fc52ae5652c04e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::SafeIterator::InvalidationDetector::set_modification_detected</definition>
+        <argsstring>(bool detected)</argsstring>
+        <name>set_modification_detected</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::set_modification_detected</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>detected</declname>
+        </param>
+        <briefdescription>
+<para>Explicitly mark modification detection state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">detected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True to mark the container as modified. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), <ref refid="namespacespdlog_1a734e0e5b473dde09e3cea1da3df67ad5" kindref="member">spdlog::warn()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="78" column="10" bodyfile="include/security/safe_iterator.h" bodystart="78" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1afb989a75c6b33109a590ba9abb3f196e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::SafeIterator::InvalidationDetector::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="94" column="10" bodyfile="include/security/safe_iterator.h" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a3e08ffc267b529eddbbb5f3597c09aab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::SafeIterator::InvalidationDetector::initial_size</definition>
+        <argsstring>() const</argsstring>
+        <name>initial_size</name>
+        <qualifiedname>themis::security::SafeIterator::InvalidationDetector::initial_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="98" column="12" bodyfile="include/security/safe_iterator.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/safe_iterator.h" line="42" column="1" bodyfile="include/security/safe_iterator.h" bodystart="42" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a4cfdacfd3f64a50017aea37ec92e7aa5" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>check</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a65e7421a4b33da71ac61359e064c4f6d" prot="private" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>container_ptr_</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a3e08ffc267b529eddbbb5f3597c09aab" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>initial_size</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1aa9a2480b0ff80944b149ad200b402a74" prot="private" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>initial_size_</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a890f74e1380da9caf3a215fd0a51f562" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>InvalidationDetector</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a8d0419602abcbafac04cf5205b4e8bd9" prot="private" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>modification_detected_</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1afb989a75c6b33109a590ba9abb3f196e" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>reset</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a2886caa06a6d406f7fc52ae5652c04e3" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>set_modification_detected</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a1409ccbb3ce60d502552fd49b844b870" prot="private" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>strict_mode_</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector_1a484f48b2709a6f1a81273be63a518ab4" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::InvalidationDetector</scope><name>~InvalidationDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

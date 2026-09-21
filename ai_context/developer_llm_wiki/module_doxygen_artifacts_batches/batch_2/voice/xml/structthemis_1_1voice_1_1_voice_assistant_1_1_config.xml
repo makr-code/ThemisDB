@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_assistant_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceAssistant::Config</compoundname>
+    <includes refid="voice__assistant_8h" local="no">voice_assistant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a4283cf8c75e58c152db5033ba4b8c7f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::Config::stt_model_path</definition>
+        <argsstring></argsstring>
+        <name>stt_model_path</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::stt_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="88" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a5a9e4f1201266775ec6c223ba5aeae5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::Config::stt_model_size</definition>
+        <argsstring></argsstring>
+        <name>stt_model_size</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::stt_model_size</qualifiedname>
+        <initializer>= &quot;base&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="89" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1aa9e6774241bde0ee8df7e557b311acc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::Config::stt_language</definition>
+        <argsstring></argsstring>
+        <name>stt_language</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::stt_language</qualifiedname>
+        <initializer>= &quot;auto&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="90" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1afaab1a3177bb93c888af5e28ad43d306" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::Config::tts_model_path</definition>
+        <argsstring></argsstring>
+        <name>tts_model_path</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::tts_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="93" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a689c8e61f206883fe3bd52d29c87c4dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::Config::tts_voice</definition>
+        <argsstring></argsstring>
+        <name>tts_voice</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::tts_voice</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="94" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a2929b9783ef5cb80991ac89162efef88" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::VoiceAssistant::Config::tts_speed</definition>
+        <argsstring></argsstring>
+        <name>tts_speed</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::tts_speed</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="95" column="15" bodyfile="include/voice/voice_assistant.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a59fd2b837203ae327419df3b1f6130f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::Config::llm_model_path</definition>
+        <argsstring></argsstring>
+        <name>llm_model_path</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::llm_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="98" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a4ddd30689af5e2c0d77d70441e931b85" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::VoiceAssistant::Config::llm_n_ctx</definition>
+        <argsstring></argsstring>
+        <name>llm_n_ctx</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::llm_n_ctx</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="99" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1afb07cf4c8c9b1774d0b79a26db9028ef" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::VoiceAssistant::Config::llm_n_gpu_layers</definition>
+        <argsstring></argsstring>
+        <name>llm_n_gpu_layers</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::llm_n_gpu_layers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="100" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1ab5440cd67d35fcf26194c03c81184fc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::Config::storage_path</definition>
+        <argsstring></argsstring>
+        <name>storage_path</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::storage_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="103" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a403bcdaa0a372a5aff28b23c2e5834f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAssistant::Config::enable_revision_control</definition>
+        <argsstring></argsstring>
+        <name>enable_revision_control</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::enable_revision_control</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="104" column="14" bodyfile="include/voice/voice_assistant.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a84b45250a6996d93d291a3ca9487d8c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAssistant::Config::compress_audio</definition>
+        <argsstring></argsstring>
+        <name>compress_audio</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::compress_audio</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="105" column="14" bodyfile="include/voice/voice_assistant.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1ae0ecd4c20b5c52e7e734c58bc316e384" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAssistant::Config::audio_format</definition>
+        <argsstring></argsstring>
+        <name>audio_format</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::audio_format</qualifiedname>
+        <initializer>= &quot;ogg&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="106" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a31da0a8ed72c54f813586131c190b1a4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAssistant::Config::enable_voice_auth</definition>
+        <argsstring></argsstring>
+        <name>enable_voice_auth</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::enable_voice_auth</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="109" column="14" bodyfile="include/voice/voice_assistant.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a937ff23e0225623150d87ca66172a29d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref></type>
+        <definition>VoiceAuthConfig themis::voice::VoiceAssistant::Config::voice_auth_config</definition>
+        <argsstring></argsstring>
+        <name>voice_auth_config</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::voice_auth_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="110" column="25" bodyfile="include/voice/voice_assistant.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a1864097615dd450e360234a8bc82f194" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_security_config" kindref="compound">VoiceSecurityConfig</ref></type>
+        <definition>VoiceSecurityConfig themis::voice::VoiceAssistant::Config::voice_security_config</definition>
+        <argsstring></argsstring>
+        <name>voice_security_config</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::voice_security_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="113" column="29" bodyfile="include/voice/voice_assistant.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a5da44fd130df84a95b698e0f60911716" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAssistant::Config::enable_wake_word</definition>
+        <argsstring></argsstring>
+        <name>enable_wake_word</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::enable_wake_word</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="116" column="14" bodyfile="include/voice/voice_assistant.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a67b2677332abc8281faf663a59710ee9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_wake_word_config" kindref="compound">WakeWordConfig</ref></type>
+        <definition>WakeWordConfig themis::voice::VoiceAssistant::Config::wake_word_config</definition>
+        <argsstring></argsstring>
+        <name>wake_word_config</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::wake_word_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="117" column="24" bodyfile="include/voice/voice_assistant.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a3985f73f7459326495f78ff6701e8208" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::voice::VoiceAssistant::Config::wake_words</definition>
+        <argsstring></argsstring>
+        <name>wake_words</name>
+        <qualifiedname>themis::voice::VoiceAssistant::Config::wake_words</qualifiedname>
+        <initializer>                       = {
+    {&quot;hey-themis&quot;,   &quot;hey themis&quot;},
+    {&quot;themis&quot;,       &quot;themis&quot;},
+    {&quot;database&quot;,     &quot;database&quot;}
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="118" column="21" bodyfile="include/voice/voice_assistant.h" bodystart="118" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::voice::RateLimiterConfig</label>
+        <link refid="structthemis_1_1voice_1_1_rate_limiter_config"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::VoiceAssistant::Config</label>
+        <link refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>voice_auth_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>voice_security_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>wake_word_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::voice::VoiceAuthConfig</label>
+        <link refid="structthemis_1_1voice_1_1_voice_auth_config"/>
+      </node>
+      <node id="3">
+        <label>themis::voice::VoiceSecurityConfig</label>
+        <link refid="structthemis_1_1voice_1_1_voice_security_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>rate_limiter</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::voice::WakeWordConfig</label>
+        <link refid="structthemis_1_1voice_1_1_wake_word_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_assistant.h" line="86" column="5" bodyfile="include/voice/voice_assistant.h" bodystart="86" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1ae0ecd4c20b5c52e7e734c58bc316e384" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>audio_format</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a84b45250a6996d93d291a3ca9487d8c0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>compress_audio</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a403bcdaa0a372a5aff28b23c2e5834f4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>enable_revision_control</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a31da0a8ed72c54f813586131c190b1a4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>enable_voice_auth</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a5da44fd130df84a95b698e0f60911716" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>enable_wake_word</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a59fd2b837203ae327419df3b1f6130f3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>llm_model_path</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a4ddd30689af5e2c0d77d70441e931b85" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>llm_n_ctx</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1afb07cf4c8c9b1774d0b79a26db9028ef" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>llm_n_gpu_layers</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1ab5440cd67d35fcf26194c03c81184fc9" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>storage_path</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1aa9e6774241bde0ee8df7e557b311acc0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>stt_language</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a4283cf8c75e58c152db5033ba4b8c7f2" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>stt_model_path</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a5a9e4f1201266775ec6c223ba5aeae5f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>stt_model_size</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1afaab1a3177bb93c888af5e28ad43d306" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>tts_model_path</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a2929b9783ef5cb80991ac89162efef88" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>tts_speed</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a689c8e61f206883fe3bd52d29c87c4dc" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>tts_voice</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a937ff23e0225623150d87ca66172a29d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>voice_auth_config</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a1864097615dd450e360234a8bc82f194" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>voice_security_config</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a67b2677332abc8281faf663a59710ee9" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>wake_word_config</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a3985f73f7459326495f78ff6701e8208" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAssistant::Config</scope><name>wake_words</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

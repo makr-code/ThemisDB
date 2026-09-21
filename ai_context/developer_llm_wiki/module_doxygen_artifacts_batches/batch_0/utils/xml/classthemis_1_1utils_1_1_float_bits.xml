@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_float_bits" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::FloatBits</compoundname>
+    <includes refid="safe__cast_8h" local="no">safe_cast.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_float_bits_1a41f73d8ff66fae2d53d5300f981fb973" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::utils::FloatBits::to_u32</definition>
+        <argsstring>(float f) noexcept</argsstring>
+        <name>to_u32</name>
+        <qualifiedname>themis::utils::FloatBits::to_u32</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Interpret float bits as uint32. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/safe_cast.h" line="66" column="21" bodyfile="include/utils/safe_cast.h" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_float_bits_1aae38dfd9cfa5d93e9aed012699c70625" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::utils::FloatBits::from_u32</definition>
+        <argsstring>(uint32_t u) noexcept</argsstring>
+        <name>from_u32</name>
+        <qualifiedname>themis::utils::FloatBits::from_u32</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+<para>Interpret uint32 bits as float. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/safe_cast.h" line="71" column="18" bodyfile="include/utils/safe_cast.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_float_bits_1a4d58f980bed2eea04e4a8a2bf9ce83cd" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::utils::FloatBits::to_u64</definition>
+        <argsstring>(double d) noexcept</argsstring>
+        <name>to_u64</name>
+        <qualifiedname>themis::utils::FloatBits::to_u64</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+<para>Interpret double bits as uint64. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/safe_cast.h" line="76" column="21" bodyfile="include/utils/safe_cast.h" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_float_bits_1ac7048b0a32c3a9828258d085feb24e21" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::utils::FloatBits::from_u64</definition>
+        <argsstring>(uint64_t u) noexcept</argsstring>
+        <name>from_u64</name>
+        <qualifiedname>themis::utils::FloatBits::from_u64</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+<para>Interpret uint64 bits as double. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/safe_cast.h" line="81" column="19" bodyfile="include/utils/safe_cast.h" bodystart="81" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Type-safe bit patterns for floating point numbers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides safe conversion between floating point and integer bit representations without strict aliasing violations. </para>
+    </detaileddescription>
+    <location file="include/utils/safe_cast.h" line="63" column="1" bodyfile="include/utils/safe_cast.h" bodystart="63" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_float_bits_1aae38dfd9cfa5d93e9aed012699c70625" prot="public" virt="non-virtual"><scope>themis::utils::FloatBits</scope><name>from_u32</name></member>
+      <member refid="classthemis_1_1utils_1_1_float_bits_1ac7048b0a32c3a9828258d085feb24e21" prot="public" virt="non-virtual"><scope>themis::utils::FloatBits</scope><name>from_u64</name></member>
+      <member refid="classthemis_1_1utils_1_1_float_bits_1a41f73d8ff66fae2d53d5300f981fb973" prot="public" virt="non-virtual"><scope>themis::utils::FloatBits</scope><name>to_u32</name></member>
+      <member refid="classthemis_1_1utils_1_1_float_bits_1a4d58f980bed2eea04e4a8a2bf9ce83cd" prot="public" virt="non-virtual"><scope>themis::utils::FloatBits</scope><name>to_u64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

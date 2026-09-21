@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceReporter::RiskAssessmentReport</compoundname>
+    <basecompoundref refid="structthemis_1_1governance_1_1_i_compliance_report" prot="public" virt="non-virtual">themis::governance::IComplianceReport</basecompoundref>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item" prot="public">themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a60f1dd67cd4fd2a76d17452c42abcac6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item" kindref="compound">RiskItem</ref> &gt;</type>
+        <definition>std::vector&lt;RiskItem&gt; themis::governance::ComplianceReporter::RiskAssessmentReport::risks</definition>
+        <argsstring></argsstring>
+        <name>risks</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::risks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="308" column="21" bodyfile="include/governance/compliance_reporting.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1ab55c2c048626c517a63f9fe6c9c6e630" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceReporter::RiskAssessmentReport::high_risks</definition>
+        <argsstring></argsstring>
+        <name>high_risks</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::high_risks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="309" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a3d1ee86660612e8ab303cd5783dca74b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceReporter::RiskAssessmentReport::medium_risks</definition>
+        <argsstring></argsstring>
+        <name>medium_risks</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::medium_risks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="310" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a7a121d500c6852e9e8f514f1b51ec4b2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceReporter::RiskAssessmentReport::low_risks</definition>
+        <argsstring></argsstring>
+        <name>low_risks</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::low_risks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="311" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a4f6cd1b234f29e06a6569ce3ec5a45c2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceReporter::RiskAssessmentReport::generated_at</definition>
+        <argsstring></argsstring>
+        <name>generated_at</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::generated_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="312" column="17" bodyfile="include/governance/compliance_reporting.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a74fd41fdaeffa9157d8b05d62ddd8de9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceReporter::RiskAssessmentReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="318" column="24" bodyfile="src/governance/compliance_reporting.cpp" bodystart="931" bodyend="951"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a3ab9473689e870c99a2995e1ca6be857" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::RiskAssessmentReport::toCSV</definition>
+        <argsstring>() const override</argsstring>
+        <name>toCSV</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::toCSV</qualifiedname>
+        <reimplements refid="structthemis_1_1governance_1_1_i_compliance_report_1a3113e39baa131903fa65a0c2cd4463e9">toCSV</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="319" column="21" bodyfile="src/governance/compliance_reporting.cpp" bodystart="953" bodyend="978"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a96d5c91e993e64f9c6deaf44b2a21ead" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::RiskAssessmentReport::toHTML</definition>
+        <argsstring>() const</argsstring>
+        <name>toHTML</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::toHTML</qualifiedname>
+        <briefdescription>
+<para>To HTML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="324" column="21" bodyfile="src/governance/compliance_reporting.cpp" bodystart="980" bodyend="1020"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::ComplianceReporter::RiskAssessmentReport</label>
+        <link refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceReport</label>
+        <link refid="structthemis_1_1governance_1_1_i_compliance_report"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::ComplianceReporter::RiskAssessmentReport</label>
+        <link refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceReport</label>
+        <link refid="structthemis_1_1governance_1_1_i_compliance_report"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/compliance_reporting.h" line="299" column="5" bodyfile="include/governance/compliance_reporting.h" bodystart="299" bodyend="325"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a4f6cd1b234f29e06a6569ce3ec5a45c2" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>generated_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1ab55c2c048626c517a63f9fe6c9c6e630" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>high_risks</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a7a121d500c6852e9e8f514f1b51ec4b2" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>low_risks</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a3d1ee86660612e8ab303cd5783dca74b" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>medium_risks</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a60f1dd67cd4fd2a76d17452c42abcac6" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>risks</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a3ab9473689e870c99a2995e1ca6be857" prot="public" virt="virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>toCSV</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a96d5c91e993e64f9c6deaf44b2a21ead" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>toHTML</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a74fd41fdaeffa9157d8b05d62ddd8de9" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_i_compliance_report_1aa1e5ebc86266f46d6aff958a6e9e0366" prot="public" virt="virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport</scope><name>~IComplianceReport</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

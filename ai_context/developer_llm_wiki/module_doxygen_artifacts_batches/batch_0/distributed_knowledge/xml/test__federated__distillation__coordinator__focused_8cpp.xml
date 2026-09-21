@@ -1,0 +1,713 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__federated__distillation__coordinator__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_federated_distillation_coordinator_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes refid="federated__distillation__coordinator_8h" local="yes">distributed_knowledge/federated_distillation_coordinator.h</includes>
+    <incdepgraph>
+      <node id="15">
+        <label>distributed_knowledge/distributed_knowledge_api_contract.h</label>
+        <link refid="distributed__knowledge__api__contract_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>distributed_knowledge/federated_distillation_coordinator.h</label>
+        <link refid="federated__distillation__coordinator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp</label>
+        <link refid="test__federated__distillation__coordinator__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_federated_distillation_coordinator_test" prot="public">FederatedDistillationCoordinatorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, CreateSoftLabel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>CreateSoftLabel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000042"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-01: <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> creation with required fields.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> can be constructed and all documented fields are accessible. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="73" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="73" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1aa29e3ab80e8af3e66ba4fdc86c81d907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, ValidConfigReportsValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidConfigReportsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000043"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-02: <ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kindref="compound">DistillationConfig</ref> validation — valid config.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a properly constructed <ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kindref="compound">DistillationConfig</ref> reports isValid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="87" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1aa06eb8c3c491874802896524e2090bd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, SoftLabelJsonRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>SoftLabelJsonRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000044"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-03: <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> JSON serialization round-trip.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a97e9cad377236d38306672c54b0f1715" kindref="member">SoftLabel::toJson()</ref> and <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a3542bc90fd695b5dd55e8d394f24cc33" kindref="member">SoftLabel::fromJson()</ref> preserve all fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="96" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="96" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1ade5d90aae77efa1914ae8a05625113f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, CoordinatorInitialState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>CoordinatorInitialState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000045"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-04: Coordinator initial state — round 0, no submissions.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a freshly constructed coordinator has currentRound()==0, submittedCount()==0, and no last round. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="122" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1a6583791f1a3c398f20529f18a1416944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, SubmitAndBroadcastAdvancesRound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>SubmitAndBroadcastAdvancesRound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000046"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-05: submitSoftLabels() + broadcastToStudents() advances round.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that after submitting labels and broadcasting, currentRound()==1 and lastRound() has a value. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="136" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="136" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1acb8ba22f2e65185c9a46ee627d02bed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, BroadcastWithoutSubmitThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>BroadcastWithoutSubmitThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000047"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-06: broadcastToStudents() throws when no labels submitted.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that calling broadcastToStudents() without prior submitSoftLabels() throws std::runtime_error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="152" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="152" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1a5870f652138042868a6f62b8cb37cf68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, RegisteredStudentReceivesBroadcast)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>RegisteredStudentReceivesBroadcast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000048"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-07: Registered student callback receives the broadcast round.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that registerStudent() works and the callback is invoked with the correct round number during broadcastToStudents(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="168" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="168" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1aa8dce1ee30b91f07c62b3830992de157" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, PrivacyBudgetVerificationUnlimited)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>PrivacyBudgetVerificationUnlimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000049"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-08: DP budget verification allows broadcast within budget.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that verifyPrivacyBudget() returns true after one round when max_rounds == 0 (unlimited budget). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="188" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="188" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1af89be6d33af82a1010b719c13e944965" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, PolicyGateBlocksBroadcast)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>PolicyGateBlocksBroadcast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000050"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-09: Policy gate blocks broadcast.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a policy gate returning false causes broadcastToStudents() to throw std::runtime_error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="207" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="207" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1a496816d4cd3008f21a0e63541b418028" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, PrivacyBudgetRemainingUnlimited)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>PrivacyBudgetRemainingUnlimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000051"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-10: privacyBudgetRemaining() returns max for unlimited rounds.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that when max_rounds == 0, privacyBudgetRemaining() returns std::numeric_limits&lt;double&gt;::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="225" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="225" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1a6b9fd018c0730cbde5759d6206245607" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, MultipleStudentsAllReceiveBroadcast)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleStudentsAllReceiveBroadcast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000052"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-11: Multiple students all receive the broadcast.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that when three students are registered, all three receive the broadcast round. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="239" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="239" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1a7c2f9a937cbffb05859c8cf42a76cfb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, GenerateModelCardAfterBroadcast)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>GenerateModelCardAfterBroadcast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000053"><xreftitle>Test</xreftitle><xrefdescription><para>FDC-12: generateModelCard() captures round and DP metadata.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that after one broadcast, generateModelCard() returns a snapshot with rounds_completed == 1 and the correct dp_epsilon_per_round. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="266" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="266" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1ada7447e651579eaaec11a27abb86b0da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, BoundedPolicyMaxRoundsEnforced)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>BoundedPolicyMaxRoundsEnforced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="279" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="279" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1aeb6a8eb02aae84b865fbe1675c4079f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, BoundedPolicyPrivacyBudgetEnforced)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>BoundedPolicyPrivacyBudgetEnforced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="297" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="297" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__distillation__coordinator__focused_8cpp_1acb11dc2987cdab38f565da166c929075" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedDistillationCoordinatorTest, BoundedPolicyUnconstrainedAllowsBroadcast)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>BoundedPolicyUnconstrainedAllowsBroadcast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" line="313" column="1" bodyfile="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp" bodystart="313" bodyend="323"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for federated distillation coordination. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests the core distributed knowledge distillation paths against the actual production API surface:<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> creation and JSON round-trip</para>
+</listitem><listitem><para><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref> lifecycle and round tracking</para>
+</listitem><listitem><para>DP budget verification and privacy budget remaining</para>
+</listitem><listitem><para>Policy gate blocking broadcast</para>
+</listitem><listitem><para>Student registration and broadcast delivery</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: Production readiness validation for distillation layer. Q3 2026 Hardening: policy-gated flows, DP enforcement, deterministic behavior. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="federated__distillation__coordinator_8h" kindref="compound">distributed_knowledge/federated_distillation_coordinator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="class_federated_distillation_coordinator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_federated_distillation_coordinator_test_1afaa487e227c2b6193757f1e80f360090" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>.dp_epsilon<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>.dp_delta<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1e-5;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>.dp_sensitivity<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>.temperature<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4.0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>.alpha<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>.max_rounds<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>.min_utility_threshold<sp/>=<sp/>0.9;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>.require_dp<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kindref="compound">DistillationConfig</ref><sp/><ref refid="class_federated_distillation_coordinator_test_1ad906376243ec9334c38df6c511fca15e" kindref="member">cfg_</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;SoftLabel&gt;<sp/><ref refid="class_federated_distillation_coordinator_test_1ae27361448366b1d2dceea22a7cf02f1d" kindref="member">makeLabels</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>teacher_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;SoftLabel&gt;<sp/>labels;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>labels.reserve(n);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref><sp/>sl;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sl.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a34d5ab8927927c80cac8a3c1c483ab1d" kindref="member">query_id</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sl.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0db6fb3f9f8dbbc3e216027841715872" kindref="member">probabilities</ref><sp/>=<sp/>{0.6,<sp/>0.4};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sl.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0e04aa801cf4ab4c709905536d71475d" kindref="member">temperature</ref><sp/><sp/><sp/>=<sp/>4.0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sl.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a6866c6c024e9d568ff536f2a06a0e21a" kindref="member">teacher_id</ref><sp/><sp/><sp/><sp/>=<sp/>teacher_id;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>labels.push_back(sl);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>labels;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SoftLabel<sp/>Tests<sp/>(FDC-01..FDC-03)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>CreateSoftLabel)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref><sp/>sl<sp/>=<sp/>makeLabels(1)[0];</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sl.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a34d5ab8927927c80cac8a3c1c483ab1d" kindref="member">query_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;q0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sl.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0db6fb3f9f8dbbc3e216027841715872" kindref="member">probabilities</ref>.size(),<sp/><sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(sl.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0e04aa801cf4ab4c709905536d71475d" kindref="member">temperature</ref>,<sp/><sp/><sp/><sp/><sp/>4.0);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sl.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a6866c6c024e9d568ff536f2a06a0e21a" kindref="member">teacher_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>ValidConfigReportsValid)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg_.isValid());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>SoftLabelJsonRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref><sp/>original;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a34d5ab8927927c80cac8a3c1c483ab1d" kindref="member">query_id</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;q-rt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0db6fb3f9f8dbbc3e216027841715872" kindref="member">probabilities</ref><sp/>=<sp/>{0.7,<sp/>0.2,<sp/>0.1};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0e04aa801cf4ab4c709905536d71475d" kindref="member">temperature</ref><sp/><sp/><sp/>=<sp/>3.5;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a6866c6c024e9d568ff536f2a06a0e21a" kindref="member">teacher_id</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;teacher-42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>j<sp/>=<sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a97e9cad377236d38306672c54b0f1715" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a3542bc90fd695b5dd55e8d394f24cc33" kindref="member">SoftLabel::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a34d5ab8927927c80cac8a3c1c483ab1d" kindref="member">query_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a34d5ab8927927c80cac8a3c1c483ab1d" kindref="member">query_id</ref>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0db6fb3f9f8dbbc3e216027841715872" kindref="member">probabilities</ref>.size(),<sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0db6fb3f9f8dbbc3e216027841715872" kindref="member">probabilities</ref>.size());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0e04aa801cf4ab4c709905536d71475d" kindref="member">temperature</ref>,<sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0e04aa801cf4ab4c709905536d71475d" kindref="member">temperature</ref>);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a6866c6c024e9d568ff536f2a06a0e21a" kindref="member">teacher_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a6866c6c024e9d568ff536f2a06a0e21a" kindref="member">teacher_id</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Coordinator<sp/>Lifecycle<sp/>Tests<sp/>(FDC-04..FDC-06)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>CoordinatorInitialState)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.currentRound(),<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.submittedCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(coordinator.lastRound().has_value());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>SubmitAndBroadcastAdvancesRound)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(3));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(coordinator.broadcastToStudents());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.currentRound(),<sp/>1u);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(coordinator.lastRound().has_value());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>BroadcastWithoutSubmitThrows)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(coordinator.broadcastToStudents(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Student<sp/>Registration<sp/>and<sp/>Policy<sp/>Tests<sp/>(FDC-07..FDC-09)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>RegisteredStudentReceivesBroadcast)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>received_round<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.registerStudent(</highlight><highlight class="stringliteral">&quot;student-1&quot;</highlight><highlight class="normal">,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" kindref="compound">DistillationRound</ref>&amp;<sp/>r)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_round<sp/>=<sp/>r.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1aa5954a8cb6c03a6e5b254ccdf10a0a49" kindref="member">round</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.broadcastToStudents();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received_round,<sp/>1u);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>PrivacyBudgetVerificationUnlimited)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>any<sp/>broadcasts,<sp/>budget<sp/>is<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(coordinator.verifyPrivacyBudget());</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.broadcastToStudents();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>one<sp/>round,<sp/>budget<sp/>still<sp/>valid<sp/>(unlimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(coordinator.verifyPrivacyBudget());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>PolicyGateBlocksBroadcast)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.setPolicyGate([](uint64_t,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(coordinator.broadcastToStudents(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Privacy<sp/>Budget<sp/>and<sp/>Model<sp/>Card<sp/>Tests<sp/>(FDC-10..FDC-12)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>PrivacyBudgetRemainingUnlimited)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.max_rounds<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.privacyBudgetRemaining(),</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::numeric_limits&lt;double&gt;::max());</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>MultipleStudentsAllReceiveBroadcast)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/>received_rounds<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.registerStudent(</highlight><highlight class="stringliteral">&quot;student-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;received_rounds](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" kindref="compound">DistillationRound</ref>&amp;<sp/>r)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_rounds.push_back(r.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1aa5954a8cb6c03a6e5b254ccdf10a0a49" kindref="member">round</ref>);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.broadcastToStudents();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received_rounds.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint64_t<sp/>r<sp/>:<sp/>received_rounds)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(r,<sp/>1u);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>GenerateModelCardAfterBroadcast)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.broadcastToStudents();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card" kindref="compound">DistillationModelCard</ref><sp/>card<sp/>=<sp/>coordinator.generateModelCard(</highlight><highlight class="stringliteral">&quot;coordinator-test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(card.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ad73d194ade5f914c734eeeef9367e40d" kindref="member">coordinator_id</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;coordinator-test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(card.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a1fa69ff400e552c7ce802aac3e555b68" kindref="member">rounds_completed</ref>,<sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(card.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a09924965ae5e6f21c24ace163bfff226" kindref="member">dp_epsilon_per_round</ref>,<sp/>cfg_.dp_epsilon);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FDC-13:<sp/>setBoundedPolicy<sp/>with<sp/>max_rounds=1<sp/>blocks<sp/>second<sp/>broadcast<sp/>(FAIL_CLOSED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>BoundedPolicyMaxRoundsEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" kindref="compound">DistillationBoundedPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a02afd3f09ee8b0754b346256f28671f6" kindref="member">max_distillation_rounds</ref><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a832014d13c0bc4dee5756eac7ee7dd25" kindref="member">privacy_budget_hard_limit</ref><sp/>=<sp/>0.0;<sp/></highlight><highlight class="comment">//<sp/>unlimited<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.setBoundedPolicy(policy);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>broadcast<sp/>—<sp/>allowed<sp/>(round<sp/>0<sp/>&lt;<sp/>max<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(coordinator.broadcastToStudents());</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>broadcast<sp/>—<sp/>blocked<sp/>(round<sp/>1<sp/>&gt;=<sp/>max<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(coordinator.broadcastToStudents(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FDC-14:<sp/>setBoundedPolicy<sp/>with<sp/>privacy_budget_hard_limit<sp/>blocks<sp/>broadcast<sp/>that<sp/>would<sp/>exceed<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>BoundedPolicyPrivacyBudgetEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kindref="compound">DistillationConfig</ref><sp/>cfg<sp/>=<sp/>cfg_;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config_1aa441a0bb391de61c830056d8b407c6e6" kindref="member">dp_epsilon</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hard<sp/>limit:<sp/>only<sp/>0.5<sp/>epsilon<sp/>allowed<sp/>—<sp/>first<sp/>broadcast<sp/>(cost<sp/>1.0)<sp/>must<sp/>be<sp/>blocked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" kindref="compound">DistillationBoundedPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a02afd3f09ee8b0754b346256f28671f6" kindref="member">max_distillation_rounds</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>unlimited<sp/>rounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a832014d13c0bc4dee5756eac7ee7dd25" kindref="member">privacy_budget_hard_limit</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.setBoundedPolicy(policy);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(coordinator.broadcastToStudents(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FDC-15:<sp/>Unconstrained<sp/>DistillationBoundedPolicy<sp/>does<sp/>not<sp/>block<sp/>broadcast</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>(<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>,<sp/>BoundedPolicyUnconstrainedAllowsBroadcast)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kindref="compound">FederatedDistillationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default-constructed<sp/>policy<sp/>is<sp/>unconstrained<sp/>—<sp/>must<sp/>not<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" kindref="compound">DistillationBoundedPolicy</ref><sp/>policy;<sp/></highlight><highlight class="comment">//<sp/>max_rounds=0,<sp/>hard_limit=0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.<ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a070340a40db3cff621473967982ea962" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.setBoundedPolicy(policy);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitSoftLabels(</highlight><highlight class="stringliteral">&quot;teacher-1&quot;</highlight><highlight class="normal">,<sp/>makeLabels(2));</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(coordinator.broadcastToStudents());</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="330"><highlight class="comment"><sp/>*<sp/>Test<sp/>Coverage<sp/>Summary<sp/>(FDC-01..FDC-15):</highlight></codeline>
+<codeline lineno="331"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="332"><highlight class="comment"><sp/>*<sp/>FDC-01:<sp/>SoftLabel<sp/>creation<sp/>with<sp/>required<sp/>fields</highlight></codeline>
+<codeline lineno="333"><highlight class="comment"><sp/>*<sp/>FDC-02:<sp/>Valid<sp/>DistillationConfig<sp/>reports<sp/>isValid()</highlight></codeline>
+<codeline lineno="334"><highlight class="comment"><sp/>*<sp/>FDC-03:<sp/>SoftLabel<sp/>JSON<sp/>serialization<sp/>round-trip</highlight></codeline>
+<codeline lineno="335"><highlight class="comment"><sp/>*<sp/>FDC-04:<sp/>Coordinator<sp/>initial<sp/>state<sp/>(round=0,<sp/>no<sp/>submissions)</highlight></codeline>
+<codeline lineno="336"><highlight class="comment"><sp/>*<sp/>FDC-05:<sp/>submitSoftLabels<sp/>+<sp/>broadcastToStudents<sp/>advances<sp/>round</highlight></codeline>
+<codeline lineno="337"><highlight class="comment"><sp/>*<sp/>FDC-06:<sp/>broadcastToStudents<sp/>without<sp/>prior<sp/>submit<sp/>throws</highlight></codeline>
+<codeline lineno="338"><highlight class="comment"><sp/>*<sp/>FDC-07:<sp/>Registered<sp/>student<sp/>callback<sp/>receives<sp/>the<sp/>broadcast<sp/>round</highlight></codeline>
+<codeline lineno="339"><highlight class="comment"><sp/>*<sp/>FDC-08:<sp/>DP<sp/>budget<sp/>verification<sp/>allows<sp/>broadcast<sp/>within<sp/>unlimited<sp/>budget</highlight></codeline>
+<codeline lineno="340"><highlight class="comment"><sp/>*<sp/>FDC-09:<sp/>Policy<sp/>gate<sp/>blocks<sp/>broadcast</highlight></codeline>
+<codeline lineno="341"><highlight class="comment"><sp/>*<sp/>FDC-10:<sp/>privacyBudgetRemaining()<sp/>returns<sp/>max<sp/>for<sp/>unlimited<sp/>rounds</highlight></codeline>
+<codeline lineno="342"><highlight class="comment"><sp/>*<sp/>FDC-11:<sp/>Multiple<sp/>students<sp/>all<sp/>receive<sp/>the<sp/>broadcast</highlight></codeline>
+<codeline lineno="343"><highlight class="comment"><sp/>*<sp/>FDC-12:<sp/>generateModelCard()<sp/>captures<sp/>round<sp/>and<sp/>DP<sp/>metadata</highlight></codeline>
+<codeline lineno="344"><highlight class="comment"><sp/>*<sp/>FDC-13:<sp/>setBoundedPolicy<sp/>max_distillation_rounds<sp/>cap<sp/>enforced<sp/>FAIL_CLOSED</highlight></codeline>
+<codeline lineno="345"><highlight class="comment"><sp/>*<sp/>FDC-14:<sp/>setBoundedPolicy<sp/>privacy_budget_hard_limit<sp/>cap<sp/>enforced<sp/>FAIL_CLOSED</highlight></codeline>
+<codeline lineno="346"><highlight class="comment"><sp/>*<sp/>FDC-15:<sp/>Unconstrained<sp/>DistillationBoundedPolicy<sp/>does<sp/>not<sp/>block<sp/>broadcast</highlight></codeline>
+<codeline lineno="347"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="348"><highlight class="comment"><sp/>*<sp/>Target:<sp/>Q3<sp/>2026<sp/>Hardening<sp/>-<sp/>policy<sp/>gates,<sp/>DP<sp/>enforcement,<sp/>bounded<sp/>policy,<sp/>deterministic<sp/>workflows.</highlight></codeline>
+<codeline lineno="349"><highlight class="comment"><sp/>*<sp/>Status:<sp/>Focused<sp/>unit<sp/>test<sp/>suite<sp/>for<sp/>federated<sp/>distillation<sp/>coordination<sp/>layer.</highlight></codeline>
+<codeline lineno="350"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp"/>
+  </compounddef>
+</doxygen>

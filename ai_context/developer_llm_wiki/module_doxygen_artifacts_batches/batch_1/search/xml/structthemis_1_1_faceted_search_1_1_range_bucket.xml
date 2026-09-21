@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_faceted_search_1_1_range_bucket" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FacetedSearch::RangeBucket</compoundname>
+    <includes refid="faceted__search_8h" local="no">faceted_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_faceted_search_1_1_range_bucket_1adf98a3889a7e65b98331d6929e19f5fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FacetedSearch::RangeBucket::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::FacetedSearch::RangeBucket::label</qualifiedname>
+        <briefdescription>
+<para>Human-readable label, e.g. &quot;$0-$100&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="63" column="21" bodyfile="include/search/faceted_search.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_faceted_search_1_1_range_bucket_1a2b196a7a12a4d860eb208338e3026996" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FacetedSearch::RangeBucket::low</definition>
+        <argsstring></argsstring>
+        <name>low</name>
+        <qualifiedname>themis::FacetedSearch::RangeBucket::low</qualifiedname>
+        <briefdescription>
+<para>Inclusive lower bound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="64" column="16" bodyfile="include/search/faceted_search.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_faceted_search_1_1_range_bucket_1ae357c478dffbe48c836c8131291d083b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FacetedSearch::RangeBucket::high</definition>
+        <argsstring></argsstring>
+        <name>high</name>
+        <qualifiedname>themis::FacetedSearch::RangeBucket::high</qualifiedname>
+        <briefdescription>
+<para>Exclusive upper bound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="65" column="16" bodyfile="include/search/faceted_search.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A range bucket definition for numeric range facets. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/faceted_search.h" line="62" column="5" bodyfile="include/search/faceted_search.h" bodystart="62" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_faceted_search_1_1_range_bucket_1ae357c478dffbe48c836c8131291d083b" prot="public" virt="non-virtual"><scope>themis::FacetedSearch::RangeBucket</scope><name>high</name></member>
+      <member refid="structthemis_1_1_faceted_search_1_1_range_bucket_1adf98a3889a7e65b98331d6929e19f5fe" prot="public" virt="non-virtual"><scope>themis::FacetedSearch::RangeBucket</scope><name>label</name></member>
+      <member refid="structthemis_1_1_faceted_search_1_1_range_bucket_1a2b196a7a12a4d860eb208338e3026996" prot="public" virt="non-virtual"><scope>themis::FacetedSearch::RangeBucket</scope><name>low</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

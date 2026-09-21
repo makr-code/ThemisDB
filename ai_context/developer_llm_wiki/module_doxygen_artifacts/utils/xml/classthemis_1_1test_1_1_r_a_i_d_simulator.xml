@@ -1,0 +1,663 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_r_a_i_d_simulator" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::RAIDSimulator</compoundname>
+    <includes refid="raid__simulator_8h" local="no">raid_simulator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1afc89480ffeec7cc6ad4ca87ce2bf130d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" kindref="member">RAIDMode</ref></type>
+        <definition>RAIDMode themis::test::RAIDSimulator::mode_</definition>
+        <argsstring></argsstring>
+        <name>mode_</name>
+        <qualifiedname>themis::test::RAIDSimulator::mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="143" column="14" bodyfile="tests/utils/raid_simulator.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a08dc63b1881542d80b223843588167f5" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::RAIDSimulator::num_shards_</definition>
+        <argsstring></argsstring>
+        <name>num_shards_</name>
+        <qualifiedname>themis::test::RAIDSimulator::num_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="144" column="9" bodyfile="tests/utils/raid_simulator.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a0e7148c9b92c1594b592d779ef42a151" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::test::RAIDSimulator::chunk_size_</definition>
+        <argsstring></argsstring>
+        <name>chunk_size_</name>
+        <qualifiedname>themis::test::RAIDSimulator::chunk_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="145" column="12" bodyfile="tests/utils/raid_simulator.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a9ef7765b2ce632a7a5daaec87e8ef312" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::test::RAIDSimulator::failed_shards_</definition>
+        <argsstring></argsstring>
+        <name>failed_shards_</name>
+        <qualifiedname>themis::test::RAIDSimulator::failed_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="146" column="17" bodyfile="tests/utils/raid_simulator.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1ac2691b2e67ae5a33fea67ffb821fc49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::RAIDSimulator::RAIDSimulator</definition>
+        <argsstring>(RAIDMode mode, int num_shards)</argsstring>
+        <name>RAIDSimulator</name>
+        <qualifiedname>themis::test::RAIDSimulator::RAIDSimulator</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" kindref="member">RAIDMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_shards</declname>
+        </param>
+        <briefdescription>
+<para>Construct RAID simulator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID mode </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of shards in the array </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="37" column="5" bodyfile="tests/utils/raid_simulator.cpp" bodystart="8" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a09ee90fc976ae1442264c2c665461a05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::RAIDSimulator::~RAIDSimulator</definition>
+        <argsstring>()</argsstring>
+        <name>~RAIDSimulator</name>
+        <qualifiedname>themis::test::RAIDSimulator::~RAIDSimulator</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a3e99bebc6656b005ce62c48158b7b17d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::test::RAIDSimulator::stripe</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>stripe</name>
+        <qualifiedname>themis::test::RAIDSimulator::stripe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Stripe data across shards (RAID 0). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of data chunks (one per shard) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="53" column="17" bodyfile="tests/utils/raid_simulator.cpp" bodystart="13" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a360e9067986065ca20b871abe71579b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::test::RAIDSimulator::mirror</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, int replication_factor)</argsstring>
+        <name>mirror</name>
+        <qualifiedname>themis::test::RAIDSimulator::mirror</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>replication_factor</declname>
+        </param>
+        <briefdescription>
+<para>Mirror data to multiple shards (RAID 1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replication_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of copies </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of replicated data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="61" column="17" bodyfile="tests/utils/raid_simulator.cpp" bodystart="26" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a12e0dca5cc3c9b48fcbb9efe9a2a9c96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::test::RAIDSimulator::encodeWithParity</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>encodeWithParity</name>
+        <qualifiedname>themis::test::RAIDSimulator::encodeWithParity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Encode data with parity (RAID 5). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of data+parity chunks </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="69" column="17" bodyfile="tests/utils/raid_simulator.cpp" bodystart="38" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a2b7dd5d442eda98d9866a5e70170ac43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::test::RAIDSimulator::reconstruct</definition>
+        <argsstring>(const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;chunks)</argsstring>
+        <name>reconstruct</name>
+        <qualifiedname>themis::test::RAIDSimulator::reconstruct</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct data from chunks (may have missing/failed chunks). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data chunks (nullopt for missing chunks) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="76" column="19" bodyfile="tests/utils/raid_simulator.cpp" bodystart="90" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a89d0c416524f60dee9240021443a3d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::RAIDSimulator::failShards</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;shard_ids)</argsstring>
+        <name>failShards</name>
+        <qualifiedname>themis::test::RAIDSimulator::failShards</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Mark shards as failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard IDs to fail </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="87" column="10" bodyfile="tests/utils/raid_simulator.cpp" bodystart="232" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a2f389e4d592445ac775793df104c90c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::RAIDSimulator::canRecover</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;failed_shards) const</argsstring>
+        <name>canRecover</name>
+        <qualifiedname>themis::test::RAIDSimulator::canRecover</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>failed_shards</declname>
+        </param>
+        <briefdescription>
+<para>Check if data can be recovered with failed shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>failed_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of failed shard IDs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if recovery is possible </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="94" column="10" bodyfile="tests/utils/raid_simulator.cpp" bodystart="241" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1ae7da9c9782de28c5431d4311d35aa6d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::RAIDSimulator::getMaxTolerableFailures</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxTolerableFailures</name>
+        <qualifiedname>themis::test::RAIDSimulator::getMaxTolerableFailures</qualifiedname>
+        <briefdescription>
+<para>Get maximum tolerable shard failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of shards that can fail while still recovering data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="100" column="9" bodyfile="tests/utils/raid_simulator.cpp" bodystart="246" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a1f368503f8030cefa2dbc6fcc7381b68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::RAIDSimulator::recoverShards</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;shard_ids)</argsstring>
+        <name>recoverShards</name>
+        <qualifiedname>themis::test::RAIDSimulator::recoverShards</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Recover failed shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard IDs to recover </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="106" column="10" bodyfile="tests/utils/raid_simulator.cpp" bodystart="261" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1af670b1abefd183cf06b936a9e0d17865" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::test::RAIDSimulator::getFailedShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailedShards</name>
+        <qualifiedname>themis::test::RAIDSimulator::getFailedShards</qualifiedname>
+        <briefdescription>
+<para>Get list of failed shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of failed shard IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="112" column="17" bodyfile="tests/utils/raid_simulator.cpp" bodystart="270" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a89cef20b8f3cc41a01721187442cc673" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" kindref="member">RAIDMode</ref></type>
+        <definition>RAIDMode themis::test::RAIDSimulator::getMode</definition>
+        <argsstring>() const</argsstring>
+        <name>getMode</name>
+        <qualifiedname>themis::test::RAIDSimulator::getMode</qualifiedname>
+        <briefdescription>
+<para>Get RAID mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current RAID mode </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="122" column="14" bodyfile="tests/utils/raid_simulator.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a94fb9e07c5787ff18c9842e91746212a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::RAIDSimulator::getShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardCount</name>
+        <qualifiedname>themis::test::RAIDSimulator::getShardCount</qualifiedname>
+        <briefdescription>
+<para>Get number of shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shard count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="128" column="9" bodyfile="tests/utils/raid_simulator.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a693ebd286ffe73610a34385971de4077" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::RAIDSimulator::setChunkSize</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>setChunkSize</name>
+        <qualifiedname>themis::test::RAIDSimulator::setChunkSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Set chunk size for striping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Chunk size in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="134" column="10" bodyfile="tests/utils/raid_simulator.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1ae149e37091a2037ee69edd13cbf62e3b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::test::RAIDSimulator::getChunkSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getChunkSize</name>
+        <qualifiedname>themis::test::RAIDSimulator::getChunkSize</qualifiedname>
+        <briefdescription>
+<para>Get chunk size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Chunk size in bytes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="140" column="12" bodyfile="tests/utils/raid_simulator.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a462b2504b15d62d0c2ae4a320bdbcf2a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::test::RAIDSimulator::calculateParity</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;chunks) const</argsstring>
+        <name>calculateParity</name>
+        <qualifiedname>themis::test::RAIDSimulator::calculateParity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Calculate XOR parity for RAID 5. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data chunks </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parity chunk </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="153" column="17" bodyfile="tests/utils/raid_simulator.cpp" bodystart="72" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a7ace3a9db11fce8da05797184fb44520" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::test::RAIDSimulator::reconstructRAID0</definition>
+        <argsstring>(const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;chunks) const</argsstring>
+        <name>reconstructRAID0</name>
+        <qualifiedname>themis::test::RAIDSimulator::reconstructRAID0</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct from RAID 0 chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data chunks </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed data or nullopt if any chunk is missing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="161" column="19" bodyfile="tests/utils/raid_simulator.cpp" bodystart="106" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a53de6ea89a4aa3be4889fb9623d4aa80" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::test::RAIDSimulator::reconstructRAID1</definition>
+        <argsstring>(const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;chunks) const</argsstring>
+        <name>reconstructRAID1</name>
+        <qualifiedname>themis::test::RAIDSimulator::reconstructRAID1</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct from RAID 1 chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mirrored data chunks </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed data from first available replica </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="169" column="19" bodyfile="tests/utils/raid_simulator.cpp" bodystart="121" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a4cba6fc96bee79481c1b09290c6b7c7b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::test::RAIDSimulator::reconstructRAID5</definition>
+        <argsstring>(const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;chunks) const</argsstring>
+        <name>reconstructRAID5</name>
+        <qualifiedname>themis::test::RAIDSimulator::reconstructRAID5</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct from RAID 5 chunks with parity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data+parity chunks </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="177" column="19" bodyfile="tests/utils/raid_simulator.cpp" bodystart="133" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_r_a_i_d_simulator_1a54fc81c52500cf0682ae71ed0ca1580d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::test::RAIDSimulator::reconstructRAID10</definition>
+        <argsstring>(const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;chunks) const</argsstring>
+        <name>reconstructRAID10</name>
+        <qualifiedname>themis::test::RAIDSimulator::reconstructRAID10</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct from RAID 10 chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Striped+mirrored chunks </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/raid_simulator.h" line="185" column="19" bodyfile="tests/utils/raid_simulator.cpp" bodystart="207" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAID mode simulator for testing distributed LoRA storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Simulates RAID operations including:<itemizedlist>
+<listitem><para>Data striping (RAID 0)</para>
+</listitem><listitem><para>Data mirroring (RAID 1)</para>
+</listitem><listitem><para>Parity-based recovery (RAID 5)</para>
+</listitem><listitem><para>Hybrid stripe+mirror (RAID 10) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="tests/utils/raid_simulator.h" line="30" column="1" bodyfile="tests/utils/raid_simulator.h" bodystart="30" bodyend="187"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a462b2504b15d62d0c2ae4a320bdbcf2a" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>calculateParity</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a2f389e4d592445ac775793df104c90c5" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>canRecover</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a0e7148c9b92c1594b592d779ef42a151" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>chunk_size_</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a12e0dca5cc3c9b48fcbb9efe9a2a9c96" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>encodeWithParity</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a9ef7765b2ce632a7a5daaec87e8ef312" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>failed_shards_</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a89d0c416524f60dee9240021443a3d6e" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>failShards</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1ae149e37091a2037ee69edd13cbf62e3b" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>getChunkSize</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1af670b1abefd183cf06b936a9e0d17865" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>getFailedShards</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1ae7da9c9782de28c5431d4311d35aa6d5" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>getMaxTolerableFailures</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a89cef20b8f3cc41a01721187442cc673" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>getMode</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a94fb9e07c5787ff18c9842e91746212a" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>getShardCount</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a360e9067986065ca20b871abe71579b4" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>mirror</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1afc89480ffeec7cc6ad4ca87ce2bf130d" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>mode_</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a08dc63b1881542d80b223843588167f5" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>num_shards_</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1ac2691b2e67ae5a33fea67ffb821fc49e" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>RAIDSimulator</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a2b7dd5d442eda98d9866a5e70170ac43" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>reconstruct</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a7ace3a9db11fce8da05797184fb44520" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>reconstructRAID0</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a53de6ea89a4aa3be4889fb9623d4aa80" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>reconstructRAID1</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a54fc81c52500cf0682ae71ed0ca1580d" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>reconstructRAID10</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a4cba6fc96bee79481c1b09290c6b7c7b" prot="private" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>reconstructRAID5</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a1f368503f8030cefa2dbc6fcc7381b68" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>recoverShards</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a693ebd286ffe73610a34385971de4077" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>setChunkSize</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a3e99bebc6656b005ce62c48158b7b17d" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>stripe</name></member>
+      <member refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a09ee90fc976ae1442264c2c665461a05" prot="public" virt="non-virtual"><scope>themis::test::RAIDSimulator</scope><name>~RAIDSimulator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

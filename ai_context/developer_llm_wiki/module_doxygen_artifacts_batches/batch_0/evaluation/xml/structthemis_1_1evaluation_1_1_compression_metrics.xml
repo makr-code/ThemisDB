@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_compression_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::CompressionMetrics</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_compression_metrics_1a789f5372b12e077afdd4be90e9e36c43" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::CompressionMetrics::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::evaluation::CompressionMetrics::compression_ratio</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>original_size / compressed_size; ≥ 1.0 or 0 when uncompressed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="152" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_compression_metrics_1acb341e01d6d4eb09f2b3824d4fe1f4b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::CompressionMetrics::approximation_loss</definition>
+        <argsstring></argsstring>
+        <name>approximation_loss</name>
+        <qualifiedname>themis::evaluation::CompressionMetrics::approximation_loss</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Mean squared error between original and reconstructed vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="153" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_compression_metrics_1a6ebf12cbd198e965b948fe74af5c9b36" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::CompressionMetrics::redundancy_elimination</definition>
+        <argsstring></argsstring>
+        <name>redundancy_elimination</name>
+        <qualifiedname>themis::evaluation::CompressionMetrics::redundancy_elimination</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of redundant information removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="154" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_compression_metrics_1aca10121c38b7f28b0d52264a113b1a46" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::CompressionMetrics::residual_error</definition>
+        <argsstring></argsstring>
+        <name>residual_error</name>
+        <qualifiedname>themis::evaluation::CompressionMetrics::residual_error</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Residual approximation error; lower is better. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="155" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_compression_metrics_1aae08a13ff07a031bf6cc7706d9fd4824" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::CompressionMetrics::rank_growth_rate</definition>
+        <argsstring></argsstring>
+        <name>rank_growth_rate</name>
+        <qualifiedname>themis::evaluation::CompressionMetrics::rank_growth_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Rate of rank increase per snapshot epoch (0 = stable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="156" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="151" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="151" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1acb341e01d6d4eb09f2b3824d4fe1f4b4" prot="public" virt="non-virtual"><scope>themis::evaluation::CompressionMetrics</scope><name>approximation_loss</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1a789f5372b12e077afdd4be90e9e36c43" prot="public" virt="non-virtual"><scope>themis::evaluation::CompressionMetrics</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1aae08a13ff07a031bf6cc7706d9fd4824" prot="public" virt="non-virtual"><scope>themis::evaluation::CompressionMetrics</scope><name>rank_growth_rate</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1a6ebf12cbd198e965b948fe74af5c9b36" prot="public" virt="non-virtual"><scope>themis::evaluation::CompressionMetrics</scope><name>redundancy_elimination</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1aca10121c38b7f28b0d52264a113b1a46" prot="public" virt="non-virtual"><scope>themis::evaluation::CompressionMetrics</scope><name>residual_error</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

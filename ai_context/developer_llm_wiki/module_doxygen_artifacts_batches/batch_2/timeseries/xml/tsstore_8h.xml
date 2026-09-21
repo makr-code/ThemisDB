@@ -1,0 +1,586 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tsstore_8h" kind="file" language="C++">
+    <compoundname>tsstore.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">span</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="bench__timeseries__adaptive__flush_8cpp" local="yes">benchmarks/timeseries/bench_timeseries_adaptive_flush.cpp</includedby>
+    <includedby refid="adaptive__flush__controller_8h" local="yes">include/timeseries/adaptive_flush_controller.h</includedby>
+    <includedby refid="anomaly__detection_8h" local="yes">include/timeseries/anomaly_detection.h</includedby>
+    <includedby refid="compression__selector_8h" local="yes">include/timeseries/compression_selector.h</includedby>
+    <includedby refid="continuous__agg_8h" local="yes">include/timeseries/continuous_agg.h</includedby>
+    <includedby refid="gap__fill_8h" local="yes">include/timeseries/gap_fill.h</includedby>
+    <includedby refid="ts__auto__buffer_8h" local="yes">include/timeseries/ts_auto_buffer.h</includedby>
+    <includedby refid="ts__stream__cursor_8h" local="yes">include/timeseries/ts_stream_cursor.h</includedby>
+    <includedby refid="aggregate__scheduler_8cpp" local="yes">src/timeseries/aggregate_scheduler.cpp</includedby>
+    <includedby refid="aggregate__scheduler__helper_8cpp" local="yes">src/timeseries/aggregate_scheduler_helper.cpp</includedby>
+    <includedby refid="continuous__agg_8cpp" local="yes">src/timeseries/continuous_agg.cpp</includedby>
+    <includedby refid="downsampling_8cpp" local="yes">src/timeseries/downsampling.cpp</includedby>
+    <includedby refid="query__optimizer_8cpp" local="yes">src/timeseries/query_optimizer.cpp</includedby>
+    <includedby refid="retention_8cpp" local="yes">src/timeseries/retention.cpp</includedby>
+    <includedby refid="tsstore_8cpp" local="yes">src/timeseries/tsstore.cpp</includedby>
+    <includedby refid="test__continuous__agg__materialization_8cpp" local="yes">tests/timeseries/test_continuous_agg_materialization.cpp</includedby>
+    <includedby refid="test__timeseries__retention_8cpp" local="yes">tests/timeseries/test_timeseries_retention.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/timeseries/tsstore.h</label>
+        <link refid="tsstore_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>span</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/timeseries/bench_timeseries_adaptive_flush.cpp</label>
+        <link refid="bench__timeseries__adaptive__flush_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/timeseries/adaptive_flush_controller.h</label>
+        <link refid="adaptive__flush__controller_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/timeseries/aggregate_scheduler.h</label>
+        <link refid="aggregate__scheduler_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/timeseries/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/timeseries/compression_selector.h</label>
+        <link refid="compression__selector_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/timeseries/continuous_agg.h</label>
+        <link refid="continuous__agg_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/timeseries/downsampling.h</label>
+        <link refid="downsampling_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/timeseries/gap_fill.h</label>
+        <link refid="gap__fill_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/timeseries/ts_auto_buffer.h</label>
+        <link refid="ts__auto__buffer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/timeseries/ts_auto_buffer_adaptive.h</label>
+        <link refid="ts__auto__buffer__adaptive_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/timeseries/ts_stream_cursor.h</label>
+        <link refid="ts__stream__cursor_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/timeseries/tsstore.h</label>
+        <link refid="tsstore_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/timeseries/adaptive_flush_controller.cpp</label>
+        <link refid="adaptive__flush__controller_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/timeseries/aggregate_scheduler.cpp</label>
+        <link refid="aggregate__scheduler_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/timeseries/aggregate_scheduler_helper.cpp</label>
+        <link refid="aggregate__scheduler__helper_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/timeseries/anomaly_detection.cpp</label>
+        <link refid="anomaly__detection_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/timeseries/compression_selector.cpp</label>
+        <link refid="compression__selector_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/timeseries/continuous_agg.cpp</label>
+        <link refid="continuous__agg_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/timeseries/downsampling.cpp</label>
+        <link refid="downsampling_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/timeseries/gap_fill.cpp</label>
+        <link refid="gap__fill_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/timeseries/query_optimizer.cpp</label>
+        <link refid="query__optimizer_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/timeseries/retention.cpp</label>
+        <link refid="retention_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/timeseries/ts_auto_buffer.cpp</label>
+        <link refid="ts__auto__buffer_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/timeseries/ts_auto_buffer_adaptive.cpp</label>
+        <link refid="ts__auto__buffer__adaptive_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/timeseries/ts_stream_cursor.cpp</label>
+        <link refid="ts__stream__cursor_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/timeseries/tsstore.cpp</label>
+        <link refid="tsstore_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/timeseries/test_continuous_agg_materialization.cpp</label>
+        <link refid="test__continuous__agg__materialization_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/timeseries/test_timeseries_retention.cpp</label>
+        <link refid="test__timeseries__retention_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_t_s_store" prot="public">themis::TSStore</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_config" prot="public">themis::TSStore::Config</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_data_point" prot="public">themis::TSStore::DataPoint</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_query_options" prot="public">themis::TSStore::QueryOptions</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_aggregation_result" prot="public">themis::TSStore::AggregationResult</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_stats" prot="public">themis::TSStore::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats" prot="public">themis::TSStore::OutOfOrderStats</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_t_s_row" prot="public">themis::TSStore::TSRow</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_batch_write_result" prot="public">themis::TSStore::BatchWriteResult</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_store_1_1_key_components" prot="private">themis::TSStore::KeyComponents</innerclass>
+    <innernamespace refid="namespacerocksdb">rocksdb</innernamespace>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Phase 2 hardening: Adaptive buffering for ingest with concurrency safety. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 2 — Core Implementation Complete</para>
+</simplesect>
+</para>
+<sect1 id="tsstore_8h_1autotoc_md22_1s1"><sect2 id="tsstore_8h_1autotoc_md22">
+<title>Overview</title><para>TSStore (Time-Series Store) is the canonical storage backend for ThemisDB timeseries ingest, providing adaptive buffering, Gorilla compression batching, and integration with AdaptiveFlushController.</para>
+</sect2></sect1>
+<sect1 id="tsstore_8h_1autotoc_md23_1s1"><sect2 id="tsstore_8h_1autotoc_md23">
+<title>Phase 2 Enhancements</title><para><itemizedlist>
+<listitem><para><bold>Adaptive Buffering</bold>: Integrates TSAutoBuffer for Gorilla batch compression</para>
+</listitem><listitem><para><bold>Concurrency Safety</bold>: Per-series watermark mutex + atomic stats counters</para>
+</listitem><listitem><para><bold>Deterministic Flushing</bold>: Watermark tracking per (metric, entity) series</para>
+</listitem><listitem><para><bold>Graceful Degradation</bold>: Buffer full → fall back to direct write (no data loss)</para>
+</listitem><listitem><para><bold>Contract Alignment</bold>: All operations validated against <ref refid="timeseries__api__contract_8h" kindref="compound">timeseries_api_contract.h</ref></para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="tsstore_8h_1autotoc_md24_1s1"><sect2 id="tsstore_8h_1autotoc_md24">
+<title>Key Schema</title><para>Key format: &quot;ts:{metric}:{entity}:{timestamp_ms}&quot; Value format: JSON { &quot;value&quot;: double, &quot;tags&quot;: {}, &quot;metadata&quot;: {} }</para>
+<para>Compressed chunks (when using batch compression): Key format: &quot;tsc:{metric}:{entity}:{first_ts}:{last_ts}:{sequence}&quot; Value: Gorilla-compressed binary blob</para>
+</sect2></sect1>
+<sect1 id="tsstore_8h_1autotoc_md25_1s1"><sect2 id="tsstore_8h_1autotoc_md25">
+<title>Write Contract (§1 of timeseries_api_contract.h)</title><para><orderedlist>
+<listitem><para><bold>Monotonic Timestamps</bold>: Within a series, each new timestamp &gt; previous</para>
+</listitem><listitem><para><bold>Null Timestamp Rejection</bold>: Zero or negative timestamp → TIMESTAMP_OUT_OF_ORDER</para>
+</listitem><listitem><para><bold>Out-of-Order Handling</bold>: Late-arrival window configurable (default 0 = strict)</para>
+</listitem><listitem><para><bold>Metric/Entity Validation</bold>: Empty names rejected at write-time</para>
+</listitem><listitem><para><bold>Watermark Tracking</bold>: Per-series tracking prevents double-counting</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="tsstore_8h_1autotoc_md26_1s1"><sect2 id="tsstore_8h_1autotoc_md26">
+<title>Thread Safety</title><para><itemizedlist>
+<listitem><para>putDataPoint() safe for concurrent calls from multiple threads</para>
+</listitem><listitem><para>putDataPoints() safe for concurrent calls from multiple threads</para>
+</listitem><listitem><para>Watermark protected by std::lock_guard&lt;std::mutex&gt;</para>
+</listitem><listitem><para>Statistics counters atomic (lock-free)</para>
+</listitem><listitem><para>Metrics reporting via optional TimeSeriesMetrics* (caller responsible for threading)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="tsstore_8h_1autotoc_md27_1s1"><sect2 id="tsstore_8h_1autotoc_md27">
+<title>Adaptive Buffering Strategy</title><para>When enabled (auto_buffer_ attached + Gorilla compression configured):<itemizedlist>
+<listitem><para>Single-point writes buffered for batch Gorilla compression</para>
+</listitem><listitem><para>Buffer full condition → graceful fallback to direct write</para>
+</listitem><listitem><para>Batch flush coordinated with AdaptiveFlushController</para>
+</listitem><listitem><para>Result: ≥80% typical compression on IoT workloads + reduced write path overhead</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="tsstore_8h_1autotoc_md28_1s1"><sect2 id="tsstore_8h_1autotoc_md28">
+<title>Error Handling</title><para>All public methods return Result&lt;T&gt; with explicit error codes:<itemizedlist>
+<listitem><para><bold>ERR_API_INVALID_REQUEST</bold>: Empty metric/entity, or parameter validation failure</para>
+</listitem><listitem><para><bold>ERR_TIMESERIES_LATE_ARRIVAL</bold>: Timestamp outside late-arrival window</para>
+</listitem><listitem><para><bold>ERR_STORAGE_TRANSACTION_FAILED</bold>: RocksDB write or storage operation failure</para>
+</listitem><listitem><para><bold>TIMESTAMP_OUT_OF_ORDER</bold>: Duplicate or decreasing timestamp detected</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="timeseries__api__contract_8h" kindref="compound">include/timeseries/timeseries_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="adaptive__flush__controller_8h" kindref="compound">include/timeseries/adaptive_flush_controller.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/ROADMAP.md — Phase 2 items </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/PERFORMANCE_EXPECTATIONS.md </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;span&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>for<sp/>RocksDB<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacerocksdb" kindref="compound">rocksdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TransactionDB;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ColumnFamilyHandle;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1_t_s_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_t_s_store_1a22359d7b06dde299ef3236700b3b84f2" kindref="member">TSStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0f" kindref="member">CompressionType</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>compression<sp/>(raw<sp/>JSON)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa95f9c2f146f04d4ce9fed7eea8c703de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa95f9c2f146f04d4ce9fed7eea8c703de" kindref="member">Gorilla</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gorilla<sp/>codec<sp/>for<sp/>time-series<sp/>(10-20x<sp/>ratio)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1_t_s_store_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>to<sp/>Gorilla<sp/>compression<sp/>for<sp/>better<sp/>storage<sp/>efficiency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1_t_s_store_1_1_config_1a1aee4e77ab89239bc3c285eb5bb1445b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0f" kindref="member">CompressionType</ref><sp/><ref refid="structthemis_1_1_t_s_store_1_1_config_1a1aee4e77ab89239bc3c285eb5bb1445b" kindref="member">compression</ref><sp/>=<sp/><ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa95f9c2f146f04d4ce9fed7eea8c703de" kindref="member">CompressionType::Gorilla</ref>;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1_t_s_store_1_1_config_1a327df524607399dfa0b9480e612939dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_config_1a327df524607399dfa0b9480e612939dd" kindref="member">chunk_size_hours</ref><sp/>=<sp/>24;<sp/><sp/></highlight><highlight class="comment">//<sp/>Gorilla<sp/>chunk<sp/>size<sp/>(hours)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Late-arrival<sp/>window<sp/>for<sp/>out-of-order<sp/>writes<sp/>(milliseconds).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>disabled<sp/>(accept<sp/>all<sp/>timestamps<sp/>regardless<sp/>of<sp/>order).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>&gt;<sp/>0,<sp/>data<sp/>points<sp/>whose<sp/>timestamp<sp/>is<sp/>older<sp/>than</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>(high_watermark<sp/>-<sp/>late_arrival_window_ms)<sp/>are<sp/>rejected<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>ERR_TIMESERIES_LATE_ARRIVAL.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1_t_s_store_1_1_config_1ae89577ada501bb48cacf9b7377770410" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_config_1ae89577ada501bb48cacf9b7377770410" kindref="member">late_arrival_window_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1_t_s_store_1_1_data_point" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1_t_s_store_1_1_data_point_1a17ebdf45e06928672aeddce56ccea4f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point_1a17ebdf45e06928672aeddce56ccea4f9" kindref="member">metric</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metric<sp/>name<sp/>(e.g.,<sp/>&quot;cpu_usage&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1_t_s_store_1_1_data_point_1acd7657f47f52b3317be54b48eacffff2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point_1acd7657f47f52b3317be54b48eacffff2" kindref="member">entity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entity<sp/>ID<sp/>(e.g.,<sp/>&quot;server01&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1_t_s_store_1_1_data_point_1a19066f68a255371e92baba2d46d24469" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point_1a19066f68a255371e92baba2d46d24469" kindref="member">timestamp_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>in<sp/>milliseconds<sp/>since<sp/>epoch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1_t_s_store_1_1_data_point_1ac805b7ff5388e1a0f0909a64f9df1842" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point_1ac805b7ff5388e1a0f0909a64f9df1842" kindref="member">value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Numeric<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1_t_s_store_1_1_data_point_1a88ca84d39108d1dbd78247e7b46c16d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point_1a88ca84d39108d1dbd78247e7b46c16d7" kindref="member">tags</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tags<sp/>for<sp/>filtering<sp/>(e.g.,<sp/>{&quot;region&quot;:<sp/>&quot;us-east&quot;,<sp/>&quot;env&quot;:<sp/>&quot;prod&quot;})</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1_t_s_store_1_1_data_point_1a80a97eaaa13bbeadf52bdab64c03a9d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point_1a80a97eaaa13bbeadf52bdab64c03a9d6" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point_1a6af9730e09ec90272b48c477c81e4ecf" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref><sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point_1a67780cae62e4f4767d03010ea7e760db" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1_t_s_store_1_1_query_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_store_1_1_query_options" kindref="compound">QueryOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1_t_s_store_1_1_query_options_1af5ca43ee068394b057b556c074814f7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_t_s_store_1_1_query_options_1af5ca43ee068394b057b556c074814f7c" kindref="member">metric</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Required:<sp/>metric<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1_t_s_store_1_1_query_options_1a461d9994b5d5fd1ed4833ad949d5105c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_t_s_store_1_1_query_options_1a461d9994b5d5fd1ed4833ad949d5105c" kindref="member">entity</ref>;<sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>filter<sp/>by<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1_t_s_store_1_1_query_options_1a102701be71e58df709495646a8ba7f6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_query_options_1a102701be71e58df709495646a8ba7f6e" kindref="member">from_timestamp_ms</ref><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>Start<sp/>of<sp/>time<sp/>range<sp/>(inclusive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1_t_s_store_1_1_query_options_1a06e086f13226aefa5de78b44b243bbe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_query_options_1a06e086f13226aefa5de78b44b243bbe0" kindref="member">to_timestamp_ms</ref><sp/>=<sp/>INT64_MAX;<sp/></highlight><highlight class="comment">//<sp/>End<sp/>of<sp/>time<sp/>range<sp/>(inclusive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1_t_s_store_1_1_query_options_1a80febdbf7cf6325cc22fd6f99a7bb4a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_query_options_1a80febdbf7cf6325cc22fd6f99a7bb4a1" kindref="member">limit</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>data<sp/>points<sp/>to<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1_t_s_store_1_1_query_options_1a78a0c40e28291cdb1472b6c9f484c3a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_t_s_store_1_1_query_options_1a78a0c40e28291cdb1472b6c9f484c3a1" kindref="member">tag_filter</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>filter<sp/>by<sp/>tags<sp/>(exact<sp/>match)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1_t_s_store_1_1_aggregation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result" kindref="compound">AggregationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a1f22bf589d2b32563f1dd581e4d6dcb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a1f22bf589d2b32563f1dd581e4d6dcb4" kindref="member">min</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1ac4f6ea6f9b3b0b31402c68260a02ccd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1ac4f6ea6f9b3b0b31402c68260a02ccd0" kindref="member">max</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a70e433a57adefac1b37df09691a87811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a70e433a57adefac1b37df09691a87811" kindref="member">avg</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1ab7fe571e27ea62edf7f6eba4e32eb205" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1ab7fe571e27ea62edf7f6eba4e32eb205" kindref="member">sum</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a99ed5402d1352bef2b4679ff9f721103" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a99ed5402d1352bef2b4679ff9f721103" kindref="member">count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a4378adef934f107a91abec6022c85d44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a4378adef934f107a91abec6022c85d44" kindref="member">first_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a7ef1e5b5b8fd331e684c6b9ff746beee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a7ef1e5b5b8fd331e684c6b9ff746beee" kindref="member">last_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1_t_s_store_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_store_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1_t_s_store_1_1_stats_1a1b8e669b3270b2bcb7832b1938d51748" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_stats_1a1b8e669b3270b2bcb7832b1938d51748" kindref="member">total_data_points</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1_t_s_store_1_1_stats_1a46a28e5fa46dfd605925ac8fa8f69ca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_stats_1a46a28e5fa46dfd605925ac8fa8f69ca9" kindref="member">total_metrics</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>unique<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1_t_s_store_1_1_stats_1a7334390de424c2abdcab8b591c665bc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_stats_1a7334390de424c2abdcab8b591c665bc1" kindref="member">total_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1_t_s_store_1_1_stats_1a5689a576e461fdce363177db6750883d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_stats_1a5689a576e461fdce363177db6750883d" kindref="member">oldest_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1_t_s_store_1_1_stats_1ae2ff4b5073d6e2fa8469ee70a296fd32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_stats_1ae2ff4b5073d6e2fa8469ee70a296fd32" kindref="member">newest_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats" kindref="compound">OutOfOrderStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats_1a41ebc17429d0d5de47f9ccb4e55418f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats_1a41ebc17429d0d5de47f9ccb4e55418f5" kindref="member">out_of_order_accepted</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Points<sp/>written<sp/>out-of-order<sp/>but<sp/>within<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats_1a6f5c4067e9c9534d2a42d79aa72fb50c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats_1a6f5c4067e9c9534d2a42d79aa72fb50c" kindref="member">late_arrival_rejected</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Points<sp/>rejected<sp/>as<sp/>older<sp/>than<sp/>late-arrival<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1a22359d7b06dde299ef3236700b3b84f2" kindref="member">TSStore</ref>(rocksdb::TransactionDB*<sp/>db,<sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::ColumnFamilyHandle*<sp/>cf,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convenience<sp/>ctor:<sp/>use<sp/>default<sp/>Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_store_1a22359d7b06dde299ef3236700b3b84f2" kindref="member">TSStore</ref>(rocksdb::TransactionDB*<sp/>db,<sp/>rocksdb::ColumnFamilyHandle*<sp/>cf<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1_t_s_store_1ac62ebffc4ccce508370bdb9ab64dca6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_store_1ac62ebffc4ccce508370bdb9ab64dca6c" kindref="member">~TSStore</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230" refid="classthemis_1_1_t_s_store_1a5981793ad0a95391c4f710aac9b27cf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1_t_s_store_1a5981793ad0a95391c4f710aac9b27cf4" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1_t_s_store_1a2ac274def82fa473e3434b587301e9c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1a2ac274def82fa473e3434b587301e9c3" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config)<sp/>{<sp/>config_<sp/>=<sp/>config;<sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1a126f5b65991cb1a9224b0f9c364d71cf" kindref="member">putDataPoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DataPoint&amp;<sp/>point);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1ae2a0be293f8a2156c1217de0e3c2a824" kindref="member">putDataPoints</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;&amp;<sp/>points);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1_t_s_store_1_1_t_s_row" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_store_1_1_t_s_row" kindref="compound">TSRow</ref><sp/>{</highlight></codeline>
+<codeline lineno="277" refid="structthemis_1_1_t_s_store_1_1_t_s_row_1a757a0257ada9d4cacb9902e46529668a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1_t_s_store_1_1_t_s_row_1a757a0257ada9d4cacb9902e46529668a" kindref="member">metric</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278" refid="structthemis_1_1_t_s_store_1_1_t_s_row_1ae57d18672ae2df469e0cc80f765a25c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1_t_s_store_1_1_t_s_row_1ae57d18672ae2df469e0cc80f765a25c5" kindref="member">entity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279" refid="structthemis_1_1_t_s_store_1_1_t_s_row_1afcb761ac867dfd8bdff173d42ccc48d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_store_1_1_t_s_row_1afcb761ac867dfd8bdff173d42ccc48d2" kindref="member">timestamp_ms</ref>;<sp/></highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1_t_s_store_1_1_t_s_row_1ad83bc9a608756564438a11ecdbdd6c33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_t_s_store_1_1_t_s_row_1ad83bc9a608756564438a11ecdbdd6c33" kindref="member">value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="structthemis_1_1_t_s_store_1_1_batch_write_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result" kindref="compound">BatchWriteResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="296" refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1a3b8bfd8e76d1a317f31b2b737cb08290" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1a3b8bfd8e76d1a317f31b2b737cb08290" kindref="member">ok_count</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="297" refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1a5a3727ffba95cfb60f7fa740af07b005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1a5a3727ffba95cfb60f7fa740af07b005" kindref="member">failed_count</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300" refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1ab81838c0fd57d4273299055140fa150b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;size_t,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1ab81838c0fd57d4273299055140fa150b" kindref="member">row_errors</ref>;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1ab76f81a800e79aa74d0b29af4b13bd53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1ab76f81a800e79aa74d0b29af4b13bd53" kindref="member">all_ok</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_batch_write_result_1a5a3727ffba95cfb60f7fa740af07b005" kindref="member">failed_count</ref><sp/>==<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;BatchWriteResult&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1a2b54cb6bf7aeb4a1429a5e0fc6ce3f26" kindref="member">putBatch</ref>(std::span&lt;const<sp/>TSRow&gt;<sp/>rows);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;DataPoint&gt;&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1a9d8c222e87817c67d8929336e6d2097f" kindref="member">query</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QueryOptions&amp;<sp/>options)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;AggregationResult&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1a02c43e0f523965ad93011d8e50397d05" kindref="member">aggregate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QueryOptions&amp;<sp/>options)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;AggregationResult&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1aa4d7316e91b27d81611108edcba59592" kindref="member">aggregateOptimized</ref>(</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QueryOptions&amp;<sp/>options,</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_optimizer<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/><ref refid="classthemis_1_1_t_s_store_1ad2087c29bcfdb5bec04783b01c92e7af" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>OutOfOrderStats<sp/><ref refid="classthemis_1_1_t_s_store_1a9533c2e0967e059f0cfa0a3691ce2c85" kindref="member">getOutOfOrderStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1a3b371bbc669a4cdd70e149bc146799c2" kindref="member">deleteOldData</ref>(int64_t<sp/>before_timestamp_ms);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1acb463ae14ca56c3ebfd7816c38688e82" kindref="member">deleteOldDataForMetric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,<sp/>int64_t<sp/>before_timestamp_ms);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1a405481fba859261d08e8956fff682625" kindref="member">deleteMetric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1a15ebb2f615a8a2a02451d8e6ddd76a4f" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1a782f8ab87749f2ed78d301a996d17f9b" kindref="member">setEncryptedChunkStore</ref>(std::shared_ptr&lt;EncryptedChunkStore&gt;<sp/>enc_store);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;EncryptedChunkStore&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1a92782ed39442e70877dea81fd6e6a3c1" kindref="member">getEncryptedChunkStore</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1a2950e1de2f7c1b4371fe0c04caf09e06" kindref="member">setMetrics</ref>(std::shared_ptr&lt;TimeSeriesMetrics&gt;<sp/>metrics);</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="424" refid="classthemis_1_1_t_s_store_1a748f20279306961b3dad52646e927f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TimeSeriesMetrics&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1a748f20279306961b3dad52646e927f5f" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435" refid="classthemis_1_1_t_s_store_1a5103559a23ec7a79a00e78bd9c8a8b61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_t_s_store_1a5103559a23ec7a79a00e78bd9c8a8b61" kindref="member">setAutoBuffer</ref>(<ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref>*<sp/>buf)<sp/>{<sp/>auto_buffer_<sp/>=<sp/>buf;<sp/>}</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440" refid="classthemis_1_1_t_s_store_1aa887fd4edd1320f9a37e172ad3622c62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref>*<sp/><ref refid="classthemis_1_1_t_s_store_1aa887fd4edd1320f9a37e172ad3622c62" kindref="member">getAutoBuffer</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>auto_buffer_;<sp/>}</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>====================<sp/>System<sp/>Metadata<sp/>====================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1a9fa2baa77106bfc565eb0aafedaafdab" kindref="member">putSystemMeta</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::optional&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1afcd317f23c6d839e08d669c43344ec82" kindref="member">getSystemMeta</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_t_s_store_1aa49924b2ca4f049ea8041d073fa517d6" kindref="member">deleteSystemMeta</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key);</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db_;</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::ColumnFamilyHandle*<sp/>cf_;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TimeSeriesMetrics&gt;<sp/>metrics_;<sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>metrics<sp/>collector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;EncryptedChunkStore&gt;<sp/>enc_chunk_store_;<sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>AES-256-GCM<sp/>wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_auto_buffer" kindref="compound">TSAutoBuffer</ref>*<sp/>auto_buffer_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>auto-buffer<sp/>for<sp/>single-point<sp/>Gorilla<sp/>inserts<sp/>(not<sp/>owned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Out-of-order<sp/>write<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>ooo_accepted_{0};</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>ooo_rejected_{0};</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-series<sp/>high-watermark<sp/>for<sp/>late-arrival<sp/>enforcement.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key:<sp/>&quot;{metric}:{entity}&quot;,<sp/>Value:<sp/>maximum<sp/>timestamp_ms<sp/>seen.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>watermark_mutex_;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int64_t&gt;<sp/>watermarks_;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>KEY_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ts:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>GORILLA_CHUNK_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tsc:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>SYS_META_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sys:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric,<sp/></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entity,<sp/></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timestamp_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>key<sp/>to<sp/>extract<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">KeyComponents<sp/>{</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>metric;</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>entity;</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timestamp_ms;</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;KeyComponents&gt;<sp/>parseKeyInternal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;KeyComponents&gt;<sp/>parseKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>matchesTagFilter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/>point,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>tag_filter)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>checkAndUpdateWatermarkLocked(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>wm_key,<sp/>int64_t<sp/>timestamp_ms);</highlight></codeline>
+<codeline lineno="542"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/timeseries/tsstore.h"/>
+  </compounddef>
+</doxygen>

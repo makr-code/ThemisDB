@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_i_complexity_scorer" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::rag::IComplexityScorer</compoundname>
+    <includes refid="adaptive__retrieval_8h" local="no">adaptive_retrieval.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_i_complexity_scorer_1aab76d12f67204aca4e91dc059af53cef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::rag::IComplexityScorer::~IComplexityScorer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IComplexityScorer</name>
+        <qualifiedname>themis::rag::IComplexityScorer::~IComplexityScorer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="124" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_i_complexity_scorer_1a1d128a7db961a2c9e87e1155067221bb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double themis::rag::IComplexityScorer::score</definition>
+        <argsstring>(const std::string &amp;query)=0</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::IComplexityScorer::score</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Score the complexity of <computeroutput>query</computeroutput> in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user query to score. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Complexity score in [0, 1]; higher means more complex. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="132" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for plugging in an LLM-based complexity scorer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this interface and pass an instance to <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval" kindref="compound">AdaptiveRetrieval</ref> to replace the heuristic scorer. When null, the heuristic is used. </para>
+    </detaileddescription>
+    <location file="include/rag/adaptive_retrieval.h" line="123" column="1" bodyfile="include/rag/adaptive_retrieval.h" bodystart="123" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_i_complexity_scorer_1a1d128a7db961a2c9e87e1155067221bb" prot="public" virt="pure-virtual"><scope>themis::rag::IComplexityScorer</scope><name>score</name></member>
+      <member refid="structthemis_1_1rag_1_1_i_complexity_scorer_1aab76d12f67204aca4e91dc059af53cef" prot="public" virt="virtual"><scope>themis::rag::IComplexityScorer</scope><name>~IComplexityScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

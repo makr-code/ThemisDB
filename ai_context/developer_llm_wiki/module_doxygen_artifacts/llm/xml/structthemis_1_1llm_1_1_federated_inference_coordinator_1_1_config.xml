@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FederatedInferenceCoordinator::Config</compoundname>
+    <includes refid="federated__inference__coordinator_8h" local="no">federated_inference_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config_1a9233b077b50c7d52cabff24805f2d23f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::FederatedInferenceCoordinator::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::Config::max_retries</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="27" column="18" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config_1a7ae8eee63d8ecc71c524a61881b83c9b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::FederatedInferenceCoordinator::Config::retry_base_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_base_delay_ms</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::Config::retry_base_delay_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="28" column="18" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config_1a20ac2fa24a9a50787bc62da66011a651" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::FederatedInferenceCoordinator::Config::per_instance_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>per_instance_timeout_ms</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::Config::per_instance_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="29" column="18" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config_1a1c78c4a5b229c38ad80e9224ca8830df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FederatedInferenceCoordinator::Config::inference_endpoint</definition>
+        <argsstring></argsstring>
+        <name>inference_endpoint</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::Config::inference_endpoint</qualifiedname>
+        <initializer>= &quot;/api/v1/inference/generate&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="30" column="21" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/federated_inference_coordinator.h" line="26" column="5" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="26" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config_1a1c78c4a5b229c38ad80e9224ca8830df" prot="public" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator::Config</scope><name>inference_endpoint</name></member>
+      <member refid="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config_1a9233b077b50c7d52cabff24805f2d23f" prot="public" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config_1a20ac2fa24a9a50787bc62da66011a651" prot="public" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator::Config</scope><name>per_instance_timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config_1a7ae8eee63d8ecc71c524a61881b83c9b" prot="public" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator::Config</scope><name>retry_base_delay_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

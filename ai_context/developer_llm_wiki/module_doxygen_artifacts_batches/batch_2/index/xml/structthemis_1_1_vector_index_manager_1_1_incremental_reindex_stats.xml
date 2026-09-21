@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorIndexManager::IncrementalReindexStats</compoundname>
+    <includes refid="vector__index_8h" local="no">vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1adf3042957ee46bc03d782cf0282ce593" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::IncrementalReindexStats::added</definition>
+        <argsstring></argsstring>
+        <name>added</name>
+        <qualifiedname>themis::VectorIndexManager::IncrementalReindexStats::added</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Vectors added to HNSW (new in storage). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="180" column="16" bodyfile="include/index/vector_index.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1a73bf726ae1dda1d79caa193873e48634" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::IncrementalReindexStats::removed</definition>
+        <argsstring></argsstring>
+        <name>removed</name>
+        <qualifiedname>themis::VectorIndexManager::IncrementalReindexStats::removed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Vectors marked deleted in HNSW (gone from storage). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="181" column="16" bodyfile="include/index/vector_index.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1ab962690da9e7b0d736b86ff17714fd16" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::IncrementalReindexStats::updated</definition>
+        <argsstring></argsstring>
+        <name>updated</name>
+        <qualifiedname>themis::VectorIndexManager::IncrementalReindexStats::updated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Vectors updated in-place in HNSW (data changed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="182" column="16" bodyfile="include/index/vector_index.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1a04779f2ba14f2794b245bc968f333293" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::IncrementalReindexStats::unchanged</definition>
+        <argsstring></argsstring>
+        <name>unchanged</name>
+        <qualifiedname>themis::VectorIndexManager::IncrementalReindexStats::unchanged</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Vectors already up-to-date (no action taken). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="183" column="16" bodyfile="include/index/vector_index.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1a88104724a9f9101b0849b8812c736c06" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::IncrementalReindexStats::total_scanned</definition>
+        <argsstring></argsstring>
+        <name>total_scanned</name>
+        <qualifiedname>themis::VectorIndexManager::IncrementalReindexStats::total_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total storage entries scanned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="184" column="16" bodyfile="include/index/vector_index.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1a368b538723f05574d853982e881af5fa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexManager::IncrementalReindexStats::full_rebuild_triggered</definition>
+        <argsstring></argsstring>
+        <name>full_rebuild_triggered</name>
+        <qualifiedname>themis::VectorIndexManager::IncrementalReindexStats::full_rebuild_triggered</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when auto full-rebuild ran. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="185" column="16" bodyfile="include/index/vector_index.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1_vector_index_manager_1_1_statistics" kindref="compound">Statistics</ref> returned by <ref refid="classthemis_1_1_vector_index_manager_1a6720de7ebe206ee4486b24b1a7018c33" kindref="member">incrementalReindex()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_index.h" line="179" column="5" bodyfile="include/index/vector_index.h" bodystart="179" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1adf3042957ee46bc03d782cf0282ce593" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::IncrementalReindexStats</scope><name>added</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1a368b538723f05574d853982e881af5fa" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::IncrementalReindexStats</scope><name>full_rebuild_triggered</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1a73bf726ae1dda1d79caa193873e48634" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::IncrementalReindexStats</scope><name>removed</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1a88104724a9f9101b0849b8812c736c06" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::IncrementalReindexStats</scope><name>total_scanned</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1a04779f2ba14f2794b245bc968f333293" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::IncrementalReindexStats</scope><name>unchanged</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_incremental_reindex_stats_1ab962690da9e7b0d736b86ff17714fd16" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::IncrementalReindexStats</scope><name>updated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

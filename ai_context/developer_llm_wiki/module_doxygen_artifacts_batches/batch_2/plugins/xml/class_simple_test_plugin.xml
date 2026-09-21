@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_simple_test_plugin" kind="class" language="C++" prot="public">
+    <compoundname>SimpleTestPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_simple_test_plugin_1a316c4c9aa59610cde2ddbe6c84634b16" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SimpleTestPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>SimpleTestPlugin::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="109" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_simple_test_plugin_1a4a4799af7336666e1580ef8998b151f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * SimpleTestPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>SimpleTestPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba">getName</reimplements>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="112" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_test_plugin_1ae48b2c6287fab624139e632e77409964" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * SimpleTestPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>SimpleTestPlugin::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f">getVersion</reimplements>
+        <briefdescription>
+<para>Get plugin version (semantic versioning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="113" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_test_plugin_1a5eb09158295f84c6dcc3135ada024890" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+        <definition>PluginType SimpleTestPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>SimpleTestPlugin::getType</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209">getType</reimplements>
+        <briefdescription>
+<para>Get plugin type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="115" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_test_plugin_1ae8f338db1e2cdfe5197d7995f4bbcd6a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities SimpleTestPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>SimpleTestPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31">getCapabilities</reimplements>
+        <briefdescription>
+<para>Get plugin capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="119" column="24" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="119" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_test_plugin_1ac811a5e0c7061d4af07f465f916ab99e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool SimpleTestPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>SimpleTestPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035">initialize</reimplements>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize plugin with configuration JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration as JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialized successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="125" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="125" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_test_plugin_1a9a24515ec0ee501af6d2ea7821ba8f94" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void SimpleTestPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>SimpleTestPlugin::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown plugin and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="130" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="130" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_test_plugin_1a83fe759f10c620d7078fbd8401e300db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void *</type>
+        <definition>void * SimpleTestPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>SimpleTestPlugin::getInstance</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc">getInstance</reimplements>
+        <briefdescription>
+<para>Get plugin instance (type-specific). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to plugin implementation (must be cast to specific type)</para>
+</simplesect>
+For COMPUTE_BACKEND: Cast to acceleration::BackendPlugin* For BLOB_STORAGE: Cast to storage::IBlobStorageBackend* For IMPORTER: Cast to importers::IImporter* </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="134" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_test_plugin_1a9861ea629fb46116f4572383191eb924" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimpleTestPlugin::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>SimpleTestPlugin::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="138" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="138" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple test plugin without state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SimpleTestPlugin</label>
+        <link refid="class_simple_test_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SimpleTestPlugin</label>
+        <link refid="class_simple_test_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="107" column="1" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="107" bodyend="139"/>
+    <listofallmembers>
+      <member refid="class_simple_test_plugin_1ae8f338db1e2cdfe5197d7995f4bbcd6a" prot="public" virt="virtual"><scope>SimpleTestPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_simple_test_plugin_1a83fe759f10c620d7078fbd8401e300db" prot="public" virt="virtual"><scope>SimpleTestPlugin</scope><name>getInstance</name></member>
+      <member refid="class_simple_test_plugin_1a4a4799af7336666e1580ef8998b151f0" prot="public" virt="virtual"><scope>SimpleTestPlugin</scope><name>getName</name></member>
+      <member refid="class_simple_test_plugin_1a5eb09158295f84c6dcc3135ada024890" prot="public" virt="virtual"><scope>SimpleTestPlugin</scope><name>getType</name></member>
+      <member refid="class_simple_test_plugin_1ae48b2c6287fab624139e632e77409964" prot="public" virt="virtual"><scope>SimpleTestPlugin</scope><name>getVersion</name></member>
+      <member refid="class_simple_test_plugin_1ac811a5e0c7061d4af07f465f916ab99e" prot="public" virt="virtual"><scope>SimpleTestPlugin</scope><name>initialize</name></member>
+      <member refid="class_simple_test_plugin_1a316c4c9aa59610cde2ddbe6c84634b16" prot="private" virt="non-virtual"><scope>SimpleTestPlugin</scope><name>initialized_</name></member>
+      <member refid="class_simple_test_plugin_1a9861ea629fb46116f4572383191eb924" prot="public" virt="non-virtual"><scope>SimpleTestPlugin</scope><name>isInitialized</name></member>
+      <member refid="class_simple_test_plugin_1a9a24515ec0ee501af6d2ea7821ba8f94" prot="public" virt="virtual"><scope>SimpleTestPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>SimpleTestPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

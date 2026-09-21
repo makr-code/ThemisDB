@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelMigrationAssistant::MigrationPlan</compoundname>
+    <includes refid="adapter__compatibility_8h" local="no">adapter_compatibility.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a1c2e25cb1b43b3879fe63a83b8581230" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_model_migration_assistant_1af967b0a86cbd210087c057ee73be12ad" kindref="member">MigrationStrategy</ref></type>
+        <definition>MigrationStrategy themis::llm::ModelMigrationAssistant::MigrationPlan::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::MigrationPlan::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="285" column="27" bodyfile="include/llm/adapter_compatibility.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1ad923d4424e0559241b6d19208239a9eb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelMigrationAssistant::MigrationPlan::feasible</definition>
+        <argsstring></argsstring>
+        <name>feasible</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::MigrationPlan::feasible</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="286" column="14" bodyfile="include/llm/adapter_compatibility.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1ab79f2743302116f52e4a928cb635d5ff" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ModelMigrationAssistant::MigrationPlan::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::MigrationPlan::steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="287" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a07f1baf768eda90f8bffcd1b43e1d431" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ModelMigrationAssistant::MigrationPlan::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::MigrationPlan::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="288" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a40992fcd6ff248ad4c788261aff246d8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ModelMigrationAssistant::MigrationPlan::estimated_effort</definition>
+        <argsstring></argsstring>
+        <name>estimated_effort</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::MigrationPlan::estimated_effort</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="289" column="16" bodyfile="include/llm/adapter_compatibility.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1afc616257e9388fc71c2901ec109105ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelMigrationAssistant::MigrationPlan::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::MigrationPlan::recommendation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="290" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a80b6aab62703091170b82f45c0d36af6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::ModelMigrationAssistant::MigrationPlan::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::ModelMigrationAssistant::MigrationPlan::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="296" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_compatibility.h" line="284" column="5" bodyfile="include/llm/adapter_compatibility.h" bodystart="284" bodyend="297"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a40992fcd6ff248ad4c788261aff246d8" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant::MigrationPlan</scope><name>estimated_effort</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1ad923d4424e0559241b6d19208239a9eb" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant::MigrationPlan</scope><name>feasible</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1afc616257e9388fc71c2901ec109105ed" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant::MigrationPlan</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1ab79f2743302116f52e4a928cb635d5ff" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant::MigrationPlan</scope><name>steps</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a1c2e25cb1b43b3879fe63a83b8581230" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant::MigrationPlan</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a80b6aab62703091170b82f45c0d36af6" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant::MigrationPlan</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_migration_assistant_1_1_migration_plan_1a07f1baf768eda90f8bffcd1b43e1d431" prot="public" virt="non-virtual"><scope>themis::llm::ModelMigrationAssistant::MigrationPlan</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

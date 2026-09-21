@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftWALIntegration::WriteResult</compoundname>
+    <includes refid="raft__wal__integration_8h" local="no">raft_wal_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result_1af62d4ae2a4faac6e46734077683ab951" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftWALIntegration::WriteResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::WriteResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>True when quorum commit succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="65" column="14" bodyfile="include/sharding/raft_wal_integration.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result_1a528609611707efbd335486573d468a23" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themisdb::sharding::RaftWALIntegration::WriteResult::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::WriteResult::lsn</qualifiedname>
+        <briefdescription>
+<para>Assigned WAL <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>, even on quorum failure when append succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="66" column="13" bodyfile="include/sharding/raft_wal_integration.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result_1ab43365c30f2506eb7ade294f1961faea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftWALIntegration::WriteResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::WriteResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Failure reason when success is false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="67" column="21" bodyfile="include/sharding/raft_wal_integration.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a quorum-enforced WAL write. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::RaftWALIntegration::WriteResult</label>
+        <link refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/raft_wal_integration.h" line="64" column="5" bodyfile="include/sharding/raft_wal_integration.h" bodystart="64" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result_1ab43365c30f2506eb7ade294f1961faea" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration::WriteResult</scope><name>error_message</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result_1a528609611707efbd335486573d468a23" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration::WriteResult</scope><name>lsn</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result_1af62d4ae2a4faac6e46734077683ab951" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration::WriteResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

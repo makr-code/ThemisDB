@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_i_k_g_enrichment_interface" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::training::IKGEnrichmentInterface</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1adcd0d64ab388c24e4182a7641cc2915f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::training::IKGEnrichmentInterface::~IKGEnrichmentInterface</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IKGEnrichmentInterface</name>
+        <qualifiedname>themis::training::IKGEnrichmentInterface::~IKGEnrichmentInterface</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="323" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1a3eca4e0fad04849a6ad3be4be6c23192" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_result" kindref="compound">EnrichmentResult</ref></type>
+        <definition>virtual EnrichmentResult themis::training::IKGEnrichmentInterface::enrich</definition>
+        <argsstring>(const EntityRef &amp;entity)=0</argsstring>
+        <name>enrich</name>
+        <qualifiedname>themis::training::IKGEnrichmentInterface::enrich</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_entity_ref" kindref="compound">EntityRef</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Enrich an entity, serving from cache when available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity reference identifying the enrichment query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Enrichment result; result.cache_hit is true on cache hit. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="330" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1af05e1deed9c3a3a8b3f4298b3541b72a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::training::IKGEnrichmentInterface::invalidateCache</definition>
+        <argsstring>(const EntityRef &amp;entity)=0</argsstring>
+        <name>invalidateCache</name>
+        <qualifiedname>themis::training::IKGEnrichmentInterface::invalidateCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_entity_ref" kindref="compound">EntityRef</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate the cached result for a specific entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity whose cache entry should be evicted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="336" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1a63e7a1c19de7b7cc88fc87129d8178d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::training::IKGEnrichmentInterface::clearCache</definition>
+        <argsstring>()=0</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::training::IKGEnrichmentInterface::clearCache</qualifiedname>
+        <briefdescription>
+<para>Evict all cached enrichment results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="341" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1a516168470a1c05964118e62117a010c0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>virtual CacheStats themis::training::IKGEnrichmentInterface::cacheStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>cacheStats</name>
+        <qualifiedname>themis::training::IKGEnrichmentInterface::cacheStats</qualifiedname>
+        <briefdescription>
+<para>Return hit/miss/eviction counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="346" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cached knowledge-graph enrichment interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Design constraints:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1a3eca4e0fad04849a6ad3be4be6c23192" kindref="member">enrich()</ref> is read-only; it must never issue AQL write operations.</para>
+</listitem><listitem><para>Cache key is derived deterministically from <ref refid="structthemis_1_1training_1_1_entity_ref" kindref="compound">EntityRef</ref> fields.</para>
+</listitem><listitem><para>Cache entries have TTL enforcement; stale data is evicted before use.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1training_1_1_knowledge_graph_enricher" kindref="compound">KnowledgeGraphEnricher</ref> (concrete implementation) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="321" column="1" bodyfile="include/training/training_interfaces.h" bodystart="321" bodyend="347"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1a516168470a1c05964118e62117a010c0" prot="public" virt="pure-virtual"><scope>themis::training::IKGEnrichmentInterface</scope><name>cacheStats</name></member>
+      <member refid="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1a63e7a1c19de7b7cc88fc87129d8178d5" prot="public" virt="pure-virtual"><scope>themis::training::IKGEnrichmentInterface</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1a3eca4e0fad04849a6ad3be4be6c23192" prot="public" virt="pure-virtual"><scope>themis::training::IKGEnrichmentInterface</scope><name>enrich</name></member>
+      <member refid="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1af05e1deed9c3a3a8b3f4298b3541b72a" prot="public" virt="pure-virtual"><scope>themis::training::IKGEnrichmentInterface</scope><name>invalidateCache</name></member>
+      <member refid="classthemis_1_1training_1_1_i_k_g_enrichment_interface_1adcd0d64ab388c24e4182a7641cc2915f" prot="public" virt="virtual"><scope>themis::training::IKGEnrichmentInterface</scope><name>~IKGEnrichmentInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

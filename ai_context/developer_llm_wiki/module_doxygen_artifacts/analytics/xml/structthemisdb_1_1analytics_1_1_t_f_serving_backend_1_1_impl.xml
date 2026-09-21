@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::TFServingBackend::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl_1ada08690f9aeb9a170a88a5b14dd5ac19" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref></type>
+        <definition>TFServingConfig themisdb::analytics::TFServingBackend::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::TFServingBackend::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/ml_serving.cpp" line="670" column="21" bodyfile="src/analytics/ml_serving.cpp" bodystart="670" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl_1a989aab004ac78babe7fced19ccb6a6eb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TFServingBackend::Impl::Impl</definition>
+        <argsstring>(const TFServingConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themisdb::analytics::TFServingBackend::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/ml_serving.cpp" line="671" column="14" bodyfile="src/analytics/ml_serving.cpp" bodystart="671" bodyend="671"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::TFServingBackend::Impl</label>
+        <link refid="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::TFServingConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_t_f_serving_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/ml_serving.cpp" line="669" column="1" bodyfile="src/analytics/ml_serving.cpp" bodystart="669" bodyend="672"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl_1ada08690f9aeb9a170a88a5b14dd5ac19" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingBackend::Impl</scope><name>config</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl_1a989aab004ac78babe7fced19ccb6a6eb" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingBackend::Impl</scope><name>Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

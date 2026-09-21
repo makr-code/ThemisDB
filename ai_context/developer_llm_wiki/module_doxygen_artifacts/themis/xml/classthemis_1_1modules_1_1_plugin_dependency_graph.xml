@@ -1,0 +1,585 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_plugin_dependency_graph" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::PluginDependencyGraph</compoundname>
+    <includes refid="plugin__dependency__graph_8h" local="no">plugin_dependency_graph.h</includes>
+    <innerclass refid="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_node" prot="public">themis::modules::PluginDependencyGraph::Node</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_edge" prot="public">themis::modules::PluginDependencyGraph::Edge</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1aeeefa638c75bb8758530fd4c47637572" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::modules::PluginDependencyGraph::nodes_</definition>
+        <argsstring></argsstring>
+        <name>nodes_</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="212" column="14" bodyfile="include/themis/base/plugin_dependency_graph.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1afad74dfea360655fcf2a68291eba525f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_edge" kindref="compound">Edge</ref> &gt;</type>
+        <definition>std::vector&lt;Edge&gt; themis::modules::PluginDependencyGraph::edges_</definition>
+        <argsstring></argsstring>
+        <name>edges_</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::edges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="213" column="34" bodyfile="include/themis/base/plugin_dependency_graph.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1addebcaef7c8106964717ed3ef4ce620c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::addModule</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;version=&quot;&quot;)</argsstring>
+        <name>addModule</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::addModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add a module node with an optional version string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registering the same name twice replaces the previous node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Module name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semantic version string (may be &quot;&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="112" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1ac41649a6a6400799fe6fa1dee660d1c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::addDependency</definition>
+        <argsstring>(const std::string &amp;from, const std::string &amp;to, bool required=true, const std::string &amp;minVersion=&quot;&quot;, const std::string &amp;maxVersion=&quot;&quot;)</argsstring>
+        <name>addDependency</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::addDependency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>minVersion</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>maxVersion</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add a directed dependency edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Both <computeroutput>from</computeroutput> and <computeroutput>to</computeroutput> are added as nodes if not already present.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependent module name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency module name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if the dependency is required, false if optional. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>minVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum version of <computeroutput>to</computeroutput> required by <computeroutput>from</computeroutput> (may be &quot;&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum version of <computeroutput>to</computeroutput> required by <computeroutput>from</computeroutput> (may be &quot;&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="125" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1a5cf6aa4d1b0e883729221f56c320d47f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::buildFromResolver</definition>
+        <argsstring>(const ModuleDependencyResolver &amp;resolver)</argsstring>
+        <name>buildFromResolver</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::buildFromResolver</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_module_dependency_resolver" kindref="compound">ModuleDependencyResolver</ref> &amp;</type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+<para>Populate the graph from a <computeroutput><ref refid="classthemis_1_1modules_1_1_module_dependency_resolver" kindref="compound">ModuleDependencyResolver</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replaces any previously added nodes and edges.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source resolver (must already have modules registered). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="138" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1a4ce9b0635a4b03b6d5d737ca1c516752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::buildFromRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>buildFromRegistry</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::buildFromRegistry</qualifiedname>
+        <briefdescription>
+<para>Populate the graph from the <computeroutput><ref refid="classthemis_1_1modules_1_1_module_registry" kindref="compound">ModuleRegistry</ref></computeroutput> singleton. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses the currently registered (loaded) modules and the dependency metadata stored in each module&apos;s <computeroutput><ref refid="structthemis_1_1modules_1_1_loaded_module_1aa6e0935f02c04efb7c413aceb212b83d" kindref="member">LoadedModule::metadata</ref></computeroutput> field. Replaces any previously added nodes and edges. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="147" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1aaec1434c707d5e0dfdcab6ec0b380f1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all nodes and edges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="152" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1ad252d6a59e5a8ac6d3361742fab307e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::modules::PluginDependencyGraph::nodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::nodeCount</qualifiedname>
+        <briefdescription>
+<para>Number of nodes in the graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="159" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1af7c41ba8f80e7df4e027103f3c25ca5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::modules::PluginDependencyGraph::edgeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>edgeCount</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::edgeCount</qualifiedname>
+        <briefdescription>
+<para>Number of edges in the graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="162" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1aa685adec4050c243a2a2722590af4e05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_node" kindref="compound">Node</ref> &gt;</type>
+        <definition>std::vector&lt; Node &gt; themis::modules::PluginDependencyGraph::nodes</definition>
+        <argsstring>() const</argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::nodes</qualifiedname>
+        <briefdescription>
+<para>All nodes, sorted by name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="165" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1ad020a890c2cf5e5714b0928c6fef2760" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_edge" kindref="compound">Edge</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Edge &gt; &amp; themis::modules::PluginDependencyGraph::edges</definition>
+        <argsstring>() const</argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::edges</qualifiedname>
+        <briefdescription>
+<para>All edges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="168" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1add5863e0920f04ca366304c6a0cd6bc6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::string &gt; &gt; themis::modules::PluginDependencyGraph::detectCycles</definition>
+        <argsstring>() const</argsstring>
+        <name>detectCycles</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::detectCycles</qualifiedname>
+        <briefdescription>
+<para>Detect cycles in the dependency graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Each inner vector is one cycle (list of module names). Empty if the graph is acyclic. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="176" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1a2c3d12be7b4362ad6c9509bbd9e73d92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::modules::PluginDependencyGraph::topologicalOrder</definition>
+        <argsstring>() const</argsstring>
+        <name>topologicalOrder</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::topologicalOrder</qualifiedname>
+        <briefdescription>
+<para>Compute a topological load order (leaves first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Ordered module names, or empty if cycles prevent ordering. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="183" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1a1baa862bfd1b7dfefa1de87852bf434a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::exportTo</definition>
+        <argsstring>(std::ostream &amp;out, GraphExportFormat format) const</argsstring>
+        <name>exportTo</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::exportTo</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217a" kindref="member">GraphExportFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Export the graph in the requested format to an output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination stream (file, std::cout, std::ostringstream…). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One of DOT, JSON, or ASCII. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="195" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1ad29c775850568949a34a89c6463071d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginDependencyGraph::toString</definition>
+        <argsstring>(GraphExportFormat format) const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217a" kindref="member">GraphExportFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Export the graph and return it as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience wrapper around <computeroutput><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a1baa862bfd1b7dfefa1de87852bf434a" kindref="member">exportTo()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One of DOT, JSON, or ASCII. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Serialised graph. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="205" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1aaca50e3e40c2aa67661ed96fec60f491" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::renderDot</definition>
+        <argsstring>(std::ostream &amp;out) const</argsstring>
+        <name>renderDot</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::renderDot</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="219" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1ae8ff47efbf37e063526a8201ce1a8f27" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::renderJson</definition>
+        <argsstring>(std::ostream &amp;out) const</argsstring>
+        <name>renderJson</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::renderJson</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="220" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1ae717ab551b1cf302b733830f2efebc4c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::renderAscii</definition>
+        <argsstring>(std::ostream &amp;out) const</argsstring>
+        <name>renderAscii</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::renderAscii</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="221" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1a31105f53bc2d48a0ed445813ed82c034" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::set&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::set&lt; std::string &gt; &gt; themis::modules::PluginDependencyGraph::buildAdjacency</definition>
+        <argsstring>() const</argsstring>
+        <name>buildAdjacency</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::buildAdjacency</qualifiedname>
+        <briefdescription>
+<para>Build an adjacency list (name → set of direct dependency names). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="232" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1a58162769fc16c2447fdfef76280184db" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginDependencyGraph::dfsVisit</definition>
+        <argsstring>(const std::string &amp;node, const std::map&lt; std::string, std::set&lt; std::string &gt; &gt; &amp;adj, std::map&lt; std::string, int &gt; &amp;color, std::vector&lt; std::string &gt; &amp;path, std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;cycles) const</argsstring>
+        <name>dfsVisit</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::dfsVisit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::set&lt; std::string &gt; &gt; &amp;</type>
+          <declname>adj</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, int &gt; &amp;</type>
+          <declname>color</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>cycles</declname>
+        </param>
+        <briefdescription>
+<para>DFS helper used by <ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1add5863e0920f04ca366304c6a0cd6bc6" kindref="member">detectCycles()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="235" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1a3bf0fdd7c373cb6e488865226f7397c5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::modules::PluginDependencyGraph::escapeDotId</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>escapeDotId</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::escapeDotId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a string for use as a DOT identifier / JSON string value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="228" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_dependency_graph_1aefe390ff284c9cce231b9898b4d01927" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::modules::PluginDependencyGraph::escapeJson</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>escapeJson</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::escapeJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="229" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory representation of a plugin dependency graph. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Build a graph from a <computeroutput><ref refid="classthemis_1_1modules_1_1_module_dependency_resolver" kindref="compound">ModuleDependencyResolver</ref></computeroutput> (static registry) or from a snapshot of loaded modules provided directly via <computeroutput><ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1addebcaef7c8106964717ed3ef4ce620c" kindref="member">addModule()</ref></computeroutput>. Then export to DOT, JSON, or ASCII for visualisation in tools like Graphviz, D3.js, or a terminal.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">ModuleDependencyResolver<sp/>resolver;</highlight></codeline>
+<codeline><highlight class="normal">resolver.registerModule(</highlight><highlight class="stringliteral">&quot;base&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline><highlight class="normal">resolver.registerModule(</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;base&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">PluginDependencyGraph<sp/>graph;</highlight></codeline>
+<codeline><highlight class="normal">graph.buildFromResolver(resolver);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Write<sp/>a<sp/>Graphviz<sp/>DOT<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::ofstream<sp/>out(</highlight><highlight class="stringliteral">&quot;plugins.dot&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">graph.exportTo(out,<sp/><ref refid="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217aa40679521b5da0954b705341a2859f782" kindref="member">GraphExportFormat::DOT</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Print<sp/>ASCII<sp/>tree<sp/>to<sp/>stdout</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">graph.exportTo(std::cout,<sp/><ref refid="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217aad2cd8253361a9c732d21ca1d336599cc" kindref="member">GraphExportFormat::ASCII</ref>);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/plugin_dependency_graph.h" line="75" column="1" bodyfile="include/themis/base/plugin_dependency_graph.h" bodystart="75" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1ac41649a6a6400799fe6fa1dee660d1c3" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>addDependency</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1addebcaef7c8106964717ed3ef4ce620c" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>addModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a31105f53bc2d48a0ed445813ed82c034" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>buildAdjacency</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a4ce9b0635a4b03b6d5d737ca1c516752" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>buildFromRegistry</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a5cf6aa4d1b0e883729221f56c320d47f" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>buildFromResolver</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1aaec1434c707d5e0dfdcab6ec0b380f1f" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>clear</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1add5863e0920f04ca366304c6a0cd6bc6" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>detectCycles</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a58162769fc16c2447fdfef76280184db" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>dfsVisit</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1af7c41ba8f80e7df4e027103f3c25ca5c" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>edgeCount</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1ad020a890c2cf5e5714b0928c6fef2760" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>edges</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1afad74dfea360655fcf2a68291eba525f" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>edges_</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a3bf0fdd7c373cb6e488865226f7397c5" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>escapeDotId</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1aefe390ff284c9cce231b9898b4d01927" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>escapeJson</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a1baa862bfd1b7dfefa1de87852bf434a" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>exportTo</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1ad252d6a59e5a8ac6d3361742fab307e5" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1aa685adec4050c243a2a2722590af4e05" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>nodes</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1aeeefa638c75bb8758530fd4c47637572" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>nodes_</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1ae717ab551b1cf302b733830f2efebc4c" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>renderAscii</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1aaca50e3e40c2aa67661ed96fec60f491" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>renderDot</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1ae8ff47efbf37e063526a8201ce1a8f27" prot="private" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>renderJson</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a2c3d12be7b4362ad6c9509bbd9e73d92" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>topologicalOrder</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1ad29c775850568949a34a89c6463071d7" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

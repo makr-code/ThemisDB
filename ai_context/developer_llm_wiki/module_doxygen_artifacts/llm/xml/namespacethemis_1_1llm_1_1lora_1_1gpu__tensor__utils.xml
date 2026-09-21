@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::gpu_tensor_utils</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a383a4de1a808b99c85e36cc224e977e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::gpu_tensor_utils::randn</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, float mean, float std, const Device &amp;device, DType dtype)</argsstring>
+        <name>randn</name>
+        <qualifiedname>themis::llm::lora::gpu_tensor_utils::randn</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>mean</declname>
+          <defval>0.0f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>std</declname>
+          <defval>1.0f</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></defval>
+        </param>
+        <briefdescription>
+<para>Randn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mean</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">std</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::accumulate(), begin(), end(), size_t(), gen(), rd(), dist(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="1078" column="11" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="1078" bodyend="1094" declfile="include/llm/lora_framework/gpu_tensor.h" declline="303" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1aa62e1bd0226dbd88a3096563a13632c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::gpu_tensor_utils::xavier_uniform</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, const Device &amp;device, DType dtype)</argsstring>
+        <name>xavier_uniform</name>
+        <qualifiedname>themis::llm::lora::gpu_tensor_utils::xavier_uniform</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></defval>
+        </param>
+        <briefdescription>
+<para>Xavier uniform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::sqrt(), gen(), rd(), dist(), data(), result(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="1105" column="11" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="1105" bodyend="1128" declfile="include/llm/lora_framework/gpu_tensor.h" declline="309" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a38e99b167719e730d74e59b167c96c3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::gpu_tensor_utils::kaiming_uniform</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, float a, const Device &amp;device, DType dtype)</argsstring>
+        <name>kaiming_uniform</name>
+        <qualifiedname>themis::llm::lora::gpu_tensor_utils::kaiming_uniform</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>a</declname>
+          <defval>0.0f</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></defval>
+        </param>
+        <briefdescription>
+<para>Kaiming uniform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::sqrt(), gen(), rd(), dist(), data(), result(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="1140" column="11" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="1140" bodyend="1164" declfile="include/llm/lora_framework/gpu_tensor.h" declline="313" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a09e0e355f50eeffb9393e81f88556a86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::gpu_tensor_utils::zeros</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, const Device &amp;device, DType dtype)</argsstring>
+        <name>zeros</name>
+        <qualifiedname>themis::llm::lora::gpu_tensor_utils::zeros</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></defval>
+        </param>
+        <briefdescription>
+<para>Zeros. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GPUTensor(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="1174" column="11" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="1174" bodyend="1176" declfile="include/llm/lora_framework/gpu_tensor.h" declline="318" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1aeccbb28059abfa8eb35c9b0b7ff17e2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::gpu_tensor_utils::ones</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, const Device &amp;device, DType dtype)</argsstring>
+        <name>ones</name>
+        <qualifiedname>themis::llm::lora::gpu_tensor_utils::ones</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></defval>
+        </param>
+        <briefdescription>
+<para>Ones. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GPUTensor(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="1186" column="11" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="1186" bodyend="1188" declfile="include/llm/lora_framework/gpu_tensor.h" declline="322" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a4d0de48856c0003e231cb2be1a0f323e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::gpu_tensor_utils::from_legacy_tensor</definition>
+        <argsstring>(const Tensor &amp;tensor, const Device &amp;device, DType dtype)</argsstring>
+        <name>from_legacy_tensor</name>
+        <qualifiedname>themis::llm::lora::gpu_tensor_utils::from_legacy_tensor</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></defval>
+        </param>
+        <briefdescription>
+<para>From legacy tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: result(), shape(), upload(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="1198" column="11" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="1198" bodyend="1202" declfile="include/llm/lora_framework/gpu_tensor.h" declline="326" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1ab8fc34008e69afa7728bb3e1bddd82ca" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::gpu_tensor_utils::to_legacy_tensor</definition>
+        <argsstring>(const GPUTensor &amp;gpu_tensor)</argsstring>
+        <name>to_legacy_tensor</name>
+        <qualifiedname>themis::llm::lora::gpu_tensor_utils::to_legacy_tensor</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>gpu_tensor</declname>
+        </param>
+        <briefdescription>
+<para>To legacy tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: result(), shape(), cpu_data(), size(), std::copy(), begin(), end(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/gpu_tensor.cpp" line="1210" column="8" bodyfile="src/llm/lora_framework/gpu_tensor.cpp" bodystart="1210" bodyend="1217" declfile="include/llm/lora_framework/gpu_tensor.h" declline="330" declcolumn="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_tensor.h" line="302" column="1"/>
+  </compounddef>
+</doxygen>

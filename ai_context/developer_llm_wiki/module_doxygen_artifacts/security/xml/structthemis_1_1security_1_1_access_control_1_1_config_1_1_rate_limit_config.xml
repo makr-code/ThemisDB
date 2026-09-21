@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl::Config::RateLimitConfig</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config_1ac40271815176924646b6801076ef597b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::AccessControl::Config::RateLimitConfig::max_requests_per_minute</definition>
+        <argsstring></argsstring>
+        <name>max_requests_per_minute</name>
+        <qualifiedname>themis::security::AccessControl::Config::RateLimitConfig::max_requests_per_minute</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="81" column="17" bodyfile="include/security/access_control.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config_1a787e2b03007cd77aeae064808a769804" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::AccessControl::Config::RateLimitConfig::max_failed_logins</definition>
+        <argsstring></argsstring>
+        <name>max_failed_logins</name>
+        <qualifiedname>themis::security::AccessControl::Config::RateLimitConfig::max_failed_logins</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="82" column="17" bodyfile="include/security/access_control.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config_1a8595e7d6dccebcd852937c003c121f7a" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::AccessControl::Config::RateLimitConfig::lockout_duration</definition>
+        <argsstring></argsstring>
+        <name>lockout_duration</name>
+        <qualifiedname>themis::security::AccessControl::Config::RateLimitConfig::lockout_duration</qualifiedname>
+        <initializer>= std::chrono::minutes(15)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="83" column="34" bodyfile="include/security/access_control.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config_1aa904f16b6364a6a4e9a57346df044561" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::RateLimitConfig::enable_adaptive_limiting</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_limiting</name>
+        <qualifiedname>themis::security::AccessControl::Config::RateLimitConfig::enable_adaptive_limiting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="84" column="18" bodyfile="include/security/access_control.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="80" column="9" bodyfile="include/security/access_control.h" bodystart="80" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config_1aa904f16b6364a6a4e9a57346df044561" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::RateLimitConfig</scope><name>enable_adaptive_limiting</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config_1a8595e7d6dccebcd852937c003c121f7a" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::RateLimitConfig</scope><name>lockout_duration</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config_1a787e2b03007cd77aeae064808a769804" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::RateLimitConfig</scope><name>max_failed_logins</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config_1ac40271815176924646b6801076ef597b" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::RateLimitConfig</scope><name>max_requests_per_minute</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

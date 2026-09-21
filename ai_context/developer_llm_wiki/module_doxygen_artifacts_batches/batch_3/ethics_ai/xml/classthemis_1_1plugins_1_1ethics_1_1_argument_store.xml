@@ -1,0 +1,800 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::ArgumentStore</compoundname>
+    <includes refid="argument__store_8h" local="no">argument_store.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a21b266bcabd2d8fb53427414e5a7a4d5" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;id, const std::string &amp;content)&gt;</type>
+        <definition>using themis::plugins::ethics::ArgumentStore::VectorStoreFn = std::function&lt;void(const std::string&amp; id,
+                                            const std::string&amp; content)&gt;</definition>
+        <argsstring></argsstring>
+        <name>VectorStoreFn</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::VectorStoreFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="39" column="5" bodyfile="src/ethics_ai/argument_store.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a05080b6c4e43470f2a819cc63ac7c851" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::ArgumentStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="112" column="16" bodyfile="src/ethics_ai/argument_store.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a4f88764df81595743bee2db41042bf4b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::ArgumentStore::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="113" column="10" bodyfile="src/ethics_ai/argument_store.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8b5da52e6e1fb41ff23b9024b07779b7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::plugins::ethics::ArgumentStore::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="116" column="21" bodyfile="src/ethics_ai/argument_store.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a066e4fa5e6c9f5b0217cd022a170a557" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; query::QueryEngine &gt;</type>
+        <definition>std::shared_ptr&lt;query::QueryEngine&gt; themis::plugins::ethics::ArgumentStore::query_engine_</definition>
+        <argsstring></argsstring>
+        <name>query_engine_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::query_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="117" column="21" bodyfile="src/ethics_ai/argument_store.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8286e77760681ef8611a2c7704d4605d" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a21b266bcabd2d8fb53427414e5a7a4d5" kindref="member">VectorStoreFn</ref> &gt;</type>
+        <definition>std::optional&lt;VectorStoreFn&gt; themis::plugins::ethics::ArgumentStore::vector_store_fn_</definition>
+        <argsstring></argsstring>
+        <name>vector_store_fn_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::vector_store_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="120" column="19" bodyfile="src/ethics_ai/argument_store.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a553ee9f49e23b70c5ca0b350d8c79a52" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::ArgumentStore::standalone_mode_</definition>
+        <argsstring></argsstring>
+        <name>standalone_mode_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::standalone_mode_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="123" column="10" bodyfile="src/ethics_ai/argument_store.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a9f429ef758724f70891564ea84f6833c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt;</type>
+        <definition>std::map&lt;std::string, EthicalArgument&gt; themis::plugins::ethics::ArgumentStore::arguments_</definition>
+        <argsstring></argsstring>
+        <name>arguments_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::arguments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="124" column="14" bodyfile="src/ethics_ai/argument_store.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a938dfeb97b8f1faaa2ac2315091bc8f7" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &gt;</type>
+        <definition>std::map&lt;std::string, EthicalDecision&gt; themis::plugins::ethics::ArgumentStore::decisions_</definition>
+        <argsstring></argsstring>
+        <name>decisions_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::decisions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="125" column="14" bodyfile="src/ethics_ai/argument_store.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a7460a151cdc43df1bdc9a7b6508be909" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &gt;</type>
+        <definition>std::map&lt;std::string, PhilosophyProfile&gt; themis::plugins::ethics::ArgumentStore::profiles_</definition>
+        <argsstring></argsstring>
+        <name>profiles_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::profiles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="126" column="14" bodyfile="src/ethics_ai/argument_store.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a54e092a20bafd7ced745d655f45d68bd" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kindref="compound">ArgumentChain</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ArgumentChain&gt; themis::plugins::ethics::ArgumentStore::chains_</definition>
+        <argsstring></argsstring>
+        <name>chains_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::chains_</qualifiedname>
+        <briefdescription>
+<para>In-memory chain cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="127" column="14" bodyfile="src/ethics_ai/argument_store.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1aa5bb7b12c3307d3231845581bfd5f9e8" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round" kindref="compound">DebateRound</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;DebateRound&gt; &gt; themis::plugins::ethics::ArgumentStore::debate_rounds_</definition>
+        <argsstring></argsstring>
+        <name>debate_rounds_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::debate_rounds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="128" column="14" bodyfile="src/ethics_ai/argument_store.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ad23b703ee5d2906789d6de0bb147b789" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; IVectorWriter &gt;</type>
+        <definition>std::shared_ptr&lt;IVectorWriter&gt; themis::plugins::ethics::ArgumentStore::vector_writer_</definition>
+        <argsstring></argsstring>
+        <name>vector_writer_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::vector_writer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="131" column="21" bodyfile="src/ethics_ai/argument_store.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a50902298cd42d42a564867760c4ce291" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::vector&lt;float&gt;(const std::string&amp;)&gt; themis::plugins::ethics::ArgumentStore::embedding_fn_</definition>
+        <argsstring></argsstring>
+        <name>embedding_fn_</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::embedding_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="132" column="21" bodyfile="src/ethics_ai/argument_store.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a10329fcc8254325d34f1d29eccadb8ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::ArgumentStore::ArgumentStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>ArgumentStore</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::ArgumentStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a7606f1d7905b862aaa607f0fbcc59ae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::ArgumentStore::~ArgumentStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ArgumentStore</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::~ArgumentStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="37" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a6577751fd935dea92367e4cd8071c6f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::ArgumentStore::setVectorStoreFunction</definition>
+        <argsstring>(VectorStoreFn fn)</argsstring>
+        <name>setVectorStoreFunction</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::setVectorStoreFunction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a21b266bcabd2d8fb53427414e5a7a4d5" kindref="member">VectorStoreFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Vector Store Function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="46" column="10" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="110" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a32065ed4520eaa4d388d35367c267705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::ArgumentStore::initialize</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; query::QueryEngine &gt; query_engine=nullptr)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::initialize</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; query::QueryEngine &gt;</type>
+          <declname>query_engine</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ae5a60049fab1c1d00c077485f78adc5d" kindref="member">Status::Error()</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="48" column="12" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="122" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a6b9031b4555752d9be96c309fbe99440" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::ArgumentStore::storeArgument</definition>
+        <argsstring>(const EthicalArgument &amp;argument, bool store_vector=true)</argsstring>
+        <name>storeArgument</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::storeArgument</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;</type>
+          <declname>argument</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>store_vector</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Store Argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">store_vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ae5a60049fab1c1d00c077485f78adc5d" kindref="member">Status::Error()</ref>, empty(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" kindref="member">Status::OK()</ref>, <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a0ec834bdf259ce95d7b2e2a0e57f712a" kindref="member">EthicsBaseEntityAdapter::toBaseEntity()</ref>, <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1ab1f1ea5567f1ab6bbdcbe2809c474853" kindref="member">EthicsBaseEntityAdapter::makeArgumentKey()</ref>, serialize(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="53" column="12" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="149" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a114eb2ce9d966b8be479811242628502" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; EthicalArgument, Status &gt; themis::plugins::ethics::ArgumentStore::getArgument</definition>
+        <argsstring>(const std::string &amp;argument_id)</argsstring>
+        <name>getArgument</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::getArgument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>argument_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="55" column="18" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="196" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a611ba305c9ddab8aeb98e239f9f61697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; EthicalArgument &gt;, Status &gt; themis::plugins::ethics::ArgumentStore::getArgumentsByPhilosophy</definition>
+        <argsstring>(const std::string &amp;philosophy_school, const std::vector&lt; ArgumentType &gt; &amp;argument_types, size_t limit)</argsstring>
+        <name>getArgumentsByPhilosophy</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::getArgumentsByPhilosophy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy_school</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" kindref="member">ArgumentType</ref> &gt; &amp;</type>
+          <declname>argument_types</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="57" column="18" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="247" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a83c495de18f70d9dff9469f9b69d7baf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::ArgumentStore::storeDecision</definition>
+        <argsstring>(const EthicalDecision &amp;decision)</argsstring>
+        <name>storeDecision</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::storeDecision</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>Store Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ae5a60049fab1c1d00c077485f78adc5d" kindref="member">Status::Error()</ref>, empty(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" kindref="member">Status::OK()</ref>, <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a0ec834bdf259ce95d7b2e2a0e57f712a" kindref="member">EthicsBaseEntityAdapter::toBaseEntity()</ref>, <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a895fc31ed4df3c806676f54f17ddd645" kindref="member">EthicsBaseEntityAdapter::makeDecisionKey()</ref>, serialize(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="68" column="12" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="421" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8e7f8169bac1c65b2fddc2601f132d96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; EthicalDecision, Status &gt; themis::plugins::ethics::ArgumentStore::getDecision</definition>
+        <argsstring>(const std::string &amp;decision_id)</argsstring>
+        <name>getDecision</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::getDecision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="70" column="18" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="455" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a36cb7710d081e4ee4299aa59d9bdfdab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::ArgumentStore::storePhilosophyProfile</definition>
+        <argsstring>(const PhilosophyProfile &amp;profile)</argsstring>
+        <name>storePhilosophyProfile</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::storePhilosophyProfile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Store Philosophy Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ae5a60049fab1c1d00c077485f78adc5d" kindref="member">Status::Error()</ref>, empty(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" kindref="member">Status::OK()</ref>, <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a0ec834bdf259ce95d7b2e2a0e57f712a" kindref="member">EthicsBaseEntityAdapter::toBaseEntity()</ref>, <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a4c877f0a1b5eb3fff4e0fd65921b6c21" kindref="member">EthicsBaseEntityAdapter::makeProfileKey()</ref>, serialize(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="77" column="12" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="509" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a19fb210ed494dbf0893f4ae0ca1953bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; PhilosophyProfile, Status &gt; themis::plugins::ethics::ArgumentStore::getPhilosophyProfile</definition>
+        <argsstring>(const std::string &amp;school)</argsstring>
+        <name>getPhilosophyProfile</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::getPhilosophyProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="79" column="18" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="543" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a65c8277c3c1cac8a7fb33e0fe3972638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::ArgumentStore::storeChain</definition>
+        <argsstring>(const ArgumentChain &amp;chain)</argsstring>
+        <name>storeChain</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::storeChain</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kindref="compound">ArgumentChain</ref> &amp;</type>
+          <declname>chain</declname>
+        </param>
+        <briefdescription>
+<para>Store Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ae5a60049fab1c1d00c077485f78adc5d" kindref="member">Status::Error()</ref>, empty(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="86" column="12" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="621" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1aae38d49f43c4e6c9e8ede82d93027690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kindref="compound">ArgumentChain</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; ArgumentChain, Status &gt; themis::plugins::ethics::ArgumentStore::getChain</definition>
+        <argsstring>(const std::string &amp;chain_id)</argsstring>
+        <name>getChain</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::getChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chain_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="88" column="18" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="636" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ad649b4e29be257cc4e274a2d4d733bab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::ArgumentStore::storeDebateRound</definition>
+        <argsstring>(const DebateRound &amp;round)</argsstring>
+        <name>storeDebateRound</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::storeDebateRound</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round" kindref="compound">DebateRound</ref> &amp;</type>
+          <declname>round</declname>
+        </param>
+        <briefdescription>
+<para>Store Debate Round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ v0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">round</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">round</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+2.0 — Debate Transcript Storage ============================================================================ Calls: lock(), <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" kindref="member">Status::OK()</ref>, push_back(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="95" column="12" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="663" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ac15625e5b68ed56ae318e5e594b639c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round" kindref="compound">DebateRound</ref> &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; DebateRound &gt;, Status &gt; themis::plugins::ethics::ArgumentStore::getDebateTranscript</definition>
+        <argsstring>(const std::string &amp;debate_id)</argsstring>
+        <name>getDebateTranscript</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::getDebateTranscript</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>debate_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="97" column="18" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="680" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a33e98251d3055e1b72283f7ce6e96899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::ArgumentStore::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), reset(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="104" column="10" bodyfile="src/ethics_ai/argument_store.cpp" bodystart="595" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a1d714c02e1e0bb1fedcca076f1c1937e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::ArgumentStore::setVectorWriter</definition>
+        <argsstring>(std::shared_ptr&lt; IVectorWriter &gt; writer, std::function&lt; std::vector&lt; float &gt;(const std::string &amp;)&gt; embedding_fn=nullptr)</argsstring>
+        <name>setVectorWriter</name>
+        <qualifiedname>themis::plugins::ethics::ArgumentStore::setVectorWriter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; IVectorWriter &gt;</type>
+          <declname>writer</declname>
+        </param>
+        <param>
+          <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;)&gt;</type>
+          <declname>embedding_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/argument_store.h" line="106" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/argument_store.h" line="34" column="1" bodyfile="src/ethics_ai/argument_store.h" bodystart="34" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a9f429ef758724f70891564ea84f6833c" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>arguments_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a10329fcc8254325d34f1d29eccadb8ee" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>ArgumentStore</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a54e092a20bafd7ced745d655f45d68bd" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>chains_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1aa5bb7b12c3307d3231845581bfd5f9e8" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>debate_rounds_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a938dfeb97b8f1faaa2ac2315091bc8f7" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>decisions_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a50902298cd42d42a564867760c4ce291" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>embedding_fn_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a114eb2ce9d966b8be479811242628502" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>getArgument</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a611ba305c9ddab8aeb98e239f9f61697" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>getArgumentsByPhilosophy</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1aae38d49f43c4e6c9e8ede82d93027690" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>getChain</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ac15625e5b68ed56ae318e5e594b639c1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>getDebateTranscript</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8e7f8169bac1c65b2fddc2601f132d96" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>getDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a19fb210ed494dbf0893f4ae0ca1953bb" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>getPhilosophyProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a32065ed4520eaa4d388d35367c267705" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a4f88764df81595743bee2db41042bf4b" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a05080b6c4e43470f2a819cc63ac7c851" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a7460a151cdc43df1bdc9a7b6508be909" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>profiles_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a066e4fa5e6c9f5b0217cd022a170a557" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>query_engine_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a6577751fd935dea92367e4cd8071c6f2" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>setVectorStoreFunction</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a1d714c02e1e0bb1fedcca076f1c1937e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>setVectorWriter</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a33e98251d3055e1b72283f7ce6e96899" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a553ee9f49e23b70c5ca0b350d8c79a52" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>standalone_mode_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8b5da52e6e1fb41ff23b9024b07779b7" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a6b9031b4555752d9be96c309fbe99440" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>storeArgument</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a65c8277c3c1cac8a7fb33e0fe3972638" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>storeChain</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ad649b4e29be257cc4e274a2d4d733bab" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>storeDebateRound</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a83c495de18f70d9dff9469f9b69d7baf" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>storeDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a36cb7710d081e4ee4299aa59d9bdfdab" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>storePhilosophyProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8286e77760681ef8611a2c7704d4605d" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>vector_store_fn_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ad23b703ee5d2906789d6de0bb147b789" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>vector_writer_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a21b266bcabd2d8fb53427414e5a7a4d5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>VectorStoreFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a7606f1d7905b862aaa607f0fbcc59ae8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ArgumentStore</scope><name>~ArgumentStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

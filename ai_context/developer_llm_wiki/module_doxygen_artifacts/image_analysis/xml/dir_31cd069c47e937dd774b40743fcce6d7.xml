@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_31cd069c47e937dd774b40743fcce6d7" kind="dir">
+    <compoundname>tests/image_analysis</compoundname>
+    <innerfile refid="test__image__analysis__highcardinality__stress_8cpp">test_image_analysis_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__image__analysis__phase1__focused_8cpp">test_image_analysis_phase1_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/image_analysis/"/>
+  </compounddef>
+</doxygen>

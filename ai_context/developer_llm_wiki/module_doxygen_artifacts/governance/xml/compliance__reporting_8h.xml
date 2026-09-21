@@ -1,0 +1,563 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="compliance__reporting_8h" kind="file" language="C++">
+    <compoundname>compliance_reporting.h</compoundname>
+    <includes refid="policy__manager_8h" local="yes">governance/policy_manager.h</includes>
+    <includes refid="ccpa__rules_8h" local="yes">governance/ccpa_rules.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="compliance__reporting_8cpp" local="yes">src/governance/compliance_reporting.cpp</includedby>
+    <includedby refid="test__governance__phase2b__phase3a__focused_8cpp" local="yes">tests/governance/test_governance_phase2b_phase3a_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="16">
+        <label>governance/ccpa_rules.h</label>
+        <link refid="ccpa__rules_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/governance/compliance_reporting.h</label>
+        <link refid="compliance__reporting_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>governance_diagnostics.h</label>
+        <link refid="governance__diagnostics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>governance/policy_manager.h</label>
+        <link refid="policy__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>policy_version_history.h</label>
+        <link refid="policy__version__history_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>themis/export.h</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>unordered_set</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/governance/compliance_reporting.h</label>
+        <link refid="compliance__reporting_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/governance/compliance_reporting.cpp</label>
+        <link refid="compliance__reporting_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/governance/test_governance_phase2b_phase3a_focused.cpp</label>
+        <link refid="test__governance__phase2b__phase3a__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_result" prot="public">themis::governance::ComplianceReporterResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_coverage_analyzer" prot="public">themis::governance::PolicyCoverageAnalyzer</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result" prot="public">themis::governance::PolicyCoverageAnalyzer::CoverageResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result" prot="public">themis::governance::PolicyCoverageAnalyzer::OverlapResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_gap_detector" prot="public">themis::governance::ComplianceGapDetector</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" prot="public">themis::governance::ComplianceGapDetector::ComplianceRequirement</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap" prot="public">themis::governance::ComplianceGapDetector::ComplianceGap</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status" prot="public">themis::governance::ComplianceGapDetector::ComplianceStatus</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_i_compliance_report" prot="public">themis::governance::IComplianceReport</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_compliance_reporter" prot="public">themis::governance::ComplianceReporter</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report" prot="public">themis::governance::ComplianceReporter::PolicySummaryReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report" prot="public">themis::governance::ComplianceReporter::ComplianceStatusReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix" prot="public">themis::governance::ComplianceReporter::AccessControlMatrix</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry" prot="public">themis::governance::ComplianceReporter::AccessControlMatrix::Entry</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report" prot="public">themis::governance::ComplianceReporter::RiskAssessmentReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item" prot="public">themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report" prot="public">themis::governance::ComplianceReporter::ChangeHistoryReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report" prot="public">themis::governance::ComplianceReporter::CcpaReport</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="policy__manager_8h" kindref="compound">governance/policy_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ccpa__rules_8h" kindref="compound">governance/ccpa_rules.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6" kindref="member">ComplianceError</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a1155bcd42527d8baa325221fab8e7b68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a1155bcd42527d8baa325221fab8e7b68" kindref="member">kConflictDetected</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7350,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy<sp/>conflict<sp/>detected<sp/>during<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8d38fe2575b50c5e3c1b66d43e499ed5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8d38fe2575b50c5e3c1b66d43e499ed5" kindref="member">kReportingFailed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7351,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>generation<sp/>failed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a662aa95e54845dd86dad99233c3a220e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a662aa95e54845dd86dad99233c3a220e" kindref="member">kStateInvalid</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7352,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reporter<sp/>state<sp/>transition<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a70b1deeb4d30d0e807ebaf0b14d63246" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a70b1deeb4d30d0e807ebaf0b14d63246" kindref="member">kResourceExhausted</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7353,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory/resource<sp/>exhaustion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a3da2bea210bf399d7f0b15250f88b433" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a3da2bea210bf399d7f0b15250f88b433" kindref="member">kHtmlGenerationFailed</ref><sp/><sp/>=<sp/>7354,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTML<sp/>generation<sp/>failed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1governance_1_1_compliance_reporter_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result" kindref="compound">ComplianceReporterResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1governance_1_1_compliance_reporter_result_1a15e91750e9926f0565953d177d9086e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6" kindref="member">ComplianceError</ref><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1a15e91750e9926f0565953d177d9086e3" kindref="member">error</ref><sp/>=<sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ComplianceError::kSuccess</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1governance_1_1_compliance_reporter_result_1aa240c5c3f6beeaa5868af84b6a122bd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1aa240c5c3f6beeaa5868af84b6a122bd0" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1governance_1_1_compliance_reporter_result_1adbd7e65c3746871121748177e35768a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1adbd7e65c3746871121748177e35768a2" kindref="member">report_content</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1governance_1_1_compliance_reporter_result_1af7d9d59506d3833c7691ffa113879925" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1af7d9d59506d3833c7691ffa113879925" kindref="member">report_format</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1governance_1_1_compliance_reporter_result_1a89df3f7c030bf3f5f134d999f1a9954c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1a89df3f7c030bf3f5f134d999f1a9954c" kindref="member">generated_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1governance_1_1_compliance_reporter_result_1a5b14aa9930f9ddcdced7e4b06f0a2445" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1a5b14aa9930f9ddcdced7e4b06f0a2445" kindref="member">diagnostic_code</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1governance_1_1_compliance_reporter_result_1ae364666e7f8084b8dc7828e243723e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1ae364666e7f8084b8dc7828e243723e81" kindref="member">isSuccess</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1a15e91750e9926f0565953d177d9086e3" kindref="member">error</ref><sp/>==<sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ComplianceError::kSuccess</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result_1acacf70bab0320ea6a3b58c617f6c459a" kindref="member">getErrorName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1governance_1_1_policy_coverage_analyzer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_policy_coverage_analyzer" kindref="compound">PolicyCoverageAnalyzer</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result" kindref="compound">CoverageResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a9caccf083eae78c6533fa9522a2faa10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a9caccf083eae78c6533fa9522a2faa10" kindref="member">total_resources_checked</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a07d2743cd221d5b639fcdd643b54c807" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a07d2743cd221d5b639fcdd643b54c807" kindref="member">covered_resources</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1afde3e7818b54c6099b7b6f29379bb030" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1afde3e7818b54c6099b7b6f29379bb030" kindref="member">uncovered_resources</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1acc010ab235616c63cb05adb68ac9facc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1acc010ab235616c63cb05adb68ac9facc" kindref="member">coverage_percentage</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a8d8da95a5640ea3fafe7e0d7046839e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1a8d8da95a5640ea3fafe7e0d7046839e3" kindref="member">uncovered_resource_list</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1aa401bd7865de5e4f915bfc45d3cd9f61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1aa401bd7865de5e4f915bfc45d3cd9f61" kindref="member">coverage_by_action</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result_1aadbd9e7a6988808a409c49128cced458" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result" kindref="compound">OverlapResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1afaea62e97dfded9331b72446bc393e74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1afaea62e97dfded9331b72446bc393e74" kindref="member">resource_pattern</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1aa4328b53c61396551a6dce4a61ac5967" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1aa4328b53c61396551a6dce4a61ac5967" kindref="member">action_pattern</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1aa37b6c62149643be00037dc99d21013b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1aa37b6c62149643be00037dc99d21013b" kindref="member">overlapping_rule_ids</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1ade75af94302081cac158f534e7b7306e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1ade75af94302081cac158f534e7b7306e" kindref="member">overlap_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1a29deaed3b292f453a6c91e8c57b55b36" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_coverage_result" kindref="compound">CoverageResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_coverage_analyzer_1ac730653abb521474ab34bd76ff2c5079" kindref="member">analyzeCoverage</ref>(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>resources,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>actions<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;OverlapResult&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_coverage_analyzer_1a9a866ba01a02a60d758ddb9dae6ed6a2" kindref="member">detectOverlaps</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_coverage_analyzer_1a8172767d27dcccfc150633b5b446e4c5" kindref="member">findGaps</ref>(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>expected_resources</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1governance_1_1_compliance_gap_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_compliance_gap_detector" kindref="compound">ComplianceGapDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1aa4c41fe2383682af1d8425cf261ac6d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1aa4c41fe2383682af1d8425cf261ac6d8" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a659decca2e490474837db4b4844d50ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a659decca2e490474837db4b4844d50ff" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1aa5cfbf30e0602a0d38d2d3030f80389a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1aa5cfbf30e0602a0d38d2d3030f80389a" kindref="member">framework</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GDPR,<sp/>SOC2,<sp/>HIPAA,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a992137d9d704ab5244f8479373718c4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a992137d9d704ab5244f8479373718c4b" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a65a5cf7cb17d8d8cd5f18b9776d18334" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a65a5cf7cb17d8d8cd5f18b9776d18334" kindref="member">required_resources</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1abe1e4779ea2ca44b3efad14ce6f96b81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1abe1e4779ea2ca44b3efad14ce6f96b81" kindref="member">requires_encryption</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1aa35e698f3d81156b980087a26b55b612" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1aa35e698f3d81156b980087a26b55b612" kindref="member">requires_signature</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a084da60ef9b17304588a9fb3daa83891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a084da60ef9b17304588a9fb3daa83891" kindref="member">requires_audit</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a0760cdc40de3bb766623c0c4a5af9bc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a0760cdc40de3bb766623c0c4a5af9bc3" kindref="member">min_retention_days</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a094b5b4aa6e79357a1248a49b770fc2a" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement_1a1f48f8cb9a51da7f191a45306c0ff9a4" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap" kindref="compound">ComplianceGap</ref><sp/>{</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1af300b9fb998b9ed22897907f7c6a3369" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1af300b9fb998b9ed22897907f7c6a3369" kindref="member">requirement_id</ref>;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1afebc0f405b139f4e297a5f4b4e4e9c62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1afebc0f405b139f4e297a5f4b4e4e9c62" kindref="member">requirement_name</ref>;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1a63d01d609f7b4d4883be01f24d0341d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1a63d01d609f7b4d4883be01f24d0341d5" kindref="member">gap_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>missing_policy,<sp/>missing_control,<sp/>insufficient_coverage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1a2a99f008f87684d49bae806bad3ff9dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1a2a99f008f87684d49bae806bad3ff9dd" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1abeca5ff42489f2853dceda95e8961509" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1abeca5ff42489f2853dceda95e8961509" kindref="member">affected_resources</ref>;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1a86c5e4001fb4ae1cf78aa43245564fd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1a86c5e4001fb4ae1cf78aa43245564fd6" kindref="member">recommendation</ref>;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap_1a0c66437caaec69abcb2503820e1f3033" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status" kindref="compound">ComplianceStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a0161c28948d7be5106cd3fe64386bf3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a0161c28948d7be5106cd3fe64386bf3e" kindref="member">framework</ref>;</highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a4fd4e3ddfbaa31e7dc3d4fd29045c057" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a4fd4e3ddfbaa31e7dc3d4fd29045c057" kindref="member">total_requirements</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a1f941625f3fe40dc54d4eed0da0c095d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a1f941625f3fe40dc54d4eed0da0c095d" kindref="member">met_requirements</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a87c25b559b302e3056780508499ef1d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a87c25b559b302e3056780508499ef1d3" kindref="member">unmet_requirements</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a550035afe2f0c7bc34fe99430d625780" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a550035afe2f0c7bc34fe99430d625780" kindref="member">compliance_percentage</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1aca5ce5f9fee0624e48b9f55e34f91bf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ComplianceGap&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1aca5ce5f9fee0624e48b9f55e34f91bf8" kindref="member">gaps</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status_1a084c395e0ed6f99b419cd243da58c6cf" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_compliance_gap_detector_1a9f006729fe3d04bb9a0cb7e2222fa686" kindref="member">addRequirement</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ComplianceGap&gt;<sp/><ref refid="classthemis_1_1governance_1_1_compliance_gap_detector_1acae8b703d9766e6f6cc00efc52dc1375" kindref="member">detectGaps</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status" kindref="compound">ComplianceStatus</ref><sp/><ref refid="classthemis_1_1governance_1_1_compliance_gap_detector_1abe9483634d8ccd797f9d165616f77d42" kindref="member">getComplianceStatus</ref>(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>framework<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_compliance_gap_detector_1a5b5718b977819f6b89eab8f66ed164b5" kindref="member">loadRequirements</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_compliance_gap_detector_1ae9fa83c5367768855ee134e85307b2a3" kindref="member">exportRequirements</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ComplianceRequirement&gt;<sp/>requirements_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkRequirement(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref>&amp;<sp/>req,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1governance_1_1_i_compliance_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_i_compliance_report" kindref="compound">IComplianceReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1governance_1_1_i_compliance_report_1aa1e5ebc86266f46d6aff958a6e9e0366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_i_compliance_report_1aa1e5ebc86266f46d6aff958a6e9e0366" kindref="member">~IComplianceReport</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1governance_1_1_i_compliance_report_1a3113e39baa131903fa65a0c2cd4463e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_i_compliance_report_1a3113e39baa131903fa65a0c2cd4463e9" kindref="member">toCSV</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_compliance_reporter" kindref="compound">ComplianceReporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3" kindref="member">ReportFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3a0ecd11c1d7a287401d148a23bbd7a2f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">JSON</ref>,</highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3acc8d68c551c4a9a6d5313e07de4deafd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3acc8d68c551c4a9a6d5313e07de4deafd" kindref="member">CSV</ref>,</highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3a4c4ad5fca2e7a3f74dbb1ced00381aa4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3a4c4ad5fca2e7a3f74dbb1ced00381aa4" kindref="member">HTML</ref>,</highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3abcd1b68617759b1dfcff0403a6b5a8d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3abcd1b68617759b1dfcff0403a6b5a8d1" kindref="member">PDF</ref></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report" kindref="compound">PolicySummaryReport</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_i_compliance_report" kindref="compound">IComplianceReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aef71cb542bf6bd56ad5ad36236ffb673" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aef71cb542bf6bd56ad5ad36236ffb673" kindref="member">total_rules</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="233" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a6c349a7cfc4d1adfd5347654d9a040b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a6c349a7cfc4d1adfd5347654d9a040b4" kindref="member">enabled_rules</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1af23fbe0dfa35b671913fd74d88d8b413" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1af23fbe0dfa35b671913fd74d88d8b413" kindref="member">disabled_rules</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a2b1caf20dc9c7c44f20bbdb6b0aae46d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a2b1caf20dc9c7c44f20bbdb6b0aae46d" kindref="member">rules_by_classification</ref>;</highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1ade6ed4d24aac491a85c35f7380b5f4c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1ade6ed4d24aac491a85c35f7380b5f4c5" kindref="member">rules_requiring_encryption</ref>;</highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a4392dbeec15007b4f969b24490bfd2d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a4392dbeec15007b4f969b24490bfd2d9" kindref="member">rules_with_audit</ref>;</highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a267fb5e21efaf237792e9ac76a073707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a267fb5e21efaf237792e9ac76a073707" kindref="member">generated_at</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aab346f8fa6d54e43e01ed73a137543b5" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1aad7e0bd3448f7676478b8e7b3e712e4e" kindref="member">toCSV</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report_1a931a532fab7a6a335b40e11783d33513" kindref="member">toHTML</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report" kindref="compound">ComplianceStatusReport</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_i_compliance_report" kindref="compound">IComplianceReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1adf358d679b25282fd21cbcd565b8825d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1adf358d679b25282fd21cbcd565b8825d" kindref="member">framework</ref>;</highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a753ee1e5a96f17a3bc09cf9bcbb75b24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a753ee1e5a96f17a3bc09cf9bcbb75b24" kindref="member">overall_compliance</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1ab981360fe866cbfc94bcf199b1bdc5ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1ab981360fe866cbfc94bcf199b1bdc5ea" kindref="member">compliant_controls</ref>;</highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a2891f91642abf031e6bfd08026914dbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a2891f91642abf031e6bfd08026914dbd" kindref="member">non_compliant_controls</ref>;</highlight></codeline>
+<codeline lineno="258" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a51a28e704bb61d481f4da826cb95da19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ComplianceGapDetector::ComplianceGap&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a51a28e704bb61d481f4da826cb95da19" kindref="member">gaps</ref>;</highlight></codeline>
+<codeline lineno="259" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a8119034d89f828558ff445d0946746bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a8119034d89f828558ff445d0946746bf" kindref="member">generated_at</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1ad30d6984ea0e77ee3e6776f762303155" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1a051c58cd3d8572afa4c99dfc3719d840" kindref="member">toCSV</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report_1ad3468574682b733864d51ee64e6da54c" kindref="member">toHTML</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix" kindref="compound">AccessControlMatrix</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_i_compliance_report" kindref="compound">IComplianceReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="275" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry" kindref="compound">Entry</ref><sp/>{</highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1a9e397a0d6ca41160242fb2d8b2c29b83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1a9e397a0d6ca41160242fb2d8b2c29b83" kindref="member">role</ref>;</highlight></codeline>
+<codeline lineno="277" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1a9f5425fbe3356e7028bf3c0db3cc367e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1a9f5425fbe3356e7028bf3c0db3cc367e" kindref="member">resource</ref>;</highlight></codeline>
+<codeline lineno="278" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1aa5734b1c5b48594fe0aa41a8ab6b3462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1aa5734b1c5b48594fe0aa41a8ab6b3462" kindref="member">allowed_actions</ref>;</highlight></codeline>
+<codeline lineno="279" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1ac3cb21545bbe1592187702ab38fa76af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1ac3cb21545bbe1592187702ab38fa76af" kindref="member">requires_encryption</ref>;</highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1aa06da3d3d3fd7fc4416da4dc5dbd113e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1_1_entry_1aa06da3d3d3fd7fc4416da4dc5dbd113e" kindref="member">is_audited</ref>;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1a4eab5d3a3d61b20836fd063a4461eb54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Entry&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1a4eab5d3a3d61b20836fd063a4461eb54" kindref="member">entries</ref>;</highlight></codeline>
+<codeline lineno="284" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1a9014cd10dc2d86bd3c6ab92ddd27e30f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1a9014cd10dc2d86bd3c6ab92ddd27e30f" kindref="member">generated_at</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1a822bcb1eab507135258ae093eff38175" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1a84425a35502f29b9b952143613d8cc66" kindref="member">toCSV</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix_1ac5746e304c839727b8f324e61483639f" kindref="member">toHTML</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report" kindref="compound">RiskAssessmentReport</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_i_compliance_report" kindref="compound">IComplianceReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="300" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item" kindref="compound">RiskItem</ref><sp/>{</highlight></codeline>
+<codeline lineno="301" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a724ee7f2f4e7fc1d40a6f153f174d243" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a724ee7f2f4e7fc1d40a6f153f174d243" kindref="member">risk_id</ref>;</highlight></codeline>
+<codeline lineno="302" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a36a1fb8a77bf51b11bdb5dce2c22afbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a36a1fb8a77bf51b11bdb5dce2c22afbe" kindref="member">severity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>low,<sp/>medium,<sp/>high,<sp/>critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a91985c8f9b135e658a5ca2818d2ed091" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a91985c8f9b135e658a5ca2818d2ed091" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="304" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a973cd06b8f7bc2b4312e6a64b2fe0b86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a973cd06b8f7bc2b4312e6a64b2fe0b86" kindref="member">affected_resources</ref>;</highlight></codeline>
+<codeline lineno="305" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1ae2150fc51f367b795e320286a54b93d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1ae2150fc51f367b795e320286a54b93d3" kindref="member">mitigation</ref>;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a60f1dd67cd4fd2a76d17452c42abcac6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;RiskItem&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a60f1dd67cd4fd2a76d17452c42abcac6" kindref="member">risks</ref>;</highlight></codeline>
+<codeline lineno="309" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1ab55c2c048626c517a63f9fe6c9c6e630" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1ab55c2c048626c517a63f9fe6c9c6e630" kindref="member">high_risks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a3d1ee86660612e8ab303cd5783dca74b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a3d1ee86660612e8ab303cd5783dca74b" kindref="member">medium_risks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="311" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a7a121d500c6852e9e8f514f1b51ec4b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a7a121d500c6852e9e8f514f1b51ec4b2" kindref="member">low_risks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="312" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a4f6cd1b234f29e06a6569ce3ec5a45c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a4f6cd1b234f29e06a6569ce3ec5a45c2" kindref="member">generated_at</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a74fd41fdaeffa9157d8b05d62ddd8de9" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a3ab9473689e870c99a2995e1ca6be857" kindref="member">toCSV</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1a96d5c91e993e64f9c6deaf44b2a21ead" kindref="member">toHTML</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report" kindref="compound">ChangeHistoryReport</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_i_compliance_report" kindref="compound">IComplianceReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="328" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1ab47a21a1e7e666b8d960047985a06467" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;PolicyRuleVersion&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1ab47a21a1e7e666b8d960047985a06467" kindref="member">changes</ref>;</highlight></codeline>
+<codeline lineno="329" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a6c2404570d4d74094dc5a1460c1ec0b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a6c2404570d4d74094dc5a1460c1ec0b3" kindref="member">total_changes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="330" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a2f558f7297757dee54ea41bbf7383f43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a2f558f7297757dee54ea41bbf7383f43" kindref="member">changes_by_user</ref>;</highlight></codeline>
+<codeline lineno="331" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1aeff866c822f3f5c40660d2bf7a3f78fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1aeff866c822f3f5c40660d2bf7a3f78fb" kindref="member">start_time</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="332" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a136b271f1decb17f9fb040815db8cd37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a136b271f1decb17f9fb040815db8cd37" kindref="member">end_time</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a1c9502f991f631beadfafa71c8c7bf50" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a8b8ecc5b164822f6ba2652dd9d9ffd22" kindref="member">toCSV</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1ab04a00efc48e2a4f7c314896815ccf00" kindref="member">toHTML</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report" kindref="compound">CcpaReport</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_i_compliance_report" kindref="compound">IComplianceReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="348" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a91fd93dc31616b979339d715c91e07ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a91fd93dc31616b979339d715c91e07ce" kindref="member">data_categories</ref>;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1ab1c795152ea70ab625cc52e87b03b01c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1ab1c795152ea70ab625cc52e87b03b01c" kindref="member">third_party_disclosure_rule_ids</ref>;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1af9a4d54cd409475d52409b935032c621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1af9a4d54cd409475d52409b935032c621" kindref="member">opt_out_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1abfc039bc9d9bd89021f0e9e35d43f81d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1abfc039bc9d9bd89021f0e9e35d43f81d" kindref="member">ccpa_compliant_rules</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a9d4aa7c323df72837ebd16d4a108acde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a9d4aa7c323df72837ebd16d4a108acde" kindref="member">ccpa_non_compliant_rules</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1aaccc2cd43fd46a34820271d6208d3894" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1aaccc2cd43fd46a34820271d6208d3894" kindref="member">missing_right_to_know</ref>;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a9c2197cd3be340ea776848b2439a480c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a9c2197cd3be340ea776848b2439a480c" kindref="member">missing_right_to_delete</ref>;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1ad5924557e79851db1f3ce8885f7aff99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1ad5924557e79851db1f3ce8885f7aff99" kindref="member">missing_opt_out_of_sale</ref>;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a34e978d31a9eb4935d3c2ecf12effcf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a34e978d31a9eb4935d3c2ecf12effcf6" kindref="member">missing_data_portability</ref>;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a99e491b8053dc5a7d12a7619366b743c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a99e491b8053dc5a7d12a7619366b743c" kindref="member">start_time</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="367" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a86381c281f622cf23093426a0ede50bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a86381c281f622cf23093426a0ede50bf" kindref="member">end_time</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369" refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a78cfd55d42792bfdf9f6a7ff7e5d21c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a78cfd55d42792bfdf9f6a7ff7e5d21c9" kindref="member">generated_at</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1af1e2710f62fff55debd6bd3616fb13c5" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report_1a0222464d11db068946db531a5a5aeedf" kindref="member">toCSV</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379" refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" kindref="member">ReporterState</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="380" refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a521019040a0f4f7773357aa6bc22180b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a521019040a0f4f7773357aa6bc22180b" kindref="member">DRAFT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reporter<sp/>initialized,<sp/>not<sp/>generating<sp/>reports</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381" refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a3379145d5ec7ceddf81819af80835636" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a3379145d5ec7ceddf81819af80835636" kindref="member">REPORTING</ref><sp/><sp/><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>generation<sp/>in<sp/>progress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382" refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a227279d022dc207ab93201dc7688680d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a227279d022dc207ab93201dc7688680d" kindref="member">FINALIZED</ref><sp/><sp/><sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>generation<sp/>complete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383" refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>generation<sp/>failed<sp/>(terminal<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a2559d9070dae936e9fd9862a17cdb966" kindref="member">ComplianceReporter</ref>();</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" kindref="member">ReporterState</ref><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1aba14310144757d4f4438651980c2834a" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1aee27f447442c6de761606de66ab690f0" kindref="member">isReadyForReporting</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>PolicySummaryReport<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1af54efc7ca04c3addc2a6d036d9d38777" kindref="member">generatePolicySummary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result" kindref="compound">ComplianceReporterResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a007c56f82cd5208e9d55e68525afa2e2" kindref="member">generatePolicySummaryWithResult</ref>(</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_status_report" kindref="compound">ComplianceStatusReport</ref><sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1aa9b54d054e20d822073c9c9af1fddb3c" kindref="member">generateComplianceStatus</ref>(</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr,</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_compliance_gap_detector" kindref="compound">ComplianceGapDetector</ref>&amp;<sp/>detector,</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>framework<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>AccessControlMatrix<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1aedaf6fe523b886f12278f13d2b269bef" kindref="member">generateAccessControlMatrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>RiskAssessmentReport<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1aac2b833a7c6833c4614b8100156d4a46" kindref="member">generateRiskAssessment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>ChangeHistoryReport<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a0a39d11b94ec88ea3bcf5b72d2b4fa64" kindref="member">generateChangeHistory</ref>(</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr,</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_time<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>end_time<sp/>=<sp/>INT64_MAX</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>CcpaReport<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1aeda1c18ad1ed6f90d6e36a8400eb8871" kindref="member">generateCcpaReport</ref>(</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref>&amp;<sp/>policy_mgr,</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>opt_out_count<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_time<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>end_time<sp/>=<sp/>INT64_MAX</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a9c8e4c791212e0754ca66f315ba33b13" kindref="member">exportReport</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>report,<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3" kindref="member">ReportFormat</ref><sp/>format)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a903132f133983b6cdbb7cd438b4fd6d4" kindref="member">generateHTMLHeader</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>title)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a41f576e024c0fb47e16c51176e6cfe92" kindref="member">generateHTMLFooter</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;ReporterState&gt;<sp/>state_{<ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a521019040a0f4f7773357aa6bc22180b" kindref="member">ReporterState::DRAFT</ref>};</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>state_mutex_;</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>transitionState(<ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" kindref="member">ReporterState</ref><sp/>expected,<sp/><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" kindref="member">ReporterState</ref><sp/>target)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateHTMLOptimized(</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>title,</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>headers,</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp;<sp/>rows</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordComplianceDiagnostic(</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>code,</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;compliance_reporter&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/governance/compliance_reporting.h"/>
+  </compounddef>
+</doxygen>

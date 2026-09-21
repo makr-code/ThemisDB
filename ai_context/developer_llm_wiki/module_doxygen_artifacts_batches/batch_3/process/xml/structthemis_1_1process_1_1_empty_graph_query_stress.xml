@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_empty_graph_query_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::EmptyGraphQueryStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_empty_graph_query_stress_1ab3dc3265ca26e2a5dfe9ca02d4b896dd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::EmptyGraphQueryStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::EmptyGraphQueryStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input (empty model). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="338" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_empty_graph_query_stress_1a6dad39ae72a1a335dad03b03ec24bf6c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::EmptyGraphQueryStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::EmptyGraphQueryStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success for this scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="341" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_empty_graph_query_stress_1af94d1a11dde197ff786fa4ced7d98d94" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::EmptyGraphQueryStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::EmptyGraphQueryStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="343" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="343" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Empty graph query scenario for process retriever. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> Retrieve from model with no instances <linebreak/>
+ <bold>Expected Behavior:</bold> Return empty context gracefully <linebreak/>
+ <bold>Trigger:</bold> No error; empty result set <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Query completes successfully</para>
+</listitem><listitem><para>Return value is empty (no crash on empty)</para>
+</listitem><listitem><para>Latency &lt;10 ms (P95)</para>
+</listitem><listitem><para>No silent failures </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="336" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="336" bodyend="346"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_empty_graph_query_stress_1af94d1a11dde197ff786fa4ced7d98d94" prot="public" virt="non-virtual"><scope>themis::process::EmptyGraphQueryStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_empty_graph_query_stress_1ab3dc3265ca26e2a5dfe9ca02d4b896dd" prot="public" virt="non-virtual"><scope>themis::process::EmptyGraphQueryStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_empty_graph_query_stress_1a6dad39ae72a1a335dad03b03ec24bf6c" prot="public" virt="non-virtual"><scope>themis::process::EmptyGraphQueryStress</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

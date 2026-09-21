@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::maintenance::InProcessDistributedLock::LockEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry_1aa7bab5927afc88738a5afc92726b23e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::InProcessDistributedLock::LockEntry::holder</definition>
+        <argsstring></argsstring>
+        <name>holder</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::LockEntry::holder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="135" column="47" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry_1a5bae613a7c81d0953bf04f5700cbf1fb" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::maintenance::InProcessDistributedLock::LockEntry::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::LockEntry::expires_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="136" column="47" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/maintenance/i_distributed_lock.h" line="134" column="5" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="134" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry_1a5bae613a7c81d0953bf04f5700cbf1fb" prot="public" virt="non-virtual"><scope>themis::maintenance::InProcessDistributedLock::LockEntry</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry_1aa7bab5927afc88738a5afc92726b23e6" prot="public" virt="non-virtual"><scope>themis::maintenance::InProcessDistributedLock::LockEntry</scope><name>holder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

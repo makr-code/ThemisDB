@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_three_way_merge_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ThreeWayMergeResolver</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_advanced_conflict_resolver" prot="public" virt="non-virtual">themisdb::replication::AdvancedConflictResolver</basecompoundref>
+    <includes refid="conflict__resolution_8h" local="no">conflict_resolution.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1a4c9f2b3b40378010f23d2454d329161c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ThreeWayMergeResolver::ThreeWayMergeResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>ThreeWayMergeResolver</name>
+        <qualifiedname>themisdb::replication::ThreeWayMergeResolver::ThreeWayMergeResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="127" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1a6b6c79ffd8a703d7ba04ba640f1c6181" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>MMWriteEntry themisdb::replication::ThreeWayMergeResolver::resolve</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; MMWriteEntry &gt; &amp;conflicting_writes, const ResolutionContext &amp;context) override</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themisdb::replication::ThreeWayMergeResolver::resolve</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_advanced_conflict_resolver_1a33e26c20337a64ba1c08277ea3c3157e">resolve</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>conflicting_writes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">ResolutionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicting_writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="129" column="18" bodyfile="src/replication/conflict_resolution.cpp" bodystart="467" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1a05436456210ac37436d06b2089cc9fa5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ThreeWayMergeResolver::strategyName</definition>
+        <argsstring>() const override</argsstring>
+        <name>strategyName</name>
+        <qualifiedname>themisdb::replication::ThreeWayMergeResolver::strategyName</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_advanced_conflict_resolver_1a8b7563195a705bdb5dca970cb16dd4e3">strategyName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Human-readable name of this resolver strategy. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="135" column="17" bodyfile="include/replication/conflict_resolution.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1a3cdfcead57e6c12cf0ca99aca97a95ca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>MMWriteEntry themisdb::replication::ThreeWayMergeResolver::selectBase</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes) const</argsstring>
+        <name>selectBase</name>
+        <qualifiedname>themisdb::replication::ThreeWayMergeResolver::selectBase</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the best common-ancestor candidate from the write set. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="139" column="18" bodyfile="src/replication/conflict_resolution.cpp" bodystart="360" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1aa5b0ef69261c409d9cfb1e078a4b8f44" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ThreeWayMergeResolver::mergeJson</definition>
+        <argsstring>(const std::string &amp;base, const std::string &amp;left, const std::string &amp;right) const</argsstring>
+        <name>mergeJson</name>
+        <qualifiedname>themisdb::replication::ThreeWayMergeResolver::mergeJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform the actual three-way merge of serialised JSON objects. Returns merged JSON string; falls back to <computeroutput>left</computeroutput> on parse error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="145" column="17" bodyfile="src/replication/conflict_resolution.cpp" bodystart="402" bodyend="458"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver" kindref="compound">ThreeWayMergeResolver</ref></para>
+<para>Resolves conflicts by performing a three-way JSON merge.</para>
+<para>Algorithm:<orderedlist>
+<listitem><para>Identify the common ancestor write by comparing vector clocks: the write whose clock is dominated by all others is the base. If no unambiguous ancestor exists the write with the smallest HLC timestamp is used as the base.</para>
+</listitem><listitem><para>For each top-level JSON key in the conflicting writes:<itemizedlist>
+<listitem><para>If only one side changed the key → take that side&apos;s value.</para>
+</listitem><listitem><para>If both sides changed the key → Last-Write-Wins on that key.</para>
+</listitem><listitem><para>If neither side changed the key → take the base value.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Keys present in only one side are included (UNION behaviour).</para>
+</listitem></orderedlist>
+</para>
+<para>Complexity: O(N · F) where N = writes, F = average top-level field count. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::replication::AdvancedConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_advanced_conflict_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::ThreeWayMergeResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::replication::AdvancedConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_advanced_conflict_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::ThreeWayMergeResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/conflict_resolution.h" line="125" column="1" bodyfile="include/replication/conflict_resolution.h" bodystart="125" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1aa5b0ef69261c409d9cfb1e078a4b8f44" prot="private" virt="non-virtual"><scope>themisdb::replication::ThreeWayMergeResolver</scope><name>mergeJson</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1a6b6c79ffd8a703d7ba04ba640f1c6181" prot="public" virt="virtual"><scope>themisdb::replication::ThreeWayMergeResolver</scope><name>resolve</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1a3cdfcead57e6c12cf0ca99aca97a95ca" prot="private" virt="non-virtual"><scope>themisdb::replication::ThreeWayMergeResolver</scope><name>selectBase</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1a05436456210ac37436d06b2089cc9fa5" prot="public" virt="virtual"><scope>themisdb::replication::ThreeWayMergeResolver</scope><name>strategyName</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver_1a4c9f2b3b40378010f23d2454d329161c" prot="public" virt="non-virtual"><scope>themisdb::replication::ThreeWayMergeResolver</scope><name>ThreeWayMergeResolver</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_advanced_conflict_resolver_1a9231ef912737243229f0fa64e1c27eed" prot="public" virt="virtual"><scope>themisdb::replication::ThreeWayMergeResolver</scope><name>~AdvancedConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

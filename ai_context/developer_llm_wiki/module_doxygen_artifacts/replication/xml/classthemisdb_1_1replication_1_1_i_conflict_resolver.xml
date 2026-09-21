@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_i_conflict_resolver" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::replication::IConflictResolver</compoundname>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_c_r_d_t_conflict_resolver" prot="public" virt="non-virtual">themisdb::replication::CRDTConflictResolver</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver" prot="public" virt="non-virtual">themisdb::replication::LWWConflictResolver</derivedcompoundref>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_conflict_resolver_1ad798a71010b55a58a5a3ef7ac24104f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::replication::IConflictResolver::~IConflictResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IConflictResolver</name>
+        <qualifiedname>themisdb::replication::IConflictResolver::~IConflictResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="330" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_conflict_resolver_1a46e8014383a23a2bf047ab962d3a89ed" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themisdb::replication::IConflictResolver::resolve</definition>
+        <argsstring>(const std::string &amp;local, const std::string &amp;remote, const std::string &amp;collection, const std::string &amp;document_id)=0</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themisdb::replication::IConflictResolver::resolve</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_r_d_t_conflict_resolver_1a0d890ef9c356cec063ab7db1756d9342">resolve</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver_1a5ad5da65b55c436641864f93bef6f4e4">resolve</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolve conflict between two versions of a document <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote version </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resolved document (merged or selected) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="338" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Custom Conflict Resolver Interface </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::replication::CRDTConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_c_r_d_t_conflict_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::IConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_conflict_resolver"/>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::LWWConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/replication/replication_manager.h" line="328" column="1" bodyfile="include/replication/replication_manager.h" bodystart="328" bodyend="344"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_i_conflict_resolver_1a46e8014383a23a2bf047ab962d3a89ed" prot="public" virt="pure-virtual"><scope>themisdb::replication::IConflictResolver</scope><name>resolve</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_conflict_resolver_1ad798a71010b55a58a5a3ef7ac24104f1" prot="public" virt="virtual"><scope>themisdb::replication::IConflictResolver</scope><name>~IConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

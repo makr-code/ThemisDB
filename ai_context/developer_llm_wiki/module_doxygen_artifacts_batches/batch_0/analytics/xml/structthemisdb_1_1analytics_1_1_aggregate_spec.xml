@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_aggregate_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AggregateSpec</compoundname>
+    <includes refid="columnar__execution_8h" local="no">columnar_execution.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Function</name>
+        <qualifiedname>themisdb::analytics::AggregateSpec::Function</qualifiedname>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2ae93f994f01c537c4e2f7d8528c3eb5e9" prot="public">
+          <name>Count</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2aa0ec87054b5e5b7847d0d8780a01a3d5" prot="public">
+          <name>Sum</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2a5c0c148daa2c67922abe6018b87a759f" prot="public">
+          <name>Avg</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2a78d811e98514cd165dda532286610fd2" prot="public">
+          <name>Min</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2a6a061313d22e51e0f25b7cd4dc065233" prot="public">
+          <name>Max</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2af276fdc4c77204edf5f9a34f35d50dca" prot="public">
+          <name>CountDistinct</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="375" column="5" bodyfile="include/analytics/columnar_execution.h" bodystart="375" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregate_spec_1a6f43b3e304b63200ad7e8346fdff7247" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AggregateSpec::result_name</definition>
+        <argsstring></argsstring>
+        <name>result_name</name>
+        <qualifiedname>themisdb::analytics::AggregateSpec::result_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="377" column="30" bodyfile="include/analytics/columnar_execution.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregate_spec_1a8ad4ea902abda27dc74bafc5fe4123fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AggregateSpec::input_column</definition>
+        <argsstring></argsstring>
+        <name>input_column</name>
+        <qualifiedname>themisdb::analytics::AggregateSpec::input_column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="378" column="30" bodyfile="include/analytics/columnar_execution.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregate_spec_1a651456580d3b5f37c486c882d2d8b40d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2" kindref="member">Function</ref></type>
+        <definition>Function themisdb::analytics::AggregateSpec::function</definition>
+        <argsstring></argsstring>
+        <name>function</name>
+        <qualifiedname>themisdb::analytics::AggregateSpec::function</qualifiedname>
+        <initializer>= <ref refid="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2ae93f994f01c537c4e2f7d8528c3eb5e9" kindref="member">Function::Count</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="379" column="30" bodyfile="include/analytics/columnar_execution.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregate_spec_1a5ad4c486146632f25381d1a638beca2c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::AggregateSpec::group_by</definition>
+        <argsstring></argsstring>
+        <name>group_by</name>
+        <qualifiedname>themisdb::analytics::AggregateSpec::group_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="380" column="17" bodyfile="include/analytics/columnar_execution.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/columnar_execution.h" line="374" column="1" bodyfile="include/analytics/columnar_execution.h" bodystart="374" bodyend="381"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregate_spec_1ae9012bdb5b3ad4356b0f141a2c93b8d2" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregateSpec</scope><name>Function</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregate_spec_1a651456580d3b5f37c486c882d2d8b40d" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregateSpec</scope><name>function</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregate_spec_1a5ad4c486146632f25381d1a638beca2c" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregateSpec</scope><name>group_by</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregate_spec_1a8ad4ea902abda27dc74bafc5fe4123fb" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregateSpec</scope><name>input_column</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregate_spec_1a6f43b3e304b63200ad7e8346fdff7247" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregateSpec</scope><name>result_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
